@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="机器学习和," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="============= 全连接1.DropoutDrop是一种现在在深度学习中使用最为广泛的防止过拟合的方式   核心思想:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习 注意：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测 使用情况：卷积神经网">
+<meta name="description" content="全连接1.DropoutDrop是一种现在在深度学习中使用最为广泛的防止过拟合的方式   核心思想:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习 注意：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测 使用情况：卷积神经网路只在最后的全连接层中使用d">
+<meta name="keywords" content="机器学习和">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pytorch入门学习心得">
 <meta property="og:url" content="http://yoursite.com/2018/09/23/Pytorch入门学习心得/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="============= 全连接1.DropoutDrop是一种现在在深度学习中使用最为广泛的防止过拟合的方式   核心思想:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习 注意：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测 使用情况：卷积神经网">
+<meta property="og:description" content="全连接1.DropoutDrop是一种现在在深度学习中使用最为广泛的防止过拟合的方式   核心思想:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习 注意：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测 使用情况：卷积神经网路只在最后的全连接层中使用d">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-22T17:25:56.609Z">
+<meta property="og:updated_time" content="2018-09-23T03:11:49.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pytorch入门学习心得">
-<meta name="twitter:description" content="============= 全连接1.DropoutDrop是一种现在在深度学习中使用最为广泛的防止过拟合的方式   核心思想:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习 注意：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测 使用情况：卷积神经网">
+<meta name="twitter:description" content="全连接1.DropoutDrop是一种现在在深度学习中使用最为广泛的防止过拟合的方式   核心思想:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习 注意：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测 使用情况：卷积神经网路只在最后的全连接层中使用d">
 
 
 
@@ -233,46 +234,6 @@
           </a>
         </li>
       
-        
-        <li class="menu-item menu-item-schedule">
-          <a href="/schedule/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
-            
-            日程表
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-sitemap">
-          <a href="/sitemap.xml" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
-            
-            站点地图
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
-            
-            公益404
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-something">
-          <a href="/something" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
-            
-            something
-          </a>
-        </li>
-      
 
       
     </ul>
@@ -373,14 +334,14 @@
       
 
       
-        <p>=============</p>
-<h2 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h2><h3 id="1-Dropout"><a href="#1-Dropout" class="headerlink" title="1.Dropout"></a>1.Dropout</h3><p>Drop是一种现在在深度学习中使用最为广泛的防止过拟合的方式  </p>
+        <h2 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h2><h3 id="1-Dropout"><a href="#1-Dropout" class="headerlink" title="1.Dropout"></a>1.Dropout</h3><p>Drop是一种现在在深度学习中使用最为广泛的防止过拟合的方式  </p>
 <p><strong>核心思想</strong>:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习</p>
 <p><strong>注意</strong>：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测</p>
 <p><strong>使用情况</strong>：卷积神经网路只在最后的全连接层中使用dropout，循环神经网络一般只在不同层循环结构体之间使用dropout</p>
 <h3 id="２-Batch-Normalization"><a href="#２-Batch-Normalization" class="headerlink" title="２.Batch Normalization"></a>２.Batch Normalization</h3><p><strong>核心思想</strong>：将标准化应用的整个前向传播和反向穿逼的过程中。传统的标准化一般只是在输入数据之前将数据进行标准化处理，而批标准化是在神经网络的蓄念过程中对每层的输入数据都进行一个标准化</p>
 <p><strong>使用位置</strong>:线性层和非线性层之间</p>
 <p><strong>作用</strong>：1.加快收敛速度　　2.防止过拟合</p>
+<p>​    </p>
 <h3 id="３-从神经网络角度看线性回归和逻辑回归的区别？"><a href="#３-从神经网络角度看线性回归和逻辑回归的区别？" class="headerlink" title="３.从神经网络角度看线性回归和逻辑回归的区别？"></a>３.从神经网络角度看线性回归和逻辑回归的区别？</h3><p>　　丛神经网络角度上看，逻辑回归只是在线性回归的基础上计入了一层Sigmod激活函数。
 　　
 　　
@@ -469,7 +430,7 @@
 </blockquote>
 <p><strong>4.RNN使用作词性判断</strong></p>
 <p>因为RNN可根据上下文进行输出，因此使用RNN模型根据上下文的词性判断某个词的词性比直接根据该单词判断效果更好。</p>
-<p>训练集：<br>    输入：给定的句子<br>    标签：句子中每个单词的词性</p>
+<p>训练集：<br>​    输入：给定的句子<br>​    标签：句子中每个单词的词性</p>
 <blockquote>
 <p>基本原理：<br>　　首先我们使用word_embedding将句子中的每个词进行词向量化，如：The dog ate apple  转化成4 <em> word_dim 的词向量<br>　　　　x = x.embedding(x)<br>　　因为lstm需要的输入形式为3维，因此我们要将其转换为1 </em> 4 <em> word_dim<br>　　　　x = x.unsqueeze(0)<br>　　再将其输入到lstm模型中，得到模型的实际输出维度为：batch </em> seq * hidden_dim<br>　　　　output<br>　　因为我们需要判断是的最后一个词的词性，因此我们只需要取最后一个seq就好了<br>　　　　output[:,-1,:]</p>
 </blockquote>
@@ -492,6 +453,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习和/" rel="tag"># 机器学习和</a>
+          
+        </div>
+      
 
       
       
@@ -501,15 +468,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/23/这是第一篇博客/" rel="next" title="这是第一篇博客">
-                <i class="fa fa-chevron-left"></i> 这是第一篇博客
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/23/linux/" rel="prev" title="linux">
+                linux <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -586,7 +553,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -594,6 +561,15 @@
 
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
             
 
           </nav>
