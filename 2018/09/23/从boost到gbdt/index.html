@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="从boost到gbdt1.提升算法(boost)　　　ｂｏｏｓｔ通过不停地改变各个样本的权值分布，每次学习一个弱分类器，再将这些弱分类器的结果进行组合   提升算法核心问题：　　  １. 在每轮学习过程中，如何改变样本的权重.２. 如何将各个弱分类器进行组合  特点：   多个分类器使用相同的训练集 boost有效的减小偏差bais   2.Adaboostboost算法最典型的代表是Adaboo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-23T08:44:10.266Z">
+<meta property="og:updated_time" content="2018-09-23T11:15:26.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从boost到gbdt">
 <meta name="twitter:description" content="从boost到gbdt1.提升算法(boost)　　　ｂｏｏｓｔ通过不停地改变各个样本的权值分布，每次学习一个弱分类器，再将这些弱分类器的结果进行组合   提升算法核心问题：　　  １. 在每轮学习过程中，如何改变样本的权重.２. 如何将各个弱分类器进行组合  特点：   多个分类器使用相同的训练集 boost有效的减小偏差bais   2.Adaboostboost算法最典型的代表是Adaboo">
@@ -318,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习算法/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习算法</span>
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -378,7 +378,7 @@
 <li><p>循环M次，生成M个弱分类。对m=1，2…,M</p>
 <p> a. 使用权值Dm的训练数据，生成弱分类器  Gm  </p>
 <p> b. 计算Gm在训练数据集上的分类误差em  </p>
-<p> c. 根据em计算当前分类器在最终表决中的权重αm  </p>
+<p> c. 根据em计算当前分类器在最终表决中的权重αm<br> ​    </p>
 <pre><code>αm=1/2log(1-em/em)
 </code></pre><p> d. 更新训练集样本权值分布</p>
 </li>
