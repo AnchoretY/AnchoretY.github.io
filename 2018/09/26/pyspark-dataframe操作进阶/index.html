@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习," />
+  <meta name="keywords" content="spark," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="常见机器学习机基本问题1.参数模型和非参数模型的区别？   参数模型：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数    典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络   参数模型的优点：  简单：容易理解和解释结果 快速：训练速度快 数据需求量少  参数模型的局限性：  模型的目标函数形式假设大大限制了模型 由于参数模型复杂度一般不">
-<meta name="keywords" content="机器学习">
+<meta name="description" content="​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature impo">
+<meta name="keywords" content="spark">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常见机器学习基本问题">
-<meta property="og:url" content="http://yoursite.com/2018/09/23/常见机器学习基本问题/index.html">
+<meta property="og:title" content="pyspark dataframe操作进阶">
+<meta property="og:url" content="http://yoursite.com/2018/09/26/pyspark-dataframe操作进阶/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="常见机器学习机基本问题1.参数模型和非参数模型的区别？   参数模型：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数    典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络   参数模型的优点：  简单：容易理解和解释结果 快速：训练速度快 数据需求量少  参数模型的局限性：  模型的目标函数形式假设大大限制了模型 由于参数模型复杂度一般不">
+<meta property="og:description" content="​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature impo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-23T08:05:02.388Z">
+<meta property="og:updated_time" content="2018-09-26T14:14:58.657Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常见机器学习基本问题">
-<meta name="twitter:description" content="常见机器学习机基本问题1.参数模型和非参数模型的区别？   参数模型：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数    典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络   参数模型的优点：  简单：容易理解和解释结果 快速：训练速度快 数据需求量少  参数模型的局限性：  模型的目标函数形式假设大大限制了模型 由于参数模型复杂度一般不">
+<meta name="twitter:title" content="pyspark dataframe操作进阶">
+<meta name="twitter:description" content="​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature impo">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/23/常见机器学习基本问题/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/26/pyspark-dataframe操作进阶/"/>
 
 
 
 
 
-  <title>常见机器学习基本问题 | AnchoretY's blog</title>
+  <title>pyspark dataframe操作进阶 | AnchoretY's blog</title>
   
 
 
@@ -267,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/常见机器学习基本问题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/pyspark-dataframe操作进阶/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">常见机器学习基本问题</h1>
+          <h1 class="post-title" itemprop="name headline">pyspark dataframe操作进阶</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T16:04:13+08:00">
-                2018-09-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-26T21:06:18+08:00">
+                2018-09-26
               </time>
             
 
@@ -319,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
                   </a>
                 </span>
 
@@ -356,65 +356,19 @@
       
 
       
-        <h1 id="常见机器学习机基本问题"><a href="#常见机器学习机基本问题" class="headerlink" title="常见机器学习机基本问题"></a>常见机器学习机基本问题</h1><p><strong>1.参数模型和非参数模型的区别？</strong>  </p>
-<p><strong>参数模型</strong>：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数  </p>
+        <p>​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。</p>
+<p><strong>1.将多列转化成一列</strong></p>
+<p>​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> VectorAssembler</span><br><span class="line"></span><br><span class="line">discretization_feature_names = [</span><br><span class="line">    <span class="string">'discretization_tag_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_style_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_script_nums'</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">vecAssembler = VectorAssembler(inputCols=discretization_feature_names, outputCol=<span class="string">"feature_vec_new"</span>)</span><br><span class="line"></span><br><span class="line">data_set  = vecAssembler.transform(dataset) <span class="comment">#会返回一个在原有的dataframe上面多出来一列的新dataframe</span></span><br><span class="line"></span><br><span class="line">data_set.printscheama()</span><br><span class="line"></span><br><span class="line">output：</span><br><span class="line">    root</span><br><span class="line">     |-- discretization_tag_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_style_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_script_nums: double (nullable = true)</span><br><span class="line">     |-- feature_vec_new: vector (nullable = true) <span class="comment">#多出来的</span></span><br></pre></td></tr></table></figure>
+<p><strong>2.连续数据离散化</strong></p>
+<p>​    pyspark中提供一种根据分位点来进行离散化的操作，可以根据数据整体情况来对某一列进行离散化。</p>
 <blockquote>
-<p>典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络  </p>
-<p>参数模型的优点：</p>
-<ol>
-<li>简单：容易理解和解释结果</li>
-<li>快速：训练速度快</li>
-<li>数据需求量少</li>
-</ol>
-<p>参数模型的局限性：</p>
-<ol>
-<li>模型的目标函数形式假设大大限制了模型</li>
-<li>由于参数模型复杂度一般不高，因此更适合简单问题</li>
-</ol>
+<p>常用参数：</p>
+<p>​    numBuckets：将整个空间分为几份，在对应的分为点处将数据进行切分</p>
+<p>​    relativeError：</p>
+<p>​    handleInvalid：    </p>
 </blockquote>
-<p><strong>非参数模型</strong>：不对目标函数的形式做出任何强烈的假设的算法，可以在训练集中自由的学习任何函数形式  </p>
-<blockquote>
-<p>典型的非参数模型:KNN、决策树、SVM  </p>
-<p>非参数学习模型的优点：</p>
-<ol>
-<li>灵活性强，可拟合各种不同形式的样本</li>
-<li>性能：模型效果一般较好</li>
-</ol>
-<p>非参数学习模型的局限性</p>
-<ol>
-<li>训练数据需求量大</li>
-<li>训练速度慢，因为一般非参数模型要训练更多的参数</li>
-<li>可解释性差</li>
-<li>更容易出过拟合</li>
-</ol>
-</blockquote>
-<p><strong>2.生成模型和判别模型</strong>  </p>
-<p>由生成方法生成的模型成为生成模型，由判别方法产生的模型成为生成模型。下面重点介绍两种方法。  </p>
-<p><strong>生成方法</strong>:由数据学联合概率分布P(X,Y)，然后求出条件概率P(Y|X)作为预测模型,即生成模型。（之所以称为生成方法是因为模型表示了给定输入X产生出Y的生成关系）</p>
-<blockquote>
-<p>典型的生成模型:朴素贝叶斯、隐马尔科夫链</p>
-<p>生成方法特点:</p>
-<ol>
-<li>可还原联合概率分布</li>
-<li>收敛速度更快</li>
-<li>生成方法可处理隐变量，但判别方法不能</li>
-</ol>
-</blockquote>
-<p><strong>判别方法</strong>：由数据直接学习决策函数f(x)或者条件概率分布f(Y|X)作为预测模型，即判别模型。</p>
-<blockquote>
-<p>典型的判别模型:KNN、感知机、决策树、LR</p>
-<p>判别模型的特点：</p>
-<ol>
-<li>直接学习决策函数或条件概率，直接面对预测，准确率更高</li>
-<li>由于直接学习决策函数或条件概率，可以对数据进行各种程度上的抽象、定义特征并使用特征，简化学习问题</li>
-</ol>
-</blockquote>
-<p><strong>3.常见损失函数以及应用？</strong></p>
-<p><strong>逻辑斯特损失函数：</strong></p>
-<p><strong>对数似然损失</strong></p>
-<p><strong>合页损失</strong></p>
-<p><strong>指数损失</strong></p>
-<p><strong>4.朴素贝叶斯“朴素”表现在哪里？</strong><br>“朴素”主要表现在它假设<strong>所有特征在数据集中的作用是同样且独立的</strong>，而在真实世界中这种假设是不成立的，因此称之为朴素贝叶斯。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> QuantileDiscretizer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">qds = QuantileDiscretizer(numBuckets=<span class="number">3</span>,inputCol=inputCol, outputCol=outputCol, relativeError=<span class="number">0.01</span>, handleInvalid=<span class="string">"error"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里的setHandleInvalid是代表对缺失值如何进行处理</span></span><br><span class="line"><span class="comment">#keep表示保留缺失值</span></span><br><span class="line">dataframe = qds.setHandleInvalid(<span class="string">"keep"</span>).fit(dataframe).transform(dataframe)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -432,7 +386,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/tags/spark/" rel="tag"># spark</a>
           
         </div>
       
@@ -445,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/23/数据可视化之散点图和折线图/" rel="next" title="数据可视化之散点图和折线图">
-                <i class="fa fa-chevron-left"></i> 数据可视化之散点图和折线图
+              <a href="/2018/09/24/HMM入门以及在webshell检测中的应用汇/" rel="next" title="HMM入门以及在webshell检测中的应用汇">
+                <i class="fa fa-chevron-left"></i> HMM入门以及在webshell检测中的应用汇
               </a>
             
           </div>
@@ -454,10 +408,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/23/从boost到gbdt/" rel="prev" title="从boost到gbdt">
-                从boost到gbdt <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -509,17 +459,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -579,22 +520,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见机器学习机基本问题"><span class="nav-number">1.</span> <span class="nav-text">常见机器学习机基本问题</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

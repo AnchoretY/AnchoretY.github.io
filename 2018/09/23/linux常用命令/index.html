@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="文件管理1.查看当前文件夹中文件   #显示文件夹中全部文件和目录数 ls | wc -l #显示包含指定内容的文件和目录 ls *3094 | wc -l  #显示文件夹中文件的个数 find . -type f | wc -l 注：wc 是统计前面管道输出的东西，-l表示按照行统计 磁盘管理1.查看文件夹中文件的总大小 #查看当前文件夹中文件总大小 du -h    # -h表示以人可理解的方">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-23T08:03:26.057Z">
+<meta property="og:updated_time" content="2018-09-26T13:09:13.102Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux常用命令">
 <meta name="twitter:description" content="文件管理1.查看当前文件夹中文件   #显示文件夹中全部文件和目录数 ls | wc -l #显示包含指定内容的文件和目录 ls *3094 | wc -l  #显示文件夹中文件的个数 find . -type f | wc -l 注：wc 是统计前面管道输出的东西，-l表示按照行统计 磁盘管理1.查看文件夹中文件的总大小 #查看当前文件夹中文件总大小 du -h    # -h表示以人可理解的方">
@@ -371,26 +371,23 @@ du -h    # -h表示以人可理解的方式输出
 
 #查看指定文件夹中文件的总大小
 du /home/yhk/ -h   
-</code></pre><p><strong>2.查看磁盘各个分区大小及使用情况</strong></p>
-<pre><code>df -h
-</code></pre><h2 id="内存、Cpu使用情况查看"><a href="#内存、Cpu使用情况查看" class="headerlink" title="内存、Cpu使用情况查看"></a>内存、Cpu使用情况查看</h2><p><strong>1.Cpu个数</strong> </p>
+</code></pre><p>​<br><strong>2.查看磁盘各个分区大小及使用情况</strong><br>​<br>    df -h</p>
+<h2 id="内存、Cpu使用情况查看"><a href="#内存、Cpu使用情况查看" class="headerlink" title="内存、Cpu使用情况查看"></a>内存、Cpu使用情况查看</h2><p><strong>1.Cpu个数</strong> </p>
 <p>逻辑Cpu个数查看：  </p>
 <pre><code>1.方式一：
 　　　先使用top密令进入top界面，在界面中按1，即可出现cpu个数以及使用情况  
 
 2.方式二：
 　　　cat /proc/cpuinfo |grep &quot;processor&quot;|wc -l 
-　　　
-　　　
-</code></pre><p>物理CPU个数查看：  </p>
+</code></pre><p>​    　　　<br>物理CPU个数查看：  </p>
 <pre><code>cat /proc/cpuinfo |grep &quot;physical id&quot;|sort |uniq|wc -l 
-</code></pre><p>一个物理CPU数几核：</p>
-<pre><code>cat /proc/cpuinfo |grep &quot;cores&quot;|uniq
-</code></pre><p><strong>2.CPU内存使用情况</strong>  </p>
+</code></pre><p>一个物理CPU数几核：<br>​<br>    cat /proc/cpuinfo |grep “cores”|uniq</p>
+<p><strong>2.CPU内存使用情况</strong>  </p>
 <pre><code>top
-</code></pre><h2 id="实用"><a href="#实用" class="headerlink" title="实用"></a>实用</h2><p><strong>程序以忽略挂起信号方式执行</strong></p>
-<pre><code>nohup command &gt; myout.file 2&gt;&amp;1 &amp; #文件产生的输出将重定向到myout.file
-</code></pre>
+</code></pre><h2 id="实用"><a href="#实用" class="headerlink" title="实用"></a>实用</h2><p><strong>程序以忽略挂起信号方式执行</strong><br>​<br>    nohup command &gt; myout.file 2&gt;&amp;1 &amp; #文件产生的输出将重定向到myout.file</p>
+<p>​<br>​<br>​<br>​    </p>
+<p>​<br>​<br>​       </p>
+
       
     </div>
     
@@ -511,7 +508,7 @@ du /home/yhk/ -h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -522,7 +519,7 @@ du /home/yhk/ -h
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -533,7 +530,7 @@ du /home/yhk/ -h
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
