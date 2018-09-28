@@ -305,6 +305,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -347,6 +369,10 @@
 <p>​    查询符合某个<strong>正则表达式</strong>所有行:​    </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name regexp '\.php$')		#选择所有.php结尾文件</span><br></pre></td></tr></table></figure>
 <p><strong>3.join</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>4.agg</strong></p>
+<p>​    使用agg来进行聚合操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
           
         
@@ -493,7 +519,7 @@
 <p>​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> VectorAssembler</span><br><span class="line"></span><br><span class="line">discretization_feature_names = [</span><br><span class="line">    <span class="string">'discretization_tag_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_style_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_script_nums'</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">vecAssembler = VectorAssembler(inputCols=discretization_feature_names, outputCol=<span class="string">"feature_vec_new"</span>)</span><br><span class="line"></span><br><span class="line">data_set  = vecAssembler.transform(dataset) <span class="comment">#会返回一个在原有的dataframe上面多出来一列的新dataframe</span></span><br><span class="line"></span><br><span class="line">data_set.printscheama()</span><br><span class="line"></span><br><span class="line">output：</span><br><span class="line">    root</span><br><span class="line">     |-- discretization_tag_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_style_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_script_nums: double (nullable = true)</span><br><span class="line">     |-- feature_vec_new: vector (nullable = true) <span class="comment">#多出来的</span></span><br></pre></td></tr></table></figure>
 <p><strong>2.连续数据离散化</strong></p>
-<p>​    pyspark中提供一种根据分位点来进行离散化的操作，可以根据数据整体情况来对某一列进行离散化。</p>
+<p>​    pyspark中提供QuantileDiscretizer来根据分位点来进行离散化的操作，可以根据数据整体情况来对某一列进行离散化。</p>
 <blockquote>
 <p>常用参数：</p>
 <p>​    numBuckets：将整个空间分为几份，在对应的分为点处将数据进行切分</p>
@@ -501,6 +527,13 @@
 <p>​    handleInvalid：    </p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> QuantileDiscretizer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">qds = QuantileDiscretizer(numBuckets=<span class="number">3</span>,inputCol=inputCol, outputCol=outputCol, relativeError=<span class="number">0.01</span>, handleInvalid=<span class="string">"error"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里的setHandleInvalid是代表对缺失值如何进行处理</span></span><br><span class="line"><span class="comment">#keep表示保留缺失值</span></span><br><span class="line">dataframe = qds.setHandleInvalid(<span class="string">"keep"</span>).fit(dataframe).transform(dataframe)</span><br></pre></td></tr></table></figure>
+<p><strong>3.增加递增的id列</strong></p>
+<p>​    monotonically_increasing_id() 方法给每一条记录提供了一个唯一并且递增的ID。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> monotonically_increasing_id</span><br><span class="line"></span><br><span class="line">df.select(<span class="string">"*"</span>,monotonically_increasing_id().alias(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
+<p><strong>4.执行数据读取的类型</strong></p>
+<p><strong>5.查看各类缺失值情况</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
+<p>​    注：在其中agg(<em>)里面的 ”\</em>“代表将该列表处理为一组独立的参数传递给函数</p>
 
           
         
