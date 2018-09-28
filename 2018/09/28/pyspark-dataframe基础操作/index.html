@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="spark," />
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="AnchoretY&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/categories/Linux操作/index.html">
+<meta name="description" content="1.select ​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列 ​    列选择： 12data_set.select(&quot;*&quot;).show()		#选择全部列data_set.select(&quot;file_name&quot;,&quot;webshell&quot;).show()		#选择file_name，webshell列 ​    与udf函数组合新增列： 123456from pysa">
+<meta name="keywords" content="spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pyspark dataframe基础操作">
+<meta property="og:url" content="http://yoursite.com/2018/09/28/pyspark-dataframe基础操作/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="1.select ​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列 ​    列选择： 12data_set.select(&quot;*&quot;).show()		#选择全部列data_set.select(&quot;file_name&quot;,&quot;webshell&quot;).show()		#选择file_name，webshell列 ​    与udf函数组合新增列： 123456from pysa">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-28T03:18:53.629Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AnchoretY&#39;s blog">
+<meta name="twitter:title" content="pyspark dataframe基础操作">
+<meta name="twitter:description" content="1.select ​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列 ​    列选择： 12data_set.select(&quot;*&quot;).show()		#选择全部列data_set.select(&quot;file_name&quot;,&quot;webshell&quot;).show()		#选择file_name，webshell列 ​    与udf函数组合新增列： 123456from pysa">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/Linux操作/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/28/pyspark-dataframe基础操作/"/>
 
 
 
 
 
-  <title>分类: Linux操作 | AnchoretY's blog</title>
+  <title>pyspark dataframe基础操作 | AnchoretY's blog</title>
   
 
 
@@ -140,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-right ">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <a href="https://github.com/AnchoretY">
@@ -248,83 +253,159 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Linux操作<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/pyspark-dataframe基础操作/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/09/23/tmux基本操作/" itemprop="url">
-              
-                <span itemprop="name">tmux基本操作</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">pyspark dataframe基础操作</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-23T17:49:58+08:00"
-              content="2018-09-23" >
-          09-23
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-28T10:40:25+08:00">
+                2018-09-28
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/09/23/linux常用命令/" itemprop="url">
-              
-                <span itemprop="name">linux常用命令</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-09-23T10:44:28+08:00"
-              content="2018-09-23" >
-          09-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p><strong>1.select</strong></p>
+<p>​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列</p>
+<p>​    <strong>列选择</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data_set.select(<span class="string">"*"</span>).show()		<span class="comment">#选择全部列</span></span><br><span class="line">data_set.select(<span class="string">"file_name"</span>,<span class="string">"webshell"</span>).show()		<span class="comment">#选择file_name，webshell列</span></span><br></pre></td></tr></table></figure>
+<p>​    <strong>与udf函数组合新增列</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pysaprk.sql.function <span class="keyword">import</span> udf</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(col1,col2)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> col1+col2</span><br><span class="line">udf_sun = udf(sum,IntergerType())</span><br><span class="line"></span><br><span class="line">data_set.select(<span class="string">"*"</span>,udf_sum(<span class="string">"a1"</span>,<span class="string">"a2"</span>)).show()	<span class="comment">#新增一列a1和a2列加和后的列</span></span><br></pre></td></tr></table></figure>
+<p><strong>2.filter</strong></p>
+<p>​    filter用于行选择，相当于使用前一半写好的sql语句进行查询。</p>
+<p>​    查询某个列等于<strong>固定值</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name=='wp-links-opml.php'").show()</span><br></pre></td></tr></table></figure>
+<p>​    查询符合某个<strong>正则表达式</strong>所有行:​    </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name regexp '\.php$')		#选择所有.php结尾文件</span><br></pre></td></tr></table></figure>
+<p><strong>3.join</strong></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spark/" rel="tag"># spark</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/26/pyspark-dataframe操作进阶/" rel="next" title="pyspark dataframe操作进阶">
+                <i class="fa fa-chevron-left"></i> pyspark dataframe操作进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -332,6 +413,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -549,6 +634,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
