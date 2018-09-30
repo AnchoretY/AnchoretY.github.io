@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="常见机器学习机基本问题1.参数模型和非参数模型的区别？   参数模型：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数    典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络   参数模型的优点：  简单：容易理解和解释结果 快速：训练速度快 数据需求量少  参数模型的局限性：  模型的目标函数形式假设大大限制了模型 由于参数模型复杂度一般不">
-<meta name="keywords" content="机器学习">
+<meta name="description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、  .transorm()方法常用的参">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常见机器学习基本问题">
-<meta property="og:url" content="http://yoursite.com/2018/09/23/常见机器学习基本问题/index.html">
+<meta property="og:title" content="pyspark ML库">
+<meta property="og:url" content="http://yoursite.com/2018/09/30/pyspark-ML库/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="常见机器学习机基本问题1.参数模型和非参数模型的区别？   参数模型：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数    典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络   参数模型的优点：  简单：容易理解和解释结果 快速：训练速度快 数据需求量少  参数模型的局限性：  模型的目标函数形式假设大大限制了模型 由于参数模型复杂度一般不">
+<meta property="og:description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、  .transorm()方法常用的参">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-23T08:05:02.388Z">
+<meta property="og:updated_time" content="2018-09-30T16:36:08.237Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常见机器学习基本问题">
-<meta name="twitter:description" content="常见机器学习机基本问题1.参数模型和非参数模型的区别？   参数模型：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数    典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络   参数模型的优点：  简单：容易理解和解释结果 快速：训练速度快 数据需求量少  参数模型的局限性：  模型的目标函数形式假设大大限制了模型 由于参数模型复杂度一般不">
+<meta name="twitter:title" content="pyspark ML库">
+<meta name="twitter:description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、  .transorm()方法常用的参">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/23/常见机器学习基本问题/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/30/pyspark-ML库/"/>
 
 
 
 
 
-  <title>常见机器学习基本问题 | AnchoretY's blog</title>
+  <title>pyspark ML库 | AnchoretY's blog</title>
   
 
 
@@ -267,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/常见机器学习基本问题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/pyspark-ML库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -284,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">常见机器学习基本问题</h1>
+          <h1 class="post-title" itemprop="name headline">pyspark ML库</h1>
         
 
         <div class="post-meta">
@@ -296,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T16:04:13+08:00">
-                2018-09-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-30T22:08:36+08:00">
+                2018-09-30
               </time>
             
 
@@ -306,28 +305,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -356,65 +333,32 @@
       
 
       
-        <h1 id="常见机器学习机基本问题"><a href="#常见机器学习机基本问题" class="headerlink" title="常见机器学习机基本问题"></a>常见机器学习机基本问题</h1><p><strong>1.参数模型和非参数模型的区别？</strong>  </p>
-<p><strong>参数模型</strong>：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数  </p>
+        <p>​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了<strong>转化器Transformer</strong>、<strong>评估器Estimater</strong>和<strong>管道Pipline</strong>三个部分。</p>
+<h4 id="1-转化器"><a href="#1-转化器" class="headerlink" title="1.转化器"></a>1.转化器</h4><p>​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、</p>
 <blockquote>
-<p>典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络  </p>
-<p>参数模型的优点：</p>
-<ol>
-<li>简单：容易理解和解释结果</li>
-<li>快速：训练速度快</li>
-<li>数据需求量少</li>
-</ol>
-<p>参数模型的局限性：</p>
-<ol>
-<li>模型的目标函数形式假设大大限制了模型</li>
-<li>由于参数模型复杂度一般不高，因此更适合简单问题</li>
-</ol>
+<p>.transorm()方法常用的参数：</p>
+<p>​    1.dataframe   这是唯一一个强制性参数（也可以不理解为参数）</p>
+<p>​    2.inputCol</p>
+<p>​    3.outputCol</p>
 </blockquote>
-<p><strong>非参数模型</strong>：不对目标函数的形式做出任何强烈的假设的算法，可以在训练集中自由的学习任何函数形式  </p>
+<p>​    要使用转化器首先需要引入宝feature</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> ...</span><br></pre></td></tr></table></figure>
+<p>(1)Binarizer</p>
+<p>​    根据指定阈值将连续变量进行<strong>二值化</strong></p>
 <blockquote>
-<p>典型的非参数模型:KNN、决策树、SVM  </p>
-<p>非参数学习模型的优点：</p>
-<ol>
-<li>灵活性强，可拟合各种不同形式的样本</li>
-<li>性能：模型效果一般较好</li>
-</ol>
-<p>非参数学习模型的局限性</p>
-<ol>
-<li>训练数据需求量大</li>
-<li>训练速度慢，因为一般非参数模型要训练更多的参数</li>
-<li>可解释性差</li>
-<li>更容易出过拟合</li>
-</ol>
+<p>注：这里需要输入的那一列的数据类型为DoubleType,InterType和FloatType都不支持</p>
 </blockquote>
-<p><strong>2.生成模型和判别模型</strong>  </p>
-<p>由生成方法生成的模型成为生成模型，由判别方法产生的模型成为生成模型。下面重点介绍两种方法。  </p>
-<p><strong>生成方法</strong>:由数据学联合概率分布P(X,Y)，然后求出条件概率P(Y|X)作为预测模型,即生成模型。（之所以称为生成方法是因为模型表示了给定输入X产生出Y的生成关系）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">binarizer = Binarizer(threshold=<span class="number">4.0</span>,inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'binarizer_resulit'</span>)</span><br><span class="line">binarizer.transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|binarizer_resulit|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">0.0</span>| 		<span class="comment">#当值与阈值相同的时候向下取</span></span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">1.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
+<p>(2)Bucketizer</p>
+<p>​    根据阈值列表将连续变量值<strong>离散化</strong></p>
 <blockquote>
-<p>典型的生成模型:朴素贝叶斯、隐马尔科夫链</p>
-<p>生成方法特点:</p>
-<ol>
-<li>可还原联合概率分布</li>
-<li>收敛速度更快</li>
-<li>生成方法可处理隐变量，但判别方法不能</li>
-</ol>
+<p>注：splits一定要能包含该列所有值</p>
 </blockquote>
-<p><strong>判别方法</strong>：由数据直接学习决策函数f(x)或者条件概率分布f(Y|X)作为预测模型，即判别模型。</p>
-<blockquote>
-<p>典型的判别模型:KNN、感知机、决策树、LR</p>
-<p>判别模型的特点：</p>
-<ol>
-<li>直接学习决策函数或条件概率，直接面对预测，准确率更高</li>
-<li>由于直接学习决策函数或条件概率，可以对数据进行各种程度上的抽象、定义特征并使用特征，简化学习问题</li>
-</ol>
-</blockquote>
-<p><strong>3.常见损失函数以及应用？</strong></p>
-<p><strong>逻辑斯特损失函数：</strong></p>
-<p><strong>对数似然损失</strong></p>
-<p><strong>合页损失</strong></p>
-<p><strong>指数损失</strong></p>
-<p><strong>4.朴素贝叶斯“朴素”表现在哪里？</strong><br>“朴素”主要表现在它假设<strong>所有特征在数据集中的作用是同样且独立的</strong>，而在真实世界中这种假设是不成立的，因此称之为朴素贝叶斯。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">bucketizer = Bucketizer(splits=[<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">10</span>],inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'bucketizer_result'</span>)</span><br><span class="line">bucketizer.setHandleInvalid(<span class="string">"keep"</span>).transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|bucketizer_result|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">2.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
+<p>(3)QuantileDiscretizer</p>
+<p>​    根据数据的近似分位数来将离散变量转化来进行<strong>离散化</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">quantile_discretizer = QuantileDiscretizer(numBuckets=<span class="number">3</span>,inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'quantile_discretizer_result'</span>)</span><br><span class="line">bucketizer.setHandleInvalid(<span class="string">"keep"</span>).transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|bucketizer_result|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">2.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
+<p>()</p>
 
       
     </div>
@@ -430,12 +374,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
-          
-        </div>
-      
 
       
       
@@ -445,8 +383,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/23/数据可视化之散点图和折线图/" rel="next" title="数据可视化之散点图和折线图">
-                <i class="fa fa-chevron-left"></i> 数据可视化之散点图和折线图
+              <a href="/2018/09/28/pyspark-dataframe基础操作/" rel="next" title="pyspark dataframe基础操作">
+                <i class="fa fa-chevron-left"></i> pyspark dataframe基础操作
               </a>
             
           </div>
@@ -454,10 +392,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/23/从boost到gbdt/" rel="prev" title="从boost到gbdt">
-                从boost到gbdt <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -589,7 +523,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常见机器学习机基本问题"><span class="nav-number">1.</span> <span class="nav-text">常见机器学习机基本问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-转化器"><span class="nav-number">1.</span> <span class="nav-text">1.转化器</span></a></li></ol></div>
             
 
           </div>
