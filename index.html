@@ -369,10 +369,17 @@
 <p>​    查询符合某个<strong>正则表达式</strong>所有行:​    </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name regexp '\.php$')		#选择所有.php结尾文件</span><br></pre></td></tr></table></figure>
 <p><strong>3.join</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>​    pyspark的dataframe横向连接只能使用join进行连接，需要有一列为两个dataframe的共有列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_join = df1.join(df,how=<span class="string">"left"</span>,on=<span class="string">'id'</span>).show() 	<span class="comment">#id为二者的共有列</span></span><br></pre></td></tr></table></figure>
 <p><strong>4.agg</strong></p>
-<p>​    使用agg来进行聚合操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>​    使用agg来进行不分组聚合操作，获得某些统计项</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取数据中样本列最大的数值</span></span><br><span class="line"><span class="comment">#方式一：</span></span><br><span class="line">df.agg(&#123;<span class="string">"id"</span>:<span class="string">"max"</span>&#125;).show()		</span><br><span class="line"></span><br><span class="line"><span class="comment">#方式二：</span></span><br><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn	</span><br><span class="line">df.agg(F.min(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
+<p><strong>5.groupby</strong></p>
+<p>​    使用groupby可以用来进行分组聚合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby(&quot;)</span><br></pre></td></tr></table></figure>
+<p><strong>6.printSchema</strong></p>
+<p>​    以数的形式显示dataframe的概要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- age: integer (nullable = true)</span><br></pre></td></tr></table></figure>
 
           
         
@@ -530,9 +537,11 @@
 <p><strong>3.增加递增的id列</strong></p>
 <p>​    monotonically_increasing_id() 方法给每一条记录提供了一个唯一并且递增的ID。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> monotonically_increasing_id</span><br><span class="line"></span><br><span class="line">df.select(<span class="string">"*"</span>,monotonically_increasing_id().alias(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
-<p><strong>4.执行数据读取的类型</strong></p>
+<p><strong>4.指定读取或创建dataframe各列的类型</strong></p>
+<p>​    pyspark可以支持使用schema创建StructType来指定各列的读取或者创建时的类型，一个StructType里面包含多个StructField来进行分别执行列名、类型、是否为空。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.types <span class="keyword">import</span> *</span><br><span class="line">schema = StructType([</span><br><span class="line">    StructField(<span class="string">"id"</span>,IntegerType(),<span class="keyword">True</span>),</span><br><span class="line">    StructField(<span class="string">"name"</span>,StringType(),<span class="keyword">True</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">df = spark.createDataFrame([[<span class="number">2</span>,<span class="string">'a'</span>],[<span class="number">1</span>,<span class="string">'b'</span>]],schema)</span><br><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- name: string (nullable = true)</span><br></pre></td></tr></table></figure>
 <p><strong>5.查看各类缺失值情况</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn</span><br><span class="line"></span><br><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
 <p>​    注：在其中agg(<em>)里面的 ”\</em>“代表将该列表处理为一组独立的参数传递给函数</p>
 
           

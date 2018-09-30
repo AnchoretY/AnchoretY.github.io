@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature impo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-28T04:05:56.519Z">
+<meta property="og:updated_time" content="2018-09-30T09:50:17.389Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyspark dataframe操作进阶">
 <meta name="twitter:description" content="​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature impo">
@@ -372,9 +372,11 @@
 <p><strong>3.增加递增的id列</strong></p>
 <p>​    monotonically_increasing_id() 方法给每一条记录提供了一个唯一并且递增的ID。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> monotonically_increasing_id</span><br><span class="line"></span><br><span class="line">df.select(<span class="string">"*"</span>,monotonically_increasing_id().alias(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
-<p><strong>4.执行数据读取的类型</strong></p>
+<p><strong>4.指定读取或创建dataframe各列的类型</strong></p>
+<p>​    pyspark可以支持使用schema创建StructType来指定各列的读取或者创建时的类型，一个StructType里面包含多个StructField来进行分别执行列名、类型、是否为空。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.types <span class="keyword">import</span> *</span><br><span class="line">schema = StructType([</span><br><span class="line">    StructField(<span class="string">"id"</span>,IntegerType(),<span class="keyword">True</span>),</span><br><span class="line">    StructField(<span class="string">"name"</span>,StringType(),<span class="keyword">True</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">df = spark.createDataFrame([[<span class="number">2</span>,<span class="string">'a'</span>],[<span class="number">1</span>,<span class="string">'b'</span>]],schema)</span><br><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- name: string (nullable = true)</span><br></pre></td></tr></table></figure>
 <p><strong>5.查看各类缺失值情况</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn</span><br><span class="line"></span><br><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
 <p>​    注：在其中agg(<em>)里面的 ”\</em>“代表将该列表处理为一组独立的参数传递给函数</p>
 
       
