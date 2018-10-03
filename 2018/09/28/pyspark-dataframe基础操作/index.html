@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="1.select ​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列 ​    列选择： 12data_set.select(&quot;*&quot;).show()		#选择全部列data_set.select(&quot;file_name&quot;,&quot;webshell&quot;).show()		#选择file_name，webshell列 ​    与udf函数组合新增列： 123456from pysa">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-30T12:41:48.452Z">
+<meta property="og:updated_time" content="2018-10-02T07:16:46.707Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyspark dataframe基础操作">
 <meta name="twitter:description" content="1.select ​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列 ​    列选择： 12data_set.select(&quot;*&quot;).show()		#选择全部列data_set.select(&quot;file_name&quot;,&quot;webshell&quot;).show()		#选择file_name，webshell列 ​    与udf函数组合新增列： 123456from pysa">
@@ -380,6 +380,19 @@
 <p><strong>6.printSchema</strong></p>
 <p>​    以数的形式显示dataframe的概要</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- age: integer (nullable = true)</span><br></pre></td></tr></table></figure>
+<p><strong>7.subtract</strong></p>
+<p>​    找到那些在这个dataframe但是不在另一个dataframe中的行，返回一个dataframe</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">df1 = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line"></span><br><span class="line">df.subtract(df1).show()		<span class="comment">#找到在df中但是不在df1中的行</span></span><br></pre></td></tr></table></figure>
+<p><strong>8.cast</strong></p>
+<p>​    指定某一列的类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>9.sort</strong></p>
+<p>​    按照某列来进行排序</p>
+<blockquote>
+<p>参数：</p>
+<p>​    columns: 可以是一列，也可以是几列的列表</p>
+<p>​    ascending：升序，默认是True</p>
+</blockquote>
 
       
     </div>
@@ -490,7 +503,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -501,7 +514,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

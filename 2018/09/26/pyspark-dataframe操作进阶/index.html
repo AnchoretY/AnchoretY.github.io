@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature impo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-30T09:50:17.389Z">
+<meta property="og:updated_time" content="2018-10-02T06:47:04.521Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyspark dataframe操作进阶">
 <meta name="twitter:description" content="​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature impo">
@@ -378,6 +378,12 @@
 <p><strong>5.查看各类缺失值情况</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn</span><br><span class="line"></span><br><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
 <p>​    注：在其中agg(<em>)里面的 ”\</em>“代表将该列表处理为一组独立的参数传递给函数</p>
+<p><strong>6.使用时间窗口来进行分组聚合</strong></p>
+<p>​    </p>
+<blockquote>
+<p>这也是pyspark比pandas多出来的一个时间窗口聚合的使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">src_ip_feature = feature_data.groupby(&quot;srcIp&quot;,F.window(&quot;time&quot;, &quot;60 seconds&quot;)).agg(</span><br><span class="line">    F.count(&quot;distIp&quot;).alias(&quot;request_count&quot;),</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -488,7 +494,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -499,7 +505,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
