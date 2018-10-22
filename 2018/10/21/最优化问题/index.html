@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Linux,服务器管理," />
+  <meta name="keywords" content="机器学习," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="文件管理1.查看当前文件夹中文件   #显示文件夹中全部文件和目录数 ls | wc -l #显示包含指定内容的文件和目录 ls *3094 | wc -l  #显示文件夹中文件的个数 find . -type f | wc -l 注：wc 是统计前面管道输出的东西，-l表示按照行统计 磁盘管理1.查看文件夹中文件的总大小 #查看当前文件夹中文件总大小 du -h    # -h表示以人可理解的方">
-<meta name="keywords" content="Linux,服务器管理">
+<meta name="description" content="一、概述最优化问题主要分为 ​    1.无约束优化问题 ​    2.等式优化问题 ​    3.含不等式优化问题 ​    对于无约束问题常常使用的方法就是Fermat定理，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。 ​    在求取有约束条件的优化问题时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。">
+<meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux常用命令">
-<meta property="og:url" content="http://yoursite.com/2018/09/23/linux常用命令/index.html">
+<meta property="og:title" content="最优化问题">
+<meta property="og:url" content="http://yoursite.com/2018/10/21/最优化问题/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="文件管理1.查看当前文件夹中文件   #显示文件夹中全部文件和目录数 ls | wc -l #显示包含指定内容的文件和目录 ls *3094 | wc -l  #显示文件夹中文件的个数 find . -type f | wc -l 注：wc 是统计前面管道输出的东西，-l表示按照行统计 磁盘管理1.查看文件夹中文件的总大小 #查看当前文件夹中文件总大小 du -h    # -h表示以人可理解的方">
+<meta property="og:description" content="一、概述最优化问题主要分为 ​    1.无约束优化问题 ​    2.等式优化问题 ​    3.含不等式优化问题 ​    对于无约束问题常常使用的方法就是Fermat定理，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。 ​    在求取有约束条件的优化问题时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-26T13:09:13.102Z">
+<meta property="og:updated_time" content="2018-10-22T13:46:30.620Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux常用命令">
-<meta name="twitter:description" content="文件管理1.查看当前文件夹中文件   #显示文件夹中全部文件和目录数 ls | wc -l #显示包含指定内容的文件和目录 ls *3094 | wc -l  #显示文件夹中文件的个数 find . -type f | wc -l 注：wc 是统计前面管道输出的东西，-l表示按照行统计 磁盘管理1.查看文件夹中文件的总大小 #查看当前文件夹中文件总大小 du -h    # -h表示以人可理解的方">
+<meta name="twitter:title" content="最优化问题">
+<meta name="twitter:description" content="一、概述最优化问题主要分为 ​    1.无约束优化问题 ​    2.等式优化问题 ​    3.含不等式优化问题 ​    对于无约束问题常常使用的方法就是Fermat定理，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。 ​    在求取有约束条件的优化问题时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/09/23/linux常用命令/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/21/最优化问题/"/>
 
 
 
 
 
-  <title>linux常用命令 | AnchoretY's blog</title>
+  <title>最优化问题 | AnchoretY's blog</title>
   
 
 
@@ -267,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/linux常用命令/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/21/最优化问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">linux常用命令</h1>
+          <h1 class="post-title" itemprop="name headline">最优化问题</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T10:44:28+08:00">
-                2018-09-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T10:30:09+08:00">
+                2018-10-21
               </time>
             
 
@@ -319,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux操作/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux操作</span>
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -356,37 +356,30 @@
       
 
       
-        <h2 id="文件管理"><a href="#文件管理" class="headerlink" title="文件管理"></a>文件管理</h2><p><strong>1.查看当前文件夹中文件</strong>  </p>
-<pre><code>#显示文件夹中全部文件和目录数
-ls | wc -l
-#显示包含指定内容的文件和目录
-ls *3094 | wc -l
-
-#显示文件夹中文件的个数
-find . -type f | wc -l
-</code></pre><p>注：wc 是统计前面管道输出的东西，-l表示按照行统计</p>
-<h2 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h2><p><strong>1.查看文件夹中文件的总大小</strong></p>
-<pre><code>#查看当前文件夹中文件总大小
-du -h    # -h表示以人可理解的方式输出
-
-#查看指定文件夹中文件的总大小
-du /home/yhk/ -h   
-</code></pre><p>​<br><strong>2.查看磁盘各个分区大小及使用情况</strong><br>​<br>    df -h</p>
-<h2 id="内存、Cpu使用情况查看"><a href="#内存、Cpu使用情况查看" class="headerlink" title="内存、Cpu使用情况查看"></a>内存、Cpu使用情况查看</h2><p><strong>1.Cpu个数</strong> </p>
-<p>逻辑Cpu个数查看：  </p>
-<pre><code>1.方式一：
-　　　先使用top密令进入top界面，在界面中按1，即可出现cpu个数以及使用情况  
-
-2.方式二：
-　　　cat /proc/cpuinfo |grep &quot;processor&quot;|wc -l 
-</code></pre><p>​    　　　<br>物理CPU个数查看：  </p>
-<pre><code>cat /proc/cpuinfo |grep &quot;physical id&quot;|sort |uniq|wc -l 
-</code></pre><p>一个物理CPU数几核：<br>​<br>    cat /proc/cpuinfo |grep “cores”|uniq</p>
-<p><strong>2.CPU内存使用情况</strong>  </p>
-<pre><code>top
-</code></pre><h2 id="实用"><a href="#实用" class="headerlink" title="实用"></a>实用</h2><p><strong>程序以忽略挂起信号方式执行</strong><br>​<br>    nohup command &gt; myout.file 2&gt;&amp;1 &amp; #文件产生的输出将重定向到myout.file</p>
-<p>​<br>​<br>​<br>​    </p>
-<p>​<br>​<br>​       </p>
+        <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>最优化问题主要分为</p>
+<p>​    1.无约束优化问题</p>
+<p>​    2.等式优化问题</p>
+<p>​    3.含不等式优化问题</p>
+<p>​    <strong>对于无约束问题常常使用的方法就是Fermat定理</strong>，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。</p>
+<p>​    在<strong>求取有约束条件的优化问题</strong>时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。二者各有其使用范围：</p>
+<p>​    <strong>拉格朗日乘子法：等式约束的最优化问题</strong></p>
+<p>​    <strong>KTT条件：不等式约束下的最优化问题</strong></p>
+<blockquote>
+<p>对于一般的任意问题而言，这两种方法求得的解是使一组解成为最优解的必要条件，<strong>只有当原问题是凸问题的时候，求是求得的解是最优解的充分条件</strong>。</p>
+</blockquote>
+<h3 id="二、有约束最优化问题的求解"><a href="#二、有约束最优化问题的求解" class="headerlink" title="二、有约束最优化问题的求解"></a>二、有约束最优化问题的求解</h3><p>​    <strong>1.拉格朗日乘子法</strong></p>
+<p>​    对于等式约束，我们可以通过一个拉格朗日系数a 把等式约束和目标函数组合成为一个式子L(a, x) = f(x) + a*h(x), 这里把a和h(x)视为向量形式，a是横向量，h(x)为列向量，然后求取最优值，可以通过对L(a,x)对各个参数求导取零，联立等式进行求取。</p>
+<p>​    <strong>2.KTT条件</strong></p>
+<p>​    对于含有不等式的约束条件最优化问题，我们可以把所有的不等式约束、等式约束和目标函数全部写为一个式子L(a, b, x)= f(x) + a<em>g(x)+b</em>h(x)，KKT条件是说最优值必须满足以下条件：</p>
+<ol>
+<li><p>L(a, b, x)对x求导为零；</p>
+</li>
+<li><p>h(x) =0;</p>
+</li>
+<li><p>a*g(x) = 0;（g(x)为不等式约束）</p>
+</li>
+</ol>
+<p>求取这三个等式之后就能得到候选最优值。</p>
 
       
     </div>
@@ -404,9 +397,7 @@ du /home/yhk/ -h
       
         <div class="post-tags">
           
-            <a href="/tags/Linux/" rel="tag"># Linux</a>
-          
-            <a href="/tags/服务器管理/" rel="tag"># 服务器管理</a>
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
         </div>
       
@@ -419,8 +410,8 @@ du /home/yhk/ -h
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/23/Pytorch入门学习心得/" rel="next" title="Pytorch入门学习心得">
-                <i class="fa fa-chevron-left"></i> Pytorch入门学习心得
+              <a href="/2018/10/21/正则化/" rel="next" title="正则化">
+                <i class="fa fa-chevron-left"></i> 正则化
               </a>
             
           </div>
@@ -429,8 +420,8 @@ du /home/yhk/ -h
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/23/Github-hexo博客使用/" rel="prev" title="Github+hexo博客使用">
-                Github+hexo博客使用 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/10/21/概率图模型/" rel="prev" title="概率图模型">
+                概率图模型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -563,7 +554,7 @@ du /home/yhk/ -h
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件管理"><span class="nav-number">1.</span> <span class="nav-text">文件管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#磁盘管理"><span class="nav-number">2.</span> <span class="nav-text">磁盘管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存、Cpu使用情况查看"><span class="nav-number">3.</span> <span class="nav-text">内存、Cpu使用情况查看</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实用"><span class="nav-number">4.</span> <span class="nav-text">实用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、概述"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、有约束最优化问题的求解"><span class="nav-number">2.</span> <span class="nav-text">二、有约束最优化问题的求解</span></a></li></ol></div>
             
 
           </div>
