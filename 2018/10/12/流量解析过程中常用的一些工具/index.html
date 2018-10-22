@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib** ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3">
+<meta name="description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3ur">
 <meta name="keywords" content="流量相关">
 <meta property="og:type" content="article">
 <meta property="og:title" content="流量解析过程中常用的一些工具">
 <meta property="og:url" content="http://yoursite.com/2018/10/12/流量解析过程中常用的一些工具/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib** ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3">
+<meta property="og:description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3ur">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-22T09:04:25.370Z">
+<meta property="og:updated_time" content="2018-10-22T09:05:26.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="流量解析过程中常用的一些工具">
-<meta name="twitter:description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib** ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3">
+<meta name="twitter:description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3ur">
 
 
 
@@ -357,7 +357,7 @@
 
       
         <p>在实际流量解析过程中一般使用</p>
-<p>1.url编码解码-urllib**</p>
+<p><strong>1.url编码解码-urllib</strong></p>
 <p>​    python使用<strong>urllib</strong>包来进行url编码和解码，对于python3：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">rawurl=<span class="string">"xxc=B&amp;z0=GB2312&amp;z1=%E4%B8%AD%E5%9B%BD"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#python2</span></span><br><span class="line">url = url.unquote(rawurl)</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br><span class="line">url=urllib.parse.unquote(rawurl)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="string">'xxc=B&amp;z0=GB2312&amp;z1=中国'</span></span><br></pre></td></tr></table></figure>
 <p><strong>2.字符串转十六进制</strong></p>
