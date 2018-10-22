@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="决策树模型之CART树和C5.0树模型基本思想：计算结点的纯度来选择最具显著性的切分不同树模型之间的差异：差异在于衡量纯度变化的标准不同   CART树：Gini系数C5.0树：信息熵增益  1.回归树(CART树)回归树也成为分类回归树，是一种既可用于分类也可用于回归的算法。 CART树分类的主要步骤：1. 决策树的生成：递归的构建而决策树的过程，基于训练数据生成决策树，生成的决策树数量应尽量大">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="决策树模型之CART树和C5.0">
+<meta property="og:url" content="http://yoursite.com/2018/09/23/决策树模型之CART树和C5-0/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="决策树模型之CART树和C5.0树模型基本思想：计算结点的纯度来选择最具显著性的切分不同树模型之间的差异：差异在于衡量纯度变化的标准不同   CART树：Gini系数C5.0树：信息熵增益  1.回归树(CART树)回归树也成为分类回归树，是一种既可用于分类也可用于回归的算法。 CART树分类的主要步骤：1. 决策树的生成：递归的构建而决策树的过程，基于训练数据生成决策树，生成的决策树数量应尽量大">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true">
+<meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83%E7%9A%84Gin%E6%8C%87%E6%95%B0.png?raw=true">
+<meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%A0%B7%E6%9C%AC%E9%9B%86Gini%E6%8C%87%E6%95%B0.png?raw=true">
+<meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true">
+<meta property="og:updated_time" content="2018-09-23T07:40:39.160Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="决策树模型之CART树和C5.0">
+<meta name="twitter:description" content="决策树模型之CART树和C5.0树模型基本思想：计算结点的纯度来选择最具显著性的切分不同树模型之间的差异：差异在于衡量纯度变化的标准不同   CART树：Gini系数C5.0树：信息熵增益  1.回归树(CART树)回归树也成为分类回归树，是一种既可用于分类也可用于回归的算法。 CART树分类的主要步骤：1. 决策树的生成：递归的构建而决策树的过程，基于训练数据生成决策树，生成的决策树数量应尽量大">
+<meta name="twitter:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/23/决策树模型之CART树和C5-0/"/>
+
+
+
+
+
+  <title>决策树模型之CART树和C5.0 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/AnchoretY">
+	<img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub">
+    </a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/决策树模型之CART树和C5-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">决策树模型之CART树和C5.0</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T15:37:55+08:00">
+                2018-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="决策树模型之CART树和C5-0"><a href="#决策树模型之CART树和C5-0" class="headerlink" title="决策树模型之CART树和C5.0"></a>决策树模型之CART树和C5.0</h1><p><strong>树模型基本思想</strong>：计算结点的纯度来选择最具显著性的切分<br><strong>不同树模型之间的差异</strong>：差异在于衡量纯度变化的标准不同 </p>
+<blockquote>
+<p>CART树：Gini系数<br>C5.0树：信息熵增益</p>
+</blockquote>
+<h2 id="1-回归树-CART树"><a href="#1-回归树-CART树" class="headerlink" title="1.回归树(CART树)"></a>1.回归树(CART树)</h2><p>回归树也成为分类回归树，是一种既可用于分类也可用于回归的算法。</p>
+<h4 id="CART树分类的主要步骤："><a href="#CART树分类的主要步骤：" class="headerlink" title="CART树分类的主要步骤："></a>CART树分类的主要步骤：</h4><p><strong>1. 决策树的生成</strong>：递归的构建而决策树的过程，基于<strong>训练数据</strong>生成决策树，生成的决策树数量应尽量大。</p>
+<p>自上而下的从根开始建立节点，在每个节点处选择一个<strong>最好的属性</strong>来分类，使子节点红的训练集尽可能的顿。</p>
+<blockquote>
+<p>不同算法使用不同的指标来衡量“最好”：</p>
+<ul>
+<li>分类算法：一般选择Gini系数</li>
+<li>回归算法：使用最小二乘偏差（LSD）或最小绝对偏差（LSA）</li>
+</ul>
+</blockquote>
+<p><strong>2.决策树剪枝</strong>：用<strong>验证数据集</strong>对已生成的树进行剪枝并选择最优子树这时<strong>损失函数最小做为标准</strong></p>
+<h4 id="分类树的生成"><a href="#分类树的生成" class="headerlink" title="分类树的生成"></a>分类树的生成</h4><hr>
+<ol>
+<li>对每个特征A，对它所有的可能取值a，将数据集划分为A=a和A!=a两个部分计算集合D的<strong>基尼指数</strong>：</li>
+</ol>
+<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true" alt="image">  </p>
+<ol start="2">
+<li><p>遍历所有的特征 A，计算其所有可能取值 a 的基尼指数，选择 D 的基尼指数最小值对应的特征及切分点作为最优的划分，将数据分为两个子集。</p>
+</li>
+<li><p>对上述两个子节点递归调用步骤(1)(2), <strong>直到满足停止条件</strong>。  </p>
+</li>
+<li><p>生成CART树</p>
+</li>
+</ol>
+<h5 id="基尼指数："><a href="#基尼指数：" class="headerlink" title="基尼指数："></a>基尼指数：</h5><blockquote>
+<ol>
+<li>是一种不等度的度量</li>
+<li>是介于0~1之间的数，0-完全相等，1-完全不相等</li>
+<li>总体内包含的类别越杂乱，Gini指数就越大  </li>
+</ol>
+</blockquote>
+<p>分类问题中，假设存在K个类，样本属于第k个类的概率为pk，则概率分布的Gini指数为：  </p>
+<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83%E7%9A%84Gin%E6%8C%87%E6%95%B0.png?raw=true" alt="image">   </p>
+<p>样本集合D的Gini指数为：</p>
+<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%A0%B7%E6%9C%AC%E9%9B%86Gini%E6%8C%87%E6%95%B0.png?raw=true" alt="image">  </p>
+<p>当在数据集D上根据某一取值a进行分割，得到D1、D2两部分后，那么特征A下集合D的Gini指数为：</p>
+<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true" alt="image">  </p>
+<h5 id="算法停止条件："><a href="#算法停止条件：" class="headerlink" title="算法停止条件："></a>算法停止条件：</h5><ol>
+<li>节点中样本个数小于预定阈值</li>
+<li>样本的Gini指数小于阈值</li>
+<li>没有更多特征  </li>
+</ol>
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><p>在完整的的决策树上，减掉一些完整的子支是决策树变小，从而防止决策树过拟合。</p>
+<blockquote>
+<p>决策树很容易产生过拟合，改善的方式包括：</p>
+<ol>
+<li>通过阈值控制终止条件，防止分支过细</li>
+<li>对决策树进行剪枝</li>
+<li>建立随机森林</li>
+</ol>
+</blockquote>
+<h1 id="2-C5-0"><a href="#2-C5-0" class="headerlink" title="2.C5.0"></a>2.C5.0</h1><p><strong>节点分裂标准：信息增益比</strong></p>
+<p>C系列决策树发展过程：  </p>
+<blockquote>
+<p>阶段一：ID3<br>　　　节点选择标准：信息增益<br>　　　缺陷：1. 方法会倾向与属性值比较多的变量（如省份字段存在31个水平，性别由两个水平，信息增益会考虑选择省份做特征节点<br>　　　　　2.构造树时不能很好地处理连续变量  </p>
+<p>阶段二：C4.5<br>　　　节点选择标准：信息增益比（避免了偏袒）<br>　　　缺点：运行效率很低</p>
+<p>阶段三：C5.0<br>　　　商业版的C4.5，提升了算法效率，但没有公布具体算法细节</p>
+</blockquote>
+<h4 id="C5-0算法特点"><a href="#C5-0算法特点" class="headerlink" title="C5.0算法特点"></a>C5.0算法特点</h4><h5 id="1-C5-0是一种多叉树。"><a href="#1-C5-0是一种多叉树。" class="headerlink" title="1.C5.0是一种多叉树。"></a>1.C5.0是一种多叉树。</h5><blockquote>
+<p>如果根节点或者中间节点为<strong>连续变量</strong>，则改变量一定会一分为二成为<strong>两个分支</strong>；如果根节点或者中间节点为<strong>离散变量</strong>，则分开<strong>离散变量水平数个分支</strong>；<strong>因此一个变量一旦被使用，后面节点都不会在使用该变量</strong>。 </p>
+</blockquote>
+<h5 id="2-C5-0生成树采用信息增益比进行分裂节点的选择"><a href="#2-C5-0生成树采用信息增益比进行分裂节点的选择" class="headerlink" title="2.C5.0生成树采用信息增益比进行分裂节点的选择"></a>2.C5.0生成树采用信息增益比进行分裂节点的选择</h5><h5 id="3-剪枝采用“减少误差”法和“减少损失”法进行。"><a href="#3-剪枝采用“减少误差”法和“减少损失”法进行。" class="headerlink" title="3.剪枝采用“减少误差”法和“减少损失”法进行。"></a>3.剪枝采用“减少误差”法和“减少损失”法进行。</h5><blockquote>
+<p>减少误差法：核心思想是比较剪枝前后的<strong>误差率</strong><br>　　　误差率的计算：如果第i个节点中包含N个样本，其中预测错误的样本量为M，则该节点的错误率为f=M/N  </p>
+<p>减少损失法：该方法结合损失矩阵对树进行剪枝，核心是剪枝前后的的损失量。  </p>
+</blockquote>
+<h5 id="4-C5-0只能解决分类问题"><a href="#4-C5-0只能解决分类问题" class="headerlink" title="4.C5.0只能解决分类问题"></a>4.C5.0只能解决分类问题</h5>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/23/Github-hexo博客使用/" rel="next" title="Github+hexo博客使用">
+                <i class="fa fa-chevron-left"></i> Github+hexo博客使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/23/DBSCAN和KMeans相关资源和理解/" rel="prev" title="DBSCAN和KMeans相关资源和理解">
+                DBSCAN和KMeans相关资源和理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">AnchoretY</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#决策树模型之CART树和C5-0"><span class="nav-number">1.</span> <span class="nav-text">决策树模型之CART树和C5.0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-回归树-CART树"><span class="nav-number">1.1.</span> <span class="nav-text">1.回归树(CART树)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CART树分类的主要步骤："><span class="nav-number">1.1.0.1.</span> <span class="nav-text">CART树分类的主要步骤：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类树的生成"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">分类树的生成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基尼指数："><span class="nav-number">1.1.0.2.1.</span> <span class="nav-text">基尼指数：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#算法停止条件："><span class="nav-number">1.1.0.2.2.</span> <span class="nav-text">算法停止条件：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剪枝"><span class="nav-number">1.2.</span> <span class="nav-text">剪枝</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-C5-0"><span class="nav-number">2.</span> <span class="nav-text">2.C5.0</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#C5-0算法特点"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">C5.0算法特点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-C5-0是一种多叉树。"><span class="nav-number">2.0.0.1.1.</span> <span class="nav-text">1.C5.0是一种多叉树。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-C5-0生成树采用信息增益比进行分裂节点的选择"><span class="nav-number">2.0.0.1.2.</span> <span class="nav-text">2.C5.0生成树采用信息增益比进行分裂节点的选择</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-剪枝采用“减少误差”法和“减少损失”法进行。"><span class="nav-number">2.0.0.1.3.</span> <span class="nav-text">3.剪枝采用“减少误差”法和“减少损失”法进行。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-C5-0只能解决分类问题"><span class="nav-number">2.0.0.1.4.</span> <span class="nav-text">4.C5.0只能解决分类问题</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <!-- 底部导航栏相关 -->
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+
+  
+</div>
+
+<!-- 添加底部导航栏-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
