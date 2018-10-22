@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="1.url编码解码-urllib ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3url=urllib.parse.">
+<meta name="description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib** ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3">
 <meta name="keywords" content="流量相关">
 <meta property="og:type" content="article">
 <meta property="og:title" content="流量解析过程中常用的一些工具">
 <meta property="og:url" content="http://yoursite.com/2018/10/12/流量解析过程中常用的一些工具/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="1.url编码解码-urllib ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3url=urllib.parse.">
+<meta property="og:description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib** ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-12T12:28:20.787Z">
+<meta property="og:updated_time" content="2018-10-12T13:02:51.783Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="流量解析过程中常用的一些工具">
-<meta name="twitter:description" content="1.url编码解码-urllib ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3url=urllib.parse.">
+<meta name="twitter:description" content="在实际流量解析过程中一般使用 1.url编码解码-urllib** ​    python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl=&quot;xxc=B&amp;amp;z0=GB2312&amp;amp;z1=%E4%B8%AD%E5%9B%BD&quot;#python2url = url.unquote(rawurl)#python3">
 
 
 
@@ -334,11 +334,17 @@
       
 
       
-        <p><strong>1.url编码解码-urllib</strong></p>
+        <p>在实际流量解析过程中一般使用</p>
+<p>1.url编码解码-urllib**</p>
 <p>​    python使用<strong>urllib</strong>包来进行url编码和解码，对于python3：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">rawurl=<span class="string">"xxc=B&amp;z0=GB2312&amp;z1=%E4%B8%AD%E5%9B%BD"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#python2</span></span><br><span class="line">url = url.unquote(rawurl)</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br><span class="line">url=urllib.parse.unquote(rawurl)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="string">'xxc=B&amp;z0=GB2312&amp;z1=中国'</span></span><br></pre></td></tr></table></figure>
 <p><strong>2.字符串转十六进制</strong></p>
+<p>​    字符串转十六进制可以分为两种：1.对于已经是十六进制格式，但是已经被转为字符串，例如：””</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br></pre></td></tr></table></figure>
+<p><strong>3.原始字节串和十六进制字节串之间的转化—binascii</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">data_bytes = <span class="string">b"cfb5cdb3d5d2b2bbb5bdd6b8b6a8b5c4c2b7beb6a1a3"</span></span><br><span class="line">data_hex = <span class="string">b'\xcf\xb5\xcd\xb3\xd5\xd2\xb2\xbb\xb5\xbd\xd6\xb8\xb6\xa8\xb5\xc4\xc2\xb7\xbe\xb6\xa1\xa3'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#原始字节串==&gt;十六进制字节串</span></span><br><span class="line">binascii.hexlify(data_bytes)</span><br><span class="line"></span><br><span class="line"><span class="comment">#十六进制字节串==&gt;原始字节串</span></span><br><span class="line">binascii.unhexlify(data_bytes)</span><br></pre></td></tr></table></figure>
+<p>​    </p>
+<p>​    </p>
 
       
     </div>
@@ -378,6 +384,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/19/SVM模型/" rel="prev" title="SVM模型">
+                SVM模型 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -445,7 +455,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -456,7 +466,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -467,7 +477,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
