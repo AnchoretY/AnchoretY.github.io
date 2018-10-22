@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。     贝叶斯定理 12345678p(AB)=P(A/B)P(B)    =P(">
+<meta name="description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。 朴素贝叶斯概率图     贝叶斯定理 12345678p(AB)=P(A/B)P(">
 <meta name="keywords" content="机器学习、经典模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="概率图模型——朴素贝叶斯">
 <meta property="og:url" content="http://yoursite.com/2018/10/09/概率图模型——朴素贝叶斯/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。     贝叶斯定理 12345678p(AB)=P(A/B)P(B)    =P(">
+<meta property="og:description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。 朴素贝叶斯概率图     贝叶斯定理 12345678p(AB)=P(A/B)P(">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-22T07:57:22.838Z">
+<meta property="og:updated_time" content="2018-10-22T07:59:40.604Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="概率图模型——朴素贝叶斯">
-<meta name="twitter:description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。     贝叶斯定理 12345678p(AB)=P(A/B)P(B)    =P(">
+<meta name="twitter:description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。 朴素贝叶斯概率图     贝叶斯定理 12345678p(AB)=P(A/B)P(">
 
 
 
@@ -336,7 +336,8 @@
       
         <p>​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过</p>
 <h4 id="朴素贝叶斯思想"><a href="#朴素贝叶斯思想" class="headerlink" title="朴素贝叶斯思想"></a>朴素贝叶斯思想</h4><hr>
-<p>​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于<strong>贝叶斯定理</strong>和<strong>条件独立假设</strong>来进行建模预测的模型。    </p>
+<p>​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于<strong>贝叶斯定理</strong>和<strong>条件独立假设</strong>来进行建模预测的模型。</p>
+<p><strong>朴素贝叶斯概率图</strong>    </p>
 <p><strong>贝叶斯定理</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p(AB)=P(A/B)P(B)</span><br><span class="line">    =P(B/A)P(A)</span><br><span class="line"></span><br><span class="line">在贝叶斯模型中用到的是下面的形式：</span><br><span class="line">    P(Ci/W) = P(W|Ci)*P(Ci)/P(W)</span><br><span class="line">其中，W为向量，有的多个值组成，Ci为标签，也就是上式可以写成下面的形式</span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)*P(Ci)/P(W)</span><br><span class="line">里面的P(Ci/w0,w1,..,w)就是机器学习建模最终的目标，在一定条件下是某一类的概率</span><br></pre></td></tr></table></figure>
 <p><strong>条件独立假设</strong></p>
