@@ -79,18 +79,22 @@
 
 
 
-<meta name="description" content="​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。  注意：虽然名叫逻辑回归，但是实际上是一种分类模型  工作原理 12345每个回归系数初始化为 1重复 R 次:    计算整个数据集的梯度    使用 步长 x 梯度 更新回归系数的向量(梯度下降)返回回归系数 sigmod函数 ​    sigmod是一种近似的越阶函数">
+<meta name="description" content="​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用梯度下降算法来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。  注意：虽然名叫逻辑回归，但是实际上是一种分类模型  工作原理 12345每个回归系数初始化为 1重复 R 次:    计算整个数据集的梯度    使">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="经典机器学习算法——逻辑回归">
 <meta property="og:url" content="http://yoursite.com/2018/10/22/经典机器学习算法——逻辑回归/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。  注意：虽然名叫逻辑回归，但是实际上是一种分类模型  工作原理 12345每个回归系数初始化为 1重复 R 次:    计算整个数据集的梯度    使用 步长 x 梯度 更新回归系数的向量(梯度下降)返回回归系数 sigmod函数 ​    sigmod是一种近似的越阶函数">
+<meta property="og:description" content="​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用梯度下降算法来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。  注意：虽然名叫逻辑回归，但是实际上是一种分类模型  工作原理 12345每个回归系数初始化为 1重复 R 次:    计算整个数据集的梯度    使">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-22T14:02:03.945Z">
+<meta property="og:image" content="http://yoursite.com/Users/yhk/blogs/blog/imgs/sigmod公式.png">
+<meta property="og:image" content="http://yoursite.com/Users/yhk/blogs/blog/imgs/sigmod函数.png">
+<meta property="og:image" content="http://yoursite.com/Users/yhk/blogs/blog/imgs/逻辑回归中的z.png">
+<meta property="og:updated_time" content="2018-10-22T15:00:30.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="经典机器学习算法——逻辑回归">
-<meta name="twitter:description" content="​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。  注意：虽然名叫逻辑回归，但是实际上是一种分类模型  工作原理 12345每个回归系数初始化为 1重复 R 次:    计算整个数据集的梯度    使用 步长 x 梯度 更新回归系数的向量(梯度下降)返回回归系数 sigmod函数 ​    sigmod是一种近似的越阶函数">
+<meta name="twitter:description" content="​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用梯度下降算法来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。  注意：虽然名叫逻辑回归，但是实际上是一种分类模型  工作原理 12345每个回归系数初始化为 1重复 R 次:    计算整个数据集的梯度    使">
+<meta name="twitter:image" content="http://yoursite.com/Users/yhk/blogs/blog/imgs/sigmod公式.png">
 
 
 
@@ -356,14 +360,29 @@
       
 
       
-        <p>​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。</p>
+        <p>​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用<strong>梯度下降算法</strong>来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。</p>
 <blockquote>
 <p><strong>注意：虽然名叫逻辑回归，但是实际上是一种分类模型</strong></p>
 </blockquote>
 <p><strong>工作原理</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">每个回归系数初始化为 <span class="number">1</span></span><br><span class="line">重复 R 次:</span><br><span class="line">    计算整个数据集的梯度</span><br><span class="line">    使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">返回回归系数</span><br></pre></td></tr></table></figure>
+<p><strong>逻辑回归算法的特点</strong></p>
+<blockquote>
+<p>优点：计算代价低，可解释性强</p>
+<p>缺点：容易欠拟合，分类精度可能不高</p>
+<p>使用数据类型：数值型数据和标称型数据(只存在是和否两种结果的将数据)</p>
+</blockquote>
 <p><strong>sigmod函数</strong></p>
-<p>​    sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0或者1，其函数图像如下图：</p>
+<p>​    sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0到1之间的值，其公式和函数图像如下图：</p>
+<p><img src="/Users/yhk/blogs/blog/imgs/sigmod公式.png" alt="sigmod公式"></p>
+<p><img src="/Users/yhk/blogs/blog/imgs/sigmod函数.png" alt="sigmod函数"></p>
+<p>​    在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即</p>
+<p><img src="/Users/yhk/blogs/blog/imgs/逻辑回归中的z.png" alt="逻辑回归中的z"></p>
+<p>然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。</p>
+<p><strong>梯度上升算法</strong></p>
+<p>​    要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示:</p>
+<p><strong>训练过程</strong></p>
+<p>​    训练算法：使用梯度上升寻找最佳参数</p>
 <p>​    </p>
 
       
