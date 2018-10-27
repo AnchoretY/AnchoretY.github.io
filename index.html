@@ -263,6 +263,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/23/spark学习心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/23/spark学习心得/" itemprop="url">spark学习心得</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-23T10:36:53+08:00">
+                2018-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    </p>
+<p>###持久化</p>
+<p>​    Spark中对于一个RDD执行多次算子的<strong>默认</strong>原理是这样的：<strong>每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍</strong>，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。</p>
+<p>​    因此对于这种情况，我们的建议是：<strong>对多次使用的RDD进行持久化</strong>。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。<strong>以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作</strong>。</p>
+<p>​    spark中的持久化操作主要分为两种：<strong>persist和cache</strong>。<strong>cache相当于使用MEMORY_ONLY级别的persist操作，而persist更灵活可以任意指定persist的级别。</strong></p>
+<blockquote>
+<h3 id="如何选择一种最合适的持久化策略"><a href="#如何选择一种最合适的持久化策略" class="headerlink" title="如何选择一种最合适的持久化策略"></a>如何选择一种最合适的持久化策略</h3><ul>
+<li>默认情况下，<strong>性能最高</strong>的当然是<strong>MEMORY_ONLY</strong>，但前提是你的<strong>内存必须足够足够大</strong>，可以绰绰有余地存放下整个RDD的所有数据。<strong>因为不进行序列化与反序列化操作，就避免了这部分的性能开销</strong>；对这个RDD的后续算子操作，都是基于纯内存中的数据的操作，不需要从磁盘文件中读取数据，性能也很高；而且不需要复制一份数据副本，并远程传送到其他节点上。但是这里必须要注意的是，在实际的生产环境中，恐怕能够直接用这种策略的场景还是有限的，<strong>如果RDD中数据比较多</strong>时（比如几十亿），直接用这种持久化级别，<strong>会导致JVM的OOM内存溢出异常</strong>。</li>
+<li><strong>如果使用MEMORY_ONLY级别时发生了内存溢出，那么建议尝试使用MEMORY_ONLY_SER级别</strong>。该级别<strong>会将RDD数据序列化后再保存在内存中</strong>，此时<strong>每个partition仅仅是一个字节数组</strong>而已，大大减少了对象数量，并降低了内存占用。这种级别<strong>比MEMORY_ONLY多出来的性能开销，主要就是序列化与反序列化的开销</strong>。<strong>但是后续算子可以基于纯内存进行操作，因此性能总体还是比较高的</strong>。此外，可能发生的问题同上，如果RDD中的数据量过多的话，还是可能会导致OOM内存溢出的异常。</li>
+<li><strong>如果纯内存的级别都无法使用，那么建议使用MEMORY_AND_DISK_SER策略</strong>，而不是MEMORY_AND_DISK策略。因为既然到了这一步，就说明RDD的数据量很大，内存无法完全放下。序列化后的数据比较少，可以节省内存和磁盘的空间开销。同时<strong>该策略会优先尽量尝试将数据缓存在内存中，内存缓存不下才会写入磁盘</strong>。</li>
+<li>通常不建议使用DISK_ONLY和后缀为_2的级别：因为完全基于磁盘文件进行数据的读写，会导致性能急剧降低，有时还不如重新计算一次所有RDD。后缀为_2的级别，必须将所有数据都复制一份副本，并发送到其他节点上，数据复制以及网络传输会导致较大的性能开销，除非是要求作业的高可用性，否则不建议使用。</li>
+</ul>
+</blockquote>
+<h3 id="提高性能的算子"><a href="#提高性能的算子" class="headerlink" title="提高性能的算子"></a>提高性能的算子</h3><h5 id="使用filter之后进行coalesce操作"><a href="#使用filter之后进行coalesce操作" class="headerlink" title="使用filter之后进行coalesce操作"></a>使用filter之后进行coalesce操作</h5><p>通常对一个RDD执行filter算子过滤掉RDD中较多数据后（比如30%以上的数据），建议使用coalesce算子，手动减少RDD的partition数量，<strong>将RDD中的数据压缩到更少的partition中去</strong>。因为filter之后，RDD的每个partition中都会有很多数据被过滤掉，此时如果照常进行后续的计算，其实每个task处理的partition中的数据量并不是很多，有一点资源浪费，而且此时处理的task越多，可能速度反而越慢。因此用coalesce减少partition数量，将RDD中的数据压缩到更少的partition之后，<strong>只要使用更少的task即可处理完所有的partition</strong>。在某些场景下，对于性能的提升会有一定的帮助。</p>
+<h4 id="Shuffle"><a href="#Shuffle" class="headerlink" title="Shuffle"></a>Shuffle</h4><p>​    大多数<strong>spark作业的性能主要就消耗在shuffle环节</strong>，因为shuffle中包含了大量的磁盘IO、序列化、网络数据传输等操作。<strong>但是影响一个spark作业性能的主要因素还是代码开发、资源参数、以及数据倾斜</strong>，shuffle调优在优化spark作业性能中只能起较小的作用。</p>
+<blockquote>
+<h4 id="shuffle操作速度慢的原因"><a href="#shuffle操作速度慢的原因" class="headerlink" title="shuffle操作速度慢的原因"></a>shuffle操作速度慢的原因</h4></blockquote>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/22/经典机器学习算法——逻辑回归/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -370,16 +529,22 @@
 </blockquote>
 <p><strong>sigmod函数</strong></p>
 <p>​    sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0到1之间的值，其公式和函数图像如下图：</p>
-<p><img src="/Users/yhk/blogs/blog/imgs/sigmod公式.png" alt="sigmod公式"></p>
-<p><img src="/Users/yhk/blogs/blog/imgs/sigmod函数.png" alt="sigmod函数"></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod公式"></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%87%BD%E6%95%B0.png?raw=true" alt="sigmod函数"></p>
 <p>​    在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即</p>
-<p><img src="/Users/yhk/blogs/blog/imgs/逻辑回归中的z.png" alt="逻辑回归中的z"></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%AD%E7%9A%84z.png?raw=true" alt="逻辑回归中的z"></p>
 <p>然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。</p>
 <p><strong>梯度上升算法</strong></p>
 <p>​    要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示:</p>
 <p><strong>训练过程</strong></p>
 <p>​    训练算法：使用梯度上升寻找最佳参数</p>
-<p>​    </p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; 重复 R 次:</span><br><span class="line">&gt;     计算整个数据集的梯度</span><br><span class="line">&gt;     使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">&gt; 返回回归系数</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>​    其中步长为超参数alpha，而梯度的计算如下：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A61.png?raw=true" alt="梯度1"></p>
+<p>即每个点的数据和其输入数据相同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmod</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/<span class="number">1</span>+np.exp(-x)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscend</span><span class="params">(dataSet,labelSet,alpha,maxCycles)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#将输入的数据转为向量格式</span></span><br><span class="line">    dataMat = np.mat(dataSet)</span><br><span class="line">    labelMat = np.mat(labelSet)</span><br><span class="line">    <span class="comment">#获取输入数据的维度</span></span><br><span class="line">    m,n = np.shape(dataMat)</span><br><span class="line">    <span class="comment">#初始化回归系数</span></span><br><span class="line">    weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">    <span class="comment">#对回归系数进行迭代更新</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(maxCycles):</span><br><span class="line">        <span class="comment">#计算使用当前回归系数LR的hx值，结果为(m,1)维向量</span></span><br><span class="line">        h = sigmod(dataMat*weights)</span><br><span class="line">        <span class="comment">#计算误差</span></span><br><span class="line">        error = labelMat.transpose()-h</span><br><span class="line">        <span class="comment">#根据梯度进行回归系数更新</span></span><br><span class="line">        weights = weights + alpha*dataMat.transponse()*error</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1460,17 +1625,26 @@
 <p><strong>注意：</strong>这里不需要统计P(W)的概率，因为最终属于各个类型的概率都需要除以相同的P(W)，因此约掉</p>
 </blockquote>
 <p>训练代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNB</span><span class="params">(dataSetList,labels)</span>:</span></span><br><span class="line">	dataSetVec = np.array(dataSetList)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#计算Pc</span></span><br><span class="line">    sampleNums = len(dataSetVec)</span><br><span class="line">    pc = np.sum(datasetVec)/sampleNums</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算p(wj/Ci),这里是二分类</span></span><br><span class="line">    p0Nums = <span class="number">0</span></span><br><span class="line">    p1Nums = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    p1Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(labels)):</span><br><span class="line">        <span class="keyword">if</span> labels[i]==<span class="number">0</span>:</span><br><span class="line">            p0Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p0Nums += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p1Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p1Nums += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = p0Vecs/p0Nums</span><br><span class="line">    p1Vecs = p1Vecs/p1Nums</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pc,p0Vecs,p1Vecs</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNB</span><span class="params">(dataSetList,labels)</span>:</span></span><br><span class="line">	dataSetVec = np.array(dataSetList)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#计算Pc</span></span><br><span class="line">    sampleNums = len(dataSetVec)</span><br><span class="line">    pc = np.sum(datasetVec)/sampleNums</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算p(wj/Ci),这里是二分类</span></span><br><span class="line">    p0Nums = <span class="number">0</span></span><br><span class="line">    p1Nums = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#这里涉及到初始化问题</span></span><br><span class="line">    p0Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    p1Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(labels)):</span><br><span class="line">        <span class="keyword">if</span> labels[i]==<span class="number">0</span>:</span><br><span class="line">            p0Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p0Nums += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p1Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p1Nums += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = p0Vecs/p0Nums</span><br><span class="line">    p1Vecs = p1Vecs/p1Nums</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pc,p0Vecs,p1Vecs</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>初始化问题</strong>：</p>
+<p>​    再利用贝叶斯分类器进行分类时，要计算多个概率等乘积以计算文档属于某个分类的概率，即计算：</p>
+<p>​    P(w0|c=1)P(w1|c=1)….P(wn|c=1)</p>
+<p>​    如果其中任意一项为0，那么最终的成绩也将等于0。为了降低这种情况造成的影响，可以将所有词初始化为1.</p>
+</blockquote>
 <p><strong>预测过程</strong></p>
-<p>​    NB模型的预测过程就是使用上面统计得到的概率分布，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的<strong>下溢出问题</strong>。</p>
+<p>​    NB模型的预测过程就是使用上面统计<strong>得到的概率分布与输入数据进行关联后</strong>，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的<strong>下溢出问题</strong>。</p>
 <blockquote>
 <p>​    <strong>下溢出问题</strong>：在python中当多个很小的数相乘时会产生下溢出问题(最后四舍五入得到0)</p>
 <p>​    <strong>解决办法：取自然对数。</strong>因为自然对数和原来的数怎增减性相同，极值点也相同</p>
 <p>​    使用自然对数后，上面的式可以转换成：</p>
 <p>​    P(Ci/w0,w1,..,w) = P(w0/Ci)P(w1/Ci)…P(wn/Ci)/P(Ci) –&gt;P(Ci/w0,w1,..,w) =  log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci)</p>
 </blockquote>
-<p>预测代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyNB</span><span class="params">(input_data,pc,p0Vecs,p1Vecs)</span>:</span></span><br><span class="line">    p0 = sum(input_data*np.log(p0Vecs))+math.log(pc)</span><br><span class="line">    p1 = sum(input_data*np.log(p1Vecs))+math.log(<span class="number">1</span>-pc)</span><br><span class="line">  	<span class="keyword">if</span> p0&gt;p1:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><strong>预测代码</strong>：</p>
+<p>​    预测过程中将已知的概率分布与输入数据进行关联的方式：</p>
+<p>​        log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) ——&gt;log(P(w0/Ci))<em>x0+…+log(P(wn/Ci))</em>xn+log(P(Ci)</p>
+<p>​    这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyNB</span><span class="params">(input_data,pc,p0Vecs,p1Vecs)</span>:</span></span><br><span class="line">    <span class="comment">#这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来</span></span><br><span class="line">    <span class="comment">#这里之所以没有除以pw，是因为对每个类型的pw是一致的，就没有必要所有都除了</span></span><br><span class="line">    p0 = sum(input_data*np.log(p0Vecs))+math.log(pc)</span><br><span class="line">    p1 = sum(input_data*np.log(p1Vecs))+math.log(<span class="number">1</span>-pc)</span><br><span class="line">  	<span class="keyword">if</span> p0&gt;p1:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>​        </p>
 
           
@@ -1635,205 +1809,13 @@
 </blockquote>
 <p><strong>更新github</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将项目从github上面拉下来(本地已经有的可以跳过,已有则直接进入该文件夹)</span></span><br><span class="line">git clone github链接</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line">git status</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch <span class="keyword">is</span> up to date <span class="keyword">with</span> <span class="string">'origin/master'</span>.</span><br><span class="line"></span><br><span class="line">    nothing to commit, working tree clean</span><br><span class="line"> </span><br><span class="line"><span class="comment">#创建或者导入新文件到工作区</span></span><br><span class="line">touch <span class="string">"文件1"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将文件工作目录的文件提交到暂存区</span></span><br><span class="line">git add <span class="string">"文件1"</span> 	<span class="comment">#提交指定文件</span></span><br><span class="line">git add -A		<span class="comment">#一次提交工作目录中的全部文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line"> git status</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment">#第一次提交描述时需要设置账户信息</span></span><br><span class="line">git config --<span class="keyword">global</span> user.name <span class="string">"John Doe"</span></span><br><span class="line">git config --<span class="keyword">global</span> user.email johndoe@example.com</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加描述</span></span><br><span class="line">git commit -m <span class="string">"此次添加的描述信息"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line">git status </span><br><span class="line">output:</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch <span class="keyword">is</span> ahead of <span class="string">'origin/master'</span> by <span class="number">1</span> commit.</span><br><span class="line">      (use <span class="string">"git push"</span> to publish your local commits)</span><br><span class="line"></span><br><span class="line"><span class="comment">#将修改从暂存区提交到远程分支</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p><strong>删除已经提交到github上面的文件</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在本地拉取远程分支</span></span><br><span class="line">git pull original master</span><br><span class="line"></span><br><span class="line"><span class="comment">#在本地删除对应的文件</span></span><br><span class="line">git rm filename</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加描述上传到远程分支</span></span><br><span class="line">git commit -m <span class="string">"删除文件filename"</span></span><br><span class="line">git push original master</span><br></pre></td></tr></table></figure>
 <p><strong>已经提交到github上的文件进行版本回退</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先通过git log获取版本号</span></span><br><span class="line">git log</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后使用git revert 版本号来回退到指定版本</span></span><br><span class="line">git retvert 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后:x保存退出就可以了撤回到指定的版本了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最后再将本地分支push到github上</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
 <p><strong>分支切换</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git checkout ...    <span class="comment">#创建分支</span></span><br><span class="line"></span><br><span class="line">git checkout -b ... 	<span class="comment">#创建并且换到分支</span></span><br><span class="line"></span><br><span class="line">git checkout ... 	<span class="comment">#切换到分支</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git branch <span class="comment">#查看本地分支</span></span><br><span class="line"></span><br><span class="line">git branch -a  <span class="comment">#查看本地和远程的全部分支</span></span><br><span class="line"></span><br><span class="line">git push origin --delete dev2	<span class="comment">#删除远程分支</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/pyspark-ML库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/30/pyspark-ML库/" itemprop="url">pyspark ML库</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-30T22:08:36+08:00">
-                2018-09-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了<strong>转化器Transformer</strong>、<strong>评估器Estimater</strong>和<strong>管道Pipline</strong>三个部分。</p>
-<h4 id="1-转化器"><a href="#1-转化器" class="headerlink" title="1.转化器"></a>1.转化器</h4><p>​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、</p>
-<blockquote>
-<p>.transorm()方法常用的参数：</p>
-<p>​    1.dataframe   这是唯一一个强制性参数（也可以不理解为参数）</p>
-<p>​    2.inputCol     输入列名</p>
-<p>​    3.outputCol        输出列名</p>
-</blockquote>
-<p>​    要使用转化器首先需要引入宝feature</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> ...</span><br></pre></td></tr></table></figure>
-<p><strong>(1)Binarizer</strong></p>
-<p>​    根据指定阈值将连续变量进行<strong>二值化</strong></p>
-<blockquote>
-<p>注：这里需要输入的那一列的数据类型为DoubleType,InterType和FloatType都不支持</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">binarizer = Binarizer(threshold=<span class="number">4.0</span>,inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'binarizer_resulit'</span>)</span><br><span class="line">binarizer.transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|binarizer_resulit|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">0.0</span>| 		<span class="comment">#当值与阈值相同的时候向下取</span></span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">1.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
-<p><strong>(2)Bucketizer</strong></p>
-<p>​    根据阈值列表将连续变量值<strong>离散化</strong></p>
-<blockquote>
-<p>注：splits一定要能包含该列所有值</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">bucketizer = Bucketizer(splits=[<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">10</span>],inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'bucketizer_result'</span>)</span><br><span class="line">bucketizer.setHandleInvalid(<span class="string">"keep"</span>).transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|bucketizer_result|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">2.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
-<p><strong>(3)QuantileDiscretizer</strong></p>
-<p>​    根据数据的近似分位数来将离散变量转化来进行<strong>离散化</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">quantile_discretizer = QuantileDiscretizer(numBuckets=<span class="number">3</span>,inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'quantile_discretizer_result'</span>)</span><br><span class="line">bucketizer.setHandleInvalid(<span class="string">"keep"</span>).transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|bucketizer_result|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">2.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
-<p><strong>(4)Ngram</strong></p>
-<p>​    将一个字符串列表转换为ngram列表，以空格分割两个词,一<strong>般要先使用算法来先分词</strong>，然后再进行n-gram操作。</p>
-<blockquote>
-<p>注：1.空值将被忽略，返回一个空列表</p>
-<p>​    2.输入的列必须为一个ArrayType(StringType())</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([</span><br><span class="line">    [[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;]],</span><br><span class="line">    [[&apos;s&apos;,&apos;d&apos;,&apos;u&apos;,&apos;y&apos;]]</span><br><span class="line">],[&apos;word&apos;])</span><br><span class="line"></span><br><span class="line">ngram = NGram(n=2,inputCol=&quot;word&quot;,outputCol=&quot;ngram_result&quot;)</span><br><span class="line">ngram.transform(df).show()</span><br></pre></td></tr></table></figure>
-<p><strong>(5)RegexTokener</strong></p>
-<p>​    正则表达式分词器，用于将一个字符串根据指定的正则表达式来进行分词。</p>
-<blockquote>
-<p>参数包括：</p>
-<p>​    pattern：用于指定分词正则表达式，默认为遇到任何空白字符则分词</p>
-<p>​    minTokenLength:  最小分词长度过滤，小于这个长度则过滤掉</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-评估器"><a href="#2-评估器" class="headerlink" title="2.评估器"></a>2.评估器</h3><p>​    评估器就是机器学习模型，通过统计数据从而进行预测工作，每个评估器都必须实现.fit主要分为分类和回归两大类，这里只针对分类评估器进行介绍。</p>
-<p>​    </p>
-<p>​    Pyspark的分类评估器包含以下七种：</p>
-<p><strong>1.LogisticRegression</strong></p>
-<p>​    逻辑回归模型</p>
-<p><strong>2.DecisionTreeClassifier</strong></p>
-<p>​    决策树模型</p>
-<p><strong>3.GBTClassifier</strong></p>
-<p>​    梯度提升决策树</p>
-<p><strong>4.RandomForestClassifier</strong></p>
-<p>​    随机森林</p>
-<p><strong>5.MultilayerPerceptronClassifier</strong></p>
-<p>​    多层感知机分类器</p>
 
           
         
@@ -1919,7 +1901,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
