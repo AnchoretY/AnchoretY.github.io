@@ -533,9 +533,11 @@
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%87%BD%E6%95%B0.png?raw=true" alt="sigmod函数"></p>
 <p>​    在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%AD%E7%9A%84z.png?raw=true" alt="逻辑回归中的z"></p>
-<p>然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。</p>
+<p>​    然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。</p>
 <p><strong>梯度上升算法</strong></p>
 <p>​    要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A6%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod函数"></p>
+<p>这个梯度意味着要沿 x 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_6.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_6.png" alt="f(x, y)对x求偏导"></a> ，沿 y 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_7.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_7.png" alt="f(x, y)对y求偏导"></a> 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。</p>
 <p><strong>训练过程</strong></p>
 <p>​    训练算法：使用梯度上升寻找最佳参数</p>
 <blockquote>
