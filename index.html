@@ -263,6 +263,299 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/机器学习——损失函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/30/机器学习——损失函数/" itemprop="url">机器学习——损失函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T20:43:33+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/机器学习-——优化器optimzer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/30/机器学习-——优化器optimzer/" itemprop="url">深度学习-——优化器optimzer</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T20:19:24+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="优化器optimzer"><a href="#优化器optimzer" class="headerlink" title="优化器optimzer"></a>优化器optimzer</h3><hr>
+<p>​    在机器学习和深度学习中，选择合适的优化器不仅可<strong>以加快学习速度</strong>，而且可以<strong>避免在训练过程中困到的鞍点</strong>。</p>
+<h4 id="1-Stochastic-Gradient-Descent-SGD"><a href="#1-Stochastic-Gradient-Descent-SGD" class="headerlink" title="1.Stochastic Gradient Descent(SGD)"></a>1.Stochastic Gradient Descent(SGD)</h4><p>​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/SGD%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
+<blockquote>
+<p><strong>缺点：1.存在比较严重的震荡</strong></p>
+<p>​    <strong>2.容易收敛到局部最优点</strong></p>
+</blockquote>
+<h4 id="2-Momentum"><a href="#2-Momentum" class="headerlink" title="2.Momentum"></a>2.Momentum</h4><blockquote>
+<p><strong>核心思想：用动量来进行加速</strong></p>
+<p><strong>适用情况：善于处理稀疏数据</strong></p>
+</blockquote>
+<p>​    为了克服 SGD 振荡比较严重的问题，Momentum 将物理中的动量概念引入到<br>SGD 当中，通过积累之前的动量来替代梯度。即:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Momentum%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
+<p>​    相较于 SGD，Momentum 就相当于在从山坡上不停的向下走，当没有阻力的话，它的动量会越来越大，但是如果遇到了阻力，速度就会变小。也就是说，<strong>在训练的时候，在梯度方向不变的维度上，训练速度变快，梯度方向有所改变的维度上，更新速度变慢，这样就可以加快收敛并减小振荡。</strong>    </p>
+<h4 id="3-Adagrad"><a href="#3-Adagrad" class="headerlink" title="3.Adagrad"></a>3.Adagrad</h4><blockquote>
+<p><strong>核心思想：对学习速率添加约束，前期加速训练，后期提前结束训练以避免震荡</strong></p>
+<p><strong>适用情况：善于处理非平稳目标</strong></p>
+</blockquote>
+<p>​    相较于 SGD，Adagrad 相当于对学习率多加了一个约束，即：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adagrad%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
+<p>​    Adagrad 的优点是，在训练初期，由于 gt 较小，所以约束项能够加速训练。而<br>在后期，随着 gt 的变大，会导致分母不断变大，最终训练提前结束。</p>
+<h4 id="4-Adam"><a href="#4-Adam" class="headerlink" title="4.Adam"></a>4.Adam</h4><blockquote>
+<p><strong>核心思想：结合了Momentum动量加速和Adagrad对学习速率的约束</strong></p>
+<p><strong>适用情况：各种数据，前面两种优化器适合的数据Adam都更效果更好</strong>，</p>
+</blockquote>
+<p>​    Adam 是一个结合了 Momentum 与 Adagrad 的产物，它既考虑到了利用动量<br>项来加速训练过程，又考虑到对于学习率的约束。利用梯度的一阶矩估计和二阶矩估<br>计动态调整每个参数的学习率。Adam 的优点主要在于经过偏置校正后，每一次迭代<br>学习率都有个确定范围，使得参数比较平稳。其公式为:    </p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F1.png?raw=true" alt="SGD计算公式"></p>
+<p>​    其中：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F2.png?raw=true" alt="SGD计算公式"></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F3.png?raw=true" alt="SGD计算公式"></p>
+<p>####总结：在实际工程中被广泛使用，但是也可看到在一些论文里存在着许多使用Adagrad、Momentum的，杜对于SGD由于其需要更多的训练时间和鞍点问题，因此在实际工程中很少使用</p>
+<p><strong>参考文献:深度学习在美团点评推荐系统中的应用</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/27/经典机器学习算法——KMeans/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1541,327 +1834,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/10/常用正则表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/10/常用正则表达式/" itemprop="url">常用正则表达式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T15:59:22+08:00">
-                2018-10-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>1.匹配一个指定字符串，指定字符串前后不能有任何字母和数字内容</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#以c99关键字为例</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/概率图模型——朴素贝叶斯/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/09/概率图模型——朴素贝叶斯/" itemprop="url">概率图模型——朴素贝叶斯</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-09T20:25:55+08:00">
-                2018-10-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过</p>
-<h4 id="朴素贝叶斯思想"><a href="#朴素贝叶斯思想" class="headerlink" title="朴素贝叶斯思想"></a>朴素贝叶斯思想</h4><hr>
-<p>​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于<strong>贝叶斯定理</strong>和<strong>条件独立假设</strong>来进行建模预测的模型。</p>
-<p><strong>朴素贝叶斯概率图</strong>    </p>
-<p><strong>贝叶斯定理</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p(AB)=P(A/B)P(B)</span><br><span class="line">    =P(B/A)P(A)</span><br><span class="line"></span><br><span class="line">在贝叶斯模型中用到的是下面的形式：</span><br><span class="line">    P(Ci/W) = P(W|Ci)*P(Ci)/P(W)</span><br><span class="line">其中，W为向量，有的多个值组成，Ci为标签，也就是上式可以写成下面的形式</span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)*P(Ci)/P(W)</span><br><span class="line">里面的P(Ci/w0,w1,..,w)就是机器学习建模最终的目标，在一定条件下是某一类的概率</span><br></pre></td></tr></table></figure>
-<p><strong>条件独立假设</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	条件独立假设认为：每个事件的发生都相互独立，互相之间没有影响。由于这个假设，上面的式子可以改为：</span><br><span class="line">    </span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)/P(Ci) = P(w0/Ci)P(w1/Ci)...P(wn/Ci)*P(Ci)/p(W)</span><br><span class="line">    </span><br><span class="line">到这里，我们可以知道，要求的最终的结果，只需要在训练集中求得P(Ci)以及在P(w0/Ci)...P(wn/Ci)即可</span><br></pre></td></tr></table></figure>
-<p><strong>模型训练</strong></p>
-<p>因此在NB算法训练时，只需要在训练集样本中到下面三个概率分布：</p>
-<p>​    1.P(Ci)，在训练集中标签1出现的概率(二分类只需要统计一个，n分类就需要n-1个)</p>
-<p>​    2.P(wj/Ci),在训练集中属于各个标签的条件下第n个特征是i的概率</p>
-<blockquote>
-<p><strong>注意：</strong>这里不需要统计P(W)的概率，因为最终属于各个类型的概率都需要除以相同的P(W)，因此约掉</p>
-</blockquote>
-<p>训练代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNB</span><span class="params">(dataSetList,labels)</span>:</span></span><br><span class="line">	dataSetVec = np.array(dataSetList)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#计算Pc</span></span><br><span class="line">    sampleNums = len(dataSetVec)</span><br><span class="line">    pc = np.sum(datasetVec)/sampleNums</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算p(wj/Ci),这里是二分类</span></span><br><span class="line">    p0Nums = <span class="number">0</span></span><br><span class="line">    p1Nums = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#这里涉及到初始化问题</span></span><br><span class="line">    p0Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    p1Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(labels)):</span><br><span class="line">        <span class="keyword">if</span> labels[i]==<span class="number">0</span>:</span><br><span class="line">            p0Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p0Nums += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p1Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p1Nums += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = p0Vecs/p0Nums</span><br><span class="line">    p1Vecs = p1Vecs/p1Nums</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pc,p0Vecs,p1Vecs</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>初始化问题</strong>：</p>
-<p>​    再利用贝叶斯分类器进行分类时，要计算多个概率等乘积以计算文档属于某个分类的概率，即计算：</p>
-<p>​    P(w0|c=1)P(w1|c=1)….P(wn|c=1)</p>
-<p>​    如果其中任意一项为0，那么最终的成绩也将等于0。为了降低这种情况造成的影响，可以将所有词初始化为1.</p>
-</blockquote>
-<p><strong>预测过程</strong></p>
-<p>​    NB模型的预测过程就是使用上面统计<strong>得到的概率分布与输入数据进行关联后</strong>，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的<strong>下溢出问题</strong>。</p>
-<blockquote>
-<p>​    <strong>下溢出问题</strong>：在python中当多个很小的数相乘时会产生下溢出问题(最后四舍五入得到0)</p>
-<p>​    <strong>解决办法：取自然对数。</strong>因为自然对数和原来的数怎增减性相同，极值点也相同</p>
-<p>​    使用自然对数后，上面的式可以转换成：</p>
-<p>​    P(Ci/w0,w1,..,w) = P(w0/Ci)P(w1/Ci)…P(wn/Ci)/P(Ci) –&gt;P(Ci/w0,w1,..,w) =  log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci)</p>
-</blockquote>
-<p><strong>预测代码</strong>：</p>
-<p>​    预测过程中将已知的概率分布与输入数据进行关联的方式：</p>
-<p>​        log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) ——&gt;log(P(w0/Ci))<em>x0+…+log(P(wn/Ci))</em>xn+log(P(Ci)</p>
-<p>​    这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyNB</span><span class="params">(input_data,pc,p0Vecs,p1Vecs)</span>:</span></span><br><span class="line">    <span class="comment">#这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来</span></span><br><span class="line">    <span class="comment">#这里之所以没有除以pw，是因为对每个类型的pw是一致的，就没有必要所有都除了</span></span><br><span class="line">    p0 = sum(input_data*np.log(p0Vecs))+math.log(pc)</span><br><span class="line">    p1 = sum(input_data*np.log(p1Vecs))+math.log(<span class="number">1</span>-pc)</span><br><span class="line">  	<span class="keyword">if</span> p0&gt;p1:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>​        </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1912,7 +1884,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1923,7 +1895,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1934,7 +1906,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
