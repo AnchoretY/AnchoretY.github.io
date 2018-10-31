@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[深度学习——损失函数]]></title>
+    <url>%2F2018%2F10%2F30%2F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[深度学习-——优化器optimzer]]></title>
+    <url>%2F2018%2F10%2F30%2F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E2%80%94%E2%80%94%E4%BC%98%E5%8C%96%E5%99%A8optimzer%2F</url>
+    <content type="text"><![CDATA[优化器optimzer ​ 在机器学习和深度学习中，选择合适的优化器不仅可以加快学习速度，而且可以避免在训练过程中困到的鞍点。 1.Stochastic Gradient Descent(SGD)​ SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为： ​ 缺点：1.存在比较严重的震荡 ​ 2.容易收敛到局部最优点 2.Momentum 核心思想：用动量来进行加速 适用情况：善于处理稀疏数据 ​ 为了克服 SGD 振荡比较严重的问题，Momentum 将物理中的动量概念引入到SGD 当中，通过积累之前的动量来替代梯度。即: ​ 相较于 SGD，Momentum 就相当于在从山坡上不停的向下走，当没有阻力的话，它的动量会越来越大，但是如果遇到了阻力，速度就会变小。也就是说，在训练的时候，在梯度方向不变的维度上，训练速度变快，梯度方向有所改变的维度上，更新速度变慢，这样就可以加快收敛并减小振荡。 3.Adagrad 核心思想：对学习速率添加约束，前期加速训练，后期提前结束训练以避免震荡 适用情况：善于处理非平稳目标 ​ 相较于 SGD，Adagrad 相当于对学习率多加了一个约束，即： ​ Adagrad 的优点是，在训练初期，由于 gt 较小，所以约束项能够加速训练。而在后期，随着 gt 的变大，会导致分母不断变大，最终训练提前结束。 4.Adam 核心思想：结合了Momentum动量加速和Adagrad对学习速率的约束 适用情况：各种数据，前面两种优化器适合的数据Adam都更效果更好， ​ Adam 是一个结合了 Momentum 与 Adagrad 的产物，它既考虑到了利用动量项来加速训练过程，又考虑到对于学习率的约束。利用梯度的一阶矩估计和二阶矩估计动态调整每个参数的学习率。Adam 的优点主要在于经过偏置校正后，每一次迭代学习率都有个确定范围，使得参数比较平稳。其公式为: ​ ​ 其中： ####总结：在实际工程中被广泛使用，但是也可看到在一些论文里存在着许多使用Adagrad、Momentum的，杜对于SGD由于其需要更多的训练时间和鞍点问题，因此在实际工程中很少使用 参考文献:深度学习在美团点评推荐系统中的应用]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[经典机器学习算法——KMeans]]></title>
+    <url>%2F2018%2F10%2F27%2F%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94KMeans%2F</url>
+    <content type="text"><![CDATA[KMeans算法]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>聚类算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spark学习心得]]></title>
+    <url>%2F2018%2F10%2F23%2Fspark%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97%2F</url>
+    <content type="text"><![CDATA[​ ###持久化 ​ Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​ 因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作。 ​ spark中的持久化操作主要分为两种：persist和cache。cache相当于使用MEMORY_ONLY级别的persist操作，而persist更灵活可以任意指定persist的级别。 如何选择一种最合适的持久化策略 默认情况下，性能最高的当然是MEMORY_ONLY，但前提是你的内存必须足够足够大，可以绰绰有余地存放下整个RDD的所有数据。因为不进行序列化与反序列化操作，就避免了这部分的性能开销；对这个RDD的后续算子操作，都是基于纯内存中的数据的操作，不需要从磁盘文件中读取数据，性能也很高；而且不需要复制一份数据副本，并远程传送到其他节点上。但是这里必须要注意的是，在实际的生产环境中，恐怕能够直接用这种策略的场景还是有限的，如果RDD中数据比较多时（比如几十亿），直接用这种持久化级别，会导致JVM的OOM内存溢出异常。 如果使用MEMORY_ONLY级别时发生了内存溢出，那么建议尝试使用MEMORY_ONLY_SER级别。该级别会将RDD数据序列化后再保存在内存中，此时每个partition仅仅是一个字节数组而已，大大减少了对象数量，并降低了内存占用。这种级别比MEMORY_ONLY多出来的性能开销，主要就是序列化与反序列化的开销。但是后续算子可以基于纯内存进行操作，因此性能总体还是比较高的。此外，可能发生的问题同上，如果RDD中的数据量过多的话，还是可能会导致OOM内存溢出的异常。 如果纯内存的级别都无法使用，那么建议使用MEMORY_AND_DISK_SER策略，而不是MEMORY_AND_DISK策略。因为既然到了这一步，就说明RDD的数据量很大，内存无法完全放下。序列化后的数据比较少，可以节省内存和磁盘的空间开销。同时该策略会优先尽量尝试将数据缓存在内存中，内存缓存不下才会写入磁盘。 通常不建议使用DISK_ONLY和后缀为_2的级别：因为完全基于磁盘文件进行数据的读写，会导致性能急剧降低，有时还不如重新计算一次所有RDD。后缀为_2的级别，必须将所有数据都复制一份副本，并发送到其他节点上，数据复制以及网络传输会导致较大的性能开销，除非是要求作业的高可用性，否则不建议使用。 提高性能的算子使用filter之后进行coalesce操作通常对一个RDD执行filter算子过滤掉RDD中较多数据后（比如30%以上的数据），建议使用coalesce算子，手动减少RDD的partition数量，将RDD中的数据压缩到更少的partition中去。因为filter之后，RDD的每个partition中都会有很多数据被过滤掉，此时如果照常进行后续的计算，其实每个task处理的partition中的数据量并不是很多，有一点资源浪费，而且此时处理的task越多，可能速度反而越慢。因此用coalesce减少partition数量，将RDD中的数据压缩到更少的partition之后，只要使用更少的task即可处理完所有的partition。在某些场景下，对于性能的提升会有一定的帮助。 Shuffle​ 大多数spark作业的性能主要就消耗在shuffle环节，因为shuffle中包含了大量的磁盘IO、序列化、网络数据传输等操作。但是影响一个spark作业性能的主要因素还是代码开发、资源参数、以及数据倾斜，shuffle调优在优化spark作业性能中只能起较小的作用。 shuffle操作速度慢的原因 ​]]></content>
+      <categories>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[经典机器学习算法——逻辑回归]]></title>
+    <url>%2F2018%2F10%2F22%2F%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%2F</url>
+    <content type="text"><![CDATA[逻辑回归模型 ​ 逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用梯度下降算法来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。 注意：虽然名叫逻辑回归，但是实际上是一种分类模型 工作原理 12345每个回归系数初始化为 1重复 R 次: 计算整个数据集的梯度 使用 步长 x 梯度 更新回归系数的向量(梯度下降)返回回归系数 逻辑回归算法的特点 优点：计算代价低，可解释性强 缺点：容易欠拟合，分类精度可能不高 使用数据类型：数值型数据和标称型数据(只存在是和否两种结果的将数据) sigmod函数 ​ sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0到1之间的值，其公式和函数图像如下图： ​ 在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即 ​ 然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。 梯度上升算法 ​ 要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示: 这个梯度意味着要沿 x 的方向移动 ，沿 y 的方向移动 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。 ​ 上图展示了整个梯度上升的过程，梯度上升算法在到到每个点后都会从新估计移动的方向，而这个方向就是梯度方向，移动的速度大小由参数α控制。 训练过程 ​ 训练算法：使用梯度上升寻找最佳参数 123456&gt; 每个回归系数初始化为 1&gt; 重复 R 次:&gt; 计算整个数据集的梯度&gt; 使用 步长 x 梯度 更新回归系数的向量(梯度下降)&gt; 返回回归系数&gt; ​ 其中步长为超参数alpha，而梯度的计算如下： 即每个点的数据和其输入数据相同。因此权重的更新可以使用： ​ w:=w+α error x 其中α为常数步长，error为在当前参数值下与目标值的误差经过sigmod函数处理后的值，x为当当前样本的输入 123456789101112131415161718192021222324import numpy as npdef sigmod(x): return 1/1+np.exp(-x)def gradAscend(dataSet,labelSet,alpha,maxCycles): #将输入的数据转为向量格式 dataMat = np.mat(dataSet) labelMat = np.mat(labelSet).tramsponse() #获取输入数据的维度 m,n = np.shape(dataMat) #初始化回归系数 weights = np.ones((n,1)) #对回归系数进行迭代更新 for i in range(maxCycles): #计算使用当前回归系数LR的hx值，结果为(m,1)维向量 h = sigmod(dataMat*weights) #计算误差 error = labelMat-h #根据梯度进行回归系数更新 weights = weights + alpha*dataMat.transponse()*error return weights 随机梯度上升算法 ​ 随机梯度上升算法起到的作用和一般的梯度上升算法是一样的，只是由于一般的梯度上升算法在每次更新回归系数时需要遍历整个数据集，因此当数据量变动很大时，一般的梯度上升算法的时间消耗将会非常大，因此提出了每次只使用一个样本来进行参数更新的方式，随机梯度上升（下降）。 随机梯度上升算法的特点： ​ 1.每次参数更新只使用一个样本，速度快 ​ 2.可进行在线更新，是一个在线学习算法（也是由于每次回归系数更新只使用一个样本） 工作原理： 12345所有回归系数初始化为 1对数据集中每个样本 计算该样本的梯度 使用 alpha x gradient 更新回归系数值返回回归系数值 初步随机梯度下降代码： 1234567891011121314def stocgradAscend(dataSet,labelSet): #1.这里没有转换成矩阵的过程，整个过程完全都是在Numpy数据完成的 alpha = 0.01 m,n = np.shape(dataSet) weights = np.ones((n,1)) #2.回归系数更新过程中的h、error都是单个值，而在一般梯度上升算法中使用的是矩阵操作 for i in range(m): h = np.sigmod(dataSet[i]*weights) error = h - labelSet[i] weights = weights + alpha*error*dataSet[i] return weights 但是这种随机梯度上升算法在在实际的使用过程出现了参数最后难以收敛，最终结果周期性波动的问题，针对这种问题我们对这个问题将随机梯度下降做了下面两种优化 ​ 1.改进为 alpha 的值，alpha 在每次迭代的时候都会调整。另外，虽然 alpha 会随着迭代次数不断减少，但永远不会减小到 0，因为我们在计算公式中添加了一个常数项。 ​ ​ 2.修改randomIndex的值，从以前顺序的选择样本更改为完全随机的方式来选择用于回归系数的样本，每次随机从列表中选出一个值，然后从列表中删掉该值（再进行下一次迭代）。 最终版随机梯度下降： 1234567891011121314151617181920def stocgradAscend(dataSet,labelSet,numsIter=150): m,n = np.shape(dataSet) weights = np.ones(n,1) alpha = 0.01 for i in range(numsIter): #生成数据的索引 dataIndex = range(m) for i in range(m): #alpha会随着i和j的增大不断减小 alpha = 4/(i+j+1.0)+0.001 # alpha 会随着迭代不断减小，但永远不会减小到0，因为后边还有一个常数项0.0001 #生成随机选择要进行回归系数更新的数据索引号 randomIndex = np.random.uniform(0,len(dataIndex)) h = sigmod(np.sum(dataSet[dataIndex[randomIndex]]*weights)) error = h - dataSet[dataIndex[randomIndex]]*weights weights = weights + alpha*error*dataSet[dataIndex[randomIndex]] #在数据索引中删除 del(dataIndex[randomIndex]) return weights 预测过程 ​ LR模型的预测过程很简单，只需要根据训练过程训练出的参数，计算sigmod(w*x),如果这个值大于0.5，则分为1，反之则为0 123456def classfyLR:(inX,weights) prob = sigmod(np.sum(weights*inX)) if prob&gt;=0.5 return 1 else: return 0 注：这里的阈值其实是可以自行设定的 一些其他相关问题 1.LR模型和最大熵模型 ​ (1).logistic回归模型和最大熵模型都属于对数线性模型 ​ (2).当最大熵模型进行二分类时，最大熵模型就是逻辑回归模型 ​ (3) 学习他们的模型一般采用极大似估计或正则化的极大似然估计 ​ (4)二者可以形式化为无约束条件下的最优化问题 2.LR模型的多分类 ​ 逻辑回归也可以作用于多分类问题，对于多分类问题，处理思路如下：将多分类问题看做多个二分类，然后在各个sigmod得到的分数中区最大的值对应的类作为最终预测标签。]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[概率图模型]]></title>
+    <url>%2F2018%2F10%2F21%2F%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[​ 概率图模型是用图来表示变量概率依赖关系的理论，结合概率论与图论的知识，利用图来表示与模型有关的变量的联合概率分布 ​ 基本概率图模型主要包括贝叶斯网络、马尔科夫网络和隐马尔科夫网络三种类型。 ​ 基本的Graphical Model 可以大致分为两个类别：贝叶斯网络(Bayesian Network)和马尔可夫随机场(Markov Random Field)。它们的主要区别在于采用不同类型的图来表达变量之间的关系：贝叶斯网络采用有向无环图(Directed Acyclic Graph)来表达因果关系，马尔可夫随机场则采用无向图(Undirected Graph)来表达变量间的相互作用。这种结构上的区别导致了它们在建模和推断方面的一系列微妙的差异。一般来说，贝叶斯网络中每一个节点都对应于一个先验概率分布或者条件概率分布，因此整体的联合分布可以直接分解为所有单个节点所对应的分布的乘积。而对于马尔可夫场，由于变量之间没有明确的因果关系，它的联合概率分布通常会表达为一系列势函数（potential function）的乘积。通常情况下，这些乘积的积分并不等于1，因此，还要对其进行归一化才能形成一个有效的概率分布——这一点往往在实际应用中给参数估计造成非常大的困难。 概率图模型的表示理论​ 概率图模型的表示由参数和结构两部分组成。根据边有无方向性，可分为下面三种： ​ a、有向图模型—贝叶斯网络 ​ b、无向图模型—马尔科夫网络 ​ c、局部有向模型—条件随机场和链图]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[最优化问题]]></title>
+    <url>%2F2018%2F10%2F21%2F%E6%9C%80%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[一、概述最优化问题主要分为 ​ 1.无约束优化问题 ​ 2.等式优化问题 ​ 3.含不等式优化问题 ​ 对于无约束问题常常使用的方法就是Fermat定理，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。 ​ 在求取有约束条件的优化问题时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。二者各有其使用范围： ​ 拉格朗日乘子法：等式约束的最优化问题 ​ KTT条件：不等式约束下的最优化问题 对于一般的任意问题而言，这两种方法求得的解是使一组解成为最优解的必要条件，只有当原问题是凸问题的时候，求是求得的解是最优解的充分条件。 二、有约束最优化问题的求解​ 1.拉格朗日乘子法 ​ 对于等式约束，我们可以通过一个拉格朗日系数a 把等式约束和目标函数组合成为一个式子L(a, x) = f(x) + a*h(x), 这里把a和h(x)视为向量形式，a是横向量，h(x)为列向量，然后求取最优值，可以通过对L(a,x)对各个参数求导取零，联立等式进行求取。 ​ 2.KTT条件 ​ 对于含有不等式的约束条件最优化问题，我们可以把所有的不等式约束、等式约束和目标函数全部写为一个式子L(a, b, x)= f(x) + ag(x)+bh(x)，KKT条件是说最优值必须满足以下条件： L(a, b, x)对x求导为零； h(x) =0; a*g(x) = 0;（g(x)为不等式约束） 求取这三个等式之后就能得到候选最优值。]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[正则化]]></title>
+    <url>%2F2018%2F10%2F21%2F%E6%AD%A3%E5%88%99%E5%8C%96%2F</url>
+    <content type="text"><![CDATA[正则化相关问题 1.实现参数的稀疏有什么好处吗？ 121.可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。2.参数变少可以使整个模型获得更好的可解释性。 2.参数值越小代表模型越简单吗？ 1是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的区间里预测值产生较大的波动，这种较大的波动也反映了在这个区间里的导数很大，而只有较大的参数值才能产生较大的导数。因此复杂的模型，其参数值会比较大。 3.模型简单包括什么？ 121.参数少2.参数值小 正则化 机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作L1-norm和L2-norm，中文称作L1正则化和L2正则化，或者L1范数和L2范数。 对于线性回归模型，使用L1正则化的模型建叫做Lasso回归，使用L2正则化的模型叫做Ridge回归（岭回归） 概念： L1正则化是指权值向量绝对值之和，通常表示为||w||1 L2正则化是指全职向量w中各个元素的平方和让后再求平方根，通常表示为||w||2 注：上面两个式子中的α为正则化系数，后续通过交叉验证确定 L1正则化与L2正则化的作用： L1正则化可产生稀疏权值矩阵，即产生一个稀疏模型，可用用于特征选择 L2正则化主要用于防止过拟合]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[SVM模型]]></title>
+    <url>%2F2018%2F10%2F19%2FSVM%E6%A8%A1%E5%9E%8B%2F</url>
+    <content type="text"><![CDATA[1.SVM模型的超参数 ​ SVM模型主要包括C和gamma两个超参数。 ​ C是惩罚系数，也就是对误差的宽容度，C越大代表越不能容忍出现误差，越容易出现过拟合； ​ gamma是选择RBF核时，RBF核自带的一个参数，隐含的决定数据映射到新空间的后的分布，gamma越大，支持向量越少。 支持向量的个数影响训练和预测的个数 gamma的物理意义，大家提到很多的RBF的幅宽，它会影响每个支持向量对应的高斯的作用范围，从而影响泛化性能。我的理解：如果gamma设的太大,σ会很小，σ很小的高斯分布长得又高又瘦， 会造成只会作用于支持向量样本附近，对于未知样本分类效果很差，存在训练准确率可以很高，无穷小，则理论上，高斯核的SVM可以拟合任何非线性数据，但容易过拟合)而测试准确率不高的可能，就是通常说的过训练；而如果设的过小，则会造成平滑效应太大，无法在训练集上得到特别高的准确率，也会影响测试集的准确率 2.]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[流量解析过程中常用的一些工具]]></title>
+    <url>%2F2018%2F10%2F12%2F%E6%B5%81%E9%87%8F%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7%2F</url>
+    <content type="text"><![CDATA[在实际流量解析过程中一般使用 1.url编码解码-urllib ​ python使用urllib包来进行url编码和解码，对于python3： 123456789101112import urllibrawurl="xxc=B&amp;z0=GB2312&amp;z1=%E4%B8%AD%E5%9B%BD"#python2url = url.unquote(rawurl)#python3url=urllib.parse.unquote(rawurl)output: 'xxc=B&amp;z0=GB2312&amp;z1=中国' 2.字符串转十六进制 ​ 字符串转十六进制可以分为两种：1.对于已经是十六进制格式，但是已经被转为字符串，例如：”” 123import binascii#python3 3.原始字节串和十六进制字节串之间的转化—binascii 12345678910import binasciidata_bytes = b"cfb5cdb3d5d2b2bbb5bdd6b8b6a8b5c4c2b7beb6a1a3"data_hex = b'\xcf\xb5\xcd\xb3\xd5\xd2\xb2\xbb\xb5\xbd\xd6\xb8\xb6\xa8\xb5\xc4\xc2\xb7\xbe\xb6\xa1\xa3'#原始字节串==&gt;十六进制字节串binascii.hexlify(data_bytes)#十六进制字节串==&gt;原始字节串binascii.unhexlify(data_bytes) ​ ​]]></content>
+      <categories>
+        <category>流量相关</category>
+      </categories>
+      <tags>
+        <tag>流量相关</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[常用正则表达式]]></title>
+    <url>%2F2018%2F10%2F10%2F%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[1.匹配一个指定字符串，指定字符串前后不能有任何字母和数字内容 12#以c99关键字为例[]]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[概率图模型——朴素贝叶斯]]></title>
+    <url>%2F2018%2F10%2F09%2F%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B%E2%80%94%E2%80%94%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%2F</url>
+    <content type="text"><![CDATA[​ 逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​ 朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。 朴素贝叶斯概率图 贝叶斯定理 12345678p(AB)=P(A/B)P(B) =P(B/A)P(A)在贝叶斯模型中用到的是下面的形式： P(Ci/W) = P(W|Ci)*P(Ci)/P(W)其中，W为向量，有的多个值组成，Ci为标签，也就是上式可以写成下面的形式 P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)*P(Ci)/P(W)里面的P(Ci/w0,w1,..,w)就是机器学习建模最终的目标，在一定条件下是某一类的概率 条件独立假设 12345 条件独立假设认为：每个事件的发生都相互独立，互相之间没有影响。由于这个假设，上面的式子可以改为： P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)/P(Ci) = P(w0/Ci)P(w1/Ci)...P(wn/Ci)*P(Ci)/p(W) 到这里，我们可以知道，要求的最终的结果，只需要在训练集中求得P(Ci)以及在P(w0/Ci)...P(wn/Ci)即可 模型训练 因此在NB算法训练时，只需要在训练集样本中到下面三个概率分布： ​ 1.P(Ci)，在训练集中标签1出现的概率(二分类只需要统计一个，n分类就需要n-1个) ​ 2.P(wj/Ci),在训练集中属于各个标签的条件下第n个特征是i的概率 注意：这里不需要统计P(W)的概率，因为最终属于各个类型的概率都需要除以相同的P(W)，因此约掉 训练代码： 123456789101112131415161718192021222324252627def trainNB(dataSetList,labels): dataSetVec = np.array(dataSetList) #计算Pc sampleNums = len(dataSetVec) pc = np.sum(datasetVec)/sampleNums #计算p(wj/Ci),这里是二分类 p0Nums = 0 p1Nums = 0 #这里涉及到初始化问题 p0Vecs = np.ones(len(dataSetVec[0])) p1Vecs = np.ones(len(dataSetVec[0])) for i in range(len(labels)): if labels[i]==0: p0Vecs += dataSetVec[0] p0Nums += 1 else: p1Vecs += dataSetVec[0] p1Nums += 1 p0Vecs = p0Vecs/p0Nums p1Vecs = p1Vecs/p1Nums return pc,p0Vecs,p1Vecs 初始化问题： ​ 再利用贝叶斯分类器进行分类时，要计算多个概率等乘积以计算文档属于某个分类的概率，即计算： ​ P(w0|c=1)P(w1|c=1)….P(wn|c=1) ​ 如果其中任意一项为0，那么最终的成绩也将等于0。为了降低这种情况造成的影响，可以将所有词初始化为1. 预测过程 ​ NB模型的预测过程就是使用上面统计得到的概率分布与输入数据进行关联后，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的下溢出问题。 ​ 下溢出问题：在python中当多个很小的数相乘时会产生下溢出问题(最后四舍五入得到0) ​ 解决办法：取自然对数。因为自然对数和原来的数怎增减性相同，极值点也相同 ​ 使用自然对数后，上面的式可以转换成： ​ P(Ci/w0,w1,..,w) = P(w0/Ci)P(w1/Ci)…P(wn/Ci)/P(Ci) –&gt;P(Ci/w0,w1,..,w) = log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) 预测代码： ​ 预测过程中将已知的概率分布与输入数据进行关联的方式： ​ log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) ——&gt;log(P(w0/Ci))x0+…+log(P(wn/Ci))xn+log(P(Ci) ​ 这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来. 123456789def classfyNB(input_data,pc,p0Vecs,p1Vecs): #这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来 #这里之所以没有除以pw，是因为对每个类型的pw是一致的，就没有必要所有都除了 p0 = sum(input_data*np.log(p0Vecs))+math.log(pc) p1 = sum(input_data*np.log(p1Vecs))+math.log(1-pc) if p0&gt;p1: return 0 else: return 1 ​]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[github基本使用]]></title>
+    <url>%2F2018%2F10%2F03%2Fgithub%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[github相关知识： ​ github项目使用终端进行管理时分为三个区域：工作目录、暂存区（本地库）、github上的远程项目，当我们要更新以及操作一个项目时，要遵循以下的格式： 1.先从github上面pull下远程的项目分支 2.本地的项目文件夹中的文件进行更新（更新工作目录中的文件） 3.使用add将更新的索引添加到本地库 4.使用commit工作目录中的文件提交到暂存区(本地库) 5.将文件push到远程分支或merge到远程分支 基本操作 git clone “ssh项目地址” 克隆远程项目 git pull origin master 取回远程主机或本地的某个分支的更新，再与本地分支进行合并(这种写法是origin主机的master分支与本地当前分支进行合并) git push origin master 将本地的当前分支push到origin主机的master分支上 git add “文件名” 将指定文件提交到本地库 git commit -m “描述信息” 将本地的全部文件都提交到本地库 git log 打印该项目的版本操作信息 git status 查看到那个钱仓库状态 更新github 123456789101112131415161718192021222324252627282930313233343536373839#将项目从github上面拉下来(本地已经有的可以跳过,已有则直接进入该文件夹)git clone github链接#查看项目状态git statusoutput: On branch master Your branch is up to date with 'origin/master'. nothing to commit, working tree clean #创建或者导入新文件到工作区touch "文件1"#将文件工作目录的文件提交到暂存区git add "文件1" #提交指定文件git add -A #一次提交工作目录中的全部文件#查看项目状态 git status #第一次提交描述时需要设置账户信息git config --global user.name "John Doe"git config --global user.email johndoe@example.com#添加描述git commit -m "此次添加的描述信息"#查看项目状态git status output: On branch master Your branch is ahead of 'origin/master' by 1 commit. (use "git push" to publish your local commits)#将修改从暂存区提交到远程分支git push origin master 删除已经提交到github上面的文件 123456789#在本地拉取远程分支git pull original master#在本地删除对应的文件git rm filename#添加描述上传到远程分支git commit -m "删除文件filename"git push original master 已经提交到github上的文件进行版本回退 12345678910#先通过git log获取版本号git log#然后使用git revert 版本号来回退到指定版本git retvert 版本号#然后:x保存退出就可以了撤回到指定的版本了#最后再将本地分支push到github上git push origin master 分支切换 123456git checkout ... #创建分支git checkout -b ... #创建并且换到分支git checkout ... #切换到分支 12345git branch #查看本地分支git branch -a #查看本地和远程的全部分支git push origin --delete dev2 #删除远程分支]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[pyspark ML库]]></title>
+    <url>%2F2018%2F09%2F30%2Fpyspark-ML%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[​ pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​ 转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、 .transorm()方法常用的参数： ​ 1.dataframe 这是唯一一个强制性参数（也可以不理解为参数） ​ 2.inputCol 输入列名 ​ 3.outputCol 输出列名 ​ 要使用转化器首先需要引入宝feature 1from pyspark.ml.feature import ... (1)Binarizer ​ 根据指定阈值将连续变量进行二值化 注：这里需要输入的那一列的数据类型为DoubleType,InterType和FloatType都不支持 1234567891011121314df = spark.createDataFrame([[2.0,'a'],[1.0,'b'],[4.0,'b'],[9.0,'b'],[4.3,'c']],schema=schema)binarizer = Binarizer(threshold=4.0,inputCol='id',outputCol='binarizer_resulit')binarizer.transform(df).show()output: +---+---+-----------------+ | id|age|binarizer_resulit| +---+---+-----------------+ |2.0| a| 0.0| |1.0| b| 0.0| |4.0| b| 0.0| #当值与阈值相同的时候向下取 |9.0| b| 1.0| |4.3| c| 1.0| +---+---+-----------------+ (2)Bucketizer ​ 根据阈值列表将连续变量值离散化 注：splits一定要能包含该列所有值 1234567891011121314df = spark.createDataFrame([[2.0,'a'],[1.0,'b'],[4.0,'b'],[9.0,'b'],[4.3,'c']],schema=schema)bucketizer = Bucketizer(splits=[0,2,4,10],inputCol='id',outputCol='bucketizer_result')bucketizer.setHandleInvalid("keep").transform(df).show()output: +---+---+-----------------+ | id|age|bucketizer_result| +---+---+-----------------+ |2.0| a| 1.0| |1.0| b| 0.0| |4.0| b| 2.0| |9.0| b| 2.0| |4.3| c| 2.0| +---+---+-----------------+ (3)QuantileDiscretizer ​ 根据数据的近似分位数来将离散变量转化来进行离散化 1234567891011121314df = spark.createDataFrame([[2.0,'a'],[1.0,'b'],[4.0,'b'],[9.0,'b'],[4.3,'c']],schema=schema)quantile_discretizer = QuantileDiscretizer(numBuckets=3,inputCol='id',outputCol='quantile_discretizer_result')bucketizer.setHandleInvalid("keep").transform(df).show()output: +---+---+-----------------+ | id|age|bucketizer_result| +---+---+-----------------+ |2.0| a| 1.0| |1.0| b| 0.0| |4.0| b| 2.0| |9.0| b| 2.0| |4.3| c| 2.0| +---+---+-----------------+ (4)Ngram ​ 将一个字符串列表转换为ngram列表，以空格分割两个词,一般要先使用算法来先分词，然后再进行n-gram操作。 注：1.空值将被忽略，返回一个空列表 ​ 2.输入的列必须为一个ArrayType(StringType()) 1234567df = spark.createDataFrame([ [[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;]], [[&apos;s&apos;,&apos;d&apos;,&apos;u&apos;,&apos;y&apos;]]],[&apos;word&apos;])ngram = NGram(n=2,inputCol=&quot;word&quot;,outputCol=&quot;ngram_result&quot;)ngram.transform(df).show() (5)RegexTokener ​ 正则表达式分词器，用于将一个字符串根据指定的正则表达式来进行分词。 参数包括： ​ pattern：用于指定分词正则表达式，默认为遇到任何空白字符则分词 ​ minTokenLength: 最小分词长度过滤，小于这个长度则过滤掉 12 2.评估器​ 评估器就是机器学习模型，通过统计数据从而进行预测工作，每个评估器都必须实现.fit主要分为分类和回归两大类，这里只针对分类评估器进行介绍。 ​ ​ Pyspark的分类评估器包含以下七种： 1.LogisticRegression ​ 逻辑回归模型 2.DecisionTreeClassifier ​ 决策树模型 3.GBTClassifier ​ 梯度提升决策树 4.RandomForestClassifier ​ 随机森林 5.MultilayerPerceptronClassifier ​ 多层感知机分类器]]></content>
+      <categories>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[pyspark dataframe基础操作]]></title>
+    <url>%2F2018%2F09%2F28%2Fpyspark-dataframe%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.select ​ select用于列选择，选择指定列，也可以用于和udf函数结合新增列 ​ 列选择： 12data_set.select("*").show() #选择全部列data_set.select("file_name","webshell").show() #选择file_name，webshell列 ​ 与udf函数组合新增列： 123456from pysaprk.sql.function import udfdef sum(col1,col2): return col1+col2udf_sun = udf(sum,IntergerType())data_set.select("*",udf_sum("a1","a2")).show() #新增一列a1和a2列加和后的列 2.filter ​ filter用于行选择，相当于使用前一半写好的sql语句进行查询。 ​ 查询某个列等于固定值： 1data_set.filter("file_name=='wp-links-opml.php'").show() ​ 查询符合某个正则表达式所有行:​ 1data_set.filter("file_name regexp '\.php$') #选择所有.php结尾文件 3.join ​ pyspark的dataframe横向连接只能使用join进行连接，需要有一列为两个dataframe的共有列 1df_join = df1.join(df,how="left",on='id').show() #id为二者的共有列 4.agg ​ 使用agg来进行不分组聚合操作，获得某些统计项 1234567#获取数据中样本列最大的数值#方式一：df.agg(&#123;"id":"max"&#125;).show() #方式二：import pyspark.sql.functions as fn df.agg(F.min("id")).show() 5.groupby ​ 使用groupby可以用来进行分组聚合。 1df.groupby(&quot;) 6.printSchema ​ 以数的形式显示dataframe的概要 123456df.printSchema()output: root |-- id: integer (nullable = true) |-- age: integer (nullable = true) 7.subtract ​ 找到那些在这个dataframe但是不在另一个dataframe中的行，返回一个dataframe 1234df = spark.createDataFrame([[2.0,'a'],[1.0,'b'],[4.0,'b'],[9.0,'b'],[4.3,'c']],schema=schema)df1 = spark.createDataFrame([[2.0,'a'],[4.3,'c']],schema=schema)df.subtract(df1).show() #找到在df中但是不在df1中的行 8.cast ​ 指定某一列的类型 12 9.sort ​ 按照某列来进行排序 参数： ​ columns: 可以是一列，也可以是几列的列表 ​ ascending：升序，默认是True 1data.sort(['count'],ascending=False).show()]]></content>
+      <categories>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[pyspark dataframe操作进阶]]></title>
+    <url>%2F2018%2F09%2F26%2Fpyspark-dataframe%E6%93%8D%E4%BD%9C%E8%BF%9B%E9%98%B6%2F</url>
+    <content type="text"><![CDATA[​ 这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。 1.将多列转化成一列 ​ pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。 1234567891011121314151617181920212223242526272829303132from pyspark.ml.feature import VectorAssemblerdiscretization_feature_names = [ 'discretization_tag_nums', 'discretization_in_link_nums', 'discretization_out_link_nums', 'discretization_style_nums', 'discretization_local_img_nums', 'discretization_out_img_nums', 'discretization_local_script_nums', 'discretization_in_script_nums', 'discretization_out_script_nums']vecAssembler = VectorAssembler(inputCols=discretization_feature_names, outputCol="feature_vec_new")data_set = vecAssembler.transform(dataset) #会返回一个在原有的dataframe上面多出来一列的新dataframedata_set.printscheama()output： root |-- discretization_tag_nums: double (nullable = true) |-- discretization_in_link_nums: double (nullable = true) |-- discretization_out_link_nums: double (nullable = true) |-- discretization_style_nums: double (nullable = true) |-- discretization_local_img_nums: double (nullable = true) |-- discretization_out_img_nums: double (nullable = true) |-- discretization_local_script_nums: double (nullable = true) |-- discretization_in_script_nums: double (nullable = true) |-- discretization_out_script_nums: double (nullable = true) |-- feature_vec_new: vector (nullable = true) #多出来的 2.连续数据离散化 ​ pyspark中提供QuantileDiscretizer来根据分位点来进行离散化的操作，可以根据数据整体情况来对某一列进行离散化。 常用参数： ​ numBuckets：将整个空间分为几份，在对应的分为点处将数据进行切分 ​ relativeError： ​ handleInvalid： 12345678from pyspark.ml.feature import QuantileDiscretizerqds = QuantileDiscretizer(numBuckets=3,inputCol=inputCol, outputCol=outputCol, relativeError=0.01, handleInvalid="error")#这里的setHandleInvalid是代表对缺失值如何进行处理#keep表示保留缺失值dataframe = qds.setHandleInvalid("keep").fit(dataframe).transform(dataframe) 3.增加递增的id列 ​ monotonically_increasing_id() 方法给每一条记录提供了一个唯一并且递增的ID。 123from pyspark.sql.functions import monotonically_increasing_iddf.select("*",monotonically_increasing_id().alias("id")).show() 4.指定读取或创建dataframe各列的类型 ​ pyspark可以支持使用schema创建StructType来指定各列的读取或者创建时的类型，一个StructType里面包含多个StructField来进行分别执行列名、类型、是否为空。 12345678910111213from pyspark.sql.types import *schema = StructType([ StructField("id",IntegerType(),True), StructField("name",StringType(),True)])df = spark.createDataFrame([[2,'a'],[1,'b']],schema)df.printSchema()output: root |-- id: integer (nullable = true) |-- name: string (nullable = true) 5.查看各类缺失值情况 123import pyspark.sql.functions as fndata_set.agg(*[(1-(fn.count(i)/fn.count('*'))).alias(i+"_missing") for i in data_set.columns]).show() ​ 注：在其中agg()里面的 ”\“代表将该列表处理为一组独立的参数传递给函数 6.使用时间窗口来进行分组聚合 ​ 这也是pyspark比pandas多出来的一个时间窗口聚合的使用 12src_ip_feature = feature_data.groupby(&quot;srcIp&quot;,F.window(&quot;time&quot;, &quot;60 seconds&quot;)).agg( F.count(&quot;distIp&quot;).alias(&quot;request_count&quot;), 7.过滤各种空值 ​ （1）过滤字符串类型的列中的某列为null行 ​ 这里要借助function中的isnull函数来进行 12345import pyspark.sql.function as Fdf.filter(F.isnull(df["response_body"])).show() #只留下response_body列为null的df.filter(~F.isnull(df["response_body"])).show() #只留下response_body列不为null的 ​]]></content>
+      <categories>
+        <category>spark</category>
+      </categories>
+      <tags>
+        <tag>spark</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[HMM入门以及在webshell检测中的应用汇]]></title>
+    <url>%2F2018%2F09%2F24%2FHMM%E5%85%A5%E9%97%A8%E4%BB%A5%E5%8F%8A%E5%9C%A8webshell%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%E6%B1%87%2F</url>
+    <content type="text"><![CDATA[HMM一、HMM五元素 ​ ​ 其中： ​ N：隐藏状态数 hidden states ​ M：观测状态数 observed states ​ A： 状态转移矩阵 transition matrix ​ B：发射矩阵 emission matrix ​ pi：初始隐状态向量 initial state vector HMM全称隐马尔科夫链，常用与异常检测，在大量正常的模式中找出异常的模式。 ​ 隐马尔科夫链模型相关的问题主要分为三类： 1.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链 2.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求得出这个可见状态链的概率 3.已知隐含状态数量、可以观察到多个可见状态链，求因此状态的转移矩阵和发射概率 1.求隐藏状态链问题​ 该问题是在：已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链(也就是最大概率的转移序列) ​ 应用场景：语音识别解码问题 ​ 方法：Viterbi algorithm ​ 举例来说，我知道我有三个骰子，六面骰，四面骰，八面骰。我也知道我掷了十次的结果（1 6 3 5 2 7 3 5 2 4），我不知道每次用了那种骰子，我想知道最有可能的骰子序列。 ​ 首先，如果我们只掷一次骰子：看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8. ​ 把这个情况拓展，我们掷两次骰子：结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是 ​ 同样的，我们可以计算第二个骰子是D4或D8时的最大概率。我们发现，第二个骰子取到D6的概率最大。而使这个概率最大时，第一个骰子为D4。所以最大概率骰子序列就是D4 D6。​ 继续拓展，我们掷三次骰子：同样，我们计算第三个骰子分别是D6，D4，D8的最大概率。我们再次发现，要取到最大概率，第二个骰子必须为D6。这时，第三个骰子取到D4的最大概率是​ 同上，我们可以计算第三个骰子是D6或D8时的最大概率。我们发现，第三个骰子取到D4的概率最大。而使这个概率最大时，第二个骰子为D6，第一个骰子为D4。所以最大概率骰子序列就是D4 D6 D4。 写到这里，大家应该看出点规律了。既然掷骰子一二三次可以算，掷多少次都可以以此类推。 ​ ​ 我们发现，我们要求最大概率骰子序列时要做这么几件事情。首先，不管序列多长，要从序列长度为1算起，算序列长度为1时取到每个骰子的最大概率。然后，逐渐增加长度，每增加一次长度，重新算一遍在这个长度下最后一个位置取到每个骰子的最大概率。因为上一个长度下的取到每个骰子的最大概率都算过了，重新计算的话其实不难。当我们算到最后一位时，就知道最后一位是哪个骰子的概率最大了。然后，我们要把对应这个最大概率的序列从后往前推出来,这就是Viterbi算法。 2.求得出某个可见状态链的概率​ 该问题是在：已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求得出这个可见状态链的概率 ​ 应用场景：检测观察到的结果与我们已知的模型是否吻合，即异常检测 ​ 方法:前向算法（forward algorithm） ​ 要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算（即在当前的HMM下可能出啊先找个状态链的概率）。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。​ 我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做前向算法（forward algorithm）。​ 首先，如果我们只掷一次骰子，看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18： ​ 把这个情况拓展，我们掷两次骰子，看到结果为1，6，总概率为0.05： ​ 继续拓展，我们掷三次骰子，看到结果为1，6，3，计算总概率为0.03： ​ 同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。 3. 求状态转移矩阵和发射概率（训练过程）​ 该问题是在： 已知隐含状态数量、可以观察到多个可见状态链 ​ 应用场景：有大量该问题的已知观测序列，想训练一个HMM模型 ​ 方法：Baum-Welch算法 HMM在webshell检测中的应用缺陷： 由于HMM的训练和预测的时间复杂度都是O(n^2)，因此在数据量特别大的时候速度非常慢 HMM并没有spark版本，无法直接部署到spark集群上（这点是个大坑！） HMM在在webshell检测中比较局限，只能部署在生成文件名绝大部分都有固定模式的网站上来进行检测，对于各个页面随意进行命名的网站并没有检测效果 使用RNN来代替HMM​ 在数据量很大时，我们可以使用RNN来代替HMM，RNN在实现过程中可以采用并行的方式来进行梯度下降，大大加快了整体的速度。 ​ 而且大部分时候使用RNN的效果都会优于HMM，详细见下篇：]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Docker操作]]></title>
+    <url>%2F2018%2F09%2F23%2FDocker%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[-d 容器在后台运行 -P 将容器内部的端口映射到我们的主机上 12docker ps #查看全部正在开启的dockerdocker ps]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tmux基本操作]]></title>
+    <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
+      <categories>
+        <category>Linux操作</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[从boost到gbdt]]></title>
+    <url>%2F2018%2F09%2F23%2F%E4%BB%8Eboost%E5%88%B0gbdt%2F</url>
+    <content type="text"><![CDATA[从boost到gbdt1.提升算法(boost) ｂｏｏｓｔ通过不停地改变各个样本的权值分布，每次学习一个弱分类器，再将这些弱分类器的结果进行组合 提升算法核心问题： １. 在每轮学习过程中，如何改变样本的权重.２. 如何将各个弱分类器进行组合 特点： 多个分类器使用相同的训练集 boost有效的减小偏差bais 2.Adaboostboost算法最典型的代表是Adaboost算法，其在对提升算法核心问题的处理方式是： 1.改变样本权重的方式：提高上一轮分错的样本的权重，减小上一分类正确的样本的权重2.各个弱分类器组合方式:各个分类器进行的结果进行加权组合 算法流程： 初始化样本权重，将全部样本权重初始化为1/N得到初始权值D1 循环M次，生成M个弱分类。对m=1，2…,M a. 使用权值Dm的训练数据，生成弱分类器 Gm b. 计算Gm在训练数据集上的分类误差em c. 根据em计算当前分类器在最终表决中的权重αm ​ αm=1/2log(1-em/em) d. 更新训练集样本权值分布 得到最终分类器：G(x) = sign( ΣαmGm(x) ) 3.回归树()]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[常见机器学习基本问题]]></title>
+    <url>%2F2018%2F09%2F23%2F%E5%B8%B8%E8%A7%81%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[常见机器学习机基本问题1.参数模型和非参数模型的区别？ 参数模型：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数 典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络 参数模型的优点： 简单：容易理解和解释结果 快速：训练速度快 数据需求量少 参数模型的局限性： 模型的目标函数形式假设大大限制了模型 由于参数模型复杂度一般不高，因此更适合简单问题 非参数模型：不对目标函数的形式做出任何强烈的假设的算法，可以在训练集中自由的学习任何函数形式 典型的非参数模型:KNN、决策树、SVM 非参数学习模型的优点： 灵活性强，可拟合各种不同形式的样本 性能：模型效果一般较好 非参数学习模型的局限性 训练数据需求量大 训练速度慢，因为一般非参数模型要训练更多的参数 可解释性差 更容易出过拟合 2.生成模型和判别模型 由生成方法生成的模型成为生成模型，由判别方法产生的模型成为生成模型。下面重点介绍两种方法。 生成方法:由数据学联合概率分布P(X,Y)，然后求出条件概率P(Y|X)作为预测模型,即生成模型。（之所以称为生成方法是因为模型表示了给定输入X产生出Y的生成关系） 典型的生成模型:朴素贝叶斯、隐马尔科夫链 生成方法特点: 可还原联合概率分布 收敛速度更快 生成方法可处理隐变量，但判别方法不能 判别方法：由数据直接学习决策函数f(x)或者条件概率分布f(Y|X)作为预测模型，即判别模型。 典型的判别模型:KNN、感知机、决策树、LR 判别模型的特点： 直接学习决策函数或条件概率，直接面对预测，准确率更高 由于直接学习决策函数或条件概率，可以对数据进行各种程度上的抽象、定义特征并使用特征，简化学习问题 3.常见损失函数以及应用？ 逻辑斯特损失函数： 对数似然损失 合页损失 指数损失 4.朴素贝叶斯“朴素”表现在哪里？“朴素”主要表现在它假设所有特征在数据集中的作用是同样且独立的，而在真实世界中这种假设是不成立的，因此称之为朴素贝叶斯。]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[数据可视化之散点图和折线图]]></title>
+    <url>%2F2018%2F09%2F23%2F%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E4%B9%8B%E6%95%A3%E7%82%B9%E5%9B%BE%E5%92%8C%E6%8A%98%E7%BA%BF%E5%9B%BE%2F</url>
+    <content type="text"><![CDATA[数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20)) 指定图片大小 plt.style.use(&apos;ggplot&apos;) 指定图片风格 plt.title(&quot;image title&quot;,fontsize=30) 指定图片标题 指定坐标轴相关my_x_trick = np.arrange(0,200,10) plt.xtricks(my_x_trick,fontsize=20,rotation) 指定x轴，fontsize指定坐标轴字体，rotation指定文字旋转的角度 plt.ytricks(fontsize=20) 指定y轴 指定画图类型1.折线图plt.plot(x,y) #不指定画图种类时默认为折线图 plt.legend(loc = &quot;best&quot;,fontsize=40,shadow=1) #进行图例格式设定 plt.show() 折线图中plot可用参数：1.color=’red’ 指定折线的颜色2.label=’price’ 指定改颜色的图例表示3.marker=’-‘ 设置折现格式，默认为’-‘,注意这里设置范围不要越界，当设置越界时转换其他图 在一个文件中多次调用plt.plot(),使用不同的数据指定不同颜色和label可在一个图中画多条折线进行对比 2.散点图方式一： plt.scatter(x1,x2,marker=&apos;o&apos;) #指定画散点图，marker为点的形状 plt.show() 方式二： plt.plot(x1,x2,marker=&apos;o&apos;) #plot使用marker=‘o’则为散点图 plt.show() 在实际情况中第二种方式更为灵活，因此我们下重点介绍第二种方式的参数情况。 散点图中常用参数（方式二）： markerfacecolor 散点内部颜色 markeredgecolor 散点边缘颜色 markersize 散点大小 下面我们以DBSCAN聚类后的结果进行将为可视化为例进行效果展示： from sklearn.manifold import TSNE #使用TSNE进行降维 tsne = TSNE(learning_rate=100) x = tsne.fit_transform(input) labels = dbscan.labels_ #获取最终的预测结果 unique_labels = set(dbscan.labels_) colors = plt.cm.Spectral(np.linspace(0,1,len(set(dbscan.labels_)))) #生成和标签种类数相同的颜色数组 core_samples_mask =np.zeros_like(dbscan.labels_,dtype=bool) core_samples_mask[dbscan.core_sample_indices_] = True #将核心对象点对应的位置置true plt.style.use(&apos;ggplot&apos;) plt.figure(figsize=(30,20)) for k,col in zip(unique_labels,colors): if k==-1: col=&apos;k&apos; class_member_mask = (labels==k) xy = x[class_member_mask &amp; core_samples_mask] plt.plot(xy[:,0],xy[:,1],&apos;o&apos;,markerfacecolor=col,markeredgecolor=&apos;k&apos;,markersize=10)]]></content>
+      <categories>
+        <category>可视化</category>
+      </categories>
+      <tags>
+        <tag>数据分析</tag>
+        <tag>可视化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[DBSCAN和KMeans相关资源和理解]]></title>
+    <url>%2F2018%2F09%2F23%2FDBSCAN%E5%92%8CKMeans%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90%E5%92%8C%E7%90%86%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[DBSCAN和KMeans相关资源和理解1.DBSCANDBSCAN是是一种典型的密度聚类算法，算法主要的思是由密度可达关系导出最大的密度相连样本集合，将其作为一个类。​ 主要参数： 最小分类样本数 半径 DBSCAN算法为有参数算法，聚类的最终结果很大程度上取决于参数的设定 DBSCAN算法不需要指定聚类个数，聚类个数根据算法和数据情况自动获得 DBSCAN聚类过程 首先根据半径画每个点的邻域，当点的邻域内点的个数大于最小样本数时，该点位为核心对象（原始数据集重点的变为核心对象和一般点） 随机确定一个核心点作为初始点，将该初始点全部的最大密度相连的点作为一类。 将分好类样本从原始的样本集中除去，从新选择核心对象作为聚类中心，再进行2.3操作，直至全部核心对象都被分类 DBSCAN代码实现from sklearn.cluster import DBSCAN dbcscan = DBSCAN(min_samples=30,eps=1.8) predict = dbscan.fit_predict(imput) 2.K-MeansKMeans是一种原始性。。。聚类算法，算法主要思想是通过迭代过程把数据集划分为不同的类别，使得评价聚类性能的准则函数达到最优，从而使生成的每个聚类内紧凑，类间独立。这一算法不是和处理离散型数据，对连续性数据具有良好的效果 Kmeans为无参数算法，算法执行过程中不需要进行调参 Kmeans算法需要指定聚类个数K，这在实际问题中是很难进行确定的 KMeans聚类过程 根据指定的K值随机寻找K个点作为初始中心，将其他样本分别分给这些中心 由分好的类计算均值作为其该类新的中心，重新对各个样本分到距离最近的中心，重复这一过程，直至中心不再变化 Kmeans代码实现from sklearn.cluster import KMeans kmeans = KMeans(n_clusters=8) predict = kmeans.fit_predict(input) Kmeans、DBSCAN优缺点对比DBSCAN的主要优点有： 1） 可以对任意形状的稠密数据集进行聚类，相对的，K-Means之类的聚类算法一般只适用于凸数据集。 2） 可以在聚类的同时发现异常点，对数据集中的异常点不敏感。 3） 聚类结果没有偏倚，相对的，K-Means之类的聚类算法初始值对聚类结果有很大影响。 DBSCAN的主要缺点有： 1）如果样本集的密度不均匀、聚类间距差相差很大时，聚类质量较差，这时用DBSCAN聚类一般不适合。 2） 如果样本集较大时，聚类收敛时间较长，此时可以对搜索最近邻时建立的KD树或者球树进行规模限制来改进。 3） 调参相对于传统的K-Means之类的聚类算法稍复杂，主要需要对距离阈值ϵ，邻域样本数阈值MinPts联合调参，不同的参数组合对最后的聚类效果有较大影响。]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[决策树模型之CART树和C5.0]]></title>
+    <url>%2F2018%2F09%2F23%2F%E5%86%B3%E7%AD%96%E6%A0%91%E6%A8%A1%E5%9E%8B%E4%B9%8BCART%E6%A0%91%E5%92%8CC5-0%2F</url>
+    <content type="text"><![CDATA[决策树模型之CART树和C5.0树模型基本思想：计算结点的纯度来选择最具显著性的切分不同树模型之间的差异：差异在于衡量纯度变化的标准不同 CART树：Gini系数C5.0树：信息熵增益 1.回归树(CART树)回归树也成为分类回归树，是一种既可用于分类也可用于回归的算法。 CART树分类的主要步骤：1. 决策树的生成：递归的构建而决策树的过程，基于训练数据生成决策树，生成的决策树数量应尽量大。 自上而下的从根开始建立节点，在每个节点处选择一个最好的属性来分类，使子节点红的训练集尽可能的顿。 不同算法使用不同的指标来衡量“最好”： 分类算法：一般选择Gini系数 回归算法：使用最小二乘偏差（LSD）或最小绝对偏差（LSA） 2.决策树剪枝：用验证数据集对已生成的树进行剪枝并选择最优子树这时损失函数最小做为标准 分类树的生成 对每个特征A，对它所有的可能取值a，将数据集划分为A=a和A!=a两个部分计算集合D的基尼指数： 遍历所有的特征 A，计算其所有可能取值 a 的基尼指数，选择 D 的基尼指数最小值对应的特征及切分点作为最优的划分，将数据分为两个子集。 对上述两个子节点递归调用步骤(1)(2), 直到满足停止条件。 生成CART树 基尼指数： 是一种不等度的度量 是介于0~1之间的数，0-完全相等，1-完全不相等 总体内包含的类别越杂乱，Gini指数就越大 分类问题中，假设存在K个类，样本属于第k个类的概率为pk，则概率分布的Gini指数为： 样本集合D的Gini指数为： 当在数据集D上根据某一取值a进行分割，得到D1、D2两部分后，那么特征A下集合D的Gini指数为： 算法停止条件： 节点中样本个数小于预定阈值 样本的Gini指数小于阈值 没有更多特征 剪枝在完整的的决策树上，减掉一些完整的子支是决策树变小，从而防止决策树过拟合。 决策树很容易产生过拟合，改善的方式包括： 通过阈值控制终止条件，防止分支过细 对决策树进行剪枝 建立随机森林 2.C5.0节点分裂标准：信息增益比 C系列决策树发展过程： 阶段一：ID3 节点选择标准：信息增益 缺陷：1. 方法会倾向与属性值比较多的变量（如省份字段存在31个水平，性别由两个水平，信息增益会考虑选择省份做特征节点 2.构造树时不能很好地处理连续变量 阶段二：C4.5 节点选择标准：信息增益比（避免了偏袒） 缺点：运行效率很低 阶段三：C5.0 商业版的C4.5，提升了算法效率，但没有公布具体算法细节 C5.0算法特点1.C5.0是一种多叉树。 如果根节点或者中间节点为连续变量，则改变量一定会一分为二成为两个分支；如果根节点或者中间节点为离散变量，则分开离散变量水平数个分支；因此一个变量一旦被使用，后面节点都不会在使用该变量。 2.C5.0生成树采用信息增益比进行分裂节点的选择3.剪枝采用“减少误差”法和“减少损失”法进行。 减少误差法：核心思想是比较剪枝前后的误差率 误差率的计算：如果第i个节点中包含N个样本，其中预测错误的样本量为M，则该节点的错误率为f=M/N 减少损失法：该方法结合损失矩阵对树进行剪枝，核心是剪枝前后的的损失量。 4.C5.0只能解决分类问题]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Github+hexo博客使用]]></title>
+    <url>%2F2018%2F09%2F23%2FGithub-hexo%E5%8D%9A%E5%AE%A2%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[1.创建新博文页面 创建博文页面首先要cd 到博客的根目录下，然后运行命令： 1hexo new &quot;页面名称&quot; 这样则在博客站点的source/_posts/文件夹下创建了指定的“页面名称.md”文件，可以直接对其进行编辑。完成编辑后就可已使用下面的同步命令来将修改提交到GIthub上： 1hexo d -g #生成静态文件并部署到服务器，g是generate代表生成文件，d是depoly代表部署到服务器]]></content>
+      <categories>
+        <category>博客相关</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令]]></title>
+    <url>%2F2018%2F09%2F23%2Flinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[文件管理1.查看当前文件夹中文件 #显示文件夹中全部文件和目录数 ls | wc -l #显示包含指定内容的文件和目录 ls *3094 | wc -l #显示文件夹中文件的个数 find . -type f | wc -l 注：wc 是统计前面管道输出的东西，-l表示按照行统计 磁盘管理1.查看文件夹中文件的总大小 #查看当前文件夹中文件总大小 du -h # -h表示以人可理解的方式输出 #查看指定文件夹中文件的总大小 du /home/yhk/ -h ​2.查看磁盘各个分区大小及使用情况​ df -h 内存、Cpu使用情况查看1.Cpu个数 逻辑Cpu个数查看： 1.方式一： 先使用top密令进入top界面，在界面中按1，即可出现cpu个数以及使用情况 2.方式二： cat /proc/cpuinfo |grep &quot;processor&quot;|wc -l ​ 物理CPU个数查看： cat /proc/cpuinfo |grep &quot;physical id&quot;|sort |uniq|wc -l 一个物理CPU数几核：​ cat /proc/cpuinfo |grep “cores”|uniq 2.CPU内存使用情况 top 实用程序以忽略挂起信号方式执行​ nohup command &gt; myout.file 2&gt;&amp;1 &amp; #文件产生的输出将重定向到myout.file ​​​​ ​​​]]></content>
+      <categories>
+        <category>Linux操作</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>服务器管理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Pytorch入门学习心得]]></title>
+    <url>%2F2018%2F09%2F23%2FPytorch%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E5%BF%83%E5%BE%97%2F</url>
+    <content type="text"><![CDATA[全连接1.DropoutDrop是一种现在在深度学习中使用最为广泛的防止过拟合的方式 核心思想:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习 注意：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测 使用情况：卷积神经网路只在最后的全连接层中使用dropout，循环神经网络一般只在不同层循环结构体之间使用dropout ２.Batch Normalization核心思想：将标准化应用的整个前向传播和反向穿逼的过程中。传统的标准化一般只是在输入数据之前将数据进行标准化处理，而批标准化是在神经网络的蓄念过程中对每层的输入数据都进行一个标准化 使用位置:线性层和非线性层之间 作用：1.加快收敛速度 2.防止过拟合 ​ ３.从神经网络角度看线性回归和逻辑回归的区别？ 丛神经网络角度上看，逻辑回归只是在线性回归的基础上计入了一层Sigmod激活函数。 ４.全连接网络设计趋势1. 使用线性层和非线性激活函数交替的结果来代替线性层交替的结构往往能大大提升准确率2. 在线性层和非线性激活函数之间加入批标准化处理加快收敛速度 CNN卷积层卷积层可以看作是多个滤波器的集合，滤波器在深度上要和输入数据保持一致，让每个滤波器在宽度和深度高度上进行滑动卷积，然后计算整个滤波器和输入数据任意一处的内积，输出数据的深度和滤波器的个数保持一致 1.卷积层为什么有效？(1).局部性判断题图片的类型并不是根据整张图片来决定的，而是由一定的局部区域决定的 (2).相同性对于不同的图片，如果他们属于同一类，他们将具有相同的特征，但这些特征可能属于图片的不同位置，但是在不同位置的检测方式几乎是一样的 (3).不变性当我们对图片进行下采样时，图片的基本性质不变 2.卷积层的参数 关键参数: in_channels ：特征的管道数，彩色图片为3，黑白图片则为1 out_channels : 输出管道个数，也就是滤波器个数 kernel_size : 卷积核大小 可选参数： padding:边界填充0的层数 stride:步长 bias: 是否使用偏置，默认是True 3.卷积层的输入输出 输入： 卷积层的输入格式为(batch,channels,width,heights) 输出： 卷积层的输出取决于输入数据大小W、卷积核大小F、步长S、0填充个数P等四个方面，计算公式如下： W-F+2P/S + 1 这里在介绍几种常用的卷积层参数设置： 卷积核大小 0填充层数 步长 卷积层输出 3 1 1 保持输入维度不变 3 0 1 输入维度减2 一般卷积核大小不超过5 4.卷积层的参数共享基于特征的相同性，因此可以使用相同的滤波器来检测不同位置的相同特征，参数共享共享机制有效的减少卷积层的参数个数，加快了卷积神经网络的训练速度。 使用参数共享机制的CNN层参数个数为： 滤波器个数（out_dim） 神经元大小（kernel_size kernel_size * input_dim） 例如：当卷积层的的输出是20 20 32，窗口大小是3 3，输入数据深度是10时，当不适用参数共享时神经元个数为20 20 32，每个神经元个数为3 3 10，总参数个数为12800 900 =11520000个参数。但当我们使用参数共享时，因为输出深度为32，所以存在32个滤波器，每个滤波器存在参数3 3 10个，而总参数个数即为90 * 32个，大大减少了参数的个数 池化层1.使用池化层有什么作用？ 有效的缩小矩阵的尺寸 加快计算速度 防止过拟合 2.池化层的参数设置 关键参数： kernel_size ：池化层的大小 池化层也可也进行0填充，但是几乎不用 池化层最常用的池化方式以及参数设置：池化类型|卷积核大小 | 步长 |池化层输出—|—|—|—|—MaxPooling | 2 | 2 |输入维度的一半 注意：池化层只能改变高度和宽度，不能改变深度；卷积层即可改变数据的宽度和高度也可以改变数据的深度 经典卷积设计的趋向1. 使用小滤波器2. 多个卷积层和非线性激活层交替的结构比单一的卷积层结构能更加有效的提取出更深层次的特征，并且参数个数更少 RNN1.RNN模型的超参数 关键参数： input_size:输入的维度 hidden_size：隐藏层维度，也是最终输出的维度 num_layers: RNN层数可选参数: batch_first : 将输入输出的batch放在最前面，顺序为（batch,seq,feature） bidirectional: True表示双向循环神经网络，默认为False dropout: 参数接受一个0~1之间的一个值，会将网路中出最后一层外加入dropout层 2.RNN模型的输入 RNN模型的输入为:(seq,batch,feature),这里要重点注意，在建立模型时可使用batch_first将顺序变成正常的(batch,seq,feature)． 其中的含义为: batch: 样本个数 seq: 每个样本依据附近的样本个数 feature: 每个样本特征数 其实RNN的网络中需要两个输入，上面的序列输入是主要输入，必须进行人工指定，还有一个起始状态输入，可选进行输入，不指定则默认为全0 3.RNN模型的输出 RNN的模型输出分为实际输出output和记忆状态h两部分。其中各自的形式和表达如下： 实际输出output: 维度：(seq,batch,hiddendirection)记忆状态： 维度：(layers direction,bactch,hidden) 注：使用batch_first可将batch放在最前面 4.RNN使用作词性判断 因为RNN可根据上下文进行输出，因此使用RNN模型根据上下文的词性判断某个词的词性比直接根据该单词判断效果更好。 训练集：​ 输入：给定的句子​ 标签：句子中每个单词的词性 基本原理： 首先我们使用word_embedding将句子中的每个词进行词向量化，如：The dog ate apple 转化成4 word_dim 的词向量 x = x.embedding(x) 因为lstm需要的输入形式为3维，因此我们要将其转换为1 4 word_dim x = x.unsqueeze(0) 再将其输入到lstm模型中，得到模型的实际输出维度为：batch seq * hidden_dim output 因为我们需要判断是的最后一个词的词性，因此我们只需要取最后一个seq就好了 output[:,-1,:] 因为一个单词的词性不只与其上下文关系有关，还与其单词的字母排列情况有关，因此我们可以上面的基础上增加字符角度的lstm来进行表征其字母排列情况。 完善方案： 遍历句子The dog ate apple中的每个单词： 将单词中的每个字母进行词向量表示，如apple转化成5 char_dim的词向量 char_info = nn.embedding(x) 将其转换为３维：１ 5 char_dim char_info = char_info.unsqueeze(0) 将模型输入lstm模型，但这里取记忆状态作为输出,输出状态是h0维度为(1,1,hidden_dim) _,h = char_lstm(char_info) h[0] 将各个单词的输出组合成一个向量，按照seq进行拼接,形成一个1 4 hidden_dim的向量 for word in words: char_seq = make_sequeece(word,char_to_idx) char_seq = self.char_lstm(char_seq) word_set.append(char_seq) char = torch.stack(word_set,1) 根据前面基本方法将单词进行向量化，得到1 4 word_dim维向量，将其与字符级别的lstm结果从feature维度进行拼接，得到1 4 char_hidden+word_dim维向量 x = torch.cat((x,char),dim=2) 最后将两个角度的得到的特征一起输入的最终的lstm模型，在经过全连接层得到最终结果]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>深度学习</tag>
+        <tag>Pytorch</tag>
+      </tags>
+  </entry>
+</search>
