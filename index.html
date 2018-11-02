@@ -297,6 +297,379 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/web安全——CSRF和SSRF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/02/web安全——CSRF和SSRF/" itemprop="url">web安全——CSRF和SSRF</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T10:04:02+08:00">
+                2018-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#### </p>
+<hr>
+<h3 id="web安全——CSRF和SSRF"><a href="#web安全——CSRF和SSRF" class="headerlink" title="web安全——CSRF和SSRF"></a>web安全——CSRF和SSRF</h3><hr>
+<h4 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h4><p>​    CSRF(Cross-site request Forgery，跨站请求伪造)通过伪装成受信任用户请求受信任的网站。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意:scrf漏洞并不需要获取用户的cookie等信息</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>目标：已经登陆了网站的用户</p>
+<p>目的：以合法用户的身份来进行一些非法操作</p>
+<p>需要条件：</p>
+<p>​    1.用户已经登陆了目标网站</p>
+<p>​    2.目标用户访问了攻击者构造的url</p>
+<p>攻击过程:</p>
+<p>​    1.找到存于登陆状态的存在csrf网站的合法用户，向其发送可以构造的恶意链接，诱使其点击</p>
+<p>​    2.用户点击该链接，由该合法用户向服务器发出包含恶意链接里隐藏操作（如删除数据、转账等）的请求</p>
+<p>​    3.服务器收到已经登录用户的请求，认为是合法用户的主动的操作行为，执行该操作</p>
+</blockquote>
+<p><strong>典型的csrf实例</strong></p>
+<p>​    当你使用网上银行进行转账时，首先需要登录网上银行，点击转账按钮后，会发出<a href="http://www.xxbank.com/pay.php?user=xx&amp;money=100请求，当存在攻击者想要对你进行csrf攻击时，他会向你发送一个邮件或者短信，其中包含可以构造的恶意链接" target="_blank" rel="noopener">http://www.xxbank.com/pay.php?user=xx&amp;money=100请求，当存在攻击者想要对你进行csrf攻击时，他会向你发送一个邮件或者短信，其中包含可以构造的恶意链接</a> <a href="http://www.bank.com/pay,php?user=hack&amp;money=100,并且采用一定的伪装手段诱使你进行点击，当你点击后即向该hack转账100元。" target="_blank" rel="noopener">http://www.bank.com/pay,php?user=hack&amp;money=100,并且采用一定的伪装手段诱使你进行点击，当你点击后即向该hack转账100元。</a></p>
+<p><strong>流量中检测csrf的可行性</strong></p>
+<p>​    1.对于比较低级的csrf而言，可以直接通过检测请求的referer字段来进行确定是否为scrf。因为在正常scrf页面中应该是在主页等页面跳转得到，而csrf请求一般的referer是空白或者是其他网站，但是该方法可以被绕过。</p>
+<p>​    2.完全的检测很难</p>
+<p><strong>csrf漏洞修复建议</strong></p>
+<p>​    1.验证请求的referer</p>
+<p>​    2.在请求中加入随机的token等攻击者不能伪造的信息</p>
+<hr>
+<p>####SSRF</p>
+<p>​    SSRF(Server-Side Request Forgery，服务端请求伪造)是一种有由攻击者构造请求，服务器端发起请求的安全漏洞。</p>
+<blockquote>
+<p>目标：外网无法访问的服务器系统</p>
+<p>目的：获取内网主机或者服务器的信息、读取敏感文件等</p>
+<p>形成原因：服务器端提供了从其他服务器获取数据的功能，但没有对目标地址做限制和过滤</p>
+<p>攻击过程：</p>
+<p>​        1.用户发现存在ssrf漏洞的服务器a的页面访问的url，以及可使用SSRF攻击的参数</p>
+<p>​        2.修改要请求参数要请求的文件，将其改成内网服务器b和文件，直接访问</p>
+<p>​        3.服务器a接收到要访问的参数所包含的服务器b和文件名，去服务器b下载资源</p>
+<p>​        3.对于服务器b，由于是服务器a发起的请求，直接将文件返回给服务器a</p>
+<p>​        4.服务器a将该文件或页面内容直接返回给用户</p>
+</blockquote>
+<p><strong>两种典型的ssrf攻击实例:</strong></p>
+<p>​    本地存在ssrf漏洞的页面为：<a href="http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php" target="_blank" rel="noopener">http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php</a></p>
+<p>原始页面的功能为通过GET方式获取url参数的值，然后显示在网页页面上。如果将url参数的值改为<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> ，这个页面则会出现百度页面内容。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF1.png?raw=true" alt=""></p>
+<p>​    因此利用这个漏洞，我们可以将url参数的值设置为内网址，这样可以做到获取内网信息的效果。</p>
+<p>​    <strong>探测内网某个服务器是否开启</strong></p>
+<p>​    将url参数设置为url=”192.168.0.2:3306”时，可以获取大到该内网主机上是否存在mysql服务。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF2.png?raw=true" alt=""></p>
+<p>​    <strong>读取内网服务器文件    </strong></p>
+<p>​    访问ssrf.php?url=file:///C:/Windows/win.ini 即可读取本地文件</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF3.png?raw=true" alt=""></p>
+<p><strong>流量中检测SSRF可行性分析：</strong></p>
+<p>​    对于只能抓到外网向内网访问的流量的网口来说，从流量中检测SSRF只能从<strong>请求参数异常</strong>或<strong>返回包是否异常、是否包含敏感信息</strong>来进行检测。</p>
+<p><strong>SSRF漏洞修复建议:</strong></p>
+<p>​    1.限制请求的端口只能是web端口，只允许访问http和https的请求</p>
+<p>​    2.限制不能访问内网IP，以防止对内网进行攻击</p>
+<p>​    3.屏蔽返回的信息详情</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/01/NLP—关键词提取算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/01/NLP—关键词提取算法/" itemprop="url">NLP—关键词提取算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-01T11:19:25+08:00">
+                2018-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="关键词提取算法"><a href="#关键词提取算法" class="headerlink" title="关键词提取算法"></a>关键词提取算法</h3><hr>
+<h4 id="tf-idf-词频-逆文档频率"><a href="#tf-idf-词频-逆文档频率" class="headerlink" title="tf-idf(词频-逆文档频率)"></a>tf-idf(词频-逆文档频率)</h4><p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/TF%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="tf计算公式"></p>
+<p>​    其中count(w)为关键词出现的次数，|Di|为文档中所有词的数量。</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/IDF%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="tf计算公式"></p>
+<p>​    其中，N为所有文档的总数，I(w,Di)表示文档Di是否包含该关键词，，包含则为1，不包含则为0，若词在所有文档中均未出现，则IDF公式中分母则为0，因此在分母上加1做平滑(smooth)</p>
+<p>​    最终关键词在文档中的tf-idf值：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/IDF%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="tf计算公式"></p>
+<blockquote>
+<p><strong>tf-idf特点：</strong></p>
+<p>​    <strong>1.一个词在一个文档中的频率越高，在其他文档中出现的次数越少，tf-idf值越大</strong></p>
+<p>​    <strong>2.tf-idf同时兼顾了词频和新鲜度，可以有效地过滤掉常见词</strong></p>
+</blockquote>
+<p>​            </p>
+<hr>
+<h4 id="TextRank"><a href="#TextRank" class="headerlink" title="TextRank"></a>TextRank</h4><p>​    TextRank算法借鉴于Google的PageRank算法，主要在考虑词的关键度主要考虑<strong>链接数量</strong>和<strong>链接质量（链接到的词的重要度）</strong>两个因素。</p>
+<p>​    TextRank算法应用到关键词抽取时连个关键点：1.词与词之间的关联没有权重（即不考虑词与词是否相似）  2.每个词并不是与文档中每个次都有链接关系而是只与一个特定窗口大小内词与才有关联关系。</p>
+<blockquote>
+<p>TextRank特点：</p>
+<p>​    1.<strong>不需要使用语料库进行训练</strong>，由一篇文章就可以提取出关键词</p>
+<p>​    2.由于TextRank算法涉及到构建词图以及迭代计算，因此<strong>计算速度较慢</strong></p>
+<p>​    3.虽然考虑了上下文关系，但是<strong>仍然将频繁次作为关键词</strong></p>
+<p>​    <strong>4.TextRank算法具有将一定的将关键词进行合并提取成关键短语的能力</strong></p>
+</blockquote>
+<p>​    </p>
+<hr>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/深度学习——损失函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1564,310 +1937,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/19/SVM模型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/19/SVM模型/" itemprop="url">SVM模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-19T10:07:27+08:00">
-                2018-10-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.SVM模型的超参数</p>
-<p>​    SVM模型主要包括<strong>C</strong>和<strong>gamma</strong>两个超参数。</p>
-<p>​    <strong>C是惩罚系数，也就是对误差的宽容度</strong>，C越大代表越不能容忍出现误差，越容易出现过拟合；</p>
-<p>​    <strong>gamma是选择RBF核时，RBF核自带的一个参数，隐含的决定数据映射到新空间的后的分布</strong>，gamma越大，支持向量越少。</p>
-<blockquote>
-<p>支持向量的个数影响训练和预测的个数</p>
-</blockquote>
-<blockquote>
-<p>gamma的物理意义，大家提到很多的RBF的幅宽，它会影响每个支持向量对应的高斯的作用范围，从而影响泛化性能。我的理解：如果gamma设的太大,σ会很小，σ很小的高斯分布长得又高又瘦， 会造成只会作用于支持向量样本附近，对于未知样本分类效果很差，存在训练准确率可以很高，无穷小，则理论上，高斯核的SVM可以拟合任何非线性数据，但容易过拟合)而测试准确率不高的可能，就是通常说的过训练；而如果设的过小，则会造成平滑效应太大，无法在训练集上得到特别高的准确率，也会影响测试集的准确率</p>
-</blockquote>
-<p>2.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/流量解析过程中常用的一些工具/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/12/流量解析过程中常用的一些工具/" itemprop="url">流量解析过程中常用的一些工具</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T19:48:16+08:00">
-                2018-10-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/流量相关/" itemprop="url" rel="index">
-                    <span itemprop="name">流量相关</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在实际流量解析过程中一般使用</p>
-<p><strong>1.url编码解码-urllib</strong></p>
-<p>​    python使用<strong>urllib</strong>包来进行url编码和解码，对于python3：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">rawurl=<span class="string">"xxc=B&amp;z0=GB2312&amp;z1=%E4%B8%AD%E5%9B%BD"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#python2</span></span><br><span class="line">url = url.unquote(rawurl)</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br><span class="line">url=urllib.parse.unquote(rawurl)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="string">'xxc=B&amp;z0=GB2312&amp;z1=中国'</span></span><br></pre></td></tr></table></figure>
-<p><strong>2.字符串转十六进制</strong></p>
-<p>​    字符串转十六进制可以分为两种：1.对于已经是十六进制格式，但是已经被转为字符串，例如：””</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br></pre></td></tr></table></figure>
-<p><strong>3.原始字节串和十六进制字节串之间的转化—binascii</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">data_bytes = <span class="string">b"cfb5cdb3d5d2b2bbb5bdd6b8b6a8b5c4c2b7beb6a1a3"</span></span><br><span class="line">data_hex = <span class="string">b'\xcf\xb5\xcd\xb3\xd5\xd2\xb2\xbb\xb5\xbd\xd6\xb8\xb6\xa8\xb5\xc4\xc2\xb7\xbe\xb6\xa1\xa3'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#原始字节串==&gt;十六进制字节串</span></span><br><span class="line">binascii.hexlify(data_bytes)</span><br><span class="line"></span><br><span class="line"><span class="comment">#十六进制字节串==&gt;原始字节串</span></span><br><span class="line">binascii.unhexlify(data_bytes)</span><br></pre></td></tr></table></figure>
-<p>​    </p>
-<p>​    </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1918,7 +1987,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1929,7 +1998,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1940,7 +2009,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
