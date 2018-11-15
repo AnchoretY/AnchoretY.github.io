@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、  .transorm()方法常用的参">
+<meta name="description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。 ​    使用在预处理截断  .tra">
 <meta name="keywords" content="spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pyspark ML库">
 <meta property="og:url" content="http://yoursite.com/2018/09/30/pyspark-ML库/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、  .transorm()方法常用的参">
+<meta property="og:description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。 ​    使用在预处理截断  .tra">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-01T05:49:13.974Z">
+<meta property="og:updated_time" content="2018-11-15T04:05:51.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyspark ML库">
-<meta name="twitter:description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、  .transorm()方法常用的参">
+<meta name="twitter:description" content="​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了转化器Transformer、评估器Estimater和管道Pipline三个部分。 1.转化器​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。 ​    使用在预处理截断  .tra">
 
 
 
@@ -391,7 +391,8 @@
 
       
         <p>​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了<strong>转化器Transformer</strong>、<strong>评估器Estimater</strong>和<strong>管道Pipline</strong>三个部分。</p>
-<h4 id="1-转化器"><a href="#1-转化器" class="headerlink" title="1.转化器"></a>1.转化器</h4><p>​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。、</p>
+<h4 id="1-转化器"><a href="#1-转化器" class="headerlink" title="1.转化器"></a>1.转化器</h4><p>​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。</p>
+<p>​    <strong>使用在预处理截断</strong></p>
 <blockquote>
 <p>.transorm()方法常用的参数：</p>
 <p>​    1.dataframe   这是唯一一个强制性参数（也可以不理解为参数）</p>
@@ -430,6 +431,28 @@
 <p>​    minTokenLength:  最小分词长度过滤，小于这个长度则过滤掉</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>(6)VectorIndexer</strong></p>
+<p>​    VectorIndexer是<strong>对数据集特征向量中的类别（离散值）特征进行编号</strong>。它能够自动判断那些特征是离散值型的特征，并对他们进行编号，具体做法是通过<strong>设置一个maxCategories</strong>，特征向量中<strong>某一个特征不重复取值个数小于maxCategories，则被重新编号为0～K（K&lt;=maxCategories-1</strong>）。<strong>某一个特征不重复取值个数大于maxCategories，则该特征视为连续值，不会重新编号</strong></p>
+<blockquote>
+<p>主要作用：提升决策树、随机森林等ML算法的效果</p>
+<p>参数：</p>
+<p>​    1.MaxCategories  是否被判为离散类型的标准</p>
+<p>​    2.inputCol     输入列名</p>
+<p>​    3.outputCol    输出列名</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|features                 |indexedFeatures          |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">5.0</span>,<span class="number">7.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">5.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">4.0</span>,<span class="number">7.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">4.0</span>,<span class="number">3.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">4.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">0.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">9.0</span>,<span class="number">5.0</span>,<span class="number">7.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">9.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">5.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">4.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">0.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">8.0</span>,<span class="number">4.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">8.0</span>,<span class="number">0.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">6.0</span>,<span class="number">2.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">2.0</span>,<span class="number">0.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">5.0</span>,<span class="number">9.0</span>,<span class="number">2.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">5.0</span>,<span class="number">4.0</span>,<span class="number">0.0</span>])|</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">结果分析：特征向量包含<span class="number">3</span>个特征，即特征<span class="number">0</span>，特征<span class="number">1</span>，特征<span class="number">2</span>。如Row=<span class="number">1</span>,对应的特征分别是<span class="number">2.0</span>,<span class="number">5.0</span>,<span class="number">7.0</span>.被转换为<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>。</span><br><span class="line">我们发现只有特征<span class="number">1</span>，特征<span class="number">2</span>被转换了，特征<span class="number">0</span>没有被转换。这是因为特征<span class="number">0</span>有<span class="number">6</span>中取值（<span class="number">2</span>，<span class="number">3</span>，<span class="number">4</span>，<span class="number">5</span>，<span class="number">8</span>，<span class="number">9</span>），多于前面的设置setMaxCategories(<span class="number">5</span>)</span><br><span class="line">，因此被视为连续值了，不会被转换。</span><br><span class="line">特征1中，（4，5，6，7，9）--&gt;(0,1,2,3,4,5)</span><br><span class="line">特征2中,  (2,7,9)--&gt;(0,1,2)</span><br></pre></td></tr></table></figure>
+<p><strong>(7)StringIndexer</strong></p>
+<p>​    将label标签进行重新设置，出现的最多的标签被设置为0，最少的设置最大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">按label出现的频次，转换成<span class="number">0</span>～num numOfLabels<span class="number">-1</span>(分类个数)，频次最高的转换为<span class="number">0</span>，以此类推：</span><br><span class="line">label=<span class="number">3</span>，出现次数最多，出现了<span class="number">4</span>次，转换（编号）为<span class="number">0</span></span><br><span class="line">其次是label=<span class="number">2</span>，出现了<span class="number">3</span>次，编号为<span class="number">1</span>，以此类推</span><br><span class="line">+-----+------------+</span><br><span class="line">|label|indexedLabel|</span><br><span class="line">+-----+------------+</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">4.0</span>  |<span class="number">3.0</span>         |</span><br><span class="line">|<span class="number">1.0</span>  |<span class="number">2.0</span>         |</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">2.0</span>  |<span class="number">1.0</span>         |</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">2.0</span>  |<span class="number">1.0</span>         |</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">2.0</span>  |<span class="number">1.0</span>         |</span><br><span class="line">|<span class="number">1.0</span>  |<span class="number">2.0</span>         |</span><br><span class="line">+-----+------------+</span><br></pre></td></tr></table></figure>
+<p><strong>(8)StringToIndex</strong></p>
+<p>​    功能与StringIndexer完全相反，用于使用StringIndexer后的标签进行训练后，再将标签对应会原来的标签</p>
+<blockquote>
+<p>作用：恢复StringIndexer之前的标签</p>
+<p>参数：</p>
+<p>​    1.inputCol     输入列名</p>
+<p>​    2.outputCol    输出列名</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">|label|prediction|convetedPrediction|</span><br><span class="line">+-----+----------+------------------+</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|4.0  |1.0       |2.0               |</span><br><span class="line">|1.0  |2.0       |1.0               |</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|2.0  |1.0       |2.0               |</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|2.0  |1.0       |2.0               |</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|2.0  |1.0       |2.0               |</span><br><span class="line">|1.0  |2.0       |1.0               |</span><br></pre></td></tr></table></figure>
 <h3 id="2-评估器"><a href="#2-评估器" class="headerlink" title="2.评估器"></a>2.评估器</h3><p>​    评估器就是机器学习模型，通过统计数据从而进行预测工作，每个评估器都必须实现.fit主要分为分类和回归两大类，这里只针对分类评估器进行介绍。</p>
 <p>​    </p>
 <p>​    Pyspark的分类评估器包含以下七种：</p>
@@ -562,7 +585,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -573,7 +596,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

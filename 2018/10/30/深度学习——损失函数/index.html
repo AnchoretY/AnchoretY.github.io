@@ -79,14 +79,20 @@
 
 
 
+<meta name="description" content="​    在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.绝对平方差函数（Mean Absolute Error） ​        3.交叉熵函数（Cross Entory） 交叉熵 平方差函数 ​      损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习——损失函数">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/深度学习——损失函数/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="​    在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.绝对平方差函数（Mean Absolute Error） ​        3.交叉熵函数（Cross Entory） 交叉熵 平方差函数 ​      损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-31T14:14:25.752Z">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/MSE%E5%AE%9A%E4%B9%89%E5%85%AC%E5%BC%8F.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/MES%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E5%85%AC%E5%BC%8F.png?raw=true">
+<meta property="og:updated_time" content="2018-11-03T04:02:58.421Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——损失函数">
+<meta name="twitter:description" content="​    在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.绝对平方差函数（Mean Absolute Error） ​        3.交叉熵函数（Cross Entory） 交叉熵 平方差函数 ​      损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/MSE%E5%AE%9A%E4%B9%89%E5%85%AC%E5%BC%8F.png?raw=true">
 
 
 
@@ -364,7 +370,34 @@
       
 
       
-        
+        <p>​    在机器机器学习和深度学习中有许多常见的损失函数，主要包括：</p>
+<p>​        1.平方差函数MSE（Mean Squared Error）</p>
+<p>​        2.绝对平方差函数（Mean Absolute Error）</p>
+<p>​        3.交叉熵函数（Cross Entory）</p>
+<p><strong>交叉熵</strong></p>
+<p><strong>平方差函数</strong></p>
+<p>​    </p>
+<blockquote>
+<p><strong>损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数</strong></p>
+</blockquote>
+<p><strong>深度学习</strong></p>
+<p>​    <strong>效果最好的损失函数：交叉熵函数</strong></p>
+<blockquote>
+<p>为什么深度学习中使用交叉熵函数远远比使用在线性模型中表现良好的平方差误差函数好的多？</p>
+<p>​    <strong>因为在深度学习中主要通过反向更新参数W和b的同时，激活函数Sigmod的导数在大部分取值时会落入左右两个饱和区间，造成参数更新异常缓慢。</strong></p>
+<p>​    具体推导如下：</p>
+<p>​    对于使用平方误差函数，<strong>MSE的定义</strong>为：</p>
+<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/MSE%E5%AE%9A%E4%B9%89%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    其中y是我们期望的输出，a为神经元的实际输出 a=σ(Wx+b)。因此在深度学习的反向传播机制中，权值W和b的修正公式被为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/MES%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    因为Sigmod函数的性质：在σ′(z) 在绝大部分区间内都趋近与0，因此会导致参数的更新回异常的缓慢。</p>
+<p>​    而对于使用交叉熵函数，Crosss Entory的公式为：</p>
+<p>​        </p>
+</blockquote>
+<blockquote>
+<p>​    </p>
+</blockquote>
+
       
     </div>
     
@@ -468,7 +501,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -479,7 +512,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
