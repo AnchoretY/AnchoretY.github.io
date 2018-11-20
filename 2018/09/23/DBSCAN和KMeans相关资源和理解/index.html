@@ -88,7 +88,7 @@
 <meta property="og:description" content="DBSCAN和KMeans相关资源和理解1.DBSCANDBSCAN是是一种典型的密度聚类算法，算法主要的思是由密度可达关系导出最大的密度相连样本集合，将其作为一个类。​      主要参数：  最小分类样本数  半径     DBSCAN算法为有参数算法，聚类的最终结果很大程度上取决于参数的设定 DBSCAN算法不需要指定聚类个数，聚类个数根据算法和数据情况自动获得   DBSCAN聚类过程">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/dbscan.png?raw=true">
-<meta property="og:updated_time" content="2018-10-22T08:45:42.922Z">
+<meta property="og:updated_time" content="2018-11-20T07:24:49.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DBSCAN和KMeans相关资源和理解">
 <meta name="twitter:description" content="DBSCAN和KMeans相关资源和理解1.DBSCANDBSCAN是是一种典型的密度聚类算法，算法主要的思是由密度可达关系导出最大的密度相连样本集合，将其作为一个类。​      主要参数：  最小分类样本数  半径     DBSCAN算法为有参数算法，聚类的最终结果很大程度上取决于参数的设定 DBSCAN算法不需要指定聚类个数，聚类个数根据算法和数据情况自动获得   DBSCAN聚类过程">
@@ -418,7 +418,7 @@
 
 dbcscan = DBSCAN(min_samples=30,eps=1.8)
 predict = dbscan.fit_predict(imput)
-</code></pre><h2 id="2-K-Means"><a href="#2-K-Means" class="headerlink" title="2.K-Means"></a>2.K-Means</h2><p>KMeans是一种原始性。。。聚类算法，算法主要思想是通过迭代过程把数据集划分为不同的类别，使得评价聚类性能的准则函数达到最优，从而使生成的每个聚类内紧凑，类间独立。<br>这一算法不是和处理离散型数据，对连续性数据具有良好的效果</p>
+</code></pre><h2 id="2-K-Means"><a href="#2-K-Means" class="headerlink" title="2.K-Means"></a>2.K-Means</h2><p>KMeans是一种原始性聚类算法，算法主要思想是通过迭代过程把数据集划分为不同的类别，使得评价聚类性能的准则函数达到最优，从而使生成的每个聚类内紧凑，类间独立。<br><strong>这一算法不适合处理离散型数据，对连续性数据具有良好的效果</strong></p>
 <blockquote>
 <ol>
 <li>Kmeans为无参数算法，算法执行过程中不需要进行调参</li>
@@ -562,7 +562,7 @@ predict = kmeans.fit_predict(input)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

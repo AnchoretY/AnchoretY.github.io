@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​     ###持久化 ​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-15T04:06:48.388Z">
+<meta property="og:updated_time" content="2018-11-15T04:11:00.397Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyspark学习心得">
 <meta name="twitter:description" content="​     ###持久化 ​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这">
@@ -408,6 +408,18 @@
 <blockquote>
 <h4 id="shuffle操作速度慢的原因"><a href="#shuffle操作速度慢的原因" class="headerlink" title="shuffle操作速度慢的原因"></a>shuffle操作速度慢的原因</h4></blockquote>
 <p>​    </p>
+<p>Pyspark使用过程中的一些小Tips：</p>
+<blockquote>
+<p>1、RDD.repartition(n)可以在最初对RDD进行分区操作，这个操作实际上是一个shuffle，可能比较耗时，但是如果之后的action比较多的话，可以减少下面操作的时间。其中的n值看cpu的个数，一般大于2倍cpu，小于1000。</p>
+<p>2、<strong>Action不能够太多</strong>，每一次的action都会将以上的taskset划分一个job，这样当job增多，而其中task并不释放，会占用更多的内存，使得gc拉低效率。</p>
+<p>3、<strong>在shuffle前面进行一个过滤，减少shuffle数据，并且过滤掉null值，以及空值</strong>。</p>
+<p>4、<strong>groupBy尽量通过reduceBy替代</strong>。reduceBy会在work节点做一次reduce，在整体进行reduce，相当于做了一次hadoop中的combine操作，而combine操作和reduceBy逻辑一致，这个groupBy不能保证。</p>
+<p>5、<strong>做join的时候，尽量用小RDD去join大RDD.</strong></p>
+<p>6、<strong>避免collect的使用</strong>。因为collect如果数据集超大的时候，会通过各个work进行收集，io增多，拉低性能，因此当数据集很大时要save到HDFS。</p>
+<p>7、RDD如果后面使用迭代，建议cache，但是一定要估计好数据的大小，避免比cache设定的内存还要大，如果大过内存就会删除之前存储的cache，可能导致计算错误，如果想要完全的存储可以使用persist（MEMORY_AND_DISK），因为cache就是persist（MEMORY_ONLY）。</p>
+<p>8、设置spark.cleaner.ttl，定时清除task，因为job的原因可能会缓存很多执行过去的task，所以定时回收可能避免集中gc操作拉低性能。</p>
+</blockquote>
+<p>​    </p>
 
       
     </div>
@@ -527,7 +539,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
