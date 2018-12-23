@@ -88,7 +88,7 @@
 <meta property="og:description" content="####使用GBDT算法构造特征 ​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。 ​    在这篇论文中提出可以使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/GBDT%20构造新特征.png?raw=true">
-<meta property="og:updated_time" content="2018-11-05T08:16:54.606Z">
+<meta property="og:updated_time" content="2018-12-12T02:20:23.467Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习和深度学习在实践中的一些经验">
 <meta name="twitter:description" content="####使用GBDT算法构造特征 ​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。 ​    在这篇论文中提出可以使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果。">
@@ -407,7 +407,7 @@
 <li>通过GridSearch+CrossValidation可以寻找到最合适的迭代次数+学习速率的超参组合。<br>c. GBDT树深度需要足够合理，通常在4~6较为合适。</li>
 <li>虽然增加树的数量和深度都可以增加新构造的特征规模。但树深度过大，会造成模型过拟合以及导致新构造特征过于稀疏。</li>
 </ul>
-<p>（2）训练方案</p>
+<p><strong>（2）训练方案</strong></p>
 <p>​    将训练数据随机抽样50%，一分为二。前50%用于训练GBDT模型，后50%的数据在通过GBDT输出样本在每棵树中输出的叶子节点索引位置，并记录存储，用于后续的新特征的构造和编码，以及后续模型的训练。如样本x通过GBDT输出后得到的形式如下：x → [25,20,22,….,30,28] ，列表中表示样本在GBDT每个树中输出的叶子节点索引位置。</p>
 <p>​    由于样本经过GBDT输出后得到的x → [25,20,22,….,30,28] 是一组新特征，但由于这组新特征是叶子节点的ID，其值不能直接表达任何信息，故不能直接用于ETA场景的预估。为了解决上述的问题，避免训练过程中无用信息对模型产生的负面影响，需要通过独热码（OneHotEncoder）的编码方式对新特征进行处理，将新特征转化为可用的0-1的特征。</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT%20构造新特征.png?raw=true" alt=""></p>
@@ -529,7 +529,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -540,7 +540,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -551,7 +551,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
