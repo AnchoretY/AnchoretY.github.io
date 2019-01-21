@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/19/SVM模型/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/pandas常用设置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -316,7 +316,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/19/SVM模型/" itemprop="url">SVM模型</a></h1>
+                <a class="post-title-link" href="/2018/11/12/pandas常用设置/" itemprop="url">pandas常用设置</a></h1>
         
 
         <div class="post-meta">
@@ -328,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-19T10:07:27+08:00">
-                2018-10-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-12T21:04:34+08:00">
+                2018-11-12
               </time>
             
 
@@ -338,28 +338,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -390,17 +368,7 @@
       
         
           
-            <p>1.SVM模型的超参数</p>
-<p>​    SVM模型主要包括<strong>C</strong>和<strong>gamma</strong>两个超参数。</p>
-<p>​    <strong>C是惩罚系数，也就是对误差的宽容度</strong>，C越大代表越不能容忍出现误差，越容易出现过拟合；</p>
-<p>​    <strong>gamma是选择RBF核时，RBF核自带的一个参数，隐含的决定数据映射到新空间的后的分布</strong>，gamma越大，支持向量越少。</p>
-<blockquote>
-<p>支持向量的个数影响训练和预测的个数</p>
-</blockquote>
-<blockquote>
-<p>gamma的物理意义，大家提到很多的RBF的幅宽，它会影响每个支持向量对应的高斯的作用范围，从而影响泛化性能。我的理解：如果gamma设的太大,σ会很小，σ很小的高斯分布长得又高又瘦， 会造成只会作用于支持向量样本附近，对于未知样本分类效果很差，存在训练准确率可以很高，无穷小，则理论上，高斯核的SVM可以拟合任何非线性数据，但容易过拟合)而测试准确率不高的可能，就是通常说的过训练；而如果设的过小，则会造成平滑效应太大，无法在训练集上得到特别高的准确率，也会影响测试集的准确率</p>
-</blockquote>
-<p>2.</p>
+            <p>1.</p>
 
           
         
@@ -449,7 +417,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/流量解析过程中常用的一些工具/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/概率图模型——HMM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -468,7 +436,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/12/流量解析过程中常用的一些工具/" itemprop="url">流量解析过程中常用的一些工具</a></h1>
+                <a class="post-title-link" href="/2018/11/07/概率图模型——HMM/" itemprop="url">概率图模型——HMM</a></h1>
         
 
         <div class="post-meta">
@@ -480,8 +448,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T19:48:16+08:00">
-                2018-10-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T12:04:02+08:00">
+                2018-11-07
               </time>
             
 
@@ -490,28 +458,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/流量相关/" itemprop="url" rel="index">
-                    <span itemprop="name">流量相关</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -542,17 +488,29 @@
       
         
           
-            <p>在实际流量解析过程中一般使用</p>
-<p><strong>1.url编码解码-urllib</strong></p>
-<p>​    python使用<strong>urllib</strong>包来进行url编码和解码，对于python3：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">rawurl=<span class="string">"xxc=B&amp;z0=GB2312&amp;z1=%E4%B8%AD%E5%9B%BD"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#python2</span></span><br><span class="line">url = url.unquote(rawurl)</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br><span class="line">url=urllib.parse.unquote(rawurl)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="string">'xxc=B&amp;z0=GB2312&amp;z1=中国'</span></span><br></pre></td></tr></table></figure>
-<p><strong>2.字符串转十六进制</strong></p>
-<p>​    字符串转十六进制可以分为两种：1.对于已经是十六进制格式，但是已经被转为字符串，例如：””</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br></pre></td></tr></table></figure>
-<p><strong>3.原始字节串和十六进制字节串之间的转化—binascii</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">data_bytes = <span class="string">b"cfb5cdb3d5d2b2bbb5bdd6b8b6a8b5c4c2b7beb6a1a3"</span></span><br><span class="line">data_hex = <span class="string">b'\xcf\xb5\xcd\xb3\xd5\xd2\xb2\xbb\xb5\xbd\xd6\xb8\xb6\xa8\xb5\xc4\xc2\xb7\xbe\xb6\xa1\xa3'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#原始字节串==&gt;十六进制字节串</span></span><br><span class="line">binascii.hexlify(data_bytes)</span><br><span class="line"></span><br><span class="line"><span class="comment">#十六进制字节串==&gt;原始字节串</span></span><br><span class="line">binascii.unhexlify(data_bytes)</span><br></pre></td></tr></table></figure>
-<p>​    </p>
-<p>​    </p>
+            <p>马尔科夫模型假设：</p>
+<p>​    1.马尔科夫模型认为每一时刻的表现x有一个状态z与其对应</p>
+<p>​    2.观测独立性假设：每个时刻的输出都只与当前的状态有关</p>
+<p>​    3.贝叶斯公式P(o|λ) = P(λ|o)P(o) / P(λ)</p>
+<h4 id="马尔科夫模型的推导过程"><a href="#马尔科夫模型的推导过程" class="headerlink" title="马尔科夫模型的推导过程"></a>马尔科夫模型的推导过程</h4><p>​    对于马尔科夫模型，求解的最终目的是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxP(o1o2...on|λ1λ2...λn)</span><br></pre></td></tr></table></figure>
+<p>​    由于p(o|λ)是个关于2n各变量的条件概率，并且n不固定，因此没办法进行精确计算。因此马尔科夫链模型采用了一种更加巧妙地方式来进行建模。</p>
+<p>​    首先，根据贝叶斯公式可以得：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o|λ) = P(λ|o)P(o) / P(λ)</span><br></pre></td></tr></table></figure>
+<p>​    λ为给定的输入，因此P(λ)为常数，因此可以忽略.因此</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o|λ) = P(λ|o)P(o)</span><br></pre></td></tr></table></figure>
+<p>​    而根据观测独立性假设，可以得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P(o1o2...on|λ1λ2...λn) = P(o1|λ1)P(o2|λ2)...P(on|λn)</span><br><span class="line">	P(o) = P(o1)P(o2|o1)P(o3|o1,o2)...P(on|on-1,on-2,...,o1)</span><br></pre></td></tr></table></figure>
+<p>​    而由于其次马尔科夫假设，每个输出仅与上一个一个输出有关，那么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o) = p(o1)P(o2|o1)....P(on|on-1)</span><br></pre></td></tr></table></figure>
+<p>​    因此最终可得：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o|λ) ~ p(o1)P(o1|o2)P(λ|o2)P(o2|o3)P(λ3|o3)...P(on|on-1)P(λ|on)</span><br></pre></td></tr></table></figure>
+<p>​    其中，P(λk|ok)为发射概率，P(ok|ok-1)为转移概率。</p>
+<h4 id="维特比算法"><a href="#维特比算法" class="headerlink" title="维特比算法"></a>维特比算法</h4><p>​    维特比算法是隐马尔科夫模型最终求解当前表现链最可能对应的状态链使用的一种动态规划算法。主要思想是：</p>
+<p>HMM模型训练后的输出为：初始状态概率矩阵、状态转移矩阵、发射概率矩阵三个结果，用来后续进行预测</p>
+<p>概率图模型大部分都是这样，输出为几个概率矩阵</p>
+<p>而LR模型的输出就为系数矩阵了</p>
+<p>我们可以看出来，LR在使用训练好的模型进行与测试效率较高，而HMM使用训练好的模型进行训练时效率较低</p>
 
           
         
@@ -601,7 +559,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/10/常用正则表达式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/机器学习和深度学习在实践中的一些经验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -620,7 +578,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/10/10/常用正则表达式/" itemprop="url">常用正则表达式</a></h1>
+                <a class="post-title-link" href="/2018/11/05/机器学习和深度学习在实践中的一些经验/" itemprop="url">机器学习和深度学习在实践中的一些经验</a></h1>
         
 
         <div class="post-meta">
@@ -632,8 +590,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T15:59:22+08:00">
-                2018-10-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T14:45:00+08:00">
+                2018-11-05
               </time>
             
 
@@ -655,8 +613,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/机器学习，深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习，深度学习</span>
                   </a>
                 </span>
 
@@ -694,1120 +652,31 @@
       
         
           
-            <p><strong>1.匹配一个指定字符串，指定字符串前后不能有任何字母和数字内容</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#以c99关键字为例</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/概率图模型——朴素贝叶斯/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/09/概率图模型——朴素贝叶斯/" itemprop="url">概率图模型——朴素贝叶斯</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-09T20:25:55+08:00">
-                2018-10-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过</p>
-<h4 id="朴素贝叶斯思想"><a href="#朴素贝叶斯思想" class="headerlink" title="朴素贝叶斯思想"></a>朴素贝叶斯思想</h4><hr>
-<p>​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于<strong>贝叶斯定理</strong>和<strong>条件独立假设</strong>来进行建模预测的模型。</p>
-<p><strong>朴素贝叶斯概率图</strong>    </p>
-<p><strong>贝叶斯定理</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p(AB)=P(A/B)P(B)</span><br><span class="line">    =P(B/A)P(A)</span><br><span class="line"></span><br><span class="line">在贝叶斯模型中用到的是下面的形式：</span><br><span class="line">    P(Ci/W) = P(W|Ci)*P(Ci)/P(W)</span><br><span class="line">其中，W为向量，有的多个值组成，Ci为标签，也就是上式可以写成下面的形式</span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)*P(Ci)/P(W)</span><br><span class="line">里面的P(Ci/w0,w1,..,w)就是机器学习建模最终的目标，在一定条件下是某一类的概率</span><br></pre></td></tr></table></figure>
-<p><strong>条件独立假设</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	条件独立假设认为：每个事件的发生都相互独立，互相之间没有影响。由于这个假设，上面的式子可以改为：</span><br><span class="line">    </span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)/P(Ci) = P(w0/Ci)P(w1/Ci)...P(wn/Ci)*P(Ci)/p(W)</span><br><span class="line">    </span><br><span class="line">到这里，我们可以知道，要求的最终的结果，只需要在训练集中求得P(Ci)以及在P(w0/Ci)...P(wn/Ci)即可</span><br></pre></td></tr></table></figure>
-<p><strong>模型训练</strong></p>
-<p>因此在NB算法训练时，只需要在训练集样本中到下面三个概率分布：</p>
-<p>​    1.P(Ci)，在训练集中标签1出现的概率(二分类只需要统计一个，n分类就需要n-1个)</p>
-<p>​    2.P(wj/Ci),在训练集中属于各个标签的条件下第n个特征是i的概率</p>
+            <p>####使用GBDT算法构造特征</p>
+<p>​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。</p>
+<p>​    在这篇论文中提出可以使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果。</p>
 <blockquote>
-<p><strong>注意：</strong>这里不需要统计P(W)的概率，因为最终属于各个类型的概率都需要除以相同的P(W)，因此约掉</p>
+<p>实践情况</p>
+<p>​    1.本人使用这种方式在ctr预估中已经进行过实验，准确率提升2%</p>
+<p>​    2.美团在外卖预计送达时间预测中进行了实验，各个时段平均偏差减少了3%</p>
 </blockquote>
-<p>训练代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNB</span><span class="params">(dataSetList,labels)</span>:</span></span><br><span class="line">	dataSetVec = np.array(dataSetList)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#计算Pc</span></span><br><span class="line">    sampleNums = len(dataSetVec)</span><br><span class="line">    pc = np.sum(datasetVec)/sampleNums</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算p(wj/Ci),这里是二分类</span></span><br><span class="line">    p0Nums = <span class="number">0</span></span><br><span class="line">    p1Nums = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#这里涉及到初始化问题</span></span><br><span class="line">    p0Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    p1Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(labels)):</span><br><span class="line">        <span class="keyword">if</span> labels[i]==<span class="number">0</span>:</span><br><span class="line">            p0Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p0Nums += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p1Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p1Nums += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = p0Vecs/p0Nums</span><br><span class="line">    p1Vecs = p1Vecs/p1Nums</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pc,p0Vecs,p1Vecs</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>初始化问题</strong>：</p>
-<p>​    再利用贝叶斯分类器进行分类时，要计算多个概率等乘积以计算文档属于某个分类的概率，即计算：</p>
-<p>​    P(w0|c=1)P(w1|c=1)….P(wn|c=1)</p>
-<p>​    如果其中任意一项为0，那么最终的成绩也将等于0。为了降低这种情况造成的影响，可以将所有词初始化为1.</p>
-</blockquote>
-<p><strong>预测过程</strong></p>
-<p>​    NB模型的预测过程就是使用上面统计<strong>得到的概率分布与输入数据进行关联后</strong>，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的<strong>下溢出问题</strong>。</p>
-<blockquote>
-<p>​    <strong>下溢出问题</strong>：在python中当多个很小的数相乘时会产生下溢出问题(最后四舍五入得到0)</p>
-<p>​    <strong>解决办法：取自然对数。</strong>因为自然对数和原来的数怎增减性相同，极值点也相同</p>
-<p>​    使用自然对数后，上面的式可以转换成：</p>
-<p>​    P(Ci/w0,w1,..,w) = P(w0/Ci)P(w1/Ci)…P(wn/Ci)/P(Ci) –&gt;P(Ci/w0,w1,..,w) =  log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci)</p>
-</blockquote>
-<p><strong>预测代码</strong>：</p>
-<p>​    预测过程中将已知的概率分布与输入数据进行关联的方式：</p>
-<p>​        log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) ——&gt;log(P(w0/Ci))<em>x0+…+log(P(wn/Ci))</em>xn+log(P(Ci)</p>
-<p>​    这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyNB</span><span class="params">(input_data,pc,p0Vecs,p1Vecs)</span>:</span></span><br><span class="line">    <span class="comment">#这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来</span></span><br><span class="line">    <span class="comment">#这里之所以没有除以pw，是因为对每个类型的pw是一致的，就没有必要所有都除了</span></span><br><span class="line">    p0 = sum(input_data*np.log(p0Vecs))+math.log(pc)</span><br><span class="line">    p1 = sum(input_data*np.log(p1Vecs))+math.log(<span class="number">1</span>-pc)</span><br><span class="line">  	<span class="keyword">if</span> p0&gt;p1:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>​        </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/03/github基本使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/03/github基本使用/" itemprop="url">github基本使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-03T11:33:02+08:00">
-                2018-10-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<p><strong>github相关知识</strong>：</p>
-<p>​    github项目使用终端进行管理时分为三个区域：<strong>工作目录、暂存区（本地库）、github上的远程项目</strong>，当我们要更新以及操作一个项目时，要遵循以下的格式：</p>
-<blockquote>
-<p>1.先从github上面pull下远程的项目分支</p>
-<p>2.本地的项目文件夹中的文件进行更新（更新工作目录中的文件）</p>
-<p>3.使用add将更新的索引添加到本地库</p>
-<p>4.使用commit工作目录中的文件提交到暂存区(本地库)</p>
-<p>5.将文件push到远程分支或merge到远程分支</p>
-</blockquote>
-<p><strong>基本操作</strong></p>
-<blockquote>
-<p>git clone “ssh项目地址”    克隆远程项目</p>
-<p>git pull origin master         取回远程主机或本地的某个分支的更新，再与本地分支进行合并(这种写法是origin主机的master分支与本地当前分支进行合并)</p>
-<p>git push origin master     将本地的当前分支push到origin主机的master分支上</p>
-<p>git add “文件名”            将指定文件提交到本地库</p>
-<p>git commit -m “描述信息”    将本地的全部文件都提交到本地库</p>
-<p>git log                     打印该项目的版本操作信息</p>
-<p>git status                 查看到那个钱仓库状态</p>
-</blockquote>
-<p><strong>更新github</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将项目从github上面拉下来(本地已经有的可以跳过,已有则直接进入该文件夹)</span></span><br><span class="line">git clone github链接</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line">git status</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch <span class="keyword">is</span> up to date <span class="keyword">with</span> <span class="string">'origin/master'</span>.</span><br><span class="line"></span><br><span class="line">    nothing to commit, working tree clean</span><br><span class="line"> </span><br><span class="line"><span class="comment">#创建或者导入新文件到工作区</span></span><br><span class="line">touch <span class="string">"文件1"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将文件工作目录的文件提交到暂存区</span></span><br><span class="line">git add <span class="string">"文件1"</span> 	<span class="comment">#提交指定文件</span></span><br><span class="line">git add -A		<span class="comment">#一次提交工作目录中的全部文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line"> git status</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment">#第一次提交描述时需要设置账户信息</span></span><br><span class="line">git config --<span class="keyword">global</span> user.name <span class="string">"John Doe"</span></span><br><span class="line">git config --<span class="keyword">global</span> user.email johndoe@example.com</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加描述</span></span><br><span class="line">git commit -m <span class="string">"此次添加的描述信息"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line">git status </span><br><span class="line">output:</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch <span class="keyword">is</span> ahead of <span class="string">'origin/master'</span> by <span class="number">1</span> commit.</span><br><span class="line">      (use <span class="string">"git push"</span> to publish your local commits)</span><br><span class="line"></span><br><span class="line"><span class="comment">#将修改从暂存区提交到远程分支</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-<p><strong>删除已经提交到github上面的文件</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在本地拉取远程分支</span></span><br><span class="line">git pull original master</span><br><span class="line"></span><br><span class="line"><span class="comment">#在本地删除对应的文件</span></span><br><span class="line">git rm filename</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加描述上传到远程分支</span></span><br><span class="line">git commit -m <span class="string">"删除文件filename"</span></span><br><span class="line">git push original master</span><br></pre></td></tr></table></figure>
-<p><strong>已经提交到github上的文件进行版本回退</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先通过git log获取版本号</span></span><br><span class="line">git log</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后使用git revert 版本号来回退到指定版本</span></span><br><span class="line">git retvert 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后:x保存退出就可以了撤回到指定的版本了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最后再将本地分支push到github上</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-<p><strong>分支切换</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git checkout ...    <span class="comment">#创建分支</span></span><br><span class="line"></span><br><span class="line">git checkout -b ... 	<span class="comment">#创建并且换到分支</span></span><br><span class="line"></span><br><span class="line">git checkout ... 	<span class="comment">#切换到分支</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git branch <span class="comment">#查看本地分支</span></span><br><span class="line"></span><br><span class="line">git branch -a  <span class="comment">#查看本地和远程的全部分支</span></span><br><span class="line"></span><br><span class="line">git push origin --delete dev2	<span class="comment">#删除远程分支</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/pyspark-ML库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/30/pyspark-ML库/" itemprop="url">pyspark ML库</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-30T22:08:36+08:00">
-                2018-09-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    pyspark的ML软件包主要用于针对spark dataframe的建模（MLlib主要还是针对RDD，准备废弃）,ML包主要包含了<strong>转化器Transformer</strong>、<strong>评估器Estimater</strong>和<strong>管道Pipline</strong>三个部分。</p>
-<h4 id="1-转化器"><a href="#1-转化器" class="headerlink" title="1.转化器"></a>1.转化器</h4><p>​    转换器通常通过将一个新列附加到DataFrame来转化数据，每个转化器都必须实现.transform()方法。</p>
-<p>​    <strong>使用在预处理截断</strong></p>
-<blockquote>
-<p>.transorm()方法常用的参数：</p>
-<p>​    1.dataframe   这是唯一一个强制性参数（也可以不理解为参数）</p>
-<p>​    2.inputCol     输入列名</p>
-<p>​    3.outputCol        输出列名</p>
-</blockquote>
-<p>​    要使用转化器首先需要引入宝feature</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> ...</span><br></pre></td></tr></table></figure>
-<p><strong>(1)Binarizer</strong></p>
-<p>​    根据指定阈值将连续变量进行<strong>二值化</strong></p>
-<blockquote>
-<p>注：这里需要输入的那一列的数据类型为DoubleType,InterType和FloatType都不支持</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">binarizer = Binarizer(threshold=<span class="number">4.0</span>,inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'binarizer_resulit'</span>)</span><br><span class="line">binarizer.transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|binarizer_resulit|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">0.0</span>| 		<span class="comment">#当值与阈值相同的时候向下取</span></span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">1.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
-<p><strong>(2)Bucketizer</strong></p>
-<p>​    根据阈值列表将连续变量值<strong>离散化</strong></p>
-<blockquote>
-<p>注：splits一定要能包含该列所有值</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">bucketizer = Bucketizer(splits=[<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">10</span>],inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'bucketizer_result'</span>)</span><br><span class="line">bucketizer.setHandleInvalid(<span class="string">"keep"</span>).transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|bucketizer_result|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">2.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
-<p><strong>(3)QuantileDiscretizer</strong></p>
-<p>​    根据数据的近似分位数来将离散变量转化来进行<strong>离散化</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">quantile_discretizer = QuantileDiscretizer(numBuckets=<span class="number">3</span>,inputCol=<span class="string">'id'</span>,outputCol=<span class="string">'quantile_discretizer_result'</span>)</span><br><span class="line">bucketizer.setHandleInvalid(<span class="string">"keep"</span>).transform(df).show()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    | id|age|bucketizer_result|</span><br><span class="line">    +---+---+-----------------+</span><br><span class="line">    |<span class="number">2.0</span>|  a|              <span class="number">1.0</span>|</span><br><span class="line">    |<span class="number">1.0</span>|  b|              <span class="number">0.0</span>|</span><br><span class="line">    |<span class="number">4.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">9.0</span>|  b|              <span class="number">2.0</span>|</span><br><span class="line">    |<span class="number">4.3</span>|  c|              <span class="number">2.0</span>|</span><br><span class="line">    +---+---+-----------------+</span><br></pre></td></tr></table></figure>
-<p><strong>(4)Ngram</strong></p>
-<p>​    将一个字符串列表转换为ngram列表，以空格分割两个词,一<strong>般要先使用算法来先分词</strong>，然后再进行n-gram操作。</p>
-<blockquote>
-<p>注：1.空值将被忽略，返回一个空列表</p>
-<p>​    2.输入的列必须为一个ArrayType(StringType())</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([</span><br><span class="line">    [[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;]],</span><br><span class="line">    [[&apos;s&apos;,&apos;d&apos;,&apos;u&apos;,&apos;y&apos;]]</span><br><span class="line">],[&apos;word&apos;])</span><br><span class="line"></span><br><span class="line">ngram = NGram(n=2,inputCol=&quot;word&quot;,outputCol=&quot;ngram_result&quot;)</span><br><span class="line">ngram.transform(df).show()</span><br></pre></td></tr></table></figure>
-<p><strong>(5)RegexTokener</strong></p>
-<p>​    正则表达式分词器，用于将一个字符串根据指定的正则表达式来进行分词。</p>
-<blockquote>
-<p>参数包括：</p>
-<p>​    pattern：用于指定分词正则表达式，默认为遇到任何空白字符则分词</p>
-<p>​    minTokenLength:  最小分词长度过滤，小于这个长度则过滤掉</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>(6)VectorIndexer</strong></p>
-<p>​    VectorIndexer是<strong>对数据集特征向量中的类别（离散值）特征进行编号</strong>。它能够自动判断那些特征是离散值型的特征，并对他们进行编号，具体做法是通过<strong>设置一个maxCategories</strong>，特征向量中<strong>某一个特征不重复取值个数小于maxCategories，则被重新编号为0～K（K&lt;=maxCategories-1</strong>）。<strong>某一个特征不重复取值个数大于maxCategories，则该特征视为连续值，不会重新编号</strong></p>
-<blockquote>
-<p>主要作用：提升决策树、随机森林等ML算法的效果</p>
-<p>参数：</p>
-<p>​    1.MaxCategories  是否被判为离散类型的标准</p>
-<p>​    2.inputCol     输入列名</p>
-<p>​    3.outputCol    输出列名</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|features                 |indexedFeatures          |</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">5.0</span>,<span class="number">7.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">5.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">4.0</span>,<span class="number">7.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">4.0</span>,<span class="number">3.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">4.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">0.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">9.0</span>,<span class="number">5.0</span>,<span class="number">7.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">9.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">5.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">4.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">0.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">8.0</span>,<span class="number">4.0</span>,<span class="number">9.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">8.0</span>,<span class="number">0.0</span>,<span class="number">2.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">6.0</span>,<span class="number">2.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3.0</span>,<span class="number">2.0</span>,<span class="number">0.0</span>])|</span><br><span class="line">|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">5.0</span>,<span class="number">9.0</span>,<span class="number">2.0</span>])|(<span class="number">3</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">5.0</span>,<span class="number">4.0</span>,<span class="number">0.0</span>])|</span><br><span class="line">+-------------------------+-------------------------+</span><br><span class="line">结果分析：特征向量包含<span class="number">3</span>个特征，即特征<span class="number">0</span>，特征<span class="number">1</span>，特征<span class="number">2</span>。如Row=<span class="number">1</span>,对应的特征分别是<span class="number">2.0</span>,<span class="number">5.0</span>,<span class="number">7.0</span>.被转换为<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>。</span><br><span class="line">我们发现只有特征<span class="number">1</span>，特征<span class="number">2</span>被转换了，特征<span class="number">0</span>没有被转换。这是因为特征<span class="number">0</span>有<span class="number">6</span>中取值（<span class="number">2</span>，<span class="number">3</span>，<span class="number">4</span>，<span class="number">5</span>，<span class="number">8</span>，<span class="number">9</span>），多于前面的设置setMaxCategories(<span class="number">5</span>)</span><br><span class="line">，因此被视为连续值了，不会被转换。</span><br><span class="line">特征1中，（4，5，6，7，9）--&gt;(0,1,2,3,4,5)</span><br><span class="line">特征2中,  (2,7,9)--&gt;(0,1,2)</span><br></pre></td></tr></table></figure>
-<p><strong>(7)StringIndexer</strong></p>
-<p>​    将label标签进行重新设置，出现的最多的标签被设置为0，最少的设置最大。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">按label出现的频次，转换成<span class="number">0</span>～num numOfLabels<span class="number">-1</span>(分类个数)，频次最高的转换为<span class="number">0</span>，以此类推：</span><br><span class="line">label=<span class="number">3</span>，出现次数最多，出现了<span class="number">4</span>次，转换（编号）为<span class="number">0</span></span><br><span class="line">其次是label=<span class="number">2</span>，出现了<span class="number">3</span>次，编号为<span class="number">1</span>，以此类推</span><br><span class="line">+-----+------------+</span><br><span class="line">|label|indexedLabel|</span><br><span class="line">+-----+------------+</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">4.0</span>  |<span class="number">3.0</span>         |</span><br><span class="line">|<span class="number">1.0</span>  |<span class="number">2.0</span>         |</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">2.0</span>  |<span class="number">1.0</span>         |</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">2.0</span>  |<span class="number">1.0</span>         |</span><br><span class="line">|<span class="number">3.0</span>  |<span class="number">0.0</span>         |</span><br><span class="line">|<span class="number">2.0</span>  |<span class="number">1.0</span>         |</span><br><span class="line">|<span class="number">1.0</span>  |<span class="number">2.0</span>         |</span><br><span class="line">+-----+------------+</span><br></pre></td></tr></table></figure>
-<p><strong>(8)StringToIndex</strong></p>
-<p>​    功能与StringIndexer完全相反，用于使用StringIndexer后的标签进行训练后，再将标签对应会原来的标签</p>
-<blockquote>
-<p>作用：恢复StringIndexer之前的标签</p>
-<p>参数：</p>
-<p>​    1.inputCol     输入列名</p>
-<p>​    2.outputCol    输出列名</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">|label|prediction|convetedPrediction|</span><br><span class="line">+-----+----------+------------------+</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|4.0  |1.0       |2.0               |</span><br><span class="line">|1.0  |2.0       |1.0               |</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|2.0  |1.0       |2.0               |</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|2.0  |1.0       |2.0               |</span><br><span class="line">|3.0  |0.0       |3.0               |</span><br><span class="line">|2.0  |1.0       |2.0               |</span><br><span class="line">|1.0  |2.0       |1.0               |</span><br></pre></td></tr></table></figure>
-<h3 id="2-评估器"><a href="#2-评估器" class="headerlink" title="2.评估器"></a>2.评估器</h3><p>​    评估器就是机器学习模型，通过统计数据从而进行预测工作，每个评估器都必须实现.fit主要分为分类和回归两大类，这里只针对分类评估器进行介绍。</p>
-<p>​    </p>
-<p>​    Pyspark的分类评估器包含以下七种：</p>
-<p><strong>1.LogisticRegression</strong></p>
-<p>​    逻辑回归模型</p>
-<p><strong>2.DecisionTreeClassifier</strong></p>
-<p>​    决策树模型</p>
-<p><strong>3.GBTClassifier</strong></p>
-<p>​    梯度提升决策树</p>
-<p><strong>4.RandomForestClassifier</strong></p>
-<p>​    随机森林</p>
-<p><strong>5.MultilayerPerceptronClassifier</strong></p>
-<p>​    多层感知机分类器</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/pyspark-dataframe基础操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/28/pyspark-dataframe基础操作/" itemprop="url">pyspark dataframe基础操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-28T10:40:25+08:00">
-                2018-09-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>1.select</strong></p>
-<p>​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列</p>
-<p>​    <strong>列选择</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data_set.select(<span class="string">"*"</span>).show()		<span class="comment">#选择全部列</span></span><br><span class="line">data_set.select(<span class="string">"file_name"</span>,<span class="string">"webshell"</span>).show()		<span class="comment">#选择file_name，webshell列</span></span><br></pre></td></tr></table></figure>
-<p>​    <strong>与udf函数组合新增列</strong>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pysaprk.sql.function <span class="keyword">import</span> udf</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(col1,col2)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> col1+col2</span><br><span class="line">udf_sun = udf(sum,IntergerType())</span><br><span class="line"></span><br><span class="line">data_set.select(<span class="string">"*"</span>,udf_sum(<span class="string">"a1"</span>,<span class="string">"a2"</span>)).show()	<span class="comment">#新增一列a1和a2列加和后的列</span></span><br></pre></td></tr></table></figure>
-<p><strong>2.filter</strong></p>
-<p>​    filter用于行选择，相当于使用前一半写好的sql语句进行查询。</p>
-<p>​    查询某个列等于<strong>固定值</strong>：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name=='wp-links-opml.php'").show()</span><br></pre></td></tr></table></figure>
-<p>​    查询符合某个<strong>正则表达式</strong>所有行:​    </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name regexp '\.php$')		#选择所有.php结尾文件</span><br></pre></td></tr></table></figure>
-<p><strong>3.join</strong></p>
-<p>​    pyspark的dataframe横向连接只能使用join进行连接，需要有一列为两个dataframe的共有列</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_join = df1.join(df,how=<span class="string">"left"</span>,on=<span class="string">'id'</span>).show() 	<span class="comment">#id为二者的共有列</span></span><br></pre></td></tr></table></figure>
-<p><strong>4.agg</strong></p>
-<p>​    使用agg来进行不分组聚合操作，获得某些统计项</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取数据中样本列最大的数值</span></span><br><span class="line"><span class="comment">#方式一：</span></span><br><span class="line">df.agg(&#123;<span class="string">"id"</span>:<span class="string">"max"</span>&#125;).show()		</span><br><span class="line"></span><br><span class="line"><span class="comment">#方式二：</span></span><br><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn	</span><br><span class="line">df.agg(F.min(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
-<p><strong>5.groupby</strong></p>
-<p>​    使用groupby可以用来进行分组聚合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby(&quot;)</span><br></pre></td></tr></table></figure>
-<p><strong>6.printSchema</strong></p>
-<p>​    以数的形式显示dataframe的概要</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- age: integer (nullable = true)</span><br></pre></td></tr></table></figure>
-<p><strong>7.subtract</strong></p>
-<p>​    找到那些在这个dataframe但是不在另一个dataframe中的行，返回一个dataframe</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">df1 = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line"></span><br><span class="line">df.subtract(df1).show()		<span class="comment">#找到在df中但是不在df1中的行</span></span><br></pre></td></tr></table></figure>
-<p><strong>8.cast</strong></p>
-<p>​    指定某一列的类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>9.sort</strong></p>
-<p>​    按照某列来进行排序</p>
-<blockquote>
-<p>参数：</p>
-<p>​    columns: 可以是一列，也可以是几列的列表</p>
-<p>​    ascending：升序，默认是True</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.sort([<span class="string">'count'</span>],ascending=<span class="keyword">False</span>).show()</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/pyspark-dataframe操作进阶/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/26/pyspark-dataframe操作进阶/" itemprop="url">pyspark dataframe操作进阶</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-26T21:06:18+08:00">
-                2018-09-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。</p>
-<p><strong>1.将多列转化成一列</strong></p>
-<p>​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> VectorAssembler</span><br><span class="line"></span><br><span class="line">discretization_feature_names = [</span><br><span class="line">    <span class="string">'discretization_tag_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_style_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_script_nums'</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">vecAssembler = VectorAssembler(inputCols=discretization_feature_names, outputCol=<span class="string">"feature_vec_new"</span>)</span><br><span class="line"></span><br><span class="line">data_set  = vecAssembler.transform(dataset) <span class="comment">#会返回一个在原有的dataframe上面多出来一列的新dataframe</span></span><br><span class="line"></span><br><span class="line">data_set.printscheama()</span><br><span class="line"></span><br><span class="line">output：</span><br><span class="line">    root</span><br><span class="line">     |-- discretization_tag_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_style_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_script_nums: double (nullable = true)</span><br><span class="line">     |-- feature_vec_new: vector (nullable = true) <span class="comment">#多出来的</span></span><br></pre></td></tr></table></figure>
-<p><strong>2.连续数据离散化</strong></p>
-<p>​    pyspark中提供QuantileDiscretizer来根据分位点来进行离散化的操作，可以根据数据整体情况来对某一列进行离散化。</p>
-<blockquote>
-<p>常用参数：</p>
-<p>​    numBuckets：将整个空间分为几份，在对应的分为点处将数据进行切分</p>
-<p>​    relativeError：</p>
-<p>​    handleInvalid：    </p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> QuantileDiscretizer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">qds = QuantileDiscretizer(numBuckets=<span class="number">3</span>,inputCol=inputCol, outputCol=outputCol, relativeError=<span class="number">0.01</span>, handleInvalid=<span class="string">"error"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里的setHandleInvalid是代表对缺失值如何进行处理</span></span><br><span class="line"><span class="comment">#keep表示保留缺失值</span></span><br><span class="line">dataframe = qds.setHandleInvalid(<span class="string">"keep"</span>).fit(dataframe).transform(dataframe)</span><br></pre></td></tr></table></figure>
-<p><strong>3.增加递增的id列</strong></p>
-<p>​    monotonically_increasing_id() 方法给每一条记录提供了一个唯一并且递增的ID。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> monotonically_increasing_id</span><br><span class="line"></span><br><span class="line">df.select(<span class="string">"*"</span>,monotonically_increasing_id().alias(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
-<p><strong>4.指定读取或创建dataframe各列的类型</strong></p>
-<p>​    pyspark可以支持使用schema创建StructType来指定各列的读取或者创建时的类型，一个StructType里面包含多个StructField来进行分别执行列名、类型、是否为空。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.types <span class="keyword">import</span> *</span><br><span class="line">schema = StructType([</span><br><span class="line">    StructField(<span class="string">"id"</span>,IntegerType(),<span class="keyword">True</span>),</span><br><span class="line">    StructField(<span class="string">"name"</span>,StringType(),<span class="keyword">True</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">df = spark.createDataFrame([[<span class="number">2</span>,<span class="string">'a'</span>],[<span class="number">1</span>,<span class="string">'b'</span>]],schema)</span><br><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- name: string (nullable = true)</span><br></pre></td></tr></table></figure>
-<p><strong>5.查看各类缺失值情况</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn</span><br><span class="line"></span><br><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
-<p>​    注：在其中agg(<em>)里面的 ”\</em>“代表将该列表处理为一组独立的参数传递给函数</p>
-<p><strong>6.使用时间窗口来进行分组聚合</strong></p>
-<p>​    </p>
-<blockquote>
-<p>这也是pyspark比pandas多出来的一个时间窗口聚合的使用</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">src_ip_feature = feature_data.groupby(&quot;srcIp&quot;,F.window(&quot;time&quot;, &quot;60 seconds&quot;)).agg(</span><br><span class="line">    F.count(&quot;distIp&quot;).alias(&quot;request_count&quot;),</span><br></pre></td></tr></table></figure>
-<p><strong>7.过滤各种空值</strong></p>
-<p>​    <strong>（1）过滤字符串类型的列中的某列为null行</strong></p>
-<p>​        这里要借助function中的isnull函数来进行</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark.sql.function <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line">df.filter(F.isnull(df[<span class="string">"response_body"</span>])).show()    <span class="comment">#只留下response_body列为null的</span></span><br><span class="line"></span><br><span class="line">df.filter(~F.isnull(df[<span class="string">"response_body"</span>])).show()    <span class="comment">#只留下response_body列不为null的</span></span><br></pre></td></tr></table></figure>
-<p>​    </p>
-<p><strong>8.列名重命名</strong></p>
-<p>​    借助selectExpr可以实现在select的基础上使用sql表达式来进行进一步的操作这一特性，将列名进行修改</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将count列重命名为no_detection_nums,webshelll_names列名不变</span></span><br><span class="line">df = df.selectExpr(<span class="string">"webshell_names"</span>,<span class="string">"count as no_detection_nums"</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/24/HMM入门以及在webshell检测中的应用汇/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/24/HMM入门以及在webshell检测中的应用汇/" itemprop="url">HMM入门以及在webshell检测中的应用汇</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-24T12:26:32+08:00">
-                2018-09-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h2><p>一、HMM五元素   </p>
-<p>​      <img src="../../imgs/hmm_0.png" alt=""></p>
-<p>​    其中：</p>
-<p>​        N：隐藏状态数 hidden states        </p>
-<p>​        M：观测状态数 observed states</p>
-<p>​            A： 状态转移矩阵 transition matrix </p>
-<p>​            B：发射矩阵  emission matrix </p>
-<p>​            pi：初始隐状态向量 initial state vector</p>
-<p>HMM全称隐马尔科夫链，常用与异常检测，在大量正常的模式中找出异常的模式。</p>
-<p>​    隐马尔科夫链模型相关的问题主要分为三类：</p>
-<blockquote>
-<p>1.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链</p>
-<p>2.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求得出这个可见状态链的概率</p>
-<p>3.已知隐含状态数量、可以观察到多个可见状态链，求因此状态的转移矩阵和发射概率</p>
-</blockquote>
-<h4 id="1-求隐藏状态链问题"><a href="#1-求隐藏状态链问题" class="headerlink" title="1.求隐藏状态链问题"></a>1.求隐藏状态链问题</h4><p>​    该问题是在：已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链(<strong>也就是最大概率的转移序列</strong>)</p>
-<p>​    <strong>应用场景</strong>：语音识别解码问题</p>
-<p>​        <strong>方法</strong>：<strong>Viterbi algorithm</strong></p>
-<p>​    举例来说，我知道我有三个骰子，六面骰，四面骰，八面骰。我也知道我掷了十次的结果（1 6 3 5 2 7 3 5 2 4），我不知道每次用了那种骰子，我想知道最有可能的骰子序列。</p>
-<p>​      首先，如果我们只掷一次骰子：看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8. </p>
-<p>​      把这个情况拓展，我们掷两次骰子：结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是<br><img src="http://zhihu.com/equation?tex=P2%28D6%29%3DP%28D4%29%2AP%28D4%5Crightarrow+1%29%2AP%28D4%5Crightarrow+D6%29%2AP%28D6%5Crightarrow+6%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B6%7D" alt="img"> </p>
-<p>​      同样的，我们可以计算第二个骰子是D4或D8时的最大概率。我们发现，第二个骰子取到D6的概率最大。而使这个概率最大时，第一个骰子为D4。所以最大概率骰子序列就是D4 D6。<br>​    继续拓展，我们掷三次骰子：同样，我们计算第三个骰子分别是D6，D4，D8的最大概率。我们再次发现，要取到最大概率，第二个骰子必须为D6。这时，第三个骰子取到D4的最大概率是<img src="http://zhihu.com/equation?tex=P3%28D4%29%3DP2%28D6%29%2AP%28D6%5Crightarrow+D4%29%2AP%28D4%5Crightarrow+3%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B216%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D" alt="img"><br>​      同上，我们可以计算第三个骰子是D6或D8时的最大概率。我们发现，第三个骰子取到D4的概率最大。而使这个概率最大时，第二个骰子为D6，第一个骰子为D4。所以最大概率骰子序列就是D4 D6 D4。</p>
-<p>写到这里，大家应该看出点规律了。既然掷骰子一二三次可以算，掷多少次都可以以此类推。</p>
-<p>​    </p>
-<p>​    我们发现，我们要求最大概率骰子序列时要做这么几件事情。<strong>首先，不管序列多长，要从序列长度为1算起，算序列长度为1时取到每个骰子的最大概率。然后，逐渐增加长度，每增加一次长度，重新算一遍在这个长度下最后一个位置取到每个骰子的最大概率。因为上一个长度下的取到每个骰子的最大概率都算过了，重新计算的话其实不难。当我们算到最后一位时，就知道最后一位是哪个骰子的概率最大了。然后，我们要把对应这个最大概率的序列从后往前推出来,这就是Viterbi算法。</strong> </p>
-<h4 id="2-求得出某个可见状态链的概率"><a href="#2-求得出某个可见状态链的概率" class="headerlink" title="2.求得出某个可见状态链的概率"></a>2.求得出某个可见状态链的概率</h4><p>​    该问题是在：<strong>已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链</strong>，求得出这个可见状态链的概率</p>
-<p>​    <strong>应用场景</strong>：检测观察到的结果与我们已知的模型是否吻合，即<strong>异常检测</strong></p>
-<p>​    <strong>方法</strong>:<strong>前向算法（forward algorithm）</strong></p>
-<p>​    <strong>要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算（即在当前的HMM下可能出啊先找个状态链的概率）</strong>。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。<br>​      我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做<strong>前向算法（forward algorithm）</strong>。<br>​    首先，如果我们只掷一次骰子，看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18：</p>
-<p><img src="../../imgs/hmm_2.png" alt=""></p>
-<p>​    把这个情况拓展，我们掷两次骰子，看到结果为1，6，总概率为0.05：</p>
-<p><img src="../../imgs/hmm_3.png" alt=""></p>
-<p>​    继续拓展，我们掷三次骰子，看到结果为1，6，3，计算总概率为0.03：</p>
-<p><img src="../../imgs/hmm_5.png" alt=""></p>
-<p>​    同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。</p>
-<h4 id="3-求状态转移矩阵和发射概率（训练过程）"><a href="#3-求状态转移矩阵和发射概率（训练过程）" class="headerlink" title="3.    求状态转移矩阵和发射概率（训练过程）"></a>3.    求状态转移矩阵和发射概率（训练过程）</h4><p>​    该问题是在：    <strong>已知隐含状态数量、可以观察到多个可见状态链</strong></p>
-<p>​    <strong>应用场景</strong>：有大量该问题的已知观测序列，想<strong>训练</strong>一个HMM模型</p>
-<p>​    <strong>方法：Baum-Welch算法</strong></p>
-<h2 id="HMM在webshell检测中的应用"><a href="#HMM在webshell检测中的应用" class="headerlink" title="HMM在webshell检测中的应用"></a>HMM在webshell检测中的应用</h2><p>缺陷：</p>
+<p><strong>(1) 超参数选择</strong></p>
+<p>a. 首先为了节点分裂时质量和随机性，分裂时所使用的最大特征数目为√n。<br>b. GBDT迭代次数（树的数量）。</p>
+<ul>
+<li>树的数量决定了后续构造特征的规模，与学习速率相互对应。通常学习速率设置较小，但如果过小，会导致迭代次数大幅增加，使得新构造的特征规模过大。</li>
+<li>通过GridSearch+CrossValidation可以寻找到最合适的迭代次数+学习速率的超参组合。<br>c. GBDT树深度需要足够合理，通常在4~6较为合适。</li>
+<li>虽然增加树的数量和深度都可以增加新构造的特征规模。但树深度过大，会造成模型过拟合以及导致新构造特征过于稀疏。</li>
+</ul>
+<p><strong>（2）训练方案</strong></p>
+<p>​    将训练数据随机抽样50%，一分为二。前50%用于训练GBDT模型，后50%的数据在通过GBDT输出样本在每棵树中输出的叶子节点索引位置，并记录存储，用于后续的新特征的构造和编码，以及后续模型的训练。如样本x通过GBDT输出后得到的形式如下：x → [25,20,22,….,30,28] ，列表中表示样本在GBDT每个树中输出的叶子节点索引位置。</p>
+<p>​    由于样本经过GBDT输出后得到的x → [25,20,22,….,30,28] 是一组新特征，但由于这组新特征是叶子节点的ID，其值不能直接表达任何信息，故不能直接用于ETA场景的预估。为了解决上述的问题，避免训练过程中无用信息对模型产生的负面影响，需要通过独热码（OneHotEncoder）的编码方式对新特征进行处理，将新特征转化为可用的0-1的特征。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT%20构造新特征.png?raw=true" alt=""></p>
+<p>​    以图5中的第一棵树和第二棵树为例，第一棵树共有三个叶子节点，样本会在三个叶子节点的其中之一输出。所以样本在该棵树有会有可能输出三个不同分类的值，需要由3个bit值来表达样本在该树中输出的含义。图中样本在第一棵树的第一个叶子节点输出，独热码表示为{100}；而第二棵树有四个叶子节点，且样本在第三个叶子节点输出，则表示为{0010}。将样本在每棵树的独热码拼接起来，表示为{1000010}，即通过两棵CART树构造了7个特征，构造特征的规模与GBDT中CART树的叶子节点规模直接相关。</p>
+<p>Wide&amp;Deep在推荐中应用</p>
+<p>【参考文献】</p>
 <ol>
-<li><p>由于HMM的训练和预测的时间复杂度都是O(n^2)，因此在数据量特别大的时候速度非常慢</p>
-</li>
-<li><p>HMM并没有spark版本，无法直接部署到spark集群上（这点是个大坑！）</p>
-<ol start="3">
-<li>HMM在在webshell检测中比较局限，只能部署在生成文件名绝大部分都有固定模式的网站上来进行检测，对于各个页面随意进行命名的网站并没有检测效果</li>
+<li>He X, Pan J, Jin O, et al. <a href="https://research.fb.com/publications/practical-lessons-from-predicting-clicks-on-ads-at-facebook/" target="_blank" rel="noopener">Practical Lessons from Predicting Clicks on Ads at Facebook</a>[C]. Proceedings of 20th ACM SIGKDD Conference on Knowledge Discovery and Data Mining. ACM, 2014: 1-9.</li>
 </ol>
-</li>
-</ol>
-<h2 id="使用RNN来代替HMM"><a href="#使用RNN来代替HMM" class="headerlink" title="使用RNN来代替HMM"></a>使用RNN来代替HMM</h2><p>​    在数据量很大时，我们可以使用RNN来代替HMM，RNN在实现过程中<strong>可以采用并行的方式来进行梯度下降</strong>，大大加快了整体的速度。</p>
-<p>​    而且大部分时候使用RNN的效果都会优于HMM，详细见下篇：</p>
 
           
         
@@ -1856,7 +725,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/Docker操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/web安全——CSRF和SSRF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -1875,7 +744,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/Docker操作/" itemprop="url">Docker操作</a></h1>
+                <a class="post-title-link" href="/2018/11/02/web安全——CSRF和SSRF/" itemprop="url">web安全——CSRF和SSRF</a></h1>
         
 
         <div class="post-meta">
@@ -1887,8 +756,378 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T23:37:06+08:00">
-                2018-09-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T10:04:02+08:00">
+                2018-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h4><p>​    CSRF(Cross-site request Forgery，跨站请求伪造)通过伪装成受信任用户请求受信任的网站。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意:scrf漏洞并不需要获取用户的cookie等信息</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>目标：已经登陆了网站的用户</p>
+<p>目的：以合法用户的身份来进行一些非法操作</p>
+<p>需要条件：</p>
+<p>​    1.用户已经登陆了目标网站</p>
+<p>​    2.目标用户访问了攻击者构造的url</p>
+<p>攻击过程:</p>
+<p>​    1.找到存于登陆状态的存在csrf网站的合法用户，向其发送可以构造的恶意链接，诱使其点击</p>
+<p>​    2.用户点击该链接，由该合法用户向服务器发出包含恶意链接里隐藏操作（如删除数据、转账等）的请求</p>
+<p>​    3.服务器收到已经登录用户的请求，认为是合法用户的主动的操作行为，执行该操作</p>
+</blockquote>
+<p><strong>典型的csrf实例</strong></p>
+<p>​    当你使用网上银行进行转账时，首先需要登录网上银行，点击转账按钮后，会发出<a href="http://www.xxbank.com/pay.php?user=xx&amp;money=100请求，当存在攻击者想要对你进行csrf攻击时，他会向你发送一个邮件或者短信，其中包含可以构造的恶意链接" target="_blank" rel="noopener">http://www.xxbank.com/pay.php?user=xx&amp;money=100请求，当存在攻击者想要对你进行csrf攻击时，他会向你发送一个邮件或者短信，其中包含可以构造的恶意链接</a> <a href="http://www.bank.com/pay,php?user=hack&amp;money=100,并且采用一定的伪装手段诱使你进行点击，当你点击后即向该hack转账100元。" target="_blank" rel="noopener">http://www.bank.com/pay,php?user=hack&amp;money=100,并且采用一定的伪装手段诱使你进行点击，当你点击后即向该hack转账100元。</a></p>
+<p><strong>流量中检测csrf的可行性</strong></p>
+<p>​    1.对于比较低级的csrf而言，可以直接通过检测请求的referer字段来进行确定是否为scrf。因为在正常scrf页面中应该是在主页等页面跳转得到，而csrf请求一般的referer是空白或者是其他网站，但是该方法可以被绕过。</p>
+<p>​    2.完全的检测很难</p>
+<p><strong>csrf漏洞修复建议</strong></p>
+<p>​    1.验证请求的referer</p>
+<p>​    2.在请求中加入随机的token等攻击者不能伪造的信息</p>
+<hr>
+<p>####SSRF</p>
+<p>​    SSRF(Server-Side Request Forgery，服务端请求伪造)是一种有由攻击者构造请求，服务器端发起请求的安全漏洞。</p>
+<blockquote>
+<p>目标：外网无法访问的服务器系统</p>
+<p>目的：获取内网主机或者服务器的信息、读取敏感文件等</p>
+<p>形成原因：服务器端提供了从其他服务器获取数据的功能，但没有对目标地址做限制和过滤</p>
+<p>攻击过程：</p>
+<p>​        1.用户发现存在ssrf漏洞的服务器a的页面访问的url，以及可使用SSRF攻击的参数</p>
+<p>​        2.修改要请求参数要请求的文件，将其改成内网服务器b和文件，直接访问</p>
+<p>​        3.服务器a接收到要访问的参数所包含的服务器b和文件名，去服务器b下载资源</p>
+<p>​        3.对于服务器b，由于是服务器a发起的请求，直接将文件返回给服务器a</p>
+<p>​        4.服务器a将该文件或页面内容直接返回给用户</p>
+</blockquote>
+<p><strong>两种典型的ssrf攻击实例:</strong></p>
+<p>​    本地存在ssrf漏洞的页面为：<a href="http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php" target="_blank" rel="noopener">http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php</a></p>
+<p>原始页面的功能为通过GET方式获取url参数的值，然后显示在网页页面上。如果将url参数的值改为<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> ，这个页面则会出现百度页面内容。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF1.png?raw=true" alt=""></p>
+<p>​    因此利用这个漏洞，我们可以将url参数的值设置为内网址，这样可以做到获取内网信息的效果。</p>
+<p>​    <strong>探测内网某个服务器是否开启</strong></p>
+<p>​    将url参数设置为url=”192.168.0.2:3306”时，可以获取大到该内网主机上是否存在mysql服务。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF2.png?raw=true" alt=""></p>
+<p>​    <strong>读取内网服务器文件    </strong></p>
+<p>​    访问ssrf.php?url=file:///C:/Windows/win.ini 即可读取本地文件</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF3.png?raw=true" alt=""></p>
+<p><strong>流量中检测SSRF可行性分析：</strong></p>
+<p>​    对于只能抓到外网向内网访问的流量的网口来说，从流量中检测SSRF只能从<strong>请求参数异常</strong>或<strong>返回包是否异常、是否包含敏感信息</strong>来进行检测。</p>
+<p><strong>SSRF漏洞修复建议:</strong></p>
+<p>​    1.限制请求的端口只能是web端口，只允许访问http和https的请求</p>
+<p>​    2.限制不能访问内网IP，以防止对内网进行攻击</p>
+<p>​    3.屏蔽返回的信息详情</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/01/NLP—关键词提取算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/01/NLP—关键词提取算法/" itemprop="url">NLP—关键词提取算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-01T11:19:25+08:00">
+                2018-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="关键词提取算法"><a href="#关键词提取算法" class="headerlink" title="关键词提取算法"></a>关键词提取算法</h3><hr>
+<h4 id="tf-idf-词频-逆文档频率"><a href="#tf-idf-词频-逆文档频率" class="headerlink" title="tf-idf(词频-逆文档频率)"></a>tf-idf(词频-逆文档频率)</h4><p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/TF%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="tf计算公式"></p>
+<p>​    其中count(w)为关键词出现的次数，|Di|为文档中所有词的数量。</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/IDF%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="tf计算公式"></p>
+<p>​    其中，N为所有文档的总数，I(w,Di)表示文档Di是否包含该关键词，，包含则为1，不包含则为0，若词在所有文档中均未出现，则IDF公式中分母则为0，因此在分母上加1做平滑(smooth)</p>
+<p>​    最终关键词在文档中的tf-idf值：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/IDF%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="tf计算公式"></p>
+<blockquote>
+<p><strong>tf-idf特点：</strong></p>
+<p>​    <strong>1.一个词在一个文档中的频率越高，在其他文档中出现的次数越少，tf-idf值越大</strong></p>
+<p>​    <strong>2.tf-idf同时兼顾了词频和新鲜度，可以有效地过滤掉常见词</strong></p>
+</blockquote>
+<p>​            </p>
+<hr>
+<h4 id="TextRank"><a href="#TextRank" class="headerlink" title="TextRank"></a>TextRank</h4><p>​    TextRank算法借鉴于Google的PageRank算法，主要在考虑词的关键度主要考虑<strong>链接数量</strong>和<strong>链接质量（链接到的词的重要度）</strong>两个因素。</p>
+<p>​    TextRank算法应用到关键词抽取时连个关键点：1.词与词之间的关联没有权重（即不考虑词与词是否相似）  2.每个词并不是与文档中每个次都有链接关系而是只与一个特定窗口大小内词与才有关联关系。</p>
+<blockquote>
+<p>TextRank特点：</p>
+<p>​    1.<strong>不需要使用语料库进行训练</strong>，由一篇文章就可以提取出关键词</p>
+<p>​    2.由于TextRank算法涉及到构建词图以及迭代计算，因此<strong>计算速度较慢</strong></p>
+<p>​    3.虽然考虑了上下文关系，但是<strong>仍然将频繁次作为关键词</strong></p>
+<p>​    <strong>4.TextRank算法具有将一定的将关键词进行合并提取成关键短语的能力</strong></p>
+</blockquote>
+<p>​    </p>
+<hr>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/深度学习——损失函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/30/深度学习——损失函数/" itemprop="url">深度学习——损失函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T20:43:33+08:00">
+                2018-10-30
               </time>
             
 
@@ -1927,16 +1166,730 @@
       
         
           
-            <blockquote>
-<p>-d 容器在后台运行</p>
-<p>-P 将容器内部的端口映射到我们的主机上</p>
+            <p>​    在机器机器学习和深度学习中有许多常见的损失函数，主要包括：</p>
+<p>​        1.平方差函数MSE（Mean Squared Error）</p>
+<p>​        2.绝对平方差函数（Mean Absolute Error）</p>
+<p>​        3.交叉熵函数（Cross Entory）</p>
+<p><strong>交叉熵</strong></p>
+<p><strong>平方差函数</strong></p>
+<p>​    </p>
+<blockquote>
+<p><strong>损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数</strong></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps    #查看全部正在开启的docker</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-<p>####1.进入以及退出docker</p>
-<p>​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先查看正在运行的docker，在其中选择想要进入的docker name</span></span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后使用exec进行进入docker</span></span><br><span class="line">docker <span class="keyword">exec</span> --it docker_name /bin/bash/</span><br><span class="line"></span><br><span class="line"><span class="comment">#进行各种操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#退出docker</span></span><br><span class="line">exit或Ctrl+D</span><br></pre></td></tr></table></figure>
-<h3 id="2-docker和宿主主机之间传输文件"><a href="#2-docker和宿主主机之间传输文件" class="headerlink" title="2.docker和宿主主机之间传输文件"></a>2.docker和宿主主机之间传输文件</h3><p>​    docker 使用docker cp 命令来进行复制，<strong>无论容器有没有进行运行，复制操作都可以进行执行</strong>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#从docker中赋值文件到宿主主机</span></span><br><span class="line">docker cp docker_name:/docker_file_path local_path</span><br><span class="line"></span><br><span class="line"><span class="comment">#从宿主主机复制到docker</span></span><br><span class="line">docker cp local_path docker_name:/docker_file_path</span><br></pre></td></tr></table></figure>
+<p><strong>深度学习</strong></p>
+<p>​    <strong>效果最好的损失函数：交叉熵函数</strong></p>
+<blockquote>
+<p>为什么深度学习中使用交叉熵函数远远比使用在线性模型中表现良好的平方差误差函数好的多？</p>
+<p>​    <strong>因为在深度学习中主要通过反向更新参数W和b的同时，激活函数Sigmod的导数在大部分取值时会落入左右两个饱和区间，造成参数更新异常缓慢。</strong></p>
+<p>​    具体推导如下：</p>
+<p>​    对于使用平方误差函数，<strong>MSE的定义</strong>为：</p>
+<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/MSE%E5%AE%9A%E4%B9%89%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    其中y是我们期望的输出，a为神经元的实际输出 a=σ(Wx+b)。因此在深度学习的反向传播机制中，权值W和b的修正公式被为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/MES%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    因为Sigmod函数的性质：在σ′(z) 在绝大部分区间内都趋近与0，因此会导致参数的更新回异常的缓慢。</p>
+<p>​    而对于使用交叉熵函数，Crosss Entory的公式为：</p>
+<p>​        </p>
+</blockquote>
+<blockquote>
+<p>​    </p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/深度学习-——优化器optimzer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/30/深度学习-——优化器optimzer/" itemprop="url">深度学习-——优化器optimzer</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T20:19:24+08:00">
+                2018-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="优化器optimzer"><a href="#优化器optimzer" class="headerlink" title="优化器optimzer"></a>优化器optimzer</h3><hr>
+<p>​    在机器学习和深度学习中，选择合适的优化器不仅可<strong>以加快学习速度</strong>，而且可以<strong>避免在训练过程中困到的鞍点</strong>。</p>
+<h4 id="1-Stochastic-Gradient-Descent-SGD"><a href="#1-Stochastic-Gradient-Descent-SGD" class="headerlink" title="1.Stochastic Gradient Descent(SGD)"></a>1.Stochastic Gradient Descent(SGD)</h4><p>​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/SGD%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
+<blockquote>
+<p><strong>缺点：1.存在比较严重的震荡</strong></p>
+<p>​    <strong>2.容易收敛到局部最优点</strong></p>
+</blockquote>
+<h4 id="2-Momentum"><a href="#2-Momentum" class="headerlink" title="2.Momentum"></a>2.Momentum</h4><blockquote>
+<p><strong>核心思想：用动量来进行加速</strong></p>
+<p><strong>适用情况：善于处理稀疏数据</strong></p>
+</blockquote>
+<p>​    为了克服 SGD 振荡比较严重的问题，Momentum 将物理中的动量概念引入到<br>SGD 当中，通过积累之前的动量来替代梯度。即:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Momentum%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
+<p>​    相较于 SGD，Momentum 就相当于在从山坡上不停的向下走，当没有阻力的话，它的动量会越来越大，但是如果遇到了阻力，速度就会变小。也就是说，<strong>在训练的时候，在梯度方向不变的维度上，训练速度变快，梯度方向有所改变的维度上，更新速度变慢，这样就可以加快收敛并减小振荡。</strong>    </p>
+<h4 id="3-Adagrad"><a href="#3-Adagrad" class="headerlink" title="3.Adagrad"></a>3.Adagrad</h4><blockquote>
+<p><strong>核心思想：对学习速率添加约束，前期加速训练，后期提前结束训练以避免震荡</strong></p>
+<p><strong>适用情况：善于处理非平稳目标</strong></p>
+</blockquote>
+<p>​    相较于 SGD，Adagrad 相当于对学习率多加了一个约束，即：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adagrad%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
+<p>​    Adagrad 的优点是，在训练初期，由于 gt 较小，所以约束项能够加速训练。而<br>在后期，随着 gt 的变大，会导致分母不断变大，最终训练提前结束。</p>
+<h4 id="4-Adam"><a href="#4-Adam" class="headerlink" title="4.Adam"></a>4.Adam</h4><blockquote>
+<p><strong>核心思想：结合了Momentum动量加速和Adagrad对学习速率的约束</strong></p>
+<p><strong>适用情况：各种数据，前面两种优化器适合的数据Adam都更效果更好</strong>，</p>
+</blockquote>
+<p>​    Adam 是一个结合了 Momentum 与 Adagrad 的产物，它既考虑到了利用动量<br>项来加速训练过程，又考虑到对于学习率的约束。利用梯度的一阶矩估计和二阶矩估<br>计动态调整每个参数的学习率。Adam 的优点主要在于经过偏置校正后，每一次迭代<br>学习率都有个确定范围，使得参数比较平稳。其公式为:    </p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F1.png?raw=true" alt="SGD计算公式"></p>
+<p>​    其中：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F2.png?raw=true" alt="SGD计算公式"></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F3.png?raw=true" alt="SGD计算公式"></p>
+<p>####总结：在实际工程中被广泛使用，但是也可看到在一些论文里存在着许多使用Adagrad、Momentum的，杜对于SGD由于其需要更多的训练时间和鞍点问题，因此在实际工程中很少使用</p>
+<p><strong>参考文献:深度学习在美团点评推荐系统中的应用</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/27/经典机器学习算法——KMeans/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/27/经典机器学习算法——KMeans/" itemprop="url">经典机器学习算法——KMeans</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-27T22:03:14+08:00">
+                2018-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="KMeans算法"><a href="#KMeans算法" class="headerlink" title="KMeans算法"></a>KMeans算法</h3><hr>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/23/pyspark学习心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/23/pyspark学习心得/" itemprop="url">pyspark学习心得</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-23T10:36:53+08:00">
+                2018-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    </p>
+<p>###持久化</p>
+<p>​    Spark中对于一个RDD执行多次算子的<strong>默认</strong>原理是这样的：<strong>每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍</strong>，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。</p>
+<p>​    因此对于这种情况，我们的建议是：<strong>对多次使用的RDD进行持久化</strong>。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。<strong>以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作</strong>。</p>
+<p>​    spark中的持久化操作主要分为两种：<strong>persist和cache</strong>。<strong>cache相当于使用MEMORY_ONLY级别的persist操作，而persist更灵活可以任意指定persist的级别。</strong></p>
+<blockquote>
+<h3 id="如何选择一种最合适的持久化策略"><a href="#如何选择一种最合适的持久化策略" class="headerlink" title="如何选择一种最合适的持久化策略"></a>如何选择一种最合适的持久化策略</h3><ul>
+<li>默认情况下，<strong>性能最高</strong>的当然是<strong>MEMORY_ONLY</strong>，但前提是你的<strong>内存必须足够足够大</strong>，可以绰绰有余地存放下整个RDD的所有数据。<strong>因为不进行序列化与反序列化操作，就避免了这部分的性能开销</strong>；对这个RDD的后续算子操作，都是基于纯内存中的数据的操作，不需要从磁盘文件中读取数据，性能也很高；而且不需要复制一份数据副本，并远程传送到其他节点上。但是这里必须要注意的是，在实际的生产环境中，恐怕能够直接用这种策略的场景还是有限的，<strong>如果RDD中数据比较多</strong>时（比如几十亿），直接用这种持久化级别，<strong>会导致JVM的OOM内存溢出异常</strong>。</li>
+<li><strong>如果使用MEMORY_ONLY级别时发生了内存溢出，那么建议尝试使用MEMORY_ONLY_SER级别</strong>。该级别<strong>会将RDD数据序列化后再保存在内存中</strong>，此时<strong>每个partition仅仅是一个字节数组</strong>而已，大大减少了对象数量，并降低了内存占用。这种级别<strong>比MEMORY_ONLY多出来的性能开销，主要就是序列化与反序列化的开销</strong>。<strong>但是后续算子可以基于纯内存进行操作，因此性能总体还是比较高的</strong>。此外，可能发生的问题同上，如果RDD中的数据量过多的话，还是可能会导致OOM内存溢出的异常。</li>
+<li><strong>如果纯内存的级别都无法使用，那么建议使用MEMORY_AND_DISK_SER策略</strong>，而不是MEMORY_AND_DISK策略。因为既然到了这一步，就说明RDD的数据量很大，内存无法完全放下。序列化后的数据比较少，可以节省内存和磁盘的空间开销。同时<strong>该策略会优先尽量尝试将数据缓存在内存中，内存缓存不下才会写入磁盘</strong>。</li>
+<li>通常不建议使用DISK_ONLY和后缀为_2的级别：因为完全基于磁盘文件进行数据的读写，会导致性能急剧降低，有时还不如重新计算一次所有RDD。后缀为_2的级别，必须将所有数据都复制一份副本，并发送到其他节点上，数据复制以及网络传输会导致较大的性能开销，除非是要求作业的高可用性，否则不建议使用。</li>
+</ul>
+</blockquote>
+<h3 id="提高性能的算子"><a href="#提高性能的算子" class="headerlink" title="提高性能的算子"></a>提高性能的算子</h3><h5 id="使用filter之后进行coalesce操作"><a href="#使用filter之后进行coalesce操作" class="headerlink" title="使用filter之后进行coalesce操作"></a>使用filter之后进行coalesce操作</h5><p>通常对一个RDD执行filter算子过滤掉RDD中较多数据后（比如30%以上的数据），建议使用coalesce算子，手动减少RDD的partition数量，<strong>将RDD中的数据压缩到更少的partition中去</strong>。因为filter之后，RDD的每个partition中都会有很多数据被过滤掉，此时如果照常进行后续的计算，其实每个task处理的partition中的数据量并不是很多，有一点资源浪费，而且此时处理的task越多，可能速度反而越慢。因此用coalesce减少partition数量，将RDD中的数据压缩到更少的partition之后，<strong>只要使用更少的task即可处理完所有的partition</strong>。在某些场景下，对于性能的提升会有一定的帮助。</p>
+<h4 id="Shuffle"><a href="#Shuffle" class="headerlink" title="Shuffle"></a>Shuffle</h4><p>​    大多数<strong>spark作业的性能主要就消耗在shuffle环节</strong>，因为shuffle中包含了大量的磁盘IO、序列化、网络数据传输等操作。<strong>但是影响一个spark作业性能的主要因素还是代码开发、资源参数、以及数据倾斜</strong>，shuffle调优在优化spark作业性能中只能起较小的作用。</p>
+<blockquote>
+<h4 id="shuffle操作速度慢的原因"><a href="#shuffle操作速度慢的原因" class="headerlink" title="shuffle操作速度慢的原因"></a>shuffle操作速度慢的原因</h4></blockquote>
+<p>​    </p>
+<p>Pyspark使用过程中的一些小Tips：</p>
+<blockquote>
+<p>1、RDD.repartition(n)可以在最初对RDD进行分区操作，这个操作实际上是一个shuffle，可能比较耗时，但是如果之后的action比较多的话，可以减少下面操作的时间。其中的n值看cpu的个数，一般大于2倍cpu，小于1000。</p>
+<p>2、<strong>Action不能够太多</strong>，每一次的action都会将以上的taskset划分一个job，这样当job增多，而其中task并不释放，会占用更多的内存，使得gc拉低效率。</p>
+<p>3、<strong>在shuffle前面进行一个过滤，减少shuffle数据，并且过滤掉null值，以及空值</strong>。</p>
+<p>4、<strong>groupBy尽量通过reduceBy替代</strong>。reduceBy会在work节点做一次reduce，在整体进行reduce，相当于做了一次hadoop中的combine操作，而combine操作和reduceBy逻辑一致，这个groupBy不能保证。</p>
+<p>5、<strong>做join的时候，尽量用小RDD去join大RDD.</strong></p>
+<p>6、<strong>避免collect的使用</strong>。因为collect如果数据集超大的时候，会通过各个work进行收集，io增多，拉低性能，因此当数据集很大时要save到HDFS。</p>
+<p>7、RDD如果后面使用迭代，建议cache，但是一定要估计好数据的大小，避免比cache设定的内存还要大，如果大过内存就会删除之前存储的cache，可能导致计算错误，如果想要完全的存储可以使用persist（MEMORY_AND_DISK），因为cache就是persist（MEMORY_ONLY）。</p>
+<p>8、设置spark.cleaner.ttl，定时清除task，因为job的原因可能会缓存很多执行过去的task，所以定时回收可能避免集中gc操作拉低性能。</p>
+</blockquote>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/22/经典机器学习算法——逻辑回归/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/22/经典机器学习算法——逻辑回归/" itemprop="url">经典机器学习算法——逻辑回归</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-22T21:44:43+08:00">
+                2018-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="逻辑回归模型"><a href="#逻辑回归模型" class="headerlink" title="逻辑回归模型"></a>逻辑回归模型</h3><hr>
+<p>​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用<strong>梯度下降算法</strong>来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。</p>
+<blockquote>
+<p><strong>注意：虽然名叫逻辑回归，但是实际上是一种分类模型</strong></p>
+</blockquote>
+<p><strong>工作原理</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">每个回归系数初始化为 <span class="number">1</span></span><br><span class="line">重复 R 次:</span><br><span class="line">    计算整个数据集的梯度</span><br><span class="line">    使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">返回回归系数</span><br></pre></td></tr></table></figure>
+<p><strong>逻辑回归算法的特点</strong></p>
+<blockquote>
+<p>优点：计算代价低，可解释性强</p>
+<p>缺点：容易欠拟合，分类精度可能不高</p>
+<p>使用数据类型：数值型数据和标称型数据(只存在是和否两种结果的将数据)</p>
+</blockquote>
+<p><strong>sigmod函数</strong></p>
+<p>​    sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0到1之间的值，其公式和函数图像如下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod公式"></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%87%BD%E6%95%B0.png?raw=true" alt="sigmod函数"></p>
+<p>​    在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%AD%E7%9A%84z.png?raw=true" alt="逻辑回归中的z"></p>
+<p>​    然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。</p>
+<p><strong>梯度上升算法</strong></p>
+<p>​    要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A6%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod函数"></p>
+<p>这个梯度意味着要沿 x 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_6.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_6.png" alt="f(x, y)对x求偏导"></a> ，沿 y 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_7.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_7.png" alt="f(x, y)对y求偏导"></a> 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。<img src="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_8.png?raw=true" alt="梯度上升图"></p>
+<p>​    上图展示了整个梯度上升的过程，梯度上升算法在到到每个点后都会从新估计移动的方向，而这个方向就是梯度方向，移动的速度大小由参数α控制。</p>
+<p><strong>训练过程</strong></p>
+<p>​    训练算法：使用梯度上升寻找最佳参数</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; 每个回归系数初始化为 1</span><br><span class="line">&gt; 重复 R 次:</span><br><span class="line">&gt;     计算整个数据集的梯度</span><br><span class="line">&gt;     使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">&gt; 返回回归系数</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>​    其中步长为超参数alpha，而梯度的计算如下：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A61.png?raw=true" alt="梯度1"></p>
+<p>即每个点的数据和其输入数据相同。因此权重的更新可以使用：</p>
+<p>​        <strong>w:=w+α error x</strong></p>
+<p>其中α为常数步长，error为在当前参数值下与目标值的误差经过sigmod函数处理后的值，x为当当前样本的输入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmod</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/<span class="number">1</span>+np.exp(-x)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscend</span><span class="params">(dataSet,labelSet,alpha,maxCycles)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#将输入的数据转为向量格式</span></span><br><span class="line">    dataMat = np.mat(dataSet)</span><br><span class="line">    labelMat = np.mat(labelSet).tramsponse()</span><br><span class="line">    <span class="comment">#获取输入数据的维度</span></span><br><span class="line">    m,n = np.shape(dataMat)</span><br><span class="line">    <span class="comment">#初始化回归系数</span></span><br><span class="line">    weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">    <span class="comment">#对回归系数进行迭代更新</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(maxCycles):</span><br><span class="line">        <span class="comment">#计算使用当前回归系数LR的hx值，结果为(m,1)维向量</span></span><br><span class="line">        h = sigmod(dataMat*weights)</span><br><span class="line">        <span class="comment">#计算误差</span></span><br><span class="line">        error = labelMat-h</span><br><span class="line">        <span class="comment">#根据梯度进行回归系数更新</span></span><br><span class="line">        weights = weights + alpha*dataMat.transponse()*error</span><br><span class="line">    <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
+<p><strong>随机梯度上升算法</strong></p>
+<p>​    随机梯度上升算法起到的作用和一般的梯度上升算法是一样的，只是由于一般的梯度上升算法在每次更新回归系数时需要遍历整个数据集，因此当数据量变动很大时，一般的梯度上升算法的时间消耗将会非常大，因此提出了<strong>每次只使用一个样本来进行参数更新</strong>的方式，<strong>随机梯度上升（下降）</strong>。</p>
+<blockquote>
+<p>随机梯度上升算法的特点：</p>
+<p>​    1.每次参数更新只使用一个样本，速度快</p>
+<p>​    2.可进行在线更新，是一个<strong>在线学习算法</strong>（也是由于每次回归系数更新只使用一个样本）</p>
+</blockquote>
+<p>工作原理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">所有回归系数初始化为 <span class="number">1</span></span><br><span class="line">对数据集中每个样本</span><br><span class="line">    计算该样本的梯度</span><br><span class="line">    使用 alpha x gradient 更新回归系数值</span><br><span class="line">返回回归系数值</span><br></pre></td></tr></table></figure>
+<p>初步随机梯度下降代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stocgradAscend</span><span class="params">(dataSet,labelSet)</span>:</span></span><br><span class="line">    <span class="comment">#1.这里没有转换成矩阵的过程，整个过程完全都是在Numpy数据完成的</span></span><br><span class="line">    alpha = <span class="number">0.01</span></span><br><span class="line"></span><br><span class="line">    m,n = np.shape(dataSet)</span><br><span class="line"></span><br><span class="line">    weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">	<span class="comment">#2.回归系数更新过程中的h、error都是单个值，而在一般梯度上升算法中使用的是矩阵操作</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        h = np.sigmod(dataSet[i]*weights)</span><br><span class="line">        error = h - labelSet[i]</span><br><span class="line">        weights = weights + alpha*error*dataSet[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
+<p>但是这种随机梯度上升算法在在实际的使用过程出现了<strong>参数最后难以收敛，最终结果周期性波动</strong>的问题，针对这种问题我们对这个问题将随机梯度下降做了下面<strong>两种优化</strong></p>
+<p>​    1.改进为 alpha 的值，alpha 在每次迭代的时候都会调整。另外，虽然 alpha 会随着迭代次数不断减少，但永远不会减小到 0，因为我们在计算公式中添加了一个常数项。</p>
+<p>​    </p>
+<p>​    2.修改randomIndex的值，<strong>从以前顺序的选择样本</strong>更改为<strong>完全随机的方式来选择用于回归系数的样本</strong>，每次随机从列表中选出一个值，然后从列表中删掉该值（再进行下一次迭代）。</p>
+<p>最终版随机梯度下降：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stocgradAscend</span><span class="params">(dataSet,labelSet,numsIter=<span class="number">150</span>)</span>:</span></span><br><span class="line">	</span><br><span class="line">	m,n = np.shape(dataSet)</span><br><span class="line">	weights = np.ones(n,<span class="number">1</span>)</span><br><span class="line">	alpha = <span class="number">0.01</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(numsIter):</span><br><span class="line">        <span class="comment">#生成数据的索引</span></span><br><span class="line">		dataIndex = range(m)</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="comment">#alpha会随着i和j的增大不断减小</span></span><br><span class="line">			alpha = <span class="number">4</span>/(i+j+<span class="number">1.0</span>)+<span class="number">0.001</span> <span class="comment"># alpha 会随着迭代不断减小，但永远不会减小到0，因为后边还有一个常数项0.0001</span></span><br><span class="line">            <span class="comment">#生成随机选择要进行回归系数更新的数据索引号</span></span><br><span class="line">            randomIndex = np.random.uniform(<span class="number">0</span>,len(dataIndex))</span><br><span class="line">            h = sigmod(np.sum(dataSet[dataIndex[randomIndex]]*weights))</span><br><span class="line">            error = h - dataSet[dataIndex[randomIndex]]*weights</span><br><span class="line">            weights = weights + alpha*error*dataSet[dataIndex[randomIndex]]</span><br><span class="line">            <span class="comment">#在数据索引中删除</span></span><br><span class="line">            <span class="keyword">del</span>(dataIndex[randomIndex])</span><br><span class="line">     <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
+<p><strong>预测过程    </strong>    </p>
+<p>​    LR模型的预测过程很简单，只需要根据训练过程训练出的参数，计算sigmod(w*x),如果这个值大于0.5，则分为1，反之则为0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyLR</span>:</span>(inX,weights)</span><br><span class="line">    prob = sigmod(np.sum(weights*inX))</span><br><span class="line">    <span class="keyword">if</span> prob&gt;=<span class="number">0.5</span></span><br><span class="line">    	<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：这里的阈值其实是可以自行设定的</p>
+</blockquote>
+<h4 id="一些其他相关问题"><a href="#一些其他相关问题" class="headerlink" title="一些其他相关问题"></a>一些其他相关问题</h4><hr>
+<p><strong>1.LR模型和最大熵模型</strong></p>
+<blockquote>
+<p>​    (1).logistic回归模型和最大熵模型都属于对数线性模型</p>
+<p>​    (2).当最大熵模型进行二分类时，最大熵模型就是逻辑回归模型</p>
+<p>​    (3) 学习他们的模型一般采用极大似估计或正则化的极大似然估计</p>
+<p>​    (4)二者可以形式化为无约束条件下的最优化问题</p>
+</blockquote>
+<p><strong>2.LR模型的多分类</strong></p>
+<p>​    逻辑回归也可以作用于多分类问题，对于多分类问题，处理思路如下：将多分类问题看做多个二分类，然后在各个sigmod得到的分数中区最大的值对应的类作为最终预测标签。</p>
 
           
         
@@ -1976,7 +1929,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2022,7 +1975,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2033,7 +1986,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2044,7 +1997,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2084,7 +2037,7 @@
         <!-- 底部导航栏相关 -->
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
