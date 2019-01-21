@@ -2,18 +2,8 @@
 <search>
   <entry>
     <title></title>
-    <url>%2F2019%2F01%2F21%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.transponse ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
-  </entry>
-  <entry>
-    <title></title>
     <url>%2F2019%2F01%2F21%2F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Atttion%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>%2F2019%2F01%2F21%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
   </entry>
   <entry>
     <title><![CDATA[python进阶-面向对象编程]]></title>
@@ -369,6 +359,28 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[pytorch向量转化操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[pytorch运算操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.transponse** ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
       </tags>
   </entry>
   <entry>
