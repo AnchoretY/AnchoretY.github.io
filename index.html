@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/21/深度学习——Atttion相关总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/10/机试——排序算法总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -316,7 +316,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/21/深度学习——Atttion相关总结/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2019/02/10/机试——排序算法总结/" itemprop="url">机试——排序算法总结</a></h1>
         
 
         <div class="post-meta">
@@ -328,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-21T11:21:54+08:00">
-                2019-01-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-10T09:16:10+08:00">
+                2019-02-10
               </time>
             
 
@@ -368,7 +368,185 @@
       
         
           
+            <p>​    机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。</p>
+<blockquote>
+<p>在机试中常用的排序算法主要包含下面几种：</p>
+<p>​    1.桶排序</p>
+<p>​    2.插入排序</p>
+<p>​    3.快速排序(最常用的排序)</p>
+<p>​    4.冒泡排序</p>
+<p>​    5.归并排序</p>
+</blockquote>
+<p>下面我将具体介绍各种排序算法：</p>
+<h4 id="1-插入排序"><a href="#1-插入排序" class="headerlink" title="1.插入排序"></a>1.插入排序</h4><p>​    每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):     <span class="comment">#从第一个元素开始依次进行排序</span></span><br><span class="line">        tmp = arr[i]</span><br><span class="line">        j = i</span><br><span class="line">        <span class="keyword">while</span> arr[j<span class="number">-1</span>]&gt;tmp <span class="keyword">and</span> j&gt;<span class="number">0</span>:  <span class="comment">#从当前元素向前开始遍历，寻找第一个比当前元素更小的元素</span></span><br><span class="line">            arr[j] = arr[j<span class="number">-1</span>]		<span class="comment">#再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维</span></span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">        arr[j] = tmp</span><br><span class="line">   <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
+<p><strong>稳定性：稳定</strong></p>
+<p><strong>时间复杂度：O(n^2)</strong></p>
+<p><strong>空间复杂度：O(1)</strong></p>
+<blockquote>
+<p>为什么插入排序是稳定的排序算法？</p>
+<p>​    当前从头到尾选择元素进行排序时，当选择到第i个元素时，前i-1个元素已经排好了续，取出第i个元素，从i-1开始向前开始比较，如果小于，则将该位置元素向后移动，继续先前的比较，如果不小于，那么将第i个元素放在当前比较的元素之后。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/21/深度学习——Attion相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/21/深度学习——Attion相关/" itemprop="url">深度学习——Attion相关</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
             
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-21T14:54:55+08:00">
+                2019-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>通过encoder，把 <img src="https://www.zhihu.com/equation?tex=X%3D%28x_0%2Cx_1%2Cx_2%2Cx_3%29" alt="X=(x_0,x_1,x_2,x_3)"> 映射为一个隐层状态 <img src="https://www.zhihu.com/equation?tex=H%3D%28h_0%2Ch_1%2Ch_2%2Ch_3%29" alt="H=(h_0,h_1,h_2,h_3)"> ，再经由decoder将 <img src="https://www.zhihu.com/equation?tex=H%3D%28h_0%2Ch_1%2Ch_2%2Ch_3%29" alt="H=(h_0,h_1,h_2,h_3)"> 映射为 <img src="https://www.zhihu.com/equation?tex=Y%3D%28y_0%2Cy_1%2Cy_2%29" alt="Y=(y_0,y_1,y_2)"> 。这里精妙的地方就在于，Y中的每一个元素都与H中的所有元素相连，而<strong>每个元素通过不同的权值给与Y不同的贡献</strong>。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/attention.png?raw=true" alt=""></p>
+<p>1.关键在于红框里面的部分，即attention，后面再讲。</p>
+<p>2.红框下面是encoder，输入 <img src="https://www.zhihu.com/equation?tex=X%3D%28x_0%2Cx_1%2Cx_2%2C...%2Cx_%7BT_x%7D%29" alt="X=(x_0,x_1,x_2,...,x_{T_x})">，通过一个双向LSTM得到两组<img src="https://www.zhihu.com/equation?tex=h%5E%5Cleftarrow" alt="h^\leftarrow">和 <img src="https://www.zhihu.com/equation?tex=h%5E%5Crightarrow" alt="h^\rightarrow">（向左和向右），然后concat起来得到最终的 <img src="https://www.zhihu.com/equation?tex=H%3D%28h_0%2Ch_1%2Ch_2%2C...%2C+h_%7BT_x%7D%29" alt="H=(h_0,h_1,h_2,..., h_{T_x})">。</p>
+<p>3.红框上面是decoder。以 <img src="https://www.zhihu.com/equation?tex=t" alt="t">时刻为例，输入共有三个： <img src="https://www.zhihu.com/equation?tex=s_%7Bt-1%7D" alt="s_{t-1}">， <img src="https://www.zhihu.com/equation?tex=y_%7Bt-1%7D" alt="y_{t-1}">， <img src="https://www.zhihu.com/equation?tex=c_t" alt="c_t">。</p>
+<p>​    其中,<img src="https://www.zhihu.com/equation?tex=s_%7Bt-1%7D" alt="s_{t-1}">是上一个时刻的hidden state（一般用 <img src="https://www.zhihu.com/equation?tex=h" alt="h">表示encoder的hidden state，用 <img src="https://www.zhihu.com/equation?tex=s" alt="s">表示decoder的hidden state）；</p>
+<p>​     <img src="https://www.zhihu.com/equation?tex=y_%7Bt-1%7D+" alt="y_{t-1} ">是上一个时刻的输出，用来当做这个时刻的输入； </p>
+<p>​    <img src="https://www.zhihu.com/equation?tex=c_t+" alt="c_t ">在图中没有，就是红框里得到的加权和，叫做context，即<strong>由所有的encoder output（即 <img src="https://www.zhihu.com/equation?tex=h" alt="h">，不定长）得到一个定长的向量，代表输入序列的全局信息</strong>，作为当前decoder step的context（上下文）。</p>
+<p>​        计算方法为： <img src="https://www.zhihu.com/equation?tex=c_i%3D%5Csum_%7Bj%3D1%7D%5E%7BT_x%7D%5Calpha_%7Bij%7Dh_j" alt="c_i=\sum_{j=1}^{T_x}\alpha_{ij}h_j">，其中<img src="https://www.zhihu.com/equation?tex=%5Calpha_%7Bij%7D" alt="\alpha_{ij}">是权重，又称为<strong>alignment</strong>；</p>
+<p><img src="https://www.zhihu.com/equation?tex=h" alt="h">就是encoder所有step的hidden state，又叫做<strong>value</strong>或者<strong>memory</strong>； <img src="https://www.zhihu.com/equation?tex=i" alt="i">代表decoder step， <img src="https://www.zhihu.com/equation?tex=j" alt="j">代表encoder step。</p>
+<p>那么<strong>权重矩阵又是怎么来的</strong>呢？</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Calpha_%7Bij%7D%3D%5Cfrac%7B%5Cexp%28e_%7Bij%7D%29%7D%7B%5Csum_%7Bk%3D1%7D%5E%7BT_x%7D%5Cexp%28e_%7Bik%7D%29%7D" alt="\alpha_{ij}=\frac{\exp(e_{ij})}{\sum_{k=1}^{T_x}\exp(e_{ik})}"></p>
+<p>​    其中 <img src="https://www.zhihu.com/equation?tex=e_%7Bij%7D%3Da%28s_%7Bi-1%7D%2Ch_j%29" alt="e_{ij}=a(s_{i-1},h_j)"></p>
+<p>其实上面的公式就是对e的求softmax，因为我们要计算一组权重，而这组权重的和为1；下面的e的表达式就是代表着对<img src="https://www.zhihu.com/equation?tex=s_%7Bi-1%7D" alt="s_{i-1}"> 和 <img src="https://www.zhihu.com/equation?tex=h_j" alt="h_j"> 的<strong>相关程度</strong>进行计算的函数，<strong>即对于某个既定的decoder step，计算上个时刻的hidden state和所有encoder step的输出的相关程度，并且用softmax归一化；这样，相关度大的 <img src="https://www.zhihu.com/equation?tex=h" alt="h">权重就大，在整个context里占得比重就多，decoder在当前step做解码的时候就越重视它（这就是attention的思想）</strong>。</p>
+<p>具体的相关程度的计算，主要实现方式</p>
+<p>对 <img src="https://www.zhihu.com/equation?tex=s_%7Bi-1%7D" alt="s_{i-1}"> 做一个线性映射，得到的向量叫做<strong>query</strong>，记做 <img src="https://www.zhihu.com/equation?tex=q_i" alt="q_i"> ；</p>
+<p>对 <img src="https://www.zhihu.com/equation?tex=h_j" alt="h_j"> 做一个线性映射，得到的向量叫做<strong>key</strong>，记做 <img src="https://www.zhihu.com/equation?tex=k_j" alt="k_j"> ；</p>
+<p><img src="https://www.zhihu.com/equation?tex=e_%7Bij%7D%3Dv%5ET+%5Ccdot+%28q_i%2Bk_j%29" alt="e_{ij}=v^T \cdot (q_i+k_j)"> 。<img src="https://www.zhihu.com/equation?tex=k_j" alt="k_j">和<img src="https://www.zhihu.com/equation?tex=q_i" alt="q_i">的维度必须相同，记为 <img src="https://www.zhihu.com/equation?tex=d" alt="d"> ； <img src="https://www.zhihu.com/equation?tex=v" alt="v"> 是一个 <img src="https://www.zhihu.com/equation?tex=d+%5Ctimes+1" alt="d \times 1"> 的向量。</p>
+
           
         
       
@@ -1518,126 +1696,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/刷题之Cpp基础知识回顾/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/24/刷题之Cpp基础知识回顾/" itemprop="url">刷题之Cpp基础知识回顾</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-24T21:56:58+08:00">
-                2018-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>由于C++已经多</p>
-<h3 id="1-动态数组的声明"><a href="#1-动态数组的声明" class="headerlink" title="1.动态数组的声明"></a>1.动态数组的声明</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1688,7 +1746,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1710,7 +1768,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

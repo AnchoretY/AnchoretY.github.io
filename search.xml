@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>%2F2019%2F01%2F21%2F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Atttion%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[机试——排序算法总结]]></title>
+    <url>%2F2019%2F02%2F10%2F%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[​ 机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。 在机试中常用的排序算法主要包含下面几种： ​ 1.桶排序 ​ 2.插入排序 ​ 3.快速排序(最常用的排序) ​ 4.冒泡排序 ​ 5.归并排序 下面我将具体介绍各种排序算法： 1.插入排序​ 每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。 12345678910def insertion_sort(arr): length = len(arr) for i in range(1,length): #从第一个元素开始依次进行排序 tmp = arr[i] j = i while arr[j-1]&gt;tmp and j&gt;0: #从当前元素向前开始遍历，寻找第一个比当前元素更小的元素 arr[j] = arr[j-1] #再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维 j -= 1 arr[j] = tmp return arr 稳定性：稳定 时间复杂度：O(n^2) 空间复杂度：O(1) 为什么插入排序是稳定的排序算法？ ​ 当前从头到尾选择元素进行排序时，当选择到第i个元素时，前i-1个元素已经排好了续，取出第i个元素，从i-1开始向前开始比较，如果小于，则将该位置元素向后移动，继续先前的比较，如果不小于，那么将第i个元素放在当前比较的元素之后。]]></content>
+      <tags>
+        <tag>机试</tag>
+        <tag>算法总结</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[深度学习——Attion相关]]></title>
+    <url>%2F2019%2F01%2F21%2F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Attion%E7%9B%B8%E5%85%B3%2F</url>
+    <content type="text"><![CDATA[通过encoder，把 映射为一个隐层状态 ，再经由decoder将 映射为 。这里精妙的地方就在于，Y中的每一个元素都与H中的所有元素相连，而每个元素通过不同的权值给与Y不同的贡献。 1.关键在于红框里面的部分，即attention，后面再讲。 2.红框下面是encoder，输入 ，通过一个双向LSTM得到两组和 （向左和向右），然后concat起来得到最终的 。 3.红框上面是decoder。以 时刻为例，输入共有三个： ， ， 。 ​ 其中,是上一个时刻的hidden state（一般用 表示encoder的hidden state，用 表示decoder的hidden state）； ​ 是上一个时刻的输出，用来当做这个时刻的输入； ​ 在图中没有，就是红框里得到的加权和，叫做context，即由所有的encoder output（即 ，不定长）得到一个定长的向量，代表输入序列的全局信息，作为当前decoder step的context（上下文）。 ​ 计算方法为： ，其中是权重，又称为alignment； 就是encoder所有step的hidden state，又叫做value或者memory； 代表decoder step， 代表encoder step。 那么权重矩阵又是怎么来的呢？ ​ 其中 其实上面的公式就是对e的求softmax，因为我们要计算一组权重，而这组权重的和为1；下面的e的表达式就是代表着对 和 的相关程度进行计算的函数，即对于某个既定的decoder step，计算上个时刻的hidden state和所有encoder step的输出的相关程度，并且用softmax归一化；这样，相关度大的 权重就大，在整个context里占得比重就多，decoder在当前step做解码的时候就越重视它（这就是attention的思想）。 具体的相关程度的计算，主要实现方式 对 做一个线性映射，得到的向量叫做query，记做 ； 对 做一个线性映射，得到的向量叫做key，记做 ； 。和的维度必须相同，记为 ； 是一个 的向量。]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[python进阶-面向对象编程]]></title>
@@ -351,14 +366,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tmux基本操作]]></title>
-    <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
+    <title><![CDATA[pytorch运算操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.transponse** ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
       <categories>
-        <category>Linux操作</category>
+        <category>pytorch</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>pytorch</tag>
       </tags>
   </entry>
   <entry>
@@ -373,14 +388,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pytorch运算操作]]></title>
-    <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.transponse** ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
+    <title><![CDATA[tmux基本操作]]></title>
+    <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
       <categories>
-        <category>pytorch</category>
+        <category>Linux操作</category>
       </categories>
       <tags>
-        <tag>pytorch</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>

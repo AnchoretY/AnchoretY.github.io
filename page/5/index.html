@@ -297,6 +297,197 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/24/HMM入门以及在webshell检测中的应用汇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/24/HMM入门以及在webshell检测中的应用汇/" itemprop="url">HMM入门以及在webshell检测中的应用汇</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-24T12:26:32+08:00">
+                2018-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h2><p>一、HMM五元素   </p>
+<p>​      <img src="../../imgs/hmm_0.png" alt=""></p>
+<p>​    其中：</p>
+<p>​        N：隐藏状态数 hidden states        </p>
+<p>​        M：观测状态数 observed states</p>
+<p>​            A： 状态转移矩阵 transition matrix </p>
+<p>​            B：发射矩阵  emission matrix </p>
+<p>​            pi：初始隐状态向量 initial state vector</p>
+<p>HMM全称隐马尔科夫链，常用与异常检测，在大量正常的模式中找出异常的模式。</p>
+<p>​    隐马尔科夫链模型相关的问题主要分为三类：</p>
+<blockquote>
+<p>1.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链</p>
+<p>2.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求得出这个可见状态链的概率</p>
+<p>3.已知隐含状态数量、可以观察到多个可见状态链，求因此状态的转移矩阵和发射概率</p>
+</blockquote>
+<h4 id="1-求隐藏状态链问题"><a href="#1-求隐藏状态链问题" class="headerlink" title="1.求隐藏状态链问题"></a>1.求隐藏状态链问题</h4><p>​    该问题是在：已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链(<strong>也就是最大概率的转移序列</strong>)</p>
+<p>​    <strong>应用场景</strong>：语音识别解码问题</p>
+<p>​        <strong>方法</strong>：<strong>Viterbi algorithm</strong></p>
+<p>​    举例来说，我知道我有三个骰子，六面骰，四面骰，八面骰。我也知道我掷了十次的结果（1 6 3 5 2 7 3 5 2 4），我不知道每次用了那种骰子，我想知道最有可能的骰子序列。</p>
+<p>​      首先，如果我们只掷一次骰子：看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8. </p>
+<p>​      把这个情况拓展，我们掷两次骰子：结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是<br><img src="http://zhihu.com/equation?tex=P2%28D6%29%3DP%28D4%29%2AP%28D4%5Crightarrow+1%29%2AP%28D4%5Crightarrow+D6%29%2AP%28D6%5Crightarrow+6%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B6%7D" alt="img"> </p>
+<p>​      同样的，我们可以计算第二个骰子是D4或D8时的最大概率。我们发现，第二个骰子取到D6的概率最大。而使这个概率最大时，第一个骰子为D4。所以最大概率骰子序列就是D4 D6。<br>​    继续拓展，我们掷三次骰子：同样，我们计算第三个骰子分别是D6，D4，D8的最大概率。我们再次发现，要取到最大概率，第二个骰子必须为D6。这时，第三个骰子取到D4的最大概率是<img src="http://zhihu.com/equation?tex=P3%28D4%29%3DP2%28D6%29%2AP%28D6%5Crightarrow+D4%29%2AP%28D4%5Crightarrow+3%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B216%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D" alt="img"><br>​      同上，我们可以计算第三个骰子是D6或D8时的最大概率。我们发现，第三个骰子取到D4的概率最大。而使这个概率最大时，第二个骰子为D6，第一个骰子为D4。所以最大概率骰子序列就是D4 D6 D4。</p>
+<p>写到这里，大家应该看出点规律了。既然掷骰子一二三次可以算，掷多少次都可以以此类推。</p>
+<p>​    </p>
+<p>​    我们发现，我们要求最大概率骰子序列时要做这么几件事情。<strong>首先，不管序列多长，要从序列长度为1算起，算序列长度为1时取到每个骰子的最大概率。然后，逐渐增加长度，每增加一次长度，重新算一遍在这个长度下最后一个位置取到每个骰子的最大概率。因为上一个长度下的取到每个骰子的最大概率都算过了，重新计算的话其实不难。当我们算到最后一位时，就知道最后一位是哪个骰子的概率最大了。然后，我们要把对应这个最大概率的序列从后往前推出来,这就是Viterbi算法。</strong> </p>
+<h4 id="2-求得出某个可见状态链的概率"><a href="#2-求得出某个可见状态链的概率" class="headerlink" title="2.求得出某个可见状态链的概率"></a>2.求得出某个可见状态链的概率</h4><p>​    该问题是在：<strong>已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链</strong>，求得出这个可见状态链的概率</p>
+<p>​    <strong>应用场景</strong>：检测观察到的结果与我们已知的模型是否吻合，即<strong>异常检测</strong></p>
+<p>​    <strong>方法</strong>:<strong>前向算法（forward algorithm）</strong></p>
+<p>​    <strong>要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算（即在当前的HMM下可能出啊先找个状态链的概率）</strong>。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。<br>​      我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做<strong>前向算法（forward algorithm）</strong>。<br>​    首先，如果我们只掷一次骰子，看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18：</p>
+<p><img src="../../imgs/hmm_2.png" alt=""></p>
+<p>​    把这个情况拓展，我们掷两次骰子，看到结果为1，6，总概率为0.05：</p>
+<p><img src="../../imgs/hmm_3.png" alt=""></p>
+<p>​    继续拓展，我们掷三次骰子，看到结果为1，6，3，计算总概率为0.03：</p>
+<p><img src="../../imgs/hmm_5.png" alt=""></p>
+<p>​    同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。</p>
+<h4 id="3-求状态转移矩阵和发射概率（训练过程）"><a href="#3-求状态转移矩阵和发射概率（训练过程）" class="headerlink" title="3.    求状态转移矩阵和发射概率（训练过程）"></a>3.    求状态转移矩阵和发射概率（训练过程）</h4><p>​    该问题是在：    <strong>已知隐含状态数量、可以观察到多个可见状态链</strong></p>
+<p>​    <strong>应用场景</strong>：有大量该问题的已知观测序列，想<strong>训练</strong>一个HMM模型</p>
+<p>​    <strong>方法：Baum-Welch算法</strong></p>
+<h2 id="HMM在webshell检测中的应用"><a href="#HMM在webshell检测中的应用" class="headerlink" title="HMM在webshell检测中的应用"></a>HMM在webshell检测中的应用</h2><p>缺陷：</p>
+<ol>
+<li><p>由于HMM的训练和预测的时间复杂度都是O(n^2)，因此在数据量特别大的时候速度非常慢</p>
+</li>
+<li><p>HMM并没有spark版本，无法直接部署到spark集群上（这点是个大坑！）</p>
+<ol start="3">
+<li>HMM在在webshell检测中比较局限，只能部署在生成文件名绝大部分都有固定模式的网站上来进行检测，对于各个页面随意进行命名的网站并没有检测效果</li>
+</ol>
+</li>
+</ol>
+<h2 id="使用RNN来代替HMM"><a href="#使用RNN来代替HMM" class="headerlink" title="使用RNN来代替HMM"></a>使用RNN来代替HMM</h2><p>​    在数据量很大时，我们可以使用RNN来代替HMM，RNN在实现过程中<strong>可以采用并行的方式来进行梯度下降</strong>，大大加快了整体的速度。</p>
+<p>​    而且大部分时候使用RNN的效果都会优于HMM，详细见下篇：</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/Docker操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -426,7 +617,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/tmux基本操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/pytorch运算操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -445,7 +636,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/tmux基本操作/" itemprop="url">tmux基本操作</a></h1>
+                <a class="post-title-link" href="/2018/09/23/pytorch运算操作/" itemprop="url">pytorch运算操作</a></h1>
         
 
         <div class="post-meta">
@@ -480,8 +671,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux操作/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux操作</span>
+                  <a href="/categories/pytorch/" itemprop="url" rel="index">
+                    <span itemprop="name">pytorch</span>
                   </a>
                 </span>
 
@@ -519,43 +710,12 @@
       
         
           
-            <p>tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。</p>
-<p><strong>tmux核心功能</strong></p>
-<blockquote>
-<p>1.tmux可以在一个窗口中创建多个窗格</p>
-<p>2.终端软件重启后通过命令行恢复上次的session</p>
-</blockquote>
-<p>在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表:</p>
-<p><strong>1. 窗格操作 </strong></p>
-<ul>
-<li><strong><code>%</code> 左右平分出两个窗格</strong></li>
-<li><strong><code>&quot;</code> 上下平分出两个窗格</strong></li>
-<li><code>x</code> 关闭当前窗格</li>
-<li><code>{</code> 当前窗格前移</li>
-<li><code>}</code> 当前窗格后移</li>
-<li><code>;</code> 选择上次使用的窗格</li>
-<li><strong><code>o</code> 选择下一个窗格，也可以使用上下左右方向键来选择</strong></li>
-<li><code>space</code> 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 <code>⌥1</code> 至 <code>⌥5</code>来切换</li>
-<li><code>z</code> 最大化当前窗格，再次执行可恢复原来大小</li>
-<li><strong><code>q</code> 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格</strong></li>
-</ul>
-<p><strong>2.会话操作</strong></p>
-<p>​    在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括：</p>
-<ul>
-<li><code>$</code> 重命名当前会话</li>
-<li><code>s</code> 选择会话列表</li>
-<li><code>d</code>  detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程</li>
-</ul>
-<p>​    在shell准进程中也可以进行直接对session进行操作：</p>
-<blockquote>
-<p>tmux new -s foo    #创建名为foo的会话</p>
-<p>tmux ls     #列出所有的tmux</p>
-<p>tmux a    #恢复至上一次回话</p>
-<p>tmux a -t foo #恢复会话名称为foo的会话</p>
-<p>tmux kill-session -t foo        #删除会话名称为foo的会话</p>
-<p>tmux kill-server #删除所有会话</p>
-</blockquote>
-<p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
+            <p>1.transponse**</p>
+<p>​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换两个维度</span></span><br><span class="line">torch.transponse(dim1,dim2)</span><br></pre></td></tr></table></figure>
+<p><strong>2.matmul和bmm</strong></p>
+<p>​    matmul和bmm都是实现batch的矩阵乘法操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand((<span class="number">2</span>,<span class="number">3</span>,<span class="number">10</span>))</span><br><span class="line">b = torch.rand((<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">res1 = torch.matmul(a,b.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#res1 = torch.matmul(a,b.transose(1,2))</span></span><br><span class="line"><span class="keyword">print</span> res1.size()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3x2]</span><br></pre></td></tr></table></figure>
 
           
         
@@ -754,7 +914,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/pytorch运算操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/tmux基本操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -773,7 +933,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/pytorch运算操作/" itemprop="url">pytorch运算操作</a></h1>
+                <a class="post-title-link" href="/2018/09/23/tmux基本操作/" itemprop="url">tmux基本操作</a></h1>
         
 
         <div class="post-meta">
@@ -808,8 +968,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pytorch/" itemprop="url" rel="index">
-                    <span itemprop="name">pytorch</span>
+                  <a href="/categories/Linux操作/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux操作</span>
                   </a>
                 </span>
 
@@ -847,12 +1007,43 @@
       
         
           
-            <p>1.transponse**</p>
-<p>​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换两个维度</span></span><br><span class="line">torch.transponse(dim1,dim2)</span><br></pre></td></tr></table></figure>
-<p><strong>2.matmul和bmm</strong></p>
-<p>​    matmul和bmm都是实现batch的矩阵乘法操作。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand((<span class="number">2</span>,<span class="number">3</span>,<span class="number">10</span>))</span><br><span class="line">b = torch.rand((<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">res1 = torch.matmul(a,b.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#res1 = torch.matmul(a,b.transose(1,2))</span></span><br><span class="line"><span class="keyword">print</span> res1.size()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3x2]</span><br></pre></td></tr></table></figure>
+            <p>tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。</p>
+<p><strong>tmux核心功能</strong></p>
+<blockquote>
+<p>1.tmux可以在一个窗口中创建多个窗格</p>
+<p>2.终端软件重启后通过命令行恢复上次的session</p>
+</blockquote>
+<p>在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表:</p>
+<p><strong>1. 窗格操作 </strong></p>
+<ul>
+<li><strong><code>%</code> 左右平分出两个窗格</strong></li>
+<li><strong><code>&quot;</code> 上下平分出两个窗格</strong></li>
+<li><code>x</code> 关闭当前窗格</li>
+<li><code>{</code> 当前窗格前移</li>
+<li><code>}</code> 当前窗格后移</li>
+<li><code>;</code> 选择上次使用的窗格</li>
+<li><strong><code>o</code> 选择下一个窗格，也可以使用上下左右方向键来选择</strong></li>
+<li><code>space</code> 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 <code>⌥1</code> 至 <code>⌥5</code>来切换</li>
+<li><code>z</code> 最大化当前窗格，再次执行可恢复原来大小</li>
+<li><strong><code>q</code> 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格</strong></li>
+</ul>
+<p><strong>2.会话操作</strong></p>
+<p>​    在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括：</p>
+<ul>
+<li><code>$</code> 重命名当前会话</li>
+<li><code>s</code> 选择会话列表</li>
+<li><code>d</code>  detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程</li>
+</ul>
+<p>​    在shell准进程中也可以进行直接对session进行操作：</p>
+<blockquote>
+<p>tmux new -s foo    #创建名为foo的会话</p>
+<p>tmux ls     #列出所有的tmux</p>
+<p>tmux a    #恢复至上一次回话</p>
+<p>tmux a -t foo #恢复会话名称为foo的会话</p>
+<p>tmux kill-session -t foo        #删除会话名称为foo的会话</p>
+<p>tmux kill-server #删除所有会话</p>
+</blockquote>
+<p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
 
           
         
@@ -1858,152 +2049,6 @@ predict = kmeans.fit_predict(input)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/Github-hexo博客使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/Github-hexo博客使用/" itemprop="url">Github+hexo博客使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T10:45:16+08:00">
-                2018-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客相关/" itemprop="url" rel="index">
-                    <span itemprop="name">博客相关</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>1.创建新博文页面</strong></p>
-<p>创建博文页面首先要cd 到博客的根目录下，然后运行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;页面名称&quot;</span><br></pre></td></tr></table></figure>
-<p>这样则在博客站点的source/_posts/文件夹下创建了指定的“页面名称.md”文件，可以直接对其进行编辑。完成编辑后就可已使用下面的同步命令来将修改提交到GIthub上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g    #生成静态文件并部署到服务器，g是generate代表生成文件，d是depoly代表部署到服务器</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2054,7 +2099,7 @@ predict = kmeans.fit_predict(input)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2076,7 +2121,7 @@ predict = kmeans.fit_predict(input)
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
