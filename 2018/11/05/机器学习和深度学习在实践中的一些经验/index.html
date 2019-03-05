@@ -88,7 +88,7 @@
 <meta property="og:description" content="####使用GBDT算法构造特征 ​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。 ​    在这篇论文中提出可以使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/GBDT%20构造新特征.png?raw=true">
-<meta property="og:updated_time" content="2018-12-12T02:20:23.467Z">
+<meta property="og:updated_time" content="2019-02-28T09:16:09.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习和深度学习在实践中的一些经验">
 <meta name="twitter:description" content="####使用GBDT算法构造特征 ​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。 ​    在这篇论文中提出可以使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果。">
@@ -394,7 +394,7 @@
       
         <p>####使用GBDT算法构造特征</p>
 <p>​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。</p>
-<p>​    在这篇论文中提出可以使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果。</p>
+<p>​    在这篇论文中提出可以<strong>使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果</strong>。</p>
 <blockquote>
 <p>实践情况</p>
 <p>​    1.本人使用这种方式在ctr预估中已经进行过实验，准确率提升2%</p>
@@ -529,7 +529,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -297,6 +297,334 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/30/python多进程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/30/python多进程/" itemprop="url">python多进程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-30T11:12:53+08:00">
+                2018-12-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python进阶操作/" itemprop="url" rel="index">
+                    <span itemprop="name">python进阶操作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    python多进程之前一直在在写一些小程序，这次正好需要写一个比较正式的多进行处理，正好系统的总结下python多进行的一些核心知识。</p>
+<p>​    首先python中常用的提高效率的方式主要主要包括多线程、多进程两种，但是在python中的多线程并不是正正的多线程，只有在网络请求密集型的程序中才能有效的提升效率，在计算密集型、IO密集型都不是很work甚至会造成效率下降，因此提升效率的方式就主要以多进程为主。</p>
+<p>​    python中多进程需要使用python自带包multiprocessing，multiprocessing支持子进程、通信和共享数据、执行不同形式的同步，提供了Process、Queue、Pipe、Lock等组件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Lock,Value,Queue,Pool</span><br></pre></td></tr></table></figure>
+<h3 id="创建进程类"><a href="#创建进程类" class="headerlink" title="创建进程类"></a>创建进程类</h3><h4 id="1-单个进程类的创建"><a href="#1-单个进程类的创建" class="headerlink" title="1.单个进程类的创建"></a>1.单个进程类的创建</h4><p>​    <strong>1.创建单进程</strong></p>
+<p>​        </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>####使用进程池创建多进程</p>
+<p>​    Pool类可以提供指定数量的进程供用户调用，当有新的请求提交到Pool中时，如果池还没有满，就会创建一个新的进程来执行请求。如果池满，请求就会告知先等待，直到池中有进程结束，才会创建新的进程来执行这些请求。 </p>
+<p>​    常用方法：</p>
+<p>​    <strong>1.apply</strong></p>
+<p>​    用于传递不定参数，同python中的apply函数一致，主进程会被阻塞直到函数执行结束（<strong>不建议使用</strong>，并且3.x以后不在出现）。</p>
+<p>​    <strong>2.apply_async</strong></p>
+<p>​    和apply类似，非阻塞版本，支持结果返回后进行回调</p>
+<p>​    <strong>3.map</strong></p>
+<p>​    函数原型:map(func, iterable[, chunksize=None])</p>
+<p>​    Pool中的map和python内置的map用法基本上一致，会阻塞直到返回结果</p>
+<p>​    <strong>4.map_async</strong></p>
+<p>​    函数原型：map_async(func, iterable[, chunksize[, callback]])</p>
+<p>​    和map用法一致，但是它是非阻塞的</p>
+<p>​    <strong>5.close</strong></p>
+<p>​    关闭进程池，使其不再接受新的任务</p>
+<p>​    <strong>6.terminal</strong></p>
+<p>​    结束工作进程，不再处理未处理的任务</p>
+<p>​    <strong>7.join</strong></p>
+<p>​    主进程阻塞等待子进程退出，join方法要在close或terminal方法后面使用</p>
+<p>​    </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mutiprocess <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line">process_nums = <span class="number">20</span></span><br><span class="line">pool = Pool(process_nums)</span><br></pre></td></tr></table></figure>
+<h3 id="使用Lock来避免冲突"><a href="#使用Lock来避免冲突" class="headerlink" title="使用Lock来避免冲突"></a>使用Lock来避免冲突</h3><p>​    lock主要用于多个进程之间共享资源时，避免资源访问冲突，主要包括下面两个操作：</p>
+<p>​        1.look.acquire()  获得锁</p>
+<p>​        2.lock.release()   释放锁</p>
+<p>​    下面是不加锁时的程序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,value,lock)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">        number += value</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = <span class="number">0</span></span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
+<p>​    结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">main end</span><br><span class="line">init add1 number = <span class="number">0</span></span><br><span class="line">init add3 number = <span class="number">0</span></span><br><span class="line">add1 number = <span class="number">1</span></span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">add1 number = <span class="number">2</span></span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">add1 number = <span class="number">3</span></span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">add1 number = <span class="number">4</span></span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">add1 number = <span class="number">5</span></span><br><span class="line">add3 number = <span class="number">15</span></span><br></pre></td></tr></table></figure>
+<p>​    两个进程交替的来对number进行加操作，下面是加锁后的程序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number += value</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">raise</span> e</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        lock.release()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = <span class="number">0</span></span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
+<p>​    结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">main end</span><br><span class="line">init add1 number = <span class="number">0</span>			<span class="comment">#add1优先抢到锁，优先执行</span></span><br><span class="line">add1 number = <span class="number">1</span></span><br><span class="line">add1 number = <span class="number">2</span></span><br><span class="line">add1 number = <span class="number">3</span></span><br><span class="line">add1 number = <span class="number">4</span></span><br><span class="line">add1 number = <span class="number">5</span></span><br><span class="line">init add3 number = <span class="number">0</span>			<span class="comment">#add3被阻塞，等待add1执行完成，释放锁后执行add3</span></span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">add3 number = <span class="number">15</span></span><br><span class="line"><span class="comment">#注意观察上面add3部分，虽然在add1部分已经将number加到了5，但是由于number变量只是普通变量，不能在各个进程之间进行共享，因此add3开始还要从0开始加</span></span><br></pre></td></tr></table></figure>
+<p>####使用Value和Array来进行内存之中的共享通信</p>
+<p>​    一般的变量在进程之间是没法进行通讯的，multiprocessing 给我们提供了 <strong>Value 和 Array</strong> 模块，他们可以在不通的进程中共同使用。</p>
+<p>​    <strong>1.Value多进程共享变量</strong></p>
+<p>​    将前面加锁的程序中的变量使用multiprocessing提供的共享变量来进行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,add_value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number.value += add_value</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"***************add&#123;0&#125; has added***********"</span>.format(add_value))</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">raise</span> e</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        lock.release()</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
+<p>​    输出结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#add3开始时是在add1的基础上来进行加的</span></span><br><span class="line">main end</span><br><span class="line">init add1 number = <span class="number">0</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">1</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">2</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">3</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">4</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">5</span></span><br><span class="line">init add3 number = <span class="number">5</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">8</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">11</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">14</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">17</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<p>​    <strong>2.Array实现多进程共享内存变量</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,add_value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number.value += add_value</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"***************add&#123;0&#125; has added***********"</span>.format(add_value))</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">raise</span> e</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">change</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)):</span><br><span class="line">        arr[i] = -arr[i]</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">    arr = multiprocessing.Array(<span class="string">'i'</span>, range(<span class="number">10</span>))</span><br><span class="line">    <span class="keyword">print</span> (arr[:])</span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p3 = multiprocessing.Process(target=change,args=(arr,))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    p3.start()</span><br><span class="line">    p3.join()</span><br><span class="line">    <span class="keyword">print</span> (arr[:])</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
+<p>​    输出结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line">init add3 number = <span class="number">0</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">[<span class="number">0</span>, <span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-3</span>, <span class="number">-4</span>, <span class="number">-5</span>, <span class="number">-6</span>, <span class="number">-7</span>, <span class="number">-8</span>, <span class="number">-9</span>]</span><br><span class="line">main end</span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">15</span></span><br><span class="line">init add1 number = <span class="number">15</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">16</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">17</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">18</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">19</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<p>####使用Queue来实现多进程之间的数据传递</p>
+<p>​    Queue是多进程安全队列，可以使用Queue来实现进程之间的数据传递，使用的方式：</p>
+<blockquote>
+<p>1.put 将数据插入到队列中</p>
+<p>​    包括两个可选参数：blocked和timeout</p>
+<p>​        (1)如果blocked为True（默认为True）,并且timeout为正值，该方法会阻塞队列指定时间，直到队列有剩余，如果超时，会抛出Queue.Full</p>
+<p>​        (2)如果blocked为False，且队列已满，那么立刻抛出Queue.Full异常</p>
+<p>2.get 从队列中读取并删除一个元素</p>
+<p>​    包括两个可选参数:block和timeout</p>
+<p>​        （1）blocked为True，并且timeout为正值，那么在等待时间结束后还没有取到元素，那么会抛出Queue.Empty异常</p>
+<p>​        （2）blocked为False，那么对列为空时直接抛出Queue.Empty异常</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/hadoop使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/25/hadoop使用/" itemprop="url">hadoop使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T11:28:18+08:00">
+                2018-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.查看hadoop某个目录下的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hadoop  fs -ls path</span><br></pre></td></tr></table></figure>
+<p>2.从hdfs上下拉文件到本地</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hdfs fs -get file</span><br></pre></td></tr></table></figure>
+<p>3.获取部署在docker中的hadoop的挂载信息等元数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker inspect hdp-server</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/刷题之Cpp基础知识回顾/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -489,6 +817,16 @@
         
           
             <p>1.在只需要考虑是不是存在元素的个数，只可考虑是否存在的情况下，先将list装换成set可以非常有效的提升计算效率</p>
+<h4 id="2-对Int类型数值的范围要保持敏感"><a href="#2-对Int类型数值的范围要保持敏感" class="headerlink" title="2.对Int类型数值的范围要保持敏感"></a>2.对Int类型数值的范围要保持敏感</h4><p>​    Int类型数值范围为</p>
+<p>​        Max 0x7fffffff    2^31-1    2147483647</p>
+<p>​        Min 0x80000000   2^31    -2147483648</p>
+<p>​    <strong>注意：负数的范围会比正数的范围大一，这按需要特别注意</strong></p>
+<h4 id="3-常见数学问题要考虑的情况"><a href="#3-常见数学问题要考虑的情况" class="headerlink" title="3.常见数学问题要考虑的情况"></a>3.常见数学问题要考虑的情况</h4><p>​    1.是否有负数</p>
+<p>​    2.是否有小数</p>
+<p>​    3.是否考虑错误输入？如何进行处理</p>
+<p>​    4.数据范围极端值</p>
+<p>​    5.0或空如何进行处理</p>
+<p>​    .</p>
 
           
         
@@ -1432,252 +1770,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/16/linux——恢复误删除文件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/16/linux——恢复误删除文件/" itemprop="url">linux——恢复误删除文件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-16T11:33:41+08:00">
-                2018-11-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    ububtu默认情况下会存在一个默认回收站，当使用的文件被误删除需要找回时，可以进入到回收站找到该文件，将其恢复出来即可</p>
-<blockquote>
-<p>回收站位置：</p>
-<p>​    ~/.local/share/Trash</p>
-<p>找回方式：</p>
-<p>​    进入该目录，直接将该目录中的文件考出即可</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/pandas常用设置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/12/pandas常用设置/" itemprop="url">pandas常用设置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-12T21:04:34+08:00">
-                2018-11-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1728,7 +1820,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
