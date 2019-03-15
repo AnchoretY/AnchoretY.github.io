@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机试，算法总结," />
+  <meta name="keywords" content="机试,算法总结," />
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="​    在含环的问题中，存在一些关键性的结论，在解决问题时非常有帮助，下面是一些相关的总结。 1.判断链表是否有环​    结论：一个速度为1的low指针和一个速度为2的fast指针同时从头向前走，如果其中fast指针为None，那么则为无环，如果两个只能指向的元素相等，那么链表有环。 2.判断链表的环入口节点​    结论：函数一样的双指针进行遍历，如果fast指针为None,那么则为无环。如">
-<meta name="keywords" content="机试，算法总结">
+<meta name="keywords" content="机试,算法总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机试-含环链表相关">
 <meta property="og:url" content="http://yoursite.com/2019/03/12/机试-含环链表相关/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​    在含环的问题中，存在一些关键性的结论，在解决问题时非常有帮助，下面是一些相关的总结。 1.判断链表是否有环​    结论：一个速度为1的low指针和一个速度为2的fast指针同时从头向前走，如果其中fast指针为None，那么则为无环，如果两个只能指向的元素相等，那么链表有环。 2.判断链表的环入口节点​    结论：函数一样的双指针进行遍历，如果fast指针为None,那么则为无环。如">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-12T11:46:19.486Z">
+<meta property="og:updated_time" content="2019-03-13T15:01:22.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机试-含环链表相关">
 <meta name="twitter:description" content="​    在含环的问题中，存在一些关键性的结论，在解决问题时非常有帮助，下面是一些相关的总结。 1.判断链表是否有环​    结论：一个速度为1的low指针和一个速度为2的fast指针同时从头向前走，如果其中fast指针为None，那么则为无环，如果两个只能指向的元素相等，那么链表有环。 2.判断链表的环入口节点​    结论：函数一样的双指针进行遍历，如果fast指针为None,那么则为无环。如">
@@ -379,7 +379,7 @@
 <p>​    那么因为fast的速度为2，low的速度为1，因此可以认为low入环时走在前面，每次fast和low之间的距离缩小1，因此，必定会在第一圈完成之前相遇。所以有</p>
 <p>​    low 在环内位置: (a+b)-a mod (b+c)  -&gt; b mod (b+c)</p>
 <p>​    fast 在环内位置：2(a+b)-a mod (b+c) -&gt; a+2b mod (b+c)</p>
-<p>二者应该相等，因此得出 a+b mod (b+c) = 0 即a = c</p>
+<p>二者应该相等，因此得出 a+b mod (b+c) = 0 即<strong>a = c</strong></p>
 </blockquote>
 <p>​    利用这个结论，我们可以先判断判断链表是否有环，如果有环，那么先找到相间的节点，然后再用一个新指针从头开始以速度为1和low指针从相交节点同时开始遍历，当两个点相交的节点即为环入口节点。</p>
 <blockquote>
@@ -409,7 +409,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/机试，算法总结/" rel="tag"># 机试，算法总结</a>
+            <a href="/tags/机试/" rel="tag"># 机试</a>
+          
+            <a href="/tags/算法总结/" rel="tag"># 算法总结</a>
           
         </div>
       
@@ -431,6 +433,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/12/机试-回文子串相关/" rel="prev" title="机试-回文子串相关">
+                机试-回文子串相关 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -507,7 +513,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -529,7 +535,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

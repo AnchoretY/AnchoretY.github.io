@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[机试-回文子串相关]]></title>
+    <url>%2F2019%2F03%2F12%2F%E6%9C%BA%E8%AF%95-%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%E7%9B%B8%E5%85%B3%2F</url>
+    <content type="text"><![CDATA[回文子串 例：给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。 具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被计为是不同的子串。 123456789101112131415def countSubstrings(self, s): """ :type s: str :rtype: int """ length = len(s) result = 0 for i in range(length): for j in range(i+1,length+1): #这里注意循环的范围为range(i+1,length+1) if s[i:j]==s[i:j][::-1]: result += 1 return result 最长回文子串​ 最长回文子串也是回文串中常见的一中题目，下面是例题 例：给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。 思路一：Manacher算法 ​ 首先先将字符串首尾以及字符和字符之间采用”#“进行补齐，补齐后的字符串总长度2n+1(n为原始字符串长度)。然后从第一个非#字符 12345678910111213141516171819202122232425262728293031323334def get_length(string, index): # 循环求出index为中心的最长回文字串 length = 0 seq = "" if string[index]!="#": seq = string[index] length = 1 string_len = len(string) for i in range(1,index+1): if index+i&lt;string_len and string[index-i]==string[index+i]: # print(string[index-i],seq+string[index+i]) if string[index-i]!="#": length +=2 seq = string[index-i]+seq+string[index+i] else: break return length,seq s_list = [i for i in s] string = "#"+"#".join(s)+"#" length = len(string) max_length = 0 max_seq = "" for index in range(0,length): # print("====") tmp_len,tmp_seq = get_length(string,index) # print(tmp_len,tmp_seq) if tmp_len&gt;max_length: max_length = tmp_len max_seq = tmp_seq return max_seq 思路二：动态规划 ​ 这里的动态规划的核心思路就是从头开始向后进行遍历，每次想看头尾同时加入比最大之前最大回文子串的长多+1字符串是不是回文子串(注意但是首部索引不能超过0)，如果是则记录起始节点start，max_len的值+2；否则判断只在尾部进行字符串加1的字符串时不是回文子串（这里之说以不必尝试在头部加1，因为再从头开始遍历的过程中已经尝试了头部加1），如果是记录start节点，max_len的值+2 ​ f(x+1) 12345678910111213141516171819def longestPalindrome(self, s): """ :type s: str :rtype: str """ length = len(s) max_len = 0 start = 0 for i in range(length): if i-max_len&gt;=1 and s[i-max_len-1:i+1]==s[i-max_len-1:i+1][::-1]: start = i-max_len-1 max_len += 2 elif i-max_len&gt;=0 and s[i-max_len:i+1]==s[i-max_len:i+1][::-1]: start = i-max_len max_len += 1 return s[start:start+max_len] 最长回文子序列516​ z]]></content>
+      <tags>
+        <tag>机试</tag>
+        <tag>算法总结</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[机试-含环链表相关]]></title>
     <url>%2F2019%2F03%2F12%2F%E6%9C%BA%E8%AF%95-%E5%90%AB%E7%8E%AF%E9%93%BE%E8%A1%A8%E7%9B%B8%E5%85%B3%2F</url>
     <content type="text"><![CDATA[​ 在含环的问题中，存在一些关键性的结论，在解决问题时非常有帮助，下面是一些相关的总结。 1.判断链表是否有环​ 结论：一个速度为1的low指针和一个速度为2的fast指针同时从头向前走，如果其中fast指针为None，那么则为无环，如果两个只能指向的元素相等，那么链表有环。 2.判断链表的环入口节点​ 结论：函数一样的双指针进行遍历，如果fast指针为None,那么则为无环。如果两个指针指向的的元素相同，那么这个节点到链表入口点的长度和链表头到链表入口点的长度相等。 推导过程： ​ 设链表头到入口节点的长度为a ​ 链表入口节点到相遇节点的长度为b ​ 相遇节点到链表入口节点的长度为c ​ 那么因为fast的速度为2，low的速度为1，因此可以认为low入环时走在前面，每次fast和low之间的距离缩小1，因此，必定会在第一圈完成之前相遇。所以有 ​ low 在环内位置: (a+b)-a mod (b+c) -&gt; b mod (b+c) ​ fast 在环内位置：2(a+b)-a mod (b+c) -&gt; a+2b mod (b+c) 二者应该相等，因此得出 a+b mod (b+c) = 0 即a = c ​ 利用这个结论，我们可以先判断判断链表是否有环，如果有环，那么先找到相间的节点，然后再用一个新指针从头开始以速度为1和low指针从相交节点同时开始遍历，当两个点相交的节点即为环入口节点。 例题：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null. 12345678910111213141516def detectCycle(head): """ :type head: ListNode :rtype: ListNode """ low,fast = head,head while fast and fast.next and fast.next: low, fast = low.next, fast.next.next if fast==low: p = head while p!=low: p = p.next low = low.next return p return None 3.变形型题目​ 有一类题目不会明显的说让解决环的问题，但是使用环来解决，往往会起到意想不到的效果。 例题：编写一个程序，找到两个单链表相交的起始节点。 123456789101112131415161718192021222324252627282930313233343536373839def getIntersectionNode(headA, headB): """ :type head1, head1: ListNode :rtype: ListNode """ if headA==None or headB==None: return None #相判断两个是否相交 pA = headA pB = headB while pA.next: pA = pA.next while pB.next: pB = pB.next if pA!=pB: return None #将PA首尾相接 tail = pA pA.next = headA fast = headB low = headB while True: fast = fast.next.next low = low.next if fast==low: s = headB while s!=low: low = low.next s = s.next tail.next = None return s ​ 这道题利用了和上一道题目完全一样的规律解决]]></content>
       <tags>
-        <tag>机试，算法总结</tag>
+        <tag>机试</tag>
+        <tag>算法总结</tag>
       </tags>
   </entry>
   <entry>
@@ -13,7 +23,8 @@
     <url>%2F2019%2F03%2F09%2F%E6%9C%BA%E8%AF%95-%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[1.顺序查找​ 这里不做过多的叙述，就是多次遍历的暴力查找方式。 2.二分查找​ 二分查找是一种只能运用在有序数据上的查找算法，其时间复杂度为O(n^2) 1234567891011def find_data(nums,start,end,target): while start&lt;=end: middle = start+((end-start)&gt;&gt;1) if nums[middle]==target: return middle elif nums[middle]&gt;target: end = middle-1 else: start = middle+1 return -1 拓展：在一些题目中经常出现的中各种各样形式的隐晦的搜索，下面是一道腾讯机试题目。 题目:小Q的父母要出差N天，走之前给小Q留下了M块巧克力。小Q决定每天吃的巧克力数量不少于前一天吃的一半，但是他又不想在父母回来之前的某一天没有巧克力吃，请问他第一天最多能吃多少块巧克力? 答案：这道题直接使用循序查找会导致超时，优化采用二分查找 123456789101112131415161718192021222324252627282930313233343536373839404142434445import sys #m块巧克力，出差n天#第一天最多吃的块数def get_eat_sum(eat_first,n): eat_sum = 0 last_eat = 0 for i in range(n): if last_eat==0: eat = eat_first else: eat = last_eat//2+last_eat%2 eat_sum += eat last_eat = eat return eat_sum def fun(m,n): m = int(m) n = int(n) max_eat = m-n+1 start = 1 end = m-n+1 while start&lt;=end: middle = start+((end-start)&gt;&gt;1) eat_sum = get_eat_sum(middle,n) if eat_sum==m: return middle elif eat_sum&gt;m: end = middle-1 else: start = middle+1 #这里是很关键的一步判断，因为这个问题会出现不一定正好相等，但是有解的情况 if get_eat_sum(middle,n)&lt;m: return middle else: return middle-1 for line in sys.stdin: a = line.split(" ") m,n = a[0],a[1] print(fun(n,m))]]></content>
       <tags>
-        <tag>机试，算法总结</tag>
+        <tag>机试</tag>
+        <tag>算法总结</tag>
       </tags>
   </entry>
   <entry>
@@ -37,7 +48,7 @@
   <entry>
     <title><![CDATA[机试——排序算法总结]]></title>
     <url>%2F2019%2F02%2F10%2F%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[​ 机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。 在机试中常用的排序算法主要包含下面几种： ​ 1.插入排序 ​ 2.选择排序 ​ 3.快速排序(最常用的排序) ​ 4.冒泡排序 ​ 5.归并排序 ​ 6.桶排序 下面我将具体介绍各种排序算法： 1.插入排序​ 每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。 ​ 注意：插入排序的核心点就是两两比较时从后向前进行比较，如果比插入值大，那么将其向后移动，直到找到比插入值小的。 12345678910def insertion_sort(arr): length = len(arr) for i in range(1,length): #从第一个元素开始依次进行排序 tmp = arr[i] j = i while arr[j-1]&gt;tmp and j&gt;0: #从当前元素从后向前向前开始遍历，寻找第一个比当前元素更小的元素 arr[j] = arr[j-1] #再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维 j -= 1 arr[j] = tmp return arr 稳定性：稳定 时间复杂度：O(n^2) 空间复杂度：O(1) 为什么插入排序是稳定的排序算法？ ​ 当前从头到尾选择元素进行排序时，当选择到第i个元素时，前i-1个元素已经排好了续，取出第i个元素，从i-1开始向前开始比较，如果小于，则将该位置元素向后移动，继续先前的比较，如果不小于，那么将第i个元素放在当前比较的元素之后。 2.选择排序​ 选择排序主要采用了从头到尾依次确定各个位置的方式来进行排序，首先遍历一次整个数组，如果遇到比第一个元素小的元素那么交换位置，一次遍历完成那么第一个位置就已经是整个数组中最小的元素了，经过n次遍历，确定全部位置的元素。 123456789def selection_sort(arr): length = len(arr) for i in range(length): for j in range(i,length): if arr[i]&gt;arr[j]: tmp = arr[i] arr[i] = arr[j] arr[j] = tmp return arr 稳定性：不稳定 时间复杂度：O(n^2) 空间复杂度：O(1) 3.冒泡排序​ 冒泡排序额是实现是不停地进行两两比较，将较大的元素换到右侧，然后继续进行两两比较，直到比较完全全部元素，每进行完一轮两两比较，确定一个元素的位置。例如：第一轮两两比较确定最大的值，第二轮比较确定次大元素。 1234567891011def bubble_sort(arr): length = len(arr) for i in range(0,length): for j in range(1,length-i): if arr[j]&lt;arr[j-1]: tmp = arr[j] arr[j] = arr[j-1] arr[j-1] = tmp return arr 稳定性：稳定 时间复杂度：O(n^2) 空间复杂度：O(1) 冒泡排序在原始冒泡排序算法的基础上还能做哪些优化？ ​ 1.设置是否已经排好序的flag。如果在某一轮的便利中没有出现任何的交换发生，这说明已经都排好序,那么直接将flag置True，每轮结束时检测flag，如果为True则直接返回 ​ 2.某一轮的结束为止为j，但这一轮最后一次交换发生在lastSwap位置，那么说明lastSwap到j之间已经排好序，下次遍历的结束点就不需要再到j—而是直接到lastSwap即可。 4.快速排序​ 快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，此时pivot的位置就是排好序后他也应该在的位置。然后继续用递归算法分别处理pivot左边的元素和右边的元素。 对于大的乱序数据快速排序被认为是最快速的排序方式1234567891011121314151617181920212223242526272829303132def quick_sort(arr,l,r): if(l&lt;r): q = mpartition(arr,l,r) quick_sort(arr,l,q-1) #前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置 quick_sort(arr,q+1,r) return arr def mpartition(arr,l,r): """ 递归子函数，povit放到指定位置 return l:最终标志元素被放置的位置，本轮确定了的元素位置 """ poviot = arr[l] while l&lt;r: while l&lt;r and arr[r]&gt;=poviot: r -= 1 if l&lt;r: arr[l] = arr[r] l += 1 while l&lt;r and arr[l]&lt;poviot: l += 1 if l&lt;r: arr[r] = arr[l] r -= 1 arr[l] = poviot return l 稳定性：不稳定（排序过程中不停地交换元素位置造成了排序算法不稳定） 时间复杂度： ​ 平均时间O(nlogn) ​ 最坏情况：O(n^2) 空间复杂度：O(nlogn) 5.归并排序​]]></content>
+    <content type="text"><![CDATA[​ 机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。 在机试中常用的排序算法主要包含下面几种： ​ 1.插入排序 ​ 2.选择排序 ​ 3.快速排序(最常用的排序) ​ 4.冒泡排序 ​ 5.归并排序 ​ 6.桶排序 下面我将具体介绍各种排序算法： 1.插入排序​ 每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。 ​ 注意：插入排序的核心点就是两两比较时从后向前进行比较，如果比插入值大，那么将其向后移动，直到找到比插入值小的。 12345678910def insertion_sort(arr): length = len(arr) for i in range(1,length): #从第一个元素开始依次进行排序 tmp = arr[i] j = i while arr[j-1]&gt;tmp and j&gt;0: #从当前元素从后向前向前开始遍历，寻找第一个比当前元素更小的元素 arr[j] = arr[j-1] #再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维 j -= 1 arr[j] = tmp return arr 稳定性：稳定 时间复杂度：O(n^2) 空间复杂度：O(1) 为什么插入排序是稳定的排序算法？ ​ 当前从头到尾选择元素进行排序时，当选择到第i个元素时，前i-1个元素已经排好了续，取出第i个元素，从i-1开始向前开始比较，如果小于，则将该位置元素向后移动，继续先前的比较，如果不小于，那么将第i个元素放在当前比较的元素之后。 2.选择排序​ 选择排序主要采用了从头到尾依次确定各个位置的方式来进行排序，首先遍历一次整个数组，如果遇到比第一个元素小的元素那么交换位置，一次遍历完成那么第一个位置就已经是整个数组中最小的元素了，经过n次遍历，确定全部位置的元素。 123456789def selection_sort(arr): length = len(arr) for i in range(length): for j in range(i,length): if arr[i]&gt;arr[j]: tmp = arr[i] arr[i] = arr[j] arr[j] = tmp return arr 稳定性：不稳定 时间复杂度：O(n^2) 空间复杂度：O(1) 3.冒泡排序​ 冒泡排序额是实现是不停地进行两两比较，将较大的元素换到右侧，然后继续进行两两比较，直到比较完全全部元素，每进行完一轮两两比较，确定一个元素的位置。例如：第一轮两两比较确定最大的值，第二轮比较确定次大元素。 1234567891011def bubble_sort(arr): length = len(arr) for i in range(0,length): for j in range(1,length-i): if arr[j]&lt;arr[j-1]: tmp = arr[j] arr[j] = arr[j-1] arr[j-1] = tmp return arr 稳定性：稳定 时间复杂度：O(n^2) 空间复杂度：O(1) 冒泡排序在原始冒泡排序算法的基础上还能做哪些优化？ ​ 1.设置是否已经排好序的flag。如果在某一轮的便利中没有出现任何的交换发生，这说明已经都排好序,那么直接将flag置True，每轮结束时检测flag，如果为True则直接返回 ​ 2.某一轮的结束为止为j，但这一轮最后一次交换发生在lastSwap位置，那么说明lastSwap到j之间已经排好序，下次遍历的结束点就不需要再到j—而是直接到lastSwap即可。 4.快速排序​ 快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，此时pivot的位置就是排好序后他也应该在的位置。然后继续用递归算法分别处理pivot左边的元素和右边的元素。 对于大的乱序数据快速排序被认为是最快速的排序方式d 123456789101112131415161718192021222324252627282930313233#方式一：递归def quick_sort(arr,l,r): if(l&lt;r): q = mpartition(arr,l,r) quick_sort(arr,l,q-1) #前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置 quick_sort(arr,q+1,r) return arr def mpartition(arr,l,r): """ 递归子函数，povit放到指定位置 return l:最终标志元素被放置的位置，本轮确定了的元素位置 """ poviot = arr[l] while l&lt;r: while l&lt;r and arr[r]&gt;=poviot: r -= 1 if l&lt;r: arr[l] = arr[r] l += 1 while l&lt;r and arr[l]&lt;poviot: l += 1 if l&lt;r: arr[r] = arr[l] r -= 1 arr[l] = poviot return l 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859#方式二：非递归，利用栈def partition(nums,low,high): #确定nums数组中指定部分low元素的位置，左边都比它小，右边都比他大 pivot = nums[low] high_flag = True #这里之所以设置这两个flag是为了确保交叉进行，否则可能会出现最大索引值处没有值或者最大索引值处一直付给各个low low_flag = False while low&lt;high and low&lt;len(nums) and high&lt;len(nums): if high_flag: if nums[high]&lt;pivot: nums[low]=nums[high] high_flag = False low_flag = True else: high -= 1 if low_flag: if nums[low]&gt;pivot: nums[high] = nums[low] low_flag = False high_flag = True else: low += 1 nums[low] = pivot return low def quick_sort(nums): low = 0 high = len(nums)-1 stack = [] #存储每次遍历起始索引和结束索引 if low&lt;high: #先手动将找到第一个节点的最终位置，将原数组分为左右两个数组，分别左右索引入栈 mid = partition(nums,low,high) if low&lt;mid-1: stack.append(low) stack.append(mid-1) if high&gt;mid+1: stack.append(mid+1) stack.append(high) #取出之前入栈的一个数组，来进行确定最终位置，分为左右两个子数组，分别左右索引入栈的操作，重复直到所有元素都已经排好序 while stack: #这里写的是属于右半部都排好后左半部 r = stack.pop() l = stack.pop() mid = partition(nums,l,r) if l&lt;mid-1: stack.append(l) stack.append(mid-1) if r&gt;mid+1: stack.append(mid+1) stack.append(r) return nums 稳定性：不稳定（排序过程中不停地交换元素位置造成了排序算法不稳定） 时间复杂度： ​ 平均时间O(nlogn) ​ 最坏情况：O(n^2) 空间复杂度：O(nlogn) 5.归并排序​]]></content>
       <tags>
         <tag>机试</tag>
         <tag>算法总结</tag>
@@ -400,17 +411,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pytorch运算操作]]></title>
-    <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.transponse** ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
-      <categories>
-        <category>pytorch</category>
-      </categories>
-      <tags>
-        <tag>pytorch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[tmux基本操作]]></title>
     <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
@@ -419,6 +419,17 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[pytorch运算操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.transponse** ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
       </tags>
   </entry>
   <entry>
@@ -464,7 +475,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[DBSCAN和KMeans相关资源和理解]]></title>
+    <title></title>
     <url>%2F2018%2F09%2F23%2FDBSCAN%E5%92%8CKMeans%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90%E5%92%8C%E7%90%86%E8%A7%A3%2F</url>
     <content type="text"><![CDATA[DBSCAN和KMeans相关资源和理解1.DBSCANDBSCAN是是一种典型的密度聚类算法，算法主要的思是由密度可达关系导出最大的密度相连样本集合，将其作为一个类。​ 主要参数： 最小分类样本数 半径 DBSCAN算法为有参数算法，聚类的最终结果很大程度上取决于参数的设定 DBSCAN算法不需要指定聚类个数，聚类个数根据算法和数据情况自动获得 DBSCAN聚类过程 首先根据半径画每个点的邻域，当点的邻域内点的个数大于最小样本数时，该点位为核心对象（原始数据集重点的变为核心对象和一般点） 随机确定一个核心点作为初始点，将该初始点全部的最大密度相连的点作为一类。 将分好类样本从原始的样本集中除去，从新选择核心对象作为聚类中心，再进行2.3操作，直至全部核心对象都被分类 DBSCAN代码实现from sklearn.cluster import DBSCAN dbcscan = DBSCAN(min_samples=30,eps=1.8) predict = dbscan.fit_predict(imput) 2.K-MeansKMeans是一种原始性聚类算法，算法主要思想是通过迭代过程把数据集划分为不同的类别，使得评价聚类性能的准则函数达到最优，从而使生成的每个聚类内紧凑，类间独立。这一算法不适合处理离散型数据，对连续性数据具有良好的效果 Kmeans为无参数算法，算法执行过程中不需要进行调参 Kmeans算法需要指定聚类个数K，这在实际问题中是很难进行确定的 KMeans聚类过程 根据指定的K值随机寻找K个点作为初始中心，将其他样本分别分给这些中心 由分好的类计算均值作为其该类新的中心，重新对各个样本分到距离最近的中心，重复这一过程，直至中心不再变化 Kmeans代码实现from sklearn.cluster import KMeans kmeans = KMeans(n_clusters=8) predict = kmeans.fit_predict(input) Kmeans、DBSCAN优缺点对比DBSCAN的主要优点有： 1） 可以对任意形状的稠密数据集进行聚类，相对的，K-Means之类的聚类算法一般只适用于凸数据集。 2） 可以在聚类的同时发现异常点，对数据集中的异常点不敏感。 3） 聚类结果没有偏倚，相对的，K-Means之类的聚类算法初始值对聚类结果有很大影响。 DBSCAN的主要缺点有： 1）如果样本集的密度不均匀、聚类间距差相差很大时，聚类质量较差，这时用DBSCAN聚类一般不适合。 2） 如果样本集较大时，聚类收敛时间较长，此时可以对搜索最近邻时建立的KD树或者球树进行规模限制来改进。 3） 调参相对于传统的K-Means之类的聚类算法稍复杂，主要需要对距离阈值ϵ，邻域样本数阈值MinPts联合调参，不同的参数组合对最后的聚类效果有较大影响。]]></content>
       <categories>
