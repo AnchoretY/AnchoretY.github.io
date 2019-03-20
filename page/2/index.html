@@ -297,6 +297,129 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/pythonic程序规范化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/07/pythonic程序规范化/" itemprop="url">pythonic程序规范化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T22:32:07+08:00">
+                2019-01-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.常量名称全部大写</p>
+<p>2.代码长度一行不能超过80字符</p>
+<p>3.类名使用驼峰式命名，一般不超过3</p>
+<p>4.函数名称</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/python2和python3的不同点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1566,153 +1689,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/26/深度学习训练基本经验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/26/深度学习训练基本经验/" itemprop="url">深度学习训练基本经验</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-26T10:55:16+08:00">
-                2018-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.<strong>在各个隐藏层和激活函数之间加入Batch Normalization层</strong>可以大大缩短训练时间，而且还存在隐藏效果，比如出现还可以改善效果。</p>
-<blockquote>
-<p>调用：</p>
-<p>​    Normalization(num_features)</p>
-<p> 参数设置：</p>
-<p>​    CNN后接Batch Normalization:  nums_feeatures为CNN感受野个数(即输出深度)</p>
-<p>​    全连接层后接Batch Normalization：num_features为输出的特征个数</p>
-</blockquote>
-<p>2.<strong>Batch Normalization和Dropout层不要一起使用，因为BN以及具备了dropout的效果</strong>，一起使用不但起不到效果，而且会产生副作用</p>
-<blockquote>
-<p>常见副作用:</p>
-<p>​    1.<strong>只能使用特别小的速率进行训练</strong>，使用较大的速率进行训练时，出现梯度消失，无法进行下降</p>
-<p>​    2.最终与训练集拟合程度不高，例如与训练集的拟合程度只能达到90%</p>
-</blockquote>
-<blockquote>
-<p>若一定要将dropout和BN一起使用，那么可以采用下面方式：</p>
-<p>​    1.将dropout放在BN后面进行使用</p>
-<p>​    2.修改Dropout公式(如高斯Dropout)，使其对对方差不那么敏感</p>
-<p>总体思路:降低方差偏移</p>
-</blockquote>
-<p><strong>3.深度学习不收敛问题</strong></p>
-<blockquote>
-<p>​    1.最常见的原因可能是由于学习速率设置的过大，这种情况一般先准确率不断上升，然后就开始震荡</p>
-<p>​    2.当训练样本较小，而向量空间较大时，也可能会产生不收敛问题，这种情况一般从一开始就开始震荡，机会没有准确率上升的过程</p>
-<p>​    3.训练网络问题。当面对的问题比较复杂，而使用的网络较浅时，可能会产生无法收敛问题</p>
-<p>​    4.数据没有进行归一化。数据输入模型之前如果没有进行归一化，很有可能会产生收敛慢或者无法进行收敛的问题</p>
-</blockquote>
-<p><strong>注意：收敛与否主要是看损失函数是否还在下降，而不是准确率是否还在上升，存在很多情况损失函数在迭代过程中还是在不断地下降，但是准确率基本上处于停滞状态，这种情况也是一种未完全拟合的表现，经过一段时间损失函数的下降后准确率还可能会迎来较大的提升</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1763,7 +1739,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

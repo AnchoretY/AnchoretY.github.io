@@ -297,6 +297,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/pytorch运算操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/23/pytorch运算操作/" itemprop="url">pytorch运算操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">
+                2018-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pytorch/" itemprop="url" rel="index">
+                    <span itemprop="name">pytorch</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.transponse**</p>
+<p>​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换两个维度</span></span><br><span class="line">torch.transponse(dim1,dim2)</span><br></pre></td></tr></table></figure>
+<p><strong>2.matmul和bmm</strong></p>
+<p>​    matmul和bmm都是实现batch的矩阵乘法操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand((<span class="number">2</span>,<span class="number">3</span>,<span class="number">10</span>))</span><br><span class="line">b = torch.rand((<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">res1 = torch.matmul(a,b.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#res1 = torch.matmul(a,b.transose(1,2))</span></span><br><span class="line"><span class="keyword">print</span> res1.size()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3x2]</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/从boost到gbdt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1747,7 +1894,25 @@ du /home/yhk/ -h
 <p>关键参数：<br>　　kernel_size ：池化层的大小</p>
 </blockquote>
 <p><strong>池化层也可也进行0填充，但是几乎不用</strong></p>
-<p>池化层最常用的池化方式以及参数设置：<br>池化类型|卷积核大小 | 步长 |池化层输出<br>—|—|—|—|—<br>MaxPooling | 2 | 2 |输入维度的一半</p>
+<p>池化层最常用的池化方式以及参数设置：</p>
+<table>
+<thead>
+<tr>
+<th>池化类型</th>
+<th>卷积核大小</th>
+<th>步长</th>
+<th>池化层输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MaxPooling</td>
+<td>2</td>
+<td>2</td>
+<td>输入维度的一半</td>
+</tr>
+</tbody>
+</table>
 <p><strong>注意：池化层只能改变高度和宽度，不能改变深度；卷积层即可改变数据的宽度和高度也可以改变数据的深度</strong></p>
 <h3 id="经典卷积设计的趋向"><a href="#经典卷积设计的趋向" class="headerlink" title="经典卷积设计的趋向"></a>经典卷积设计的趋向</h3><p><strong>1. 使用小滤波器</strong><br><strong>2. 多个卷积层和非线性激活层交替的结构比单一的卷积层结构能更加有效的提取出更深层次的特征，并且参数个数更少</strong></p>
 <h2 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h2><p><strong>1.RNN模型的超参数</strong></p>
@@ -1867,7 +2032,7 @@ du /home/yhk/ -h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
