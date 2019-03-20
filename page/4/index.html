@@ -1546,14 +1546,14 @@
       
         
           
-            <p><strong>正则化相关问题</strong></p>
+            <h3 id="正则化相关问题"><a href="#正则化相关问题" class="headerlink" title="正则化相关问题"></a>正则化相关问题</h3><hr>
 <p>1.实现参数的稀疏有什么好处吗？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。</span><br><span class="line">2.参数变少可以使整个模型获得更好的可解释性。</span><br></pre></td></tr></table></figure>
 <p>2.参数值越小代表模型越简单吗？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的区间里预测值产生较大的波动，这种较大的波动也反映了在这个区间里的导数很大，而只有较大的参数值才能产生较大的导数。因此复杂的模型，其参数值会比较大。</span><br></pre></td></tr></table></figure>
 <p>3.模型简单包括什么？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.参数少</span><br><span class="line">2.参数值小</span><br></pre></td></tr></table></figure>
-<p><strong>正则化</strong></p>
+<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><hr>
 <p><strong>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作L1-norm和L2-norm，中文称作L1正则化和L2正则化，或者L1范数和L2范数。</strong></p>
 <p>对于线性回归模型，使用L1正则化的模型建叫做<strong>Lasso回归</strong>，使用L2正则化的模型叫做<strong>Ridge回归</strong>（岭回归）</p>
 <p><strong>概念</strong>：</p>
@@ -1561,18 +1561,38 @@
 <p>L1正则化是指权值向量绝对值之和，通常表示为||w||1</p>
 <p>L2正则化是指全职向量w中各个元素的平方和让后再求平方根，通常表示为||w||2</p>
 </blockquote>
-<p><img src="![img](https://github.com/AnchoretY/images/blob/master/youdao/Lasso回归损失函数(sklearn中" alt="">.png?raw=true)﻿</p>
-<p>注：上面两个式子中的α为正则化系数，后续通过交叉验证确定)</p>
 <p>下图是Python中Lasso回归的损失函数，式中加号后面一项α||w||1即为L1正则化项。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/Lasso回归损失函数(sklearn中" alt="img">.png?raw=true)﻿</p>
+<p>下图是Python中Ridge回归的损失函数，式中加号后面一项α||w||22 即为L2正则化项</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/Ridge回归损失函数(sklearn中" alt="">.png?raw=true)</p>
+<blockquote>
+<p>注：<br>1.上面的两个函数前半部分可以为任意的线性函数的损失函数，组合成的函数都可以成为Lasso回归会Ridge回归<br>2.上面两个式子中的α为正则化系数，后续通过交叉验证确定</p>
+</blockquote>
+<p>注：上面两个式子中的α为正则化系数，后续通过交叉验证确定)</p>
 <p>L1正则化与L2正则化的作用：</p>
 <blockquote>
-<p>L1正则化可产生稀疏权值矩阵，即产生一个稀疏模型，可用用于特征选择</p>
+<p>L1正则化可产生稀疏权值矩阵，即<strong>产生一个稀疏模型，可用用于特征选择</strong></p>
 </blockquote>
 <blockquote>
-<p>L2正则化主要用于防止过拟合</p>
+<p>L2正则化主要用于<strong>防止过拟合</strong></p>
 </blockquote>
-<p>﻿<img src="https://images-cdn.shimo.im/ArcACVZM2ogn7A18/image.png!thumbnail" alt="img">﻿</p>
-<p>注：上面两个式子中的α为正则化系数，后续通过交叉验证确定</p>
+<p>﻿</p>
+<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><hr>
+<p><strong>L1正则化的标准形式：</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化公式.png?raw=true" alt=""></p>
+<p>​    其中J0是原始的损失函数，加好后面是L1正则化项。机器学习的最终目就是找出损失函数的最小值，当我们在原本的损失函数后面加上L1正则化后，相当于对J0做了一个约束，另L1正则化项等于L，则 J=J0+L，<strong>任务转化为在L1的约束下求J0最小值的解</strong>。<br>​    考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化可得到稀疏矩阵原因.png?raw=true" alt=""></p>
+<p>​    从图中可看出<strong>j0与L相交于L的一个顶点处，这个顶点即为最优解</strong>。注意这个顶点的值为（w1,w2）=(0,w)，可以想象，在更多维的情况下，L将会有很多突出的角，而<strong>J与这些叫接触的几率将远大于与L其他部位接触的概率</strong>，而这些角上将会有许多权值为0，<strong>从而产生系数矩阵，进而用于特征选择</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler </span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_bostonboston=load_boston() </span><br><span class="line"></span><br><span class="line">scaler=StandardScaler() </span><br><span class="line">X=scaler.fit_transform(boston[<span class="string">"data"</span>])</span><br><span class="line">Y=boston[<span class="string">"target"</span>]</span><br><span class="line">names=boston[<span class="string">"feature_names"</span>]</span><br><span class="line">lasso=Lasso(alpha=<span class="number">.3</span>)</span><br><span class="line">lasso.fit(X,Y)</span><br><span class="line"><span class="keyword">print</span><span class="string">"Lasso model: "</span>,pretty_print_linear(lasso.coef_,names,sort=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><hr>
+<p>L2正则化的标准形式</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化公式.png?raw=true" alt=""></p>
+<p>​    和L1正则化相同，<strong>任务转化为在L2的约束下求J0最小值的解</strong>。考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化不具有稀疏作用原因.png?raw=true" alt=""></p>
+<h5 id="机器学习过程中权值尽可能小的原因："><a href="#机器学习过程中权值尽可能小的原因：" class="headerlink" title="机器学习过程中权值尽可能小的原因："></a>机器学习过程中权值尽可能小的原因：</h5><blockquote>
+<p>试想对于一个模型，当参数很大时，只要数据偏移一点点，就会对结果造成很大的影响，如果参数较小，则数据偏移的多一点，也不会对结果产生多大的影响，<strong>抗扰动能力强</strong></p>
+</blockquote>
+<p>为什么L2正则化可以使权值尽可能的小</p>
 
           
         
