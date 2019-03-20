@@ -87,19 +87,19 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="正则化相关问题 1.实现参数的稀疏有什么好处吗？ 121.可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。2.参数变少可以使整个模型获得更好的可解释性。 2.参数值越小代表模型越简单吗？ 1是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/youdao/Lasso回归损失函数(sklearn中\">
-<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/youdao/Ridge回归损失函数(sklearn中\">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Lasso回归损失函数.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Ridge回归损失函数.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化公式.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化可得到稀疏矩阵原因.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化公式.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化不具有稀疏作用原因.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/不带正则化项的参数更新表达式.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/带正则化项的参数更新公式.png?raw=true">
-<meta property="og:updated_time" content="2019-03-20T07:24:54.851Z">
+<meta property="og:updated_time" content="2019-03-20T07:29:56.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正则化">
 <meta name="twitter:description" content="正则化相关问题 1.实现参数的稀疏有什么好处吗？ 121.可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。2.参数变少可以使整个模型获得更好的可解释性。 2.参数值越小代表模型越简单吗？ 1是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的">
-<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/youdao/Lasso回归损失函数(sklearn中\">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/Lasso回归损失函数.png?raw=true">
 
 
 
@@ -415,9 +415,9 @@
 <p>L2正则化是指全职向量w中各个元素的平方和让后再求平方根，通常表示为||w||2</p>
 </blockquote>
 <p>下图是Python中Lasso回归的损失函数，式中加号后面一项α||w||1即为L1正则化项。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/Lasso回归损失函数(sklearn中\" alt="img">.png?raw=true)﻿</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Lasso回归损失函数.png?raw=true" alt="img">﻿</p>
 <p>下图是Python中Ridge回归的损失函数，式中加号后面一项α||w||22 即为L2正则化项</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/Ridge回归损失函数(sklearn中\" alt="">.png?raw=true)</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Ridge回归损失函数.png?raw=true" alt=""></p>
 <blockquote>
 <p>注：<br>1.上面的两个函数前半部分可以为任意的线性函数的损失函数，组合成的函数都可以成为Lasso回归会Ridge回归<br>2.上面两个式子中的α为正则化系数，后续通过交叉验证确定</p>
 </blockquote>
