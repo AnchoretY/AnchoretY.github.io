@@ -1592,7 +1592,13 @@
 <h5 id="机器学习过程中权值尽可能小的原因："><a href="#机器学习过程中权值尽可能小的原因：" class="headerlink" title="机器学习过程中权值尽可能小的原因："></a>机器学习过程中权值尽可能小的原因：</h5><blockquote>
 <p>试想对于一个模型，当参数很大时，只要数据偏移一点点，就会对结果造成很大的影响，如果参数较小，则数据偏移的多一点，也不会对结果产生多大的影响，<strong>抗扰动能力强</strong></p>
 </blockquote>
-<p>为什么L2正则化可以使权值尽可能的小</p>
+<h4 id="为什么L2正则化可以使权值尽可能的小"><a href="#为什么L2正则化可以使权值尽可能的小" class="headerlink" title="为什么L2正则化可以使权值尽可能的小?"></a>为什么L2正则化可以使权值尽可能的小?</h4><blockquote>
+<p>对于损失函数不带L2正则化项的梯度下降时参数更新公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不带正则化项的参数更新表达式.png?raw=true" alt=""></p>
+<p>加入L2正则化项，参数更新公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/带正则化项的参数更新公式.png?raw=true" alt=""></p>
+<p>根据两个公式之间的差别，我们可以明显的看到，加入正则化以后的梯度下降在进行参数更新时，要先将原有的参数值乘以一个小于1的值，因此权值也会变得比不带的参数小</p>
+</blockquote>
 
           
         
