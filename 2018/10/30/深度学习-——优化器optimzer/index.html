@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="优化器optimzer ​    在机器学习和深度学习中，选择合适的优化器不仅可以加快学习速度，而且可以避免在训练过程中困到的鞍点。 1.Stochastic Gradient Descent(SGD)​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为： ​      缺点：1.存在比较严重的震荡 ​    2.容易收敛到局部最优点">
+<meta name="description" content="​    在机器学习和深度学习中，选择合适的优化器不仅可以加快学习速度，而且可以避免在训练过程中困到的鞍点。 1.Stochastic Gradient Descent(SGD)​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为： ​      缺点：1.存在比较严重的震荡 ​    2.容易收敛到局部最优点  2.Momentum">
 <meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习-——优化器optimzer">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/深度学习-——优化器optimzer/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="优化器optimzer ​    在机器学习和深度学习中，选择合适的优化器不仅可以加快学习速度，而且可以避免在训练过程中困到的鞍点。 1.Stochastic Gradient Descent(SGD)​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为： ​      缺点：1.存在比较严重的震荡 ​    2.容易收敛到局部最优点">
+<meta property="og:description" content="​    在机器学习和深度学习中，选择合适的优化器不仅可以加快学习速度，而且可以避免在训练过程中困到的鞍点。 1.Stochastic Gradient Descent(SGD)​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为： ​      缺点：1.存在比较严重的震荡 ​    2.容易收敛到局部最优点  2.Momentum">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/SGD%E5%85%AC%E5%BC%8F.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Momentum%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true">
@@ -93,10 +93,10 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F1.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F2.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Adam%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F3.png?raw=true">
-<meta property="og:updated_time" content="2018-10-31T01:49:53.732Z">
+<meta property="og:updated_time" content="2019-03-25T09:01:11.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习-——优化器optimzer">
-<meta name="twitter:description" content="优化器optimzer ​    在机器学习和深度学习中，选择合适的优化器不仅可以加快学习速度，而且可以避免在训练过程中困到的鞍点。 1.Stochastic Gradient Descent(SGD)​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为： ​      缺点：1.存在比较严重的震荡 ​    2.容易收敛到局部最优点">
+<meta name="twitter:description" content="​    在机器学习和深度学习中，选择合适的优化器不仅可以加快学习速度，而且可以避免在训练过程中困到的鞍点。 1.Stochastic Gradient Descent(SGD)​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为： ​      缺点：1.存在比较严重的震荡 ​    2.容易收敛到局部最优点  2.Momentum">
 <meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/SGD%E5%85%AC%E5%BC%8F.png?raw=true">
 
 
@@ -397,8 +397,7 @@
       
 
       
-        <h3 id="优化器optimzer"><a href="#优化器optimzer" class="headerlink" title="优化器optimzer"></a>优化器optimzer</h3><hr>
-<p>​    在机器学习和深度学习中，选择合适的优化器不仅可<strong>以加快学习速度</strong>，而且可以<strong>避免在训练过程中困到的鞍点</strong>。</p>
+        <p>​    在机器学习和深度学习中，选择合适的优化器不仅可<strong>以加快学习速度</strong>，而且可以<strong>避免在训练过程中困到的鞍点</strong>。</p>
 <h4 id="1-Stochastic-Gradient-Descent-SGD"><a href="#1-Stochastic-Gradient-Descent-SGD" class="headerlink" title="1.Stochastic Gradient Descent(SGD)"></a>1.Stochastic Gradient Descent(SGD)</h4><p>​    SGD是一种最常见的优化方法，这种方法在每次计算Mini-Batch的梯度，然后对其进行更新，其计算方法为：</p>
 <p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/SGD%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
 <blockquote>
@@ -604,7 +603,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#优化器optimzer"><span class="nav-number">1.</span> <span class="nav-text">优化器optimzer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Stochastic-Gradient-Descent-SGD"><span class="nav-number">1.1.</span> <span class="nav-text">1.Stochastic Gradient Descent(SGD)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Momentum"><span class="nav-number">1.2.</span> <span class="nav-text">2.Momentum</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Adagrad"><span class="nav-number">1.3.</span> <span class="nav-text">3.Adagrad</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Adam"><span class="nav-number">1.4.</span> <span class="nav-text">4.Adam</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Stochastic-Gradient-Descent-SGD"><span class="nav-number">1.</span> <span class="nav-text">1.Stochastic Gradient Descent(SGD)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Momentum"><span class="nav-number">2.</span> <span class="nav-text">2.Momentum</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Adagrad"><span class="nav-number">3.</span> <span class="nav-text">3.Adagrad</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Adam"><span class="nav-number">4.</span> <span class="nav-text">4.Adam</span></a></li></ol></div>
             
 
           </div>
