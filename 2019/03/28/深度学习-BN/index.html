@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="深度学习,面试," />
 
 
 
@@ -79,17 +79,21 @@
 
 
 
-<meta name="description" content="#####为什么要进行归一化？  ​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的泛化能力也将大大降低；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这将大大降低网络的学习速度。  为什么要使用BN？ ​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络">
+<meta name="description" content="为什么要进行归一化？ ​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的泛化能力也将大大降低；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这将大大降低网络的学习速度。  为什么要使用BN？ ​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中">
+<meta name="keywords" content="深度学习,面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习-BN">
 <meta property="og:url" content="http://yoursite.com/2019/03/28/深度学习-BN/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="#####为什么要进行归一化？  ​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的泛化能力也将大大降低；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这将大大降低网络的学习速度。  为什么要使用BN？ ​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络">
+<meta property="og:description" content="为什么要进行归一化？ ​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的泛化能力也将大大降低；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这将大大降低网络的学习速度。  为什么要使用BN？ ​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-28T08:38:53.021Z">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/BN%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true">
+<meta property="og:updated_time" content="2019-03-28T09:32:18.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习-BN">
-<meta name="twitter:description" content="#####为什么要进行归一化？  ​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的泛化能力也将大大降低；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这将大大降低网络的学习速度。  为什么要使用BN？ ​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络">
+<meta name="twitter:description" content="为什么要进行归一化？ ​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的泛化能力也将大大降低；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这将大大降低网络的学习速度。  为什么要使用BN？ ​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true">
 
 
 
@@ -367,8 +371,7 @@
       
 
       
-        <p>#####为什么要进行归一化？</p>
-<blockquote>
+        <h5 id="为什么要进行归一化？"><a href="#为什么要进行归一化？" class="headerlink" title="为什么要进行归一化？"></a>为什么要进行归一化？</h5><blockquote>
 <p>​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的<strong>泛化能力也将大大降低</strong>；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这<strong>将大大降低网络的学习速度</strong>。</p>
 </blockquote>
 <h5 id="为什么要使用BN？"><a href="#为什么要使用BN？" class="headerlink" title="为什么要使用BN？"></a>为什么要使用BN？</h5><blockquote>
@@ -380,6 +383,24 @@
 </blockquote>
 <h5 id="BN使用位置"><a href="#BN使用位置" class="headerlink" title="BN使用位置"></a>BN使用位置</h5><blockquote>
 <p>线性层后全连接层之前</p>
+</blockquote>
+<h5 id="BN过程"><a href="#BN过程" class="headerlink" title="BN过程"></a>BN过程</h5><blockquote>
+<p>对于一般的归一化没使用下面的公式进行归一化计算：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p><strong>但是如果仅仅使用上面的公式来对某层的输出做下一层的输入做归一化，那么是会影响到前面一层学习到的特征的。</strong>例如：网络中间某一层学习到特征数据本身就分布在S型激活函数的两侧，强制把它归一化处理、标准差也限制在了1，把数据变换成分布于s函数的中间部分，这样就相当于我这一层网络所学习到的特征分布被搞坏了。因此，<strong>BN引入了可学习的参数γ、β</strong>：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/BN%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    上面的公式表明，<strong>通过学习到的重构参数γ、β，是可以恢复出原始的某一层所学到的特征的。</strong></p>
+</blockquote>
+<h5 id="BN中为什么要在后面γ、β？不加可以吗？"><a href="#BN中为什么要在后面γ、β？不加可以吗？" class="headerlink" title="BN中为什么要在后面γ、β？不加可以吗？"></a>BN中为什么要在后面γ、β？不加可以吗？</h5><blockquote>
+<p>​    不可以，因为这是BN中的最关键步骤。不使用γ、β会造成归一化的同时破坏前一层提取到的特征，而BN通过记录每个神经元上的γ、β，使前一层的特征可以通过γ、β得以还原。</p>
+</blockquote>
+<h5 id="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"><a href="#BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？" class="headerlink" title="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"></a>BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？</h5><blockquote>
+<p>​    对于CNN上采用了类似权值共享的策略，<strong>将一个特征图看做一个神经元</strong>，因此参数个数并不会很多。</p>
+<p>例如：如果min-batch sizes为m，那么网络某一层输入数据可以表示为四维矩阵(m,f,w,h)，m为min-batch sizes，f为特征图个数，w、h分别为特征图的宽高。在CNN中我们可以把每个特征图看成是一个特征处理（一个神经元），因此在使用Batch Normalization，mini-batch size 的大小就是：m.w.h，于是对于每个特征图都只有一对可学习参数：γ、β，总参数个数也就是2m个。</p>
+</blockquote>
+<h5 id="BN的作用"><a href="#BN的作用" class="headerlink" title="BN的作用"></a>BN的作用</h5><blockquote>
+<p>1.防止过拟合。有了BN，dropout和正则化的需求下降了</p>
+<p>2.加速训练</p>
 </blockquote>
 
       
@@ -395,6 +416,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
       
 
       
@@ -512,7 +541,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -545,7 +574,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要使用BN？"><span class="nav-number">1.</span> <span class="nav-text">为什么要使用BN？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN的本质是什么？"><span class="nav-number">2.</span> <span class="nav-text">BN的本质是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN使用位置"><span class="nav-number">3.</span> <span class="nav-text">BN使用位置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要进行归一化？"><span class="nav-number">1.</span> <span class="nav-text">为什么要进行归一化？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要使用BN？"><span class="nav-number">2.</span> <span class="nav-text">为什么要使用BN？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN的本质是什么？"><span class="nav-number">3.</span> <span class="nav-text">BN的本质是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN使用位置"><span class="nav-number">4.</span> <span class="nav-text">BN使用位置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN过程"><span class="nav-number">5.</span> <span class="nav-text">BN过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN中为什么要在后面γ、β？不加可以吗？"><span class="nav-number">6.</span> <span class="nav-text">BN中为什么要在后面γ、β？不加可以吗？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"><span class="nav-number">7.</span> <span class="nav-text">BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BN的作用"><span class="nav-number">8.</span> <span class="nav-text">BN的作用</span></a></li></ol></div>
             
 
           </div>
