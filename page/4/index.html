@@ -569,8 +569,8 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(nb_epochs):</span><br><span class="line">  np.random.shuffle(data)</span><br><span class="line">  <span class="keyword">for</span> batch <span class="keyword">in</span> get_batches(data, batch_size=<span class="number">50</span>):</span><br><span class="line">    params_grad = evaluate_gradient(loss_function, batch, params)</span><br><span class="line">    params = params - learning_rate * params_grad</span><br></pre></td></tr></table></figure>
 <p>​    <strong>参数值设定：batch_szie一般在设置在50~256之间</strong></p>
 <blockquote>
-<p>缺点：1.不能保证很好的收敛性。</p>
-<p>​    2.对所有参数进行更新时使用的是完全相同的learnnning rate</p>
+<p><strong>缺点：1.不能保证很好的收敛性。</strong></p>
+<p>​    <strong>2.对所有参数进行更新时使用的是完全相同的learnnning rate</strong></p>
 </blockquote>
 <p>​    这两个缺点也是前面这几种优化方式存在的共有缺陷，下面的优化方式主要就是为了晚上前面这些问题</p>
 <h4 id="4-Momentum"><a href="#4-Momentum" class="headerlink" title="4.Momentum"></a>4.Momentum</h4><blockquote>
