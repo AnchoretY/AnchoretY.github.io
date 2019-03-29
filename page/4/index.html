@@ -579,6 +579,7 @@
 </blockquote>
 <p>​    为了克服 SGD 振荡比较严重的问题，Momentum 将物理中的动量概念引入到SGD 当中，通过积累之前的动量来替代梯度。即:</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Momentum%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt="SGD计算公式"></p>
+<p>​    其中，γ 表示动量大小，μ表示学习速率大小。</p>
 <p>​    相较于 SGD，Momentum 就相当于在从山坡上不停的向下走，当没有阻力的话，它的动量会越来越大，但是如果遇到了阻力，速度就会变小。也就是说，<strong>在训练的时候，在梯度方向不变的维度上，训练速度变快，梯度方向有所改变的维度上，更新速度变慢，这样就可以加快收敛并减小振荡。</strong>    </p>
 <p>​    <strong>超参数设定：一般 γ 取值 0.9 左右。</strong></p>
 <blockquote>
