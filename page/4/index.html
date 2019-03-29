@@ -614,7 +614,7 @@
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta改进3.png?raw=true" alt=""></p>
 <p>其中 是为了防止分母为0加上的一个极小值。</p>
 <p>​    这里解决了梯度一直会下降到很小的值得问题。</p>
-<h5 id="part-2"><a href="#part-2" class="headerlink" title="part 2"></a>part 2</h5><p>​    将原始的学习速率换为参数值在前一时刻的RMS</p>
+<h5 id="part-two"><a href="#part-two" class="headerlink" title="part two"></a>part two</h5><p>​    将原始的学习速率换为参数值在前一时刻的RMS</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta最终更新公式.png?raw=true" alt=""></p>
 <p>​    因为原始的学习速率已经换成了前一时刻的RMS值，因此，<strong>对于adadelta已经不需要选择初始的学习速率</strong></p>
 <h4 id="7-RMSprop"><a href="#7-RMSprop" class="headerlink" title="7.RMSprop"></a>7.RMSprop</h4><p>​    RMSprop 与 Adadelta 的第一种形式相同：</p>
