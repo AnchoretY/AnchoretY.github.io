@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​    机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。  在机试中常用的排序算法主要包含下面几种： ​    1.插入排序 ​    2.选择排序 ​    3.快速排序(最常用的排序) ​    4.冒泡排序 ​    5.归并排序 ​    6.桶排序  下面我">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-15T03:19:56.780Z">
+<meta property="og:updated_time" content="2019-04-04T01:58:05.142Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机试——排序算法总结">
 <meta name="twitter:description" content="​    机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。  在机试中常用的排序算法主要包含下面几种： ​    1.插入排序 ​    2.选择排序 ​    3.快速排序(最常用的排序) ​    4.冒泡排序 ​    5.归并排序 ​    6.桶排序  下面我">
@@ -378,7 +378,69 @@
 <p>​    5.归并排序</p>
 <p>​    6.桶排序</p>
 </blockquote>
-<p>下面我将具体介绍各种排序算法：</p>
+<p>下面我将具体介绍各种排序算法的一些特点：</p>
+<table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均时间复杂度</th>
+<th>最坏时间复杂度</th>
+<th>空间复杂度</th>
+<th>是否稳定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冒泡排序</td>
+<td>O（n2）</td>
+<td>O（n2）</td>
+<td>O（1）</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td>O（n2）</td>
+<td>O（n2）</td>
+<td>O（1）</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>直接插入排序</td>
+<td>O（n2）</td>
+<td>O（n2）</td>
+<td>O（1）</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O（n）</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td>O(nlogn)</td>
+<td>O(n2)</td>
+<td>O（logn）</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>时间复杂度辅助记忆：</p>
+<ul>
+<li>冒泡、选择、直接 排序需要两个for循环，每次只关注一个元素，平均时间复杂度为O（n2）（一遍找元素O(n)，一遍找位置O(n)）</li>
+<li>快速、归并、希尔、堆基于二分思想，log以2为底，平均时间复杂度为O(nlogn)（一遍找元素O(n)，一遍找位置O(logn)）</li>
+</ul>
+</blockquote>
 <h4 id="1-插入排序"><a href="#1-插入排序" class="headerlink" title="1.插入排序"></a>1.插入排序</h4><p>​    每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。</p>
 <p>​    注意：插入排序的核心点就是两两比较时从后向前进行比较，如果比插入值大，那么将其向后移动，直到找到比插入值小的。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):     <span class="comment">#从第一个元素开始依次进行排序</span></span><br><span class="line">        tmp = arr[i]</span><br><span class="line">        j = i</span><br><span class="line">        <span class="keyword">while</span> arr[j<span class="number">-1</span>]&gt;tmp <span class="keyword">and</span> j&gt;<span class="number">0</span>:  <span class="comment">#从当前元素从后向前向前开始遍历，寻找第一个比当前元素更小的元素</span></span><br><span class="line">            arr[j] = arr[j<span class="number">-1</span>]		<span class="comment">#再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维</span></span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">        arr[j] = tmp</span><br><span class="line">   <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
@@ -413,7 +475,9 @@
 <p>​    <strong>平均时间O(nlogn)</strong></p>
 <p>​    <strong>最坏情况：O(n^2)</strong></p>
 <p><strong>空间复杂度：O(nlogn)</strong></p>
-<h4 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5.归并排序"></a>5.归并排序</h4><p>​    </p>
+<h4 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5.归并排序"></a>5.归并排序</h4><h4 id="6-堆排序"><a href="#6-堆排序" class="headerlink" title="6.堆排序"></a>6.堆排序</h4><p>1.最坏时间复杂度为nlogn</p>
+<p>2.是一种不稳定排序</p>
+<p>​    </p>
 
       
     </div>
@@ -446,8 +510,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/21/深度学习——Attion相关/" rel="next" title="深度学习——Attion相关">
-                <i class="fa fa-chevron-left"></i> 深度学习——Attion相关
+              <a href="/2019/01/21/深度学习——Attention相关/" rel="next" title="深度学习——Attention相关">
+                <i class="fa fa-chevron-left"></i> 深度学习——Attention相关
               </a>
             
           </div>
@@ -535,7 +599,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -590,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-插入排序"><span class="nav-number">1.</span> <span class="nav-text">1.插入排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-选择排序"><span class="nav-number">2.</span> <span class="nav-text">2.选择排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-冒泡排序"><span class="nav-number">3.</span> <span class="nav-text">3.冒泡排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-快速排序"><span class="nav-number">4.</span> <span class="nav-text">4.快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对于大的乱序数据快速排序被认为是最快速的排序方式"><span class="nav-number">4.1.</span> <span class="nav-text">对于大的乱序数据快速排序被认为是最快速的排序方式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-归并排序"><span class="nav-number">5.</span> <span class="nav-text">5.归并排序</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-插入排序"><span class="nav-number">1.</span> <span class="nav-text">1.插入排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-选择排序"><span class="nav-number">2.</span> <span class="nav-text">2.选择排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-冒泡排序"><span class="nav-number">3.</span> <span class="nav-text">3.冒泡排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-快速排序"><span class="nav-number">4.</span> <span class="nav-text">4.快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对于大的乱序数据快速排序被认为是最快速的排序方式"><span class="nav-number">4.1.</span> <span class="nav-text">对于大的乱序数据快速排序被认为是最快速的排序方式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-归并排序"><span class="nav-number">5.</span> <span class="nav-text">5.归并排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-堆排序"><span class="nav-number">6.</span> <span class="nav-text">6.堆排序</span></a></li></ol></div>
             
 
           </div>

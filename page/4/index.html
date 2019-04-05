@@ -297,6 +297,365 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/05/机器学习和深度学习在实践中的一些经验/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/05/机器学习和深度学习在实践中的一些经验/" itemprop="url">机器学习和深度学习在实践中的一些经验</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-05T14:45:00+08:00">
+                2018-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习，深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习，深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####使用GBDT算法构造特征</p>
+<p>​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。</p>
+<p>​    在这篇论文中提出可以<strong>使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果</strong>。</p>
+<blockquote>
+<p>实践情况</p>
+<p>​    1.本人使用这种方式在ctr预估中已经进行过实验，准确率提升2%</p>
+<p>​    2.美团在外卖预计送达时间预测中进行了实验，各个时段平均偏差减少了3%</p>
+</blockquote>
+<p><strong>(1) 超参数选择</strong></p>
+<p>a. 首先为了节点分裂时质量和随机性，分裂时所使用的最大特征数目为√n。<br>b. GBDT迭代次数（树的数量）。</p>
+<ul>
+<li>树的数量决定了后续构造特征的规模，与学习速率相互对应。通常学习速率设置较小，但如果过小，会导致迭代次数大幅增加，使得新构造的特征规模过大。</li>
+<li>通过GridSearch+CrossValidation可以寻找到最合适的迭代次数+学习速率的超参组合。<br>c. GBDT树深度需要足够合理，通常在4~6较为合适。</li>
+<li>虽然增加树的数量和深度都可以增加新构造的特征规模。但树深度过大，会造成模型过拟合以及导致新构造特征过于稀疏。</li>
+</ul>
+<p><strong>（2）训练方案</strong></p>
+<p>​    将训练数据随机抽样50%，一分为二。前50%用于训练GBDT模型，后50%的数据在通过GBDT输出样本在每棵树中输出的叶子节点索引位置，并记录存储，用于后续的新特征的构造和编码，以及后续模型的训练。如样本x通过GBDT输出后得到的形式如下：x → [25,20,22,….,30,28] ，列表中表示样本在GBDT每个树中输出的叶子节点索引位置。</p>
+<p>​    由于样本经过GBDT输出后得到的x → [25,20,22,….,30,28] 是一组新特征，但由于这组新特征是叶子节点的ID，其值不能直接表达任何信息，故不能直接用于ETA场景的预估。为了解决上述的问题，避免训练过程中无用信息对模型产生的负面影响，需要通过独热码（OneHotEncoder）的编码方式对新特征进行处理，将新特征转化为可用的0-1的特征。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT%20构造新特征.png?raw=true" alt=""></p>
+<p>​    以图5中的第一棵树和第二棵树为例，第一棵树共有三个叶子节点，样本会在三个叶子节点的其中之一输出。所以样本在该棵树有会有可能输出三个不同分类的值，需要由3个bit值来表达样本在该树中输出的含义。图中样本在第一棵树的第一个叶子节点输出，独热码表示为{100}；而第二棵树有四个叶子节点，且样本在第三个叶子节点输出，则表示为{0010}。将样本在每棵树的独热码拼接起来，表示为{1000010}，即通过两棵CART树构造了7个特征，构造特征的规模与GBDT中CART树的叶子节点规模直接相关。</p>
+<p>Wide&amp;Deep在推荐中应用</p>
+<p>【参考文献】</p>
+<ol>
+<li>He X, Pan J, Jin O, et al. <a href="https://research.fb.com/publications/practical-lessons-from-predicting-clicks-on-ads-at-facebook/" target="_blank" rel="noopener">Practical Lessons from Predicting Clicks on Ads at Facebook</a>[C]. Proceedings of 20th ACM SIGKDD Conference on Knowledge Discovery and Data Mining. ACM, 2014: 1-9.</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/web安全——CSRF和SSRF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/02/web安全——CSRF和SSRF/" itemprop="url">web安全——CSRF和SSRF</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T10:04:02+08:00">
+                2018-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h4><p>​    CSRF(Cross-site request Forgery，跨站请求伪造)通过伪装成受信任用户请求受信任的网站。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意:scrf漏洞并不需要获取用户的cookie等信息</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>目标：已经登陆了网站的用户</p>
+<p>目的：以合法用户的身份来进行一些非法操作</p>
+<p>需要条件：</p>
+<p>​    1.用户已经登陆了目标网站</p>
+<p>​    2.目标用户访问了攻击者构造的url</p>
+<p>攻击过程:</p>
+<p>​    1.找到存于登陆状态的存在csrf网站的合法用户，向其发送可以构造的恶意链接，诱使其点击</p>
+<p>​    2.用户点击该链接，由该合法用户向服务器发出包含恶意链接里隐藏操作（如删除数据、转账等）的请求</p>
+<p>​    3.服务器收到已经登录用户的请求，认为是合法用户的主动的操作行为，执行该操作</p>
+</blockquote>
+<p><strong>典型的csrf实例</strong></p>
+<p>​    当你使用网上银行进行转账时，首先需要登录网上银行，点击转账按钮后，会发出<a href="http://www.xxbank.com/pay.php?user=xx&amp;money=100请求，当存在攻击者想要对你进行csrf攻击时，他会向你发送一个邮件或者短信，其中包含可以构造的恶意链接" target="_blank" rel="noopener">http://www.xxbank.com/pay.php?user=xx&amp;money=100请求，当存在攻击者想要对你进行csrf攻击时，他会向你发送一个邮件或者短信，其中包含可以构造的恶意链接</a> <a href="http://www.bank.com/pay,php?user=hack&amp;money=100,并且采用一定的伪装手段诱使你进行点击，当你点击后即向该hack转账100元。" target="_blank" rel="noopener">http://www.bank.com/pay,php?user=hack&amp;money=100,并且采用一定的伪装手段诱使你进行点击，当你点击后即向该hack转账100元。</a></p>
+<p><strong>流量中检测csrf的可行性</strong></p>
+<p>​    1.对于比较低级的csrf而言，可以直接通过检测请求的referer字段来进行确定是否为scrf。因为在正常scrf页面中应该是在主页等页面跳转得到，而csrf请求一般的referer是空白或者是其他网站，但是该方法可以被绕过。</p>
+<p>​    2.完全的检测很难</p>
+<p><strong>csrf漏洞修复建议</strong></p>
+<p>​    1.验证请求的referer</p>
+<p>​    2.在请求中加入随机的token等攻击者不能伪造的信息</p>
+<hr>
+<p>####SSRF</p>
+<p>​    SSRF(Server-Side Request Forgery，服务端请求伪造)是一种有由攻击者构造请求，服务器端发起请求的安全漏洞。</p>
+<blockquote>
+<p>目标：外网无法访问的服务器系统</p>
+<p>目的：获取内网主机或者服务器的信息、读取敏感文件等</p>
+<p>形成原因：服务器端提供了从其他服务器获取数据的功能，但没有对目标地址做限制和过滤</p>
+<p>攻击过程：</p>
+<p>​        1.用户发现存在ssrf漏洞的服务器a的页面访问的url，以及可使用SSRF攻击的参数</p>
+<p>​        2.修改要请求参数要请求的文件，将其改成内网服务器b和文件，直接访问</p>
+<p>​        3.服务器a接收到要访问的参数所包含的服务器b和文件名，去服务器b下载资源</p>
+<p>​        3.对于服务器b，由于是服务器a发起的请求，直接将文件返回给服务器a</p>
+<p>​        4.服务器a将该文件或页面内容直接返回给用户</p>
+</blockquote>
+<p><strong>两种典型的ssrf攻击实例:</strong></p>
+<p>​    本地存在ssrf漏洞的页面为：<a href="http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php" target="_blank" rel="noopener">http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php</a></p>
+<p>原始页面的功能为通过GET方式获取url参数的值，然后显示在网页页面上。如果将url参数的值改为<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> ，这个页面则会出现百度页面内容。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF1.png?raw=true" alt=""></p>
+<p>​    因此利用这个漏洞，我们可以将url参数的值设置为内网址，这样可以做到获取内网信息的效果。</p>
+<p>​    <strong>探测内网某个服务器是否开启</strong></p>
+<p>​    将url参数设置为url=”192.168.0.2:3306”时，可以获取大到该内网主机上是否存在mysql服务。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF2.png?raw=true" alt=""></p>
+<p>​    <strong>读取内网服务器文件    </strong></p>
+<p>​    访问ssrf.php?url=file:///C:/Windows/win.ini 即可读取本地文件</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF3.png?raw=true" alt=""></p>
+<p><strong>流量中检测SSRF可行性分析：</strong></p>
+<p>​    对于只能抓到外网向内网访问的流量的网口来说，从流量中检测SSRF只能从<strong>请求参数异常</strong>或<strong>返回包是否异常、是否包含敏感信息</strong>来进行检测。</p>
+<p><strong>SSRF漏洞修复建议:</strong></p>
+<p>​    1.限制请求的端口只能是web端口，只允许访问http和https的请求</p>
+<p>​    2.限制不能访问内网IP，以防止对内网进行攻击</p>
+<p>​    3.屏蔽返回的信息详情</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/01/NLP—关键词提取算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1685,357 +2044,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/21/正则化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/21/正则化/" itemprop="url">正则化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T10:15:45+08:00">
-                2018-10-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="正则化相关问题"><a href="#正则化相关问题" class="headerlink" title="正则化相关问题"></a>正则化相关问题</h3><hr>
-<p>1.实现参数的稀疏有什么好处吗？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。</span><br><span class="line">2.参数变少可以使整个模型获得更好的可解释性。</span><br></pre></td></tr></table></figure>
-<p>2.参数值越小代表模型越简单吗？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的区间里预测值产生较大的波动，这种较大的波动也反映了在这个区间里的导数很大，而只有较大的参数值才能产生较大的导数。因此复杂的模型，其参数值会比较大。</span><br></pre></td></tr></table></figure>
-<p>3.模型简单包括什么？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.参数少</span><br><span class="line">2.参数值小</span><br></pre></td></tr></table></figure>
-<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><hr>
-<p><strong>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作L1-norm和L2-norm，中文称作L1正则化和L2正则化，或者L1范数和L2范数。</strong></p>
-<p>对于线性回归模型，使用L1正则化的模型建叫做<strong>Lasso回归</strong>，使用L2正则化的模型叫做<strong>Ridge回归</strong>（岭回归）</p>
-<p><strong>概念</strong>：</p>
-<blockquote>
-<p>L1正则化是指权值向量绝对值之和，通常表示为||w||1</p>
-<p>L2正则化是指全职向量w中各个元素的平方和让后再求平方根，通常表示为||w||2</p>
-</blockquote>
-<p>下图是Python中Lasso回归的损失函数，式中加号后面一项α||w||1即为L1正则化项。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Lasso回归损失函数.png?raw=true" alt="img">﻿</p>
-<p>下图是Python中Ridge回归的损失函数，式中加号后面一项α||w||22 即为L2正则化项</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Ridge回归损失函数.png?raw=true" alt=""></p>
-<blockquote>
-<p>注：<br>1.上面的两个函数前半部分可以为任意的线性函数的损失函数，组合成的函数都可以成为Lasso回归会Ridge回归<br>2.上面两个式子中的α为正则化系数，后续通过交叉验证确定</p>
-</blockquote>
-<p>注：上面两个式子中的α为正则化系数，后续通过交叉验证确定)</p>
-<p>L1正则化与L2正则化的作用：</p>
-<blockquote>
-<p>L1正则化可产生稀疏权值矩阵，即<strong>产生一个稀疏模型，可用用于特征选择</strong></p>
-</blockquote>
-<blockquote>
-<p>L2正则化主要用于<strong>防止过拟合</strong></p>
-</blockquote>
-<p>﻿</p>
-<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><hr>
-<p><strong>L1正则化的标准形式：</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化公式.png?raw=true" alt=""></p>
-<p>​    其中J0是原始的损失函数，加好后面是L1正则化项。机器学习的最终目就是找出损失函数的最小值，当我们在原本的损失函数后面加上L1正则化后，相当于对J0做了一个约束，另L1正则化项等于L，则 J=J0+L，<strong>任务转化为在L1的约束下求J0最小值的解</strong>。<br>​    考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化可得到稀疏矩阵原因.png?raw=true" alt=""></p>
-<p>​    从图中可看出<strong>j0与L相交于L的一个顶点处，这个顶点即为最优解</strong>。注意这个顶点的值为（w1,w2）=(0,w)，可以想象，在更多维的情况下，L将会有很多突出的角，而<strong>J与这些叫接触的几率将远大于与L其他部位接触的概率</strong>，而这些角上将会有许多权值为0，<strong>从而产生系数矩阵，进而用于特征选择</strong>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler </span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_bostonboston=load_boston() </span><br><span class="line"></span><br><span class="line">scaler=StandardScaler() </span><br><span class="line">X=scaler.fit_transform(boston[<span class="string">"data"</span>])</span><br><span class="line">Y=boston[<span class="string">"target"</span>]</span><br><span class="line">names=boston[<span class="string">"feature_names"</span>]</span><br><span class="line">lasso=Lasso(alpha=<span class="number">.3</span>)</span><br><span class="line">lasso.fit(X,Y)</span><br><span class="line"><span class="keyword">print</span><span class="string">"Lasso model: "</span>,pretty_print_linear(lasso.coef_,names,sort=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><hr>
-<p>L2正则化的标准形式</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化公式.png?raw=true" alt=""></p>
-<p>​    和L1正则化相同，<strong>任务转化为在L2的约束下求J0最小值的解</strong>。考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化不具有稀疏作用原因.png?raw=true" alt=""></p>
-<h5 id="机器学习过程中权值尽可能小的原因："><a href="#机器学习过程中权值尽可能小的原因：" class="headerlink" title="机器学习过程中权值尽可能小的原因："></a>机器学习过程中权值尽可能小的原因：</h5><blockquote>
-<p>试想对于一个模型，当参数很大时，只要数据偏移一点点，就会对结果造成很大的影响，如果参数较小，则数据偏移的多一点，也不会对结果产生多大的影响，<strong>抗扰动能力强</strong></p>
-</blockquote>
-<h4 id="为什么L2正则化可以使权值尽可能的小"><a href="#为什么L2正则化可以使权值尽可能的小" class="headerlink" title="为什么L2正则化可以使权值尽可能的小?"></a>为什么L2正则化可以使权值尽可能的小?</h4><blockquote>
-<p>对于损失函数不带L2正则化项的梯度下降时参数更新公式为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不带正则化项的参数更新表达式.png?raw=true" alt=""></p>
-<p>加入L2正则化项，参数更新公式为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/带正则化项的参数更新公式.png?raw=true" alt=""></p>
-<p>根据两个公式之间的差别，我们可以明显的看到，加入正则化以后的梯度下降在进行参数更新时，要先将原有的参数值乘以一个小于1的值，因此权值也会变得比不带的参数小</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/19/SVM模型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/19/SVM模型/" itemprop="url">SVM模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-19T10:07:27+08:00">
-                2018-10-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.SVM模型的超参数</p>
-<p>​    SVM模型主要包括<strong>C</strong>和<strong>gamma</strong>两个超参数。</p>
-<p>​    <strong>C是惩罚系数，也就是对误差的宽容度</strong>，C越大代表越不能容忍出现误差，越容易出现过拟合；</p>
-<p>​    <strong>gamma是选择RBF核时，RBF核自带的一个参数，隐含的决定数据映射到新空间的后的分布</strong>，gamma越大，支持向量越少。</p>
-<blockquote>
-<p>支持向量的个数影响训练和预测的个数</p>
-</blockquote>
-<blockquote>
-<p>gamma的物理意义，大家提到很多的RBF的幅宽，它会影响每个支持向量对应的高斯的作用范围，从而影响泛化性能。我的理解：如果gamma设的太大,σ会很小，σ很小的高斯分布长得又高又瘦， 会造成只会作用于支持向量样本附近，对于未知样本分类效果很差，存在训练准确率可以很高，无穷小，则理论上，高斯核的SVM可以拟合任何非线性数据，但容易过拟合)而测试准确率不高的可能，就是通常说的过训练；而如果设的过小，则会造成平滑效应太大，无法在训练集上得到特别高的准确率，也会影响测试集的准确率</p>
-</blockquote>
-<p>2.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2081,7 +2094,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

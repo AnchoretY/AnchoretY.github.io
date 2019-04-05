@@ -297,6 +297,295 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/机器学习——高斯混合模型GMM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/04/机器学习——高斯混合模型GMM/" itemprop="url">机器学习——高斯混合模型GMM</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T12:12:58+08:00">
+                2019-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>GMM 是学习出一些概率密度函数</p>
+<p>k-means 的结果是每个数据点被 assign 到其中某一个 cluster 了，而 GMM 则给出这些数据点被 assign 到每个 cluster 的概率，又称作 soft assignment。</p>
+<p>假设数据服从 Mixture Gaussian Distribution ，换句话说，数据可以看作是从数个 Gaussian Distribution 中生成出来的</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/机器学习——EM算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/04/机器学习——EM算法/" itemprop="url">机器学习——EM算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T09:57:41+08:00">
+                2019-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h3><p>####1.参数估计的方法</p>
+<p>概率模型的参数估计分为两大类：</p>
+<blockquote>
+<p>1.不含隐变量的参数估计—极大似然估计/贝叶斯估计法</p>
+<p>2.含隐变量的参数估计—EM算法</p>
+</blockquote>
+<h4 id="2-jensen不等式"><a href="#2-jensen不等式" class="headerlink" title="2.jensen不等式"></a>2.jensen不等式</h4><p><strong>X是一个随机变量，f(X)是一个凸函数（二阶导数大或等于0），那么有：</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/jensen不等式.png?raw=true" alt=""></p>
+<p><strong>当且仅当X是常数的时候等号成立</strong></p>
+<p><strong>如果f（X）是凹函数，不等号反向</strong></p>
+<h4 id="3-先验概率、后验概率、条件概率"><a href="#3-先验概率、后验概率、条件概率" class="headerlink" title="3.先验概率、后验概率、条件概率"></a>3.先验概率、后验概率、条件概率</h4><p>​    <strong>先验概率：P(Y)</strong>   </p>
+<blockquote>
+<p>先验概率是只根据事情之前发生各个结果出现情况估计的概率(无关特征)</p>
+</blockquote>
+<p>​    <strong>后验概率：P(Y|X)</strong></p>
+<blockquote>
+<p>后验概率是在各个X的分布下各个Y出现的概率(特征符合这个X时Y为这个的概率)</p>
+</blockquote>
+<p>​    <strong>条件概率：P(X|Y)</strong></p>
+<blockquote>
+<p>条件概率是在结果某一种情况时X出现这种分布的概率</p>
+</blockquote>
+<h4 id="4-自信息、互信息"><a href="#4-自信息、互信息" class="headerlink" title="4.自信息、互信息"></a>4.自信息、互信息</h4><p>​    <strong>自信息：I(x) = -logp(x)</strong></p>
+<p>​    概率是衡量确定性的度量，那么<strong>信息是衡量不确定性的度量</strong>.越不确定信息量越高。</p>
+<p>​    <strong>互信息：I(x;y) = log(p(x|y)/p(x))</strong></p>
+<p>​    已知y，x的不确定性减少量(其值可正可负)</p>
+<h4 id="5-熵"><a href="#5-熵" class="headerlink" title="5.熵"></a>5.熵</h4><p>​    <strong>对随机变量平均不确定性的度量，</strong>一个系统越有序，信息熵越低。</p>
+<p>​    熵的另一种解读也就是<strong>自信息的期望</strong></p>
+<p>​        <strong>H(X) = E[I(X)] = ∑P(x)I(x) = -∑p(x)logp(x)</strong></p>
+<h4 id="6-条件熵"><a href="#6-条件熵" class="headerlink" title="6.条件熵"></a>6.条件熵</h4><p>​    在给定y条件下，x的条件自信息量为I(x|y)，X的集合的条件熵为</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵1.png?raw=true" alt=""></p>
+<p>​    进一步在给定Y（各个y）的条件下，X集合的条件熵：</p>
+<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵2.png?raw=true" alt=""></p>
+<p>​    也就是在<strong>联合符号集合上的条件自信息量两个概率的加权平均</strong>    </p>
+<h4 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h4><p>​    EM算法主要用于求解概率模型的<strong>极大似然估计</strong>或<strong>极大后验概率</strong>。EM算法是通过<strong>迭代求解</strong>观测数据<strong>对数似然函数L(θ) = logP(Y|θ)的极大化</strong>，实现参数估计的。</p>
+<blockquote>
+<p>每次迭代主要分为E、M两步：</p>
+<p>​    E步：求期望。即求log(P，Z|θ)关于P(Z|Y，θi)的期望</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/M步公式.png?raw=true" alt=""></p>
+<p>(各个隐变量可能的概率下乘以出现这种结果的总和)</p>
+<p>​        </p>
+<p>​    M步：极大化Q函数得到新的参数θ</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/E步公式.png?raw=true" alt=""></p>
+<p>​    在构建具体的EM算法时，最重要的时定义Q函数，每次迭代中，Em算法通过极大似然化Q函数来增大对数似然函数L(θ)</p>
+</blockquote>
+<h5 id="算法推导"><a href="#算法推导" class="headerlink" title="算法推导"></a>算法推导</h5><p><strong>注意：1.EM算法在每次迭代后均能提高观测数据的似然函数值</strong></p>
+<p>​    <strong>2.EM算法不能保证全局最优，只能保证局部最优，因此算法受初值的影响</strong></p>
+<p>​    <strong>3.EM算法可以用于无监督学习</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/30/机器学习——XGBoost/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1256,7 +1545,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/NLP-transformer模型/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/深度学习——transformer模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -1275,7 +1564,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/28/NLP-transformer模型/" itemprop="url">NLP-transformer模型</a></h1>
+                <a class="post-title-link" href="/2019/02/28/深度学习——transformer模型/" itemprop="url">深度学习——transformer模型</a></h1>
         
 
         <div class="post-meta">
@@ -1595,335 +1884,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/10/机试——排序算法总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/10/机试——排序算法总结/" itemprop="url">机试——排序算法总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-10T09:16:10+08:00">
-                2019-02-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。</p>
-<blockquote>
-<p>在机试中常用的排序算法主要包含下面几种：</p>
-<p>​    1.插入排序</p>
-<p>​    2.选择排序</p>
-<p>​    3.快速排序(最常用的排序)</p>
-<p>​    4.冒泡排序</p>
-<p>​    5.归并排序</p>
-<p>​    6.桶排序</p>
-</blockquote>
-<p>下面我将具体介绍各种排序算法：</p>
-<h4 id="1-插入排序"><a href="#1-插入排序" class="headerlink" title="1.插入排序"></a>1.插入排序</h4><p>​    每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。</p>
-<p>​    注意：插入排序的核心点就是两两比较时从后向前进行比较，如果比插入值大，那么将其向后移动，直到找到比插入值小的。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):     <span class="comment">#从第一个元素开始依次进行排序</span></span><br><span class="line">        tmp = arr[i]</span><br><span class="line">        j = i</span><br><span class="line">        <span class="keyword">while</span> arr[j<span class="number">-1</span>]&gt;tmp <span class="keyword">and</span> j&gt;<span class="number">0</span>:  <span class="comment">#从当前元素从后向前向前开始遍历，寻找第一个比当前元素更小的元素</span></span><br><span class="line">            arr[j] = arr[j<span class="number">-1</span>]		<span class="comment">#再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维</span></span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">        arr[j] = tmp</span><br><span class="line">   <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<blockquote>
-<p>为什么插入排序是稳定的排序算法？</p>
-<p>​    当前从头到尾选择元素进行排序时，当选择到第i个元素时，前i-1个元素已经排好了续，取出第i个元素，从i-1开始向前开始比较，如果小于，则将该位置元素向后移动，继续先前的比较，如果不小于，那么将第i个元素放在当前比较的元素之后。</p>
-</blockquote>
-<h4 id="2-选择排序"><a href="#2-选择排序" class="headerlink" title="2.选择排序"></a>2.选择排序</h4><p>​    选择排序主要采用了从头到尾依次确定各个位置的方式来进行排序，首先遍历一次整个数组，如果遇到比第一个元素小的元素那么交换位置，一次遍历完成那么第一个位置就已经是整个数组中最小的元素了，经过n次遍历，确定全部位置的元素。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i,length):</span><br><span class="line">            <span class="keyword">if</span> arr[i]&gt;arr[j]:</span><br><span class="line">                tmp = arr[i]</span><br><span class="line">                arr[i] = arr[j]</span><br><span class="line">                arr[j] = tmp</span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：不稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<h4 id="3-冒泡排序"><a href="#3-冒泡排序" class="headerlink" title="3.冒泡排序"></a>3.冒泡排序</h4><p>​    冒泡排序额是实现是不停地进行两两比较，将较大的元素换到右侧，然后继续进行两两比较，直到比较完全全部元素，<strong>每进行完一轮两两比较，确定一个元素的位置</strong>。例如：第一轮两两比较确定最大的值，第二轮比较确定次大元素。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,length):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,length-i):</span><br><span class="line">            <span class="keyword">if</span> arr[j]&lt;arr[j<span class="number">-1</span>]:</span><br><span class="line">                tmp = arr[j]</span><br><span class="line">                arr[j] = arr[j<span class="number">-1</span>]</span><br><span class="line">                arr[j<span class="number">-1</span>] = tmp</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<blockquote>
-<p>冒泡排序在原始冒泡排序算法的基础上还能做哪些优化？</p>
-<p>​    1.设置是否已经排好序的flag。如果在某一轮的便利中没有出现任何的交换发生，这说明已经都排好序,那么直接将flag置True，每轮结束时检测flag，如果为True则直接返回</p>
-<p>​    2.某一轮的结束为止为j，但这一轮最后一次交换发生在lastSwap位置，那么说明lastSwap到j之间已经排好序，下次遍历的结束点就不需要再到j—而是直接到lastSwap即可。</p>
-</blockquote>
-<h4 id="4-快速排序"><a href="#4-快速排序" class="headerlink" title="4.快速排序"></a>4.快速排序</h4><p>​    快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，<strong>此时pivot的位置就是排好序后他也应该在的位置。</strong>然后继续用递归算法分别处理pivot左边的元素和右边的元素。</p>
-<h5 id="对于大的乱序数据快速排序被认为是最快速的排序方式"><a href="#对于大的乱序数据快速排序被认为是最快速的排序方式" class="headerlink" title="对于大的乱序数据快速排序被认为是最快速的排序方式"></a>对于大的乱序数据快速排序被认为是最快速的排序方式</h5><p>d</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(l&lt;r):</span><br><span class="line">        q = mpartition(arr,l,r)</span><br><span class="line">        quick_sort(arr,l,q<span class="number">-1</span>)    <span class="comment">#前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置</span></span><br><span class="line">        quick_sort(arr,q+<span class="number">1</span>,r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mpartition</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	递归子函数，povit放到指定位置</span></span><br><span class="line"><span class="string">    	return l:最终标志元素被放置的位置，本轮确定了的元素位置</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    poviot = arr[l]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> l&lt;r:</span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[r]&gt;=poviot:</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[l] = arr[r]</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[l]&lt;poviot:</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[r] = arr[l]</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    arr[l]  = poviot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式二：非递归，利用栈</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(nums,low,high)</span>:</span></span><br><span class="line">    <span class="comment">#确定nums数组中指定部分low元素的位置，左边都比它小，右边都比他大</span></span><br><span class="line">    </span><br><span class="line">    pivot = nums[low]</span><br><span class="line">    high_flag = <span class="keyword">True</span>   <span class="comment">#这里之所以设置这两个flag是为了确保交叉进行，否则可能会出现最大索引值处没有值或者最大索引值处一直付给各个low</span></span><br><span class="line">    low_flag = <span class="keyword">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> low&lt;high <span class="keyword">and</span> low&lt;len(nums) <span class="keyword">and</span> high&lt;len(nums):</span><br><span class="line">        <span class="keyword">if</span> high_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[high]&lt;pivot:</span><br><span class="line">                nums[low]=nums[high]</span><br><span class="line">                high_flag = <span class="keyword">False</span></span><br><span class="line">                low_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                high -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> low_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[low]&gt;pivot:</span><br><span class="line">                nums[high] = nums[low]</span><br><span class="line">                low_flag = <span class="keyword">False</span></span><br><span class="line">                high_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                low += <span class="number">1</span></span><br><span class="line">    nums[low] = pivot     </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> low</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(nums)</span>:</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = len(nums)<span class="number">-1</span></span><br><span class="line">    stack = []    <span class="comment">#存储每次遍历起始索引和结束索引</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> low&lt;high:</span><br><span class="line">        <span class="comment">#先手动将找到第一个节点的最终位置，将原数组分为左右两个数组，分别左右索引入栈</span></span><br><span class="line">        mid = partition(nums,low,high)</span><br><span class="line">        <span class="keyword">if</span> low&lt;mid<span class="number">-1</span>:</span><br><span class="line">            stack.append(low)</span><br><span class="line">            stack.append(mid<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> high&gt;mid+<span class="number">1</span>:</span><br><span class="line">            stack.append(mid+<span class="number">1</span>)</span><br><span class="line">            stack.append(high)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#取出之前入栈的一个数组，来进行确定最终位置，分为左右两个子数组，分别左右索引入栈的操作，重复直到所有元素都已经排好序</span></span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            <span class="comment">#这里写的是属于右半部都排好后左半部</span></span><br><span class="line">            r = stack.pop()</span><br><span class="line">            l = stack.pop()</span><br><span class="line">            mid = partition(nums,l,r)</span><br><span class="line">            <span class="keyword">if</span> l&lt;mid<span class="number">-1</span>:</span><br><span class="line">                stack.append(l)</span><br><span class="line">                stack.append(mid<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">if</span> r&gt;mid+<span class="number">1</span>:</span><br><span class="line">                stack.append(mid+<span class="number">1</span>)</span><br><span class="line">                stack.append(r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：不稳定</strong>（排序过程中不停地交换元素位置造成了排序算法不稳定）</p>
-<p><strong>时间复杂度：</strong></p>
-<p>​    <strong>平均时间O(nlogn)</strong></p>
-<p>​    <strong>最坏情况：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(nlogn)</strong></p>
-<h4 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5.归并排序"></a>5.归并排序</h4><p>​    </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/21/深度学习——Attion相关/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/21/深度学习——Attion相关/" itemprop="url">深度学习——Attion相关</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-21T14:54:55+08:00">
-                2019-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>通过encoder，把 <img src="https://www.zhihu.com/equation?tex=X%3D%28x_0%2Cx_1%2Cx_2%2Cx_3%29" alt="X=(x_0,x_1,x_2,x_3)"> 映射为一个隐层状态 <img src="https://www.zhihu.com/equation?tex=H%3D%28h_0%2Ch_1%2Ch_2%2Ch_3%29" alt="H=(h_0,h_1,h_2,h_3)"> ，再经由decoder将 <img src="https://www.zhihu.com/equation?tex=H%3D%28h_0%2Ch_1%2Ch_2%2Ch_3%29" alt="H=(h_0,h_1,h_2,h_3)"> 映射为 <img src="https://www.zhihu.com/equation?tex=Y%3D%28y_0%2Cy_1%2Cy_2%29" alt="Y=(y_0,y_1,y_2)"> 。这里精妙的地方就在于，Y中的每一个元素都与H中的所有元素相连，而<strong>每个元素通过不同的权值给与Y不同的贡献</strong>。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/attention.png?raw=true" alt=""></p>
-<p>1.关键在于红框里面的部分，即attention，后面再讲。</p>
-<p>2.红框下面是encoder，输入 <img src="https://www.zhihu.com/equation?tex=X%3D%28x_0%2Cx_1%2Cx_2%2C...%2Cx_%7BT_x%7D%29" alt="X=(x_0,x_1,x_2,...,x_{T_x})">，通过一个双向LSTM得到两组<img src="https://www.zhihu.com/equation?tex=h%5E%5Cleftarrow" alt="h^\leftarrow">和 <img src="https://www.zhihu.com/equation?tex=h%5E%5Crightarrow" alt="h^\rightarrow">（向左和向右），然后concat起来得到最终的 <img src="https://www.zhihu.com/equation?tex=H%3D%28h_0%2Ch_1%2Ch_2%2C...%2C+h_%7BT_x%7D%29" alt="H=(h_0,h_1,h_2,..., h_{T_x})">。</p>
-<p>3.红框上面是decoder。以 <img src="https://www.zhihu.com/equation?tex=t" alt="t">时刻为例，输入共有三个： <img src="https://www.zhihu.com/equation?tex=s_%7Bt-1%7D" alt="s_{t-1}">， <img src="https://www.zhihu.com/equation?tex=y_%7Bt-1%7D" alt="y_{t-1}">， <img src="https://www.zhihu.com/equation?tex=c_t" alt="c_t">。</p>
-<p>​    其中,<img src="https://www.zhihu.com/equation?tex=s_%7Bt-1%7D" alt="s_{t-1}">是上一个时刻的hidden state（一般用 <img src="https://www.zhihu.com/equation?tex=h" alt="h">表示encoder的hidden state，用 <img src="https://www.zhihu.com/equation?tex=s" alt="s">表示decoder的hidden state）；</p>
-<p>​     <img src="https://www.zhihu.com/equation?tex=y_%7Bt-1%7D+" alt="y_{t-1} ">是上一个时刻的输出，用来当做这个时刻的输入； </p>
-<p>​    <img src="https://www.zhihu.com/equation?tex=c_t+" alt="c_t ">在图中没有，就是红框里得到的加权和，叫做context，即<strong>由所有的encoder output（即 <img src="https://www.zhihu.com/equation?tex=h" alt="h">，不定长）得到一个定长的向量，代表输入序列的全局信息</strong>，作为当前decoder step的context（上下文）。</p>
-<p>​        计算方法为： <img src="https://www.zhihu.com/equation?tex=c_i%3D%5Csum_%7Bj%3D1%7D%5E%7BT_x%7D%5Calpha_%7Bij%7Dh_j" alt="c_i=\sum_{j=1}^{T_x}\alpha_{ij}h_j">，其中<img src="https://www.zhihu.com/equation?tex=%5Calpha_%7Bij%7D" alt="\alpha_{ij}">是权重，又称为<strong>alignment</strong>；</p>
-<p><img src="https://www.zhihu.com/equation?tex=h" alt="h">就是encoder所有step的hidden state，又叫做<strong>value</strong>或者<strong>memory</strong>； <img src="https://www.zhihu.com/equation?tex=i" alt="i">代表decoder step， <img src="https://www.zhihu.com/equation?tex=j" alt="j">代表encoder step。</p>
-<p>那么<strong>权重矩阵又是怎么来的</strong>呢？</p>
-<p><img src="https://www.zhihu.com/equation?tex=%5Calpha_%7Bij%7D%3D%5Cfrac%7B%5Cexp%28e_%7Bij%7D%29%7D%7B%5Csum_%7Bk%3D1%7D%5E%7BT_x%7D%5Cexp%28e_%7Bik%7D%29%7D" alt="\alpha_{ij}=\frac{\exp(e_{ij})}{\sum_{k=1}^{T_x}\exp(e_{ik})}"></p>
-<p>​    其中 <img src="https://www.zhihu.com/equation?tex=e_%7Bij%7D%3Da%28s_%7Bi-1%7D%2Ch_j%29" alt="e_{ij}=a(s_{i-1},h_j)"></p>
-<p>其实上面的公式就是对e的求softmax，因为我们要计算一组权重，而这组权重的和为1；下面的e的表达式就是代表着对<img src="https://www.zhihu.com/equation?tex=s_%7Bi-1%7D" alt="s_{i-1}"> 和 <img src="https://www.zhihu.com/equation?tex=h_j" alt="h_j"> 的<strong>相关程度</strong>进行计算的函数，<strong>即对于某个既定的decoder step，计算上个时刻的hidden state和所有encoder step的输出的相关程度，并且用softmax归一化；这样，相关度大的 <img src="https://www.zhihu.com/equation?tex=h" alt="h">权重就大，在整个context里占得比重就多，decoder在当前step做解码的时候就越重视它（这就是attention的思想）</strong>。</p>
-<p>具体的相关程度的计算，主要实现方式</p>
-<p>对 <img src="https://www.zhihu.com/equation?tex=s_%7Bi-1%7D" alt="s_{i-1}"> 做一个线性映射，得到的向量叫做<strong>query</strong>，记做 <img src="https://www.zhihu.com/equation?tex=q_i" alt="q_i"> ；</p>
-<p>对 <img src="https://www.zhihu.com/equation?tex=h_j" alt="h_j"> 做一个线性映射，得到的向量叫做<strong>key</strong>，记做 <img src="https://www.zhihu.com/equation?tex=k_j" alt="k_j"> ；</p>
-<p><img src="https://www.zhihu.com/equation?tex=e_%7Bij%7D%3Dv%5ET+%5Ccdot+%28q_i%2Bk_j%29" alt="e_{ij}=v^T \cdot (q_i+k_j)"> 。<img src="https://www.zhihu.com/equation?tex=k_j" alt="k_j">和<img src="https://www.zhihu.com/equation?tex=q_i" alt="q_i">的维度必须相同，记为 <img src="https://www.zhihu.com/equation?tex=d" alt="d"> ； <img src="https://www.zhihu.com/equation?tex=v" alt="v"> 是一个 <img src="https://www.zhihu.com/equation?tex=d+%5Ctimes+1" alt="d \times 1"> 的向量。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1969,7 +1934,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
