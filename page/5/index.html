@@ -397,6 +397,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的区间里预测值产生较大的波动，这种较大的波动也反映了在这个区间里的导数很大，而只有较大的参数值才能产生较大的导数。因此复杂的模型，其参数值会比较大。</span><br></pre></td></tr></table></figure>
 <p>3.模型简单包括什么？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.参数少</span><br><span class="line">2.参数值小</span><br></pre></td></tr></table></figure>
+<p>4.从贝叶斯角度看L1和L2正则化分贝数与什么分布？</p>
+<p>​    <strong>对于频率学派，认为要将参数θ作为未知的定值，而样本X是随机的</strong>，其着眼点在样本空间，参数θ虽然我们不知道是什么，但是他是固定的，我们需要通过随机产生的样本去估计这个参数，所以才有了最大似然估计这些方法。</p>
+<p>​    <strong>对于贝叶斯学派，把参数θ也视为满足某一个分布的随机变量，而X是固定的</strong>，其着眼点在参数空间，固定的操作模式是通过参数的先验分布结合样本信息得到参数的后验分布，核心是</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/贝叶斯公式.png?raw=true" alt=""></p>
+<p>​    <strong>L1正则化相当于先验分布是拉普拉斯分布，L2正则化相当于先验概率是正态分布。</strong>拉普拉斯分布的计算公式：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/拉普拉斯概率密度函数.png?raw=true" alt=""></p>
+<p>正态分布概率密度分布公式：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/正态分布概率密度函数.png?raw=true" alt=""></p>
 <h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><hr>
 <p><strong>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作L1-norm和L2-norm，中文称作L1正则化和L2正则化，或者L1范数和L2范数。</strong></p>
 <p>对于线性回归模型，使用L1正则化的模型建叫做<strong>Lasso回归</strong>，使用L2正则化的模型叫做<strong>Ridge回归</strong>（岭回归）</p>
