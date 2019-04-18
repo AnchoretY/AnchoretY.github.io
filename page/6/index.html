@@ -297,6 +297,553 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/28/pyspark-dataframe基础操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/28/pyspark-dataframe基础操作/" itemprop="url">pyspark dataframe基础操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-28T10:40:25+08:00">
+                2018-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>1.select</strong></p>
+<p>​    select用于列选择，选择指定列，也可以用于和udf函数结合新增列</p>
+<p>​    <strong>列选择</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data_set.select(<span class="string">"*"</span>).show()		<span class="comment">#选择全部列</span></span><br><span class="line">data_set.select(<span class="string">"file_name"</span>,<span class="string">"webshell"</span>).show()		<span class="comment">#选择file_name，webshell列</span></span><br></pre></td></tr></table></figure>
+<p>​    <strong>与udf函数组合新增列</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pysaprk.sql.function <span class="keyword">import</span> udf</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(col1,col2)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> col1+col2</span><br><span class="line">udf_sun = udf(sum,IntergerType())</span><br><span class="line"></span><br><span class="line">data_set.select(<span class="string">"*"</span>,udf_sum(<span class="string">"a1"</span>,<span class="string">"a2"</span>)).show()	<span class="comment">#新增一列a1和a2列加和后的列</span></span><br></pre></td></tr></table></figure>
+<p><strong>2.filter</strong></p>
+<p>​    filter用于行选择，相当于使用前一半写好的sql语句进行查询。</p>
+<p>​    查询某个列等于<strong>固定值</strong>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name=='wp-links-opml.php'").show()</span><br></pre></td></tr></table></figure>
+<p>​    查询符合某个<strong>正则表达式</strong>所有行:​    </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_set.filter("file_name regexp '\.php$')		#选择所有.php结尾文件</span><br></pre></td></tr></table></figure>
+<p><strong>3.join</strong></p>
+<p>​    pyspark的dataframe横向连接只能使用join进行连接，需要有一列为两个dataframe的共有列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_join = df1.join(df,how=<span class="string">"left"</span>,on=<span class="string">'id'</span>).show() 	<span class="comment">#id为二者的共有列</span></span><br></pre></td></tr></table></figure>
+<p><strong>4.agg</strong></p>
+<p>​    使用agg来进行不分组聚合操作，获得某些统计项</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取数据中样本列最大的数值</span></span><br><span class="line"><span class="comment">#方式一：</span></span><br><span class="line">df.agg(&#123;<span class="string">"id"</span>:<span class="string">"max"</span>&#125;).show()		</span><br><span class="line"></span><br><span class="line"><span class="comment">#方式二：</span></span><br><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn	</span><br><span class="line">df.agg(F.min(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
+<p><strong>5.groupby</strong></p>
+<p>​    使用groupby可以用来进行分组聚合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby(&quot;)</span><br></pre></td></tr></table></figure>
+<p><strong>6.printSchema</strong></p>
+<p>​    以数的形式显示dataframe的概要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- age: integer (nullable = true)</span><br></pre></td></tr></table></figure>
+<p><strong>7.subtract</strong></p>
+<p>​    找到那些在这个dataframe但是不在另一个dataframe中的行，返回一个dataframe</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">1.0</span>,<span class="string">'b'</span>],[<span class="number">4.0</span>,<span class="string">'b'</span>],[<span class="number">9.0</span>,<span class="string">'b'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line">df1 = spark.createDataFrame([[<span class="number">2.0</span>,<span class="string">'a'</span>],[<span class="number">4.3</span>,<span class="string">'c'</span>]],schema=schema)</span><br><span class="line"></span><br><span class="line">df.subtract(df1).show()		<span class="comment">#找到在df中但是不在df1中的行</span></span><br></pre></td></tr></table></figure>
+<p><strong>8.cast</strong></p>
+<p>​    指定某一列的类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>9.sort</strong></p>
+<p>​    按照某列来进行排序</p>
+<blockquote>
+<p>参数：</p>
+<p>​    columns: 可以是一列，也可以是几列的列表</p>
+<p>​    ascending：升序，默认是True</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.sort([<span class="string">'count'</span>],ascending=<span class="keyword">False</span>).show()</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/pyspark-dataframe操作进阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/26/pyspark-dataframe操作进阶/" itemprop="url">pyspark dataframe操作进阶</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-26T21:06:18+08:00">
+                2018-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    这一节主要讲的是spark在机器学习处理过程中常用的一列操作，包括获得各种预处理。</p>
+<p><strong>1.将多列转化成一列</strong></p>
+<p>​    pyspark可以直接使用VectorAssembler来将多列数据直接转化成vector类型的一列数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> VectorAssembler</span><br><span class="line"></span><br><span class="line">discretization_feature_names = [</span><br><span class="line">    <span class="string">'discretization_tag_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_link_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_style_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_img_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_local_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_in_script_nums'</span>,</span><br><span class="line">    <span class="string">'discretization_out_script_nums'</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">vecAssembler = VectorAssembler(inputCols=discretization_feature_names, outputCol=<span class="string">"feature_vec_new"</span>)</span><br><span class="line"></span><br><span class="line">data_set  = vecAssembler.transform(dataset) <span class="comment">#会返回一个在原有的dataframe上面多出来一列的新dataframe</span></span><br><span class="line"></span><br><span class="line">data_set.printscheama()</span><br><span class="line"></span><br><span class="line">output：</span><br><span class="line">    root</span><br><span class="line">     |-- discretization_tag_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_link_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_style_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_img_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_local_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_in_script_nums: double (nullable = true)</span><br><span class="line">     |-- discretization_out_script_nums: double (nullable = true)</span><br><span class="line">     |-- feature_vec_new: vector (nullable = true) <span class="comment">#多出来的</span></span><br></pre></td></tr></table></figure>
+<p><strong>2.连续数据离散化</strong></p>
+<p>​    pyspark中提供QuantileDiscretizer来根据分位点来进行离散化的操作，可以根据数据整体情况来对某一列进行离散化。</p>
+<blockquote>
+<p>常用参数：</p>
+<p>​    numBuckets：将整个空间分为几份，在对应的分为点处将数据进行切分</p>
+<p>​    relativeError：</p>
+<p>​    handleInvalid：    </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.ml.feature <span class="keyword">import</span> QuantileDiscretizer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">qds = QuantileDiscretizer(numBuckets=<span class="number">3</span>,inputCol=inputCol, outputCol=outputCol, relativeError=<span class="number">0.01</span>, handleInvalid=<span class="string">"error"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里的setHandleInvalid是代表对缺失值如何进行处理</span></span><br><span class="line"><span class="comment">#keep表示保留缺失值</span></span><br><span class="line">dataframe = qds.setHandleInvalid(<span class="string">"keep"</span>).fit(dataframe).transform(dataframe)</span><br></pre></td></tr></table></figure>
+<p><strong>3.增加递增的id列</strong></p>
+<p>​    monotonically_increasing_id() 方法给每一条记录提供了一个唯一并且递增的ID。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.functions <span class="keyword">import</span> monotonically_increasing_id</span><br><span class="line"></span><br><span class="line">df.select(<span class="string">"*"</span>,monotonically_increasing_id().alias(<span class="string">"id"</span>)).show()</span><br></pre></td></tr></table></figure>
+<p><strong>4.指定读取或创建dataframe各列的类型</strong></p>
+<p>​    pyspark可以支持使用schema创建StructType来指定各列的读取或者创建时的类型，一个StructType里面包含多个StructField来进行分别执行列名、类型、是否为空。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.sql.types <span class="keyword">import</span> *</span><br><span class="line">schema = StructType([</span><br><span class="line">    StructField(<span class="string">"id"</span>,IntegerType(),<span class="keyword">True</span>),</span><br><span class="line">    StructField(<span class="string">"name"</span>,StringType(),<span class="keyword">True</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">df = spark.createDataFrame([[<span class="number">2</span>,<span class="string">'a'</span>],[<span class="number">1</span>,<span class="string">'b'</span>]],schema)</span><br><span class="line">df.printSchema()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    root</span><br><span class="line">     |-- id: integer (nullable = true)</span><br><span class="line">     |-- name: string (nullable = true)</span><br></pre></td></tr></table></figure>
+<p><strong>5.查看各类缺失值情况</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> fn</span><br><span class="line"></span><br><span class="line">data_set.agg(*[(<span class="number">1</span>-(fn.count(i)/fn.count(<span class="string">'*'</span>))).alias(i+<span class="string">"_missing"</span>) <span class="keyword">for</span> i <span class="keyword">in</span> data_set.columns]).show()</span><br></pre></td></tr></table></figure>
+<p>​    注：在其中agg(<em>)里面的 ”\</em>“代表将该列表处理为一组独立的参数传递给函数</p>
+<p><strong>6.使用时间窗口来进行分组聚合</strong></p>
+<p>​    </p>
+<blockquote>
+<p>这也是pyspark比pandas多出来的一个时间窗口聚合的使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">src_ip_feature = feature_data.groupby(&quot;srcIp&quot;,F.window(&quot;time&quot;, &quot;60 seconds&quot;)).agg(</span><br><span class="line">    F.count(&quot;distIp&quot;).alias(&quot;request_count&quot;),</span><br></pre></td></tr></table></figure>
+<p><strong>7.过滤各种空值</strong></p>
+<p>​    <strong>（1）过滤字符串类型的列中的某列为null行</strong></p>
+<p>​        这里要借助function中的isnull函数来进行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyspark.sql.function <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line">df.filter(F.isnull(df[<span class="string">"response_body"</span>])).show()    <span class="comment">#只留下response_body列为null的</span></span><br><span class="line"></span><br><span class="line">df.filter(~F.isnull(df[<span class="string">"response_body"</span>])).show()    <span class="comment">#只留下response_body列不为null的</span></span><br></pre></td></tr></table></figure>
+<p>​    </p>
+<p><strong>8.列名重命名</strong></p>
+<p>​    借助selectExpr可以实现在select的基础上使用sql表达式来进行进一步的操作这一特性，将列名进行修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将count列重命名为no_detection_nums,webshelll_names列名不变</span></span><br><span class="line">df = df.selectExpr(<span class="string">"webshell_names"</span>,<span class="string">"count as no_detection_nums"</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/24/HMM入门以及在webshell检测中的应用汇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/24/HMM入门以及在webshell检测中的应用汇/" itemprop="url">HMM入门以及在webshell检测中的应用汇</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-24T12:26:32+08:00">
+                2018-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h2><p>一、HMM五元素   </p>
+<p>​      <img src="../../imgs/hmm_0.png" alt=""></p>
+<p>​    其中：</p>
+<p>​        N：隐藏状态数 hidden states        </p>
+<p>​        M：观测状态数 observed states</p>
+<p>​            A： 状态转移矩阵 transition matrix </p>
+<p>​            B：发射矩阵  emission matrix </p>
+<p>​            pi：初始隐状态向量 initial state vector</p>
+<p>HMM全称隐马尔科夫链，常用与异常检测，在大量正常的模式中找出异常的模式。</p>
+<p>​    隐马尔科夫链模型相关的问题主要分为三类：</p>
+<blockquote>
+<p>1.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链</p>
+<p>2.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求得出这个可见状态链的概率</p>
+<p>3.已知隐含状态数量、可以观察到多个可见状态链，求因此状态的转移矩阵和发射概率</p>
+</blockquote>
+<h4 id="1-求隐藏状态链问题"><a href="#1-求隐藏状态链问题" class="headerlink" title="1.求隐藏状态链问题"></a>1.求隐藏状态链问题</h4><p>​    该问题是在：已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链(<strong>也就是最大概率的转移序列</strong>)</p>
+<p>​    <strong>应用场景</strong>：语音识别解码问题</p>
+<p>​        <strong>方法</strong>：<strong>Viterbi algorithm</strong></p>
+<p>​    举例来说，我知道我有三个骰子，六面骰，四面骰，八面骰。我也知道我掷了十次的结果（1 6 3 5 2 7 3 5 2 4），我不知道每次用了那种骰子，我想知道最有可能的骰子序列。</p>
+<p>​      首先，如果我们只掷一次骰子：看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8. </p>
+<p>​      把这个情况拓展，我们掷两次骰子：结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是<br><img src="http://zhihu.com/equation?tex=P2%28D6%29%3DP%28D4%29%2AP%28D4%5Crightarrow+1%29%2AP%28D4%5Crightarrow+D6%29%2AP%28D6%5Crightarrow+6%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B6%7D" alt="img"> </p>
+<p>​      同样的，我们可以计算第二个骰子是D4或D8时的最大概率。我们发现，第二个骰子取到D6的概率最大。而使这个概率最大时，第一个骰子为D4。所以最大概率骰子序列就是D4 D6。<br>​    继续拓展，我们掷三次骰子：同样，我们计算第三个骰子分别是D6，D4，D8的最大概率。我们再次发现，要取到最大概率，第二个骰子必须为D6。这时，第三个骰子取到D4的最大概率是<img src="http://zhihu.com/equation?tex=P3%28D4%29%3DP2%28D6%29%2AP%28D6%5Crightarrow+D4%29%2AP%28D4%5Crightarrow+3%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B216%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D" alt="img"><br>​      同上，我们可以计算第三个骰子是D6或D8时的最大概率。我们发现，第三个骰子取到D4的概率最大。而使这个概率最大时，第二个骰子为D6，第一个骰子为D4。所以最大概率骰子序列就是D4 D6 D4。</p>
+<p>写到这里，大家应该看出点规律了。既然掷骰子一二三次可以算，掷多少次都可以以此类推。</p>
+<p>​    </p>
+<p>​    我们发现，我们要求最大概率骰子序列时要做这么几件事情。<strong>首先，不管序列多长，要从序列长度为1算起，算序列长度为1时取到每个骰子的最大概率。然后，逐渐增加长度，每增加一次长度，重新算一遍在这个长度下最后一个位置取到每个骰子的最大概率。因为上一个长度下的取到每个骰子的最大概率都算过了，重新计算的话其实不难。当我们算到最后一位时，就知道最后一位是哪个骰子的概率最大了。然后，我们要把对应这个最大概率的序列从后往前推出来,这就是Viterbi算法。</strong> </p>
+<h4 id="2-求得出某个可见状态链的概率"><a href="#2-求得出某个可见状态链的概率" class="headerlink" title="2.求得出某个可见状态链的概率"></a>2.求得出某个可见状态链的概率</h4><p>​    该问题是在：<strong>已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链</strong>，求得出这个可见状态链的概率</p>
+<p>​    <strong>应用场景</strong>：检测观察到的结果与我们已知的模型是否吻合，即<strong>异常检测</strong></p>
+<p>​    <strong>方法</strong>:<strong>前向算法（forward algorithm）</strong></p>
+<p>​    <strong>要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算（即在当前的HMM下可能出啊先找个状态链的概率）</strong>。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。<br>​      我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做<strong>前向算法（forward algorithm）</strong>。<br>​    首先，如果我们只掷一次骰子，看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18：</p>
+<p><img src="../../imgs/hmm_2.png" alt=""></p>
+<p>​    把这个情况拓展，我们掷两次骰子，看到结果为1，6，总概率为0.05：</p>
+<p><img src="../../imgs/hmm_3.png" alt=""></p>
+<p>​    继续拓展，我们掷三次骰子，看到结果为1，6，3，计算总概率为0.03：</p>
+<p><img src="../../imgs/hmm_5.png" alt=""></p>
+<p>​    同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。</p>
+<h4 id="3-求状态转移矩阵和发射概率（训练过程）"><a href="#3-求状态转移矩阵和发射概率（训练过程）" class="headerlink" title="3.    求状态转移矩阵和发射概率（训练过程）"></a>3.    求状态转移矩阵和发射概率（训练过程）</h4><p>​    该问题是在：    <strong>已知隐含状态数量、可以观察到多个可见状态链</strong></p>
+<p>​    <strong>应用场景</strong>：有大量该问题的已知观测序列，想<strong>训练</strong>一个HMM模型</p>
+<p>​    <strong>方法：Baum-Welch算法</strong></p>
+<h2 id="HMM在webshell检测中的应用"><a href="#HMM在webshell检测中的应用" class="headerlink" title="HMM在webshell检测中的应用"></a>HMM在webshell检测中的应用</h2><p>缺陷：</p>
+<ol>
+<li><p>由于HMM的训练和预测的时间复杂度都是O(n^2)，因此在数据量特别大的时候速度非常慢</p>
+</li>
+<li><p>HMM并没有spark版本，无法直接部署到spark集群上（这点是个大坑！）</p>
+<ol start="3">
+<li>HMM在在webshell检测中比较局限，只能部署在生成文件名绝大部分都有固定模式的网站上来进行检测，对于各个页面随意进行命名的网站并没有检测效果</li>
+</ol>
+</li>
+</ol>
+<h2 id="使用RNN来代替HMM"><a href="#使用RNN来代替HMM" class="headerlink" title="使用RNN来代替HMM"></a>使用RNN来代替HMM</h2><p>​    在数据量很大时，我们可以使用RNN来代替HMM，RNN在实现过程中<strong>可以采用并行的方式来进行梯度下降</strong>，大大加快了整体的速度。</p>
+<p>​    而且大部分时候使用RNN的效果都会优于HMM，详细见下篇：</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/Docker操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1458,552 +2005,6 @@ for k,col in zip(unique_labels,colors):
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/DBSCAN和KMeans相关资源和理解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/DBSCAN和KMeans相关资源和理解/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T15:41:35+08:00">
-                2018-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="DBSCAN和KMeans相关资源和理解"><a href="#DBSCAN和KMeans相关资源和理解" class="headerlink" title="DBSCAN和KMeans相关资源和理解"></a>DBSCAN和KMeans相关资源和理解</h1><h2 id="1-DBSCAN"><a href="#1-DBSCAN" class="headerlink" title="1.DBSCAN"></a>1.DBSCAN</h2><p>DBSCAN是是一种典型的<a href="">密度聚类算法</a>，算法主要的思是由密度可达关系导出最大的密度相连样本集合，将其作为一个类。<br>​    </p>
-<blockquote>
-<p>主要参数：</p>
-<ul>
-<li>最小分类样本数 </li>
-<li>半径</li>
-</ul>
-</blockquote>
-<blockquote>
-<ol>
-<li>DBSCAN算法为有参数算法，聚类的最终结果很大程度上取决于参数的设定</li>
-<li>DBSCAN算法不需要指定聚类个数，聚类个数根据算法和数据情况自动获得</li>
-</ol>
-</blockquote>
-<h4 id="DBSCAN聚类过程"><a href="#DBSCAN聚类过程" class="headerlink" title="DBSCAN聚类过程"></a>DBSCAN聚类过程</h4><blockquote>
-<ol>
-<li>首先根据半径画每个点的邻域，当点的邻域内点的个数大于最小样本数时，该点位为核心对象（原始数据集重点的变为核心对象和一般点）</li>
-<li>随机确定一个核心点作为初始点，将该初始点全部的最大密度相连的点作为一类。</li>
-<li>将分好类样本从原始的样本集中除去，从新选择核心对象作为聚类中心，再进行2.3操作，直至全部核心对象都被分类</li>
-</ol>
-</blockquote>
-<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/dbscan.png?raw=true" alt="image"></p>
-<h4 id="DBSCAN代码实现"><a href="#DBSCAN代码实现" class="headerlink" title="DBSCAN代码实现"></a>DBSCAN代码实现</h4><pre><code>from sklearn.cluster import DBSCAN
-
-dbcscan = DBSCAN(min_samples=30,eps=1.8)
-predict = dbscan.fit_predict(imput)
-</code></pre><h2 id="2-K-Means"><a href="#2-K-Means" class="headerlink" title="2.K-Means"></a>2.K-Means</h2><p>KMeans是一种原始性聚类算法，算法主要思想是通过迭代过程把数据集划分为不同的类别，使得评价聚类性能的准则函数达到最优，从而使生成的每个聚类内紧凑，类间独立。<br><strong>这一算法不适合处理离散型数据，对连续性数据具有良好的效果</strong></p>
-<blockquote>
-<ol>
-<li>Kmeans为无参数算法，算法执行过程中不需要进行调参</li>
-<li>Kmeans算法需要指定聚类个数K，这在实际问题中是很难进行确定的</li>
-</ol>
-</blockquote>
-<h4 id="KMeans聚类过程"><a href="#KMeans聚类过程" class="headerlink" title="KMeans聚类过程"></a>KMeans聚类过程</h4><blockquote>
-<ol>
-<li>根据指定的K值随机寻找K个点作为初始中心，将其他样本分别分给这些中心</li>
-<li>由分好的类计算均值作为其该类新的中心，重新对各个样本分到距离最近的中心，重复这一过程，直至中心不再变化</li>
-</ol>
-</blockquote>
-<h4 id="Kmeans代码实现"><a href="#Kmeans代码实现" class="headerlink" title="Kmeans代码实现"></a>Kmeans代码实现</h4><pre><code>from sklearn.cluster import KMeans
-
-kmeans = KMeans(n_clusters=8)
-predict = kmeans.fit_predict(input)
-</code></pre><h2 id="Kmeans、DBSCAN优缺点对比"><a href="#Kmeans、DBSCAN优缺点对比" class="headerlink" title="Kmeans、DBSCAN优缺点对比"></a>Kmeans、DBSCAN优缺点对比</h2><p>DBSCAN的主要优点有：</p>
-<p>　　　　1） 可以对任意形状的稠密数据集进行聚类，相对的，K-Means之类的聚类算法一般只适用于凸数据集。</p>
-<p>　　　　2） 可以在聚类的同时发现异常点，对数据集中的异常点不敏感。</p>
-<p>　　　　3） 聚类结果没有偏倚，相对的，K-Means之类的聚类算法初始值对聚类结果有很大影响。</p>
-<p>　　　　DBSCAN的主要缺点有：</p>
-<p>　　　　1）如果样本集的密度不均匀、聚类间距差相差很大时，聚类质量较差，这时用DBSCAN聚类一般不适合。</p>
-<p>　　　　2） 如果样本集较大时，聚类收敛时间较长，此时可以对搜索最近邻时建立的KD树或者球树进行规模限制来改进。</p>
-<p>　　　　3） 调参相对于传统的K-Means之类的聚类算法稍复杂，主要需要对距离阈值ϵ，邻域样本数阈值MinPts联合调参，不同的参数组合对最后的聚类效果有较大影响。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/决策树模型之CART树和C5-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/决策树模型之CART树和C5-0/" itemprop="url">决策树模型之CART树和C5.0</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T15:37:55+08:00">
-                2018-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="决策树模型之CART树和C5-0"><a href="#决策树模型之CART树和C5-0" class="headerlink" title="决策树模型之CART树和C5.0"></a>决策树模型之CART树和C5.0</h1><p><strong>树模型基本思想</strong>：计算结点的纯度来选择最具显著性的切分<br><strong>不同树模型之间的差异</strong>：差异在于衡量纯度变化的标准不同 </p>
-<blockquote>
-<p>CART树：Gini系数<br>C5.0树：信息熵增益</p>
-</blockquote>
-<h2 id="1-回归树-CART树"><a href="#1-回归树-CART树" class="headerlink" title="1.回归树(CART树)"></a>1.回归树(CART树)</h2><p>回归树也成为分类回归树，是一种既可用于分类也可用于回归的算法。</p>
-<h4 id="CART树分类的主要步骤："><a href="#CART树分类的主要步骤：" class="headerlink" title="CART树分类的主要步骤："></a>CART树分类的主要步骤：</h4><p><strong>1. 决策树的生成</strong>：递归的构建而决策树的过程，基于<strong>训练数据</strong>生成决策树，生成的决策树数量应尽量大。</p>
-<p>自上而下的从根开始建立节点，在每个节点处选择一个<strong>最好的属性</strong>来分类，使子节点红的训练集尽可能的顿。</p>
-<blockquote>
-<p>不同算法使用不同的指标来衡量“最好”：</p>
-<ul>
-<li>分类算法：一般选择Gini系数</li>
-<li>回归算法：使用最小二乘偏差（LSD）或最小绝对偏差（LSA）</li>
-</ul>
-</blockquote>
-<p><strong>2.决策树剪枝</strong>：用<strong>验证数据集</strong>对已生成的树进行剪枝并选择最优子树这时<strong>损失函数最小做为标准</strong></p>
-<h4 id="分类树的生成"><a href="#分类树的生成" class="headerlink" title="分类树的生成"></a>分类树的生成</h4><hr>
-<ol>
-<li>对每个特征A，对它所有的可能取值a，将数据集划分为A=a和A!=a两个部分计算集合D的<strong>基尼指数</strong>：</li>
-</ol>
-<p><img src="https://github.com/Anchoret91/youdao_image/blog/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true" alt="image">  </p>
-<ol start="2">
-<li><p>遍历所有的特征 A，计算其所有可能取值 a 的基尼指数，选择 D 的基尼指数最小值对应的特征及切分点作为最优的划分，将数据分为两个子集。</p>
-</li>
-<li><p>对上述两个子节点递归调用步骤(1)(2), <strong>直到满足停止条件</strong>。  </p>
-</li>
-<li><p>生成CART树</p>
-</li>
-</ol>
-<h5 id="基尼指数："><a href="#基尼指数：" class="headerlink" title="基尼指数："></a>基尼指数：</h5><blockquote>
-<ol>
-<li>是一种不等度的度量</li>
-<li>是介于0~1之间的数，0-完全相等，1-完全不相等</li>
-<li>总体内包含的类别越杂乱，Gini指数就越大  </li>
-</ol>
-</blockquote>
-<p>分类问题中，假设存在K个类，样本属于第k个类的概率为pk，则概率分布的Gini指数为：  </p>
-<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83%E7%9A%84Gin%E6%8C%87%E6%95%B0.png?raw=true" alt="image">   </p>
-<p>样本集合D的Gini指数为：<br>​<br><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%A0%B7%E6%9C%AC%E9%9B%86Gini%E6%8C%87%E6%95%B0.png?raw=true" alt="image">  </p>
-<p>当在数据集D上根据某一取值a进行分割，得到D1、D2两部分后，那么特征A下集合D的Gini指数为：<br>​<br><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true" alt="image">  </p>
-<h5 id="算法停止条件："><a href="#算法停止条件：" class="headerlink" title="算法停止条件："></a>算法停止条件：</h5><ol>
-<li>节点中样本个数小于预定阈值</li>
-<li>样本的Gini指数小于阈值</li>
-<li>没有更多特征  </li>
-</ol>
-<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><p>在完整的的决策树上，减掉一些完整的子支是决策树变小，从而防止决策树过拟合。</p>
-<blockquote>
-<p>决策树很容易产生过拟合，改善的方式包括：</p>
-<ol>
-<li>通过阈值控制终止条件，防止分支过细</li>
-<li>对决策树进行剪枝</li>
-<li>建立随机森林</li>
-</ol>
-</blockquote>
-<h1 id="2-C5-0"><a href="#2-C5-0" class="headerlink" title="2.C5.0"></a>2.C5.0</h1><p><strong>节点分裂标准：信息增益比</strong></p>
-<p>C系列决策树发展过程：  </p>
-<blockquote>
-<p>阶段一：ID3<br>　　　节点选择标准：信息增益<br>　　　缺陷：1. 方法会倾向与属性值比较多的变量（如省份字段存在31个水平，性别由两个水平，信息增益会考虑选择省份做特征节点<br>　　　　　2.构造树时不能很好地处理连续变量  </p>
-<p>阶段二：C4.5<br>　　　节点选择标准：信息增益比（避免了偏袒）<br>　　　缺点：运行效率很低</p>
-<p>阶段三：C5.0<br>　　　商业版的C4.5，提升了算法效率，但没有公布具体算法细节</p>
-</blockquote>
-<h4 id="C5-0算法特点"><a href="#C5-0算法特点" class="headerlink" title="C5.0算法特点"></a>C5.0算法特点</h4><h5 id="1-C5-0是一种多叉树。"><a href="#1-C5-0是一种多叉树。" class="headerlink" title="1.C5.0是一种多叉树。"></a>1.C5.0是一种多叉树。</h5><blockquote>
-<p>如果根节点或者中间节点为<strong>连续变量</strong>，则改变量一定会一分为二成为<strong>两个分支</strong>；如果根节点或者中间节点为<strong>离散变量</strong>，则分开<strong>离散变量水平数个分支</strong>；<strong>因此一个变量一旦被使用，后面节点都不会在使用该变量</strong>。 </p>
-</blockquote>
-<h5 id="2-C5-0生成树采用信息增益比进行分裂节点的选择"><a href="#2-C5-0生成树采用信息增益比进行分裂节点的选择" class="headerlink" title="2.C5.0生成树采用信息增益比进行分裂节点的选择"></a>2.C5.0生成树采用信息增益比进行分裂节点的选择</h5><h5 id="3-剪枝采用“减少误差”法和“减少损失”法进行。"><a href="#3-剪枝采用“减少误差”法和“减少损失”法进行。" class="headerlink" title="3.剪枝采用“减少误差”法和“减少损失”法进行。"></a>3.剪枝采用“减少误差”法和“减少损失”法进行。</h5><blockquote>
-<p>减少误差法：核心思想是比较剪枝前后的<strong>误差率</strong><br>　　　误差率的计算：如果第i个节点中包含N个样本，其中预测错误的样本量为M，则该节点的错误率为f=M/N  </p>
-<p>减少损失法：该方法结合损失矩阵对树进行剪枝，核心是剪枝前后的的损失量。  </p>
-</blockquote>
-<h5 id="4-C5-0只能解决分类问题"><a href="#4-C5-0只能解决分类问题" class="headerlink" title="4.C5.0只能解决分类问题"></a>4.C5.0只能解决分类问题</h5>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/Github-hexo博客使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/Github-hexo博客使用/" itemprop="url">Github+hexo博客使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T10:45:16+08:00">
-                2018-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/博客相关/" itemprop="url" rel="index">
-                    <span itemprop="name">博客相关</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>1.创建新博文页面</strong></p>
-<p>创建博文页面首先要cd 到博客的根目录下，然后运行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;页面名称&quot;</span><br></pre></td></tr></table></figure>
-<p>这样则在博客站点的source/_posts/文件夹下创建了指定的“页面名称.md”文件，可以直接对其进行编辑。完成编辑后就可已使用下面的同步命令来将修改提交到GIthub上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g    #生成静态文件并部署到服务器，g是generate代表生成文件，d是depoly代表部署到服务器</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2054,7 +2055,7 @@ predict = kmeans.fit_predict(input)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2076,7 +2077,7 @@ predict = kmeans.fit_predict(input)
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
