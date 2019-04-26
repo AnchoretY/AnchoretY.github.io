@@ -79,18 +79,19 @@
 
 
 
-<meta name="description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数  线性模型​    效果较好的损失函数：平方误差损失函数 ​    计算公式： ​     ​        其">
+<meta name="description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：1.线性模型中使用平方误差函数，深度学习使用交叉熵函数 ​    2.平方误差损失函数更适合输出为连续,并且最后一层不含Sigmoid或Softmax激活函数的神经">
 <meta name="keywords" content="深度学习,面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习——损失函数">
 <meta property="og:url" content="http://yoursite.com/2018/10/30/深度学习——损失函数/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数  线性模型​    效果较好的损失函数：平方误差损失函数 ​    计算公式： ​     ​        其">
+<meta property="og:description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：1.线性模型中使用平方误差函数，深度学习使用交叉熵函数 ​    2.平方误差损失函数更适合输出为连续,并且最后一层不含Sigmoid或Softmax激活函数的神经">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/MSE定义公式.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/MES损失函数反向传播公式.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/交叉熵公式.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/交叉熵公式2.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/二分类交叉熵损失函数.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax损失函数.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax神经元输入.png?raw=true">
@@ -98,10 +99,10 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax求导.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax求导2.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax%E6%B1%82%E5%AF%BC3.png?raw=true">
-<meta property="og:updated_time" content="2019-04-18T08:34:36.740Z">
+<meta property="og:updated_time" content="2019-04-23T08:18:51.386Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——损失函数">
-<meta name="twitter:description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数  线性模型​    效果较好的损失函数：平方误差损失函数 ​    计算公式： ​     ​        其">
+<meta name="twitter:description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：1.线性模型中使用平方误差函数，深度学习使用交叉熵函数 ​    2.平方误差损失函数更适合输出为连续,并且最后一层不含Sigmoid或Softmax激活函数的神经">
 <meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/MSE定义公式.png?raw=true">
 
 
@@ -386,7 +387,8 @@
 <p>​        1.平方差函数MSE（Mean Squared Error）</p>
 <p>​        2.交叉熵函数（Cross Entory）    </p>
 <blockquote>
-<p><strong>损失函数选择的方法：线性模型中使用平方误差函数，深度学习使用交叉熵函数</strong></p>
+<p><strong>损失函数选择的方法：1.线性模型中使用平方误差函数，深度学习使用交叉熵函数</strong></p>
+<p>​    <strong>2.平方误差损失函数更适合输出为连续,并且最后一层不含Sigmoid或Softmax激活函数的神经网络；交叉熵损失函数更适合二分类或多分类的场景</strong>。</p>
 </blockquote>
 <h4 id="线性模型"><a href="#线性模型" class="headerlink" title="线性模型"></a>线性模型</h4><p>​    <strong>效果较好的损失函数：平方误差损失函数</strong></p>
 <p>​    <strong>计算公式：</strong></p>
@@ -405,7 +407,9 @@
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/交叉熵公式.png?raw=true" alt=""></p>
 <p>​    如果有多个样本，则整个样本集的平均交叉熵为:</p>
 <p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/交叉熵公式2.png?raw=true" alt=""></p>
-<p>​    损失函数求导：</p>
+<p>对于二分类而言，交叉损失函数为：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/二分类交叉熵损失函数.png?raw=true" alt=""></p>
+<p>损失函数求导：</p>
 <p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%B1%82%E5%AF%BC.png?raw=true" alt="">        </p>
 <p>​    对于b的求导同理。</p>
 <p>​    我们可以看出，<strong>交叉熵作为损失函数，梯度中的σ′(z) 被消掉了，另外σ(z)-y就是输出值和真实值之间的误差，误差越大，梯度更新越大，参数更新越快。</strong> </p>
@@ -415,16 +419,16 @@
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/softmax神经元输入.png?raw=true" alt=""></p>
 <h5 id="softmax求导相关推导"><a href="#softmax求导相关推导" class="headerlink" title="softmax求导相关推导"></a>softmax求导相关推导</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/神经网络传导图.png?raw=true" alt=""></p>
 <p>​    对于使用作为激活函数的神经网络，最终只输出只有最大的softmax最大的项为1其余项均为0，假设yj=1，带入交叉熵公式中得</p>
-<p>​                $$ Loss=-y_{i}loga_i ​$$</p>
+<p>​                $$ Loss=-y_{i}loga_i $$</p>
 <p>​    去掉了累加和，因为只有一项y为1，其余都为0，而将yj=1带入得</p>
-<p>​                                $$ Loss=-loga_i ​$$            </p>
+<p>​                                $$ Loss=-loga_i $$            </p>
 <p>​    下面我们准备将损失函数对参数求导，参数的形式在该例子中，总共分w41,w42,w43,w51,w52,w53,w61,w62,w63.这些，那么比如我要求出w41,w42,w43的偏导，就需要将Loss函数求偏导传到结点4，然后再利用链式法则继续求导即可，举个例子此时求w41的偏导为:</p>
-<p>​                $$\frac{\partial Loss}{\partial w_{ij}} = \frac{\partial Loss}{\partial a_j}\frac{\partial a_j}{\partial z_i}\frac{\partial z_i}{\partial w_{ij}}​$$</p>
+<p>​                $$\frac{\partial Loss}{\partial w_{ij}} = \frac{\partial Loss}{\partial a_j}\frac{\partial a_j}{\partial z_i}\frac{\partial z_i}{\partial w_{ij}}$$</p>
 <p>​    其中右边第一项q求导为：</p>
 <p>​             $$\frac{\partial Loss}{\partial a_j} = -\frac{1}{a_j}$$</p>
 <p>​    右边第三项求导为：</p>
 <p>​              $$\frac{\partial z_j}{\partial w_ij} = x_{i}$$</p>
-<p>​    核心是求右侧第二项：$\frac{\partial a_j}{\partial z_j}​$，这里我们分两种情况进行讨论</p>
+<p>​    核心是求右侧第二项：$\frac{\partial a_j}{\partial z_j}$，这里我们分两种情况进行讨论</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/softmax求导.png?raw=true" alt=""></p>
 <p>​    将前两项的结果进行连乘得：</p>
 <p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/softmax求导2.png?raw=true" alt=""></p>
@@ -553,7 +557,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -575,7 +579,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
