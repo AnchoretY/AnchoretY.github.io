@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[__new__和__init__]]></title>
     <url>%2F2019%2F04%2F26%2Fnew-%E5%92%8C-init%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[执行顺序：类中同时出现new()和init()时，先调用new()，再调用init() python中__new__和__init__的区别 1.用法不同： ​ __new__()用于创建实例，所以该方法是在实例创建之前被调用，它是类级别的方法，是个静态方法； ​ __init__() 用于初始化实例，所以该方法是在实例对象创建后被调用，它是实例级别的方法，用于设置对象属性的一些初始值 ​ 注：由此可知，__new__()在__init__() 之前被调用。如果__new__() 创建的是当前类的实例，会自动调用__init__()函数，通过return调用的__new__()的参数cls来保证是当前类实例，如果是其他类的类名，那么创建返回的是其他类实例，就不会调用当前类的__init__()函数 2.传入参数不同： ​ __new__()至少有一个参数cls，代表当前类，此参数在实例化时由Python解释器自动识别； ​ __init__()至少有一个参数self，就是这个__new__()返回的实例，__init__()在__new__()的基础上完成一些初始化的操作。 3.返回值不同： ​ __new__()必须有返回值，返回实例对象； __init__()不需要返回值。 __new__的两种常见用法1.继承不可变的类​ __new__()方法主要用于继承一些不可变的class，比如int, str, tuple， 提供一个自定义这些类的实例化过程的途径，一般通过重载__new__()方法来实现 12345678class PostiveInterger(int): def __new__(cls,value): return super(PostiveInterger,cls).__new__(cls,abs(value))a = PostiveInterger(-10)print(a)output: 10 2.实现单例模式​ 可以用来实现单例模式，也就是使每次实例化时只返回同一个实例对象。 1234567891011121314151617class Singleobject(object): def __new__(cls): if not cls.instance: cls.instance = super(Singleobject,cls).new(cls) return cls.instanceobject1 = Singleobject()object2 = Singleobject()object1.attr = 'value1'print(object1.attr,object2.attr)print(object1 is object2)output: value1,value1 True]]></content>
       <tags>
         <tag>python</tag>
       </tags>

@@ -79,15 +79,18 @@
 
 
 
+<meta name="description" content="执行顺序：类中同时出现new()和init()时，先调用new()，再调用init() python中__new__和__init__的区别 1.用法不同： ​    __new__()用于创建实例，所以该方法是在实例创建之前被调用，它是类级别的方法，是个静态方法； ​    __init__() 用于初始化实例，所以该方法是在实例对象创建后被调用，它是实例级别的方法，用于设置对象属性的一些初始值">
 <meta name="keywords" content="python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="__new__和__init__">
 <meta property="og:url" content="http://yoursite.com/2019/04/26/new-和-init/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="执行顺序：类中同时出现new()和init()时，先调用new()，再调用init() python中__new__和__init__的区别 1.用法不同： ​    __new__()用于创建实例，所以该方法是在实例创建之前被调用，它是类级别的方法，是个静态方法； ​    __init__() 用于初始化实例，所以该方法是在实例对象创建后被调用，它是实例级别的方法，用于设置对象属性的一些初始值">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-26T14:41:13.207Z">
+<meta property="og:updated_time" content="2019-04-26T15:08:52.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="__new__和__init__">
+<meta name="twitter:description" content="执行顺序：类中同时出现new()和init()时，先调用new()，再调用init() python中__new__和__init__的区别 1.用法不同： ​    __new__()用于创建实例，所以该方法是在实例创建之前被调用，它是类级别的方法，是个静态方法； ​    __init__() 用于初始化实例，所以该方法是在实例对象创建后被调用，它是实例级别的方法，用于设置对象属性的一些初始值">
 
 
 
@@ -365,7 +368,24 @@
       
 
       
-        
+        <p><strong>执行顺序：类中同时出现new()和init()时，先调用new()，再调用init()</strong></p>
+<h5 id="python中-new-和-init-的区别"><a href="#python中-new-和-init-的区别" class="headerlink" title="python中__new__和__init__的区别"></a>python中__new__和__init__的区别</h5><blockquote>
+<p><strong>1.用法不同</strong>：</p>
+<p>​    __new__()用于创建实例，所以该方法是<strong>在实例创建之前被调用</strong>，它是类级别的方法，是个静态方法；</p>
+<p>​    __init__() 用于初始化实例，所以该方法是<strong>在实例对象创建后被调用</strong>，它是实例级别的方法，用于设置对象属性的一些初始值</p>
+<p>​    注：由此可知，__new__()在__init__() 之前被调用。如果__new__() 创建的是当前类的实例，会自动调用__init__()函数，通过return调用的__new__()的参数cls来保证是当前类实例，如果是其他类的类名，那么创建返回的是其他类实例，就不会调用当前类的__init__()函数</p>
+<p>2.传入参数不同：</p>
+<p>​    __new__()<strong>至少有一个参数cls，代表当前类</strong>，此参数在实例化时由Python解释器自动识别；</p>
+<p>​    __init__()<strong>至少有一个参数self</strong>，就是这个__new__()返回的实例，__init__()在__new__()的基础上完成一些初始化的操作。</p>
+<p>3.返回值不同：</p>
+<p>​    __new__()必须有返回值，返回实例对象；</p>
+<p>　__init__()不需要返回值。</p>
+</blockquote>
+<h4 id="new-的两种常见用法"><a href="#new-的两种常见用法" class="headerlink" title="__new__的两种常见用法"></a>__new__的两种常见用法</h4><h5 id="1-继承不可变的类"><a href="#1-继承不可变的类" class="headerlink" title="1.继承不可变的类"></a>1.继承不可变的类</h5><p>​    __new__()方法主要用于继承一些不可变的class，比如int, str, tuple， 提供一个自定义这些类的实例化过程的途径，一般通过重载__new__()方法来实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostiveInterger</span><span class="params">(int)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls,value)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> super(PostiveInterger,cls).__new__(cls,abs(value))</span><br><span class="line">a = PostiveInterger(<span class="number">-10</span>)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-实现单例模式"><a href="#2-实现单例模式" class="headerlink" title="2.实现单例模式"></a>2.实现单例模式</h5><p>​    可以用来实现单例模式，也就是使<strong>每次实例化时只返回同一个实例对象</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleobject</span><span class="params">(object)</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> cls.instance:</span><br><span class="line">      cls.instance = super(Singleobject,cls).new(cls)</span><br><span class="line">    <span class="keyword">return</span> cls.instance</span><br><span class="line"></span><br><span class="line">object1 = Singleobject()</span><br><span class="line">object2 = Singleobject()</span><br><span class="line"></span><br><span class="line">object1.attr = <span class="string">'value1'</span></span><br><span class="line"></span><br><span class="line">print(object1.attr,object2.attr)</span><br><span class="line">print(object1 <span class="keyword">is</span> object2)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  value1,value1</span><br><span class="line">  <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -455,8 +475,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -516,6 +545,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#python中-new-和-init-的区别"><span class="nav-number">1.</span> <span class="nav-text">python中__new__和__init__的区别</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#new-的两种常见用法"><span class="nav-number"></span> <span class="nav-text">__new__的两种常见用法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-继承不可变的类"><span class="nav-number">1.</span> <span class="nav-text">1.继承不可变的类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-实现单例模式"><span class="nav-number">2.</span> <span class="nav-text">2.实现单例模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
