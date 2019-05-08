@@ -297,6 +297,366 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/30/机器学习——XGBoost/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/30/机器学习——XGBoost/" itemprop="url">机器学习——XGBoost</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-30T10:26:07+08:00">
+                2019-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="XGB的优势"><a href="#XGB的优势" class="headerlink" title="XGB的优势"></a>XGB的优势</h3><p>​    <strong>1. XGBoost加入了正则化项，正则化项中包含了叶子节点个数，使学到的模型更加简单。原始的GBDT没有，可以有效防止过拟合</strong></p>
+<p>​    <strong>2. XGBoost实现了局部并行计算，比原始的GBDT速度快的多</strong></p>
+<p>​    <strong>3. XGBoost中内置了缺失值的处理</strong>，尝试对缺失值进行分类，然后学习这种分类</p>
+<p>​    <strong>4. 可在线学习，这个sklearn中的GBDT也有</strong></p>
+<p>​    <strong>5. XGboost允许在交叉验证的过程中实现boosting，通过一次run就能得到boosting迭代的优化量；而GBDT只能人工的使用grid-search</strong></p>
+<p>​    <strong>6.支持列抽样。不仅能有效防止过拟合，还能减少计算量</strong></p>
+<h3 id="XGBoost的并行计算是如何实现的？"><a href="#XGBoost的并行计算是如何实现的？" class="headerlink" title="XGBoost的并行计算是如何实现的？"></a>XGBoost的并行计算是如何实现的？</h3><blockquote>
+<p>​    注意<strong>xgboost的并行不是tree粒度的并行</strong>，xgboost也是一次迭代完成才能进行下一次迭代的（第t次迭代的代价函数里面包含了前面t-1次迭代的预测值）。<strong>xgboost的并行是在特征粒度上的</strong>。我们知道，<strong>决策树的学习最耗时的一个步骤就是对特征的值进行排序（因为要确定最佳分割点）</strong>，<strong>xgboost在训练之前，预先对数据进行排序，然后保存block结构，后面的迭代中重复的使用这个结构，大大减小计算</strong>量。这个block结构也使得并行称为了可能，<strong>在进行节点的分裂时，需要计算每个特征的增益，最终选增益最大的那个特征去做分裂，那么各个特征的增益计算就可以开多线程进行。</strong></p>
+</blockquote>
+<h3 id="XGBoost的参数"><a href="#XGBoost的参数" class="headerlink" title="XGBoost的参数"></a>XGBoost的参数</h3><p>​    XGBoost的参数主要分为三大类：</p>
+<blockquote>
+<p>1.调控整个方程的参数</p>
+<p>2.调控每步树的参数</p>
+<p>3.调控优化表现的变量</p>
+</blockquote>
+<h5 id="1-调控整个方程的参数"><a href="#1-调控整个方程的参数" class="headerlink" title="1.调控整个方程的参数"></a>1.调控整个方程的参数</h5><ul>
+<li><strong>booster [defalut=gbtree]</strong>  基模型<ul>
+<li>gbtree：树模型</li>
+<li>gblinear：线性模型</li>
+</ul>
+</li>
+<li><strong>nthread</strong> [default to maximum number of threads available if not set] 使用的线程数<ul>
+<li>用于并行计算，默认使用全部内核</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-调节基分类器的参数"><a href="#2-调节基分类器的参数" class="headerlink" title="2.调节基分类器的参数"></a>2.调节基分类器的参数</h5><p>​    这里只讨论树模型作为基模型的情况，因为树模型作为基分类器效果总是优于线性模型。</p>
+<ul>
+<li><p><strong>eta/learning rate [default=0.3]</strong>  学习的初始速率</p>
+<ul>
+<li>通过减小每一步的权重能够使建立的模型更加具有鲁棒性</li>
+<li>通常最终的数值范围在[0.01-0.2]之间</li>
+</ul>
+<blockquote>
+<p>Shrinkage（缩减），相当于学习速率。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了消弱每棵树的影响，让后面有更大的学习空间。在实际应用中，一般把学习率设置的小一点，然后迭代次数设置的大一点（补充：传统GBDT的实现也有学习速率）</p>
+</blockquote>
+</li>
+<li><p><strong>gamma [default=0]</strong></p>
+<ul>
+<li>一个节点分裂的条件是其分裂能够起到降低loss function的作用，<strong>gamma 定义loss function降低多少才分裂</strong></li>
+<li>它的值取决于 loss function需要被调节</li>
+</ul>
+</li>
+<li><p><strong>lambda/reg_lambda  [default=1]</strong></p>
+<ul>
+<li>L2正则化的权重，用于防止过拟合</li>
+</ul>
+</li>
+<li><p><strong>alpha/reg_alpha  [default=0]</strong> </p>
+<ul>
+<li>L1正则化的权重，可以用于特征选择</li>
+<li>一般用于特征特别多的时候，可以大大提升算法的运算效率</li>
+</ul>
+</li>
+<li><p><strong>subsample [default=1]</strong></p>
+<ul>
+<li>每棵树使用的样本比例 [0.5~1]</li>
+<li>低值使得模型更保守且能防止过拟合，但太低的值会导致欠拟合</li>
+</ul>
+</li>
+<li><strong>colsample_bytree [default=1] </strong><ul>
+<li>每棵树随机选取的特征的比例 [0.5-1]</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-调控优化表现的参数"><a href="#3-调控优化表现的参数" class="headerlink" title="3.调控优化表现的参数"></a>3.调控优化表现的参数</h5><ul>
+<li><strong>objective [default=reg:linear]</strong> </li>
+<li><strong>eval_metric</strong></li>
+<li><strong>seed</strong></li>
+</ul>
+<h3 id="调参"><a href="#调参" class="headerlink" title="调参"></a>调参</h3><p><strong>调参开始时一般使用较大的学习速率 0.1</strong></p>
+<h5 id="1-初始参数设置"><a href="#1-初始参数设置" class="headerlink" title="1.初始参数设置"></a>1.初始参数设置</h5><blockquote>
+<p>max_depth = 5</p>
+<p>min_child_weight = 1    #如果是不平衡数据，初始值设置最好小于1</p>
+</blockquote>
+<h5 id="2-首先调节的参数-max-depth和min-child-weight"><a href="#2-首先调节的参数-max-depth和min-child-weight" class="headerlink" title="2.首先调节的参数 max_depth和min_child_weight"></a>2.首先调节的参数 max_depth和min_child_weight</h5><p>​    在整个GBDT中，对整个模型效果影响最大的参数就是max_depth和min_child_weight。</p>
+<blockquote>
+<p>max_depth 一般在3~10先用step为2进行网格搜索找到范围，找到范围再用step为1的网格搜索确定具体值</p>
+<p>min_child_weight  一般现在1~6先使用step为2的网格搜索找到最佳参数值范围，然后再用step为1的网格索索确定具体参数值</p>
+</blockquote>
+<h5 id="3-调整gamma"><a href="#3-调整gamma" class="headerlink" title="3. 调整gamma"></a>3. 调整gamma</h5><blockquote>
+<p>gamma参数主要用于控制节点是否继续分裂，一般使用网格搜索在0~0.5之间进行步长为0.1的搜索</p>
+</blockquote>
+<h5 id="4-调整subsample和colsample-bytree"><a href="#4-调整subsample和colsample-bytree" class="headerlink" title="4.调整subsample和colsample_bytree"></a>4.调整subsample和colsample_bytree</h5><blockquote>
+<p>这两个参数主要是用来防止拟合的，参数值越小越能防止过拟合 一般0.6~1之间网格搜索</p>
+</blockquote>
+<h5 id="5-尝试降低学习速率增加更多的树"><a href="#5-尝试降低学习速率增加更多的树" class="headerlink" title="5.尝试降低学习速率增加更多的树"></a>5.尝试降低学习速率增加更多的树</h5><blockquote>
+<p>学习速率降为0.1或0.01</p>
+</blockquote>
+<p><strong>结论：1.仅仅通过调参来提升模型效果是很难的</strong></p>
+<p>​    <strong>2.要想提升模型效果最主要是通过特征工程、模型融合等方式</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/深度学习-BN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/28/深度学习-BN/" itemprop="url">深度学习-BN</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T16:11:20+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="为什么要进行归一化？"><a href="#为什么要进行归一化？" class="headerlink" title="为什么要进行归一化？"></a>为什么要进行归一化？</h5><blockquote>
+<p>​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的<strong>泛化能力也将大大降低</strong>；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这<strong>将大大降低网络的学习速度</strong>。</p>
+</blockquote>
+<h5 id="为什么要使用BN？"><a href="#为什么要使用BN？" class="headerlink" title="为什么要使用BN？"></a>为什么要使用BN？</h5><blockquote>
+<p>​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中并没有对数据做任何处理，而在神经网络的的训练过程中只要网络的前面几层的数据分布发生微小的变化，那么后面的网络就会不断积累放大这个分布的变化，因此一旦有任意一层的数据发生改变，这层以及后面的网络都会需要去从新适应学习这个新的数据分布，而如果训练过程中，每一层的数据都在不断发生变化，那么更将大大影响网络的训练速度，因此需要在网络的每一层输入之前都将数据进行一次归一化，保证数据分布的相同，<strong>加快网络训练速度</strong>。</p>
+<p>​    在另一方面，由于将网络的每一步都进行了标准化，数据分布一致，因此模型的泛化能力将更强。</p>
+</blockquote>
+<h5 id="BN的本质是什么？"><a href="#BN的本质是什么？" class="headerlink" title="BN的本质是什么？"></a>BN的本质是什么？</h5><blockquote>
+<p>一个<strong>可学习</strong>、<strong>有参数（γ、β）</strong>的使每层数据之前进行归一化的网络层</p>
+</blockquote>
+<h5 id="BN使用位置"><a href="#BN使用位置" class="headerlink" title="BN使用位置"></a>BN使用位置</h5><blockquote>
+<p>线性层后全连接层之前</p>
+</blockquote>
+<h5 id="BN过程"><a href="#BN过程" class="headerlink" title="BN过程"></a>BN过程</h5><blockquote>
+<p>对于一般的归一化没使用下面的公式进行归一化计算：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p><strong>但是如果仅仅使用上面的公式来对某层的输出做下一层的输入做归一化，那么是会影响到前面一层学习到的特征的。</strong>例如：网络中间某一层学习到特征数据本身就分布在S型激活函数的两侧，强制把它归一化处理、标准差也限制在了1，把数据变换成分布于s函数的中间部分，这样就相当于我这一层网络所学习到的特征分布被搞坏了。因此，<strong>BN引入了可学习的参数γ、β</strong>：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/BN%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    上面的公式表明，<strong>通过学习到的重构参数γ、β，是可以恢复出原始的某一层所学到的特征的。</strong></p>
+</blockquote>
+<h5 id="BN中为什么要在后面γ、β？不加可以吗？"><a href="#BN中为什么要在后面γ、β？不加可以吗？" class="headerlink" title="BN中为什么要在后面γ、β？不加可以吗？"></a>BN中为什么要在后面γ、β？不加可以吗？</h5><blockquote>
+<p>​    不可以，因为这是BN中的最关键步骤。不使用γ、β会造成归一化的同时破坏前一层提取到的特征，而BN通过记录每个神经元上的γ、β，使前一层的特征可以通过γ、β得以还原。</p>
+</blockquote>
+<h5 id="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"><a href="#BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？" class="headerlink" title="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"></a>BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？</h5><blockquote>
+<p>​    对于CNN上采用了类似权值共享的策略，<strong>将一个特征图看做一个神经元</strong>，因此参数个数并不会很多。</p>
+<p>例如：如果min-batch sizes为m，那么网络某一层输入数据可以表示为四维矩阵(m,f,w,h)，m为min-batch sizes，f为特征图个数，w、h分别为特征图的宽高。在CNN中我们可以把每个特征图看成是一个特征处理（一个神经元），因此在使用Batch Normalization，mini-batch size 的大小就是：m.w.h，于是对于每个特征图都只有一对可学习参数：γ、β，总参数个数也就是2m个。</p>
+</blockquote>
+<h5 id="BN的作用"><a href="#BN的作用" class="headerlink" title="BN的作用"></a>BN的作用</h5><blockquote>
+<p>1.防止过拟合。有了BN，dropout和正则化的需求下降了</p>
+<p>2.加速训练</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/机试——二叉树遍历/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1212,6 +1572,13 @@
 <td>稳定</td>
 </tr>
 <tr>
+<td>希尔排序</td>
+<td>O（n2）</td>
+<td>O(O3/2)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td>归并排序</td>
 <td>O(nlogn)</td>
 <td>O(nlogn)</td>
@@ -1266,29 +1633,25 @@
 <p>​    1.设置是否已经排好序的flag。如果在某一轮的便利中没有出现任何的交换发生，这说明已经都排好序,那么直接将flag置True，每轮结束时检测flag，如果为True则直接返回</p>
 <p>​    2.某一轮的结束为止为j，但这一轮最后一次交换发生在lastSwap位置，那么说明lastSwap到j之间已经排好序，下次遍历的结束点就不需要再到j—而是直接到lastSwap即可。</p>
 </blockquote>
-<h4 id="4-快速排序"><a href="#4-快速排序" class="headerlink" title="4.快速排序"></a>4.快速排序</h4><p>​    快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，<strong>此时pivot的位置就是排好序后他也应该在的位置。</strong>然后继续用递归算法分别处理pivot左边的元素和右边的元素。</p>
-<h5 id="对于大的乱序数据快速排序被认为是最快速的排序方式"><a href="#对于大的乱序数据快速排序被认为是最快速的排序方式" class="headerlink" title="对于大的乱序数据快速排序被认为是最快速的排序方式"></a>对于大的乱序数据快速排序被认为是最快速的排序方式</h5><p>d</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(l&lt;r):</span><br><span class="line">        q = mpartition(arr,l,r)</span><br><span class="line">        quick_sort(arr,l,q<span class="number">-1</span>)    <span class="comment">#前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置</span></span><br><span class="line">        quick_sort(arr,q+<span class="number">1</span>,r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mpartition</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	递归子函数，povit放到指定位置</span></span><br><span class="line"><span class="string">    	return l:最终标志元素被放置的位置，本轮确定了的元素位置</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    poviot = arr[l]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> l&lt;r:</span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[r]&gt;=poviot:</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[l] = arr[r]</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[l]&lt;poviot:</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[r] = arr[l]</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    arr[l]  = poviot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
+<h4 id="4-希尔排序"><a href="#4-希尔排序" class="headerlink" title="4.希尔排序"></a>4.希尔排序</h4><p>​    希尔排序是一种插入排序的改良算法，简单的插入排序不管元素怎么样，都从头到尾一步一步的进行元素比较，如果遇到逆序序列如：[5,4,3,2,1,0]数组末端的0要回到原始位置需要n-1次的比较和移动。而希尔排序使用跳跃式分组的策略，通过某个增量将数组元素划分为若干组，然后在各个组内进行插入排序，随后逐步缩小增量，继续按照组进行排序，直至增量为1。</p>
+<p>​    希尔排序通过这种策略使的整个数组在初始阶段宏观上基本有序，小的基本在前，大的基本在后，然后缩小增量相当于进行微调，不会过多的设计元素移动。</p>
+<blockquote>
+<p>基本思想：把记录按照下标的一定增量进行分组，对每组使用直接插入排序算法进行排序；随着增量逐渐减少，魅族包含的元素个数越来越多，当增量减至1时，整个文件被分成一组，算法终止。</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/希尔排序实例.png?raw=true" alt=""></p>
+<h4 id="5-快速排序"><a href="#5-快速排序" class="headerlink" title="5.快速排序"></a>5.快速排序</h4><p>​    快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，<strong>此时pivot的位置就是排好序后他也应该在的位置。</strong>然后继续用递归算法分别处理pivot左边的元素和右边的元素。</p>
+<h5 id="对于大的乱序数据快速排序被认为是最快速的排序方式"><a href="#对于大的乱序数据快速排序被认为是最快速的排序方式" class="headerlink" title="对于大的乱序数据快速排序被认为是最快速的排序方式"></a>对于大的乱序数据快速排序被认为是最快速的排序方式</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(l&lt;r):</span><br><span class="line">        q = mpartition(arr,l,r)</span><br><span class="line">        quick_sort(arr,l,q<span class="number">-1</span>)    <span class="comment">#前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置</span></span><br><span class="line">        quick_sort(arr,q+<span class="number">1</span>,r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mpartition</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	递归子函数，povit放到指定位置</span></span><br><span class="line"><span class="string">    	return l:最终标志元素被放置的位置，本轮确定了的元素位置</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    poviot = arr[l]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> l&lt;r:</span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[r]&gt;=poviot:</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[l] = arr[r]</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[l]&lt;poviot:</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[r] = arr[l]</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    arr[l]  = poviot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式二：非递归，利用栈</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(nums,low,high)</span>:</span></span><br><span class="line">    <span class="comment">#确定nums数组中指定部分low元素的位置，左边都比它小，右边都比他大</span></span><br><span class="line">    </span><br><span class="line">    pivot = nums[low]</span><br><span class="line">    high_flag = <span class="keyword">True</span>   <span class="comment">#这里之所以设置这两个flag是为了确保交叉进行，否则可能会出现最大索引值处没有值或者最大索引值处一直付给各个low</span></span><br><span class="line">    low_flag = <span class="keyword">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> low&lt;high <span class="keyword">and</span> low&lt;len(nums) <span class="keyword">and</span> high&lt;len(nums):</span><br><span class="line">        <span class="keyword">if</span> high_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[high]&lt;pivot:</span><br><span class="line">                nums[low]=nums[high]</span><br><span class="line">                high_flag = <span class="keyword">False</span></span><br><span class="line">                low_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                high -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> low_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[low]&gt;pivot:</span><br><span class="line">                nums[high] = nums[low]</span><br><span class="line">                low_flag = <span class="keyword">False</span></span><br><span class="line">                high_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                low += <span class="number">1</span></span><br><span class="line">    nums[low] = pivot     </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> low</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(nums)</span>:</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = len(nums)<span class="number">-1</span></span><br><span class="line">    stack = []    <span class="comment">#存储每次遍历起始索引和结束索引</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> low&lt;high:</span><br><span class="line">        <span class="comment">#先手动将找到第一个节点的最终位置，将原数组分为左右两个数组，分别左右索引入栈</span></span><br><span class="line">        mid = partition(nums,low,high)</span><br><span class="line">        <span class="keyword">if</span> low&lt;mid<span class="number">-1</span>:</span><br><span class="line">            stack.append(low)</span><br><span class="line">            stack.append(mid<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> high&gt;mid+<span class="number">1</span>:</span><br><span class="line">            stack.append(mid+<span class="number">1</span>)</span><br><span class="line">            stack.append(high)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#取出之前入栈的一个数组，来进行确定最终位置，分为左右两个子数组，分别左右索引入栈的操作，重复直到所有元素都已经排好序</span></span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            <span class="comment">#这里写的是属于右半部都排好后左半部</span></span><br><span class="line">            r = stack.pop()</span><br><span class="line">            l = stack.pop()</span><br><span class="line">            mid = partition(nums,l,r)</span><br><span class="line">            <span class="keyword">if</span> l&lt;mid<span class="number">-1</span>:</span><br><span class="line">                stack.append(l)</span><br><span class="line">                stack.append(mid<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">if</span> r&gt;mid+<span class="number">1</span>:</span><br><span class="line">                stack.append(mid+<span class="number">1</span>)</span><br><span class="line">                stack.append(r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
 <p><strong>稳定性：不稳定</strong>（排序过程中不停地交换元素位置造成了排序算法不稳定）</p>
 <p><strong>时间复杂度：</strong></p>
 <p>​    <strong>平均时间O(nlogn)</strong></p>
 <p>​    <strong>最坏情况：O(n^2)</strong></p>
 <p><strong>空间复杂度：O(nlogn)</strong></p>
-<h4 id="5-归并排序"><a href="#5-归并排序" class="headerlink" title="5.归并排序"></a>5.归并排序</h4><p>​    该算法采用经典的<strong>分治</strong>（divide-and-conquer）策略（分治法将问题<strong>分</strong>(divide)成一些小的问题然后递归求解，而<strong>治(conquer)</strong>的阶段则将分的阶段得到的各答案”修补”在一起，即分而治之)。</p>
+<h4 id="6-归并排序"><a href="#6-归并排序" class="headerlink" title="6.归并排序"></a>6.归并排序</h4><p>​    该算法采用经典的<strong>分治</strong>（divide-and-conquer）策略（分治法将问题<strong>分</strong>(divide)成一些小的问题然后递归求解，而<strong>治(conquer)</strong>的阶段则将分的阶段得到的各答案”修补”在一起，即分而治之)。</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E8%BF%87%E7%A8%8B%E5%9B%BE.png?raw=true" alt=""></p>
 <p>​    每次合并操作的平均时间复杂度为O(n)，而完全二叉树的深度为|log2n|。总的平均时间复杂度为O(nlogn)。而且，<strong>归并排序的最好，最坏，平均时间复杂度均为O(nlogn)。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MergeSort</span><span class="params">(lists)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(lists) &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> lists</span><br><span class="line">    num = int(len(lists) / <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    left = MergeSort(lists[:num])</span><br><span class="line">    right = MergeSort(lists[num:])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Merge(left, right)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Merge</span><span class="params">(left, right)</span>:</span></span><br><span class="line">    r, l = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">while</span> l &lt; len(left) <span class="keyword">and</span> r &lt; len(right):</span><br><span class="line">        <span class="keyword">if</span> left[l] &lt;= right[r]:</span><br><span class="line">            result.append(left[l])</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result.append(right[r])</span><br><span class="line">            r += <span class="number">1</span></span><br><span class="line">    result += list(left[l:])</span><br><span class="line">    result += list(right[r:])</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h4 id="6-堆排序"><a href="#6-堆排序" class="headerlink" title="6.堆排序"></a>6.堆排序</h4><p>​    堆是一种<strong>特殊的完全二叉树</strong>，其父节点的值都比子节点的大(大根堆)，</p>
-<blockquote>
-<p>注意：堆的孩子节点左右无大小关系</p>
-</blockquote>
-<p>相关知识：</p>
-<p>​    完全二叉树：1.完全二叉树的深度为logn</p>
-<p>​                2.最后一个非叶子节点为n/2</p>
-<p>​    堆：1.插入新元素的时间复杂度为logn，比较次数就是完全二叉树的深度</p>
-<p>1.最坏时间复杂度为nlogn</p>
-<p>2.是一种不稳定排序</p>
+<h4 id="7-堆排序"><a href="#7-堆排序" class="headerlink" title="7.堆排序"></a>7.堆排序</h4><p>​        见<a href="https://anchorety.github.io/2019/04/17/机试——堆相关的问题/" target="_blank" rel="noopener">堆排序</a></p>
 <h4 id="7-桶排序"><a href="#7-桶排序" class="headerlink" title="7.桶排序"></a>7.桶排序</h4>
           
         
@@ -1637,248 +2000,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/08/python进阶-生成器和迭代器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/08/python进阶-生成器和迭代器/" itemprop="url">python进阶-生成器和迭代器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-08T10:49:00+08:00">
-                2019-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/pythonic程序规范化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/07/pythonic程序规范化/" itemprop="url">pythonic程序规范化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T22:32:07+08:00">
-                2019-01-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.常量名称全部大写</p>
-<p>2.代码长度一行不能超过80字符</p>
-<p>3.类名使用驼峰式命名，一般不超过3</p>
-<p>4.函数名称</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1929,7 +2050,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1951,7 +2072,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

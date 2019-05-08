@@ -297,6 +297,284 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/GBDT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/08/GBDT/" itemprop="url">GBDT</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-08T22:01:31+08:00">
+                2019-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？</p>
+<h3 id="分类树和回归树"><a href="#分类树和回归树" class="headerlink" title="分类树和回归树"></a>分类树和回归树</h3><p>####1.分类树</p>
+<p>​    分类树使用<strong>信息增益或增益比率</strong>来划分节点；<strong>每个节点样本的类别情况投票</strong>决定<strong>测试样本的类别</strong>。</p>
+<blockquote>
+<p>​       以C4.5分类树为例，C4.5分类树在每次分枝时，是穷举每一个feature的每一个阈值，找到使得按照feature&lt;=阈值，和feature&gt;阈值分成的两个分枝的熵最大的阈值(熵最大的概念可理解成尽可能每个分枝的男女比例都远离1:1)，按照该标准分枝得到两个新节点，用同样方法继续分枝直到所有人都被分入性别唯一的叶子节点，或达到预设的终止条件，若最终叶子节点中的性别不唯一，则以多数人的性别作为该叶子节点的性别。</p>
+</blockquote>
+<h4 id="2-回归树"><a href="#2-回归树" class="headerlink" title="2.回归树"></a>2.回归树</h4><p>​    回归树使用<strong>最大均方差</strong>划分节点；<strong>每个节点样本的均值</strong>作为测试样本的<strong>回归预测值</strong>。</p>
+<blockquote>
+<p>​       回归树总体流程也是类似，区别在于，回归树的每个节点（不一定是叶子节点）都会得一个预测值，以年龄为例，该预测值等于属于这个节点的所有人年龄的平均值。分枝时穷举每一个feature的每个阈值找最好的分割点，但衡量最好的标准不再是最大熵，而是最小化均方差即(每个人的年龄-预测年龄)^2 的总和 / N。也就是被预测出错的人数越多，错的越离谱，均方差就越大，通过最小化均方差能够找到最可靠的分枝依据。分枝直到每个叶子节点上人的年龄都唯一或者达到预设的终止条件(如叶子个数上限)，若最终叶子节点上人的年龄不唯一，则以该节点上所有人的平均年龄做为该叶子节点的预测年龄。</p>
+</blockquote>
+<h3 id="Decision-Tree：CART回归树"><a href="#Decision-Tree：CART回归树" class="headerlink" title="Decision Tree：CART回归树"></a>Decision Tree：CART回归树</h3><p>​    <strong>GBDT使用的决策树都是CART数回归树</strong>，无论是处理回归问题还是二分类以及多分类。</p>
+<blockquote>
+<p> 为什么不用CART分类树呢？</p>
+<p>​    因为GBDT每次迭代要拟合的是<strong>梯度值</strong>，是连续值所以要用回归树。</p>
+</blockquote>
+<p>​    <strong>CART回归树的评价指标：平方误差</strong></p>
+<blockquote>
+<p>为什么CART回归时的评价指标不再使用Gini、熵等不纯度指标？</p>
+<p>​    对于回归树算法来说最重要的是寻找最佳的划分点，那么回归树中的可划分点包含了所有特征的所有可取的值。在分类树中最佳划分点的判别标准是熵或者基尼系数，都是用纯度来衡量的，但是在回归树中的样本标签是连续数值，所以再使用熵之类的指标不再合适，取而代之的是平方误差，它能很好的评判拟合程度。</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%9B%9E%E5%BD%92%E6%A0%91%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95.png?raw=true" alt=""></p>
+<h3 id="Graident-Boosting-梯度提升树"><a href="#Graident-Boosting-梯度提升树" class="headerlink" title="Graident Boosting:梯度提升树"></a>Graident Boosting:梯度提升树</h3><p>​    梯度提升树（Grandient Boosting）是提升树（Boosting Tree）的一种改进算法，所以在讲梯度提升树之前先来说一下提升树</p>
+<h4 id="提升树-Boosting-Tree"><a href="#提升树-Boosting-Tree" class="headerlink" title="提升树 Boosting Tree"></a>提升树 Boosting Tree</h4><p>​        <strong>提升树就是通过不断建立树来不断拟合前一个问题的残差来不断接近目标。</strong>        </p>
+<p>​        先来个通俗理解：假如有个人30岁，我们首先用20岁去拟合，发现损失有10岁，这时我们用6岁去拟合剩下的损失，发现差距还有4岁，第三轮我们用3岁拟合剩下的差距，差距就只有一岁了。如果我们的迭代轮数还没有完，可以继续迭代下面，每一轮迭代，拟合的岁数误差都会减小。最后将每次拟合的岁数加起来便是模型输出的结果。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/提升树算法.png?raw=true" alt=""></p>
+<p>​    当损失函数是平方损失和指数损失函数时，梯度提升树每一步优化是很简单的，但是对于一般损失函数而言，往往每一步优化起来不那么容易，针对这一问题，Friedman提出了<strong>梯度提升树算法</strong>，这是利用最速下降的近似方法，<strong>其关键是利用损失函数的负梯度作为提升树算法中的残差的近似值。</strong></p>
+<h4 id="Graident-Boosting-梯度提升树-1"><a href="#Graident-Boosting-梯度提升树-1" class="headerlink" title="Graident Boosting:梯度提升树"></a>Graident Boosting:梯度提升树</h4><p>​    <strong>核心：利用损失函数的负梯度作为提升树算法中的残差的近似值。</strong></p>
+<p>下面我们来看一下负梯度具体的样子，第t轮的第i个样本的损失函数的负梯度为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负梯度.png?raw=true" alt=""></p>
+<p>那么对于分类问题呢？二分类和多分类的损失函数都是logloss，下面以回归问题为例对GBDT算法进行讲解。</p>
+<h3 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h3><p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT算法过程.png?raw=true" alt=""></p>
+<p>参考文献：<a href="https://blog.csdn.net/zpalyq110/article/details/79527653" target="_blank" rel="noopener">https://blog.csdn.net/zpalyq110/article/details/79527653</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/30/度小满编程记——火车站台问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/30/度小满编程记——火车站台问题/" itemprop="url">度小满编程记——火车站台问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-30T17:38:13+08:00">
+                2019-04-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/火车站台问题.png?raw=true" alt=""></p>
+<p>​    思路：这道题讲道理如果起点终点没有那么大就很简单了，直接使用字典进行存储，然后选择value最大的那个值即可。而这道题目中明显直接使用上面的思路是行不通了，因此这题使用了一种比较巧的方式，</p>
+<p>​    先将各个列车的起点终点分别编码为(站点,编号)，起点编号为-1，终点编号为0，然后从小到大对元组进行排序，然后便利元组列表，如果是终点，那么将维护数+1，如果是起点，那么代表到这里已经有一辆车不再需要维护了，同时记录最大的维护值，便利完全部列表最大的维护值即为结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">n = int(input())</span><br><span class="line">train = []</span><br><span class="line">t = <span class="number">0</span></span><br><span class="line">ans = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">	l = list(map(int,input().split()))</span><br><span class="line">  train.append((l[<span class="number">0</span>],<span class="number">1</span>))</span><br><span class="line">  train.append((l[<span class="number">1</span>],<span class="number">-1</span>))</span><br><span class="line"></span><br><span class="line">train.sort()   <span class="comment">#这里是关键点，sort函数将对元组进行排序</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> train:</span><br><span class="line">  <span class="keyword">if</span> i[<span class="number">1</span>]==<span class="number">0</span>:</span><br><span class="line">    t+=<span class="number">1</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    t-=<span class="number">1</span></span><br><span class="line">    ans = max(ans,t)</span><br><span class="line">pritn(ans)</span><br></pre></td></tr></table></figure>
+<p>上式中的sort函数对元素为元祖的列表来进行排序，默认规则是先使用元组的第一个元素进行排序，当第一个元素值相同时再使用第二个元素进行排序，下面是一个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">l = [[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">-1</span>],[<span class="number">1</span>,<span class="number">-1</span>]]</span><br><span class="line">l.sort()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	[[<span class="number">1</span>, <span class="number">-1</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">-1</span>], [<span class="number">2</span>, <span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
+<p>在这个问题中使用sort进行排序后，表示由于同一个车站的负值被排在前面，每次先减去1，也就是前一个车一这里为起点，不需要再使用维护。</p>
+<p>之前还遇到过好多类似的问题，其实都可以采用这种类似的思路来减少内存占用，比如之前360笔试中遇到过的找</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/new-和-init/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1466,366 +1744,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/30/机器学习——XGBoost/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/30/机器学习——XGBoost/" itemprop="url">机器学习——XGBoost</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-30T10:26:07+08:00">
-                2019-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="XGB的优势"><a href="#XGB的优势" class="headerlink" title="XGB的优势"></a>XGB的优势</h3><p>​    <strong>1. XGBoost加入了正则化项，正则化项中包含了叶子节点个数，使学到的模型更加简单。原始的GBDT没有，可以有效防止过拟合</strong></p>
-<p>​    <strong>2. XGBoost实现了局部并行计算，比原始的GBDT速度快的多</strong></p>
-<p>​    <strong>3. XGBoost中内置了缺失值的处理</strong>，尝试对缺失值进行分类，然后学习这种分类</p>
-<p>​    <strong>4. 可在线学习，这个sklearn中的GBDT也有</strong></p>
-<p>​    <strong>5. XGboost允许在交叉验证的过程中实现boosting，通过一次run就能得到boosting迭代的优化量；而GBDT只能人工的使用grid-search</strong></p>
-<p>​    <strong>6.支持列抽样。不仅能有效防止过拟合，还能减少计算量</strong></p>
-<h3 id="XGBoost的并行计算是如何实现的？"><a href="#XGBoost的并行计算是如何实现的？" class="headerlink" title="XGBoost的并行计算是如何实现的？"></a>XGBoost的并行计算是如何实现的？</h3><blockquote>
-<p>​    注意<strong>xgboost的并行不是tree粒度的并行</strong>，xgboost也是一次迭代完成才能进行下一次迭代的（第t次迭代的代价函数里面包含了前面t-1次迭代的预测值）。<strong>xgboost的并行是在特征粒度上的</strong>。我们知道，<strong>决策树的学习最耗时的一个步骤就是对特征的值进行排序（因为要确定最佳分割点）</strong>，<strong>xgboost在训练之前，预先对数据进行排序，然后保存block结构，后面的迭代中重复的使用这个结构，大大减小计算</strong>量。这个block结构也使得并行称为了可能，<strong>在进行节点的分裂时，需要计算每个特征的增益，最终选增益最大的那个特征去做分裂，那么各个特征的增益计算就可以开多线程进行。</strong></p>
-</blockquote>
-<h3 id="XGBoost的参数"><a href="#XGBoost的参数" class="headerlink" title="XGBoost的参数"></a>XGBoost的参数</h3><p>​    XGBoost的参数主要分为三大类：</p>
-<blockquote>
-<p>1.调控整个方程的参数</p>
-<p>2.调控每步树的参数</p>
-<p>3.调控优化表现的变量</p>
-</blockquote>
-<h5 id="1-调控整个方程的参数"><a href="#1-调控整个方程的参数" class="headerlink" title="1.调控整个方程的参数"></a>1.调控整个方程的参数</h5><ul>
-<li><strong>booster [defalut=gbtree]</strong>  基模型<ul>
-<li>gbtree：树模型</li>
-<li>gblinear：线性模型</li>
-</ul>
-</li>
-<li><strong>nthread</strong> [default to maximum number of threads available if not set] 使用的线程数<ul>
-<li>用于并行计算，默认使用全部内核</li>
-</ul>
-</li>
-</ul>
-<h5 id="2-调节基分类器的参数"><a href="#2-调节基分类器的参数" class="headerlink" title="2.调节基分类器的参数"></a>2.调节基分类器的参数</h5><p>​    这里只讨论树模型作为基模型的情况，因为树模型作为基分类器效果总是优于线性模型。</p>
-<ul>
-<li><p><strong>eta/learning rate [default=0.3]</strong>  学习的初始速率</p>
-<ul>
-<li>通过减小每一步的权重能够使建立的模型更加具有鲁棒性</li>
-<li>通常最终的数值范围在[0.01-0.2]之间</li>
-</ul>
-<blockquote>
-<p>Shrinkage（缩减），相当于学习速率。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了消弱每棵树的影响，让后面有更大的学习空间。在实际应用中，一般把学习率设置的小一点，然后迭代次数设置的大一点（补充：传统GBDT的实现也有学习速率）</p>
-</blockquote>
-</li>
-<li><p><strong>gamma [default=0]</strong></p>
-<ul>
-<li>一个节点分裂的条件是其分裂能够起到降低loss function的作用，<strong>gamma 定义loss function降低多少才分裂</strong></li>
-<li>它的值取决于 loss function需要被调节</li>
-</ul>
-</li>
-<li><p><strong>lambda/reg_lambda  [default=1]</strong></p>
-<ul>
-<li>L2正则化的权重，用于防止过拟合</li>
-</ul>
-</li>
-<li><p><strong>alpha/reg_alpha  [default=0]</strong> </p>
-<ul>
-<li>L1正则化的权重，可以用于特征选择</li>
-<li>一般用于特征特别多的时候，可以大大提升算法的运算效率</li>
-</ul>
-</li>
-<li><p><strong>subsample [default=1]</strong></p>
-<ul>
-<li>每棵树使用的样本比例 [0.5~1]</li>
-<li>低值使得模型更保守且能防止过拟合，但太低的值会导致欠拟合</li>
-</ul>
-</li>
-<li><strong>colsample_bytree [default=1] </strong><ul>
-<li>每棵树随机选取的特征的比例 [0.5-1]</li>
-</ul>
-</li>
-</ul>
-<h5 id="3-调控优化表现的参数"><a href="#3-调控优化表现的参数" class="headerlink" title="3.调控优化表现的参数"></a>3.调控优化表现的参数</h5><ul>
-<li><strong>objective [default=reg:linear]</strong> </li>
-<li><strong>eval_metric</strong></li>
-<li><strong>seed</strong></li>
-</ul>
-<h3 id="调参"><a href="#调参" class="headerlink" title="调参"></a>调参</h3><p><strong>调参开始时一般使用较大的学习速率 0.1</strong></p>
-<h5 id="1-初始参数设置"><a href="#1-初始参数设置" class="headerlink" title="1.初始参数设置"></a>1.初始参数设置</h5><blockquote>
-<p>max_depth = 5</p>
-<p>min_child_weight = 1    #如果是不平衡数据，初始值设置最好小于1</p>
-</blockquote>
-<h5 id="2-首先调节的参数-max-depth和min-child-weight"><a href="#2-首先调节的参数-max-depth和min-child-weight" class="headerlink" title="2.首先调节的参数 max_depth和min_child_weight"></a>2.首先调节的参数 max_depth和min_child_weight</h5><p>​    在整个GBDT中，对整个模型效果影响最大的参数就是max_depth和min_child_weight。</p>
-<blockquote>
-<p>max_depth 一般在3~10先用step为2进行网格搜索找到范围，找到范围再用step为1的网格搜索确定具体值</p>
-<p>min_child_weight  一般现在1~6先使用step为2的网格搜索找到最佳参数值范围，然后再用step为1的网格索索确定具体参数值</p>
-</blockquote>
-<h5 id="3-调整gamma"><a href="#3-调整gamma" class="headerlink" title="3. 调整gamma"></a>3. 调整gamma</h5><blockquote>
-<p>gamma参数主要用于控制节点是否继续分裂，一般使用网格搜索在0~0.5之间进行步长为0.1的搜索</p>
-</blockquote>
-<h5 id="4-调整subsample和colsample-bytree"><a href="#4-调整subsample和colsample-bytree" class="headerlink" title="4.调整subsample和colsample_bytree"></a>4.调整subsample和colsample_bytree</h5><blockquote>
-<p>这两个参数主要是用来防止拟合的，参数值越小越能防止过拟合 一般0.6~1之间网格搜索</p>
-</blockquote>
-<h5 id="5-尝试降低学习速率增加更多的树"><a href="#5-尝试降低学习速率增加更多的树" class="headerlink" title="5.尝试降低学习速率增加更多的树"></a>5.尝试降低学习速率增加更多的树</h5><blockquote>
-<p>学习速率降为0.1或0.01</p>
-</blockquote>
-<p><strong>结论：1.仅仅通过调参来提升模型效果是很难的</strong></p>
-<p>​    <strong>2.要想提升模型效果最主要是通过特征工程、模型融合等方式</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/深度学习-BN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/28/深度学习-BN/" itemprop="url">深度学习-BN</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T16:11:20+08:00">
-                2019-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="为什么要进行归一化？"><a href="#为什么要进行归一化？" class="headerlink" title="为什么要进行归一化？"></a>为什么要进行归一化？</h5><blockquote>
-<p>​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的<strong>泛化能力也将大大降低</strong>；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这<strong>将大大降低网络的学习速度</strong>。</p>
-</blockquote>
-<h5 id="为什么要使用BN？"><a href="#为什么要使用BN？" class="headerlink" title="为什么要使用BN？"></a>为什么要使用BN？</h5><blockquote>
-<p>​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中并没有对数据做任何处理，而在神经网络的的训练过程中只要网络的前面几层的数据分布发生微小的变化，那么后面的网络就会不断积累放大这个分布的变化，因此一旦有任意一层的数据发生改变，这层以及后面的网络都会需要去从新适应学习这个新的数据分布，而如果训练过程中，每一层的数据都在不断发生变化，那么更将大大影响网络的训练速度，因此需要在网络的每一层输入之前都将数据进行一次归一化，保证数据分布的相同，<strong>加快网络训练速度</strong>。</p>
-<p>​    在另一方面，由于将网络的每一步都进行了标准化，数据分布一致，因此模型的泛化能力将更强。</p>
-</blockquote>
-<h5 id="BN的本质是什么？"><a href="#BN的本质是什么？" class="headerlink" title="BN的本质是什么？"></a>BN的本质是什么？</h5><blockquote>
-<p>一个<strong>可学习</strong>、<strong>有参数（γ、β）</strong>的使每层数据之前进行归一化的网络层</p>
-</blockquote>
-<h5 id="BN使用位置"><a href="#BN使用位置" class="headerlink" title="BN使用位置"></a>BN使用位置</h5><blockquote>
-<p>线性层后全连接层之前</p>
-</blockquote>
-<h5 id="BN过程"><a href="#BN过程" class="headerlink" title="BN过程"></a>BN过程</h5><blockquote>
-<p>对于一般的归一化没使用下面的公式进行归一化计算：</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
-<p><strong>但是如果仅仅使用上面的公式来对某层的输出做下一层的输入做归一化，那么是会影响到前面一层学习到的特征的。</strong>例如：网络中间某一层学习到特征数据本身就分布在S型激活函数的两侧，强制把它归一化处理、标准差也限制在了1，把数据变换成分布于s函数的中间部分，这样就相当于我这一层网络所学习到的特征分布被搞坏了。因此，<strong>BN引入了可学习的参数γ、β</strong>：</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/BN%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
-<p>​    上面的公式表明，<strong>通过学习到的重构参数γ、β，是可以恢复出原始的某一层所学到的特征的。</strong></p>
-</blockquote>
-<h5 id="BN中为什么要在后面γ、β？不加可以吗？"><a href="#BN中为什么要在后面γ、β？不加可以吗？" class="headerlink" title="BN中为什么要在后面γ、β？不加可以吗？"></a>BN中为什么要在后面γ、β？不加可以吗？</h5><blockquote>
-<p>​    不可以，因为这是BN中的最关键步骤。不使用γ、β会造成归一化的同时破坏前一层提取到的特征，而BN通过记录每个神经元上的γ、β，使前一层的特征可以通过γ、β得以还原。</p>
-</blockquote>
-<h5 id="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"><a href="#BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？" class="headerlink" title="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"></a>BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？</h5><blockquote>
-<p>​    对于CNN上采用了类似权值共享的策略，<strong>将一个特征图看做一个神经元</strong>，因此参数个数并不会很多。</p>
-<p>例如：如果min-batch sizes为m，那么网络某一层输入数据可以表示为四维矩阵(m,f,w,h)，m为min-batch sizes，f为特征图个数，w、h分别为特征图的宽高。在CNN中我们可以把每个特征图看成是一个特征处理（一个神经元），因此在使用Batch Normalization，mini-batch size 的大小就是：m.w.h，于是对于每个特征图都只有一对可学习参数：γ、β，总参数个数也就是2m个。</p>
-</blockquote>
-<h5 id="BN的作用"><a href="#BN的作用" class="headerlink" title="BN的作用"></a>BN的作用</h5><blockquote>
-<p>1.防止过拟合。有了BN，dropout和正则化的需求下降了</p>
-<p>2.加速训练</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1876,7 +1794,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1898,7 +1816,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
