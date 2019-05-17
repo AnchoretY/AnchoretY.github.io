@@ -297,6 +297,689 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/17/机试——贪心算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/17/机试——贪心算法/" itemprop="url">机试——贪心算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-17T11:20:02+08:00">
+                2019-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="挑选代表"><a href="#挑选代表" class="headerlink" title="挑选代表"></a>挑选代表</h4><p>我们有很多区域，每个区域都是从a到b的闭区间，现在我们要从每个区间中挑选至少2个数，那么最少挑选多少个？</p>
+<h5 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a><strong>输入描述:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">第一行是N（N&lt;10000）,表示有N个区间，之间可以重复</span><br><span class="line">然后每一行是ai,bi，持续N行，表示现在区间。均小于100000</span><br></pre></td></tr></table></figure>
+<h5 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a><strong>输出描述:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出一个数，代表最少选取数量。</span><br></pre></td></tr></table></figure>
+<h5 id="输入例子1"><a href="#输入例子1" class="headerlink" title="输入例子1:"></a><strong>输入例子1:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">4</span><br><span class="line">4 7</span><br><span class="line">2 4</span><br><span class="line">0 2</span><br><span class="line">3 6</span><br></pre></td></tr></table></figure>
+<h5 id="输出例子1"><a href="#输出例子1" class="headerlink" title="输出例子1:"></a><strong>输出例子1:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure>
+<h4 id="思路分析："><a href="#思路分析：" class="headerlink" title="思路分析："></a>思路分析：</h4><p>​    本题是一个贪心问题，即挑选最少的点，也就是在每一步种都选择可能和下一步公用的点。可以先把区间按照结尾去接进行排序，然后从第一个区间开始记录最后两个元素的值，</p>
+<p>​    如果下个区间中包含了这两个元素，那么挑选点数+0，x、y不变，</p>
+<p>​    如果下个区间中只包含了一个元素，那么挑选点数+1,y继承x的值，x变为当前区间的最后一个元素</p>
+<p>​    如果下个区间中不包含任何x、y一个元素，那么挑选点数+2，x、y更新为区间最大、次大值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这里之所以按照末尾元素进行排序，主要是因为后续要判断结尾两个元素和下一个区间是否具有关系</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">n = int(input())</span><br><span class="line"></span><br><span class="line">nums = []</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(n):</span><br><span class="line">    tmp = list(map(int,input().split()))</span><br><span class="line">    nums.append(tmp)</span><br><span class="line"></span><br><span class="line">nums = sorted(nums,key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">ans = <span class="number">2</span></span><br><span class="line">x= nums[<span class="number">0</span>][<span class="number">-1</span>]   <span class="comment">#最大的元素</span></span><br><span class="line">y = nums[<span class="number">0</span>][<span class="number">-1</span>]<span class="number">-1</span>    <span class="comment">#次大的元素</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> l <span class="keyword">in</span> nums[<span class="number">1</span>:]:</span><br><span class="line">    <span class="keyword">if</span> l[<span class="number">0</span>]&lt;=x&lt;=l[<span class="number">-1</span>] <span class="keyword">and</span>  l[<span class="number">0</span>]&lt;=y&lt;=l[<span class="number">-1</span>]:</span><br><span class="line">        ans += <span class="number">0</span></span><br><span class="line">    <span class="keyword">elif</span> l[<span class="number">0</span>]&lt;=x&lt;=l[<span class="number">-1</span>] <span class="keyword">or</span> l[<span class="number">0</span>]&lt;=y&lt;=l[<span class="number">-1</span>]:</span><br><span class="line">        y = x</span><br><span class="line">        x = l[<span class="number">-1</span>]</span><br><span class="line">        ans+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ans+=<span class="number">2</span></span><br><span class="line">        x = l[<span class="number">-1</span>]</span><br><span class="line">        y = l[<span class="number">-1</span>] - <span class="number">1</span></span><br><span class="line"></span><br><span class="line">print(ans)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/14/美团技术笔试——最长全1串/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/14/美团技术笔试——最长全1串/" itemprop="url">美团技术笔试——最长全1串</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-14T23:48:53+08:00">
+                2019-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个01字符串，定义答案=该串中最长的连续1的长度，现在你有至多K次机会，每次机会可以将串中的某个0改成1，现在问最大的可能答案</p>
+<h5 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a><strong>输入描述:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入第一行两个整数N,K，表示字符串长度和机会次数</span><br><span class="line"></span><br><span class="line">第二行输入N个整数，表示该字符串的元素</span><br><span class="line"></span><br><span class="line">( 1 &lt;= N &lt;= 300000</span><br><span class="line">, 0 &lt;= K &lt;= N )</span><br></pre></td></tr></table></figure>
+<h5 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a><strong>输出描述:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">输出一行表示答案</span><br></pre></td></tr></table></figure>
+<h5 id="输入例子1"><a href="#输入例子1" class="headerlink" title="输入例子1:"></a><strong>输入例子1:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10 2 </span><br><span class="line">1 0 0 1 0 1 0 1 0 1</span><br></pre></td></tr></table></figure>
+<h5 id="输出例子1"><a href="#输出例子1" class="headerlink" title="输出例子1:"></a><strong>输出例子1:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5</span><br></pre></td></tr></table></figure>
+<h4 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h4><p>​    首先应该分几种情况进行分类讨论：</p>
+<p>1.当K&gt;N时，输出应该直接为K</p>
+<p>2.当K&lt;N，如果K等于0，结果直接为最长连续1子串长度</p>
+<p>​                如果K不等于0，那么需要进行动态滑动窗口实验</p>
+<p>滑动窗口实验思路为：</p>
+<p>​    1.首先计算不进行替换时，最长连续1子串长度，即为max</p>
+<p>​    2.设置初始值</p>
+<p>​            滑动窗口大小初始值 slide = max+K</p>
+<p>​            滑动窗口最大和初始值 slide_sum = max</p>
+<p>​    3.使用当前滑动窗口大小进行扫描数据，看是都存在一个滑动窗口内的和超过当前滑动窗口最大和</p>
+<p>​            如果有，那么说明存在更大的连续子串，因此将silde和silde_sum都加1(在初始值时已经设置了相当于K个空位，如果值大于silde_sum,说明空格还没用完，如果等于说明空格用完了，但是还可能存在更大的连续1，因此只有当值小于silde_sum才能保证是最大的连续1串）</p>
+<p>​            如果没有，那么说明silde-1为最大窗口，也就是最长全1串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 10 2</span></span><br><span class="line"><span class="comment"># 1 0 0 1 0 1 0 1 0 1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">n,k = map(int,input().split())</span><br><span class="line"></span><br><span class="line">nums = list(map(int,input().split()))</span><br><span class="line"></span><br><span class="line"><span class="comment">#判断新的滑动窗口是不是存在和大于等于原来的最大和</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_maxsum</span><span class="params">(silde,nums,max_sum)</span>:</span></span><br><span class="line"></span><br><span class="line">    end = silde</span><br><span class="line">    start = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> end&lt;len(nums):</span><br><span class="line">        new_max_sum = sum(nums[start:end])</span><br><span class="line">        <span class="keyword">if</span> new_max_sum&gt;=max_sum:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">        start += <span class="number">1</span></span><br><span class="line">        end+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> k&gt;n:</span><br><span class="line">    print(n)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    max_len = <span class="number">0</span></span><br><span class="line">    i =<span class="number">0</span></span><br><span class="line">    tmp_len = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i&lt;n:</span><br><span class="line">        <span class="keyword">if</span> nums[i]==<span class="number">1</span>:</span><br><span class="line">            tmp_len +=<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp_len = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        max_len = max(max_len,tmp_len)</span><br><span class="line">        i+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> max_len+k&gt;=n:</span><br><span class="line">        print(n)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        flag = <span class="keyword">True</span></span><br><span class="line">        silde = max_len + k</span><br><span class="line">        max_sum = max_len</span><br><span class="line">        <span class="keyword">while</span> flag:</span><br><span class="line">            <span class="keyword">if</span> get_maxsum(silde,nums,max_sum):</span><br><span class="line">                silde += <span class="number">1</span></span><br><span class="line">                max_sum+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                flag = <span class="keyword">False</span></span><br><span class="line">    print(silde<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/13/降维技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/13/降维技术/" itemprop="url">降维技术</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-13T09:35:01+08:00">
+                2019-05-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    常见的降维技术只要分为PCA、LDA和t-sne三种，下面我们将具体介绍这三种降维技术以及适用范围</p>
+<h3 id="1-PCA"><a href="#1-PCA" class="headerlink" title="1.PCA"></a>1.PCA</h3><h3 id="2-LDA"><a href="#2-LDA" class="headerlink" title="2.LDA"></a>2.LDA</h3><h3 id="3-t-sne"><a href="#3-t-sne" class="headerlink" title="3.t-sne"></a>3.t-sne</h3><p>​    t-sne是在NLP词切入可视化降维的最佳选择，因为它具有保存向量之间相对距离的特性，能有效地保存线性子结构和关系，可以很好的表达不同的单词的在当前训练的词向量上是否相似。</p>
+<p>​    <strong>核心特性: 会保存向量之间的相对距离</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/10/wordcloud词云图工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/10/wordcloud词云图工具/" itemprop="url">wordcloud词云工具</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-10T12:03:11+08:00">
+                2019-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>wordcloud是一种NLP中常用的可视化工具，主要用途是可视化展示文本中各个词出现的频率多少，将出现频率多的使用更大的字体进行展示。</p>
+<h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> wordcloud</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"./type1.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    type1 = f.read()</span><br><span class="line">  </span><br><span class="line">w = wordcloud.WordCloud()</span><br><span class="line">w.generate(type1)</span><br><span class="line">w.to_file(<span class="string">"type1.png"</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词云图.png?raw=true" alt=""></p>
+<h4 id="wordcloud内部处理流程："><a href="#wordcloud内部处理流程：" class="headerlink" title="wordcloud内部处理流程："></a>wordcloud内部处理流程：</h4><blockquote>
+<p>​    1 、分隔：以空格分隔单词  </p>
+<p>​    2、统计 ：单词出现的次数并过滤  </p>
+<p>​    3、字体：根据统计搭配相应的字号  </p>
+<p>​    4 、布局</p>
+</blockquote>
+<h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><p>​        </p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/wordcloud常用参数.png?raw=true" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/09/NLP建模常见处理流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/09/NLP建模常见处理流程/" itemprop="url">NLP建模常见处理流程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-09T10:59:27+08:00">
+                2019-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="1-清洗"><a href="#1-清洗" class="headerlink" title="1.清洗"></a>1.清洗</h4><p>​    主要包括<strong>清除掉无关内容和区分出各个部分</strong>。</p>
+<blockquote>
+<p>段落的首尾单独区分：这里比较常见的一种却分时将段落的首尾单独区分出来，因为首尾句一般都是更加具有代表性的句子</p>
+</blockquote>
+<h4 id="2-标准化"><a href="#2-标准化" class="headerlink" title="2.标准化"></a>2.标准化</h4><p>​    主要包含了<strong>字母小写化</strong>和<strong>标点符号替换</strong>两个步骤</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#字母小写化</span></span><br><span class="line">str.lower()</span><br><span class="line"></span><br><span class="line"><span class="comment">#标点符号替换为空格</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">text = re.sub(<span class="string">r"a-zA-Z0-9"</span>,<span class="string">" "</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="3-标记化-分词"><a href="#3-标记化-分词" class="headerlink" title="3.标记化(分词)"></a>3.标记化(分词)</h4><p>​    标记化是指将目标切分成无法再分符号，一般主要指分词，一般的处理中都会将句子按照” “进行分词。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#自写原始分词，进行前面的标准化以后进行</span></span><br><span class="line">words = text.split()</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用nltk进行分词,分词会比上面的更加准确，根据标点符号的不同位置进行不同种处理，例如Dr. 中的.不会被处理掉</span></span><br><span class="line"><span class="keyword">from</span> nltk.tokenize <span class="keyword">import</span> word_tokenize</span><br><span class="line">sentence = word_tokenize(text)</span><br><span class="line">words = word_tokenize(sentence)</span><br><span class="line"><span class="comment">#nltk提供了多种token方式，包括正则表达式等，按需选择</span></span><br></pre></td></tr></table></figure>
+<h4 id="4-删除停用词"><a href="#4-删除停用词" class="headerlink" title="4.删除停用词"></a>4.删除停用词</h4><p>​    删除停用词是指删除掉哪些去掉哪些和当前任务判断关系不大的词，对于设计到的语料没有具体领域时，可以使用英文常用停用词，其中包括800多个英文的常见停用词。</p>
+<p>​    <a href="https://github.com/AnchoretY/Short_Text_Auto_Classfication/blob/master/english_stopword.txt" target="_blank" rel="noopener">英文常见停用词标准表</a></p>
+<blockquote>
+<p>在特定领域时，最好使用专门针对于该领域的停用词表，因为在一个问题中的停用词可能会在另一个问题中肯能就是关键词</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#去除停用词</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_stopword</span><span class="params">(path)</span>:</span></span><br><span class="line">  <span class="string">"""</span></span><br><span class="line"><span class="string">      获取停用词表</span></span><br><span class="line"><span class="string">      return list</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  <span class="keyword">with</span> open(path) <span class="keyword">as</span> f:</span><br><span class="line">    stopword = f.read()</span><br><span class="line">  stopword_list = stopword.splitlines()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> stopword_list</span><br><span class="line"></span><br><span class="line">stopwords = get_stopword(path)</span><br><span class="line">words = [word <span class="keyword">for</span> word <span class="keyword">in</span> words <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> stopwords]</span><br></pre></td></tr></table></figure>
+<h4 id="5-词性标注"><a href="#5-词性标注" class="headerlink" title="5.词性标注"></a>5.词性标注</h4><p>​        用于标注句子中各个单词分别属于什么词性，更加有助于理解句子的含义，另一方面，词性标注更加有利于后续处理。</p>
+<blockquote>
+<p>常见的一种利用词性标注的后续处理步骤就是直接去掉非名词的部分，因为在一个句子中，名词在很大程度就可以表现两个句子的相似度。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用nltk进行词性标注</span></span><br><span class="line"><span class="keyword">from</span> nltk <span class="keyword">import</span> pos_tag</span><br><span class="line">sentence = word_tokenize(<span class="string">"this is a dog"</span>)   <span class="comment">#分词</span></span><br><span class="line">pos = pos_tag(sentence)   <span class="comment">#标注</span></span><br></pre></td></tr></table></figure>
+<h4 id="6-命名实体识别"><a href="#6-命名实体识别" class="headerlink" title="6.命名实体识别"></a>6.命名实体识别</h4><p>​        命名实体识别指的是识别</p>
+<p>​        条件：命名实体识别首先要完成词性标注</p>
+<p>​        应用：对新闻文章进行简历索引和搜索</p>
+<blockquote>
+<p>实践性能并不是一直都很好，但对大型语料库进行实验确实有效</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk <span class="keyword">import</span> pos_tag,ne_chunk</span><br><span class="line"><span class="keyword">from</span> nltk.tokenize <span class="keyword">import</span> word_tokenize</span><br><span class="line"></span><br><span class="line">ne_chunk(pos_tag(word_tokenize(<span class="string">"I live in Beijing University"</span>)))</span><br></pre></td></tr></table></figure>
+<h4 id="7-词干化和词型还原"><a href="#7-词干化和词型还原" class="headerlink" title="7.词干化和词型还原"></a>7.词干化和词型还原</h4><p>​    <strong>词干提取</strong>是指将词还原成词干或词根的过程</p>
+<p>​    方式：利用简单的搜索和替换样式<strong>规则</strong>，例如去除结尾的s、ing，将结尾的ies变为y等规则</p>
+<p>​    作用：有助于降低复杂度，同时保留次所含的意义本质</p>
+<blockquote>
+<p>还原的词干不一定非常准确，但是只要这个词的所有形式全部都转化成同一个词干就可以了，因为他们都有共同的含义</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.porter <span class="keyword">import</span> PorterStemmer</span><br><span class="line">stemmed = [PoeterStemmer().stem(w) <span class="keyword">for</span> w <span class="keyword">in</span> words]</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词干提取.png?raw=true" alt=""></p>
+<p>​    <strong>词型还原</strong>是将词还原成标准化形式的另一种技术，利用<strong>字典的方式</strong>将一个词的不同形式映射到其词根</p>
+<p>​    方式：字典</p>
+<p>​    优点:可以将较大的词型变化很大的正确还原到词根</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.wordnet <span class="keyword">import</span> WordNetLemmater</span><br><span class="line"></span><br><span class="line">lemmed = [WordNetLemmater.lemmative(w) <span class="keyword">for</span> w <span class="keyword">in</span> words]</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型还原1.png?raw=true" alt=""></p>
+<p>​    这里我们发现只有ones被还原成了one，其他词并没有找到词的原型，这是因为词型转化是针对词型进行的，只会转化指定词型的词，默认只转换名词，因此上面只有ones被转换了，下面我们来指定转换动词：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from nltk.stem.wordnet import WordNetLemmater</span><br><span class="line"></span><br><span class="line">lemmed = [WordNetLemmater.lemmative(w) for w in words]</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型转换2.png?raw=true" alt=""></p>
+<h4 id="8-向量化"><a href="#8-向量化" class="headerlink" title="8.向量化"></a>8.向量化</h4><p>​    向量化是将提取好的token转化成向量表示，准备输入到模型中。常见的方式包括词袋模型、tf-idf、Word2vec、doc2vec等</p>
+<h4 id="9-分类模型或聚类模型"><a href="#9-分类模型或聚类模型" class="headerlink" title="9. 分类模型或聚类模型"></a>9. 分类模型或聚类模型</h4><p>​    根据实际情况选用合适的分类模型，聚类模型。</p>
+<p>注意:<strong>上面的处理流程并不是全部都一定要进行,</strong>可以根据实际情况进行选择,例如在下一篇文章情感分类中,只是使用了标准化、去停用词、词干提取、向量化、分类等步骤</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/GBDT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1015,740 +1698,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/python——Counter对象/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/14/python——Counter对象/" itemprop="url">python——Counter对象</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T12:16:39+08:00">
-                2019-04-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    <strong>Counter对象就是python内部的一个计数器</strong>，常用来统计列表、字符串中各个字符串出现的频次，以及找到出现频次最该以及最低的元素</p>
-<p>​    使用前必须先引入引用：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br></pre></td></tr></table></figure>
-<p>​    下面介绍在日常使用过程中常见的用法：</p>
-<h4 id="1-统计列表和字符串中各个元素出现的频数"><a href="#1-统计列表和字符串中各个元素出现的频数" class="headerlink" title="1.统计列表和字符串中各个元素出现的频数"></a>1.统计列表和字符串中各个元素出现的频数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">"acfacs"</span></span><br><span class="line">l = [<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">7</span>]</span><br><span class="line">print(Counter(s))</span><br><span class="line">print(Counter(l))</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  Counter(&#123;<span class="string">'c'</span>: <span class="number">2</span>, <span class="string">'a'</span>: <span class="number">2</span>, <span class="string">'s'</span>: <span class="number">1</span>, <span class="string">'f'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">	Counter(&#123;<span class="number">1</span>: <span class="number">2</span>, <span class="number">2</span>: <span class="number">2</span>, <span class="number">4</span>: <span class="number">1</span>, <span class="number">7</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="2-获取最高频的N个元素及频数"><a href="#2-获取最高频的N个元素及频数" class="headerlink" title="2.获取最高频的N个元素及频数"></a>2.获取最高频的N个元素及频数</h4><p>​    Counter对象的most_common方法可以获取列表和字符串的前N高频的元素及频次。</p>
-<blockquote>
-<p>most_common:</p>
-<p>​    param n:前几个高频对象，从1开始，默认为全部，也就相当于按照频数排序</p>
-<p>​    return list:按照出现的频数高低已经排好序的前N个列表，列表的元素是两元组，第一项代表元素，第二项代表频率</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">"acfacs"</span></span><br><span class="line">print(Counter(s).most_common(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	[(<span class="string">'c'</span>, <span class="number">2</span>)]</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/13/机试——动态规划和回溯法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/13/机试——动态规划和回溯法/" itemprop="url">机试——动态规划和回溯法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-13T16:50:40+08:00">
-                2019-04-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="动态规划DP"><a href="#动态规划DP" class="headerlink" title="动态规划DP"></a>动态规划DP</h3><p>​    基本思想也是将待求解问题分解成若干个子问题，先求解子问题，然后从这些问题的解得到原问题的解。与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。</p>
-<p>​    核心：找到递推公式</p>
-<h4 id="二维递归"><a href="#二维递归" class="headerlink" title="二维递归"></a>二维递归</h4><p>#####1.背包问题</p>
-<h5 id="2-分割等和子数组"><a href="#2-分割等和子数组" class="headerlink" title="2.分割等和子数组"></a>2.分割等和子数组</h5><p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
-<p><strong>注意:</strong></p>
-<ol>
-<li>每个数组中的元素不会超过 100</li>
-<li>数组的大小不会超过 200</li>
-</ol>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: [1, 5, 11, 5]</span><br><span class="line"></span><br><span class="line">输出: true</span><br><span class="line"></span><br><span class="line">解释: 数组可以分割成 [1, 5, 5] 和 [11].</span><br></pre></td></tr></table></figure>
-<p>​    本题是一个经典的动态规划问题的题型——0/1背包问题,背包的大小为sum(nums)/2。该问题首先要我们初始化一个数组w，w[i]代表能否将背包填充到i，而能将背包填充到i有两种方式，一种是直接使用i大小的块，第二是使用多个小块，因此我们可以总结出递推公式：</p>
-<p>​    w[i] = w[i]||w[i-num]</p>
-<p>​    这个递推公式用程序表示就是：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(c, num - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">      w[i] = w[i] <span class="keyword">or</span> w[i - num]</span><br></pre></td></tr></table></figure>
-<p>​    举例来说：</p>
-<p>​        对于输入[1,5,11,5]来说，<br>​        当num=1时，通过递推式只能得到w[1]=true<br>​        当num=5时，通过递推式能够得到w[5]=true,w[6]=true，因为可以通过1+5组合<br>​        当num=5时，通过递推式能够得到新的w[11]=true（5+6=11）<br>​        当num=11时，没有新改动w<br>​        所以此时可以发现w[11]=true，所以可以等分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canPartition</span><span class="params">(self, nums)</span> -&gt; bool:</span></span><br><span class="line">        <span class="comment"># 计算总价值</span></span><br><span class="line">        c = sum(nums)</span><br><span class="line">        <span class="comment"># 奇数直接排除</span></span><br><span class="line">        <span class="keyword">if</span> c % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        c = c // <span class="number">2</span></span><br><span class="line">        w = [<span class="keyword">False</span>] * (c + <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 第0个位置设置为true，表示当元素出现的时候让w[i-num]为True,也就是w[i]为True</span></span><br><span class="line">        w[<span class="number">0</span>] = <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(c, num - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">                w[i] = w[i] <span class="keyword">or</span> w[i - num]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> w[c]</span><br></pre></td></tr></table></figure>
-<p>​    当然本题也就可以使用BST，但是时间复杂度太高，leetcode没过</p>
-<h3 id="回溯法-深度优先搜索BST"><a href="#回溯法-深度优先搜索BST" class="headerlink" title="回溯法-深度优先搜索BST"></a>回溯法-深度优先搜索BST</h3><p>​    在包含问题的所有解的解空间树中，按照深度优先搜索的策略，从根结点出发深度探索解空间树。当探索到某一结点时，要先判断该结点是否包含问题的解，如果包含，就从该结点出发继续探索下去，如果该结点不包含问题的解，则逐层向其祖先结点回溯。</p>
-<p>​    核心：暴力遍历</p>
-<h5 id="1-求解一个集合的全部子集"><a href="#1-求解一个集合的全部子集" class="headerlink" title="1.求解一个集合的全部子集"></a>1.求解一个集合的全部子集</h5><p>给定一组<strong>不含重复元素</strong>的整数数组 <em>nums</em>，返回该数组所有可能的子集（幂集）。</p>
-<p><strong>说明：</strong>解集不能包含重复的子集。</p>
-<p><strong>示例:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [1,2,3]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [3],</span><br><span class="line">  [1],</span><br><span class="line">  [2],</span><br><span class="line">  [1,2,3],</span><br><span class="line">  [1,3],</span><br><span class="line">  [2,3],</span><br><span class="line">  [1,2],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>​    找子集相关问题的BST基本上采用的<strong>核心思想：每个位置都可能出现采用或者不采用两种情况，而如果可能出现重复的元素，那么就要事先将原数组进行排序，存进result之前判断是否已有</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subsets</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,i,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> i==length:</span><br><span class="line">                result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment">#每次向后遍历时有两种情况，一种是将当前节点值加入到tmp中，一种是不加入</span></span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp+[nums[i]])</span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp)</span><br><span class="line">            </span><br><span class="line">        nums.sort()</span><br><span class="line">        length = len(nums) </span><br><span class="line">        result = []</span><br><span class="line">        core(nums,<span class="number">0</span>,[])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<p>拓展：含重复的子集</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subsetsWithDup</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,i,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> i==length:</span><br><span class="line">                <span class="keyword">if</span> tmp <span class="keyword">not</span> <span class="keyword">in</span> result: </span><br><span class="line">                    result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            </span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp)</span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp+[nums[i]])</span><br><span class="line">            </span><br><span class="line">        length = len(nums)</span><br><span class="line">        result = []</span><br><span class="line">        nums.sort()   <span class="comment">#这里必须要先排序</span></span><br><span class="line">        core(nums,<span class="number">0</span>,[])</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h5 id="2-全排列"><a href="#2-全排列" class="headerlink" title="2.全排列"></a>2.全排列</h5><p>给定一个<strong>没有重复</strong>数字的序列，返回其所有可能的全排列。</p>
-<p><strong>示例:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [1,2,3],</span><br><span class="line">  [1,3,2],</span><br><span class="line">  [2,1,3],</span><br><span class="line">  [2,3,1],</span><br><span class="line">  [3,1,2],</span><br><span class="line">  [3,2,1]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span><span class="params">(self, nums: List[int])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> nums==[]:</span><br><span class="line">                result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                s = nums[::]</span><br><span class="line">                s.remove(num)</span><br><span class="line">                core(s,tmp+[num])</span><br><span class="line">                </span><br><span class="line">        result = []</span><br><span class="line">        core(nums,[])</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<p>拓展：含重复数组的全排列</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">permuteUnique</span><span class="params">(self, nums: List[int])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> nums==[]:</span><br><span class="line">                <span class="keyword">if</span> tmp <span class="keyword">not</span> <span class="keyword">in</span> result:</span><br><span class="line">                    result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                s = nums[::]</span><br><span class="line">                s.remove(num)</span><br><span class="line">                core(s,tmp+[num])</span><br><span class="line">                </span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        nums.sort()</span><br><span class="line">        core(nums,[])</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h5 id="3-划分为k个相等的子集"><a href="#3-划分为k个相等的子集" class="headerlink" title="3.划分为k个相等的子集"></a>3.划分为k个相等的子集</h5><p>给定一个整数数组  <code>nums</code> 和一个正整数 <code>k</code>，找出是否有可能把这个数组分成 <code>k</code> 个非空子集，其总和都相等。</p>
-<p><strong>示例 1：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4</span><br><span class="line">输出： True</span><br><span class="line">说明： 有可能将其分成 4 个子集（5），（1,4），（2,3），（2,3）等于总和。</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canPartitionKSubsets</span><span class="params">(self, nums: List[int], k: int)</span> -&gt; bool:</span></span><br><span class="line">				</span><br><span class="line">        <span class="keyword">if</span> k == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="comment">#如果不能被k整除，那么直接无解</span></span><br><span class="line">        sum_num = sum(nums)</span><br><span class="line">        <span class="keyword">if</span> sum_num % k != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">          </span><br><span class="line">        avg = sum_num // k </span><br><span class="line">        nums.sort(reverse=<span class="keyword">True</span>)</span><br><span class="line">        </span><br><span class="line">        n = len(nums)</span><br><span class="line">        <span class="keyword">if</span> n &lt; k :<span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        visited = set()   <span class="comment">#标志位，标志哪个位置已经被使用过了</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(k,tmp_sum,loc)</span>:</span></span><br><span class="line">          	<span class="comment">#当选用的几个数之和等于目标值，那么k减一，再找下一个子集</span></span><br><span class="line">            <span class="keyword">if</span> tmp_sum == avg:</span><br><span class="line">                <span class="keyword">return</span>  dfs(k<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">            <span class="comment">#如果k==1，由于上面已经验证过可以被k整除，因此一定成立</span></span><br><span class="line">            <span class="keyword">if</span> k == <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(loc,n):</span><br><span class="line">                <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> visited <span class="keyword">and</span> nums[i] + tmp_sum &lt;= avg:</span><br><span class="line">                    visited.add(i)</span><br><span class="line">                    <span class="keyword">if</span> dfs(k,tmp_sum+nums[i],i+<span class="number">1</span>):</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">                    visited.remove(i)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> dfs(k,<span class="number">0</span>,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="4-八皇后问题"><a href="#4-八皇后问题" class="headerlink" title="4.八皇后问题"></a>4.八皇后问题</h4><h4 id="DP和BST结合的题目"><a href="#DP和BST结合的题目" class="headerlink" title="DP和BST结合的题目"></a>DP和BST结合的题目</h4><h5 id="1-大礼包"><a href="#1-大礼包" class="headerlink" title="1.大礼包"></a>1.大礼包</h5>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/12/深度学习——词向量表示之word2vec/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/12/深度学习——词向量表示之word2vec/" itemprop="url">深度学习——词向量表示之word2vec</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-12T09:39:34+08:00">
-                2019-04-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt=""></p>
-<h4 id="哈弗曼树"><a href="#哈弗曼树" class="headerlink" title="哈弗曼树"></a>哈弗曼树</h4><h3 id="基于哈弗曼树的Word2vec"><a href="#基于哈弗曼树的Word2vec" class="headerlink" title="基于哈弗曼树的Word2vec"></a>基于哈弗曼树的Word2vec</h3><p>​    在一般的理解上，确定了word2vec的输入和输出，下面就可以通过输入层经过隐藏层最后softmax输出所有词的概率，然后反向传播梯度下降decrease loss。但这其中有一个很大的问题：<strong>从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值。这样的性能显然是对于一个embedding操作来讲是得不偿失的，一次word2vec为了解决这个问题提出了基于哈弗曼树的优化</strong></p>
-<p>两个约定：**</p>
-<ul>
-<li>将权值大的节点作为左孩子节点，权值小的作为右孩子节点</li>
-<li>左孩子的编码为1，右孩子的编码为0</li>
-</ul>
-<h4 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h4><p><strong>STEP 1：扫描语料库，统计每个词出现的频数，保存在一个hash表中</strong></p>
-<p><strong>STEP2：根据个词的词频建立哈弗曼树</strong></p>
-<ul>
-<li><p>最终每个词汇都是哈弗曼树的叶子节点，词频就是相应的权值</p>
-</li>
-<li><p>根节点对应的词向量就是我们投影后的词向量</p>
-</li>
-<li>而所有叶子节点就类似神经网络softmax输出层的神经元，叶子节点个数就是词汇表大小</li>
-<li>非叶子节点代表某一类词</li>
-<li>哈弗曼树建立好后每个词都会有一个二进制的哈弗曼编码</li>
-</ul>
-<p><strong>STEP3：初始化词向量和哈弗曼树非叶子节点的向量</strong></p>
-<p>​    向量维度是我们给定的参数K。</p>
-<p><strong>STEP4：训练，也就是通过梯度下降算法不断优化词向量</strong></p>
-<p>​    在初始化后的词向量，回到语料库，逐句读取一系列的词，然后用梯度下降算法算法算出梯度，更新词向量的值、非叶子检点的值。(哈弗曼树就相当于一个优化后的神经网络)</p>
-<h4 id="训练方式"><a href="#训练方式" class="headerlink" title="训练方式"></a>训练方式</h4><p>hierarchical softmax </p>
-<p>​    一般的原始的word2vec方案使用神经网络来做映射时，softmax是一次计算所有词的softmax，计算量很大，因此提出了一种基于哈弗曼树的改进方案hierarchical softmax：在哈弗曼树中，<strong>隐藏层到输出层的softmax不再是一下子完成的，而是沿着哈弗曼树一步一步完成的，相当于将多分类问题转化成了多个二分类问题</strong></p>
-<h3 id="基于Negative-Sampling的Word2vec"><a href="#基于Negative-Sampling的Word2vec" class="headerlink" title="基于Negative Sampling的Word2vec"></a>基于Negative Sampling的Word2vec</h3><p><strong>Hierarchical Softmax的的缺点</strong>：</p>
-<p>​    对于生僻词需要在哈弗曼树中向下走很久。</p>
-<h4 id="Negative-Sampling算法"><a href="#Negative-Sampling算法" class="headerlink" title="Negative Sampling算法"></a>Negative Sampling算法</h4><p>​    我们有一个训练样本，中心词是w,它周围上下文共有2c个词，记为context(w)。由于这个中心词w,的确和context(w)相关存在，因此它是一个真实的正例。<strong>通过Negative Sampling采样，我们得到neg个</strong>和w不同的中心词wi,i=1,2,..neg，这样context(w)和wi就组成了neg个<strong>并不真实存在的负例</strong>。<strong>利用这一个正例和neg个负例，我们进行二元逻辑回归，得到负采样对应每个词wi对应的模型参数θi，和每个词的词向量</strong>。</p>
-<p>​    <strong>本质上是对训练集进行了采样，从而减小了训练集的大小。</strong></p>
-<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p>​    word2vec采样的方法并不复杂，如果词汇表的大小为VV,那么我们就将一段长度为1的线段分成VV份，每份对应词汇表中的一个词。当然每个词对应的线段长度是不一样的，高频词对应的线段长，低频词对应的线段短。</p>
-<p>​    在采样前，我们将这段长度为1的线段划分成M等份，这里M&gt;&gt;V，这样可以保证每个词对应的线段都会划分成对应的小块。而M份中的每一份都会落在某一个词对应的线段上。在采样的时候，我们只需要从M个位置中采样出neg个位置就行，此时采样到的每一个位置对应到的线段所属的词就是我们的负例词。</p>
-<p>参考文献：<a href="https://www.cnblogs.com/pinard/p/7249903.html" target="_blank" rel="noopener">基于Negative Sampling的模型</a></p>
-<p><a href="https://www.cnblogs.com/pinard/p/7243513.html" target="_blank" rel="noopener"> 基于Hierarchical Softmax的模型</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/机器学习——高斯混合模型GMM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/04/机器学习——高斯混合模型GMM/" itemprop="url">机器学习——高斯混合模型GMM</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T12:12:58+08:00">
-                2019-04-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>GMM 是学习出一些概率密度函数</p>
-<p>k-means 的结果是每个数据点被 assign 到其中某一个 cluster 了，而 GMM 则给出这些数据点被 assign 到每个 cluster 的概率，又称作 soft assignment。</p>
-<p>假设数据服从 Mixture Gaussian Distribution ，换句话说，数据可以看作是从数个 Gaussian Distribution 中生成出来的</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/机器学习——EM算法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/04/机器学习——EM算法/" itemprop="url">机器学习——EM算法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T09:57:41+08:00">
-                2019-04-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h3><p>####1.参数估计的方法</p>
-<p>概率模型的参数估计分为两大类：</p>
-<blockquote>
-<p>1.不含隐变量的参数估计—极大似然估计/贝叶斯估计法</p>
-<p>2.含隐变量的参数估计—EM算法</p>
-</blockquote>
-<h4 id="2-jensen不等式"><a href="#2-jensen不等式" class="headerlink" title="2.jensen不等式"></a>2.jensen不等式</h4><p><strong>X是一个随机变量，f(X)是一个凸函数（二阶导数大或等于0），那么有：</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/jensen不等式.png?raw=true" alt=""></p>
-<p><strong>当且仅当X是常数的时候等号成立</strong></p>
-<p><strong>如果f（X）是凹函数，不等号反向</strong></p>
-<h4 id="3-先验概率、后验概率、条件概率"><a href="#3-先验概率、后验概率、条件概率" class="headerlink" title="3.先验概率、后验概率、条件概率"></a>3.先验概率、后验概率、条件概率</h4><p>​    <strong>先验概率：P(Y)</strong>   </p>
-<blockquote>
-<p>先验概率是只根据事情之前发生各个结果出现情况估计的概率(无关特征)</p>
-</blockquote>
-<p>​    <strong>后验概率：P(Y|X)</strong></p>
-<blockquote>
-<p>后验概率是在各个X的分布下各个Y出现的概率(特征符合这个X时Y为这个的概率)</p>
-</blockquote>
-<p>​    <strong>条件概率：P(X|Y)</strong></p>
-<blockquote>
-<p>条件概率是在结果某一种情况时X出现这种分布的概率</p>
-</blockquote>
-<h4 id="4-自信息、互信息"><a href="#4-自信息、互信息" class="headerlink" title="4.自信息、互信息"></a>4.自信息、互信息</h4><p>​    <strong>自信息：I(x) = -logp(x)</strong></p>
-<p>​    概率是衡量确定性的度量，那么<strong>信息是衡量不确定性的度量</strong>.越不确定信息量越高。</p>
-<p>​    <strong>互信息：I(x;y) = log(p(x|y)/p(x))</strong></p>
-<p>​    已知y，x的不确定性减少量(其值可正可负)</p>
-<h4 id="5-熵"><a href="#5-熵" class="headerlink" title="5.熵"></a>5.熵</h4><p>​    <strong>对随机变量平均不确定性的度量，</strong>一个系统越有序，信息熵越低。</p>
-<p>​    熵的另一种解读也就是<strong>自信息的期望</strong></p>
-<p>​        <strong>H(X) = E[I(X)] = ∑P(x)I(x) = -∑p(x)logp(x)</strong></p>
-<h4 id="6-条件熵"><a href="#6-条件熵" class="headerlink" title="6.条件熵"></a>6.条件熵</h4><p>​    在给定y条件下，x的条件自信息量为I(x|y)，X的集合的条件熵为</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵1.png?raw=true" alt=""></p>
-<p>​    进一步在给定Y（各个y）的条件下，X集合的条件熵：</p>
-<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵2.png?raw=true" alt=""></p>
-<p>​    也就是在<strong>联合符号集合上的条件自信息量两个概率的加权平均</strong>    </p>
-<h4 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h4><p>​    EM算法主要用于求解概率模型的<strong>极大似然估计</strong>或<strong>极大后验概率</strong>。EM算法是通过<strong>迭代求解</strong>观测数据<strong>对数似然函数L(θ) = logP(Y|θ)的极大化</strong>，实现参数估计的。</p>
-<blockquote>
-<p>每次迭代主要分为E、M两步：</p>
-<p>​    E步：求期望。即求log(P，Z|θ)关于P(Z|Y，θi)的期望</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/M步公式.png?raw=true" alt=""></p>
-<p>(各个隐变量可能的概率下乘以出现这种结果的总和)</p>
-<p>​        </p>
-<p>​    M步：极大化Q函数得到新的参数θ</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/E步公式.png?raw=true" alt=""></p>
-<p>​    在构建具体的EM算法时，最重要的时定义Q函数，每次迭代中，Em算法通过极大似然化Q函数来增大对数似然函数L(θ)</p>
-</blockquote>
-<h5 id="算法推导"><a href="#算法推导" class="headerlink" title="算法推导"></a>算法推导</h5><p><strong>注意：1.EM算法在每次迭代后均能提高观测数据的似然函数值</strong></p>
-<p>​    <strong>2.EM算法不能保证全局最优，只能保证局部最优，因此算法受初值的影响</strong></p>
-<p>​    <strong>3.EM算法可以用于无监督学习</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1794,7 +1748,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-count">74</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

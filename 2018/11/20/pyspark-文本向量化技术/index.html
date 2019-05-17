@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​    在pyspark中文本的向量化技术主要在包pyspark.ml.feature中，主要包括以下几种：  1.Ngram 2.tf-idf 3.Word2Vec  1.Ngram​     2.tf-idf​    在pyspark中tf和idf是分开的两个步骤 ​    （1）tf ​    整个tf的过程就是一个将将各个文本进行计算频数统计的过程，使用前要先使用也定的算法来对语句进行分">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-21T11:57:38.842Z">
+<meta property="og:updated_time" content="2019-05-13T01:21:55.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyspark-向量化技术">
 <meta name="twitter:description" content="​    在pyspark中文本的向量化技术主要在包pyspark.ml.feature中，主要包括以下几种：  1.Ngram 2.tf-idf 3.Word2Vec  1.Ngram​     2.tf-idf​    在pyspark中tf和idf是分开的两个步骤 ​    （1）tf ​    整个tf的过程就是一个将将各个文本进行计算频数统计的过程，使用前要先使用也定的算法来对语句进行分">
@@ -426,9 +426,15 @@
 <p>使用要先使用训练集对其进行训练：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">输入数据：</span><br><span class="line">	已经使用一定的分词方式已经进行分词后的ArrayType数组</span><br><span class="line">输出：</span><br><span class="line">	当前句子各个词进行word2vec编码后的均值，维度为vectorSize</span><br><span class="line"> </span><br><span class="line">word2vec = Word2Vec(vectorSize=<span class="number">100</span>,inputCol=<span class="string">"word"</span>,outputCol=<span class="string">"word_vector"</span>,windowSize=<span class="number">3</span>,numPartitions=<span class="number">300</span>)</span><br><span class="line">word2vec_model = word2vec.fit(data)</span><br><span class="line"></span><br><span class="line"><span class="comment">#features将会在data的基础上多出一列word_vector，为vectorSize维数组</span></span><br><span class="line">features = word2vec.trandform(data)</span><br><span class="line"></span><br><span class="line">word2vec_model.save(<span class="string">"./model/name.word2vec"</span>)</span><br></pre></td></tr></table></figure>
 <p><strong>Word2Vec如何查看是否已经训练的很好：</strong></p>
+<blockquote>
 <p>​    1.选择两个在日常生活中已知词义相近的两个词A、B，再选一个与A词义不那么相近但也有一定相似度的词C</p>
 <p>​    2.计算A和B以及A和C的余弦距离</p>
 <p>​    3.比较其大小，当满足AB距离小于AC时，重新选择三个词重复上过程多次都满足，那么认为模型已经训练完毕；若不满足上述过程，那么继续加入样本进行训练</p>
+</blockquote>
+<p><strong>当word2vec中为了表达两个比较相近的词的相似性可以怎么做？比如在当前word2vec下tea、cooffe之间的相似性非常高，接近于1</strong></p>
+<blockquote>
+<p>​    增加word2vec的向量维度。可能是在当前维度中向量维度过小，导致这两个词无法表达充分，因此我们可以增加向量维度，以期待在更高维的向量空间中，可以区分这个名词</p>
+</blockquote>
 <p><strong>过程中可能用的：</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得某个词对应的词向量</span></span><br><span class="line">word2vec_model.getVectors().filter(<span class="string">"word=='0eva'"</span>).collect()[<span class="number">0</span>][<span class="string">'vector'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#计算两个词向量之间距离平方</span></span><br><span class="line">a1.squared_distance(a2)</span><br></pre></td></tr></table></figure>
 
@@ -544,7 +550,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-count">74</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
