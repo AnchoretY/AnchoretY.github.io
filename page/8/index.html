@@ -297,6 +297,198 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/DBSCAN和KMeans相关资源和理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/23/DBSCAN和KMeans相关资源和理解/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T15:41:35+08:00">
+                2018-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="DBSCAN和KMeans相关资源和理解"><a href="#DBSCAN和KMeans相关资源和理解" class="headerlink" title="DBSCAN和KMeans相关资源和理解"></a>DBSCAN和KMeans相关资源和理解</h1><h2 id="1-DBSCAN"><a href="#1-DBSCAN" class="headerlink" title="1.DBSCAN"></a>1.DBSCAN</h2><p>DBSCAN是是一种典型的<a href="">密度聚类算法</a>，算法主要的思是由密度可达关系导出最大的密度相连样本集合，将其作为一个类。<br>​    </p>
+<blockquote>
+<p>主要参数：</p>
+<ul>
+<li>最小分类样本数 </li>
+<li>半径</li>
+</ul>
+</blockquote>
+<blockquote>
+<ol>
+<li>DBSCAN算法为有参数算法，聚类的最终结果很大程度上取决于参数的设定</li>
+<li>DBSCAN算法不需要指定聚类个数，聚类个数根据算法和数据情况自动获得</li>
+</ol>
+</blockquote>
+<h4 id="DBSCAN聚类过程"><a href="#DBSCAN聚类过程" class="headerlink" title="DBSCAN聚类过程"></a>DBSCAN聚类过程</h4><blockquote>
+<ol>
+<li>首先根据半径画每个点的邻域，当点的邻域内点的个数大于最小样本数时，该点位为核心对象（原始数据集重点的变为核心对象和一般点）</li>
+<li>随机确定一个核心点作为初始点，将该初始点全部的最大密度相连的点作为一类。</li>
+<li>将分好类样本从原始的样本集中除去，从新选择核心对象作为聚类中心，再进行2.3操作，直至全部核心对象都被分类</li>
+</ol>
+</blockquote>
+<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/dbscan.png?raw=true" alt="image"></p>
+<h4 id="DBSCAN代码实现"><a href="#DBSCAN代码实现" class="headerlink" title="DBSCAN代码实现"></a>DBSCAN代码实现</h4><pre><code>from sklearn.cluster import DBSCAN
+
+dbcscan = DBSCAN(min_samples=30,eps=1.8)
+predict = dbscan.fit_predict(imput)
+</code></pre><h2 id="2-K-Means"><a href="#2-K-Means" class="headerlink" title="2.K-Means"></a>2.K-Means</h2><p>KMeans是一种原始性聚类算法，算法主要思想是通过迭代过程把数据集划分为不同的类别，使得评价聚类性能的准则函数达到最优，从而使生成的每个聚类内紧凑，类间独立。<br><strong>这一算法不适合处理离散型数据，对连续性数据具有良好的效果</strong></p>
+<blockquote>
+<ol>
+<li>Kmeans为无参数算法，算法执行过程中不需要进行调参</li>
+<li>Kmeans算法需要指定聚类个数K，这在实际问题中是很难进行确定的</li>
+</ol>
+</blockquote>
+<h4 id="KMeans聚类过程"><a href="#KMeans聚类过程" class="headerlink" title="KMeans聚类过程"></a>KMeans聚类过程</h4><blockquote>
+<ol>
+<li>根据指定的K值随机寻找K个点作为初始中心，将其他样本分别分给这些中心</li>
+<li>由分好的类计算均值作为其该类新的中心，重新对各个样本分到距离最近的中心，重复这一过程，直至中心不再变化</li>
+</ol>
+</blockquote>
+<h4 id="Kmeans代码实现"><a href="#Kmeans代码实现" class="headerlink" title="Kmeans代码实现"></a>Kmeans代码实现</h4><pre><code>from sklearn.cluster import KMeans
+
+kmeans = KMeans(n_clusters=8)
+predict = kmeans.fit_predict(input)
+</code></pre><h2 id="Kmeans、DBSCAN优缺点对比"><a href="#Kmeans、DBSCAN优缺点对比" class="headerlink" title="Kmeans、DBSCAN优缺点对比"></a>Kmeans、DBSCAN优缺点对比</h2><p>DBSCAN的主要优点有：</p>
+<p>　　　　1） 可以对任意形状的稠密数据集进行聚类，相对的，K-Means之类的聚类算法一般只适用于凸数据集。</p>
+<p>　　　　2） 可以在聚类的同时发现异常点，对数据集中的异常点不敏感。</p>
+<p>　　　　3） 聚类结果没有偏倚，相对的，K-Means之类的聚类算法初始值对聚类结果有很大影响。</p>
+<p>　　　　DBSCAN的主要缺点有：</p>
+<p>　　　　1）如果样本集的密度不均匀、聚类间距差相差很大时，聚类质量较差，这时用DBSCAN聚类一般不适合。</p>
+<p>　　　　2） 如果样本集较大时，聚类收敛时间较长，此时可以对搜索最近邻时建立的KD树或者球树进行规模限制来改进。</p>
+<p>　　　　3） 调参相对于传统的K-Means之类的聚类算法稍复杂，主要需要对距离阈值ϵ，邻域样本数阈值MinPts联合调参，不同的参数组合对最后的聚类效果有较大影响。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/决策树模型之CART树和C5-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1123,7 +1315,7 @@ du /home/yhk/ -h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">74</span>
+                  <span class="site-state-item-count">75</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
