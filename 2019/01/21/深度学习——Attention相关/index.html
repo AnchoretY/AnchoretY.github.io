@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Attention4.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/加法attention.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/乘法attention.png?raw=true">
-<meta property="og:updated_time" content="2019-05-15T09:13:49.395Z">
+<meta property="og:updated_time" content="2019-05-18T02:43:26.308Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——Attention相关">
 <meta name="twitter:description" content="1.为什么要使用Attention机制？​    Attention机制最初起源于seq2seq中，经典的encoder-decoder做机器翻译时，通常是是使用两个RNN网络，一个用来将待翻译语句进行编码输出一个vector，另一个RNN对上一个RNN网络的输出进行解码，也就是翻译的过程。但是经典的encoder-decoder模式最大的缺点在于：不管输入多么长的语句，最后输出的也只是最后一个v">
@@ -403,7 +403,7 @@
 <blockquote>
 <p>原始序列模型的不足：</p>
 <p>​    1.从编码器到解码器的语境矩阵式大小是固定的，这是个瓶颈问题</p>
-<p>​    2.难以对唱的序列编码，并且难以回忆长期依赖</p>
+<p>​    2.难以对长的序列编码，并且难以回忆长期依赖</p>
 </blockquote>
 <h4 id="2-Attention原理"><a href="#2-Attention原理" class="headerlink" title="2.Attention原理"></a>2.Attention原理</h4><p><strong>1.首先在RNN的过程中保存每个RNN单元的隐藏状态(h1….hn)</strong></p>
 <p><strong>2.对于decoder的每一个时刻t，因为此时有decoder的输入和上一时刻的输出，所以我们可以的当前步的隐藏状态St</strong></p>
