@@ -92,14 +92,14 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E7%BB%BC%E5%90%88%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E4%B8%89%E8%80%85%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87%E5%AF%B9%E6%AF%94.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/transformer%E6%A8%A1%E5%9E%8B%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true=20*50">
-<meta property="og:image" content="http://yoursite.com/Users/yhk/Library/Application%20Support/typora-user-images/image-20190304162008847.png">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/余弦位置编码.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/atttion%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/scaled%20dot-product%20attention.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/res-net.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Position-wise%20Feed-Forward%20network%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true">
-<meta property="og:updated_time" content="2019-05-18T02:58:39.066Z">
+<meta property="og:updated_time" content="2019-05-18T03:11:17.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——transformer模型">
 <meta name="twitter:description" content="​    transformer模型来自于Google的经典论文Attention is all you need，在这篇论文中作者采用Attention来取代了全部的RNN、CNN，实现效果效率的双丰收。 ​    现在transformer在NLP领域已经可以达到全方位吊打CNN、RNN系列的网络，网络处理时间效率高，结果稳定性可靠性都比传统的CNN、RNN以及二者的联合网络更好，因此现在已经">
@@ -407,7 +407,7 @@
 <p>​        (1)</p>
 <p>​        </p>
 <h4 id="1-位置编码（PositionalEncoding）"><a href="#1-位置编码（PositionalEncoding）" class="headerlink" title="1.位置编码（PositionalEncoding）"></a>1.位置编码（PositionalEncoding）</h4><p>​    大部分编码器一般都采用RNN系列模型来提取语义相关信息，但是采用RNN系列的模型来进行语序信息进行提取具有不可并行、提取效率慢等显著缺点，本文采用了一种 Positional Embedding方案来对于语序信息进行编码，主要通过正余弦函数，</p>
-<p>​    <img src="/Users/yhk/Library/Application Support/typora-user-images/image-20190304162008847.png" alt="image-20190304162008847"></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/余弦位置编码.png?raw=true" alt="image-20190304162008847"></p>
 <p>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</p>
 <blockquote>
 <p>为什么要使用三角函数来进行为之编码？</p>

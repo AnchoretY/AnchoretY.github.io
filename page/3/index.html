@@ -537,7 +537,7 @@
 <p>​        (1)</p>
 <p>​        </p>
 <h4 id="1-位置编码（PositionalEncoding）"><a href="#1-位置编码（PositionalEncoding）" class="headerlink" title="1.位置编码（PositionalEncoding）"></a>1.位置编码（PositionalEncoding）</h4><p>​    大部分编码器一般都采用RNN系列模型来提取语义相关信息，但是采用RNN系列的模型来进行语序信息进行提取具有不可并行、提取效率慢等显著缺点，本文采用了一种 Positional Embedding方案来对于语序信息进行编码，主要通过正余弦函数，</p>
-<p>​    <img src="/Users/yhk/Library/Application Support/typora-user-images/image-20190304162008847.png" alt="image-20190304162008847"></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/余弦位置编码.png?raw=true" alt="image-20190304162008847"></p>
 <p>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</p>
 <blockquote>
 <p>为什么要使用三角函数来进行为之编码？</p>
