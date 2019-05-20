@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Position-wise%20Feed-Forward%20network%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true">
-<meta property="og:updated_time" content="2019-05-18T03:11:17.569Z">
+<meta property="og:updated_time" content="2019-05-18T03:13:11.172Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——transformer模型">
 <meta name="twitter:description" content="​    transformer模型来自于Google的经典论文Attention is all you need，在这篇论文中作者采用Attention来取代了全部的RNN、CNN，实现效果效率的双丰收。 ​    现在transformer在NLP领域已经可以达到全方位吊打CNN、RNN系列的网络，网络处理时间效率高，结果稳定性可靠性都比传统的CNN、RNN以及二者的联合网络更好，因此现在已经">
@@ -408,7 +408,7 @@
 <p>​        </p>
 <h4 id="1-位置编码（PositionalEncoding）"><a href="#1-位置编码（PositionalEncoding）" class="headerlink" title="1.位置编码（PositionalEncoding）"></a>1.位置编码（PositionalEncoding）</h4><p>​    大部分编码器一般都采用RNN系列模型来提取语义相关信息，但是采用RNN系列的模型来进行语序信息进行提取具有不可并行、提取效率慢等显著缺点，本文采用了一种 Positional Embedding方案来对于语序信息进行编码，主要通过正余弦函数，</p>
 <p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/余弦位置编码.png?raw=true" alt="image-20190304162008847"></p>
-<p>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</p>
+<p><strong>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</strong></p>
 <blockquote>
 <p>为什么要使用三角函数来进行为之编码？</p>
 <p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000*2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<strong>绝对位置</strong>。</p>
@@ -606,7 +606,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">75</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -628,7 +628,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

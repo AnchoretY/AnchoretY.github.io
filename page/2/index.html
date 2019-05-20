@@ -297,6 +297,277 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/new-和-init/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/26/new-和-init/" itemprop="url">__new__和__init__</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-26T22:40:33+08:00">
+                2019-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>执行顺序：类中同时出现new()和init()时，先调用new()，再调用init()</strong></p>
+<h5 id="python中-new-和-init-的区别"><a href="#python中-new-和-init-的区别" class="headerlink" title="python中__new__和__init__的区别"></a>python中__new__和__init__的区别</h5><blockquote>
+<p><strong>1.用法不同</strong>：</p>
+<p>​    __new__()用于创建实例，所以该方法是<strong>在实例创建之前被调用</strong>，它是类级别的方法，是个静态方法；</p>
+<p>​    __init__() 用于初始化实例，所以该方法是<strong>在实例对象创建后被调用</strong>，它是实例级别的方法，用于设置对象属性的一些初始值</p>
+<p>​    注：由此可知，__new__()在__init__() 之前被调用。如果__new__() 创建的是当前类的实例，会自动调用__init__()函数，通过return调用的__new__()的参数cls来保证是当前类实例，如果是其他类的类名，那么创建返回的是其他类实例，就不会调用当前类的__init__()函数</p>
+<p>2.传入参数不同：</p>
+<p>​    __new__()<strong>至少有一个参数cls，代表当前类</strong>，此参数在实例化时由Python解释器自动识别；</p>
+<p>​    __init__()<strong>至少有一个参数self</strong>，就是这个__new__()返回的实例，__init__()在__new__()的基础上完成一些初始化的操作。</p>
+<p>3.返回值不同：</p>
+<p>​    __new__()必须有返回值，返回实例对象；</p>
+<p>　__init__()不需要返回值。</p>
+</blockquote>
+<h4 id="new-的两种常见用法"><a href="#new-的两种常见用法" class="headerlink" title="__new__的两种常见用法"></a>__new__的两种常见用法</h4><h5 id="1-继承不可变的类"><a href="#1-继承不可变的类" class="headerlink" title="1.继承不可变的类"></a>1.继承不可变的类</h5><p>​    __new__()方法主要用于继承一些不可变的class，比如int, str, tuple， 提供一个自定义这些类的实例化过程的途径，一般通过重载__new__()方法来实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostiveInterger</span><span class="params">(int)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls,value)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> super(PostiveInterger,cls).__new__(cls,abs(value))</span><br><span class="line">a = PostiveInterger(<span class="number">-10</span>)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-实现单例模式"><a href="#2-实现单例模式" class="headerlink" title="2.实现单例模式"></a>2.实现单例模式</h5><p>​    可以用来实现单例模式，也就是使<strong>每次实例化时只返回同一个实例对象</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleobject</span><span class="params">(object)</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> cls.instance:</span><br><span class="line">      cls.instance = super(Singleobject,cls).new(cls)</span><br><span class="line">    <span class="keyword">return</span> cls.instance</span><br><span class="line"></span><br><span class="line">object1 = Singleobject()</span><br><span class="line">object2 = Singleobject()</span><br><span class="line"></span><br><span class="line">object1.attr = <span class="string">'value1'</span></span><br><span class="line"></span><br><span class="line">print(object1.attr,object2.attr)</span><br><span class="line">print(object1 <span class="keyword">is</span> object2)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  value1,value1</span><br><span class="line">  <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/20/数学算法——排列组合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/20/数学算法——排列组合/" itemprop="url">数学算法——排列组合</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-20T23:02:08+08:00">
+                2019-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    最近在做各大场笔试题的过程中，发现排列组合在笔试中是一个经常出现的内容，由于读研后就在没有接触过，忘得已经差不多了，大的都不是很好，因此决定写一篇博客来重新复习一下相关知识，下面开始进行总结。</p>
+<h3 id="排列组合"><a href="#排列组合" class="headerlink" title="排列组合"></a>排列组合</h3><h4 id="1-排列"><a href="#1-排列" class="headerlink" title="1.排列"></a>1.排列</h4><p>​    n个元素中取m个元素按照一定的书序排成一排，用$A_n^m$表示。</p>
+<blockquote>
+<p><strong>计算公式</strong>：</p>
+<p>​    $A_n^m = n<em>(n-1)</em>(n-2)<em>…</em>(n-m+1)​$</p>
+</blockquote>
+<h4 id="2-组合"><a href="#2-组合" class="headerlink" title="2.组合"></a>2.组合</h4><p>​    n个元素中取m个不同的元素(不关心顺序)</p>
+<blockquote>
+<p>计算公式：</p>
+<p>​    $C_n^m = A_n^m/A_m^m = \frac{n<em>(n-1)</em>(n-2)<em>…</em>(n-m+1)}{m<em>(m-1)</em>(m-2)<em>…</em>1}$</p>
+</blockquote>
+<h3 id="常用技巧"><a href="#常用技巧" class="headerlink" title="常用技巧"></a>常用技巧</h3><h4 id="1-捆绑法"><a href="#1-捆绑法" class="headerlink" title="1.捆绑法"></a>1.捆绑法</h4><p>​    <strong>要求几个元素相邻时</strong>，可以将它们作为一个整体在进行排列</p>
+<h4 id="2-差空法"><a href="#2-差空法" class="headerlink" title="2.差空法"></a>2.差空法</h4><p>​    <strong>要求元素不相邻时</strong>，如ABCDEF排成一排，要求AB不相邻，则可以把CDEF先排好，把AB插进CDEF产生的5个空中就好</p>
+<h4 id="3-插板法"><a href="#3-插板法" class="headerlink" title="3.插板法"></a>3.插板法</h4><p>​    <strong>要求n个元素分成m个组，每个组必须要有一个元素时</strong>，可以在n个元素中产生的n-1个空中插m-1个板子</p>
+<h4 id="4-留一法"><a href="#4-留一法" class="headerlink" title="4.留一法"></a>4.留一法</h4><p>​    排列问题中，有元素的顺序已定，如alibaba全排列产生多少个字符串，7个元素中a重复3次，b重复两次，则结果为元素全排除以重复元素的全排<img src="https://private.codecogs.com/gif.latex?%5Cfrac%7BA_%7B7%7D%5E%7B7%7D%7D%7BA_%7B3%7D%5E%7B3%7D*A_%7B2%7D%5E%7B2%7D%7D" alt="\frac{A_{7}^{7}}{A_{3}^{3}*A_{2}^{2}}"></p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p>环形排列问题：</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/机试——堆相关的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1556,311 +1827,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/机试——二叉树遍历/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/19/机试——二叉树遍历/" itemprop="url">机试——二叉树遍历</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T23:02:04+08:00">
-                2019-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    二叉树最常用的遍历算法主要分为下面几种：</p>
-<p>​    <strong>1.先序遍历</strong></p>
-<p>​    <strong>2.中序遍历</strong></p>
-<p>​    <strong>3.后序遍历</strong></p>
-<p>​    <strong>4.层次遍历</strong></p>
-<p>​    下面我们将针对这些遍历算法的递归与非递归实现分别给出代码实现以及特点。</p>
-<blockquote>
-<p>这里有一点我们需要注意:</p>
-<p>​    无论是前序、中序、后续，都是指根节点访问的顺序，<strong>而左右节点的相对访问顺序永远是相同的，即先访问做节点，后访问右节点。</strong></p>
-</blockquote>
-<h3 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h3><p>​    先序遍历指在二叉树便利过程中首先输出根节点，然后再分别输出左右节点的遍历方式。</p>
-<p>#####递归实现</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(result,root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            result.append(root.val)</span><br><span class="line">            core(result,root.left)</span><br><span class="line">            core(result,root.right)</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        core(result,root)</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h5 id="非递归实现"><a href="#非递归实现" class="headerlink" title="非递归实现"></a>非递归实现</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        stack = []</span><br><span class="line">        res = []</span><br><span class="line">        stack = [root]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            node = stack.pop()</span><br><span class="line">            res.append(node.val)</span><br><span class="line">            <span class="comment">#注意这里的顺序一定是先右后左，和一般的相反</span></span><br><span class="line">            <span class="keyword">if</span> node.right!=<span class="keyword">None</span>:</span><br><span class="line">                stack.append(node.right)</span><br><span class="line">            <span class="keyword">if</span> node.left!=<span class="keyword">None</span>:</span><br><span class="line">                stack.append(node.left)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><p>​    二叉树的中序遍历是指现先遍历左节点，中间遍历根节点，最后在遍历右节点的便利方式。</p>
-<h4 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Core</span><span class="params">(root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> []</span><br><span class="line">            </span><br><span class="line">            Core(root.left)</span><br><span class="line">            result.append(root.val)</span><br><span class="line">            Core(root.right)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        Core(root)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h4 id="非递归实现-1"><a href="#非递归实现-1" class="headerlink" title="非递归实现"></a>非递归实现</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        stack = []</span><br><span class="line">        result = []</span><br><span class="line">        </span><br><span class="line">        pos = root</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> pos:</span><br><span class="line">            <span class="keyword">if</span> pos:</span><br><span class="line">                stack.append(pos)</span><br><span class="line">                pos = pos.left</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pos = stack.pop()</span><br><span class="line">                result.append(pos.val)</span><br><span class="line">                pos = pos.right</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h3 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h3><h3 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h3><h4 id="非递归实现-2"><a href="#非递归实现-2" class="headerlink" title="非递归实现"></a>非递归实现</h4><p>​    利用<strong>队列</strong>先进先出的特点，依次将结点的左、右孩子入队，然后依次出队访问，以此为循环。当有些题目中要求按照层输出时，需要根据每层的节点个数做一个计数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">levelOrder</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        queue = [root]</span><br><span class="line">        result = []</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            tmp = []</span><br><span class="line">            number_flag = len(queue)   <span class="comment">#层节点个数计数器</span></span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> i&lt;number_flag:</span><br><span class="line">                node = queue.pop(<span class="number">0</span>)</span><br><span class="line">                tmp.append(node.val)</span><br><span class="line">                <span class="keyword">if</span> node.left:</span><br><span class="line">                    queue.append(node.left)</span><br><span class="line">                <span class="keyword">if</span> node.right:</span><br><span class="line">                    queue.append(node.right)</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            result.append(tmp)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h3 id="根据两个序列复原二叉树"><a href="#根据两个序列复原二叉树" class="headerlink" title="根据两个序列复原二叉树"></a>根据两个序列复原二叉树</h3><p>​    这种题目其实只有两个，核心是找出先根据一个序列找出根节点，然后在根据另一个序列找出其左右子树的元素，然后不断的递归这个过程即可。</p>
-<h5 id="已知前序遍历中序遍历"><a href="#已知前序遍历中序遍历" class="headerlink" title="已知前序遍历中序遍历"></a>已知前序遍历中序遍历</h5><p>​    在<strong>已知前序遍历的题目中，就以前序遍历为基础，去不断地区分剩下的数据应该在左子树还是右子树即可</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buildTree</span><span class="params">(self, preorder: List[int], inorder: List[int])</span> -&gt; TreeNode:</span></span><br><span class="line">				<span class="string">"""</span></span><br><span class="line"><span class="string">					先将前序遍历的第一个节点作为根节点，然后在后序遍历中找到其对应的位置，左右分别做相同的操作</span></span><br><span class="line"><span class="string">				"""</span></span><br><span class="line">        len_pre = len(preorder)</span><br><span class="line">        len_in = len(inorder)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> len_pre==<span class="number">0</span> <span class="keyword">or</span> len_in==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        tree_root = TreeNode(preorder[<span class="number">0</span>])</span><br><span class="line">        preorder = preorder[<span class="number">1</span>:]</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        left_len = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> inorder:</span><br><span class="line">            <span class="keyword">if</span> i==tree_root.val:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">        inorder.remove(tree_root.val)</span><br><span class="line">        <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.left =  self.buildTree(preorder[:left_len],inorder[:left_len])</span><br><span class="line">        <span class="keyword">if</span> len(preorder)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.right = self.buildTree(preorder[left_len:],inorder[left_len:])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
-<h5 id="已知前序遍历和后序遍历"><a href="#已知前序遍历和后序遍历" class="headerlink" title="已知前序遍历和后序遍历"></a>已知前序遍历和后序遍历</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">constructFromPrePost</span><span class="params">(self, pre, post)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type pre: List[int]</span></span><br><span class="line"><span class="string">        :type post: List[int]</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            前序遍历的第一个节点必定是根节点，随后的节点就是其左子树的根节点，然后再在</span></span><br><span class="line"><span class="string">        后序遍历中找到这个节点的位置就可以确定左子树中有哪些节点，右子树中有哪些节点</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        tree_root = TreeNode(pre[<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        pre = pre[<span class="number">1</span>:]</span><br><span class="line">        post = post[:<span class="number">-1</span>]</span><br><span class="line">        left_len = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> post:</span><br><span class="line">            <span class="keyword">if</span> i==pre[<span class="number">0</span>]:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.left = self.constructFromPrePost(pre[:left_len],post[:left_len])</span><br><span class="line">        <span class="keyword">if</span> len(post)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.right = self.constructFromPrePost(pre[left_len:],post[left_len:])</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
-<h5 id="已知中序后序遍历构造二叉树"><a href="#已知中序后序遍历构造二叉树" class="headerlink" title="已知中序后序遍历构造二叉树"></a>已知中序后序遍历构造二叉树</h5><pre><code>没有前序遍历时，使用后序遍历定根节点     
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buildTree</span><span class="params">(self, inorder: List[int], postorder: List[int])</span> -&gt; TreeNode:</span>  </span><br><span class="line">	len_in = len(inorder)</span><br><span class="line">  len_post = len(postorder)</span><br><span class="line">  <span class="keyword">if</span> len_in==<span class="number">0</span> <span class="keyword">or</span> len_in!=len_post:</span><br><span class="line">      <span class="keyword">return</span>  <span class="keyword">None</span></span><br><span class="line">  </span><br><span class="line">  tree_root = TreeNode(postorder[<span class="number">-1</span>])</span><br><span class="line">  postorder = postorder[:<span class="number">-1</span>]</span><br><span class="line">  left_len = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> inorder:</span><br><span class="line">      <span class="keyword">if</span> i==tree_root.val:</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">          left_len += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  inorder.remove(tree_root.val)</span><br><span class="line">  <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">      tree_root.left = self.buildTree(inorder[:left_len],postorder[:left_len])</span><br><span class="line">  <span class="keyword">if</span> len(postorder)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">      tree_root.right = self.buildTree(inorder[left_len:],postorder[left_len:])</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
-<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><p>​    </p>
-<blockquote>
-<p>二叉搜索树的性质:</p>
-<p>​    1.中序遍历的结果有序</p>
-<p>​    2.左子树上的节点都比根节点小，右子树都比根节点大</p>
-</blockquote>
-<h5 id="修剪二叉搜索树"><a href="#修剪二叉搜索树" class="headerlink" title="修剪二叉搜索树"></a>修剪二叉搜索树</h5><p>​    给定一个二叉搜索树，同时给定最小边界<code>L</code> 和最大边界 <code>R</code>。通过修剪二叉搜索树，使得所有节点的值在<code>[L, R]</code>中 (R&gt;=L) 。你可能需要改变树的根节点，所以结果应当返回修剪好的二叉搜索树的新的根节点。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trimBST</span><span class="params">(self, root, L, R)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :type L: int</span></span><br><span class="line"><span class="string">        :type R: int</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> root.val&lt;L:</span><br><span class="line">            <span class="keyword">return</span> self.trimBST(root.right,L,R)</span><br><span class="line">        <span class="keyword">elif</span> root.val&gt;R:</span><br><span class="line">            <span class="keyword">return</span> self.trimBST(root.left,L,R)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            root.left = self.trimBST(root.left,L,R)</span><br><span class="line">            root.right = self.trimBST(root.right,L,R)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
-<h5 id="把二叉搜索树转化为累加树"><a href="#把二叉搜索树转化为累加树" class="headerlink" title="把二叉搜索树转化为累加树"></a>把二叉搜索树转化为累加树</h5><p>给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree)，使得每个节点的值是原来的节点值加上所有大于它的节点值之和。</p>
-<p><strong>例如：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入: 二叉搜索树:</span><br><span class="line">              5</span><br><span class="line">            /   \</span><br><span class="line">           2     13</span><br><span class="line"></span><br><span class="line">输出: 转换为累加树:</span><br><span class="line">             18</span><br><span class="line">            /   \</span><br><span class="line">          20     13</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertBST</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        root_ref = root</span><br><span class="line">        stack = []</span><br><span class="line">        prev = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> root:</span><br><span class="line">            <span class="keyword">while</span> root:</span><br><span class="line">                stack.append(root)</span><br><span class="line">                root = root.right</span><br><span class="line">            root = stack.pop()</span><br><span class="line">            root.val += prev</span><br><span class="line">            prev = root.val</span><br><span class="line">            root = root.left</span><br><span class="line">        <span class="keyword">return</span> root_ref</span><br></pre></td></tr></table></figure>
-<h5 id="验证搜索二叉树"><a href="#验证搜索二叉树" class="headerlink" title="验证搜索二叉树"></a>验证搜索二叉树</h5><p>给定一个二叉树，判断其是否是一个有效的二叉搜索树。</p>
-<p>假设一个二叉搜索树具有如下特征：</p>
-<ul>
-<li>节点的左子树只包含<strong>小于</strong>当前节点的数。</li>
-<li>节点的右子树只包含<strong>大于</strong>当前节点的数。</li>
-<li>所有左子树和右子树自身必须也是二叉搜索树。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法一：用搜索二叉树的性质<span class="number">1</span>，中序遍历一定有序，那么我们只需要在中序遍历中保证后添加的数比前面添加的最后一个数的即可，出现不符合这一规律的直接返回<span class="keyword">False</span></span><br><span class="line">	注：这里需要特别注意，二叉搜索数中不能出现两个一样的值，因此不能直接输出中序序列和排序号好的序列对比</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isValidBST</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        stack  = []</span><br><span class="line">        pos = root</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> pos:</span><br><span class="line">            <span class="keyword">while</span> pos:</span><br><span class="line">                stack.append(pos)</span><br><span class="line">                pos = pos.left</span><br><span class="line">            </span><br><span class="line">            pos = stack.pop()</span><br><span class="line">            <span class="keyword">if</span> result!=[]:</span><br><span class="line">                <span class="keyword">if</span> result[<span class="number">-1</span>]&lt;pos.val:</span><br><span class="line">                    result.append(pos.val)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                result.append(pos.val)</span><br><span class="line">            pos = pos.right</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/机试——回文子串相关/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/12/机试——回文子串相关/" itemprop="url">机试-回文子串相关</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T21:27:59+08:00">
-                2019-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="回文子串"><a href="#回文子串" class="headerlink" title="回文子串"></a>回文子串</h4><blockquote>
-<p>例：给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。</p>
-<p>具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被计为是不同的子串。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countSubstrings</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        length = len(s) </span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,length+<span class="number">1</span>): <span class="comment">#这里注意循环的范围为range(i+1,length+1)    </span></span><br><span class="line">                <span class="keyword">if</span> s[i:j]==s[i:j][::<span class="number">-1</span>]:</span><br><span class="line">                    result += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h4 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h4><p>​    最长回文子串也是回文串中常见的一中题目，下面是例题</p>
-<blockquote>
-<p>例：给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
-</blockquote>
-<blockquote>
-<p>思路一：Manacher算法</p>
-<p>​    首先先将字符串首尾以及字符和字符之间采用”#“进行补齐，补齐后的字符串总长度2n+1(n为原始字符串长度)。然后从第一个非#字符</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_length</span><span class="params">(string, index)</span>:</span></span><br><span class="line">            <span class="comment"># 循环求出index为中心的最长回文字串</span></span><br><span class="line">            length = <span class="number">0</span></span><br><span class="line">            seq = <span class="string">""</span></span><br><span class="line">            <span class="keyword">if</span> string[index]!=<span class="string">"#"</span>:</span><br><span class="line">                seq = string[index]</span><br><span class="line">                length = <span class="number">1</span></span><br><span class="line">            string_len = len(string)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,index+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> index+i&lt;string_len <span class="keyword">and</span> string[index-i]==string[index+i]:</span><br><span class="line">                    <span class="comment"># print(string[index-i],seq+string[index+i])</span></span><br><span class="line">                    <span class="keyword">if</span> string[index-i]!=<span class="string">"#"</span>:</span><br><span class="line">                        length +=<span class="number">2</span></span><br><span class="line">                        seq = string[index-i]+seq+string[index+i]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">return</span> length,seq</span><br><span class="line">        </span><br><span class="line">        s_list = [i <span class="keyword">for</span> i <span class="keyword">in</span> s]</span><br><span class="line">        string = <span class="string">"#"</span>+<span class="string">"#"</span>.join(s)+<span class="string">"#"</span></span><br><span class="line">        </span><br><span class="line">        length = len(string)</span><br><span class="line">        max_length = <span class="number">0</span></span><br><span class="line">        max_seq = <span class="string">""</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">0</span>,length):</span><br><span class="line">            <span class="comment"># print("====")</span></span><br><span class="line">            tmp_len,tmp_seq = get_length(string,index)</span><br><span class="line">            <span class="comment"># print(tmp_len,tmp_seq)</span></span><br><span class="line">            <span class="keyword">if</span> tmp_len&gt;max_length:</span><br><span class="line">                max_length = tmp_len</span><br><span class="line">                max_seq = tmp_seq</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> max_seq</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>思路二：动态规划</p>
-<p>​    这里的动态规划的核心思路就是从头开始向后进行遍历，每次想看<strong>头尾同时加入比最大之前最大回文子串的长多+1</strong>字符串是不是回文子串(注意但是首部索引不能超过0)，如果是则记录起始节点start，max_len的值+2；否则判断只在尾部进行字符串加1的字符串时不是回文子串（这里之说以不必尝试在头部加1，因为再从头开始遍历的过程中已经尝试了头部加1），如果是记录start节点，max_len的值+2</p>
-<p>​    f(x+1)</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line"></span><br><span class="line">        length = len(s)</span><br><span class="line">        max_len = <span class="number">0</span></span><br><span class="line">        start = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">            <span class="keyword">if</span> i-max_len&gt;=<span class="number">1</span> <span class="keyword">and</span> s[i-max_len<span class="number">-1</span>:i+<span class="number">1</span>]==s[i-max_len<span class="number">-1</span>:i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i-max_len<span class="number">-1</span></span><br><span class="line">                max_len += <span class="number">2</span></span><br><span class="line">            <span class="keyword">elif</span> i-max_len&gt;=<span class="number">0</span> <span class="keyword">and</span> s[i-max_len:i+<span class="number">1</span>]==s[i-max_len:i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i-max_len</span><br><span class="line">                max_len += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> s[start:start+max_len]</span><br></pre></td></tr></table></figure>
-<h4 id="最长回文子序列516"><a href="#最长回文子序列516" class="headerlink" title="最长回文子序列516"></a>最长回文子序列516</h4><p>​    </p>
-<p>z</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1911,7 +1877,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">75</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1933,7 +1899,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
