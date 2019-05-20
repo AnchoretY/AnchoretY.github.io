@@ -401,7 +401,6 @@
 <li>尽量减少shuffle的次数</li>
 </ol>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1)可以用hive将发生倾斜的key做聚合</span><br><span class="line">2)进行数据的清洗,把发生倾斜的刨除,用单独的程序去算倾斜的key</span><br><span class="line">3)提高shuffle的并行度,用随机前缀,方法是打上随机前缀先聚合一次,然后去掉随机前缀再聚合一次。适用场景groupby</span><br><span class="line">4)指定“倍数”的数据扩容加上随机“倍数”值前缀。适用场景join</span><br><span class="line">5)join时小数据join大数据,就用mapjoin</span><br><span class="line">6)能不shuffle就不shuffle</span><br></pre></td></tr></table></figure>
 <h3 id="Spark分区数设置"><a href="#Spark分区数设置" class="headerlink" title="Spark分区数设置"></a>Spark分区数设置</h3><blockquote>
 <p><strong>1、分区数越多越好吗？</strong></p>
 <p>不是的，分区数太多意味着任务数太多（一个partion对应一个任务），每次调度任务也是很耗时的，所以分区数太多会导致总体耗时增多。</p>
