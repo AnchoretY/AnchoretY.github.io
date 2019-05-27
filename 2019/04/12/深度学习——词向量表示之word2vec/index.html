@@ -79,19 +79,21 @@
 
 
 
-<meta name="description" content="哈弗曼树基于哈弗曼树的Word2vec​    在一般的理解上，确定了word2vec的输入和输出，下面就可以通过输入层经过隐藏层最后softmax输出所有词的概率，然后反向传播梯度下降decrease loss。但这其中有一个很大的问题：从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值。这样的性能显然是对于一个embedding操作来讲是得">
+<meta name="description" content="原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值  Word2Vec对原始语言模型的改进： 1.对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。 比如输入的是三">
 <meta name="keywords" content="NLP,面试,深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习——词向量表示之word2vec">
 <meta property="og:url" content="http://yoursite.com/2019/04/12/深度学习——词向量表示之word2vec/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="哈弗曼树基于哈弗曼树的Word2vec​    在一般的理解上，确定了word2vec的输入和输出，下面就可以通过输入层经过隐藏层最后softmax输出所有词的概率，然后反向传播梯度下降decrease loss。但这其中有一个很大的问题：从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值。这样的性能显然是对于一个embedding操作来讲是得">
+<meta property="og:description" content="原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值  Word2Vec对原始语言模型的改进： 1.对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。 比如输入的是三">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true">
-<meta property="og:updated_time" content="2019-04-12T03:34:01.676Z">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true">
+<meta property="og:updated_time" content="2019-05-27T03:47:28.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——词向量表示之word2vec">
-<meta name="twitter:description" content="哈弗曼树基于哈弗曼树的Word2vec​    在一般的理解上，确定了word2vec的输入和输出，下面就可以通过输入层经过隐藏层最后softmax输出所有词的概率，然后反向传播梯度下降decrease loss。但这其中有一个很大的问题：从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值。这样的性能显然是对于一个embedding操作来讲是得">
+<meta name="twitter:description" content="原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值  Word2Vec对原始语言模型的改进： 1.对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。 比如输入的是三">
 <meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true">
 
 
@@ -370,13 +372,18 @@
       
 
       
-        <p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt=""></p>
-<h4 id="哈弗曼树"><a href="#哈弗曼树" class="headerlink" title="哈弗曼树"></a>哈弗曼树</h4><h3 id="基于哈弗曼树的Word2vec"><a href="#基于哈弗曼树的Word2vec" class="headerlink" title="基于哈弗曼树的Word2vec"></a>基于哈弗曼树的Word2vec</h3><p>​    在一般的理解上，确定了word2vec的输入和输出，下面就可以通过输入层经过隐藏层最后softmax输出所有词的概率，然后反向传播梯度下降decrease loss。但这其中有一个很大的问题：<strong>从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值。这样的性能显然是对于一个embedding操作来讲是得不偿失的，一次word2vec为了解决这个问题提出了基于哈弗曼树的优化</strong></p>
-<p>两个约定：**</p>
-<ul>
-<li>将权值大的节点作为左孩子节点，权值小的作为右孩子节点</li>
-<li>左孩子的编码为1，右孩子的编码为0</li>
-</ul>
+        <p>原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），<strong>里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt=""></p>
+<h4 id="Word2Vec对原始语言模型的改进："><a href="#Word2Vec对原始语言模型的改进：" class="headerlink" title="Word2Vec对原始语言模型的改进："></a>Word2Vec对原始语言模型的改进：</h4><blockquote>
+<p>1.<strong>对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。</strong></p>
+<p>比如输入的是三个4维词向量：(1,2,3,4),(9,6,11,8),(5,10,7,12)(1,2,3,4),(9,6,11,8),(5,10,7,12),那么我们word2vec映射后的词向量就是(5,6,7,8)(5,6,7,8)。由于这里是从多个词向量变成了一个词向量。</p>
+<p><strong>2.word2vec采样了霍夫曼树来代替从隐藏层到输出softmax层的映射（Hierarchical Softmax）。这样隐藏层到输出层的softmax不是一步完成的，而是沿着哈弗曼树一步一步完成的。</strong></p>
+</blockquote>
+<h3 id="Hierarchical-Softmax"><a href="#Hierarchical-Softmax" class="headerlink" title="Hierarchical Softmax"></a>Hierarchical Softmax</h3><p>​     和之前的神经网络语言模型相比，我们的霍夫曼树的<strong>所有内部节点就类似之前神经网络隐藏层的神经元</strong>,其中，<strong>根节点的词向量对应我们的投影后的词向量</strong>，而所有<strong>叶子节点就类似于之前神经网络softmax输出层的神经元</strong>，<strong>叶子节点的个数就是词汇表的大小</strong>。</p>
+<h4 id="使用Hierarchical-Softmax的好处"><a href="#使用Hierarchical-Softmax的好处" class="headerlink" title="使用Hierarchical Softmax的好处"></a>使用Hierarchical Softmax的好处</h4><blockquote>
+<p>1.由于是二叉树，之前计算量为V,现在变成了log2V</p>
+<p>2.由于使用霍夫曼树是高频的词靠近树根，这样高频词需要更少的时间会被找到。</p>
+</blockquote>
 <h4 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h4><p><strong>STEP 1：扫描语料库，统计每个词出现的频数，保存在一个hash表中</strong></p>
 <p><strong>STEP2：根据个词的词频建立哈弗曼树</strong></p>
 <ul>
@@ -392,14 +399,55 @@
 <p>​    向量维度是我们给定的参数K。</p>
 <p><strong>STEP4：训练，也就是通过梯度下降算法不断优化词向量</strong></p>
 <p>​    在初始化后的词向量，回到语料库，逐句读取一系列的词，然后用梯度下降算法算法算出梯度，更新词向量的值、非叶子检点的值。(哈弗曼树就相当于一个优化后的神经网络)</p>
-<h4 id="训练方式"><a href="#训练方式" class="headerlink" title="训练方式"></a>训练方式</h4><p>hierarchical softmax </p>
-<p>​    一般的原始的word2vec方案使用神经网络来做映射时，softmax是一次计算所有词的softmax，计算量很大，因此提出了一种基于哈弗曼树的改进方案hierarchical softmax：在哈弗曼树中，<strong>隐藏层到输出层的softmax不再是一下子完成的，而是沿着哈弗曼树一步一步完成的，相当于将多分类问题转化成了多个二分类问题</strong></p>
-<h3 id="基于Negative-Sampling的Word2vec"><a href="#基于Negative-Sampling的Word2vec" class="headerlink" title="基于Negative Sampling的Word2vec"></a>基于Negative Sampling的Word2vec</h3><p><strong>Hierarchical Softmax的的缺点</strong>：</p>
+<h4 id="参数更新过程"><a href="#参数更新过程" class="headerlink" title="参数更新过程"></a>参数更新过程</h4><h3 id="基于Negative-Sampling的Word2vec"><a href="#基于Negative-Sampling的Word2vec" class="headerlink" title="基于Negative Sampling的Word2vec"></a>基于Negative Sampling的Word2vec</h3><p><strong>Hierarchical Softmax的的缺点</strong>：</p>
 <p>​    对于生僻词需要在哈弗曼树中向下走很久。</p>
-<h4 id="Negative-Sampling算法"><a href="#Negative-Sampling算法" class="headerlink" title="Negative Sampling算法"></a>Negative Sampling算法</h4><p>​    我们有一个训练样本，中心词是w,它周围上下文共有2c个词，记为context(w)。由于这个中心词w,的确和context(w)相关存在，因此它是一个真实的正例。<strong>通过Negative Sampling采样，我们得到neg个</strong>和w不同的中心词wi,i=1,2,..neg，这样context(w)和wi就组成了neg个<strong>并不真实存在的负例</strong>。<strong>利用这一个正例和neg个负例，我们进行二元逻辑回归，得到负采样对应每个词wi对应的模型参数θi，和每个词的词向量</strong>。</p>
+<h4 id="Negative-Sampling算法"><a href="#Negative-Sampling算法" class="headerlink" title="Negative Sampling算法"></a>Negative Sampling算法</h4><p>​    Negative Sampling不再使用(复杂的Huffman树），而是<strong>利用相对简单的随机负采样</strong>，能大幅度提升性能，因此，将其作为Hierarchical softmax的替代方案</p>
+<p>​    <strong>核心思想</strong>：<strong>通过负采样将问题转化为求解一个正例和neg个负例进行二元回归问题</strong>。每次只是通过采样neg个不同的中心词做负例，就可以训练模型</p>
+<p>​    <strong>方法：</strong>我们有一个训练样本，中心词是w,它周围上下文共有2c个词，记为context(w)。由于这个中心词w,的确和context(w)相关存在，因此它是一个真实的正例。<strong>通过Negative Sampling采样，我们得到neg个</strong>和w不同的中心词wi,i=1,2,..neg，这样context(w)和wi就组成了neg个<strong>并不真实存在的负例</strong>。<strong>利用这一个正例和neg个负例，我们进行二元逻辑回归，得到负采样对应每个词wi对应的模型参数θi，和每个词的词向量</strong>。</p>
 <p>​    <strong>本质上是对训练集进行了采样，从而减小了训练集的大小。</strong></p>
-<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p>​    word2vec采样的方法并不复杂，如果词汇表的大小为VV,那么我们就将一段长度为1的线段分成VV份，每份对应词汇表中的一个词。当然每个词对应的线段长度是不一样的，高频词对应的线段长，低频词对应的线段短。</p>
-<p>​    在采样前，我们将这段长度为1的线段划分成M等份，这里M&gt;&gt;V，这样可以保证每个词对应的线段都会划分成对应的小块。而M份中的每一份都会落在某一个词对应的线段上。在采样的时候，我们只需要从M个位置中采样出neg个位置就行，此时采样到的每一个位置对应到的线段所属的词就是我们的负例词。</p>
+<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true" alt=""></p>
+<p><strong>3、 word2vec负采样有什么作用？</strong></p>
+<p>1<strong>.加速了模型计算</strong>，模型每次只需要更新采样的词的权重，不用更新所有的权重</p>
+<p>2.<strong>保证了模型训练的效果</strong>，中心词其实只跟它周围的词有关系，位置离着很远的词没有关系</p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p><strong>1.skip gram和cbow各自的优缺点</strong></p>
+<blockquote>
+<p>​    <strong>(1) cbow的速度更快，时间复杂度为O(V)，skip-gram速度慢,时间复杂度为O(nV)</strong></p>
+<p>​    在cbow方法中，是用周围词预测中心词，从而利用中心词的预测结果情况，使用GradientDesent方法，不断的去调整周围词的向量。cbow预测行为的次数跟整个文本的词数几乎是相等的（每次预测行为才会进行一次backpropgation, 而往往这也是最耗时的部分），复杂度大概是O(V);</p>
+<p>​    而skip-gram是用中心词来预测周围的词。在skip-gram中，会利用周围的词的预测结果情况，使用GradientDecent来不断的调整中心词的词向量，最终所有的文本遍历完毕之后，也就得到了文本所有词的词向量。可以看出，skip-gram进行预测的次数是要多于cbow的：因为<strong>每个词在作为中心词时，都要使用周围每个词进行预测一次</strong>。<strong>这样相当于比cbow的方法多进行了K次（假设K为窗口大小）</strong>，因此时间的复杂度为O(KV)，训练时间要比cbow要长。</p>
+<p>​    <strong>(2)当数据较少或生僻词较多时，skip-gram会更加准确；</strong></p>
+<p>​    在<strong>skip-gram当中，每个词都要收到周围的词的影响</strong>，每个词在作为中心词的时候，都要进行K次的预测、调整。因此， 当数据量较少，或者词为生僻词出现次数较少时， 这种多次的调整会使得词向量相对的更加准确。因为<strong>尽管cbow从另外一个角度来说，某个词也是会受到多次周围词的影响（多次将其包含在内的窗口移动），进行词向量的跳帧，但是他的调整是跟周围的词一起调整的，grad的值会平均分到该词上， 相当于该生僻词没有收到专门的训练，它只是沾了周围词的光而已</strong>。</p>
+</blockquote>
+<p><strong>2.Negative Sampling和Hierarchical softmax各自的优缺点</strong></p>
+<blockquote>
+<p><strong>Hierarchical softmax</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.由于是二叉树，之前计算量为V,现在变成了log2V，<strong>效率更高</strong></p>
+<p>​    2.由于使用霍夫曼树是高频的词靠近树根，这样<strong>高频词需要更少的时间会被找到</strong>。</p>
+<p><strong>缺点:</strong></p>
+<p>​    对于<strong>生僻词在hierarchical softmax中依旧需要向下走很久</strong></p>
+<p><strong>Negative Sampling</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.对于低频词的计算效率依然很高</p>
+</blockquote>
+<p>​        </p>
+<p><strong>3.word2vec的缺点</strong></p>
+<blockquote>
+<p>1.使用的只是局部的上下文信息，对上下文的利用有限</p>
+<p>2.和glove相比比较难并行化</p>
+</blockquote>
+<p>​    </p>
+<p><strong>4、word2vec和fastText对比有什么区别？（word2vec vs fastText）</strong></p>
+<blockquote>
+<p>1）都可以无监督学习词向量， <strong>fastText训练词向量时会考虑subword</strong>；</p>
+<p>2）fastText还可以进行有监督学习进行文本分类，其主要特点：</p>
+<ul>
+<li>结构与CBOW类似，但学习目标是人工标注的分类结果；</li>
+<li>采用hierarchical softmax对输出的分类标签建立哈夫曼树，样本中标签多的类别被分配短的搜寻路径；</li>
+<li>引入N-gram，考虑词序特征；</li>
+<li>引入subword来处理长词，处理未登陆词问题；</li>
+</ul>
+</blockquote>
 <p>参考文献：<a href="https://www.cnblogs.com/pinard/p/7249903.html" target="_blank" rel="noopener">基于Negative Sampling的模型</a></p>
 <p><a href="https://www.cnblogs.com/pinard/p/7243513.html" target="_blank" rel="noopener"> 基于Hierarchical Softmax的模型</a></p>
 
@@ -525,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">77</span>
+                  <span class="site-state-item-count">81</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -547,7 +595,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -580,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#哈弗曼树"><span class="nav-number">1.</span> <span class="nav-text">哈弗曼树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于哈弗曼树的Word2vec"><span class="nav-number"></span> <span class="nav-text">基于哈弗曼树的Word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法过程"><span class="nav-number">1.</span> <span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#训练方式"><span class="nav-number">2.</span> <span class="nav-text">训练方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于Negative-Sampling的Word2vec"><span class="nav-number"></span> <span class="nav-text">基于Negative Sampling的Word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Negative-Sampling算法"><span class="nav-number">1.</span> <span class="nav-text">Negative Sampling算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Negative-Sampling负采样方法"><span class="nav-number">2.</span> <span class="nav-text">Negative Sampling负采样方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Word2Vec对原始语言模型的改进："><span class="nav-number">1.</span> <span class="nav-text">Word2Vec对原始语言模型的改进：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchical-Softmax"><span class="nav-number"></span> <span class="nav-text">Hierarchical Softmax</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Hierarchical-Softmax的好处"><span class="nav-number">1.</span> <span class="nav-text">使用Hierarchical Softmax的好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法过程"><span class="nav-number">2.</span> <span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数更新过程"><span class="nav-number">3.</span> <span class="nav-text">参数更新过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于Negative-Sampling的Word2vec"><span class="nav-number"></span> <span class="nav-text">基于Negative Sampling的Word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Negative-Sampling算法"><span class="nav-number">1.</span> <span class="nav-text">Negative Sampling算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Negative-Sampling负采样方法"><span class="nav-number">2.</span> <span class="nav-text">Negative Sampling负采样方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题"><span class="nav-number"></span> <span class="nav-text">常见问题</span></a></div>
             
 
           </div>
