@@ -1978,6 +1978,10 @@
 <h4 id="1-求隐藏状态链问题"><a href="#1-求隐藏状态链问题" class="headerlink" title="1.求隐藏状态链问题"></a>1.求隐藏状态链问题</h4><p>​    该问题是在：已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链(<strong>也就是最大概率的转移序列</strong>)</p>
 <p>​    <strong>应用场景</strong>：语音识别解码问题</p>
 <p>​        <strong>方法</strong>：<strong>Viterbi algorithm</strong></p>
+<p>​    <strong>时间复杂度：O（m*n^2）</strong></p>
+<blockquote>
+<p>m为时间序列的长度，n为每个时间点可能对应的状态数</p>
+</blockquote>
 <p>​    举例来说，我知道我有三个骰子，六面骰，四面骰，八面骰。我也知道我掷了十次的结果（1 6 3 5 2 7 3 5 2 4），我不知道每次用了那种骰子，我想知道最有可能的骰子序列。</p>
 <p>​      首先，如果我们只掷一次骰子：看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8. </p>
 <p>​      把这个情况拓展，我们掷两次骰子：结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是<br><img src="http://zhihu.com/equation?tex=P2%28D6%29%3DP%28D4%29%2AP%28D4%5Crightarrow+1%29%2AP%28D4%5Crightarrow+D6%29%2AP%28D6%5Crightarrow+6%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B6%7D" alt="img"> </p>
@@ -1989,11 +1993,11 @@
 <p>​    <strong>应用场景</strong>：检测观察到的结果与我们已知的模型是否吻合，即<strong>异常检测</strong></p>
 <p>​    <strong>方法</strong>:<strong>前向算法（forward algorithm）</strong></p>
 <p>​    <strong>要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算（即在当前的HMM下可能出啊先找个状态链的概率）</strong>。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。<br>​      我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做<strong>前向算法（forward algorithm）</strong>。<br>​    首先，如果我们只掷一次骰子，看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18：</p>
-<p><img src="../../imgs/hmm_2.png" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm_2.png?raw=true" alt=""></p>
 <p>​    把这个情况拓展，我们掷两次骰子，看到结果为1，6，总概率为0.05：</p>
-<p><img src="../../imgs/hmm_3.png" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm_3.png?raw=true" alt=""></p>
 <p>​    继续拓展，我们掷三次骰子，看到结果为1，6，3，计算总概率为0.03：</p>
-<p><img src="../../imgs/hmm_5.png" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm_5.png?raw=true" alt=""></p>
 <p>​    同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。</p>
 <h4 id="3-求状态转移矩阵和发射概率（训练过程）"><a href="#3-求状态转移矩阵和发射概率（训练过程）" class="headerlink" title="3.    求状态转移矩阵和发射概率（训练过程）"></a>3.    求状态转移矩阵和发射概率（训练过程）</h4><p>​    该问题是在：    <strong>已知隐含状态数量、可以观察到多个可见状态链</strong></p>
 <p>​    <strong>应用场景</strong>：有大量该问题的已知观测序列，想<strong>训练</strong>一个HMM模型</p>
