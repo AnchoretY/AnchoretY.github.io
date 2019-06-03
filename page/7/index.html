@@ -1921,7 +1921,29 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/NLP/机器学习/" itemprop="url" rel="index">
                     <span itemprop="name">机器学习</span>
                   </a>
                 </span>
@@ -2002,18 +2024,30 @@
 <h4 id="3-求状态转移矩阵和发射概率（训练过程）"><a href="#3-求状态转移矩阵和发射概率（训练过程）" class="headerlink" title="3.    求状态转移矩阵和发射概率（训练过程）"></a>3.    求状态转移矩阵和发射概率（训练过程）</h4><p>​    该问题是在：    <strong>已知隐含状态数量、可以观察到多个可见状态链</strong></p>
 <p>​    <strong>应用场景</strong>：有大量该问题的已知观测序列，想<strong>训练</strong>一个HMM模型</p>
 <p>​    <strong>方法：Baum-Welch算法</strong></p>
-<h2 id="HMM在webshell检测中的应用"><a href="#HMM在webshell检测中的应用" class="headerlink" title="HMM在webshell检测中的应用"></a>HMM在webshell检测中的应用</h2><p>缺陷：</p>
-<ol>
-<li><p>由于HMM的训练和预测的时间复杂度都是O(n^2)，因此在数据量特别大的时候速度非常慢</p>
-</li>
-<li><p>HMM并没有spark版本，无法直接部署到spark集群上（这点是个大坑！）</p>
-<ol start="3">
-<li>HMM在在webshell检测中比较局限，只能部署在生成文件名绝大部分都有固定模式的网站上来进行检测，对于各个页面随意进行命名的网站并没有检测效果</li>
-</ol>
-</li>
-</ol>
-<h2 id="使用RNN来代替HMM"><a href="#使用RNN来代替HMM" class="headerlink" title="使用RNN来代替HMM"></a>使用RNN来代替HMM</h2><p>​    在数据量很大时，我们可以使用RNN来代替HMM，RNN在实现过程中<strong>可以采用并行的方式来进行梯度下降</strong>，大大加快了整体的速度。</p>
-<p>​    而且大部分时候使用RNN的效果都会优于HMM，详细见下篇：</p>
+<h3 id="面试常见问题"><a href="#面试常见问题" class="headerlink" title="面试常见问题"></a>面试常见问题</h3><p>1<strong>.HMM的两个不合理假设</strong></p>
+<blockquote>
+<p>1.当前时刻的状态只与上一时刻的状态有关</p>
+<p>2.当前表现只与当前状态有关</p>
+</blockquote>
+<p>2.MEMM（最大熵马尔科夫模型）对HMM做了哪些改进还存在哪些问题？</p>
+<blockquote>
+<p>虽然MEMM解决了HMM输出独立性假设的问题，但是只解决了观察值独立的问题，状态之间的假设则是标注偏置问题产生的根源，CRF则解决了标注偏置问题，是HMM模型的进一步优化。</p>
+<p>缺陷：标注偏置问题</p>
+</blockquote>
+<p>HMM：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm表示图.png?raw=true" alt=""></p>
+<p>MEMM</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/MEMM表示图.png?raw=true" alt=""></p>
+<p><strong>2.CRF和HMM和MEMM的不同点</strong></p>
+<blockquote>
+<p>整体来说就是解决了MEMM的标注偏置的问题、去除了HMM中两个不合理的假设</p>
+<p><strong>1.HMM是生成式模型，CRF是一种判别式模型</strong>。HMM对状态矩阵和发射矩阵进行直接建模，统计共同出现的概率，因此是一种生成式模型；</p>
+<p><strong>2.HMM是有向图模型，CRF是无向图模型。</strong></p>
+<p><strong>3.CRF是全局最优解，结局了MEMM的标注偏置问题。</strong>MEMM是对转移概率和表现概率建立联合概率，统计时统计的是条件概率，由于其只在局部做归一化，所以容易陷入局部最优。</p>
+<p>​    CRF是在全局范围内统计归一化的概率，而不像是MEMM在局部统计归一化概率。是全局最优的解。解决了MEMM中标注偏置的问题。</p>
+<p>4.但是CRF的训练代价大，是复杂度高</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CRF表示图.png?raw=true" alt=""></p>
 
           
         
@@ -2110,7 +2144,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
