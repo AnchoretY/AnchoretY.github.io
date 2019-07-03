@@ -297,6 +297,1164 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/30/机器学习——XGBoost/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/30/机器学习——XGBoost/" itemprop="url">机器学习——XGBoost</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-30T10:26:07+08:00">
+                2019-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="XGB的优势"><a href="#XGB的优势" class="headerlink" title="XGB的优势"></a>XGB的优势</h3><p>​    <strong>1. XGBoost加入了正则化项，正则化项中包含了叶子节点个数，使学到的模型更加简单。原始的GBDT没有，可以有效防止过拟合</strong></p>
+<p>​    <strong>2. XGBoost实现了局部并行计算，比原始的GBDT速度快的多</strong></p>
+<p>​    <strong>3. XGBoost中内置了缺失值的处理</strong>，尝试对缺失值进行分类，然后学习这种分类</p>
+<p>​    <strong>4. 可在线学习，这个sklearn中的GBDT也有</strong></p>
+<p>​    <strong>5. XGboost允许在交叉验证的过程中实现boosting，通过一次run就能得到boosting迭代的优化量；而GBDT只能人工的使用grid-search</strong></p>
+<p>​    <strong>6.支持列抽样。不仅能有效防止过拟合，还能减少计算量</strong></p>
+<h3 id="XGBoost的并行计算是如何实现的？"><a href="#XGBoost的并行计算是如何实现的？" class="headerlink" title="XGBoost的并行计算是如何实现的？"></a>XGBoost的并行计算是如何实现的？</h3><blockquote>
+<p>​    注意<strong>xgboost的并行不是tree粒度的并行</strong>，xgboost也是一次迭代完成才能进行下一次迭代的（第t次迭代的代价函数里面包含了前面t-1次迭代的预测值）。<strong>xgboost的并行是在特征粒度上的</strong>。我们知道，<strong>决策树的学习最耗时的一个步骤就是对特征的值进行排序（因为要确定最佳分割点）</strong>，<strong>xgboost在训练之前，预先对数据进行排序，然后保存block结构，后面的迭代中重复的使用这个结构，大大减小计算</strong>量。这个block结构也使得并行称为了可能，<strong>在进行节点的分裂时，需要计算每个特征的增益，最终选增益最大的那个特征去做分裂，那么各个特征的增益计算就可以开多线程进行。</strong></p>
+</blockquote>
+<h3 id="XGBoost的参数"><a href="#XGBoost的参数" class="headerlink" title="XGBoost的参数"></a>XGBoost的参数</h3><p>​    XGBoost的参数主要分为三大类：</p>
+<blockquote>
+<p>1.调控整个方程的参数</p>
+<p>2.调控每步树的参数</p>
+<p>3.调控优化表现的变量</p>
+</blockquote>
+<h5 id="1-调控整个方程的参数"><a href="#1-调控整个方程的参数" class="headerlink" title="1.调控整个方程的参数"></a>1.调控整个方程的参数</h5><ul>
+<li><strong>booster [defalut=gbtree]</strong>  基模型<ul>
+<li>gbtree：树模型</li>
+<li>gblinear：线性模型</li>
+</ul>
+</li>
+<li><strong>nthread</strong> [default to maximum number of threads available if not set] 使用的线程数<ul>
+<li>用于并行计算，默认使用全部内核</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-调节基分类器的参数"><a href="#2-调节基分类器的参数" class="headerlink" title="2.调节基分类器的参数"></a>2.调节基分类器的参数</h5><p>​    这里只讨论树模型作为基模型的情况，因为树模型作为基分类器效果总是优于线性模型。</p>
+<ul>
+<li><p><strong>eta/learning rate [default=0.3]</strong>  学习的初始速率</p>
+<ul>
+<li>通过减小每一步的权重能够使建立的模型更加具有鲁棒性</li>
+<li>通常最终的数值范围在[0.01-0.2]之间</li>
+</ul>
+<blockquote>
+<p>Shrinkage（缩减），相当于学习速率。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了消弱每棵树的影响，让后面有更大的学习空间。在实际应用中，一般把学习率设置的小一点，然后迭代次数设置的大一点（补充：传统GBDT的实现也有学习速率）</p>
+</blockquote>
+</li>
+<li><p><strong>gamma [default=0]</strong></p>
+<ul>
+<li>一个节点分裂的条件是其分裂能够起到降低loss function的作用，<strong>gamma 定义loss function降低多少才分裂</strong></li>
+<li>它的值取决于 loss function需要被调节</li>
+</ul>
+</li>
+<li><p><strong>lambda/reg_lambda  [default=1]</strong></p>
+<ul>
+<li>L2正则化的权重，用于防止过拟合</li>
+</ul>
+</li>
+<li><p><strong>alpha/reg_alpha  [default=0]</strong> </p>
+<ul>
+<li>L1正则化的权重，可以用于特征选择</li>
+<li>一般用于特征特别多的时候，可以大大提升算法的运算效率</li>
+</ul>
+</li>
+<li><p><strong>subsample [default=1]</strong></p>
+<ul>
+<li>每棵树使用的样本比例 [0.5~1]</li>
+<li>低值使得模型更保守且能防止过拟合，但太低的值会导致欠拟合</li>
+</ul>
+</li>
+<li><strong>colsample_bytree [default=1] </strong><ul>
+<li>每棵树随机选取的特征的比例 [0.5-1]</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-调控优化表现的参数"><a href="#3-调控优化表现的参数" class="headerlink" title="3.调控优化表现的参数"></a>3.调控优化表现的参数</h5><ul>
+<li><strong>objective [default=reg:linear]</strong> </li>
+<li><strong>eval_metric</strong></li>
+<li><strong>seed</strong></li>
+</ul>
+<h3 id="调参"><a href="#调参" class="headerlink" title="调参"></a>调参</h3><p><strong>调参开始时一般使用较大的学习速率 0.1</strong></p>
+<h5 id="1-初始参数设置"><a href="#1-初始参数设置" class="headerlink" title="1.初始参数设置"></a>1.初始参数设置</h5><blockquote>
+<p>max_depth = 5</p>
+<p>min_child_weight = 1    #如果是不平衡数据，初始值设置最好小于1</p>
+</blockquote>
+<h5 id="2-首先调节的参数-max-depth和min-child-weight"><a href="#2-首先调节的参数-max-depth和min-child-weight" class="headerlink" title="2.首先调节的参数 max_depth和min_child_weight"></a>2.首先调节的参数 max_depth和min_child_weight</h5><p>​    在整个GBDT中，对整个模型效果影响最大的参数就是max_depth和min_child_weight。</p>
+<blockquote>
+<p>max_depth 一般在3~10先用step为2进行网格搜索找到范围，找到范围再用step为1的网格搜索确定具体值</p>
+<p>min_child_weight  一般现在1~6先使用step为2的网格搜索找到最佳参数值范围，然后再用step为1的网格索索确定具体参数值</p>
+</blockquote>
+<h5 id="3-调整gamma"><a href="#3-调整gamma" class="headerlink" title="3. 调整gamma"></a>3. 调整gamma</h5><blockquote>
+<p>gamma参数主要用于控制节点是否继续分裂，一般使用网格搜索在0~0.5之间进行步长为0.1的搜索</p>
+</blockquote>
+<h5 id="4-调整subsample和colsample-bytree"><a href="#4-调整subsample和colsample-bytree" class="headerlink" title="4.调整subsample和colsample_bytree"></a>4.调整subsample和colsample_bytree</h5><blockquote>
+<p>这两个参数主要是用来防止拟合的，参数值越小越能防止过拟合 一般0.6~1之间网格搜索</p>
+</blockquote>
+<h5 id="5-尝试降低学习速率增加更多的树"><a href="#5-尝试降低学习速率增加更多的树" class="headerlink" title="5.尝试降低学习速率增加更多的树"></a>5.尝试降低学习速率增加更多的树</h5><blockquote>
+<p>学习速率降为0.1或0.01</p>
+</blockquote>
+<p><strong>结论：1.仅仅通过调参来提升模型效果是很难的</strong></p>
+<p>​    <strong>2.要想提升模型效果最主要是通过特征工程、模型融合等方式</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/深度学习-BN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/28/深度学习-BN/" itemprop="url">深度学习-BN</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T16:11:20+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="为什么要进行归一化？"><a href="#为什么要进行归一化？" class="headerlink" title="为什么要进行归一化？"></a>为什么要进行归一化？</h5><blockquote>
+<p>​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的<strong>泛化能力也将大大降低</strong>；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这<strong>将大大降低网络的学习速度</strong>。</p>
+</blockquote>
+<h5 id="为什么要使用BN？"><a href="#为什么要使用BN？" class="headerlink" title="为什么要使用BN？"></a>为什么要使用BN？</h5><blockquote>
+<p>​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中并没有对数据做任何处理，而在神经网络的的训练过程中只要网络的前面几层的数据分布发生微小的变化，那么后面的网络就会不断积累放大这个分布的变化，因此一旦有任意一层的数据发生改变，这层以及后面的网络都会需要去从新适应学习这个新的数据分布，而如果训练过程中，每一层的数据都在不断发生变化，那么更将大大影响网络的训练速度，因此需要在网络的每一层输入之前都将数据进行一次归一化，保证数据分布的相同，<strong>加快网络训练速度</strong>。</p>
+<p>​    在另一方面，由于将网络的每一步都进行了标准化，数据分布一致，因此模型的泛化能力将更强。</p>
+</blockquote>
+<h5 id="BN的本质是什么？"><a href="#BN的本质是什么？" class="headerlink" title="BN的本质是什么？"></a>BN的本质是什么？</h5><blockquote>
+<p>一个<strong>可学习</strong>、<strong>有参数（γ、β）</strong>的使每层数据之前进行归一化的网络层</p>
+</blockquote>
+<h5 id="BN使用位置"><a href="#BN使用位置" class="headerlink" title="BN使用位置"></a>BN使用位置</h5><blockquote>
+<p>线性层后全连接层之前</p>
+</blockquote>
+<h5 id="BN过程"><a href="#BN过程" class="headerlink" title="BN过程"></a>BN过程</h5><blockquote>
+<p>对于一般的归一化没使用下面的公式进行归一化计算：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p><strong>但是如果仅仅使用上面的公式来对某层的输出做下一层的输入做归一化，那么是会影响到前面一层学习到的特征的。</strong>例如：网络中间某一层学习到特征数据本身就分布在S型激活函数的两侧，强制把它归一化处理、标准差也限制在了1，把数据变换成分布于s函数的中间部分，这样就相当于我这一层网络所学习到的特征分布被搞坏了。因此，<strong>BN引入了可学习的参数γ、β</strong>：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/BN%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    上面的公式表明，<strong>通过学习到的重构参数γ、β，是可以恢复出原始的某一层所学到的特征的。</strong></p>
+</blockquote>
+<h5 id="BN中为什么要在后面γ、β？不加可以吗？"><a href="#BN中为什么要在后面γ、β？不加可以吗？" class="headerlink" title="BN中为什么要在后面γ、β？不加可以吗？"></a>BN中为什么要在后面γ、β？不加可以吗？</h5><blockquote>
+<p>​    不可以，因为这是BN中的最关键步骤。不使用γ、β会造成归一化的同时破坏前一层提取到的特征，而BN通过记录每个神经元上的γ、β，使前一层的特征可以通过γ、β得以还原。</p>
+</blockquote>
+<h5 id="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"><a href="#BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？" class="headerlink" title="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"></a>BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？</h5><blockquote>
+<p>​    对于CNN上采用了类似权值共享的策略，<strong>将一个特征图看做一个神经元</strong>，因此参数个数并不会很多。</p>
+<p>例如：如果min-batch sizes为m，那么网络某一层输入数据可以表示为四维矩阵(m,f,w,h)，m为min-batch sizes，f为特征图个数，w、h分别为特征图的宽高。在CNN中我们可以把每个特征图看成是一个特征处理（一个神经元），因此在使用Batch Normalization，mini-batch size 的大小就是：m.w.h，于是对于每个特征图都只有一对可学习参数：γ、β，总参数个数也就是2m个。</p>
+</blockquote>
+<h5 id="BN的作用"><a href="#BN的作用" class="headerlink" title="BN的作用"></a>BN的作用</h5><blockquote>
+<p>1.防止过拟合。有了BN，dropout和正则化的需求下降了</p>
+<p>2.加速训练</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/机试——二叉树遍历/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/19/机试——二叉树遍历/" itemprop="url">机试——二叉树遍历</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T23:02:04+08:00">
+                2019-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    二叉树最常用的遍历算法主要分为下面几种：</p>
+<p>​    <strong>1.先序遍历</strong></p>
+<p>​    <strong>2.中序遍历</strong></p>
+<p>​    <strong>3.后序遍历</strong></p>
+<p>​    <strong>4.层次遍历</strong></p>
+<p>​    下面我们将针对这些遍历算法的递归与非递归实现分别给出代码实现以及特点。</p>
+<blockquote>
+<p>这里有一点我们需要注意:</p>
+<p>​    无论是前序、中序、后续，都是指根节点访问的顺序，<strong>而左右节点的相对访问顺序永远是相同的，即先访问做节点，后访问右节点。</strong></p>
+</blockquote>
+<h3 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h3><p>​    先序遍历指在二叉树遍历过程中首先输出根节点，然后再分别输出左右节点的遍历方式。</p>
+<p>#####递归实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(result,root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            result.append(root.val)</span><br><span class="line">            core(result,root.left)</span><br><span class="line">            core(result,root.right)</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        core(result,root)</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h5 id="非递归实现"><a href="#非递归实现" class="headerlink" title="非递归实现"></a>非递归实现</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        stack = [root]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            node = stack.pop()</span><br><span class="line">            res.append(node.val)</span><br><span class="line">            <span class="comment">#注意这里的顺序一定是先右后左，和一般的相反</span></span><br><span class="line">            <span class="keyword">if</span> node.right!=<span class="keyword">None</span>:</span><br><span class="line">                stack.append(node.right)</span><br><span class="line">            <span class="keyword">if</span> node.left!=<span class="keyword">None</span>:</span><br><span class="line">                stack.append(node.left)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><p>​    二叉树的中序遍历是指现先遍历左节点，中间遍历根节点，最后在遍历右节点的便利方式。</p>
+<h4 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Core</span><span class="params">(root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> []</span><br><span class="line">            </span><br><span class="line">            Core(root.left)</span><br><span class="line">            result.append(root.val)</span><br><span class="line">            Core(root.right)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        Core(root)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h4 id="非递归实现-1"><a href="#非递归实现-1" class="headerlink" title="非递归实现"></a>非递归实现</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        stack = []</span><br><span class="line">        result = []</span><br><span class="line">        </span><br><span class="line">        pos = root</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> pos:</span><br><span class="line">            <span class="keyword">if</span> pos:</span><br><span class="line">                stack.append(pos)</span><br><span class="line">                pos = pos.left</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pos = stack.pop()</span><br><span class="line">                result.append(pos.val)</span><br><span class="line">                pos = pos.right</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h3 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h3><h3 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h3><h4 id="非递归实现-2"><a href="#非递归实现-2" class="headerlink" title="非递归实现"></a>非递归实现</h4><p>​    利用<strong>队列</strong>先进先出的特点，依次将结点的左、右孩子入队，然后依次出队访问，以此为循环。当有些题目中要求按照层输出时，需要根据每层的节点个数做一个计数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">levelOrder</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        queue = [root]</span><br><span class="line">        result = []</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            tmp = []</span><br><span class="line">            number_flag = len(queue)   <span class="comment">#层节点个数计数器</span></span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> i&lt;number_flag:</span><br><span class="line">                node = queue.pop(<span class="number">0</span>)</span><br><span class="line">                tmp.append(node.val)</span><br><span class="line">                <span class="keyword">if</span> node.left:</span><br><span class="line">                    queue.append(node.left)</span><br><span class="line">                <span class="keyword">if</span> node.right:</span><br><span class="line">                    queue.append(node.right)</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            result.append(tmp)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h3 id="根据两个序列复原二叉树"><a href="#根据两个序列复原二叉树" class="headerlink" title="根据两个序列复原二叉树"></a>根据两个序列复原二叉树</h3><p>​    这种题目其实只有两个，核心是找出先根据一个序列找出根节点，然后在根据另一个序列找出其左右子树的元素，然后不断的递归这个过程即可。</p>
+<h5 id="已知前序遍历中序遍历"><a href="#已知前序遍历中序遍历" class="headerlink" title="已知前序遍历中序遍历"></a>已知前序遍历中序遍历</h5><p>​    在<strong>已知前序遍历的题目中，就以前序遍历为基础，去不断地区分剩下的数据应该在左子树还是右子树即可</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buildTree</span><span class="params">(self, preorder: List[int], inorder: List[int])</span> -&gt; TreeNode:</span></span><br><span class="line">				<span class="string">"""</span></span><br><span class="line"><span class="string">					先将前序遍历的第一个节点作为根节点，然后在后序遍历中找到其对应的位置，左右分别做相同的操作</span></span><br><span class="line"><span class="string">				"""</span></span><br><span class="line">        len_pre = len(preorder)</span><br><span class="line">        len_in = len(inorder)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> len_pre==<span class="number">0</span> <span class="keyword">or</span> len_in==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        tree_root = TreeNode(preorder[<span class="number">0</span>])</span><br><span class="line">        preorder = preorder[<span class="number">1</span>:]</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        left_len = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> inorder:</span><br><span class="line">            <span class="keyword">if</span> i==tree_root.val:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">        inorder.remove(tree_root.val)</span><br><span class="line">        <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.left =  self.buildTree(preorder[:left_len],inorder[:left_len])</span><br><span class="line">        <span class="keyword">if</span> len(preorder)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.right = self.buildTree(preorder[left_len:],inorder[left_len:])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
+<h5 id="已知前序遍历和后序遍历"><a href="#已知前序遍历和后序遍历" class="headerlink" title="已知前序遍历和后序遍历"></a>已知前序遍历和后序遍历</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">constructFromPrePost</span><span class="params">(self, pre, post)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type pre: List[int]</span></span><br><span class="line"><span class="string">        :type post: List[int]</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            前序遍历的第一个节点必定是根节点，随后的节点就是其左子树的根节点，然后再在</span></span><br><span class="line"><span class="string">        后序遍历中找到这个节点的位置就可以确定左子树中有哪些节点，右子树中有哪些节点</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        tree_root = TreeNode(pre[<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        pre = pre[<span class="number">1</span>:]</span><br><span class="line">        post = post[:<span class="number">-1</span>]</span><br><span class="line">        left_len = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> post:</span><br><span class="line">            <span class="keyword">if</span> i==pre[<span class="number">0</span>]:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.left = self.constructFromPrePost(pre[:left_len],post[:left_len])</span><br><span class="line">        <span class="keyword">if</span> len(post)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.right = self.constructFromPrePost(pre[left_len:],post[left_len:])</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
+<h5 id="已知中序后序遍历构造二叉树"><a href="#已知中序后序遍历构造二叉树" class="headerlink" title="已知中序后序遍历构造二叉树"></a>已知中序后序遍历构造二叉树</h5><pre><code>没有前序遍历时，使用后序遍历定根节点     
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buildTree</span><span class="params">(self, inorder: List[int], postorder: List[int])</span> -&gt; TreeNode:</span>  </span><br><span class="line">	len_in = len(inorder)</span><br><span class="line">  len_post = len(postorder)</span><br><span class="line">  <span class="keyword">if</span> len_in==<span class="number">0</span> <span class="keyword">or</span> len_in!=len_post:</span><br><span class="line">      <span class="keyword">return</span>  <span class="keyword">None</span></span><br><span class="line">  </span><br><span class="line">  tree_root = TreeNode(postorder[<span class="number">-1</span>])</span><br><span class="line">  postorder = postorder[:<span class="number">-1</span>]</span><br><span class="line">  left_len = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> inorder:</span><br><span class="line">      <span class="keyword">if</span> i==tree_root.val:</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">          left_len += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  inorder.remove(tree_root.val)</span><br><span class="line">  <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">      tree_root.left = self.buildTree(inorder[:left_len],postorder[:left_len])</span><br><span class="line">  <span class="keyword">if</span> len(postorder)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">      tree_root.right = self.buildTree(inorder[left_len:],postorder[left_len:])</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
+<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><p>​    </p>
+<blockquote>
+<p>二叉搜索树的性质:</p>
+<p>​    1.中序遍历的结果有序</p>
+<p>​    2.左子树上的节点都比根节点小，右子树都比根节点大</p>
+</blockquote>
+<h5 id="修剪二叉搜索树"><a href="#修剪二叉搜索树" class="headerlink" title="修剪二叉搜索树"></a>修剪二叉搜索树</h5><p>​    给定一个二叉搜索树，同时给定最小边界<code>L</code> 和最大边界 <code>R</code>。通过修剪二叉搜索树，使得所有节点的值在<code>[L, R]</code>中 (R&gt;=L) 。你可能需要改变树的根节点，所以结果应当返回修剪好的二叉搜索树的新的根节点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trimBST</span><span class="params">(self, root, L, R)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :type L: int</span></span><br><span class="line"><span class="string">        :type R: int</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> root.val&lt;L:</span><br><span class="line">            <span class="keyword">return</span> self.trimBST(root.right,L,R)</span><br><span class="line">        <span class="keyword">elif</span> root.val&gt;R:</span><br><span class="line">            <span class="keyword">return</span> self.trimBST(root.left,L,R)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            root.left = self.trimBST(root.left,L,R)</span><br><span class="line">            root.right = self.trimBST(root.right,L,R)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
+<h5 id="把二叉搜索树转化为累加树"><a href="#把二叉搜索树转化为累加树" class="headerlink" title="把二叉搜索树转化为累加树"></a>把二叉搜索树转化为累加树</h5><p>给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree)，使得每个节点的值是原来的节点值加上所有大于它的节点值之和。</p>
+<p><strong>例如：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入: 二叉搜索树:</span><br><span class="line">              5</span><br><span class="line">            /   \</span><br><span class="line">           2     13</span><br><span class="line"></span><br><span class="line">输出: 转换为累加树:</span><br><span class="line">             18</span><br><span class="line">            /   \</span><br><span class="line">          20     13</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertBST</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        root_ref = root</span><br><span class="line">        stack = []</span><br><span class="line">        prev = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> root:</span><br><span class="line">            <span class="keyword">while</span> root:</span><br><span class="line">                stack.append(root)</span><br><span class="line">                root = root.right</span><br><span class="line">            root = stack.pop()</span><br><span class="line">            root.val += prev</span><br><span class="line">            prev = root.val</span><br><span class="line">            root = root.left</span><br><span class="line">        <span class="keyword">return</span> root_ref</span><br></pre></td></tr></table></figure>
+<h5 id="验证搜索二叉树"><a href="#验证搜索二叉树" class="headerlink" title="验证搜索二叉树"></a>验证搜索二叉树</h5><p>给定一个二叉树，判断其是否是一个有效的二叉搜索树。</p>
+<p>假设一个二叉搜索树具有如下特征：</p>
+<ul>
+<li>节点的左子树只包含<strong>小于</strong>当前节点的数。</li>
+<li>节点的右子树只包含<strong>大于</strong>当前节点的数。</li>
+<li>所有左子树和右子树自身必须也是二叉搜索树。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法一：用搜索二叉树的性质<span class="number">1</span>，中序遍历一定有序，那么我们只需要在中序遍历中保证后添加的数比前面添加的最后一个数的即可，出现不符合这一规律的直接返回<span class="keyword">False</span></span><br><span class="line">	注：这里需要特别注意，二叉搜索数中不能出现两个一样的值，因此不能直接输出中序序列和排序号好的序列对比</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isValidBST</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        stack  = []</span><br><span class="line">        pos = root</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> pos:</span><br><span class="line">            <span class="keyword">while</span> pos:</span><br><span class="line">                stack.append(pos)</span><br><span class="line">                pos = pos.left</span><br><span class="line">            </span><br><span class="line">            pos = stack.pop()</span><br><span class="line">            <span class="keyword">if</span> result!=[]:</span><br><span class="line">                <span class="keyword">if</span> result[<span class="number">-1</span>]&lt;pos.val:</span><br><span class="line">                    result.append(pos.val)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                result.append(pos.val)</span><br><span class="line">            pos = pos.right</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/机试——回文子串相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/12/机试——回文子串相关/" itemprop="url">机试-回文子串相关</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T21:27:59+08:00">
+                2019-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="回文子串"><a href="#回文子串" class="headerlink" title="回文子串"></a>回文子串</h4><blockquote>
+<p>例：给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。</p>
+<p>具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被计为是不同的子串。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countSubstrings</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        length = len(s) </span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,length+<span class="number">1</span>): <span class="comment">#这里注意循环的范围为range(i+1,length+1)    </span></span><br><span class="line">                <span class="keyword">if</span> s[i:j]==s[i:j][::<span class="number">-1</span>]:</span><br><span class="line">                    result += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h4 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h4><p>​    最长回文子串也是回文串中常见的一中题目，下面是例题</p>
+<blockquote>
+<p>例：给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
+</blockquote>
+<blockquote>
+<p>思路一：Manacher算法</p>
+<p>​    首先先将字符串首尾以及字符和字符之间采用”#“进行补齐，补齐后的字符串总长度2n+1(n为原始字符串长度)。然后从第一个非#字符</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_length</span><span class="params">(string, index)</span>:</span></span><br><span class="line">            <span class="comment"># 循环求出index为中心的最长回文字串</span></span><br><span class="line">            length = <span class="number">0</span></span><br><span class="line">            seq = <span class="string">""</span></span><br><span class="line">            <span class="keyword">if</span> string[index]!=<span class="string">"#"</span>:</span><br><span class="line">                seq = string[index]</span><br><span class="line">                length = <span class="number">1</span></span><br><span class="line">            string_len = len(string)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,index+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> index+i&lt;string_len <span class="keyword">and</span> string[index-i]==string[index+i]:</span><br><span class="line">                    <span class="comment"># print(string[index-i],seq+string[index+i])</span></span><br><span class="line">                    <span class="keyword">if</span> string[index-i]!=<span class="string">"#"</span>:</span><br><span class="line">                        length +=<span class="number">2</span></span><br><span class="line">                        seq = string[index-i]+seq+string[index+i]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">return</span> length,seq</span><br><span class="line">        </span><br><span class="line">        s_list = [i <span class="keyword">for</span> i <span class="keyword">in</span> s]</span><br><span class="line">        string = <span class="string">"#"</span>+<span class="string">"#"</span>.join(s)+<span class="string">"#"</span></span><br><span class="line">        </span><br><span class="line">        length = len(string)</span><br><span class="line">        max_length = <span class="number">0</span></span><br><span class="line">        max_seq = <span class="string">""</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">0</span>,length):</span><br><span class="line">            <span class="comment"># print("====")</span></span><br><span class="line">            tmp_len,tmp_seq = get_length(string,index)</span><br><span class="line">            <span class="comment"># print(tmp_len,tmp_seq)</span></span><br><span class="line">            <span class="keyword">if</span> tmp_len&gt;max_length:</span><br><span class="line">                max_length = tmp_len</span><br><span class="line">                max_seq = tmp_seq</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> max_seq</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>思路二：动态规划</p>
+<p>​    这里的动态规划的核心思路就是从头开始向后进行遍历，每次想看<strong>头尾同时加入比最大之前最大回文子串的长多+1</strong>字符串是不是回文子串(注意但是首部索引不能超过0)，如果是则记录起始节点start，max_len的值+2；否则判断只在尾部进行字符串加1的字符串时不是回文子串（这里之说以不必尝试在头部加1，因为再从头开始遍历的过程中已经尝试了头部加1），如果是记录start节点，max_len的值+2</p>
+<p>​    f(x+1)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line"></span><br><span class="line">        length = len(s)</span><br><span class="line">        max_len = <span class="number">0</span></span><br><span class="line">        start = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">            <span class="keyword">if</span> i-max_len&gt;=<span class="number">1</span> <span class="keyword">and</span> s[i-max_len<span class="number">-1</span>:i+<span class="number">1</span>]==s[i-max_len<span class="number">-1</span>:i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i-max_len<span class="number">-1</span></span><br><span class="line">                max_len += <span class="number">2</span></span><br><span class="line">            <span class="keyword">elif</span> i-max_len&gt;=<span class="number">0</span> <span class="keyword">and</span> s[i-max_len:i+<span class="number">1</span>]==s[i-max_len:i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i-max_len</span><br><span class="line">                max_len += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> s[start:start+max_len]</span><br></pre></td></tr></table></figure>
+<h4 id="最长回文子序列516"><a href="#最长回文子序列516" class="headerlink" title="最长回文子序列516"></a>最长回文子序列516</h4><p>​    </p>
+<p>z</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/机试——含环链表相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/12/机试——含环链表相关/" itemprop="url">机试-含环链表相关</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T14:48:34+08:00">
+                2019-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    在含环的问题中，存在一些关键性的结论，在解决问题时非常有帮助，下面是一些相关的总结。</p>
+<h4 id="1-判断链表是否有环"><a href="#1-判断链表是否有环" class="headerlink" title="1.判断链表是否有环"></a>1.判断链表是否有环</h4><p>​    结论：<strong>一个速度为1的low指针和一个速度为2的fast指针同时从头向前走，如果其中fast指针为None，那么则为无环，如果两个只能指向的元素相等，那么链表有环。</strong></p>
+<h4 id="2-判断链表的环入口节点"><a href="#2-判断链表的环入口节点" class="headerlink" title="2.判断链表的环入口节点"></a>2.判断链表的环入口节点</h4><p>​    结论：函数一样的双指针进行遍历，如果fast指针为None,那么则为无环。如果两个指针指向的的元素相同，那么<strong>这个节点到链表入口点的长度</strong>和<strong>链表头到链表入口点的长度</strong>相等。</p>
+<blockquote>
+<p>推导过程：</p>
+<p>​    设链表头到入口节点的长度为a</p>
+<p>​           链表入口节点到相遇节点的长度为b</p>
+<p>​        相遇节点到链表入口节点的长度为c</p>
+<p>​    那么因为fast的速度为2，low的速度为1，因此可以认为low入环时走在前面，每次fast和low之间的距离缩小1，因此，必定会在第一圈完成之前相遇。所以有</p>
+<p>​    low 在环内位置: (a+b)-a mod (b+c)  -&gt; b mod (b+c)</p>
+<p>​    fast 在环内位置：2(a+b)-a mod (b+c) -&gt; a+2b mod (b+c)</p>
+<p>二者应该相等，因此得出 a+b mod (b+c) = 0 即<strong>a = c</strong></p>
+</blockquote>
+<p>​    利用这个结论，我们可以先判断判断链表是否有环，如果有环，那么先找到相间的节点，然后再用一个新指针从头开始以速度为1和low指针从相交节点同时开始遍历，当两个点相交的节点即为环入口节点。</p>
+<blockquote>
+<p>例题：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 <code>null</code>.</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">detectCycle</span><span class="params">(head)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head: ListNode</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        low,fast = head,head</span><br><span class="line">       </span><br><span class="line">        <span class="keyword">while</span> fast <span class="keyword">and</span> fast.next <span class="keyword">and</span> fast.next:  </span><br><span class="line">            low, fast = low.next, fast.next.next</span><br><span class="line">            <span class="keyword">if</span> fast==low:</span><br><span class="line">                p = head</span><br><span class="line">                <span class="keyword">while</span> p!=low:</span><br><span class="line">                    p = p.next</span><br><span class="line">                    low = low.next</span><br><span class="line">                <span class="keyword">return</span> p</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-变形型题目"><a href="#3-变形型题目" class="headerlink" title="3.变形型题目"></a>3.变形型题目</h4><p>​    有一类题目不会明显的说让解决环的问题，但是使用环来解决，往往会起到意想不到的效果。</p>
+<blockquote>
+<p>例题：编写一个程序，找到两个单链表相交的起始节点。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getIntersectionNode</span><span class="params">(headA, headB)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type head1, head1: ListNode</span></span><br><span class="line"><span class="string">        :rtype: ListNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> headA==<span class="keyword">None</span> <span class="keyword">or</span> headB==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#相判断两个是否相交</span></span><br><span class="line">        pA = headA</span><br><span class="line">        pB = headB</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> pA.next:</span><br><span class="line">            pA = pA.next</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> pB.next:</span><br><span class="line">            pB = pB.next</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> pA!=pB:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#将PA首尾相接</span></span><br><span class="line">        tail = pA</span><br><span class="line">        pA.next = headA</span><br><span class="line">        </span><br><span class="line">        fast = headB</span><br><span class="line">        low = headB</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            fast = fast.next.next</span><br><span class="line">            low = low.next</span><br><span class="line">            <span class="keyword">if</span> fast==low:</span><br><span class="line">                s = headB</span><br><span class="line">                <span class="keyword">while</span> s!=low:</span><br><span class="line">                    low = low.next</span><br><span class="line">                    s = s.next</span><br><span class="line">                tail.next = <span class="keyword">None</span></span><br><span class="line">                <span class="keyword">return</span> s</span><br></pre></td></tr></table></figure>
+<p>​    <strong>这道题利用了和上一道题目完全一样的规律解决</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/深度学习——transformer模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/28/深度学习——transformer模型/" itemprop="url">深度学习——transformer模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-28T10:49:15+08:00">
+                2019-02-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    transformer模型来自于Google的经典论文<strong>Attention is all you need</strong>，在这篇论文中作者采用Attention来取代了全部的RNN、CNN，实现效果效率的双丰收。</p>
+<p>​    现在transformer在NLP领域已经可以达到全方位吊打CNN、RNN系列的网络，网络处理时间效率高，结果稳定性可靠性都比传统的CNN、RNN以及二者的联合网络更好，因此现在已经呈现出了transformer逐步取代二者的大趋势。</p>
+<p>​    下面是三者在下面四个方面的对比试验结果</p>
+<p>​        <strong>1.远距离特征提取能力</strong></p>
+<p>​        <strong>2.语义特征提取能力</strong></p>
+<p>​        <strong>3.综合特征提取能力</strong></p>
+<p>​        <strong>4.特征提取效率</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81transformer%E9%95%BF%E8%B7%9D%E7%A6%BB%E7%89%B9%E5%BE%81%E6%8D%95%E8%8E%B7%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81transformer%E8%AF%AD%E4%B9%89%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E7%BB%BC%E5%90%88%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E4%B8%89%E8%80%85%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
+<p>下面是从一系列的论文中获取到的RNN、CNN、Transformer三者的对比结论：    </p>
+<p>​    <strong>1.从任务综合效果方面来说，Transformer明显优于CNN，CNN略微优于RNN。</strong></p>
+<p>​    <strong>2.速度方面Transformer和CNN明显占优，RNN在这方面劣势非常明显。(主流经验上transformer和CNN速度差别不大，RNN比前两者慢3倍到几十倍)</strong></p>
+<h3 id="Transformer模型具体细节"><a href="#Transformer模型具体细节" class="headerlink" title="Transformer模型具体细节"></a>Transformer模型具体细节</h3><p>​    transformer模型整体结构上主要<strong>Encoder</strong>和<strong>Decoder</strong>两部分组成，Encoder主要用来将数据进行特征提取，而Decoder主要用来实现隐向量解码出新的向量表示(原文中就是新的语言表示)，由于原文是机器翻译问题，而我们要解决的问题是类文本分类问题，因此我们直接减Transformer模型中的Encoder部分来进行特征的提取。其中主要包括下面几个核心技术模块：</p>
+<p>​        <strong>1.残差连接</strong></p>
+<p>​        <strong>2.Position-wise前馈网络</strong></p>
+<p>​        <strong>3.多头self-attention</strong></p>
+<p>​        <strong>4.位置编码</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/transformer%E6%A8%A1%E5%9E%8B%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true=20*50" alt=""></p>
+<p>​    1.采用全连接层进行Embedding （Batch_size,src_vocab_size,model_dim）</p>
+<p>​    2.在进行位置编码，位置编码和Embedding的结果进行累加</p>
+<p>​    3.进入Encoder_layer进行编码处理(相当于特征提取)</p>
+<p>​        (1)</p>
+<p>​        </p>
+<h4 id="1-位置编码（PositionalEncoding）"><a href="#1-位置编码（PositionalEncoding）" class="headerlink" title="1.位置编码（PositionalEncoding）"></a>1.位置编码（PositionalEncoding）</h4><p>​    大部分编码器一般都采用RNN系列模型来提取语义相关信息，但是采用RNN系列的模型来进行语序信息进行提取具有不可并行、提取效率慢等显著缺点，本文采用了一种 Positional Embedding方案来对于语序信息进行编码，主要通过正余弦函数，</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/余弦位置编码.png?raw=true" alt="image-20190304162008847"></p>
+<p><strong>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</strong></p>
+<blockquote>
+<p>为什么要使用三角函数来进行为之编码？</p>
+<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000*2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<strong>绝对位置</strong>。</p>
+<p>​    在另一方面，词语间的相对位置也是非常重要的，这也是选用正余弦函数做位置编码的最主要原因。因为</p>
+<p>​    sin(α+β) = sinαcosβ+cosαsinβ</p>
+<p>​    cos(α+β) = cosαcosβ+sinαsinβ</p>
+<p>​    因此对于词汇间位置偏移k，PE(pos+k)可以表示为PE(pos)和PE(k)组合的形式，也就是<strong>具有相对位置表达能力</strong></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PositionalEncoding</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        位置编码层</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, d_model, max_seq_len)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        初始化</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            d_model: 一个标量。模型的维度，论文默认是512</span></span><br><span class="line"><span class="string">            max_seq_len: 一个标量。文本序列的最大长度</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        super(PositionalEncoding, self).__init__()</span><br><span class="line">       </span><br><span class="line">        <span class="comment"># 根据论文给的公式，构造出PE矩阵</span></span><br><span class="line">        position_encoding = np.array([</span><br><span class="line">          [pos / np.power(<span class="number">10000</span>, <span class="number">2.0</span> * (j // <span class="number">2</span>) / d_model) <span class="keyword">for</span> j <span class="keyword">in</span> range(d_model)]</span><br><span class="line">          <span class="keyword">for</span> pos <span class="keyword">in</span> range(max_seq_len)])</span><br><span class="line">        <span class="comment"># 偶数列使用sin，奇数列使用cos</span></span><br><span class="line">        position_encoding[:, <span class="number">0</span>::<span class="number">2</span>] = np.sin(position_encoding[:, <span class="number">0</span>::<span class="number">2</span>])</span><br><span class="line">        position_encoding[:, <span class="number">1</span>::<span class="number">2</span>] = np.cos(position_encoding[:, <span class="number">1</span>::<span class="number">2</span>])</span><br><span class="line">        position_encoding = torch.Tensor(position_encoding)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 在PE矩阵的第一行，加上一行全是0的向量，代表这`PAD`的positional encoding</span></span><br><span class="line">        <span class="comment"># 在word embedding中也经常会加上`UNK`，代表位置单词的word embedding，两者十分类似</span></span><br><span class="line">        <span class="comment"># 那么为什么需要这个额外的PAD的编码呢？很简单，因为文本序列的长度不一，我们需要对齐，</span></span><br><span class="line">        <span class="comment"># 短的序列我们使用0在结尾补全，我们也需要这些补全位置的编码，也就是`PAD`对应的位置编码</span></span><br><span class="line">        pad_row = torch.zeros([<span class="number">1</span>, d_model])</span><br><span class="line">        position_encoding = torch.cat((pad_row, position_encoding))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 嵌入操作，+1是因为增加了`PAD`这个补全位置的编码，</span></span><br><span class="line">        <span class="comment"># Word embedding中如果词典增加`UNK`，我们也需要+1。看吧，两者十分相似</span></span><br><span class="line">        self.position_encoding = nn.Embedding(max_seq_len + <span class="number">1</span>, d_model)</span><br><span class="line">        self.position_encoding.weight = nn.Parameter(position_encoding,</span><br><span class="line">                                                     requires_grad=<span class="keyword">False</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, input_len,max_len)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            神经网络的前向传播。</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">          input_len: 一个张量，形状为[BATCH_SIZE, 1]。每一个张量的值代表这一批文本序列中对应的长度。</span></span><br><span class="line"><span class="string">          param max_len:数值，表示当前的词的长度</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">          返回这一批序列的位置编码，进行了对齐。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 找出这一批序列的最大长度</span></span><br><span class="line">        tensor = torch.cuda.LongTensor <span class="keyword">if</span> input_len.is_cuda <span class="keyword">else</span> torch.LongTensor</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 对每一个序列的位置进行对齐，在原序列位置的后面补上0</span></span><br><span class="line">        <span class="comment"># 这里range从1开始也是因为要避开PAD(0)的位置</span></span><br><span class="line">        input_pos = tensor(</span><br><span class="line">          [list(range(<span class="number">1</span>, len + <span class="number">1</span>)) + [<span class="number">0</span>] * (max_len - len) <span class="keyword">for</span> len <span class="keyword">in</span> input_len.tolist()])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> self.position_encoding(input_pos)</span><br></pre></td></tr></table></figure>
+<h4 id="2-scaled-Dot-Product-Attention"><a href="#2-scaled-Dot-Product-Attention" class="headerlink" title="2.scaled Dot-Product Attention"></a>2.scaled Dot-Product Attention</h4><p>​    <strong>scaled</strong>代表着在原来的dot-product Attention的基础上加入了缩放因子1/sqrt(dk)，dk表示Key的维度，默认用64.</p>
+<blockquote>
+<p>为什么要加入缩放因子？</p>
+<p>​    在dk(key的维度)很大时，点积得到的结果维度很大，使的结果处于softmax函数梯度很小的区域，这是后乘以一个缩放因子，可以缓解这种情况的发生。</p>
+</blockquote>
+<p>​    <strong>Dot-Produc</strong>代表乘性attention，attention计算主要分为加性attention和乘性attention两种。加性 Attention 对于输入的隐状态 ht 和输出的隐状态 st直接做 concat 操作，得到 [ht:st] ，乘性 Attention 则是对输入和输出做 dot 操作。</p>
+<p>​    <strong>Attention</strong>又是什么呢？通俗的解释Attention机制就是通过query和key的相似度确定value的权重。论文中具体的Attention计算公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/atttion%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    在这里采用的scaled Dot-Product Attention是self-attention的一种，self-attention是指Q(Query), K(Key), V(Value)三个矩阵均来自同一输入。就是下面来具体说一下K、Q、V具体含义：</p>
+<blockquote>
+<ol>
+<li>在一般的Attention模型中，Query代表要进行和其他各个位置的词做点乘运算来计算相关度的节点，Key代表Query亚进行查询的各个节点，每个Query都要遍历全部的K节点，计算点乘计算相关度，然后经过缩放和softmax进行归一化的到当前Query和各个Key的attention score，然后再使用这些attention score与Value相乘得到attention加权向量</li>
+<li>在self-attention模型中，Key、Query、Value均来自相同的输入</li>
+<li>在transformer的encoder中的Key、Query、Value都来自encoder上一层的输入，对于第一层encoder layer，他们就是word embedding的输出和positial encoder的加和。</li>
+</ol>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/scaled%20dot-product%20attention.png?raw=true" alt=""></p>
+<blockquote>
+<p>query、key、value来源：</p>
+<p>​    他们三个是由原始的词向量X乘以三个权值不同的嵌入向量Wq、Wk、Wv得到的，三个矩阵尺寸相同</p>
+<p><strong>Attention计算步骤：</strong></p>
+<ol>
+<li>如上文，将输入单词转化成嵌入向量；</li>
+<li>根据嵌入向量得到 q、k、v三个向量；</li>
+<li>为每个向量计算一个score： score = q*k</li>
+<li>为了梯度的稳定，Transformer使用了score归一化，即除以 sqrt(dk)；</li>
+<li>对score施以softmax激活函数；</li>
+<li>softmax点乘Value值 v ，得到加权的每个输入向量的评分 v；</li>
+<li>相加之后得到最终的输出结果Sum(z) ：  。</li>
+</ol>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScaledDotProductAttention</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        标准的scaled点乘attention层</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, attention_dropout=<span class="number">0.0</span>)</span>:</span></span><br><span class="line">        super(ScaledDotProductAttention, self).__init__()</span><br><span class="line">        self.dropout = nn.Dropout(attention_dropout)</span><br><span class="line">        self.softmax = nn.Softmax(dim=<span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, q, k, v, scale=None, attn_mask=None)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        前向传播.</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">        	q: Queries张量，形状为[B, L_q, D_q]</span></span><br><span class="line"><span class="string">        	k: Keys张量，形状为[B, L_k, D_k]</span></span><br><span class="line"><span class="string">        	v: Values张量，形状为[B, L_v, D_v]，一般来说就是k</span></span><br><span class="line"><span class="string">        	scale: 缩放因子，一个浮点标量</span></span><br><span class="line"><span class="string">        	attn_mask: Masking张量，形状为[B, L_q, L_k]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">        	上下文张量和attention张量</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        attention = torch.bmm(q, k.transpose(<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> scale:</span><br><span class="line">            attention = attention * scale</span><br><span class="line">        <span class="keyword">if</span> attn_mask <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="comment"># 给需要 mask 的地方设置一个负无穷</span></span><br><span class="line">            attention = attention.masked_fill(attn_mask,<span class="number">-1e9</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 计算softmax</span></span><br><span class="line">        attention = self.softmax(attention)</span><br><span class="line">        <span class="comment"># 添加dropout</span></span><br><span class="line">        attention = self.dropout(attention)</span><br><span class="line">        <span class="comment"># 和V做点积</span></span><br><span class="line">        context = torch.bmm(attention, v)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> context, attention</span><br></pre></td></tr></table></figure>
+<h4 id="3-多头Attention"><a href="#3-多头Attention" class="headerlink" title="3.多头Attention"></a>3.多头Attention</h4><p>​    论文作者发现<strong>将 Q、K、V 通过一个线性映射之后，分成 h 份，对每一份进行 scaled dot-product attention</strong> 效果更好。<strong>然后，把各个部分的结果合并起来，再次经过线性映射，得到最终的输出</strong>。这就是所谓的 multi-head attention。上面的超参数 h 就是 heads 的数量。论文默认是 8。</p>
+<p>​    这里采用了四个全连接层+有个dot_product_attention层(也可以说是8个)+layer_norm实现。</p>
+<blockquote>
+<p>为什么要使用多头Attention？</p>
+<p>​    1.”多头机制“能让模型考虑到不同位置的Attention</p>
+<p>​    2.”多头“Attention可以在不同的足空间表达不一样的关联</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultiHeadAttention</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        多头Attention层</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, model_dim=<span class="number">512</span>, num_heads=<span class="number">8</span>, dropout=<span class="number">0.0</span>)</span>:</span></span><br><span class="line">        super(MultiHeadAttention, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.dim_per_head = model_dim // num_heads</span><br><span class="line">        self.num_heads = num_heads</span><br><span class="line"></span><br><span class="line">        self.linear_k = nn.Linear(model_dim, self.dim_per_head * num_heads)</span><br><span class="line">        self.linear_v = nn.Linear(model_dim, self.dim_per_head * num_heads)</span><br><span class="line">        self.linear_q = nn.Linear(model_dim, self.dim_per_head * num_heads)</span><br><span class="line"></span><br><span class="line">        self.dot_product_attention = ScaledDotProductAttention(dropout)</span><br><span class="line">        self.linear_final = nn.Linear(model_dim, model_dim)</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line"></span><br><span class="line">        self.layer_norm = nn.LayerNorm(model_dim)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, key, value, query, attn_mask=None)</span>:</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 残差连接</span></span><br><span class="line">        residual = query</span><br><span class="line">        dim_per_head = self.dim_per_head</span><br><span class="line">        num_heads = self.num_heads</span><br><span class="line">        batch_size = key.size(<span class="number">0</span>)</span><br><span class="line">        <span class="comment"># 线性层 (batch_size,word_nums,model_dim)</span></span><br><span class="line">        key = self.linear_k(key)</span><br><span class="line">        value = self.linear_v(value)</span><br><span class="line">        query = self.linear_q(query)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将一个切分成多个(batch_size*num_headers,word_nums,word//num_headers)</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            这里用到了一个trick就是将key、value、query值要进行切分不需要进行真正的切分，直接将其维度整合到batch_size上，效果等同于真正的切分。过完scaled dot-product attention 再将其维度恢复即可</span></span><br><span class="line"><span class="string">        """</span>       </span><br><span class="line">        key = key.view(batch_size * num_heads, <span class="number">-1</span>, dim_per_head)</span><br><span class="line">        value = value.view(batch_size * num_heads, <span class="number">-1</span>, dim_per_head)</span><br><span class="line">        query = query.view(batch_size * num_heads, <span class="number">-1</span>, dim_per_head)</span><br><span class="line">        <span class="comment">#将mask也复制多份和key、value、query相匹配  （batch_size*num_headers,word_nums_k,word_nums_q）</span></span><br><span class="line">        <span class="keyword">if</span> attn_mask <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            attn_mask = attn_mask.repeat(num_heads, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 使用scaled-dot attention来进行向量表达</span></span><br><span class="line">        <span class="comment">#context:(batch_size*num_headers,word_nums,word//num_headers)</span></span><br><span class="line">        <span class="comment">#attention:(batch_size*num_headers,word_nums_k,word_nums_q)</span></span><br><span class="line">        scale = (key.size(<span class="number">-1</span>)) ** <span class="number">-0.5</span></span><br><span class="line">        context, attention = self.dot_product_attention(</span><br><span class="line">          query, key, value, scale, attn_mask)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># concat heads</span></span><br><span class="line">        context = context.view(batch_size, <span class="number">-1</span>, dim_per_head * num_heads)</span><br><span class="line">        <span class="comment"># final linear projection</span></span><br><span class="line">        output = self.linear_final(context)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># dropout</span></span><br><span class="line">        output = self.dropout(output)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 这里使用了残差连接和LN</span></span><br><span class="line">        output = self.layer_norm(residual + output)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> output, attention</span><br></pre></td></tr></table></figure>
+<h4 id="4-残差连接"><a href="#4-残差连接" class="headerlink" title="4.残差连接"></a>4.残差连接</h4><p>​    在上面的多头的Attnetion中，还采用了残差连接机制来保证网络深度过深从而导致的精度下降问题。这里的思想主要来源于深度残差网络(ResNet)，残差连接指在模型通过一层将结果输入到下一层时也同时直接将不通过该层的结果一同输入到下一层，从而达到解决网络深度过深时出现精确率不升反降的情况。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/res-net.png?raw=true" alt=""></p>
+<blockquote>
+<p><strong>为什么残差连接可以在网络很深的时候防止出现加深深度而精确率下降的情况？</strong></p>
+<p>​    神经网络随着深度的加深会会出现训练集loss逐渐下贱，趋于饱和，然后你再加深网络深度，训练集loss不降反升的情况。这是因为随着网络深度的增加，在深层的有效信息可能变得更加模糊，不利于最终的决策网络做出正确的决策，因此残差网络提出，建立残差连接的方式来将低层的信息也能传到高层，因此这样实现的深层网络至少不会比浅层网络差。</p>
+</blockquote>
+<h4 id="5-Layer-normalization"><a href="#5-Layer-normalization" class="headerlink" title="5.Layer normalization"></a>5.Layer normalization</h4><h5 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h5><p>​    Normalization 有很多种，但是它们都有一个<strong>共同的目的，那就是把输入转化成均值为 0 方差为 1 的数据</strong>。我们在把数据送入激活函数之前进行 normalization（归一化），<strong>因为我们不希望输入数据落在激活函数的饱和区。</strong></p>
+<p>#####Batch Normalization(BN)</p>
+<p>​    应用最广泛的Normalization就是Batch Normalization，其主要思想是:<strong>在每一层的每一批数据上进行归一化</strong>。我们可能会对输入数据进行归一化，但是经过该网络层的作用后，我们的数据已经不再是归一化的了。<strong>随着这种情况的发展，数据的偏差越来越大，我的反向传播需要考虑到这些大的偏差，这就迫使我们只能使用较小的学习率来防止梯度消失或者梯度爆炸。</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<h5 id="Layer-normalization-LN"><a href="#Layer-normalization-LN" class="headerlink" title="Layer normalization(LN)"></a>Layer normalization(LN)</h5><p>​    LN 是<strong>在每一个样本上计算均值和方差，而不是 BN 那种在批方向计算均值和方差</strong>.</p>
+<blockquote>
+<p>Layer normalization在pytorch 0.4版本以后可以直接使用nn.LayerNorm进行调用</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<h4 id="6-Mask"><a href="#6-Mask" class="headerlink" title="6.Mask"></a>6.Mask</h4><p>​    <strong>mask 表示掩码，它对某些值进行掩盖，使其在参数更新时不产生效果</strong>。Transformer 模型里面涉及两种 mask，分别是 <strong>padding mask</strong> 和 <strong>sequence mask</strong>。</p>
+<p>​    在我们使用的Encoder部分，只是用了padding mask因此本文重点介绍padding mask。 </p>
+<h5 id="padding-mask"><a href="#padding-mask" class="headerlink" title="padding mask"></a>padding mask</h5><p>​    什么是 padding mask 呢？因为每个批次输入序列长度是不一样的也就是说，我们要对输入序列进行对齐。具体来说，就是给<strong>在较短的序列后面填充 0。因为这些填充的位置，其实是没什么意义的，所以我们的 attention 机制不应该把注意力放在这些位置上</strong>，所以我们需要进行一些处理。<strong>具体的做法是，把这些位置的值加上一个非常大的负数(负无穷)，这样的话，经过 softmax，这些位置的概率就会接近0！</strong>而我们的 padding mask 实际上是一个张量，每个值都是一个 Boolean，值为 false 的地方就是我们要进行处理的地方。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">padding_mask</span><span class="params">(seq_k, seq_q)</span>:</span></span><br><span class="line">    <span class="string">"""        </span></span><br><span class="line"><span class="string">        param seq_q:(batch_size,word_nums_q)</span></span><br><span class="line"><span class="string">        param seq_k:(batch_size,word_nums_k)</span></span><br><span class="line"><span class="string">        return padding_mask:(batch_size,word_nums_q,word_nums_k)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># seq_k和seq_q 的形状都是 (batch_size,word_nums_k)</span></span><br><span class="line">    len_q = seq_q.size(<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 找到被pad填充为0的位置(batch_size,word_nums_k)</span></span><br><span class="line">    pad_mask = seq_k.eq(<span class="number">0</span>)</span><br><span class="line">    <span class="comment">#(batch_size,word_nums_q,word_nums_k)</span></span><br><span class="line">    pad_mask = pad_mask.unsqueeze(<span class="number">1</span>).expand(<span class="number">-1</span>, len_q, <span class="number">-1</span>)  <span class="comment"># shape [B, L_q, L_k]</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pad_mask</span><br></pre></td></tr></table></figure>
+<h4 id="3-Position-wise-前馈网络"><a href="#3-Position-wise-前馈网络" class="headerlink" title="3.Position-wise 前馈网络"></a>3.Position-wise 前馈网络</h4><p>​    这是一个全连接网络，包含两个线性变换和一个非线性函数(实际上就是 ReLU)</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Position-wise%20Feed-Forward%20network%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p><strong>这里实现上用到了两个一维卷积。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class PositionalWiseFeedForward(nn.Module):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">        前向编码，使用两层一维卷积层实现</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    def __init__(self, model_dim=512, ffn_dim=2048, dropout=0.0):</span><br><span class="line">        super(PositionalWiseFeedForward, self).__init__()</span><br><span class="line">        self.w1 = nn.Conv1d(model_dim, ffn_dim, 1)</span><br><span class="line">        self.w2 = nn.Conv1d(ffn_dim, model_dim, 1)</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line">        self.layer_norm = nn.LayerNorm(model_dim)</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        output = x.transpose(1, 2)</span><br><span class="line">        output = self.w2(F.relu(self.w1(output)))</span><br><span class="line">        output = self.dropout(output.transpose(1, 2))</span><br><span class="line"></span><br><span class="line">        # add residual and norm layer</span><br><span class="line">        output = self.layer_norm(x + output)</span><br><span class="line">        return output</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/面试总结-Python和C语言中的一些不同/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/27/面试总结-Python和C语言中的一些不同/" itemprop="url">面试总结-Python和C语言中的一些不同</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-27T21:18:33+08:00">
+                2019-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###1.python在除法和C语言中的一点区别</p>
+<p>​    在Python3中，除法有 “/” 以及 “//” 两种，这两个有着明显的区别，具体区别看代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">12</span>//<span class="number">10</span>)</span><br><span class="line">print(<span class="number">12</span>/<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>这两行代码的输出如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1.2</span></span><br></pre></td></tr></table></figure>
+<p>当被除数是负数的时候，又是另一种情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">-12</span>/<span class="number">10</span>)      <span class="comment">#不补整</span></span><br><span class="line">print(int(<span class="number">-12</span>/<span class="number">10</span>)) <span class="comment">#向正方向进行补整</span></span><br><span class="line">print(<span class="number">-13</span>//<span class="number">10</span>)     <span class="comment">#向负方向进行补整</span></span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-1.2</span></span><br><span class="line">    <span class="number">-1</span></span><br><span class="line">    <span class="number">-2</span></span><br></pre></td></tr></table></figure>
+<p>​    因此，综合前面的正负两种情况，我们可以看出<strong>当我们想要达到和C++同样的向上取整，只能使用int(a/b)方式。</strong></p>
+<h3 id="2-python在求余时和C的一点区别"><a href="#2-python在求余时和C的一点区别" class="headerlink" title="2.python在求余时和C的一点区别"></a>2.python在求余时和C的一点区别</h3><p>​    对于正数求余运算，python和C++完全相同，但是对于负数求余运算，python和C++存在着较大的差别，下面我们通过例子来说明二者的差别。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#C++</span></span><br><span class="line">count&gt;&gt;<span class="number">-123</span>%<span class="number">10</span>;</span><br><span class="line">output:</span><br><span class="line">    <span class="number">-3</span></span><br><span class="line"><span class="comment">#python</span></span><br><span class="line">print(<span class="number">-123</span>%<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-7</span>    <span class="comment">#这里是向下取10的余数</span></span><br></pre></td></tr></table></figure>
+<p>​    为了实现和C++相同效果的取余运算，我们只能采用如下方式进行取余运算</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> a&gt;=<span class="number">0</span></span><br><span class="line">	print(a%<span class="number">10</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	print(a%<span class="number">-10</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/10/机试——排序算法总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -849,979 +2007,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/08/python进阶-生成器和迭代器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/08/python进阶-生成器和迭代器/" itemprop="url">python进阶-生成器和迭代器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-08T10:49:00+08:00">
-                2019-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/pythonic程序规范化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/07/pythonic程序规范化/" itemprop="url">pythonic程序规范化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T22:32:07+08:00">
-                2019-01-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.常量名称全部大写</p>
-<p>2.代码长度一行不能超过80字符</p>
-<p>3.类名使用驼峰式命名，一般不超过3</p>
-<p>4.函数名称</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/python2和python3的不同点/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/07/python2和python3的不同点/" itemprop="url">python2和python3的不同点</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T17:24:07+08:00">
-                2019-01-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python-进阶操作/" itemprop="url" rel="index">
-                    <span itemprop="name">python 进阶操作</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    因为系统移植过程中一直出现python3程序向python2转化的问题，因此这里记录下我在程序移植过程中遇到过的坑。</p>
-<p>1.python2和python3的url编码解码函数接口</p>
-<p>2.python2和python3向文件中写入中文时指定编码方式</p>
-<p>​    对于python3来说，要在写入文件时指定编码方式是十分简单的，只需要下面的方式即可：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(filename,<span class="string">'a'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">	f.write(<span class="string">"中文"</span>)</span><br></pre></td></tr></table></figure>
-<p>​    但对于python2，要在写入文件时,手动添加utf-8文件的前缀</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">'utf-8'</span>)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">r'd:\sss.txt'</span>,<span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">　　f.write(unicode(<span class="string">"\xEF\xBB\xBF"</span>, <span class="string">"utf-8"</span>))<span class="comment">#函数将\xEF\xBB\xBF写到文件开头，指示文件为UTF-8编码。</span></span><br><span class="line">　　f.write(<span class="string">u'中文'</span>)</span><br></pre></td></tr></table></figure>
-<p>3.python2和python3外置函数区别</p>
-<p>在python3中外置函数文件可以直接进行调用，如在下面的文件结构</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">|--main.py</span><br><span class="line">	tools——</span><br></pre></td></tr></table></figure>
-<p>在python2中外置函数文件目录下必须要有<strong>init</strong>.py 空文件，否则无法进行加载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>4.python2和python3文件中中文问题</p>
-<p>​    在python3中，输出和备注等一切位置都可以直接使用中文，不需要任何额外的代码，在python2中，必须要在包含中文的python文件中加入</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br></pre></td></tr></table></figure>
-<p>​    才能出现中文，否则报错。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/pytorch建模基本操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/02/pytorch建模基本操作/" itemprop="url">pytorch建模基本操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T16:08:19+08:00">
-                2019-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.查看模型结构</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/python不显示警告信息设置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/02/python不显示警告信息设置/" itemprop="url">python不显示警告信息设置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T10:37:47+08:00">
-                2019-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>再使用python处理多线程或者循环次数较多时，常常会因为系统爆出一些警告信息而影响结果的查看，比如下面的警告：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/警告信息.png?raw=true" alt=""></p>
-<p>十分影响美观，造成结果混乱，很难找到有效的信息，下面我们使用python自带的warning设置，设置过滤warn级别的告警</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnnings.filterwarnings(<span class="string">"ignore"</span>)</span><br></pre></td></tr></table></figure>
-<p>结果变为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/过滤warning后的结果.png?raw=true" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/30/python多进程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/30/python多进程/" itemprop="url">python多进程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-30T11:12:53+08:00">
-                2018-12-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python进阶操作/" itemprop="url" rel="index">
-                    <span itemprop="name">python进阶操作</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    python多进程之前一直在在写一些小程序，这次正好需要写一个比较正式的多进行处理，正好系统的总结下python多进行的一些核心知识。</p>
-<p>​    首先python中常用的提高效率的方式主要主要包括多线程、多进程两种，但是在python中的多线程并不是正正的多线程，只有在网络请求密集型的程序中才能有效的提升效率，在计算密集型、IO密集型都不是很work甚至会造成效率下降，因此提升效率的方式就主要以多进程为主。</p>
-<p>​    python中多进程需要使用python自带包multiprocessing，multiprocessing支持子进程、通信和共享数据、执行不同形式的同步，提供了Process、Queue、Pipe、Lock等组件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Lock,Value,Queue,Pool</span><br></pre></td></tr></table></figure>
-<h3 id="创建进程类"><a href="#创建进程类" class="headerlink" title="创建进程类"></a>创建进程类</h3><h4 id="1-单个进程类的创建"><a href="#1-单个进程类的创建" class="headerlink" title="1.单个进程类的创建"></a>1.单个进程类的创建</h4><p>​    <strong>1.创建单进程</strong></p>
-<p>​        </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>####使用进程池创建多进程</p>
-<p>​    Pool类可以提供指定数量的进程供用户调用，当有新的请求提交到Pool中时，如果池还没有满，就会创建一个新的进程来执行请求。如果池满，请求就会告知先等待，直到池中有进程结束，才会创建新的进程来执行这些请求。 </p>
-<p>​    常用方法：</p>
-<p>​    <strong>1.apply</strong></p>
-<p>​    用于传递不定参数，同python中的apply函数一致，主进程会被阻塞直到函数执行结束（<strong>不建议使用</strong>，并且3.x以后不在出现）。</p>
-<p>​    <strong>2.apply_async</strong></p>
-<p>​    和apply类似，非阻塞版本，支持结果返回后进行回调</p>
-<p>​    <strong>3.map</strong></p>
-<p>​    函数原型:map(func, iterable[, chunksize=None])</p>
-<p>​    Pool中的map和python内置的map用法基本上一致，会阻塞直到返回结果</p>
-<p>​    <strong>4.map_async</strong></p>
-<p>​    函数原型：map_async(func, iterable[, chunksize[, callback]])</p>
-<p>​    和map用法一致，但是它是非阻塞的</p>
-<p>​    <strong>5.close</strong></p>
-<p>​    关闭进程池，使其不再接受新的任务</p>
-<p>​    <strong>6.terminal</strong></p>
-<p>​    结束工作进程，不再处理未处理的任务</p>
-<p>​    <strong>7.join</strong></p>
-<p>​    主进程阻塞等待子进程退出，join方法要在close或terminal方法后面使用</p>
-<p>​    </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mutiprocess <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line">process_nums = <span class="number">20</span></span><br><span class="line">pool = Pool(process_nums)</span><br></pre></td></tr></table></figure>
-<h3 id="使用Lock来避免冲突"><a href="#使用Lock来避免冲突" class="headerlink" title="使用Lock来避免冲突"></a>使用Lock来避免冲突</h3><p>​    lock主要用于多个进程之间共享资源时，避免资源访问冲突，主要包括下面两个操作：</p>
-<p>​        1.look.acquire()  获得锁</p>
-<p>​        2.lock.release()   释放锁</p>
-<p>​    下面是不加锁时的程序：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,value,lock)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">        number += value</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = <span class="number">0</span></span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
-<p>​    结果为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">main end</span><br><span class="line">init add1 number = <span class="number">0</span></span><br><span class="line">init add3 number = <span class="number">0</span></span><br><span class="line">add1 number = <span class="number">1</span></span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">add1 number = <span class="number">2</span></span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">add1 number = <span class="number">3</span></span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">add1 number = <span class="number">4</span></span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">add1 number = <span class="number">5</span></span><br><span class="line">add3 number = <span class="number">15</span></span><br></pre></td></tr></table></figure>
-<p>​    两个进程交替的来对number进行加操作，下面是加锁后的程序：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number += value</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">raise</span> e</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        lock.release()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = <span class="number">0</span></span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
-<p>​    结果为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">main end</span><br><span class="line">init add1 number = <span class="number">0</span>			<span class="comment">#add1优先抢到锁，优先执行</span></span><br><span class="line">add1 number = <span class="number">1</span></span><br><span class="line">add1 number = <span class="number">2</span></span><br><span class="line">add1 number = <span class="number">3</span></span><br><span class="line">add1 number = <span class="number">4</span></span><br><span class="line">add1 number = <span class="number">5</span></span><br><span class="line">init add3 number = <span class="number">0</span>			<span class="comment">#add3被阻塞，等待add1执行完成，释放锁后执行add3</span></span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">add3 number = <span class="number">15</span></span><br><span class="line"><span class="comment">#注意观察上面add3部分，虽然在add1部分已经将number加到了5，但是由于number变量只是普通变量，不能在各个进程之间进行共享，因此add3开始还要从0开始加</span></span><br></pre></td></tr></table></figure>
-<p>####使用Value和Array来进行内存之中的共享通信</p>
-<p>​    一般的变量在进程之间是没法进行通讯的，multiprocessing 给我们提供了 <strong>Value 和 Array</strong> 模块，他们可以在不通的进程中共同使用。</p>
-<p>​    <strong>1.Value多进程共享变量</strong></p>
-<p>​    将前面加锁的程序中的变量使用multiprocessing提供的共享变量来进行</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,add_value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number.value += add_value</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"***************add&#123;0&#125; has added***********"</span>.format(add_value))</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">raise</span> e</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        lock.release()</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
-<p>​    输出结果为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#add3开始时是在add1的基础上来进行加的</span></span><br><span class="line">main end</span><br><span class="line">init add1 number = <span class="number">0</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">1</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">2</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">3</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">4</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">5</span></span><br><span class="line">init add3 number = <span class="number">5</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">8</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">11</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">14</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">17</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">20</span></span><br></pre></td></tr></table></figure>
-<p>​    <strong>2.Array实现多进程共享内存变量</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,add_value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number.value += add_value</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"***************add&#123;0&#125; has added***********"</span>.format(add_value))</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">raise</span> e</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">change</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)):</span><br><span class="line">        arr[i] = -arr[i]</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">    arr = multiprocessing.Array(<span class="string">'i'</span>, range(<span class="number">10</span>))</span><br><span class="line">    <span class="keyword">print</span> (arr[:])</span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p3 = multiprocessing.Process(target=change,args=(arr,))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    p3.start()</span><br><span class="line">    p3.join()</span><br><span class="line">    <span class="keyword">print</span> (arr[:])</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
-<p>​    输出结果为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line">init add3 number = <span class="number">0</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">[<span class="number">0</span>, <span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-3</span>, <span class="number">-4</span>, <span class="number">-5</span>, <span class="number">-6</span>, <span class="number">-7</span>, <span class="number">-8</span>, <span class="number">-9</span>]</span><br><span class="line">main end</span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">15</span></span><br><span class="line">init add1 number = <span class="number">15</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">16</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">17</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">18</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">19</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">20</span></span><br></pre></td></tr></table></figure>
-<p>####使用Queue来实现多进程之间的数据传递</p>
-<p>​    Queue是多进程安全队列，可以使用Queue来实现进程之间的数据传递，使用的方式：</p>
-<blockquote>
-<p>1.put 将数据插入到队列中</p>
-<p>​    包括两个可选参数：blocked和timeout</p>
-<p>​        (1)如果blocked为True（默认为True）,并且timeout为正值，该方法会阻塞队列指定时间，直到队列有剩余，如果超时，会抛出Queue.Full</p>
-<p>​        (2)如果blocked为False，且队列已满，那么立刻抛出Queue.Full异常</p>
-<p>2.get 从队列中读取并删除一个元素</p>
-<p>​    包括两个可选参数:block和timeout</p>
-<p>​        （1）blocked为True，并且timeout为正值，那么在等待时间结束后还没有取到元素，那么会抛出Queue.Empty异常</p>
-<p>​        （2）blocked为False，那么对列为空时直接抛出Queue.Empty异常</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/hadoop使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/25/hadoop使用/" itemprop="url">hadoop使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-25T11:28:18+08:00">
-                2018-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.查看hadoop某个目录下的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hadoop  fs -ls path</span><br></pre></td></tr></table></figure>
-<p>2.从hdfs上下拉文件到本地</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hdfs fs -get file</span><br></pre></td></tr></table></figure>
-<p>3.获取部署在docker中的hadoop的挂载信息等元数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker inspect hdp-server</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1872,7 +2057,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">81</span>
+                  <span class="site-state-item-count">88</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1894,7 +2079,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
