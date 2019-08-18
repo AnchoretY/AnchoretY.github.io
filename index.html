@@ -672,12 +672,13 @@
 <p>​            计算输入向量和输出向量的余弦相似度</p>
 </blockquote>
 <h4 id="4-SVM"><a href="#4-SVM" class="headerlink" title="4.SVM"></a>4.SVM</h4><blockquote>
-<p>1.公式推导</p>
-<p>2.损失函数</p>
-<p>​    hinge+正则</p>
-<p>3.映射到的核函数空间有什么要求？</p>
+<p><strong>1.公式推导</strong></p>
+<p><strong>2.损失函数</strong></p>
+<p>​    hinge(折页损失函数)+正则</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SVM损失函数.png?raw=True" alt=""></p>
+<p><strong>3.映射到的核函数空间有什么要求(核函数要求)？</strong></p>
 <p>​        过某非线性变换 φ( x) ，将输入空间映射到高维特征空间，在低维输入空间存在某个函数 K(x, x′) ，恰好等于在高维空间中这个内积，即K( x, x′) =&lt;φ( x) ⋅φ( x′) &gt; (这样的函数K被称作核函数)</p>
-<p>4.点到向量距离公式推导</p>
+<p><strong>4.点到向量距离公式推导</strong></p>
 </blockquote>
 <h4 id="5-生成模型和判别模型"><a href="#5-生成模型和判别模型" class="headerlink" title="5..生成模型和判别模型"></a>5..生成模型和判别模型</h4><blockquote>
 <p>1.定义</p>
@@ -688,6 +689,8 @@
 <p>​    速度：生成模型收敛速度较快</p>
 <p>​    隐变量情况：生成模型能够应付(高斯混合模型就是生成模型的隐变量形式)</p>
 <p>3.常见的生成模型和判别模型</p>
+<p>​    生成模型：隐马尔科夫链、朴素贝叶斯</p>
+<p>​    判别模型：csrf、</p>
 <p>​    </p>
 </blockquote>
 <h4 id="6-xgboost"><a href="#6-xgboost" class="headerlink" title="6.xgboost"></a>6.xgboost</h4><blockquote>
@@ -697,16 +700,20 @@
 <p>​    节点划分准则：</p>
 <p>​        分类树：信息增益获信息增益比</p>
 <p>​        回归树：最大均方误差</p>
-<p>Xgboost和GBDT算法时间复杂度是多少？</p>
+<p><strong>整体流程：</strong></p>
+<p><strong>Xgboost和GBDT算法时间复杂度是多少？</strong></p>
 <p>​    针对每个特征，把属于该节点的训练样本根据该特征值升序排列，通过线性扫描的方式来决定该特征的最佳分裂点，并记录该特征的最大收益（采用最佳分裂点时的收益）</p>
 <p>​    时间复杂度:<strong>O(nlogn <em> d </em> m)</strong>(n是样本个数，d是特征个数,m是树的深度)</p>
-<p>xgboost是如何进行剪枝的？</p>
-<p>​    xgboost采用后剪枝的方式进行剪枝，即 从顶到底建立所有可以建立的子树，再从底到顶反向进行剪枝，这样不容易陷入局部最优解。</p>
-<p>整体流程：</p>
-<p>xgboost和gbdt的区别：</p>
-<p>​        1.xgboost在损失函数中加入了正则化项，GBDT未考虑，更不容易产生过拟合</p>
-<p>​        2.xgboost是拟合上一轮损失函数的二阶展开，GBDT是拟合上一轮损失函数的一阶展开，因此Xgboost的准确性更改高而且满足相同的效果xgboost所需的迭代伦次更少</p>
-<p>​        3.. XGBoost与GDBT都是逐次迭代来提高模型性能，但是XGBoost在选取最佳切分点时可以开启多线程进行，大大提高了运行速度。</p>
+<p><strong>xgboost是如何进行剪枝的？</strong></p>
+<p>​    xgboost采用<strong>后剪枝</strong>的方式进行剪枝，即 从顶到底建立所有可以建立的子树，再从底到顶反向进行剪枝，这样不容易陷入局部最优解。</p>
+<p><strong>xgboost和gbdt的区别：</strong></p>
+<p>​        1.xgboost是gbdt的工程化实现</p>
+<p>​        2.xgboost加入了正则化信息</p>
+<p>​        3.xgboost允许使用自定义的损失函数</p>
+<p>​        4.xgboost损失函数加入了二阶导数信息，下降的更快更准</p>
+<p>​        5.xgboost支持和随机森林一样的列抽样</p>
+<p>​        6.xgboost支持并行化，但是并不是树与树之间的并行化，而是在最费时的特征排序截断进行并行化，将排序结果进行分桶保存，各个树生成时复用</p>
+<p>​        7.xgboost基模型除了支持gbdt支持的CART树外还支持其他的基模型</p>
 </blockquote>
 <p>7.样本不平衡问题处理办法</p>
 <p>极大似然和最大熵</p>
