@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="可视化,数据分析," />
+  <meta name="keywords" content="数据分析,可视化," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;apos;ggplot&amp;apos;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.">
-<meta name="keywords" content="可视化,数据分析">
+<meta name="keywords" content="数据分析,可视化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据可视化之散点图和折线图">
 <meta property="og:url" content="http://yoursite.com/2018/09/23/数据可视化之散点图和折线图/index.html">
@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%8A%98%E7%BA%BF%E5%9B%BE.png?raw=true">
 <meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%A3%E7%82%B9%E5%9B%BE.png?raw=true">
 <meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/DBSCAN%E6%95%88%E6%9E%9C%E5%9B%BE.png?raw=true">
-<meta property="og:updated_time" content="2018-09-23T08:41:47.689Z">
+<meta property="og:updated_time" content="2019-09-17T02:48:26.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据可视化之散点图和折线图">
 <meta name="twitter:description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;apos;ggplot&amp;apos;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.">
@@ -400,7 +400,8 @@ plt.title(&quot;image title&quot;,fontsize=30)  指定图片标题
 </code></pre><h4 id="指定坐标轴相关"><a href="#指定坐标轴相关" class="headerlink" title="指定坐标轴相关"></a>指定坐标轴相关</h4><pre><code>my_x_trick = np.arrange(0,200,10)     
 plt.xtricks(my_x_trick,fontsize=20,rotation)   指定x轴，fontsize指定坐标轴字体，rotation指定文字旋转的角度
 plt.ytricks(fontsize=20)    指定y轴
-</code></pre><h2 id="指定画图类型"><a href="#指定画图类型" class="headerlink" title="指定画图类型"></a>指定画图类型</h2><h4 id="1-折线图"><a href="#1-折线图" class="headerlink" title="1.折线图"></a>1.折线图</h4><pre><code>plt.plot(x,y)   #不指定画图种类时默认为折线图
+</code></pre><p>​    </p>
+<h2 id="指定画图类型"><a href="#指定画图类型" class="headerlink" title="指定画图类型"></a>指定画图类型</h2><h4 id="1-折线图"><a href="#1-折线图" class="headerlink" title="1.折线图"></a>1.折线图</h4><pre><code>plt.plot(x,y)   #不指定画图种类时默认为折线图
 plt.legend(loc = &quot;best&quot;,fontsize=40,shadow=1)  #进行图例格式设定
 plt.show()
 </code></pre><blockquote>
@@ -431,27 +432,14 @@ plt.show()
 #使用TSNE进行降维
 tsne = TSNE(learning_rate=100)
 x = tsne.fit_transform(input)
-
-
-labels = dbscan.labels_    #获取最终的预测结果
-unique_labels = set(dbscan.labels_) 
-
-colors = plt.cm.Spectral(np.linspace(0,1,len(set(dbscan.labels_))))   #生成和标签种类数相同的颜色数组
+</code></pre><p>​<br>    labels = dbscan.labels_    #获取最终的预测结果<br>    unique_labels = set(dbscan.labels_) </p>
+<pre><code>colors = plt.cm.Spectral(np.linspace(0,1,len(set(dbscan.labels_))))   #生成和标签种类数相同的颜色数组
 
 core_samples_mask =np.zeros_like(dbscan.labels_,dtype=bool)   
 
 core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对应的位置置true
-
-
-plt.style.use(&apos;ggplot&apos;) 
-plt.figure(figsize=(30,20)) 
-for k,col in zip(unique_labels,colors):
-    if k==-1:
-        col=&apos;k&apos;
-    class_member_mask = (labels==k)
-    xy = x[class_member_mask &amp; core_samples_mask]
-    plt.plot(xy[:,0],xy[:,1],&apos;o&apos;,markerfacecolor=col,markeredgecolor=&apos;k&apos;,markersize=10)
-</code></pre><p><img src="https://github.com/Anchoret91/youdao_image/blob/master/DBSCAN%E6%95%88%E6%9E%9C%E5%9B%BE.png?raw=true" alt="image"></p>
+</code></pre><p>​<br>    plt.style.use(‘ggplot’)<br>    plt.figure(figsize=(30,20))<br>    for k,col in zip(unique_labels,colors):<br>        if k==-1:<br>            col=’k’<br>        class_member_mask = (labels==k)<br>        xy = x[class_member_mask &amp; core_samples_mask]<br>        plt.plot(xy[:,0],xy[:,1],’o’,markerfacecolor=col,markeredgecolor=’k’,markersize=10)<br><img src="https://github.com/Anchoret91/youdao_image/blob/master/DBSCAN%E6%95%88%E6%9E%9C%E5%9B%BE.png?raw=true" alt="image"></p>
+<p>​        </p>
 
       
     </div>
@@ -469,9 +457,9 @@ for k,col in zip(unique_labels,colors):
       
         <div class="post-tags">
           
-            <a href="/tags/可视化/" rel="tag"># 可视化</a>
-          
             <a href="/tags/数据分析/" rel="tag"># 数据分析</a>
+          
+            <a href="/tags/可视化/" rel="tag"># 可视化</a>
           
         </div>
       
@@ -573,7 +561,7 @@ for k,col in zip(unique_labels,colors):
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">98</span>
+                  <span class="site-state-item-count">106</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -595,7 +583,7 @@ for k,col in zip(unique_labels,colors):
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

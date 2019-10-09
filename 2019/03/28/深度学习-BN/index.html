@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/BN%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true">
-<meta property="og:updated_time" content="2019-03-28T09:32:18.255Z">
+<meta property="og:updated_time" content="2019-08-25T04:41:51.988Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习-BN">
 <meta name="twitter:description" content="为什么要进行归一化？ ​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的泛化能力也将大大降低；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这将大大降低网络的学习速度。  为什么要使用BN？ ​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中">
@@ -402,6 +402,14 @@
 <p>1.防止过拟合。有了BN，dropout和正则化的需求下降了</p>
 <p>2.加速训练</p>
 </blockquote>
+<p><strong>BN算法是如何加快训练和收敛速度的呢？</strong></p>
+<blockquote>
+<p>BN算法在实际使用的时候会把特征给强制性的归到均值为0，方差为1的数学模型下。深度网络在训练的过程中，如果每层的数据分布都不一样的话，将会导致网络非常难收敛和训练，而如果能把每层的数据转换到均值为0，方差为1的状态下，一方面，数据的分布是相同的，训练会比较容易收敛，另一方面，均值为0，方差为1的状态下，在梯度计算时会产生比较大的梯度值，可以加快参数的训练，更直观的来说，是把数据从饱和区直接拉到非饱和区。更进一步，这也可以很好的控制梯度爆炸和梯度消失现象，因为这两种现象都和梯度有关。</p>
+</blockquote>
+<p><strong>BN算法为什么能防止过拟合？</strong></p>
+<blockquote>
+<p>在训练中，BN的使用使得一个mini-batch中的所有样本都被关联在了一起，因此网络不会从某一个训练样本中生成确定的结果。</p>
+</blockquote>
 
       
     </div>
@@ -523,7 +531,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">98</span>
+                  <span class="site-state-item-count">106</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -545,7 +553,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
