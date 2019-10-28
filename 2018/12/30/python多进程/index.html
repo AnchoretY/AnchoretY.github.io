@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​    python多进程之前一直在在写一些小程序，这次正好需要写一个比较正式的多进行处理，正好系统的总结下python多进行的一些核心知识。 ​    首先python中常用的提高效率的方式主要主要包括多线程、多进程两种，但是在python中的多线程并不是正正的多线程，只有在网络请求密集型的程序中才能有效的提升效率，在计算密集型、IO密集型都不是很work甚至会造成效率下降，因此提升效率的方式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-02T03:04:08.372Z">
+<meta property="og:updated_time" content="2019-10-19T11:50:13.685Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python多进程">
 <meta name="twitter:description" content="​    python多进程之前一直在在写一些小程序，这次正好需要写一个比较正式的多进行处理，正好系统的总结下python多进行的一些核心知识。 ​    首先python中常用的提高效率的方式主要主要包括多线程、多进程两种，但是在python中的多线程并不是正正的多线程，只有在网络请求密集型的程序中才能有效的提升效率，在计算密集型、IO密集型都不是很work甚至会造成效率下降，因此提升效率的方式">
@@ -452,6 +452,7 @@
 <p>​        （1）blocked为True，并且timeout为正值，那么在等待时间结束后还没有取到元素，那么会抛出Queue.Empty异常</p>
 <p>​        （2）blocked为False，那么对列为空时直接抛出Queue.Empty异常</p>
 </blockquote>
+<h3 id="python实现多进程最优方式"><a href="#python实现多进程最优方式" class="headerlink" title="python实现多进程最优方式"></a>python实现多进程最优方式</h3><p>​    python中自带的joblib包自带了</p>
 
       
     </div>
@@ -571,7 +572,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">106</span>
+                  <span class="site-state-item-count">113</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -593,7 +594,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -626,7 +627,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建进程类"><span class="nav-number">1.</span> <span class="nav-text">创建进程类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-单个进程类的创建"><span class="nav-number">1.1.</span> <span class="nav-text">1.单个进程类的创建</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Lock来避免冲突"><span class="nav-number">2.</span> <span class="nav-text">使用Lock来避免冲突</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建进程类"><span class="nav-number">1.</span> <span class="nav-text">创建进程类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-单个进程类的创建"><span class="nav-number">1.1.</span> <span class="nav-text">1.单个进程类的创建</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Lock来避免冲突"><span class="nav-number">2.</span> <span class="nav-text">使用Lock来避免冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python实现多进程最优方式"><span class="nav-number">3.</span> <span class="nav-text">python实现多进程最优方式</span></a></li></ol></div>
             
 
           </div>

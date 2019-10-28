@@ -297,6 +297,1150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/python——Counter对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/14/python——Counter对象/" itemprop="url">python——Counter对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T12:16:39+08:00">
+                2019-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    <strong>Counter对象就是python内部的一个计数器</strong>，常用来统计列表、字符串中各个字符串出现的频次，以及找到出现频次最该以及最低的元素</p>
+<p>​    使用前必须先引入引用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br></pre></td></tr></table></figure>
+<p>​    下面介绍在日常使用过程中常见的用法：</p>
+<h4 id="1-统计列表和字符串中各个元素出现的频数"><a href="#1-统计列表和字符串中各个元素出现的频数" class="headerlink" title="1.统计列表和字符串中各个元素出现的频数"></a>1.统计列表和字符串中各个元素出现的频数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">"acfacs"</span></span><br><span class="line">l = [<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">7</span>]</span><br><span class="line">print(Counter(s))</span><br><span class="line">print(Counter(l))</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  Counter(&#123;<span class="string">'c'</span>: <span class="number">2</span>, <span class="string">'a'</span>: <span class="number">2</span>, <span class="string">'s'</span>: <span class="number">1</span>, <span class="string">'f'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">	Counter(&#123;<span class="number">1</span>: <span class="number">2</span>, <span class="number">2</span>: <span class="number">2</span>, <span class="number">4</span>: <span class="number">1</span>, <span class="number">7</span>: <span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="2-获取最高频的N个元素及频数"><a href="#2-获取最高频的N个元素及频数" class="headerlink" title="2.获取最高频的N个元素及频数"></a>2.获取最高频的N个元素及频数</h4><p>​    Counter对象的most_common方法可以获取列表和字符串的前N高频的元素及频次。</p>
+<blockquote>
+<p>most_common:</p>
+<p>​    param n:前几个高频对象，从1开始，默认为全部，也就相当于按照频数排序</p>
+<p>​    return list:按照出现的频数高低已经排好序的前N个列表，列表的元素是两元组，第一项代表元素，第二项代表频率</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">"acfacs"</span></span><br><span class="line">print(Counter(s).most_common(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	[(<span class="string">'c'</span>, <span class="number">2</span>)]</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/13/机试——动态规划和回溯法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/13/机试——动态规划和回溯法/" itemprop="url">机试——动态规划和回溯法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-13T16:50:40+08:00">
+                2019-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="动态规划DP"><a href="#动态规划DP" class="headerlink" title="动态规划DP"></a>动态规划DP</h3><p>​    基本思想也是将待求解问题分解成若干个子问题，先求解子问题，然后从这些问题的解得到原问题的解。与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。</p>
+<p>​    核心：找到递推公式</p>
+<h4 id="二维递归"><a href="#二维递归" class="headerlink" title="二维递归"></a>二维递归</h4><p>#####1.背包问题</p>
+<h5 id="2-分割等和子数组-也会背包问题"><a href="#2-分割等和子数组-也会背包问题" class="headerlink" title="2.分割等和子数组(也会背包问题)"></a>2.分割等和子数组(也会背包问题)</h5><p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+<p><strong>注意:</strong></p>
+<ol>
+<li>每个数组中的元素不会超过 100</li>
+<li>数组的大小不会超过 200</li>
+</ol>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: [1, 5, 11, 5]</span><br><span class="line"></span><br><span class="line">输出: true</span><br><span class="line"></span><br><span class="line">解释: 数组可以分割成 [1, 5, 5] 和 [11].</span><br></pre></td></tr></table></figure>
+<p>​    本题是一个经典的动态规划问题的题型——0/1背包问题,背包的大小为sum(nums)/2。该问题首先要我们初始化一个数组w，w[i]代表能否将背包填充到i，而能将背包填充到i有两种方式，一种是直接使用i大小的块，第二是使用多个小块，因此我们可以总结出递推公式：</p>
+<p>​    w[i] = w[i]||w[i-num]</p>
+<p>​    这个递推公式用程序表示就是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(c, num - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">      w[i] = w[i] <span class="keyword">or</span> w[i - num]</span><br></pre></td></tr></table></figure>
+<p>​    举例来说：</p>
+<p>​        对于输入[1,5,11,5]来说，<br>​        当num=1时，通过递推式只能得到w[1]=true<br>​        当num=5时，通过递推式能够得到w[5]=true,w[6]=true，因为可以通过1+5组合<br>​        当num=5时，通过递推式能够得到新的w[11]=true（5+6=11）<br>​        当num=11时，没有新改动w<br>​        所以此时可以发现w[11]=true，所以可以等分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canPartition</span><span class="params">(self, nums)</span> -&gt; bool:</span></span><br><span class="line">        <span class="comment"># 计算总价值</span></span><br><span class="line">        c = sum(nums)</span><br><span class="line">        <span class="comment"># 奇数直接排除</span></span><br><span class="line">        <span class="keyword">if</span> c % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        c = c // <span class="number">2</span></span><br><span class="line">        w = [<span class="keyword">False</span>] * (c + <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 第0个位置设置为true，表示当元素出现的时候让w[i-num]为True,也就是w[i]为True</span></span><br><span class="line">        w[<span class="number">0</span>] = <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(c, num - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">                w[i] = w[i] <span class="keyword">or</span> w[i - num]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> w[c]</span><br></pre></td></tr></table></figure>
+<p>​    当然本题也就可以使用BST，但是时间复杂度太高，leetcode没过</p>
+<p>##### </p>
+<h3 id="回溯法-深度优先搜索BST"><a href="#回溯法-深度优先搜索BST" class="headerlink" title="回溯法-深度优先搜索BST"></a>回溯法-深度优先搜索BST</h3><p>​    在包含问题的所有解的解空间树中，按照深度优先搜索的策略，从根结点出发深度探索解空间树。当探索到某一结点时，要先判断该结点是否包含问题的解，如果包含，就从该结点出发继续探索下去，如果该结点不包含问题的解，则逐层向其祖先结点回溯。</p>
+<p>​    核心：暴力遍历</p>
+<h5 id="1-求解一个集合的全部子集"><a href="#1-求解一个集合的全部子集" class="headerlink" title="1.求解一个集合的全部子集"></a>1.求解一个集合的全部子集</h5><p>给定一组<strong>不含重复元素</strong>的整数数组 <em>nums</em>，返回该数组所有可能的子集（幂集）。</p>
+<p><strong>说明：</strong>解集不能包含重复的子集。</p>
+<p><strong>示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [1,2,3]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [3],</span><br><span class="line">  [1],</span><br><span class="line">  [2],</span><br><span class="line">  [1,2,3],</span><br><span class="line">  [1,3],</span><br><span class="line">  [2,3],</span><br><span class="line">  [1,2],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>​    找子集相关问题的BST基本上采用的<strong>核心思想：每个位置都可能出现采用或者不采用两种情况，而如果可能出现重复的元素，那么就要事先将原数组进行排序，存进result之前判断是否已有</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subsets</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,i,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> i==length:</span><br><span class="line">                result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment">#每次向后遍历时有两种情况，一种是将当前节点值加入到tmp中，一种是不加入</span></span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp+[nums[i]])</span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp)</span><br><span class="line">            </span><br><span class="line">        nums.sort()</span><br><span class="line">        length = len(nums) </span><br><span class="line">        result = []</span><br><span class="line">        core(nums,<span class="number">0</span>,[])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p>拓展：含重复的子集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subsetsWithDup</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,i,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> i==length:</span><br><span class="line">                <span class="keyword">if</span> tmp <span class="keyword">not</span> <span class="keyword">in</span> result: </span><br><span class="line">                    result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            </span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp)</span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp+[nums[i]])</span><br><span class="line">            </span><br><span class="line">        length = len(nums)</span><br><span class="line">        result = []</span><br><span class="line">        nums.sort()   <span class="comment">#这里必须要先排序</span></span><br><span class="line">        core(nums,<span class="number">0</span>,[])</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h5 id="2-全排列"><a href="#2-全排列" class="headerlink" title="2.全排列"></a>2.全排列</h5><p>给定一个<strong>没有重复</strong>数字的序列，返回其所有可能的全排列。</p>
+<p><strong>示例:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入: [1,2,3]</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">  [1,2,3],</span><br><span class="line">  [1,3,2],</span><br><span class="line">  [2,1,3],</span><br><span class="line">  [2,3,1],</span><br><span class="line">  [3,1,2],</span><br><span class="line">  [3,2,1]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span><span class="params">(self, nums: List[int])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> nums==[]:</span><br><span class="line">                result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                s = nums[::]</span><br><span class="line">                s.remove(num)</span><br><span class="line">                core(s,tmp+[num])</span><br><span class="line">                </span><br><span class="line">        result = []</span><br><span class="line">        core(nums,[])</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p>拓展：含重复数组的全排列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">permuteUnique</span><span class="params">(self, nums: List[int])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> nums==[]:</span><br><span class="line">                <span class="keyword">if</span> tmp <span class="keyword">not</span> <span class="keyword">in</span> result:</span><br><span class="line">                    result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                s = nums[::]</span><br><span class="line">                s.remove(num)</span><br><span class="line">                core(s,tmp+[num])</span><br><span class="line">                </span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        nums.sort()</span><br><span class="line">        core(nums,[])</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h5 id="3-划分为k个相等的子集"><a href="#3-划分为k个相等的子集" class="headerlink" title="3.划分为k个相等的子集"></a>3.划分为k个相等的子集</h5><p>给定一个整数数组  <code>nums</code> 和一个正整数 <code>k</code>，找出是否有可能把这个数组分成 <code>k</code> 个非空子集，其总和都相等。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4</span><br><span class="line">输出： True</span><br><span class="line">说明： 有可能将其分成 4 个子集（5），（1,4），（2,3），（2,3）等于总和。</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canPartitionKSubsets</span><span class="params">(self, nums: List[int], k: int)</span> -&gt; bool:</span></span><br><span class="line">				</span><br><span class="line">        <span class="keyword">if</span> k == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="comment">#如果不能被k整除，那么直接无解</span></span><br><span class="line">        sum_num = sum(nums)</span><br><span class="line">        <span class="keyword">if</span> sum_num % k != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">          </span><br><span class="line">        avg = sum_num // k </span><br><span class="line">        nums.sort(reverse=<span class="keyword">True</span>)</span><br><span class="line">        </span><br><span class="line">        n = len(nums)</span><br><span class="line">        <span class="keyword">if</span> n &lt; k :<span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        visited = set()   <span class="comment">#标志位，标志哪个位置已经被使用过了</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(k,tmp_sum,loc)</span>:</span></span><br><span class="line">          	<span class="comment">#当选用的几个数之和等于目标值，那么k减一，再找下一个子集</span></span><br><span class="line">            <span class="keyword">if</span> tmp_sum == avg:</span><br><span class="line">                <span class="keyword">return</span>  dfs(k<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">            <span class="comment">#如果k==1，由于上面已经验证过可以被k整除，因此一定成立</span></span><br><span class="line">            <span class="keyword">if</span> k == <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(loc,n):</span><br><span class="line">                <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> visited <span class="keyword">and</span> nums[i] + tmp_sum &lt;= avg:</span><br><span class="line">                    visited.add(i)</span><br><span class="line">                    <span class="keyword">if</span> dfs(k,tmp_sum+nums[i],i+<span class="number">1</span>):</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">                    visited.remove(i)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> dfs(k,<span class="number">0</span>,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/12/深度学习——词向量表示之word2vec/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/12/深度学习——词向量表示之word2vec/" itemprop="url">深度学习——词向量表示之word2vec</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-12T09:39:34+08:00">
+                2019-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），<strong>里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt=""></p>
+<h4 id="Word2Vec对原始语言模型的改进："><a href="#Word2Vec对原始语言模型的改进：" class="headerlink" title="Word2Vec对原始语言模型的改进："></a>Word2Vec对原始语言模型的改进：</h4><blockquote>
+<p>1.<strong>对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。</strong></p>
+<p>比如输入的是三个4维词向量：(1,2,3,4),(9,6,11,8),(5,10,7,12)(1,2,3,4),(9,6,11,8),(5,10,7,12),那么我们word2vec映射后的词向量就是(5,6,7,8)(5,6,7,8)。由于这里是从多个词向量变成了一个词向量。</p>
+<p><strong>2.word2vec采样了霍夫曼树来代替从隐藏层到输出softmax层的映射（Hierarchical Softmax）。这样隐藏层到输出层的softmax不是一步完成的，而是沿着哈弗曼树一步一步完成的。</strong></p>
+</blockquote>
+<h3 id="Hierarchical-Softmax"><a href="#Hierarchical-Softmax" class="headerlink" title="Hierarchical Softmax"></a>Hierarchical Softmax</h3><p>​     和之前的神经网络语言模型相比，我们的霍夫曼树的<strong>所有内部节点就类似之前神经网络隐藏层的神经元</strong>,其中，<strong>根节点的词向量对应我们的投影后的词向量</strong>，而所有<strong>叶子节点就类似于之前神经网络softmax输出层的神经元</strong>，<strong>叶子节点的个数就是词汇表的大小</strong>。</p>
+<h4 id="使用Hierarchical-Softmax的好处"><a href="#使用Hierarchical-Softmax的好处" class="headerlink" title="使用Hierarchical Softmax的好处"></a>使用Hierarchical Softmax的好处</h4><blockquote>
+<p>1.由于是二叉树，之前计算量为V,现在变成了log2V</p>
+<p>2.由于使用霍夫曼树是高频的词靠近树根，这样高频词需要更少的时间会被找到。</p>
+</blockquote>
+<h4 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h4><p><strong>STEP 1：扫描语料库，统计每个词出现的频数，保存在一个hash表中</strong></p>
+<p><strong>STEP2：根据个词的词频建立哈弗曼树</strong></p>
+<ul>
+<li><p>最终每个词汇都是哈弗曼树的叶子节点，词频就是相应的权值</p>
+</li>
+<li><p>根节点对应的词向量就是我们投影后的词向量</p>
+</li>
+<li>而所有叶子节点就类似神经网络softmax输出层的神经元，叶子节点个数就是词汇表大小</li>
+<li>非叶子节点代表某一类词</li>
+<li>哈弗曼树建立好后每个词都会有一个二进制的哈弗曼编码</li>
+</ul>
+<p><strong>STEP3：初始化词向量和哈弗曼树非叶子节点的向量</strong></p>
+<p>​    向量维度是我们给定的参数K。</p>
+<p><strong>STEP4：训练，也就是通过梯度下降算法不断优化词向量</strong></p>
+<p>​    在初始化后的词向量，回到语料库，逐句读取一系列的词，然后用梯度下降算法算法算出梯度，更新词向量的值、非叶子检点的值。(哈弗曼树就相当于一个优化后的神经网络)</p>
+<h4 id="参数更新过程"><a href="#参数更新过程" class="headerlink" title="参数更新过程"></a>参数更新过程</h4><h3 id="基于Negative-Sampling的Word2vec"><a href="#基于Negative-Sampling的Word2vec" class="headerlink" title="基于Negative Sampling的Word2vec"></a>基于Negative Sampling的Word2vec</h3><p><strong>Hierarchical Softmax的的缺点</strong>：</p>
+<p>​    对于生僻词需要在哈弗曼树中向下走很久。</p>
+<h4 id="Negative-Sampling算法"><a href="#Negative-Sampling算法" class="headerlink" title="Negative Sampling算法"></a>Negative Sampling算法</h4><p>​    Negative Sampling不再使用(复杂的Huffman树），而是<strong>利用相对简单的随机负采样</strong>，能大幅度提升性能，因此，将其作为Hierarchical softmax的替代方案</p>
+<p>​    <strong>核心思想</strong>：<strong>通过负采样将问题转化为求解一个正例和neg个负例进行二元回归问题</strong>。每次只是通过采样neg个不同的中心词做负例，就可以训练模型</p>
+<p>​    <strong>方法：</strong>我们有一个训练样本，中心词是w,它周围上下文共有2c个词，记为context(w)。由于这个中心词w,的确和context(w)相关存在，因此它是一个真实的正例。<strong>通过Negative Sampling采样，我们得到neg个</strong>和w不同的中心词wi,i=1,2,..neg，这样context(w)和wi就组成了neg个<strong>并不真实存在的负例</strong>。<strong>利用这一个正例和neg个负例，我们进行二元逻辑回归，得到负采样对应每个词wi对应的模型参数θi，和每个词的词向量</strong>。</p>
+<p>​    <strong>本质上是对训练集进行了采样，从而减小了训练集的大小。</strong></p>
+<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true" alt=""></p>
+<p><strong>3、 word2vec负采样有什么作用？</strong></p>
+<p>1<strong>.加速了模型计算</strong>，模型每次只需要更新采样的词的权重，不用更新所有的权重</p>
+<p>2.<strong>保证了模型训练的效果</strong>，中心词其实只跟它周围的词有关系，位置离着很远的词没有关系</p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p><strong>1.skip gram和cbow各自的优缺点</strong></p>
+<blockquote>
+<p>​    <strong>(1) cbow的速度更快，时间复杂度为O(V)，skip-gram速度慢,时间复杂度为O(nV)</strong></p>
+<p>​    在cbow方法中，是用周围词预测中心词，从而利用中心词的预测结果情况，使用GradientDesent方法，不断的去调整周围词的向量。cbow预测行为的次数跟整个文本的词数几乎是相等的（每次预测行为才会进行一次backpropgation, 而往往这也是最耗时的部分），复杂度大概是O(V);</p>
+<p>​    而skip-gram是用中心词来预测周围的词。在skip-gram中，会利用周围的词的预测结果情况，使用GradientDecent来不断的调整中心词的词向量，最终所有的文本遍历完毕之后，也就得到了文本所有词的词向量。可以看出，skip-gram进行预测的次数是要多于cbow的：因为<strong>每个词在作为中心词时，都要使用周围每个词进行预测一次</strong>。<strong>这样相当于比cbow的方法多进行了K次（假设K为窗口大小）</strong>，因此时间的复杂度为O(KV)，训练时间要比cbow要长。</p>
+<p>​    <strong>(2)当数据较少或生僻词较多时，skip-gram会更加准确；</strong></p>
+<p>​    在<strong>skip-gram当中，每个词都要收到周围的词的影响</strong>，每个词在作为中心词的时候，都要进行K次的预测、调整。因此， 当数据量较少，或者词为生僻词出现次数较少时， 这种多次的调整会使得词向量相对的更加准确。因为<strong>尽管cbow从另外一个角度来说，某个词也是会受到多次周围词的影响（多次将其包含在内的窗口移动），进行词向量的跳帧，但是他的调整是跟周围的词一起调整的，grad的值会平均分到该词上， 相当于该生僻词没有收到专门的训练，它只是沾了周围词的光而已</strong>。</p>
+</blockquote>
+<p><strong>2.Negative Sampling和Hierarchical softmax各自的优缺点</strong></p>
+<blockquote>
+<p><strong>Hierarchical softmax</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.由于是二叉树，之前计算量为V,现在变成了log2V，<strong>效率更高</strong></p>
+<p>​    2.由于使用霍夫曼树是高频的词靠近树根，这样<strong>高频词需要更少的时间会被找到</strong>。</p>
+<p><strong>缺点:</strong></p>
+<p>​    对于<strong>生僻词在hierarchical softmax中依旧需要向下走很久</strong></p>
+<p><strong>Negative Sampling</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.对于低频词的计算效率依然很高</p>
+</blockquote>
+<p>​        </p>
+<p><strong>3.word2vec的缺点</strong></p>
+<blockquote>
+<p>1.使用的只是局部的上下文信息，对上下文的利用有限</p>
+<p>2.和glove相比比较难并行化</p>
+</blockquote>
+<p>​    </p>
+<p><strong>4、word2vec和fastText对比有什么区别？（word2vec vs fastText）</strong></p>
+<blockquote>
+<p>1）都可以无监督学习词向量， <strong>fastText训练词向量时会考虑subword</strong>；</p>
+<p>2）fastText还可以进行有监督学习进行文本分类，其主要特点：</p>
+<ul>
+<li>结构与CBOW类似，但学习目标是人工标注的分类结果；</li>
+<li>采用hierarchical softmax对输出的分类标签建立哈夫曼树，样本中标签多的类别被分配短的搜寻路径；</li>
+<li>引入N-gram，考虑词序特征；</li>
+<li>引入subword来处理长词，处理未登陆词问题；</li>
+</ul>
+</blockquote>
+<p>参考文献：<a href="https://www.cnblogs.com/pinard/p/7249903.html" target="_blank" rel="noopener">基于Negative Sampling的模型</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/7243513.html" target="_blank" rel="noopener"> 基于Hierarchical Softmax的模型</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/机器学习——高斯混合模型GMM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/04/机器学习——高斯混合模型GMM/" itemprop="url">机器学习——高斯混合模型GMM</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T12:12:58+08:00">
+                2019-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>GMM 是学习出一些概率密度函数</p>
+<p>k-means 的结果是每个数据点被 assign 到其中某一个 cluster 了，而 GMM 则给出这些数据点被 assign 到每个 cluster 的概率，又称作 soft assignment。</p>
+<p>假设数据服从 Mixture Gaussian Distribution ，换句话说，数据可以看作是从数个 Gaussian Distribution 中生成出来的</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/机器学习——EM算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/04/机器学习——EM算法/" itemprop="url">机器学习——EM算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T09:57:41+08:00">
+                2019-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h3><p>####1.参数估计的方法</p>
+<p>概率模型的参数估计分为两大类：</p>
+<blockquote>
+<p>1.不含隐变量的参数估计—极大似然估计/贝叶斯估计法</p>
+<p>2.含隐变量的参数估计—EM算法</p>
+</blockquote>
+<h4 id="2-jensen不等式"><a href="#2-jensen不等式" class="headerlink" title="2.jensen不等式"></a>2.jensen不等式</h4><p><strong>X是一个随机变量，f(X)是一个凸函数（二阶导数大或等于0），那么有：</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/jensen不等式.png?raw=true" alt=""></p>
+<p><strong>当且仅当X是常数的时候等号成立</strong></p>
+<p><strong>如果f（X）是凹函数，不等号反向</strong></p>
+<h4 id="3-先验概率、后验概率、条件概率"><a href="#3-先验概率、后验概率、条件概率" class="headerlink" title="3.先验概率、后验概率、条件概率"></a>3.先验概率、后验概率、条件概率</h4><p>​    <strong>先验概率：P(Y)</strong>   </p>
+<blockquote>
+<p>先验概率是只根据事情之前发生各个结果出现情况估计的概率(无关特征)</p>
+</blockquote>
+<p>​    <strong>后验概率：P(Y|X)</strong></p>
+<blockquote>
+<p>后验概率是在各个X的分布下各个Y出现的概率(特征符合这个X时Y为这个的概率)</p>
+</blockquote>
+<p>​    <strong>条件概率：P(X|Y)</strong></p>
+<blockquote>
+<p>条件概率是在结果某一种情况时X出现这种分布的概率</p>
+</blockquote>
+<h4 id="4-自信息、互信息"><a href="#4-自信息、互信息" class="headerlink" title="4.自信息、互信息"></a>4.自信息、互信息</h4><p>​    <strong>自信息：I(x) = -logp(x)</strong></p>
+<p>​    概率是衡量确定性的度量，那么<strong>信息是衡量不确定性的度量</strong>.越不确定信息量越高。</p>
+<p>​    <strong>互信息：I(x;y) = log(p(x|y)/p(x))</strong></p>
+<p>​    已知y，x的不确定性减少量(其值可正可负)</p>
+<h4 id="5-熵"><a href="#5-熵" class="headerlink" title="5.熵"></a>5.熵</h4><p>​    <strong>对随机变量平均不确定性的度量，</strong>一个系统越有序，信息熵越低。</p>
+<p>​    熵的另一种解读也就是<strong>自信息的期望</strong></p>
+<p>​        <strong>H(X) = E[I(X)] = ∑P(x)I(x) = -∑p(x)logp(x)</strong></p>
+<h4 id="6-条件熵"><a href="#6-条件熵" class="headerlink" title="6.条件熵"></a>6.条件熵</h4><p>​    在给定y条件下，x的条件自信息量为I(x|y)，X的集合的条件熵为</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵1.png?raw=true" alt=""></p>
+<p>​    进一步在给定Y（各个y）的条件下，X集合的条件熵：</p>
+<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵2.png?raw=true" alt=""></p>
+<p>​    也就是在<strong>联合符号集合上的条件自信息量两个概率的加权平均</strong>    </p>
+<h4 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h4><p>​    EM算法主要用于求解概率模型的<strong>极大似然估计</strong>或<strong>极大后验概率</strong>。EM算法是通过<strong>迭代求解</strong>观测数据<strong>对数似然函数L(θ) = logP(Y|θ)的极大化</strong>，实现参数估计的。</p>
+<blockquote>
+<p>每次迭代主要分为E、M两步：</p>
+<p>​    E步：求期望。即求log(P，Z|θ)关于P(Z|Y，θi)的期望</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/M步公式.png?raw=true" alt=""></p>
+<p>(各个隐变量可能的概率下乘以出现这种结果的总和)</p>
+<p>​        </p>
+<p>​    M步：极大化Q函数得到新的参数θ</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/E步公式.png?raw=true" alt=""></p>
+<p>​    在构建具体的EM算法时，最重要的时定义Q函数，每次迭代中，Em算法通过极大似然化Q函数来增大对数似然函数L(θ)</p>
+</blockquote>
+<h5 id="算法推导"><a href="#算法推导" class="headerlink" title="算法推导"></a>算法推导</h5><p><strong>注意：1.EM算法在每次迭代后均能提高观测数据的似然函数值</strong></p>
+<p>​    <strong>2.EM算法不能保证全局最优，只能保证局部最优，因此算法受初值的影响</strong></p>
+<p>​    <strong>3.EM算法可以用于无监督学习</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/30/机器学习——XGBoost/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/30/机器学习——XGBoost/" itemprop="url">机器学习——XGBoost</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-30T10:26:07+08:00">
+                2019-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="XGB的优势"><a href="#XGB的优势" class="headerlink" title="XGB的优势"></a>XGB的优势</h3><p>​    <strong>1. XGBoost加入了正则化项，正则化项中包含了叶子节点个数，使学到的模型更加简单。原始的GBDT没有，可以有效防止过拟合</strong></p>
+<p>​    <strong>2. XGBoost实现了局部并行计算，比原始的GBDT速度快的多</strong></p>
+<p>​    <strong>3. XGBoost中内置了缺失值的处理</strong>，尝试对缺失值进行分类，然后学习这种分类</p>
+<p>​    <strong>4. 可在线学习，这个sklearn中的GBDT也有</strong></p>
+<p>​    <strong>5. XGboost允许在交叉验证的过程中实现boosting，通过一次run就能得到boosting迭代的优化量；而GBDT只能人工的使用grid-search</strong></p>
+<p>​    <strong>6.支持列抽样。不仅能有效防止过拟合，还能减少计算量</strong></p>
+<h3 id="XGBoost的并行计算是如何实现的？"><a href="#XGBoost的并行计算是如何实现的？" class="headerlink" title="XGBoost的并行计算是如何实现的？"></a>XGBoost的并行计算是如何实现的？</h3><blockquote>
+<p>​    注意<strong>xgboost的并行不是tree粒度的并行</strong>，xgboost也是一次迭代完成才能进行下一次迭代的（第t次迭代的代价函数里面包含了前面t-1次迭代的预测值）。<strong>xgboost的并行是在特征粒度上的</strong>。我们知道，<strong>决策树的学习最耗时的一个步骤就是对特征的值进行排序（因为要确定最佳分割点）</strong>，<strong>xgboost在训练之前，预先对数据进行排序，然后保存block结构，后面的迭代中重复的使用这个结构，大大减小计算</strong>量。这个block结构也使得并行称为了可能，<strong>在进行节点的分裂时，需要计算每个特征的增益，最终选增益最大的那个特征去做分裂，那么各个特征的增益计算就可以开多线程进行。</strong></p>
+</blockquote>
+<h3 id="XGBoost的参数"><a href="#XGBoost的参数" class="headerlink" title="XGBoost的参数"></a>XGBoost的参数</h3><p>​    XGBoost的参数主要分为三大类：</p>
+<blockquote>
+<p>1.调控整个方程的参数</p>
+<p>2.调控每步树的参数</p>
+<p>3.调控优化表现的变量</p>
+</blockquote>
+<h5 id="1-调控整个方程的参数"><a href="#1-调控整个方程的参数" class="headerlink" title="1.调控整个方程的参数"></a>1.调控整个方程的参数</h5><ul>
+<li><strong>booster [defalut=gbtree]</strong>  基模型<ul>
+<li>gbtree：树模型</li>
+<li>gblinear：线性模型</li>
+</ul>
+</li>
+<li><strong>nthread</strong> [default to maximum number of threads available if not set] 使用的线程数<ul>
+<li>用于并行计算，默认使用全部内核</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-调节基分类器的参数"><a href="#2-调节基分类器的参数" class="headerlink" title="2.调节基分类器的参数"></a>2.调节基分类器的参数</h5><p>​    这里只讨论树模型作为基模型的情况，因为树模型作为基分类器效果总是优于线性模型。</p>
+<ul>
+<li><p><strong>eta/learning rate [default=0.3]</strong>  学习的初始速率</p>
+<ul>
+<li>通过减小每一步的权重能够使建立的模型更加具有鲁棒性</li>
+<li>通常最终的数值范围在[0.01-0.2]之间</li>
+</ul>
+<blockquote>
+<p>Shrinkage（缩减），相当于学习速率。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了消弱每棵树的影响，让后面有更大的学习空间。在实际应用中，一般把学习率设置的小一点，然后迭代次数设置的大一点（补充：传统GBDT的实现也有学习速率）</p>
+</blockquote>
+</li>
+<li><p><strong>gamma [default=0]</strong></p>
+<ul>
+<li>一个节点分裂的条件是其分裂能够起到降低loss function的作用，<strong>gamma 定义loss function降低多少才分裂</strong></li>
+<li>它的值取决于 loss function需要被调节</li>
+</ul>
+</li>
+<li><p><strong>lambda/reg_lambda  [default=1]</strong></p>
+<ul>
+<li>L2正则化的权重，用于防止过拟合</li>
+</ul>
+</li>
+<li><p><strong>alpha/reg_alpha  [default=0]</strong> </p>
+<ul>
+<li>L1正则化的权重，可以用于特征选择</li>
+<li>一般用于特征特别多的时候，可以大大提升算法的运算效率</li>
+</ul>
+</li>
+<li><p><strong>subsample [default=1]</strong></p>
+<ul>
+<li>每棵树使用的样本比例 [0.5~1]</li>
+<li>低值使得模型更保守且能防止过拟合，但太低的值会导致欠拟合</li>
+</ul>
+</li>
+<li><strong>colsample_bytree [default=1] </strong><ul>
+<li>每棵树随机选取的特征的比例 [0.5-1]</li>
+</ul>
+</li>
+</ul>
+<h5 id="3-调控优化表现的参数"><a href="#3-调控优化表现的参数" class="headerlink" title="3.调控优化表现的参数"></a>3.调控优化表现的参数</h5><ul>
+<li><strong>objective [default=reg:linear]</strong> </li>
+<li><strong>eval_metric</strong></li>
+<li><strong>seed</strong></li>
+</ul>
+<h3 id="调参"><a href="#调参" class="headerlink" title="调参"></a>调参</h3><p><strong>调参开始时一般使用较大的学习速率 0.1</strong></p>
+<h5 id="1-初始参数设置"><a href="#1-初始参数设置" class="headerlink" title="1.初始参数设置"></a>1.初始参数设置</h5><blockquote>
+<p>max_depth = 5</p>
+<p>min_child_weight = 1    #如果是不平衡数据，初始值设置最好小于1</p>
+</blockquote>
+<h5 id="2-首先调节的参数-max-depth和min-child-weight"><a href="#2-首先调节的参数-max-depth和min-child-weight" class="headerlink" title="2.首先调节的参数 max_depth和min_child_weight"></a>2.首先调节的参数 max_depth和min_child_weight</h5><p>​    在整个GBDT中，对整个模型效果影响最大的参数就是max_depth和min_child_weight。</p>
+<blockquote>
+<p>max_depth 一般在3~10先用step为2进行网格搜索找到范围，找到范围再用step为1的网格搜索确定具体值</p>
+<p>min_child_weight  一般现在1~6先使用step为2的网格搜索找到最佳参数值范围，然后再用step为1的网格索索确定具体参数值</p>
+</blockquote>
+<h5 id="3-调整gamma"><a href="#3-调整gamma" class="headerlink" title="3. 调整gamma"></a>3. 调整gamma</h5><blockquote>
+<p>gamma参数主要用于控制节点是否继续分裂，一般使用网格搜索在0~0.5之间进行步长为0.1的搜索</p>
+</blockquote>
+<h5 id="4-调整subsample和colsample-bytree"><a href="#4-调整subsample和colsample-bytree" class="headerlink" title="4.调整subsample和colsample_bytree"></a>4.调整subsample和colsample_bytree</h5><blockquote>
+<p>这两个参数主要是用来防止拟合的，参数值越小越能防止过拟合 一般0.6~1之间网格搜索</p>
+</blockquote>
+<h5 id="5-尝试降低学习速率增加更多的树"><a href="#5-尝试降低学习速率增加更多的树" class="headerlink" title="5.尝试降低学习速率增加更多的树"></a>5.尝试降低学习速率增加更多的树</h5><blockquote>
+<p>学习速率降为0.1或0.01</p>
+</blockquote>
+<p><strong>结论：1.仅仅通过调参来提升模型效果是很难的</strong></p>
+<p>​    <strong>2.要想提升模型效果最主要是通过特征工程、模型融合等方式</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/深度学习-BN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/28/深度学习-BN/" itemprop="url">深度学习-BN</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T16:11:20+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="为什么要进行归一化？"><a href="#为什么要进行归一化？" class="headerlink" title="为什么要进行归一化？"></a>为什么要进行归一化？</h5><blockquote>
+<p>​    原因在于神经网络的本身就在于学习数据的分布，一旦训练数据和测试数据分布不同，那么网络的<strong>泛化能力也将大大降低</strong>；另外一方面，再使用BSGD时一旦每批训练数据的分布不相同，那么网络在每次进行迭代时都要去适应不同的数据分布，这<strong>将大大降低网络的学习速度</strong>。</p>
+</blockquote>
+<h5 id="为什么要使用BN？"><a href="#为什么要使用BN？" class="headerlink" title="为什么要使用BN？"></a>为什么要使用BN？</h5><blockquote>
+<p>​    这主要是因为对于一般的归一化，只是在输入网络之前对数进行了归一化，而在神经网络的训练过程中并没有对数据做任何处理，而在神经网络的的训练过程中只要网络的前面几层的数据分布发生微小的变化，那么后面的网络就会不断积累放大这个分布的变化，因此一旦有任意一层的数据发生改变，这层以及后面的网络都会需要去从新适应学习这个新的数据分布，而如果训练过程中，每一层的数据都在不断发生变化，那么更将大大影响网络的训练速度，因此需要在网络的每一层输入之前都将数据进行一次归一化，保证数据分布的相同，<strong>加快网络训练速度</strong>。</p>
+<p>​    在另一方面，由于将网络的每一步都进行了标准化，数据分布一致，因此模型的泛化能力将更强。</p>
+</blockquote>
+<h5 id="BN的本质是什么？"><a href="#BN的本质是什么？" class="headerlink" title="BN的本质是什么？"></a>BN的本质是什么？</h5><blockquote>
+<p>一个<strong>可学习</strong>、<strong>有参数（γ、β）</strong>的使每层数据之前进行归一化的网络层</p>
+</blockquote>
+<h5 id="BN使用位置"><a href="#BN使用位置" class="headerlink" title="BN使用位置"></a>BN使用位置</h5><blockquote>
+<p>线性层后全连接层之前</p>
+</blockquote>
+<h5 id="BN过程"><a href="#BN过程" class="headerlink" title="BN过程"></a>BN过程</h5><blockquote>
+<p>对于一般的归一化没使用下面的公式进行归一化计算：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p><strong>但是如果仅仅使用上面的公式来对某层的输出做下一层的输入做归一化，那么是会影响到前面一层学习到的特征的。</strong>例如：网络中间某一层学习到特征数据本身就分布在S型激活函数的两侧，强制把它归一化处理、标准差也限制在了1，把数据变换成分布于s函数的中间部分，这样就相当于我这一层网络所学习到的特征分布被搞坏了。因此，<strong>BN引入了可学习的参数γ、β</strong>：</p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/BN%E5%BD%92%E4%B8%80%E5%8C%96%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    上面的公式表明，<strong>通过学习到的重构参数γ、β，是可以恢复出原始的某一层所学到的特征的。</strong></p>
+</blockquote>
+<h5 id="BN中为什么要在后面γ、β？不加可以吗？"><a href="#BN中为什么要在后面γ、β？不加可以吗？" class="headerlink" title="BN中为什么要在后面γ、β？不加可以吗？"></a>BN中为什么要在后面γ、β？不加可以吗？</h5><blockquote>
+<p>​    不可以，因为这是BN中的最关键步骤。不使用γ、β会造成归一化的同时破坏前一层提取到的特征，而BN通过记录每个神经元上的γ、β，使前一层的特征可以通过γ、β得以还原。</p>
+</blockquote>
+<h5 id="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"><a href="#BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？" class="headerlink" title="BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？"></a>BN层是对每一个神经元归一化处理，那在CNN的BN层是怎么应用的？是不参数个数会非常多？</h5><blockquote>
+<p>​    对于CNN上采用了类似权值共享的策略，<strong>将一个特征图看做一个神经元</strong>，因此参数个数并不会很多。</p>
+<p>例如：如果min-batch sizes为m，那么网络某一层输入数据可以表示为四维矩阵(m,f,w,h)，m为min-batch sizes，f为特征图个数，w、h分别为特征图的宽高。在CNN中我们可以把每个特征图看成是一个特征处理（一个神经元），因此在使用Batch Normalization，mini-batch size 的大小就是：m.w.h，于是对于每个特征图都只有一对可学习参数：γ、β，总参数个数也就是2m个。</p>
+</blockquote>
+<h5 id="BN的作用"><a href="#BN的作用" class="headerlink" title="BN的作用"></a>BN的作用</h5><blockquote>
+<p>1.防止过拟合。有了BN，dropout和正则化的需求下降了</p>
+<p>2.加速训练</p>
+</blockquote>
+<p><strong>BN算法是如何加快训练和收敛速度的呢？</strong></p>
+<blockquote>
+<p>BN算法在实际使用的时候会把特征给强制性的归到均值为0，方差为1的数学模型下。深度网络在训练的过程中，如果每层的数据分布都不一样的话，将会导致网络非常难收敛和训练，而如果能把每层的数据转换到均值为0，方差为1的状态下，一方面，数据的分布是相同的，训练会比较容易收敛，另一方面，均值为0，方差为1的状态下，在梯度计算时会产生比较大的梯度值，可以加快参数的训练，更直观的来说，是把数据从饱和区直接拉到非饱和区。更进一步，这也可以很好的控制梯度爆炸和梯度消失现象，因为这两种现象都和梯度有关。</p>
+</blockquote>
+<p><strong>BN算法为什么能防止过拟合？</strong></p>
+<blockquote>
+<p>在训练中，BN的使用使得一个mini-batch中的所有样本都被关联在了一起，因此网络不会从某一个训练样本中生成确定的结果。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/机试——二叉树遍历/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -732,1168 +1876,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/深度学习——transformer模型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/28/深度学习——transformer模型/" itemprop="url">深度学习——transformer模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-28T10:49:15+08:00">
-                2019-02-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    transformer模型来自于Google的经典论文<strong>Attention is all you need</strong>，在这篇论文中作者采用Attention来取代了全部的RNN、CNN，实现效果效率的双丰收。</p>
-<p>​    现在transformer在NLP领域已经可以达到全方位吊打CNN、RNN系列的网络，网络处理时间效率高，结果稳定性可靠性都比传统的CNN、RNN以及二者的联合网络更好，因此现在已经呈现出了transformer逐步取代二者的大趋势。</p>
-<p>​    下面是三者在下面四个方面的对比试验结果</p>
-<p>​        <strong>1.远距离特征提取能力</strong></p>
-<p>​        <strong>2.语义特征提取能力</strong></p>
-<p>​        <strong>3.综合特征提取能力</strong></p>
-<p>​        <strong>4.特征提取效率</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81transformer%E9%95%BF%E8%B7%9D%E7%A6%BB%E7%89%B9%E5%BE%81%E6%8D%95%E8%8E%B7%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81transformer%E8%AF%AD%E4%B9%89%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E7%BB%BC%E5%90%88%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E4%B8%89%E8%80%85%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87%E5%AF%B9%E6%AF%94.png?raw=true" alt=""></p>
-<p>下面是从一系列的论文中获取到的RNN、CNN、Transformer三者的对比结论：    </p>
-<p>​    <strong>1.从任务综合效果方面来说，Transformer明显优于CNN，CNN略微优于RNN。</strong></p>
-<p>​    <strong>2.速度方面Transformer和CNN明显占优，RNN在这方面劣势非常明显。(主流经验上transformer和CNN速度差别不大，RNN比前两者慢3倍到几十倍)</strong></p>
-<h3 id="Transformer模型具体细节"><a href="#Transformer模型具体细节" class="headerlink" title="Transformer模型具体细节"></a>Transformer模型具体细节</h3><p>​    transformer模型整体结构上主要<strong>Encoder</strong>和<strong>Decoder</strong>两部分组成，Encoder主要用来将数据进行特征提取，而Decoder主要用来实现隐向量解码出新的向量表示(原文中就是新的语言表示)，由于原文是机器翻译问题，而我们要解决的问题是类文本分类问题，因此我们直接减Transformer模型中的Encoder部分来进行特征的提取。其中主要包括下面几个核心技术模块：</p>
-<p>​        <strong>1.残差连接</strong></p>
-<p>​        <strong>2.Position-wise前馈网络</strong></p>
-<p>​        <strong>3.多头self-attention</strong></p>
-<p>​        <strong>4.位置编码</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/transformer%E6%A8%A1%E5%9E%8B%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true=20*50" alt=""></p>
-<p>​    1.采用全连接层进行Embedding （Batch_size,src_vocab_size,model_dim）</p>
-<p>​    2.在进行位置编码，位置编码和Embedding的结果进行累加</p>
-<p>​    3.进入Encoder_layer进行编码处理(相当于特征提取)</p>
-<p>​        (1)</p>
-<p>​        </p>
-<h4 id="1-位置编码（PositionalEncoding）"><a href="#1-位置编码（PositionalEncoding）" class="headerlink" title="1.位置编码（PositionalEncoding）"></a>1.位置编码（PositionalEncoding）</h4><p>​    大部分编码器一般都采用RNN系列模型来提取语义相关信息，但是采用RNN系列的模型来进行语序信息进行提取具有不可并行、提取效率慢等显著缺点，本文采用了一种 Positional Embedding方案来对于语序信息进行编码，主要通过正余弦函数，</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/余弦位置编码.png?raw=true" alt="image-20190304162008847"></p>
-<p><strong>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</strong></p>
-<blockquote>
-<p>为什么要使用三角函数来进行为之编码？</p>
-<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000*2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<strong>绝对位置</strong>。</p>
-<p>​    在另一方面，词语间的相对位置也是非常重要的，这也是选用正余弦函数做位置编码的最主要原因。因为</p>
-<p>​    sin(α+β) = sinαcosβ+cosαsinβ</p>
-<p>​    cos(α+β) = cosαcosβ+sinαsinβ</p>
-<p>​    因此对于词汇间位置偏移k，PE(pos+k)可以表示为PE(pos)和PE(k)组合的形式，也就是<strong>具有相对位置表达能力</strong></p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PositionalEncoding</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        位置编码层</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, d_model, max_seq_len)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        初始化</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            d_model: 一个标量。模型的维度，论文默认是512</span></span><br><span class="line"><span class="string">            max_seq_len: 一个标量。文本序列的最大长度</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        super(PositionalEncoding, self).__init__()</span><br><span class="line">       </span><br><span class="line">        <span class="comment"># 根据论文给的公式，构造出PE矩阵</span></span><br><span class="line">        position_encoding = np.array([</span><br><span class="line">          [pos / np.power(<span class="number">10000</span>, <span class="number">2.0</span> * (j // <span class="number">2</span>) / d_model) <span class="keyword">for</span> j <span class="keyword">in</span> range(d_model)]</span><br><span class="line">          <span class="keyword">for</span> pos <span class="keyword">in</span> range(max_seq_len)])</span><br><span class="line">        <span class="comment"># 偶数列使用sin，奇数列使用cos</span></span><br><span class="line">        position_encoding[:, <span class="number">0</span>::<span class="number">2</span>] = np.sin(position_encoding[:, <span class="number">0</span>::<span class="number">2</span>])</span><br><span class="line">        position_encoding[:, <span class="number">1</span>::<span class="number">2</span>] = np.cos(position_encoding[:, <span class="number">1</span>::<span class="number">2</span>])</span><br><span class="line">        position_encoding = torch.Tensor(position_encoding)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 在PE矩阵的第一行，加上一行全是0的向量，代表这`PAD`的positional encoding</span></span><br><span class="line">        <span class="comment"># 在word embedding中也经常会加上`UNK`，代表位置单词的word embedding，两者十分类似</span></span><br><span class="line">        <span class="comment"># 那么为什么需要这个额外的PAD的编码呢？很简单，因为文本序列的长度不一，我们需要对齐，</span></span><br><span class="line">        <span class="comment"># 短的序列我们使用0在结尾补全，我们也需要这些补全位置的编码，也就是`PAD`对应的位置编码</span></span><br><span class="line">        pad_row = torch.zeros([<span class="number">1</span>, d_model])</span><br><span class="line">        position_encoding = torch.cat((pad_row, position_encoding))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 嵌入操作，+1是因为增加了`PAD`这个补全位置的编码，</span></span><br><span class="line">        <span class="comment"># Word embedding中如果词典增加`UNK`，我们也需要+1。看吧，两者十分相似</span></span><br><span class="line">        self.position_encoding = nn.Embedding(max_seq_len + <span class="number">1</span>, d_model)</span><br><span class="line">        self.position_encoding.weight = nn.Parameter(position_encoding,</span><br><span class="line">                                                     requires_grad=<span class="keyword">False</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, input_len,max_len)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            神经网络的前向传播。</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">          input_len: 一个张量，形状为[BATCH_SIZE, 1]。每一个张量的值代表这一批文本序列中对应的长度。</span></span><br><span class="line"><span class="string">          param max_len:数值，表示当前的词的长度</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">          返回这一批序列的位置编码，进行了对齐。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 找出这一批序列的最大长度</span></span><br><span class="line">        tensor = torch.cuda.LongTensor <span class="keyword">if</span> input_len.is_cuda <span class="keyword">else</span> torch.LongTensor</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 对每一个序列的位置进行对齐，在原序列位置的后面补上0</span></span><br><span class="line">        <span class="comment"># 这里range从1开始也是因为要避开PAD(0)的位置</span></span><br><span class="line">        input_pos = tensor(</span><br><span class="line">          [list(range(<span class="number">1</span>, len + <span class="number">1</span>)) + [<span class="number">0</span>] * (max_len - len) <span class="keyword">for</span> len <span class="keyword">in</span> input_len.tolist()])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> self.position_encoding(input_pos)</span><br></pre></td></tr></table></figure>
-<h4 id="2-scaled-Dot-Product-Attention"><a href="#2-scaled-Dot-Product-Attention" class="headerlink" title="2.scaled Dot-Product Attention"></a>2.scaled Dot-Product Attention</h4><p>​    <strong>scaled</strong>代表着在原来的dot-product Attention的基础上加入了缩放因子1/sqrt(dk)，dk表示Key的维度，默认用64.</p>
-<blockquote>
-<p>为什么要加入缩放因子？</p>
-<p>​    在dk(key的维度)很大时，点积得到的结果维度很大，使的结果处于softmax函数梯度很小的区域，这是后乘以一个缩放因子，可以缓解这种情况的发生。</p>
-</blockquote>
-<p>​    <strong>Dot-Produc</strong>代表乘性attention，attention计算主要分为加性attention和乘性attention两种。加性 Attention 对于输入的隐状态 ht 和输出的隐状态 st直接做 concat 操作，得到 [ht:st] ，乘性 Attention 则是对输入和输出做 dot 操作。</p>
-<p>​    <strong>Attention</strong>又是什么呢？通俗的解释Attention机制就是通过query和key的相似度确定value的权重。论文中具体的Attention计算公式为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/atttion%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F.png?raw=true" alt=""></p>
-<p>​    在这里采用的scaled Dot-Product Attention是self-attention的一种，self-attention是指Q(Query), K(Key), V(Value)三个矩阵均来自同一输入。就是下面来具体说一下K、Q、V具体含义：</p>
-<blockquote>
-<ol>
-<li>在一般的Attention模型中，Query代表要进行和其他各个位置的词做点乘运算来计算相关度的节点，Key代表Query亚进行查询的各个节点，每个Query都要遍历全部的K节点，计算点乘计算相关度，然后经过缩放和softmax进行归一化的到当前Query和各个Key的attention score，然后再使用这些attention score与Value相乘得到attention加权向量</li>
-<li>在self-attention模型中，Key、Query、Value均来自相同的输入</li>
-<li>在transformer的encoder中的Key、Query、Value都来自encoder上一层的输入，对于第一层encoder layer，他们就是word embedding的输出和positial encoder的加和。</li>
-</ol>
-</blockquote>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/scaled%20dot-product%20attention.png?raw=true" alt=""></p>
-<blockquote>
-<p>query、key、value来源：</p>
-<p>​    他们三个是由原始的词向量X乘以三个权值不同的嵌入向量Wq、Wk、Wv得到的，三个矩阵尺寸相同</p>
-<p><strong>Attention计算步骤：</strong></p>
-<ol>
-<li>如上文，将输入单词转化成嵌入向量；</li>
-<li>根据嵌入向量得到 q、k、v三个向量；</li>
-<li>为每个向量计算一个score： score = q*k</li>
-<li>为了梯度的稳定，Transformer使用了score归一化，即除以 sqrt(dk)；</li>
-<li>对score施以softmax激活函数；</li>
-<li>softmax点乘Value值 v ，得到加权的每个输入向量的评分 v；</li>
-<li>相加之后得到最终的输出结果Sum(z) ：  。</li>
-</ol>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScaledDotProductAttention</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        标准的scaled点乘attention层</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, attention_dropout=<span class="number">0.0</span>)</span>:</span></span><br><span class="line">        super(ScaledDotProductAttention, self).__init__()</span><br><span class="line">        self.dropout = nn.Dropout(attention_dropout)</span><br><span class="line">        self.softmax = nn.Softmax(dim=<span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, q, k, v, scale=None, attn_mask=None)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        前向传播.</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">        	q: Queries张量，形状为[B, L_q, D_q]</span></span><br><span class="line"><span class="string">        	k: Keys张量，形状为[B, L_k, D_k]</span></span><br><span class="line"><span class="string">        	v: Values张量，形状为[B, L_v, D_v]，一般来说就是k</span></span><br><span class="line"><span class="string">        	scale: 缩放因子，一个浮点标量</span></span><br><span class="line"><span class="string">        	attn_mask: Masking张量，形状为[B, L_q, L_k]</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">        	上下文张量和attention张量</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        attention = torch.bmm(q, k.transpose(<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> scale:</span><br><span class="line">            attention = attention * scale</span><br><span class="line">        <span class="keyword">if</span> attn_mask <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="comment"># 给需要 mask 的地方设置一个负无穷</span></span><br><span class="line">            attention = attention.masked_fill(attn_mask,<span class="number">-1e9</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 计算softmax</span></span><br><span class="line">        attention = self.softmax(attention)</span><br><span class="line">        <span class="comment"># 添加dropout</span></span><br><span class="line">        attention = self.dropout(attention)</span><br><span class="line">        <span class="comment"># 和V做点积</span></span><br><span class="line">        context = torch.bmm(attention, v)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> context, attention</span><br></pre></td></tr></table></figure>
-<h4 id="3-多头Attention"><a href="#3-多头Attention" class="headerlink" title="3.多头Attention"></a>3.多头Attention</h4><p>​    论文作者发现<strong>将 Q、K、V 通过一个线性映射之后，分成 h 份，对每一份进行 scaled dot-product attention</strong> 效果更好。<strong>然后，把各个部分的结果合并起来，再次经过线性映射，得到最终的输出</strong>。这就是所谓的 multi-head attention。上面的超参数 h 就是 heads 的数量。论文默认是 8。</p>
-<p>​    这里采用了四个全连接层+有个dot_product_attention层(也可以说是8个)+layer_norm实现。</p>
-<blockquote>
-<p>为什么要使用多头Attention？</p>
-<p>​    1.”多头机制“能让模型考虑到不同位置的Attention</p>
-<p>​    2.”多头“Attention可以在不同的足空间表达不一样的关联</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultiHeadAttention</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        多头Attention层</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, model_dim=<span class="number">512</span>, num_heads=<span class="number">8</span>, dropout=<span class="number">0.0</span>)</span>:</span></span><br><span class="line">        super(MultiHeadAttention, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.dim_per_head = model_dim // num_heads</span><br><span class="line">        self.num_heads = num_heads</span><br><span class="line"></span><br><span class="line">        self.linear_k = nn.Linear(model_dim, self.dim_per_head * num_heads)</span><br><span class="line">        self.linear_v = nn.Linear(model_dim, self.dim_per_head * num_heads)</span><br><span class="line">        self.linear_q = nn.Linear(model_dim, self.dim_per_head * num_heads)</span><br><span class="line"></span><br><span class="line">        self.dot_product_attention = ScaledDotProductAttention(dropout)</span><br><span class="line">        self.linear_final = nn.Linear(model_dim, model_dim)</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line"></span><br><span class="line">        self.layer_norm = nn.LayerNorm(model_dim)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, key, value, query, attn_mask=None)</span>:</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 残差连接</span></span><br><span class="line">        residual = query</span><br><span class="line">        dim_per_head = self.dim_per_head</span><br><span class="line">        num_heads = self.num_heads</span><br><span class="line">        batch_size = key.size(<span class="number">0</span>)</span><br><span class="line">        <span class="comment"># 线性层 (batch_size,word_nums,model_dim)</span></span><br><span class="line">        key = self.linear_k(key)</span><br><span class="line">        value = self.linear_v(value)</span><br><span class="line">        query = self.linear_q(query)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将一个切分成多个(batch_size*num_headers,word_nums,word//num_headers)</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            这里用到了一个trick就是将key、value、query值要进行切分不需要进行真正的切分，直接将其维度整合到batch_size上，效果等同于真正的切分。过完scaled dot-product attention 再将其维度恢复即可</span></span><br><span class="line"><span class="string">        """</span>       </span><br><span class="line">        key = key.view(batch_size * num_heads, <span class="number">-1</span>, dim_per_head)</span><br><span class="line">        value = value.view(batch_size * num_heads, <span class="number">-1</span>, dim_per_head)</span><br><span class="line">        query = query.view(batch_size * num_heads, <span class="number">-1</span>, dim_per_head)</span><br><span class="line">        <span class="comment">#将mask也复制多份和key、value、query相匹配  （batch_size*num_headers,word_nums_k,word_nums_q）</span></span><br><span class="line">        <span class="keyword">if</span> attn_mask <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            attn_mask = attn_mask.repeat(num_heads, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 使用scaled-dot attention来进行向量表达</span></span><br><span class="line">        <span class="comment">#context:(batch_size*num_headers,word_nums,word//num_headers)</span></span><br><span class="line">        <span class="comment">#attention:(batch_size*num_headers,word_nums_k,word_nums_q)</span></span><br><span class="line">        scale = (key.size(<span class="number">-1</span>)) ** <span class="number">-0.5</span></span><br><span class="line">        context, attention = self.dot_product_attention(</span><br><span class="line">          query, key, value, scale, attn_mask)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># concat heads</span></span><br><span class="line">        context = context.view(batch_size, <span class="number">-1</span>, dim_per_head * num_heads)</span><br><span class="line">        <span class="comment"># final linear projection</span></span><br><span class="line">        output = self.linear_final(context)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># dropout</span></span><br><span class="line">        output = self.dropout(output)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 这里使用了残差连接和LN</span></span><br><span class="line">        output = self.layer_norm(residual + output)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> output, attention</span><br></pre></td></tr></table></figure>
-<h4 id="4-残差连接"><a href="#4-残差连接" class="headerlink" title="4.残差连接"></a>4.残差连接</h4><p>​    在上面的多头的Attnetion中，还采用了残差连接机制来保证网络深度过深从而导致的精度下降问题。这里的思想主要来源于深度残差网络(ResNet)，残差连接指在模型通过一层将结果输入到下一层时也同时直接将不通过该层的结果一同输入到下一层，从而达到解决网络深度过深时出现精确率不升反降的情况。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/res-net.png?raw=true" alt=""></p>
-<blockquote>
-<p><strong>为什么残差连接可以在网络很深的时候防止出现加深深度而精确率下降的情况？</strong></p>
-<p>​    神经网络随着深度的加深会会出现训练集loss逐渐下贱，趋于饱和，然后你再加深网络深度，训练集loss不降反升的情况。这是因为随着网络深度的增加，在深层的有效信息可能变得更加模糊，不利于最终的决策网络做出正确的决策，因此残差网络提出，建立残差连接的方式来将低层的信息也能传到高层，因此这样实现的深层网络至少不会比浅层网络差。</p>
-</blockquote>
-<h4 id="5-Layer-normalization"><a href="#5-Layer-normalization" class="headerlink" title="5.Layer normalization"></a>5.Layer normalization</h4><h5 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h5><p>​    Normalization 有很多种，但是它们都有一个<strong>共同的目的，那就是把输入转化成均值为 0 方差为 1 的数据</strong>。我们在把数据送入激活函数之前进行 normalization（归一化），<strong>因为我们不希望输入数据落在激活函数的饱和区。</strong></p>
-<p>#####Batch Normalization(BN)</p>
-<p>​    应用最广泛的Normalization就是Batch Normalization，其主要思想是:<strong>在每一层的每一批数据上进行归一化</strong>。我们可能会对输入数据进行归一化，但是经过该网络层的作用后，我们的数据已经不再是归一化的了。<strong>随着这种情况的发展，数据的偏差越来越大，我的反向传播需要考虑到这些大的偏差，这就迫使我们只能使用较小的学习率来防止梯度消失或者梯度爆炸。</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
-<h5 id="Layer-normalization-LN"><a href="#Layer-normalization-LN" class="headerlink" title="Layer normalization(LN)"></a>Layer normalization(LN)</h5><p>​    LN 是<strong>在每一个样本上计算均值和方差，而不是 BN 那种在批方向计算均值和方差</strong>.</p>
-<blockquote>
-<p>Layer normalization在pytorch 0.4版本以后可以直接使用nn.LayerNorm进行调用</p>
-</blockquote>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
-<h4 id="6-Mask"><a href="#6-Mask" class="headerlink" title="6.Mask"></a>6.Mask</h4><p>​    <strong>mask 表示掩码，它对某些值进行掩盖，使其在参数更新时不产生效果</strong>。Transformer 模型里面涉及两种 mask，分别是 <strong>padding mask</strong> 和 <strong>sequence mask</strong>。</p>
-<p>​    在我们使用的Encoder部分，只是用了padding mask因此本文重点介绍padding mask。 </p>
-<h5 id="padding-mask"><a href="#padding-mask" class="headerlink" title="padding mask"></a>padding mask</h5><p>​    什么是 padding mask 呢？因为每个批次输入序列长度是不一样的也就是说，我们要对输入序列进行对齐。具体来说，就是给<strong>在较短的序列后面填充 0。因为这些填充的位置，其实是没什么意义的，所以我们的 attention 机制不应该把注意力放在这些位置上</strong>，所以我们需要进行一些处理。<strong>具体的做法是，把这些位置的值加上一个非常大的负数(负无穷)，这样的话，经过 softmax，这些位置的概率就会接近0！</strong>而我们的 padding mask 实际上是一个张量，每个值都是一个 Boolean，值为 false 的地方就是我们要进行处理的地方。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">padding_mask</span><span class="params">(seq_k, seq_q)</span>:</span></span><br><span class="line">    <span class="string">"""        </span></span><br><span class="line"><span class="string">        param seq_q:(batch_size,word_nums_q)</span></span><br><span class="line"><span class="string">        param seq_k:(batch_size,word_nums_k)</span></span><br><span class="line"><span class="string">        return padding_mask:(batch_size,word_nums_q,word_nums_k)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># seq_k和seq_q 的形状都是 (batch_size,word_nums_k)</span></span><br><span class="line">    len_q = seq_q.size(<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 找到被pad填充为0的位置(batch_size,word_nums_k)</span></span><br><span class="line">    pad_mask = seq_k.eq(<span class="number">0</span>)</span><br><span class="line">    <span class="comment">#(batch_size,word_nums_q,word_nums_k)</span></span><br><span class="line">    pad_mask = pad_mask.unsqueeze(<span class="number">1</span>).expand(<span class="number">-1</span>, len_q, <span class="number">-1</span>)  <span class="comment"># shape [B, L_q, L_k]</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pad_mask</span><br></pre></td></tr></table></figure>
-<h4 id="3-Position-wise-前馈网络"><a href="#3-Position-wise-前馈网络" class="headerlink" title="3.Position-wise 前馈网络"></a>3.Position-wise 前馈网络</h4><p>​    这是一个全连接网络，包含两个线性变换和一个非线性函数(实际上就是 ReLU)</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Position-wise%20Feed-Forward%20network%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
-<p><strong>这里实现上用到了两个一维卷积。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class PositionalWiseFeedForward(nn.Module):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">        前向编码，使用两层一维卷积层实现</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    def __init__(self, model_dim=512, ffn_dim=2048, dropout=0.0):</span><br><span class="line">        super(PositionalWiseFeedForward, self).__init__()</span><br><span class="line">        self.w1 = nn.Conv1d(model_dim, ffn_dim, 1)</span><br><span class="line">        self.w2 = nn.Conv1d(ffn_dim, model_dim, 1)</span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line">        self.layer_norm = nn.LayerNorm(model_dim)</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        output = x.transpose(1, 2)</span><br><span class="line">        output = self.w2(F.relu(self.w1(output)))</span><br><span class="line">        output = self.dropout(output.transpose(1, 2))</span><br><span class="line"></span><br><span class="line">        # add residual and norm layer</span><br><span class="line">        output = self.layer_norm(x + output)</span><br><span class="line">        return output</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/面试总结-Python和C语言中的一些不同/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/27/面试总结-Python和C语言中的一些不同/" itemprop="url">面试总结-Python和C语言中的一些不同</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-27T21:18:33+08:00">
-                2019-02-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###1.python在除法和C语言中的一点区别</p>
-<p>​    在Python3中，除法有 “/” 以及 “//” 两种，这两个有着明显的区别，具体区别看代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">12</span>//<span class="number">10</span>)</span><br><span class="line">print(<span class="number">12</span>/<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-<p>这两行代码的输出如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1.2</span></span><br></pre></td></tr></table></figure>
-<p>当被除数是负数的时候，又是另一种情况：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">-12</span>/<span class="number">10</span>)      <span class="comment">#不补整</span></span><br><span class="line">print(int(<span class="number">-12</span>/<span class="number">10</span>)) <span class="comment">#向正方向进行补整</span></span><br><span class="line">print(<span class="number">-13</span>//<span class="number">10</span>)     <span class="comment">#向负方向进行补整</span></span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-1.2</span></span><br><span class="line">    <span class="number">-1</span></span><br><span class="line">    <span class="number">-2</span></span><br></pre></td></tr></table></figure>
-<p>​    因此，综合前面的正负两种情况，我们可以看出<strong>当我们想要达到和C++同样的向上取整，只能使用int(a/b)方式。</strong></p>
-<h3 id="2-python在求余时和C的一点区别"><a href="#2-python在求余时和C的一点区别" class="headerlink" title="2.python在求余时和C的一点区别"></a>2.python在求余时和C的一点区别</h3><p>​    对于正数求余运算，python和C++完全相同，但是对于负数求余运算，python和C++存在着较大的差别，下面我们通过例子来说明二者的差别。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#C++</span></span><br><span class="line">count&gt;&gt;<span class="number">-123</span>%<span class="number">10</span>;</span><br><span class="line">output:</span><br><span class="line">    <span class="number">-3</span></span><br><span class="line"><span class="comment">#python</span></span><br><span class="line">print(<span class="number">-123</span>%<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-7</span>    <span class="comment">#这里是向下取10的余数</span></span><br></pre></td></tr></table></figure>
-<p>​    为了实现和C++相同效果的取余运算，我们只能采用如下方式进行取余运算</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> a&gt;=<span class="number">0</span></span><br><span class="line">	print(a%<span class="number">10</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	print(a%<span class="number">-10</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/10/机试——排序算法总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/10/机试——排序算法总结/" itemprop="url">机试——排序算法总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-10T09:16:10+08:00">
-                2019-02-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。</p>
-<blockquote>
-<p>在机试中常用的排序算法主要包含下面几种：</p>
-<p>​    1.插入排序</p>
-<p>​    2.选择排序</p>
-<p>​    3.快速排序(最常用的排序)</p>
-<p>​    4.冒泡排序</p>
-<p>​    5.归并排序</p>
-<p>​    6.桶排序</p>
-</blockquote>
-<p>下面我将具体介绍各种排序算法的一些特点：</p>
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均时间复杂度</th>
-<th>最坏时间复杂度</th>
-<th>空间复杂度</th>
-<th>是否稳定</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>冒泡排序</td>
-<td>O（n2）</td>
-<td>O（n2）</td>
-<td>O（1）</td>
-<td>稳定</td>
-</tr>
-<tr>
-<td>选择排序</td>
-<td>O（n2）</td>
-<td>O（n2）</td>
-<td>O（1）</td>
-<td>不稳定</td>
-</tr>
-<tr>
-<td>直接插入排序</td>
-<td>O（n2）</td>
-<td>O（n2）</td>
-<td>O（1）</td>
-<td>稳定</td>
-</tr>
-<tr>
-<td>希尔排序</td>
-<td>O（n2）</td>
-<td>O(O3/2)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>归并排序</td>
-<td>O(nlogn)</td>
-<td>O(nlogn)</td>
-<td>O（n）</td>
-<td>稳定</td>
-</tr>
-<tr>
-<td>快速排序</td>
-<td>O(nlogn)</td>
-<td>O(n2)</td>
-<td>O（logn）</td>
-<td>不稳定</td>
-</tr>
-<tr>
-<td>堆排序</td>
-<td>O(nlogn)</td>
-<td>O(nlogn)</td>
-<td>O(1)</td>
-<td>不稳定</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>时间复杂度辅助记忆：</p>
-<ul>
-<li>冒泡、选择、直接 排序需要两个for循环，每次只关注一个元素，平均时间复杂度为O（n2）（一遍找元素O(n)，一遍找位置O(n)）</li>
-<li>快速、归并、希尔、堆基于二分思想，log以2为底，平均时间复杂度为O(nlogn)（一遍找元素O(n)，一遍找位置O(logn)）</li>
-</ul>
-</blockquote>
-<h4 id="1-插入排序"><a href="#1-插入排序" class="headerlink" title="1.插入排序"></a>1.插入排序</h4><p>​    每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。</p>
-<p>​    注意：插入排序的核心点就是两两比较时从后向前进行比较，如果比插入值大，那么将其向后移动，直到找到比插入值小的。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):     <span class="comment">#从第一个元素开始依次进行排序</span></span><br><span class="line">        tmp = arr[i]</span><br><span class="line">        j = i</span><br><span class="line">        <span class="keyword">while</span> arr[j<span class="number">-1</span>]&gt;tmp <span class="keyword">and</span> j&gt;<span class="number">0</span>:  <span class="comment">#从当前元素从后向前向前开始遍历，寻找第一个比当前元素更小的元素</span></span><br><span class="line">            arr[j] = arr[j<span class="number">-1</span>]		<span class="comment">#再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维</span></span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">        arr[j] = tmp</span><br><span class="line">   <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<blockquote>
-<p>为什么插入排序是稳定的排序算法？</p>
-<p>​    当前从头到尾选择元素进行排序时，当选择到第i个元素时，前i-1个元素已经排好了续，取出第i个元素，从i-1开始向前开始比较，如果小于，则将该位置元素向后移动，继续先前的比较，如果不小于，那么将第i个元素放在当前比较的元素之后。</p>
-</blockquote>
-<h4 id="2-选择排序"><a href="#2-选择排序" class="headerlink" title="2.选择排序"></a>2.选择排序</h4><p>​    选择排序主要采用了从头到尾依次确定各个位置的方式来进行排序，首先遍历一次整个数组，如果遇到比第一个元素小的元素那么交换位置，一次遍历完成那么第一个位置就已经是整个数组中最小的元素了，经过n次遍历，确定全部位置的元素。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i,length):</span><br><span class="line">            <span class="keyword">if</span> arr[i]&gt;arr[j]:</span><br><span class="line">                tmp = arr[i]</span><br><span class="line">                arr[i] = arr[j]</span><br><span class="line">                arr[j] = tmp</span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：不稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<h4 id="3-冒泡排序"><a href="#3-冒泡排序" class="headerlink" title="3.冒泡排序"></a>3.冒泡排序</h4><p>​    冒泡排序额是实现是不停地进行两两比较，将较大的元素换到右侧，然后继续进行两两比较，直到比较完全全部元素，<strong>每进行完一轮两两比较，确定一个元素的位置</strong>。例如：第一轮两两比较确定最大的值，第二轮比较确定次大元素。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,length):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,length-i):</span><br><span class="line">            <span class="keyword">if</span> arr[j]&lt;arr[j<span class="number">-1</span>]:</span><br><span class="line">                tmp = arr[j]</span><br><span class="line">                arr[j] = arr[j<span class="number">-1</span>]</span><br><span class="line">                arr[j<span class="number">-1</span>] = tmp</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<blockquote>
-<p>冒泡排序在原始冒泡排序算法的基础上还能做哪些优化？</p>
-<p>​    1.设置是否已经排好序的flag。如果在某一轮的便利中没有出现任何的交换发生，这说明已经都排好序,那么直接将flag置True，每轮结束时检测flag，如果为True则直接返回</p>
-<p>​    2.某一轮的结束为止为j，但这一轮最后一次交换发生在lastSwap位置，那么说明lastSwap到j之间已经排好序，下次遍历的结束点就不需要再到j—而是直接到lastSwap即可。</p>
-</blockquote>
-<h4 id="4-希尔排序"><a href="#4-希尔排序" class="headerlink" title="4.希尔排序"></a>4.希尔排序</h4><p>​    希尔排序是一种插入排序的改良算法，简单的插入排序不管元素怎么样，都从头到尾一步一步的进行元素比较，如果遇到逆序序列如：[5,4,3,2,1,0]数组末端的0要回到原始位置需要n-1次的比较和移动。而希尔排序使用跳跃式分组的策略，通过某个增量将数组元素划分为若干组，然后在各个组内进行插入排序，随后逐步缩小增量，继续按照组进行排序，直至增量为1。</p>
-<p>​    希尔排序通过这种策略使的整个数组在初始阶段宏观上基本有序，小的基本在前，大的基本在后，然后缩小增量相当于进行微调，不会过多的设计元素移动。</p>
-<blockquote>
-<p>基本思想：把记录按照下标的一定增量进行分组，对每组使用直接插入排序算法进行排序；随着增量逐渐减少，魅族包含的元素个数越来越多，当增量减至1时，整个文件被分成一组，算法终止。</p>
-</blockquote>
-<p><strong>稳定性：不稳定</strong></p>
-<p><strong>平均时间复杂度：O($$n^2$$)</strong> </p>
-<p><strong>最坏时间复杂度 :  O($$n^\frac{3}{2}$$)</strong></p>
-<p><strong>空间复杂度:O( $$n^2$$ )</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/希尔排序实例.png?raw=true" alt=""></p>
-<h4 id="5-快速排序"><a href="#5-快速排序" class="headerlink" title="5.快速排序"></a>5.快速排序</h4><p>​    快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，<strong>此时pivot的位置就是排好序后他也应该在的位置。</strong>然后继续用递归算法分别处理pivot左边的元素和右边的元素。</p>
-<h5 id="对于大的乱序数据快速排序被认为是最快速的排序方式"><a href="#对于大的乱序数据快速排序被认为是最快速的排序方式" class="headerlink" title="对于大的乱序数据快速排序被认为是最快速的排序方式"></a>对于大的乱序数据快速排序被认为是最快速的排序方式</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(l&lt;r):</span><br><span class="line">        q = mpartition(arr,l,r)</span><br><span class="line">        quick_sort(arr,l,q<span class="number">-1</span>)    <span class="comment">#前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置</span></span><br><span class="line">        quick_sort(arr,q+<span class="number">1</span>,r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mpartition</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	递归子函数，povit放到指定位置</span></span><br><span class="line"><span class="string">    	return l:最终标志元素被放置的位置，本轮确定了的元素位置</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    poviot = arr[l]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> l&lt;r:</span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[r]&gt;=poviot:</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[l] = arr[r]</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[l]&lt;poviot:</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[r] = arr[l]</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    arr[l]  = poviot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式二：非递归，利用栈</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(nums,low,high)</span>:</span></span><br><span class="line">    <span class="comment">#确定nums数组中指定部分low元素的位置，左边都比它小，右边都比他大</span></span><br><span class="line">    </span><br><span class="line">    pivot = nums[low]</span><br><span class="line">    high_flag = <span class="keyword">True</span>   <span class="comment">#这里之所以设置这两个flag是为了确保交叉进行，否则可能会出现最大索引值处没有值或者最大索引值处一直付给各个low</span></span><br><span class="line">    low_flag = <span class="keyword">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> low&lt;high <span class="keyword">and</span> low&lt;len(nums) <span class="keyword">and</span> high&lt;len(nums):</span><br><span class="line">        <span class="keyword">if</span> high_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[high]&lt;pivot:</span><br><span class="line">                nums[low]=nums[high]</span><br><span class="line">                high_flag = <span class="keyword">False</span></span><br><span class="line">                low_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                high -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> low_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[low]&gt;pivot:</span><br><span class="line">                nums[high] = nums[low]</span><br><span class="line">                low_flag = <span class="keyword">False</span></span><br><span class="line">                high_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                low += <span class="number">1</span></span><br><span class="line">    nums[low] = pivot     </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> low</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(nums)</span>:</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = len(nums)<span class="number">-1</span></span><br><span class="line">    stack = []    <span class="comment">#存储每次遍历起始索引和结束索引</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> low&lt;high:</span><br><span class="line">        <span class="comment">#先手动将找到第一个节点的最终位置，将原数组分为左右两个数组，分别左右索引入栈</span></span><br><span class="line">        mid = partition(nums,low,high)</span><br><span class="line">        <span class="keyword">if</span> low&lt;mid<span class="number">-1</span>:</span><br><span class="line">            stack.append(low)</span><br><span class="line">            stack.append(mid<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> high&gt;mid+<span class="number">1</span>:</span><br><span class="line">            stack.append(mid+<span class="number">1</span>)</span><br><span class="line">            stack.append(high)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#取出之前入栈的一个数组，来进行确定最终位置，分为左右两个子数组，分别左右索引入栈的操作，重复直到所有元素都已经排好序</span></span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            <span class="comment">#这里写的是属于右半部都排好后左半部</span></span><br><span class="line">            r = stack.pop()</span><br><span class="line">            l = stack.pop()</span><br><span class="line">            mid = partition(nums,l,r)</span><br><span class="line">            <span class="keyword">if</span> l&lt;mid<span class="number">-1</span>:</span><br><span class="line">                stack.append(l)</span><br><span class="line">                stack.append(mid<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">if</span> r&gt;mid+<span class="number">1</span>:</span><br><span class="line">                stack.append(mid+<span class="number">1</span>)</span><br><span class="line">                stack.append(r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：不稳定</strong>（排序过程中不停地交换元素位置造成了排序算法不稳定）</p>
-<p><strong>时间复杂度：</strong></p>
-<p>​    <strong>平均时间O(nlogn)</strong></p>
-<p>​    <strong>最坏情况：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(nlogn)</strong></p>
-<h4 id="6-归并排序"><a href="#6-归并排序" class="headerlink" title="6.归并排序"></a>6.归并排序</h4><p>​    该算法采用经典的<strong>分治</strong>（divide-and-conquer）策略（分治法将问题<strong>分</strong>(divide)成一些小的问题然后递归求解，而<strong>治(conquer)</strong>的阶段则将分的阶段得到的各答案”修补”在一起，即分而治之)。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E8%BF%87%E7%A8%8B%E5%9B%BE.png?raw=true" alt=""></p>
-<p>​    每次合并操作的平均时间复杂度为O(n)，而完全二叉树的深度为|log2n|。总的平均时间复杂度为O(nlogn)。而且，<strong>归并排序的最好，最坏，平均时间复杂度均为O(nlogn)。</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MergeSort</span><span class="params">(lists)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(lists) &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> lists</span><br><span class="line">    num = int(len(lists) / <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    left = MergeSort(lists[:num])</span><br><span class="line">    right = MergeSort(lists[num:])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Merge(left, right)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Merge</span><span class="params">(left, right)</span>:</span></span><br><span class="line">    r, l = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">while</span> l &lt; len(left) <span class="keyword">and</span> r &lt; len(right):</span><br><span class="line">        <span class="keyword">if</span> left[l] &lt;= right[r]:</span><br><span class="line">            result.append(left[l])</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result.append(right[r])</span><br><span class="line">            r += <span class="number">1</span></span><br><span class="line">    result += list(left[l:])</span><br><span class="line">    result += list(right[r:])</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h4 id="7-堆排序"><a href="#7-堆排序" class="headerlink" title="7.堆排序"></a>7.堆排序</h4><p>​        见<a href="https://anchorety.github.io/2019/04/17/机试——堆相关的问题/" target="_blank" rel="noopener">堆排序</a></p>
-<h4 id="7-桶排序"><a href="#7-桶排序" class="headerlink" title="7.桶排序"></a>7.桶排序</h4>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/21/深度学习——Attention相关/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/21/深度学习——Attention相关/" itemprop="url">深度学习——Attention相关</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-21T14:54:55+08:00">
-                2019-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="1-为什么要使用Attention机制？"><a href="#1-为什么要使用Attention机制？" class="headerlink" title="1.为什么要使用Attention机制？"></a>1.为什么要使用Attention机制？</h4><p>​    Attention机制最初起源于seq2seq中，经典的encoder-decoder做机器翻译时，通常是是使用两个RNN网络，一个用来将待翻译语句进行编码输出一个vector，另一个RNN对上一个RNN网络的输出进行解码，也就是翻译的过程。但是经典的encoder-decoder模式<strong>最大的缺点</strong>在于：<strong>不管输入多么长的语句，最后输出的也只是最后一个vector，这个向量能否有效的表达该语句非常值得怀疑</strong>，而<strong>Attention机制正是利用了RNN整个过程中的各个输出来综合进行编码</strong></p>
-<blockquote>
-<p>原始序列模型的不足：</p>
-<p>​    1.从编码器到解码器的语境矩阵式大小是固定的，这是个瓶颈问题</p>
-<p>​    2.难以对长的序列编码，并且难以回忆长期依赖</p>
-</blockquote>
-<h4 id="2-Attention原理"><a href="#2-Attention原理" class="headerlink" title="2.Attention原理"></a>2.Attention原理</h4><p><strong>1.首先在RNN的过程中保存每个RNN单元的隐藏状态(h1….hn)</strong></p>
-<p><strong>2.对于decoder的每一个时刻t，因为此时有decoder的输入和上一时刻的输出，所以我们可以的当前步的隐藏状态St</strong></p>
-<p><strong>3.在每个t时刻用St和hi进行点积得到attention score</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention1.png?raw=true" alt=""></p>
-<p><strong>4.利用softmax函数将attention score转化为概率分布</strong></p>
-<p>​    利用下面的公式进行概率分布的计算：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式1.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/attention2.png?raw=true" alt=""></p>
-<p><strong>5.利用刚才的计算额Attention值对encoder的hi进行加权求和，得到decoder t时刻的注意力向量（也叫上下文向量）</strong></p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式2.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention3.png?raw=true" alt=""></p>
-<p><strong>6.最后将注意力向量和decoder t时刻的隐藏状态st并联起来做后续步骤（例如全连接进行分类）</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention4.png?raw=true" alt=""></p>
-<h4 id="3-Attention计算方式"><a href="#3-Attention计算方式" class="headerlink" title="3.Attention计算方式"></a>3.Attention计算方式</h4><p>​    前面一节中，我们的概率分布来自于h与s的点积再做softmax，这只是最基本的方式。在实际中，我们可以有不同的方法来产生这个概率分布，每一种方法都代表了一种具体的Attention机制。在各个attention中，attention的计算方式主要有<strong>加法attention</strong>和<strong>乘法attention</strong>两种。</p>
-<h5 id="3-1-加法attention"><a href="#3-1-加法attention" class="headerlink" title="3.1 加法attention"></a>3.1 加法attention</h5><p>​    在加法attention中我们不在使用st和hi的点乘，而是使用如下计算:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/加法attention.png?raw=true" alt=""></p>
-<p>​    其中,va和Wa都是可以训练的参数。使用这种方式产生的数在送往softmax来进行概率分布计算</p>
-<h5 id="3-2-乘法attention"><a href="#3-2-乘法attention" class="headerlink" title="3.2 乘法attention"></a>3.2 乘法attention</h5><p>​    在乘法attention中使用h和s做点乘运算:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/乘法attention.png?raw=true" alt=""></p>
-<p>​    显然<strong>乘法attention的参数更少，计算效率更高。</strong></p>
-<h4 id="4-self-attention"><a href="#4-self-attention" class="headerlink" title="4.self-attention"></a>4.self-attention</h4><p>​    思想：在没有任何额外信息情况下，句子使用self-attention机制来处理自己，提取关键信息</p>
-<blockquote>
-<p>在attention机制中经常出现的一种叫法：</p>
-<p>​    query：在一个时刻不停地要被查询的那个向量（前面的decodert时刻的隐藏状态st）。</p>
-<p>​    key: 要去查询query计算个query相似关度的向量（前面的encoder在各个时刻的隐藏状态hi）</p>
-<p>​    value: 和softmax得到的概率分布相乘得到最终attention上下文向量的向量(前面的encoder在各个时刻的隐藏状态hi)</p>
-<p>这里我们可以明显知道，<strong>任意attention中key和value是相同的</strong></p>
-</blockquote>
-<p>​    attention就是key、value、和query都来自同一输入的(也是相同的)</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/08/python进阶-面向对象编程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/08/python进阶-面向对象编程/" itemprop="url">python进阶-面向对象编程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-08T19:24:57+08:00">
-                2019-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.__slots__</p>
-<p>​    用于指定class 实例能够指定的属性</p>
-<blockquote>
-<p>注意：__slots__只对当前类起作用，对其子类无效</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> traceback</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Myclass</span><span class="params">(object)</span>:</span></span><br><span class="line">	__slots__ = [<span class="string">"name"</span>,<span class="string">"set_name]</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">s = MyClass()</span></span><br><span class="line"><span class="string">s.name = "</span>john<span class="string">" #这里可以进行正常的赋值，因为包含在__slots__中</span></span><br><span class="line"><span class="string">try:</span></span><br><span class="line"><span class="string">	s.age = 2	#这里不能进行正常赋值</span></span><br><span class="line"><span class="string">except AttributeError:</span></span><br><span class="line"><span class="string">	traceback.print_exc()</span></span><br></pre></td></tr></table></figure>
-<p>Output:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/__slots__.png?raw=true" alt=""></p>
-<p><strong>2.@property属性</strong></p>
-<p>​    @property 可以实现比较方便的属性set、get设置</p>
-<blockquote>
-<p>1.使用@property相当于讲将一个函数变为get某个属性值<br>2.@属性名称.setter可以实现设置一个属性的set条件</p>
-</blockquote>
-<p>​    使用上面的两种修饰符，可以实现</p>
-<p>​        1.对写入属性的限制，只有符合规范的才允许写入</p>
-<p>​        2.设置只读属性，只能够读取，不能写入，只能从其他属性处计算出</p>
-<p>下面的就是对score属性的写操作进行了一些限制，将double_score属性设置为只读属性</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(object)</span>:</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @score.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self,value)</span>:</span></span><br><span class="line">        <span class="comment">#不是int类型时引发异常</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value,int):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"not int"</span>)    <span class="comment">#raise的作用是显示的引发异常</span></span><br><span class="line">        <span class="comment">#超出范围时引发异常</span></span><br><span class="line">        <span class="keyword">elif</span> (value&lt;<span class="number">0</span>) <span class="keyword">or</span> (value&gt;<span class="number">100</span>):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"score must in 0 to 100"</span>)</span><br><span class="line">        </span><br><span class="line">        self._score = value</span><br><span class="line">        </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">double_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score*<span class="number">2</span></span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">s = MyClass()</span><br><span class="line">s.score = <span class="number">3</span></span><br><span class="line">print(s.score)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="number">2300</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="string">"dfsd"</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line">print(s.double_score)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.double_score = <span class="number">2</span></span><br><span class="line"><span class="keyword">except</span> Exception:</span><br><span class="line">    traceback.print_exc()</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/@property_2.png?raw=true" alt=""></p>
-<p>描述器，主要是用来读写删除类的行为</p>
-<p>  函数可以直接使用__name__属性来获取函数名称</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">	print(<span class="string">"2012"</span>)</span><br><span class="line"></span><br><span class="line">print(now.__name__)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	<span class="string">"now"</span></span><br></pre></td></tr></table></figure>
-<p>​    </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/08/python进阶-生成器和迭代器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/08/python进阶-生成器和迭代器/" itemprop="url">python进阶-生成器和迭代器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-08T10:49:00+08:00">
-                2019-01-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/pythonic程序规范化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/07/pythonic程序规范化/" itemprop="url">pythonic程序规范化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-07T22:32:07+08:00">
-                2019-01-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.常量名称全部大写</p>
-<p>2.代码长度一行不能超过80字符</p>
-<p>3.类名使用驼峰式命名，一般不超过3</p>
-<p>4.函数名称</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1939,7 +1926,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">106</span>
+                  <span class="site-state-item-count">113</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1961,7 +1948,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
