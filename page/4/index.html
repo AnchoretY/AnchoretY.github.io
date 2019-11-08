@@ -297,6 +297,271 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/机试——数组中的逆序对/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/23/机试——数组中的逆序对/" itemprop="url">机试——数组中的逆序对</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T17:56:22+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>题目：在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007</p>
+<p>实例:</p>
+<p>​    输入：1,2,3,4,5,6,7,0</p>
+<p>​    输出：7</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/lzq20115395/article/details/79554591" target="_blank" rel="noopener">https://blog.csdn.net/lzq20115395/article/details/79554591</a></p>
+<p>解法一：暴力冒泡</p>
+<p>​    这种方法比较简单，但是时间复杂度为O(n^2),这里不做详细阐述</p>
+<p>解法二：归并法</p>
+<p>​    完全按照归并排序的方式来进行，只是附加上一个全局变量，来记录。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">global</span> count</span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">InversePairs</span><span class="params">(data)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(data)</span>:</span></span><br><span class="line">        <span class="comment"># write code here</span></span><br><span class="line">        <span class="keyword">if</span> len(data) &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        num = int(len(data) / <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        left = core(data[:num])</span><br><span class="line">        right =core(data[num:])</span><br><span class="line">        <span class="keyword">return</span> Merge(left, right)</span><br><span class="line">    core(data)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> count</span><br><span class="line"></span><br><span class="line"><span class="comment">#合并各个子数组</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Merge</span><span class="params">(left, right)</span>:</span></span><br><span class="line">        <span class="keyword">global</span> count</span><br><span class="line">        l1 = len(left)<span class="number">-1</span></span><br><span class="line">        l2 = len(right)<span class="number">-1</span></span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        num = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> l1&gt;=<span class="number">0</span> <span class="keyword">and</span> l2&gt;=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> left[l1]&lt;=right[l2]:</span><br><span class="line">                res = [right[l2]]+res</span><br><span class="line">                l2-=<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res  = [left[l1]]+res</span><br><span class="line">                count += l2+<span class="number">1</span></span><br><span class="line">                l1-=<span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> l1&gt;=<span class="number">0</span>:</span><br><span class="line">            res  = [left[l1]]+res</span><br><span class="line">            l1-=<span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> l2&gt;=<span class="number">0</span>:</span><br><span class="line">            res = [right[l2]]+res</span><br><span class="line">            l2-=<span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<p>解法3：</p>
+<p>​    先将原来数组进行排序，然后从排完序的数据中去取出最小的，他在原数组中的位置能表示有多少比他大的数在他前面，每取出一个在原数组中删除该元素，保证后面去除的元素在原数组中是最小的，这样</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/机试——从1到n正数中1出现的个数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/23/机试——从1到n正数中1出现的个数/" itemprop="url">机试——从1到n正数中1出现的个数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T12:25:20+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://blog.csdn.net/yi_afly/article/details/52012593" target="_blank" rel="noopener">https://blog.csdn.net/yi_afly/article/details/52012593</a></p>
+<blockquote>
+<p>题目:b求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数（从1 到 n 中1出现的次数）。</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%89%91%E6%8C%87offer64_1.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%89%91%E6%8C%87offer64_2.png?raw=true" alt=""></p>
+<p>总结各个位上面1出现的次数，我们可以发现如下规律:</p>
+<ul>
+<li>若weight为0，则1出现次数为<code>round*base</code></li>
+<li>若weight为1，则1出现次数为<code>round*base+former+1</code></li>
+<li>若weight大于1，则1出现次数为<code>rount*base+base</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">NumberOf1Between1AndN_Solution</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="comment"># write code here</span></span><br><span class="line">        <span class="keyword">if</span> n&lt;<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        count  = <span class="number">0</span></span><br><span class="line">        base = <span class="number">1</span>     <span class="comment">#用来记录每个round中1出现的次数，weight为个位时，base为1，weight为十位时，base为10</span></span><br><span class="line">        rou = n</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> rou&gt;<span class="number">0</span>:</span><br><span class="line">            weight = rou%<span class="number">10</span>    <span class="comment">#知识当前最低位的值，依次获得个位数、十位数、百位数</span></span><br><span class="line">            rou//=<span class="number">10</span>            <span class="comment">#获得最低位前面的全部位，也就是round值</span></span><br><span class="line">            count+=rou*base    <span class="comment">#无论weight为任何数，当前位为1的个数都至少为rou*base</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">#如果weight为1，那么当前位为1的个数前一位的值+1</span></span><br><span class="line">            <span class="keyword">if</span> weight==<span class="number">1</span>:</span><br><span class="line">                count += (n%base)+<span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> weight&gt;<span class="number">1</span>:</span><br><span class="line">                count += base</span><br><span class="line">            </span><br><span class="line">            base*=<span class="number">10</span></span><br><span class="line">        <span class="keyword">return</span> count</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/机试——二叉搜索树转双向链表/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1475,310 +1740,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/机器学习——SMOTE算法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/18/机器学习——SMOTE算法/" itemprop="url">机器学习——SMOTE算法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-18T11:25:36+08:00">
-                2019-05-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://m.elecfans.com/article/620100.html" target="_blank" rel="noopener">参考文章</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/17/机试——背包问题（动态规划）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/17/机试——背包问题（动态规划）/" itemprop="url">机试——背包问题（动态规划）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-17T17:31:49+08:00">
-                2019-05-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    背包问题是指给定义一些候选集，在这些候选集中找出一些特定要求的组合，组合出目标值(也就是用一些大小不同的东西装满背包)。</p>
-<p>​    常见的背包问题问题有：能否组成一个值，组成一个值得最小元素个数，组成一个值可使用的最多元素个数等</p>
-<p>​    背包问题根据<strong>背包选用的物品是否可以复用</strong>，分为<strong>完全背包问题和0/1背包</strong>问题。根据背包的维度可以分为<strong>一维背包问题和二维</strong>背包问题。下面我们针对这些问题中的关键点进行总结：</p>
-<blockquote>
-<p><strong>0/1背包问题：</strong></p>
-<p>​    1.<strong>遍历时一定要从后向前遍历目标值数组（dp），不能从前向后</strong>，从前往后会产生一个物品适用多次的问题</p>
-<p>​    <strong>2.要在最外层循环遍历物品</strong>，这样能保证在选择将物品是否使用在哪里使用</p>
-<p>​    <strong>3.dp数组长度为目标值得大小+1</strong></p>
-<p><strong>完全背包问题：</strong></p>
-<p>​    <strong>1.dp数组长度为目标值得大小+1</strong>    </p>
-</blockquote>
-<p>​    </p>
-<h4 id="一点想法"><a href="#一点想法" class="headerlink" title="一点想法"></a>一点想法</h4><blockquote>
-<p>对于从后到前的遍历动态规划每隔一段时间再看多会很难理解，这也是动态规划经常做的不是太好的原因吧，因此把从后向前整个流程梳理一下。</p>
-</blockquote>
-<h3 id="一维背包问题"><a href="#一维背包问题" class="headerlink" title="一维背包问题"></a>一维背包问题</h3><h4 id="1-零钱兑换-leetcode-232"><a href="#1-零钱兑换-leetcode-232" class="headerlink" title="1.零钱兑换(leetcode 232)"></a>1.零钱兑换(leetcode 232)</h4><p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code>。</p>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: coins = [1, 2, 5], amount = 11</span><br><span class="line">输出: 3 </span><br><span class="line">解释: 11 = 5 + 5 + 1</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: coins = [2], amount = 3</span><br><span class="line">输出: -1</span><br></pre></td></tr></table></figure>
-<p><strong>说明</strong>:<br>你可以认为每种硬币的数量是无限的。</p>
-<p><strong>分析</strong>:这道题题目是标准的完全背包问题，用数目不定的元素组合成指定金额，因为各个值都可能有两种情况组成：1.直接由当前金额的硬币直接组成 2.由之前组成的金额再加上一个硬币组成，因此递推关系为:</p>
-<p>​        dp[i] = min(dp[i],dp[i-c])  c为硬币的各个金额</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">coinChange</span><span class="params">(self, coins: List[int], amount: int)</span> -&gt; int:</span></span><br><span class="line">       MAX_INT = pow(<span class="number">2</span>,<span class="number">32</span>)<span class="number">-1</span></span><br><span class="line">       </span><br><span class="line">       dp = [MAX_INT <span class="keyword">for</span> _ <span class="keyword">in</span> range(amount+<span class="number">1</span>)]</span><br><span class="line">       dp[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">       </span><br><span class="line">       <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(dp)):</span><br><span class="line">           <span class="keyword">for</span> c <span class="keyword">in</span> coins:</span><br><span class="line">               <span class="keyword">if</span> i-c&gt;=<span class="number">0</span>:</span><br><span class="line">                   dp[i] = min(dp[i],dp[i-c]+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> dp[<span class="number">-1</span>]==MAX_INT:</span><br><span class="line">           <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           <span class="keyword">return</span> dp[<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
-<h4 id="2-小米大礼包"><a href="#2-小米大礼包" class="headerlink" title="2.小米大礼包"></a>2.小米大礼包</h4><p>小米之家是成人糖果店。里面有很多便宜，好用，好玩的产品。中秋节快到了，小米之家想给米粉们准备一些固定金额大礼包。对于给定的一个金额，需要判断能不能用不同种产品（一种产品在礼包最多出现一次）组合出来这个金额。聪明的你来帮帮米家的小伙伴吧。</p>
-<h5 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a><strong>输入描述:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入 N （N 是正整数， N  &lt;= 200）</span><br><span class="line">输入 N 个价格p（正整数, p &lt;= 10000）用单空格分割</span><br><span class="line">输入金额 M（M是正整数，M &lt;= 100000 ）</span><br></pre></td></tr></table></figure>
-<h5 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a><strong>输出描述:</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">能组合出来输出 1</span><br><span class="line">否则输出 0</span><br></pre></td></tr></table></figure>
-<p>示例1</p>
-<p><strong>输入</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">6</span><br><span class="line">99 199 1999 10000 39 1499</span><br><span class="line">10238</span><br></pre></td></tr></table></figure>
-<p><strong>输出：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1</span><br></pre></td></tr></table></figure>
-<p>分析：这是一个标准的一维0/1背包问题，最终目标看是否能完成组合。因此首先我们推断出递推公式</p>
-<p>​    dp[i] = max(dp[i],dp[i-c])</p>
-<blockquote>
-<p>注意：0/1背包问题必须要从后往前进行遍历，否则会出现已经当前c在前面使用dp[i] = max(dp[i],dp[i-c])已经更新过的结果，相当于使用了多次c</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">n = int(input())</span><br><span class="line"></span><br><span class="line">nums = list(map(int,input().split()))</span><br><span class="line"></span><br><span class="line">target = int(input())</span><br><span class="line"></span><br><span class="line">dp = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(target+<span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dp[<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> nums:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(target,c<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">        dp[i] = max(dp[i],dp[i-c])</span><br><span class="line"></span><br><span class="line">print(dp[<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
-<h3 id="二维背包问题"><a href="#二维背包问题" class="headerlink" title="二维背包问题"></a>二维背包问题</h3><h4 id="1-一和零-leetcode-474"><a href="#1-一和零-leetcode-474" class="headerlink" title="1.一和零(leetcode 474)"></a>1.一和零(leetcode 474)</h4><p>在计算机界中，我们总是追求用有限的资源获取最大的收益。</p>
-<p>现在，假设你分别支配着 <strong>m</strong> 个 <code>0</code> 和 <strong>n</strong> 个 <code>1</code>。另外，还有一个仅包含 <code>0</code> 和 <code>1</code> 字符串的数组。</p>
-<p>你的任务是使用给定的 <strong>m</strong> 个 <code>0</code> 和 <strong>n</strong> 个 <code>1</code> ，找到能拼出存在于数组中的字符串的最大数量。每个 <code>0</code> 和 <code>1</code> 至多被使用<strong>一次</strong>。</p>
-<p><strong>注意:</strong></p>
-<ol>
-<li>给定 <code>0</code> 和 <code>1</code> 的数量都不会超过 <code>100</code>。</li>
-<li>给定字符串数组的长度不会超过 <code>600</code>。</li>
-</ol>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: Array = &#123;&quot;10&quot;, &quot;0001&quot;, &quot;111001&quot;, &quot;1&quot;, &quot;0&quot;&#125;, m = 5, n = 3</span><br><span class="line">输出: 4</span><br><span class="line"></span><br><span class="line">解释: 总共 4 个字符串可以通过 5 个 0 和 3 个 1 拼出，即 &quot;10&quot;,&quot;0001&quot;,&quot;1&quot;,&quot;0&quot; 。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: Array = &#123;&quot;10&quot;, &quot;0&quot;, &quot;1&quot;&#125;, m = 1, n = 1</span><br><span class="line">输出: 2</span><br><span class="line"></span><br><span class="line">解释: 你可以拼出 &quot;10&quot;，但之后就没有剩余数字了。更好的选择是拼出 &quot;0&quot; 和 &quot;1&quot; 。</span><br></pre></td></tr></table></figure>
-<p>分析：这一题是比较典型的0/1背包问题,将翻译后的string看做一个物品，这个物品有两个value，value1为0</p>
-<p>的个数，value2为1的个数，初始状态下你有用m个0和n个1，求最多能获取的物品总个数。</p>
-<p>​    核心依然是找到状态转移方程，因为题目具有两个变量，属于二维背包问题，因此创建一个二位数组，<strong>分别代表使用num0个0和num1个1时可以获得的最多字符串数。</strong></p>
-<p>​    dp[num0][num1] =max(dp[num0][num1],dp[nums0-zeros][nums1-ones]+1)</p>
-<blockquote>
-<p> 注意：这里的二重循环必须从m,n开始递减，而不能从0开始递增，因为在0/1背包问题中，每个物品只能被使用一次，如果从0开始向后，dp[num0][num1]可以获得的是这次循环中更新过的dp[num0][num1] =max(dp[num0][num1],dp[nums0-zeros][nums1-ones]+1)，相当于一个物品可以重复购买，变成了完全背包问题。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">findMaxForm</span><span class="params">(self, strs: List[str], m: int, n: int)</span> -&gt; int:</span></span><br><span class="line">        </span><br><span class="line">        tmp = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> strs:</span><br><span class="line">            zeros = <span class="number">0</span></span><br><span class="line">            ones = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> i:</span><br><span class="line">                <span class="keyword">if</span> j==<span class="string">'0'</span>:</span><br><span class="line">                    zeros+=<span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    ones+=<span class="number">1</span></span><br><span class="line">            tmp.append([zeros,ones])</span><br><span class="line">            </span><br><span class="line">        <span class="comment">#m 行，代表0  n列代表1</span></span><br><span class="line">        dp = [[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(n+<span class="number">1</span>)]<span class="keyword">for</span> _ <span class="keyword">in</span> range(m+<span class="number">1</span>)]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> tmp:</span><br><span class="line">            zeros = s[<span class="number">0</span>]</span><br><span class="line">            ones = s[<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">for</span> nums1 <span class="keyword">in</span> range(m,zeros<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">                <span class="keyword">for</span> nums2 <span class="keyword">in</span> range(n,ones<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">                    dp[nums1][nums2] = max(dp[nums1][nums2],dp[nums1-zeros][nums2-ones]+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
-<h4 id="2-大礼包"><a href="#2-大礼包" class="headerlink" title="2.大礼包"></a>2.大礼包</h4><p>在LeetCode商店中， 有许多在售的物品。</p>
-<p>然而，也有一些大礼包，每个大礼包以优惠的价格捆绑销售一组物品。</p>
-<p>现给定每个物品的价格，每个大礼包包含物品的清单，以及待购物品清单。请输出<strong>确切</strong>完成待购清单的最低花费。</p>
-<p>每个大礼包的由一个数组中的一组数据描述，最后一个数字代表大礼包的价格，其他数字分别表示内含的其他种类物品的数量。</p>
-<p>任意大礼包可无限次购买。</p>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入: [2,5], [[3,0,5],[1,2,10]], [3,2]</span><br><span class="line">输出: 14</span><br><span class="line">解释: </span><br><span class="line">有A和B两种物品，价格分别为¥2和¥5。</span><br><span class="line">大礼包1，你可以以¥5的价格购买3A和0B。</span><br><span class="line">大礼包2， 你可以以¥10的价格购买1A和2B。</span><br><span class="line">你需要购买3个A和2个B， 所以你付了¥10购买了1A和2B（大礼包2），以及¥4购买2A。</span><br></pre></td></tr></table></figure>
-<h4 id="最小车票花费"><a href="#最小车票花费" class="headerlink" title="最小车票花费"></a><a href="https://leetcode-cn.com/problems/minimum-cost-for-tickets/" target="_blank" rel="noopener">最小车票花费</a></h4>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1829,7 +1790,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">113</span>
+                  <span class="site-state-item-count">115</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
