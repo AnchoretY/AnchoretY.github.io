@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[github基本使用]]></title>
+    <url>%2F2019%2F11%2F13%2Fgithub%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8-1%2F</url>
+    <content type="text"><![CDATA[​ 之前对github一直就是简单的使用，最近找完工作终于优势间静下来好好地研究下github和git，这个系列博客就用来记录在github学习过程中的新get到的一些点。 1.Git邮箱姓名设置​ 在我们最开始进行本地git设置时，一般都要使用 12git config --global user.name "xxx"git config --gobal user.email "xxx" 进行姓名和邮箱设置，对这个已知都是使用自己的常用邮箱和真实名，对于安全专业的硕士真是是很蠢的行为。 这里设置的姓名和邮箱都是会在github上公开仓库时随着日志一起进行公开的！因此不要使用隐私的信息 ​ 要进行更改可以直接修改~/.gitconfig中的内容进行重新设置。 123[user] name = “abc” email = xxx@qq.com 2.github中的watch、star、fork​ 用好github正确的使用好watch、star、fork是非常重要的一步，这关系到你能不能正确的进行喜欢项目的跟踪。下面是对这三张常见的操作进行的介绍： watch​ watch即观察该项目，对一个项目选择观察后只要有任何人在该项目下面提交了issue或者issue下面有了任何留言，通知中心就会进行通知，如果设置了个人邮箱，邮箱同时也会受到通知。 Star​ Star意思是对项目打星标（也就是点赞）,一个项目的点赞数目的多少很大程度上是衡量一个项目质量的显而易见的指标。 Star后的项目会专门加入一个列表，在个人管理中可以回看自己Star的项目。 fork​ 使用fork相当于你对该项目拥有了一份自己的拷贝，拷贝是基于当时的项目文件，后续项目发生变化需要通过其他方式去同步。 使用很少，除非是想在一个项目的基础上想建设自己的项目才会用到 使用建议​]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[pytorch——自定义损失函数]]></title>
+    <url>%2F2019%2F11%2F08%2Fpytorch%E2%80%94%E2%80%94%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[pytorch——finetune常用代码]]></title>
     <url>%2F2019%2F11%2F07%2Fpytorch%E2%80%94%E2%80%94finetune%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%2F</url>
     <content type="text"><![CDATA[fine-tune整体流程 1.加载预训练模型参数 2.修改预训练模型，修改其后面的层为适合自己问题的层 3.设置各层的可更新性。前面和预训练模型相同的部分不再进行训练，后面新加的部分还要重新进行训练 4.检查各层可更新性（可选） 5.设置优化器只对更新前面设置为可更新的部分。 1.加载预训练模型​ 一般在fine-tune中的第一步是首先加载一个已经预训练好的模型的参数，然后将预加载的模型后面的部分结构改造成自己需要的情况。其中包括两种情况： 1.单单将其中的一两个单独的层进行简单的改造（如预训练的模型输出的类为1000类，目前想要使用的模型只包含两个类），使用原有的预训练模型。 2.使用预训练模型的参数，但是后面的层需要更换为比较复杂的模型结构（常见的就是并行结构） 1.使用torchvision中已经预训练好的模型​ 使用torchvision中已经预训练好的模型结构和参数，然后直接将尾部进行修改。 123456from torchvision import modelsfrom torch import nn# 加载torchvision中已经训练好的resnet18模型，并且采用预训练的参数resnet = models.resnet18(pretrained=True)# 最后一层重新随机参数，并且将输出类别改为2resnet.fc = nn.Linear(512,2) 2.使用自己预训练好的模型，并且将输出的结果设置为并行结构​ 这里主要实现了之前自己已经预训练了，重新定义整体模型的结构（创建一个新的模型类），然后将共有部分的参数加载进来，不同的地方使用随机参数。 注意：这里面新旧模型要共用的层名称一定要一致 123456789101112131415from models import TextCNN#加载新的模型结构，这里面的Text_CNN_Regression_Class模型结构已经设置为和之前的Text_CNN模型整体结构一致，最后的全连接层改为一个分类输出头加一个回归输出头model = Text_CNN_Regression_Class(len(FILE_TYPE_COL))# 加载预训练的模型的参数pretrained_dict = torch.load("../model/Text_CNN_add_filetype_1:1_epoch5.state")# 加载新的模型结构的初始化参数model_dict = model.state_dict()# 将pretrained_dict里不属于model_dict的键剔除掉pretrained_dict = &#123;k: v for k, v in pretrained_dict.items() if k in model_dict&#125;#如果你的k在预备训练当中，那么你的参数需要做转换，否则为原先的# 更新现有的model_dictmodel_dict.update(pretrained_dict)#利用预训练模型的参数，更新你的模型# 加载我们真正需要的state_dictmodel.load_state_dict(model_dict) 2.将指定层设置为参数更新，其余设置为参数不更新​ 在fine-tune过程中经常用到的操作就是将整个神将网络的前半部分直接采用预训练好的模型参数，不再进行更新，这里主要实现了已经加载了预训练模型的参数，固定了除最后一个全连接层全部参数。 1234567#对于模型的每个权重，使其不进行反向传播，即固定参数for param in resnet.parameters(): param.requires_grad = False#将其中最后的全连接部分的网路参数设置为可反向传播for param in resnet.fc.parameters(): param.requires_grad = True 3.查看各层参数以及是否进行梯度更新（可选）​ 在fine-tune的过程中需要检查是不是已经将不需要更新梯度的层的各个参数值已经设置为不进行梯度更新，这是可以使用下面的代码进行查看: 1234for child in resnet.children(): print(child) for param in child.parameters(): print(param.requires_grad) 4..将优化器设置为只更新需要更新的部分参数​ 这里主要用于前面的各个参数是否进行更新已经设置完成后的最后一步，完成这一部就可以只接将优化器直接用于整个神经网络的重新训练了。 1optimizer = optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=1e-3)]]></content>
@@ -915,17 +925,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tmux基本操作]]></title>
-    <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
-      <categories>
-        <category>Linux操作</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[pytorch向量转化操作]]></title>
     <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
@@ -945,6 +944,17 @@
       </categories>
       <tags>
         <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tmux基本操作]]></title>
+    <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
+      <categories>
+        <category>Linux操作</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>

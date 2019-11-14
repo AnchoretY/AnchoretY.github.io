@@ -297,6 +297,379 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/面试常见的计算机基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/20/面试常见的计算机基础知识/" itemprop="url">面试常见的计算机基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T20:39:04+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.三次握手过程以及四次挥手过程</p>
+<p>2.进程和线程的区别</p>
+<p>3.操作系统的页式存储是怎么样的？有什么优缺点</p>
+<p>Time_wait和close_wait是什么。拥塞控制和流量控制。</p>
+<p>快排</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/大数据——spark调优/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/20/大数据——spark调优/" itemprop="url">大数据——spark调优</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T09:39:03+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Spark调优核心参数设置"><a href="#Spark调优核心参数设置" class="headerlink" title="Spark调优核心参数设置"></a>Spark调优核心参数设置</h3><blockquote>
+<p><strong>num-executors</strong> 该参数一定被设置， 为当前Application生产指定个数的Executors 实际生产环境分配<strong>80个左右</strong>的Executors<br><strong>executor-memory</strong> 与<strong>JVM OOM(内存溢出)</strong>紧密相关，很多时候甚至决定了spark运行的性能 实际生产环境下建议<strong>8GB左右</strong> 若运行在yarn上，内存占用量不超过yarn的内存资源的50%<br><strong>excutor-cores</strong> 决定了在Executor中能够<strong>并行执行的Task的个数</strong> 实际生产环境建议<strong>2~3个</strong> </p>
+<p><strong>driver-memory</strong> 作为驱动，默认是1GB 生产环境一般设置4GB</p>
+<p><strong>spark.default.parallelism</strong> 建议至少设置100个，<strong>官方推荐是num-executors*excutor-cores的2~3倍</strong><br><strong>spark.storage.memoryFraction</strong> 用于存储的比例默认占用60%，如果计算比较依赖于历史数据，则可以适当调高该参数，如果计算严重依赖于shuffle，则需要降低该比例<br><strong>spark.shuffle.memoryFraction</strong> 用于shuffle的内存比例，默认占用20% 如果计算严重依赖于shuffle,则需要提高该比例</p>
+</blockquote>
+<h3 id="spark生态的主要组件："><a href="#spark生态的主要组件：" class="headerlink" title="spark生态的主要组件："></a>spark生态的主要组件：</h3><blockquote>
+<p>spark core，任务调度，内存管理，错误恢复<br>spark sql，结构化数据处理<br>spark streaming，流式计算<br>spark MLlib，机器学习库<br>GraphX,图计算</p>
+</blockquote>
+<h3 id="spark运行模式："><a href="#spark运行模式：" class="headerlink" title="spark运行模式："></a>spark运行模式：</h3><blockquote>
+<ol>
+<li>local模式</li>
+<li>standalone模式，构建master+slave集群</li>
+<li>Spark on Yarn模式</li>
+<li>Spark on Mesos模式</li>
+</ol>
+</blockquote>
+<h3 id="宽窄依赖"><a href="#宽窄依赖" class="headerlink" title="宽窄依赖"></a>宽窄依赖</h3><blockquote>
+<p>1.窄依赖是1对1或1对多，宽依赖是多对1</p>
+<p>2.窄依赖前一步map没有完全完成也可以进行下一步，在一个线程里完成不划分stage;宽依赖下一步需要依赖前一步的结果，划分stage</p>
+<p>4.在传输上，窄依赖之间在一个stage内只需要做pipline，每个父RDD的分区只会传入到一个子RDD分区中，通常可以在一个节点内完成转换；宽依赖在stage做shuffle，需要在运行过程中将同一个父RDD的分区传入到不同的子RDD分区中，中间可能涉及多个节点之间的数据传输</p>
+<p>3.容错上，窄依赖只需要重新计算子分区对应的负分区的RDD即可；宽依赖，在极端情况下所有负分区的RDD都要被计算</p>
+</blockquote>
+<h4 id="map­reduce中数据倾斜的原因-应该如何处理"><a href="#map­reduce中数据倾斜的原因-应该如何处理" class="headerlink" title="map­reduce中数据倾斜的原因?应该如何处理?"></a>map­reduce中数据倾斜的原因?应该如何处理?</h4><p>如何处理spark中的数据倾斜?</p>
+<blockquote>
+<p><strong>原因</strong>：在物理执行期间，RDD会被分为一系列的分区，每个分区都是整个数据集的子集。当spark调度并运行任务的时候，Spark会为每一个分区中的数据创建一个任务。大部分的任务处理的数据量差不多，但是有少部分的任务处理的数据量很大，因而Spark作业会看起来运行的十分的慢，从而产生<strong>数据倾斜</strong></p>
+<p><strong>处理方式：</strong></p>
+<p>  1.使用需要进行shuffle人工指定参数并行度</p>
+<p>  2.进行数据的清洗,把发生倾斜的刨除,用单独的程序去算倾斜的key</p>
+<p>  3.join的时候使用小数据join大数据时，换用map join</p>
+<ol>
+<li>尽量减少shuffle的次数</li>
+</ol>
+</blockquote>
+<h3 id="Spark分区数设置"><a href="#Spark分区数设置" class="headerlink" title="Spark分区数设置"></a>Spark分区数设置</h3><blockquote>
+<p><strong>1、分区数越多越好吗？</strong></p>
+<p>不是的，分区数太多意味着任务数太多（一个partion对应一个任务），每次调度任务也是很耗时的，所以分区数太多会导致总体耗时增多。</p>
+<p><strong>2、分区数太少会有什么影响？</strong></p>
+<p>分区数太少的话，会导致一些结点没有分配到任务；另一方面，分区数少则每个分区要处理的数据量就会增大，从而对每个结点的内存要求就会提高；还有分区数不合理，会导致数据倾斜问题。</p>
+<p><strong>3、合理的分区数是多少？如何设置？</strong></p>
+<p>总核数=executor-cores * num-executor </p>
+<p>一般合理的分区数设置为总核数的2~3倍</p>
+</blockquote>
+<h3 id="Worker、Master、Executor、Driver-4大组件"><a href="#Worker、Master、Executor、Driver-4大组件" class="headerlink" title="Worker、Master、Executor、Driver 4大组件"></a>Worker、Master、Executor、Driver 4大组件</h3><blockquote>
+<p><strong>1.master和worker节点</strong></p>
+<p>搭建spark集群的时候我们就已经设置好了master节点和worker节点，一个集群有一个master节点和多个worker节点。</p>
+<p><strong>master节点常驻master守护进程，负责管理worker节点，我们从master节点提交应用。</strong></p>
+<p><strong>worker节点常驻worker守护进程，与master节点通信，并且管理executor进程。</strong></p>
+<p><strong>2.driver和executor进程</strong></p>
+<p>driver进程就是应用的main()函数并且构建sparkContext对象，<strong>当我们提交了应用之后，便会启动一个对应的driver进程，driver本身会根据我们设置的参数占有一定的资源</strong>（主要指cpu core和memory）。下面说一说driver和executor会做哪些事。</p>
+<p>driver可以运行在master上，也可以运行worker上（根据部署模式的不同）。<strong>driver首先会向集群管理者（standalone、yarn，mesos）申请spark应用所需的资源，也就是executor，然后集群管理者会根据spark应用所设置的参数在各个worker上分配一定数量的executor，每个executor都占用一定数量的cpu和memory</strong>。<strong>在申请到应用所需的资源以后，driver就开始调度和执行我们编写的应用代码了。driver进程会将我们编写的spark应用代码拆分成多个stage，每个stage执行一部分代码片段，并为每个stage创建一批tasks，然后将这些tasks分配到各个executor中执行。</strong></p>
+<p>executor进程宿主在worker节点上，一个worker可以有多个executor。每个executor持有一个线程池，每个线程可以执行一个task，<strong>executor执行完task以后将结果返回给driver</strong>，每个executor执行的task都属于同一个应用。<strong>此外executor还有一个功能就是为应用程序中要求缓存的 RDD 提供内存式存储，RDD 是直接缓存在executor进程内的，因此任务可以在运行时充分利用缓存数据加速运算。</strong></p>
+<p>driver进程会将我们编写的spark应用代码拆分成多个stage，每个stage执行一部分代码片段，并为每个stage创建一批tasks，然后将这些tasks分配到各个executor中执行。</p>
+</blockquote>
+<h3 id="Spark是如何进行资源管理的？"><a href="#Spark是如何进行资源管理的？" class="headerlink" title="Spark是如何进行资源管理的？"></a>Spark是如何进行资源管理的？</h3><blockquote>
+<p><strong>1）资源的管理和分配</strong> </p>
+<p>资源的管理和分配，<strong>由Master和Worker来完成</strong>。</p>
+<p><strong>Master给Worker分配资源， Master时刻知道Worker的资源状况。</strong> </p>
+<p><strong>客户端向服务器提交作业，实际是提交给Master。</strong></p>
+<p><strong>2）资源的使用</strong> </p>
+<p>资源的使用，由Driver和Executor。程序运行时候，向Master请求资源。</p>
+</blockquote>
+<h3 id="Spark和mapreduce点的区别"><a href="#Spark和mapreduce点的区别" class="headerlink" title="Spark和mapreduce点的区别"></a>Spark和mapreduce点的区别</h3><blockquote>
+<p>优点：</p>
+<p>1.最大的区别在于.spark把用到的中间数据放入内存，而mapreduce需要通过HDFS从磁盘中取数据。</p>
+<p>2.spark算子多，mapreduce只有map和reduce两种操作</p>
+<p>缺点：</p>
+<p>​    spark过度依赖内存计算，如果参数设置不当，内存不够时就会因频繁GC导致线程等待</p>
+</blockquote>
+<h3 id="什么是RDD"><a href="#什么是RDD" class="headerlink" title="什么是RDD"></a>什么是RDD</h3><blockquote>
+<p><strong>RDD是一个只读的分布式弹性数据集</strong>，是spark的基本抽象</p>
+<p><strong>主要特性：</strong></p>
+<p>​    1.分布式。由多个partition组成，可能分布于多台机器，可<strong>并行计算</strong></p>
+<p>​    2.高效的容错（弹性）。通过RDD之间的依赖关系重新计算丢失的分区</p>
+<p>​    3.只读。不可变</p>
+</blockquote>
+<h3 id="RDD在spark中的运行流程？"><a href="#RDD在spark中的运行流程？" class="headerlink" title="RDD在spark中的运行流程？"></a>RDD在spark中的运行流程？</h3><blockquote>
+<ol>
+<li>创建RDD对象</li>
+<li>sparkContext负责计算RDD之间的依赖关系，构建DAG</li>
+<li>DAGScheduler负责把DAG分解成多个stage(shuffle stage和final stage)，每个stage中包含多个task，每个task会被TAskScheduler分发给WORKER上的Executor执行</li>
+</ol>
+</blockquote>
+<p>###spark任务执行流程：</p>
+<blockquote>
+<ol>
+<li>Driver端提交任务，向Master申请资源</li>
+<li>Master与Worker进行RPC通信，让Work启动Executor</li>
+<li>Executor启动反向注册Driver，通过Driver–Master–Worker–Executor得到Driver在哪里</li>
+<li>Driver产生Task，提交给Executor中启动Task去真正的做计算</li>
+</ol>
+</blockquote>
+<h3 id="spark是如何容错的？"><a href="#spark是如何容错的？" class="headerlink" title="spark是如何容错的？"></a>spark是如何容错的？</h3><blockquote>
+<p><strong>主要采用Lineage(血统)机制来进行容错，但在某些情况下也需要使用RDD的checkpoint</strong></p>
+<ol>
+<li><p>对于窄依赖，只计算父RDD相关数据即可，窄依赖开销较小</p>
+</li>
+<li><p>对于宽依赖，需计算所有依赖的父RDD相关数据，会产生冗余计算，宽依赖开销较大。</p>
+</li>
+</ol>
+<p>   在两种情况下，RDD需要加checkpoint</p>
+<p>   1.DAG中的Lineage过长，如果重算，开销太大</p>
+<p>   2.在宽依赖上Cheakpoint的收益更大</p>
+</blockquote>
+<h3 id="一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？"><a href="#一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？" class="headerlink" title="一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？"></a>一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？</h3><blockquote>
+<p>task由分区决定，读取时候其实调用的是hadoop的split函数，根据HDFS的block来决定<br>每个job的并行度由core决定</p>
+</blockquote>
+<h3 id="cache与checkpoint的区别"><a href="#cache与checkpoint的区别" class="headerlink" title="cache与checkpoint的区别"></a>cache与checkpoint的区别</h3><blockquote>
+<p>cache 和 checkpoint 之间有一个重大的区别，<strong>cache 将 RDD 以及 RDD 的血统(记录了这个RDD如何产生)缓存到内存中</strong>，当缓存的 RDD 失效的时候(如内存损坏)，<br>它们可以通过血统重新计算来进行恢复。但是 <strong>checkpoint 将 RDD 缓存到了 HDFS 中，同时忽略了它的血统(也就是RDD之前的那些依赖)</strong>。为什么要丢掉依赖？因为可以<strong>利用 HDFS 多副本特性保证容错</strong>！</p>
+</blockquote>
+<h3 id="reduceByKey和groupByKey的区别"><a href="#reduceByKey和groupByKey的区别" class="headerlink" title="reduceByKey和groupByKey的区别?"></a>reduceByKey和groupByKey的区别?</h3><blockquote>
+<p><strong>如果能用reduceByKey,那就用reduceByKey</strong>.因为它<strong>会在map端,先进行本地combine,可以大大减少要传输到reduce端的数据量,减小网络传输的开销</strong>。</p>
+<p>groupByKey的性能,相对来说要差很多,因为它<strong>不会在本地进行聚合</strong>,而<strong>是原封不动,把ShuffleMapTask的输出,拉取到ResultTask的内存中</strong>,所以这样的话,就会导致,所有的数据,都要进行网络传输从而导致网络传输性能开销非常大!</p>
+</blockquote>
+<h3 id="map和mapPartition的区别？"><a href="#map和mapPartition的区别？" class="headerlink" title="map和mapPartition的区别？"></a>map和mapPartition的区别？</h3><blockquote>
+<p><strong>1.map是对rdd中的每一个元素进行操作；mapPartitions则是对rdd中的每个分区的迭代器进行操作</strong><br>如果是普通的map，比如一个partition中有1万条数据。ok，那么你的function要执行和计算1万次。使用MapPartitions操作之后，一个task仅仅会执行一次function，function一次接收所有的partition数据。只要执行一次就可以了，性能比较高。</p>
+<p>2<strong>.如果在map过程中需要频繁创建额外的对象</strong>(例如将rdd中的数据通过jdbc写入数据库,map需要为每个元素<br>创建一个链接而mapPartition为每个partition创建一个链接),<strong>则mapPartitions效率比map高的多</strong>。</p>
+<p>3.S<strong>parkSql或DataFrame默认会对程序进行mapPartition的优化。</strong></p>
+<p>mapPartition<strong>缺点</strong>：<br>    <strong>一次性读入整个分区全部内容，分区数据太大会导致内存OOM</strong></p>
+</blockquote>
+<h3 id="详细说明一下GC对spark性能的影响-优化"><a href="#详细说明一下GC对spark性能的影响-优化" class="headerlink" title="详细说明一下GC对spark性能的影响?优化"></a>详细说明一下GC对spark性能的影响?优化</h3><blockquote>
+<p><strong>GC会导致spark的性能降低</strong>。因为<strong>spark中的task运行时是工作线程,GC是守护线程</strong>,<strong>守护线程运行时,会让工作线程停止,所以GC运行的时候,会让Task停下来,这样会影响spark</strong></p>
+<p>程序的运行速度,降低性能。<br>    默认情况下,<strong>Executor的内存空间分60%给RDD用来缓存,只分配40%给Task运行期间动态创建对象,这个内存有点小,很可能会发生full gc,</strong>因为内存小就会导致创建的对象很快把内存填满,然后就会GC了,就是<strong>JVM尝试找到不再被使用的对象进行回收,清除出内存空间</strong>。所以如果Task分配的内存空间小,就会频繁的发生GC,从而导致频繁的Task工作线程的停止,从而降低Spark应用程序的性能。</p>
+<p><strong>优化方式</strong>：</p>
+<p>​    1<strong>.增加executor内存</strong></p>
+<p>​    2<strong>.可以用通过调整executor比例</strong>,比如将RDD缓存空间占比调整为40%,分配给Task的空间变为了60%,这样的话可以降低GC发生的频率   spark.storage.memoryFraction</p>
+<p>​    2.<strong>使用Kryo序列化类库进行序列化</strong></p>
+</blockquote>
+<h3 id="为什么要使用广播变量？"><a href="#为什么要使用广播变量？" class="headerlink" title="为什么要使用广播变量？"></a>为什么要使用广播变量？</h3><blockquote>
+<p><strong>当RDD的操作要使用driver中定义的变量时,每次都要把变量发送给worker节点一次,如果这个变量的数据很大的话,会产生很高的负载,导致执行效率低</strong>;<br><strong>使用广播变量可以高效的使一个很大的只读数据发送给多个worker节点,而且对每个worker节点只需要传输一次,每次操作时executor可以直接获取本地保存的数据副本,不需要多次传输</strong></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/机器学习——SMOTE算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1448,269 +1821,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/30/度小满编程记——火车站台问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/30/度小满编程记——火车站台问题/" itemprop="url">度小满编程记——火车站台问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-30T17:38:13+08:00">
-                2019-04-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/火车站台问题.png?raw=true" alt=""></p>
-<p>​    思路：这道题讲道理如果起点终点没有那么大就很简单了，直接使用字典进行存储，然后选择value最大的那个值即可。而这道题目中明显直接使用上面的思路是行不通了，因此这题使用了一种比较巧的方式，</p>
-<p>​    先将各个列车的起点终点分别编码为(站点,编号)，起点编号为-1，终点编号为0，然后从小到大对元组进行排序，然后便利元组列表，如果是终点，那么将维护数+1，如果是起点，那么代表到这里已经有一辆车不再需要维护了，同时记录最大的维护值，便利完全部列表最大的维护值即为结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">n = int(input())</span><br><span class="line">train = []</span><br><span class="line">t = <span class="number">0</span></span><br><span class="line">ans = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">	l = list(map(int,input().split()))</span><br><span class="line">  train.append((l[<span class="number">0</span>],<span class="number">1</span>))</span><br><span class="line">  train.append((l[<span class="number">1</span>],<span class="number">-1</span>))</span><br><span class="line"></span><br><span class="line">train.sort()   <span class="comment">#这里是关键点，sort函数将对元组进行排序</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> train:</span><br><span class="line">  <span class="keyword">if</span> i[<span class="number">1</span>]==<span class="number">0</span>:</span><br><span class="line">    t+=<span class="number">1</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    t-=<span class="number">1</span></span><br><span class="line">    ans = max(ans,t)</span><br><span class="line">pritn(ans)</span><br></pre></td></tr></table></figure>
-<p>上式中的sort函数对元素为元祖的列表来进行排序，默认规则是先使用元组的第一个元素进行排序，当第一个元素值相同时再使用第二个元素进行排序，下面是一个例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">l = [[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">-1</span>],[<span class="number">1</span>,<span class="number">-1</span>]]</span><br><span class="line">l.sort()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	[[<span class="number">1</span>, <span class="number">-1</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">-1</span>], [<span class="number">2</span>, <span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
-<p>在这个问题中使用sort进行排序后，表示由于同一个车站的负值被排在前面，每次先减去1，也就是前一个车一这里为起点，不需要再使用维护。</p>
-<p>之前还遇到过好多类似的问题，其实都可以采用这种类似的思路来减少内存占用，比如之前360笔试中遇到过的找</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/new-和-init/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/26/new-和-init/" itemprop="url">__new__和__init__</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-26T22:40:33+08:00">
-                2019-04-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>执行顺序：类中同时出现new()和init()时，先调用new()，再调用init()</strong></p>
-<h5 id="python中-new-和-init-的区别"><a href="#python中-new-和-init-的区别" class="headerlink" title="python中__new__和__init__的区别"></a>python中__new__和__init__的区别</h5><blockquote>
-<p><strong>1.用法不同</strong>：</p>
-<p>​    __new__()用于创建实例，所以该方法是<strong>在实例创建之前被调用</strong>，它是类级别的方法，是个静态方法；</p>
-<p>​    __init__() 用于初始化实例，所以该方法是<strong>在实例对象创建后被调用</strong>，它是实例级别的方法，用于设置对象属性的一些初始值</p>
-<p>​    注：由此可知，__new__()在__init__() 之前被调用。如果__new__() 创建的是当前类的实例，会自动调用__init__()函数，通过return调用的__new__()的参数cls来保证是当前类实例，如果是其他类的类名，那么创建返回的是其他类实例，就不会调用当前类的__init__()函数</p>
-<p>2.传入参数不同：</p>
-<p>​    __new__()<strong>至少有一个参数cls，代表当前类</strong>，此参数在实例化时由Python解释器自动识别；</p>
-<p>​    __init__()<strong>至少有一个参数self</strong>，就是这个__new__()返回的实例，__init__()在__new__()的基础上完成一些初始化的操作。</p>
-<p>3.返回值不同：</p>
-<p>​    __new__()必须有返回值，返回实例对象；</p>
-<p>　__init__()不需要返回值。</p>
-</blockquote>
-<h4 id="new-的两种常见用法"><a href="#new-的两种常见用法" class="headerlink" title="__new__的两种常见用法"></a>__new__的两种常见用法</h4><h5 id="1-继承不可变的类"><a href="#1-继承不可变的类" class="headerlink" title="1.继承不可变的类"></a>1.继承不可变的类</h5><p>​    __new__()方法主要用于继承一些不可变的class，比如int, str, tuple， 提供一个自定义这些类的实例化过程的途径，一般通过重载__new__()方法来实现</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostiveInterger</span><span class="params">(int)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls,value)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> super(PostiveInterger,cls).__new__(cls,abs(value))</span><br><span class="line">a = PostiveInterger(<span class="number">-10</span>)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<h5 id="2-实现单例模式"><a href="#2-实现单例模式" class="headerlink" title="2.实现单例模式"></a>2.实现单例模式</h5><p>​    可以用来实现单例模式，也就是使<strong>每次实例化时只返回同一个实例对象</strong>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleobject</span><span class="params">(object)</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> cls.instance:</span><br><span class="line">      cls.instance = super(Singleobject,cls).new(cls)</span><br><span class="line">    <span class="keyword">return</span> cls.instance</span><br><span class="line"></span><br><span class="line">object1 = Singleobject()</span><br><span class="line">object2 = Singleobject()</span><br><span class="line"></span><br><span class="line">object1.attr = <span class="string">'value1'</span></span><br><span class="line"></span><br><span class="line">print(object1.attr,object2.attr)</span><br><span class="line">print(object1 <span class="keyword">is</span> object2)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  value1,value1</span><br><span class="line">  <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1761,7 +1871,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">115</span>
+                  <span class="site-state-item-count">117</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
