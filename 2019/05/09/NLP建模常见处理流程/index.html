@@ -381,7 +381,7 @@
 <h4 id="3-标记化-分词"><a href="#3-标记化-分词" class="headerlink" title="3.标记化(分词)"></a>3.标记化(分词)</h4><p>​    标记化是指将目标切分成无法再分符号，一般主要指分词，一般的处理中都会将句子按照” “进行分词。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#自写原始分词，进行前面的标准化以后进行</span></span><br><span class="line">words = text.split()</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用nltk进行分词,分词会比上面的更加准确，根据标点符号的不同位置进行不同种处理，例如Dr. 中的.不会被处理掉</span></span><br><span class="line"><span class="keyword">from</span> nltk.tokenize <span class="keyword">import</span> word_tokenize</span><br><span class="line">sentence = word_tokenize(text)</span><br><span class="line">words = word_tokenize(sentence)</span><br><span class="line"><span class="comment">#nltk提供了多种token方式，包括正则表达式等，按需选择</span></span><br></pre></td></tr></table></figure>
 <h4 id="4-删除停用词"><a href="#4-删除停用词" class="headerlink" title="4.删除停用词"></a>4.删除停用词</h4><p>​    删除停用词是指删除掉哪些去掉哪些和当前任务判断关系不大的词，对于设计到的语料没有具体领域时，可以使用英文常用停用词，其中包括800多个英文的常见停用词。</p>
-<p>​    <a href="https://github.com/AnchoretY/Short_Text_Auto_Classfication/blob/master/english_stopword.txt">英文常见停用词标准表</a></p>
+<p>​    <a href="https://github.com/AnchoretY/Short_Text_Auto_Classfication/blob/master/english_stopword.txt" target="_blank" rel="noopener">英文常见停用词标准表</a></p>
 <blockquote>
 <p>在特定领域时，最好使用专门针对于该领域的停用词表，因为在一个问题中的停用词可能会在另一个问题中肯能就是关键词</p>
 </blockquote>
@@ -638,7 +638,6 @@
       mermaid.initialize({theme: 'forest'});
     }
   </script>
-
 
 
         

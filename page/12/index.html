@@ -655,184 +655,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/tmux基本操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/tmux基本操作/" itemprop="url">tmux基本操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">
-                2018-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux操作/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux操作</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。</p>
-<p><strong>tmux核心功能</strong></p>
-<blockquote>
-<p>1.tmux可以在一个窗口中创建多个窗格</p>
-<p>2.终端软件重启后通过命令行恢复上次的session</p>
-</blockquote>
-<p>在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表:</p>
-<p><strong>1. 窗格操作 </strong></p>
-<ul>
-<li><strong><code>%</code> 左右平分出两个窗格</strong></li>
-<li><strong><code>&quot;</code> 上下平分出两个窗格</strong></li>
-<li><code>x</code> 关闭当前窗格</li>
-<li><code>{</code> 当前窗格前移</li>
-<li><code>}</code> 当前窗格后移</li>
-<li><code>;</code> 选择上次使用的窗格</li>
-<li><strong><code>o</code> 选择下一个窗格，也可以使用上下左右方向键来选择</strong></li>
-<li><code>space</code> 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 <code>⌥1</code> 至 <code>⌥5</code>来切换</li>
-<li><code>z</code> 最大化当前窗格，再次执行可恢复原来大小</li>
-<li><strong><code>q</code> 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格</strong></li>
-</ul>
-<p><strong>2.会话操作</strong></p>
-<p>​    在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括：</p>
-<ul>
-<li><code>$</code> 重命名当前会话</li>
-<li><code>s</code> 选择会话列表</li>
-<li><code>d</code>  detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程</li>
-</ul>
-<p>​    在shell准进程中也可以进行直接对session进行操作：</p>
-<blockquote>
-<p>tmux new -s foo    #创建名为foo的会话</p>
-<p>tmux ls     #列出所有的tmux</p>
-<p>tmux a    #恢复至上一次回话</p>
-<p>tmux a -t foo #恢复会话名称为foo的会话</p>
-<p>tmux kill-session -t foo        #删除会话名称为foo的会话</p>
-<p>tmux kill-server #删除所有会话</p>
-</blockquote>
-<p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/pytorch运算操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1082,6 +904,184 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
 <p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/tmux基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/23/tmux基本操作/" itemprop="url">tmux基本操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">
+                2018-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux操作/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux操作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。</p>
+<p><strong>tmux核心功能</strong></p>
+<blockquote>
+<p>1.tmux可以在一个窗口中创建多个窗格</p>
+<p>2.终端软件重启后通过命令行恢复上次的session</p>
+</blockquote>
+<p>在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表:</p>
+<p><strong>1. 窗格操作 </strong></p>
+<ul>
+<li><strong><code>%</code> 左右平分出两个窗格</strong></li>
+<li><strong><code>&quot;</code> 上下平分出两个窗格</strong></li>
+<li><code>x</code> 关闭当前窗格</li>
+<li><code>{</code> 当前窗格前移</li>
+<li><code>}</code> 当前窗格后移</li>
+<li><code>;</code> 选择上次使用的窗格</li>
+<li><strong><code>o</code> 选择下一个窗格，也可以使用上下左右方向键来选择</strong></li>
+<li><code>space</code> 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 <code>⌥1</code> 至 <code>⌥5</code>来切换</li>
+<li><code>z</code> 最大化当前窗格，再次执行可恢复原来大小</li>
+<li><strong><code>q</code> 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格</strong></li>
+</ul>
+<p><strong>2.会话操作</strong></p>
+<p>​    在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括：</p>
+<ul>
+<li><code>$</code> 重命名当前会话</li>
+<li><code>s</code> 选择会话列表</li>
+<li><code>d</code>  detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程</li>
+</ul>
+<p>​    在shell准进程中也可以进行直接对session进行操作：</p>
+<blockquote>
+<p>tmux new -s foo    #创建名为foo的会话</p>
+<p>tmux ls     #列出所有的tmux</p>
+<p>tmux a    #恢复至上一次回话</p>
+<p>tmux a -t foo #恢复会话名称为foo的会话</p>
+<p>tmux kill-session -t foo        #删除会话名称为foo的会话</p>
+<p>tmux kill-server #删除所有会话</p>
+</blockquote>
+<p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
 
           
         
@@ -2184,7 +2184,6 @@ predict = kmeans.fit_predict(input)
       mermaid.initialize({theme: 'forest'});
     }
   </script>
-
 
 
         

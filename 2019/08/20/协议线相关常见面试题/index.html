@@ -384,7 +384,7 @@
 </ul>
 <p>区别二：</p>
 <ul>
-<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。</a></li>
+<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。</a></li>
 <li>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的。</li>
 </ul>
 <p>区别三：</p>
@@ -454,8 +454,8 @@
 <p>​    如果在Windows系统的DNS缓存也没有找到，那么<strong>尝试读取hosts文件，</strong> 看看这里面有没有该域名对应的IP地址，如果有则解析成功。</p>
 <p><strong>4.先访问系统配置的首选DNS服务器</strong></p>
 <p>​    浏览器就会发起一个DNS的系统调用，就会向本地配置的首选DNS服务器（一般是电信运营商提供的，也可以使用像Google提供的DNS服务器）发起域名解析请求</p>
-<p><strong>5.如果首DNS服务器不能解析,则由首选DNS服务器代替向各个DNS</strong>(<strong>迭代式</strong>)<br>    (1)<strong>首先访问根域名服务器(</strong>DNS服务器内一般都会内置13台根域名服务器的地址)，查询完整域名的ip地址（<a href="http://www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址">www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址</a></p>
-<p>​    (2)<strong>再去访问对应顶级域名的ip地址</strong>，尝试查询完整域名的ip地址，但是顶级域名服务器告诉运营商的DNS我不知道完整域名（<a href="http://www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址">www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址</a></p>
+<p><strong>5.如果首DNS服务器不能解析,则由首选DNS服务器代替向各个DNS</strong>(<strong>迭代式</strong>)<br>    (1)<strong>首先访问根域名服务器(</strong>DNS服务器内一般都会内置13台根域名服务器的地址)，查询完整域名的ip地址（<a href="http://www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址" target="_blank" rel="noopener">www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址</a></p>
+<p>​    (2)<strong>再去访问对应顶级域名的ip地址</strong>，尝试查询完整域名的ip地址，但是顶级域名服务器告诉运营商的DNS我不知道完整域名（<a href="http://www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址" target="_blank" rel="noopener">www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址</a></p>
 <p>​    (3)这样无限迭代，直到查到完整域名的ip地址</p>
 </blockquote>
 <h5 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h5><blockquote>
@@ -687,7 +687,6 @@
       mermaid.initialize({theme: 'forest'});
     }
   </script>
-
 
 
         

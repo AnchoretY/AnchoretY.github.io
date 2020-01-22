@@ -422,7 +422,7 @@
 <p><strong>梯度上升算法</strong></p>
 <p>​    要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示:</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A6%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod函数"></p>
-<p>这个梯度意味着要沿 x 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_6.png"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_6.png" alt="f(x, y)对x求偏导"></a> ，沿 y 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_7.png"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_7.png" alt="f(x, y)对y求偏导"></a> 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。<img src="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_8.png?raw=true" alt="梯度上升图"></p>
+<p>这个梯度意味着要沿 x 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_6.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_6.png" alt="f(x, y)对x求偏导"></a> ，沿 y 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_7.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_7.png" alt="f(x, y)对y求偏导"></a> 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。<img src="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_8.png?raw=true" alt="梯度上升图"></p>
 <p>​    上图展示了整个梯度上升的过程，梯度上升算法在到到每个点后都会从新估计移动的方向，而这个方向就是梯度方向，移动的速度大小由参数α控制。</p>
 <p><strong>训练过程</strong></p>
 <p>​    训练算法：使用梯度上升寻找最佳参数</p>
@@ -687,7 +687,6 @@
       mermaid.initialize({theme: 'forest'});
     }
   </script>
-
 
 
         
