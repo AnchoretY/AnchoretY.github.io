@@ -88,7 +88,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true">
-<meta property="og:updated_time" content="2020-01-22T02:13:45.115Z">
+<meta property="og:updated_time" content="2020-01-22T02:18:56.230Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql注入——手工注入">
 <meta name="twitter:description" content="sql注入中常用到的sql表达式   表达式 描述      union 将查询结果进行联合输出，追加在列尾    union all     load 文件读取    into outfile 文件写入    @@datadir 数据库文件存放路径    user() 当前用户    version() 数据库版本    database() 数据库名称     @@表示系统变量  mysql中">
@@ -451,9 +451,10 @@
 <p>Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。</p>
 </blockquote>
 <h3 id="sql注入分类"><a href="#sql注入分类" class="headerlink" title="sql注入分类"></a>sql注入分类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(sql注入)  --&gt; B(普通注入)</span><br><span class="line">A --&gt; C(圆角长方形)</span><br><span class="line">C--&gt;D(布尔型盲注)</span><br><span class="line">C--&gt;E(延时盲注)</span><br></pre></td></tr></table></figure>
-<p>​    常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在<a href="#mark">手工6步法</a>中讲述的就是使用普通注入进行sql注入。</p>
+<p>​    常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在<a href="#手工6步法">手工6步法</a>中讲述的就是使用普通注入进行sql注入。</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true" alt=""></p>
-<h3 id="手工6步法输入"><a href="#手工6步法输入" class="headerlink" title="手工6步法输入"></a>手工6步法输入<div id="mark"></div></h3><h4 id="1-注入点测试"><a href="#1-注入点测试" class="headerlink" title="1.注入点测试"></a>1.注入点测试</h4><h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
+<p>​    另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行，</p>
+<h3 id="手工6步法"><a href="#手工6步法" class="headerlink" title="手工6步法"></a>手工6步法<div id="mark"></div></h3><h4 id="1-注入点测试"><a href="#1-注入点测试" class="headerlink" title="1.注入点测试"></a>1.注入点测试</h4><h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) #</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true" alt=""></p>
 <h3 id="文件写入"><a href="#文件写入" class="headerlink" title="文件写入"></a>文件写入</h3><p>​    在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。</p>
@@ -626,7 +627,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入中常用到的sql表达式"><span class="nav-number">1.</span> <span class="nav-text">sql注入中常用到的sql表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql中常用的系统表"><span class="nav-number">2.</span> <span class="nav-text">mysql中常用的系统表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入分类"><span class="nav-number">3.</span> <span class="nav-text">sql注入分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手工6步法输入"><span class="nav-number">4.</span> <span class="nav-text">手工6步法输入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-注入点测试"><span class="nav-number">4.1.</span> <span class="nav-text">1.注入点测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取文件"><span class="nav-number">5.</span> <span class="nav-text">读取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件写入"><span class="nav-number">6.</span> <span class="nav-text">文件写入</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入中常用到的sql表达式"><span class="nav-number">1.</span> <span class="nav-text">sql注入中常用到的sql表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql中常用的系统表"><span class="nav-number">2.</span> <span class="nav-text">mysql中常用的系统表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入分类"><span class="nav-number">3.</span> <span class="nav-text">sql注入分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手工6步法"><span class="nav-number">4.</span> <span class="nav-text">手工6步法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-注入点测试"><span class="nav-number">4.1.</span> <span class="nav-text">1.注入点测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取文件"><span class="nav-number">5.</span> <span class="nav-text">读取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件写入"><span class="nav-number">6.</span> <span class="nav-text">文件写入</span></a></li></ol></div>
             
 
           </div>
