@@ -430,7 +430,7 @@
 <p>​    LightGBM算法使用Reduce Scatter并行算子归并来自不同worker的不同特征子集的直方图，然后在局部归并的直方图中找到最优局部分裂信息，最终同步找到最优的分裂信息。</p>
 <p>​    除此之外，LightGBM使用直方图减法加快训练速度。我们只需要对其中一个子节点进行数据传输，另一个子节点可以通过histogram subtraction得到。</p>
 </blockquote>
-<p>参考文献：<a href="https://blog.csdn.net/zpalyq110/article/details/79527653" target="_blank" rel="noopener">https://blog.csdn.net/zpalyq110/article/details/79527653</a></p>
+<p>参考文献：<a href="https://blog.csdn.net/zpalyq110/article/details/79527653">https://blog.csdn.net/zpalyq110/article/details/79527653</a></p>
 
       
     </div>
