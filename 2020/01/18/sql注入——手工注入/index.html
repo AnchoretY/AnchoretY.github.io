@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true">
-<meta property="og:updated_time" content="2020-01-22T14:13:26.912Z">
+<meta property="og:updated_time" content="2020-01-22T14:16:08.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql注入——手工注入">
 <meta name="twitter:description" content="sql注入中常用到的sql表达式   表达式 描述      union 将查询结果进行联合输出，追加在列尾    union all     load 文件读取    into outfile 文件写入    @@datadir 数据库文件存放路径    user() 当前用户    version() 数据库版本    database() 数据库名称     @@表示系统变量  mysql中">
@@ -451,7 +451,11 @@
 <blockquote>
 <p>Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。</p>
 </blockquote>
-<h3 id="sql注入分类"><a href="#sql注入分类" class="headerlink" title="sql注入分类"></a>sql注入分类</h3><div align="center"><br><br><pre class="mermaid">graph LR<br>A(sql注入)  –&gt; B(普通注入)<br>A –&gt; C(圆角长方形)<br>C–&gt;D(布尔型盲注)<br>C–&gt;E(延时盲注)</pre><br><br></div>
+<h3 id="sql注入分类"><a href="#sql注入分类" class="headerlink" title="sql注入分类"></a>sql注入分类</h3><pre class="mermaid">graph LR
+A(sql注入)  --> B(普通注入)
+A --> C(圆角长方形)
+C-->D(布尔型盲注)
+C-->E(延时盲注)</pre>
 
 
 

@@ -585,7 +585,11 @@
 <blockquote>
 <p>Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。</p>
 </blockquote>
-<h3 id="sql注入分类"><a href="#sql注入分类" class="headerlink" title="sql注入分类"></a>sql注入分类</h3><div align="center"><br><br><pre class="mermaid">graph LR<br>A(sql注入)  –&gt; B(普通注入)<br>A –&gt; C(圆角长方形)<br>C–&gt;D(布尔型盲注)<br>C–&gt;E(延时盲注)</pre><br><br></div>
+<h3 id="sql注入分类"><a href="#sql注入分类" class="headerlink" title="sql注入分类"></a>sql注入分类</h3><pre class="mermaid">graph LR
+A(sql注入)  --> B(普通注入)
+A --> C(圆角长方形)
+C-->D(布尔型盲注)
+C-->E(延时盲注)</pre>
 
 
 
