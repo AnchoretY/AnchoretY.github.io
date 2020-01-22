@@ -12,7 +12,11 @@
   <entry>
     <title><![CDATA[sql注入——手工注入]]></title>
     <url>%2F2020%2F01%2F18%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%2F</url>
-    <content type="text"><![CDATA[sql注入中常用到的sql表达式 表达式 描述 union 将查询结果进行联合输出，追加在列尾 union all load 文件读取 into outfile 文件写入 @@datadir 数据库文件存放路径 user() 当前用户 version() 数据库版本 database() 数据库名称 @@表示系统变量 mysql中常用的系统表 数据库 表名 描述 information_schema tables mysql中存储的全部表名，使用table_schema指定数据库名 select table_schema.tables where table_scheama=数据库名 information_schema columns mysql中存储全部其他表的字段名，使用table_name指定表名 select information_schema.columns where table_name=表名 Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。 sql注入分类12345graph LRA(sql注入) --&gt; B(普通注入)A --&gt; C(圆角长方形)C--&gt;D(布尔型盲注)C--&gt;E(延时盲注) ​ 常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在手工6步法中讲述的就是使用普通注入进行sql注入。 ​ 另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行， 1234graph LR 绘图 --&gt; 导出图像 导出图像 --&gt; 上传服务器 上传服务器 --&gt; 文章插入 手工6步法1.注入点测试读取文件​ 在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx 1=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) # 文件写入​ 在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。 1=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名']]></content>
+    <content type="text"><![CDATA[sql注入中常用到的sql表达式 表达式 描述 union 将查询结果进行联合输出，追加在列尾 union all load 文件读取 into outfile 文件写入 @@datadir 数据库文件存放路径 user() 当前用户 version() 数据库版本 database() 数据库名称 @@表示系统变量 mysql中常用的系统表 数据库 表名 描述 information_schema tables mysql中存储的全部表名，使用table_schema指定数据库名 select table_schema.tables where table_scheama=数据库名 information_schema columns mysql中存储全部其他表的字段名，使用table_name指定表名 select information_schema.columns where table_name=表名 Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。 sql注入分类graph LRA(sql注入) –&gt; B(普通注入)A –&gt; C(圆角长方形)C–&gt;D(布尔型盲注)C–&gt;E(延时盲注) ​ 常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在手工6步法中讲述的就是使用普通注入进行sql注入。 ​ 另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行， 手工6步法1.注入点测试读取文件​ 在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx 1=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) # 文件写入​ 在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。 1=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名']]></content>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>sql注入</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Web安全——sqlmap6步注入法]]></title>
