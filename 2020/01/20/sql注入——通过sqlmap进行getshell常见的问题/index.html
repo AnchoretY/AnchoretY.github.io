@@ -88,9 +88,9 @@
 <meta property="og:description" content="​    在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件：  1.当前注入点为root权限 2.已知网站绝对路径 3.php转义功能关闭 4.secure_file_priv= 值为空  在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。 1.确认注入点权限​    首先要确认注入点权限">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/产看当前注入点是否为root权限结果.png?raw=true">
-<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/进入sql-shell.png?raw=true">
-<meta property="og:updated_time" content="2020-01-20T03:48:16.655Z">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true">
+<meta property="og:updated_time" content="2020-01-20T08:01:13.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql注入——通过sqlmap进行getshell常见的问题">
 <meta name="twitter:description" content="​    在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件：  1.当前注入点为root权限 2.已知网站绝对路径 3.php转义功能关闭 4.secure_file_priv= 值为空  在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。 1.确认注入点权限​    首先要确认注入点权限">
@@ -381,10 +381,15 @@
 </blockquote>
 <p>在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。</p>
 <h3 id="1-确认注入点权限"><a href="#1-确认注入点权限" class="headerlink" title="1.确认注入点权限"></a>1.确认注入点权限</h3><p>​    首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 -is-dba</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --is-dba</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/产看当前注入点是否为root权限结果.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true" alt=""></p>
+<h3 id="2-网站的绝对路径"><a href="#2-网站的绝对路径" class="headerlink" title="2.网站的绝对路径"></a>2.网站的绝对路径</h3><p>​    获取网站的绝对路径在可以先进入sql-shell:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --sql-shell</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/进入sql-shell.png?raw=true" alt=""></p>
+<p>​    然后再在sql-shell中直接使用sql命令读取数据库文件存放路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql-shell&gt; select @@datadir;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true" alt=""></p>
+<p>然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。</p>
 
       
     </div>
@@ -557,7 +562,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-确认注入点权限"><span class="nav-number">1.</span> <span class="nav-text">1.确认注入点权限</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-确认注入点权限"><span class="nav-number">1.</span> <span class="nav-text">1.确认注入点权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-网站的绝对路径"><span class="nav-number">2.</span> <span class="nav-text">2.网站的绝对路径</span></a></li></ol></div>
             
 
           </div>

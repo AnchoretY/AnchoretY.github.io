@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[sql注入——通过sqlmap进行getshell常见的问题]]></title>
     <url>%2F2020%2F01%2F20%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E9%80%9A%E8%BF%87sqlmap%E8%BF%9B%E8%A1%8Cgetshell%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[​ 在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件： 1.当前注入点为root权限 2.已知网站绝对路径 3.php转义功能关闭 4.secure_file_priv= 值为空 在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。 1.确认注入点权限​ 首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba 1sqlmap -u 网址 -is-dba]]></content>
+    <content type="text"><![CDATA[​ 在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件： 1.当前注入点为root权限 2.已知网站绝对路径 3.php转义功能关闭 4.secure_file_priv= 值为空 在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。 1.确认注入点权限​ 首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba 1sqlmap -u 网址 --is-dba 2.网站的绝对路径​ 获取网站的绝对路径在可以先进入sql-shell: 1sqlmap -u 网址 --sql-shell ​ 然后再在sql-shell中直接使用sql命令读取数据库文件存放路径： 1sql-shell&gt; select @@datadir; 然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。]]></content>
       <tags>
         <tag>Web安全</tag>
         <tag>sql注入</tag>
@@ -12,7 +12,7 @@
   <entry>
     <title><![CDATA[sql注入——手工注入]]></title>
     <url>%2F2020%2F01%2F18%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[sql注入中常用到的sql表达式 表达式 描述 union 将查询结果进行联合输出，追加在列尾 union all load 文件读取 into outfile 文件写入 @@datadir 数据库文件存放路径 user() 当前用户 version() 数据库版本 database() 数据库名称 @@表示系统变量 mysql中常用的系统表 数据库 表名 描述 information_schema tables mysql中存储的全部表名，使用table_schema指定数据库名 select table_schema.tables where table_scheama=数据库名 information_schema columns mysql中存储全部其他表的字段名，使用table_name指定表名 select information_schema.columns where table_name=表名 Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。 sql注入分类12345graph LRA(sql注入) --&gt; B(普通注入)A --&gt; C(圆角长方形)C--&gt;D(布尔型盲注)C--&gt;E(延时盲注) ​ 常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在手工6步法中讲述的就是使用普通注入进行sql注入。 手工6步法输入1.注入点测试读取文件​ 在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx 1=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) # 文件写入​ 在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。 1=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名']]></content>
   </entry>
   <entry>
     <title><![CDATA[Web安全——sqlmap6步注入法]]></title>

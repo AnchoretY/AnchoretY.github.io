@@ -377,10 +377,15 @@
 </blockquote>
 <p>在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。</p>
 <h3 id="1-确认注入点权限"><a href="#1-确认注入点权限" class="headerlink" title="1.确认注入点权限"></a>1.确认注入点权限</h3><p>​    首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 -is-dba</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --is-dba</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/产看当前注入点是否为root权限结果.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true" alt=""></p>
+<h3 id="2-网站的绝对路径"><a href="#2-网站的绝对路径" class="headerlink" title="2.网站的绝对路径"></a>2.网站的绝对路径</h3><p>​    获取网站的绝对路径在可以先进入sql-shell:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --sql-shell</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/进入sql-shell.png?raw=true" alt=""></p>
+<p>​    然后再在sql-shell中直接使用sql命令读取数据库文件存放路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql-shell&gt; select @@datadir;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true" alt=""></p>
+<p>然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。</p>
 
           
         
@@ -500,7 +505,95 @@
       
         
           
-            
+            <h3 id="sql注入中常用到的sql表达式"><a href="#sql注入中常用到的sql表达式" class="headerlink" title="sql注入中常用到的sql表达式"></a>sql注入中常用到的sql表达式</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">描述</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">union</td>
+<td style="text-align:center">将查询结果进行联合输出，追加在列尾</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">union all</td>
+<td style="text-align:center"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">load</td>
+<td style="text-align:center">文件读取</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">into outfile</td>
+<td style="text-align:center">文件写入</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">@@datadir</td>
+<td style="text-align:center">数据库文件存放路径</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">user()</td>
+<td style="text-align:center">当前用户</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">version()</td>
+<td style="text-align:center">数据库版本</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">database()</td>
+<td style="text-align:center">数据库名称</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>@@表示系统变量</p>
+</blockquote>
+<h3 id="mysql中常用的系统表"><a href="#mysql中常用的系统表" class="headerlink" title="mysql中常用的系统表"></a>mysql中常用的系统表</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">数据库</th>
+<th style="text-align:center">表名</th>
+<th style="text-align:center">描述</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">information_schema</td>
+<td style="text-align:center">tables</td>
+<td style="text-align:center">mysql中存储的全部表名，使用table_schema指定数据库名</td>
+<td>select table_schema.tables where table_scheama=数据库名</td>
+</tr>
+<tr>
+<td style="text-align:center">information_schema</td>
+<td style="text-align:center">columns</td>
+<td style="text-align:center">mysql中存储全部其他表的字段名，使用table_name指定表名</td>
+<td>select information_schema.columns where table_name=表名</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。</p>
+</blockquote>
+<h3 id="sql注入分类"><a href="#sql注入分类" class="headerlink" title="sql注入分类"></a>sql注入分类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(sql注入)  --&gt; B(普通注入)</span><br><span class="line">A --&gt; C(圆角长方形)</span><br><span class="line">C--&gt;D(布尔型盲注)</span><br><span class="line">C--&gt;E(延时盲注)</span><br></pre></td></tr></table></figure>
+<p>​    常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在<a href="#mark">手工6步法</a>中讲述的就是使用普通注入进行sql注入。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true" alt=""></p>
+<h3 id="手工6步法输入"><a href="#手工6步法输入" class="headerlink" title="手工6步法输入"></a>手工6步法输入<div id="mark"></div></h3><h4 id="1-注入点测试"><a href="#1-注入点测试" class="headerlink" title="1.注入点测试"></a>1.注入点测试</h4><h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true" alt=""></p>
+<h3 id="文件写入"><a href="#文件写入" class="headerlink" title="文件写入"></a>文件写入</h3><p>​    在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名'</span><br></pre></td></tr></table></figure>
+
           
         
       
