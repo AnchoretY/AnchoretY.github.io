@@ -600,7 +600,34 @@ C-->E(延时盲注)</pre>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true" alt=""></p>
 <p>​    另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行。其中根据页面返回的布尔值(页面是否正确返回)进行sql注入称为<strong>布尔型盲注</strong>，根据页面返回时间的差异确定注入是否成功的sql注入称为<strong>延时盲注</strong>。下面是一个最常用延时注入的例子：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/延时注入.png?raw=true" alt=""></p>
-<h3 id="手工6步法"><a href="#手工6步法" class="headerlink" title="手工6步法"></a>手工6步法<div id="mark"></div></h3><h4 id="1-注入点测试"><a href="#1-注入点测试" class="headerlink" title="1.注入点测试"></a>1.注入点测试</h4><h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
+<p>在上面的例子中，再过个浏览器控制器的控制台中，可以看到该请求存在着10s左右的等待时间，也即是说明我们前面的进行拼遭的sql注入语句正确的进行了执行，因此可以判断该部分是一个可以进行利用的注入点。本文重点介绍一般的注入，关于盲注的具体使用将在后续的文章中进行介绍。</p>
+<h3 id="经典手工注入流程"><a href="#经典手工注入流程" class="headerlink" title="经典手工注入流程"></a>经典手工注入流程<div id="mark"></div></h3><h4 id="1-注入点测试"><a href="#1-注入点测试" class="headerlink" title="1.注入点测试"></a>1.注入点测试</h4><p>​    注入点测试主要分为<strong>是否存在sql注入检测</strong>与<strong>sql注入类型检测</strong>两个部分。<strong>要检测时候否存在sql注入</strong>只需要在要进行检测的参数后面加单引号，看是会因’个数不匹配而报错（这里的报错不一定是真的报错，可能只是页面不在正常显示之前的内容也可以看做报错的一种）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=1'</span><br></pre></td></tr></table></figure>
+<p>​    sql注入的注入点的类型主要分为数字型注入点和字符型注入点两种，分别对应着要进行sql注入的参数值在数据库中存储的类型是字符型还是数字型，直接影响到后面进行后续的注入的一些细节。</p>
+<h5 id="数字型检测"><a href="#数字型检测" class="headerlink" title="数字型检测"></a>数字型检测</h5><p>​    当输入变量的类型为数字类型时，可以使用and 1=1和and 1=2配合进行注入点类型进行检测:</p>
+<blockquote>
+<ol>
+<li>Url 地址中输入 <code>http://xxx/abc.php?id= x and 1=1</code> 页面依旧运行正常，继续进行下一步。</li>
+<li>Url 地址中继续输入 <code>http://xxx/abc.php?id= x and 1=2</code> 页面运行错误，则说明此 Sql 注入为数字型注入。</li>
+</ol>
+</blockquote>
+<p>原因为:</p>
+<blockquote>
+<p>如果当前注入点类型为数字型，    </p>
+<p>​    当输入 <code>and 1=1</code>时，后台执行 Sql 语句：<code>select * from &lt;表名&gt; where id = x and 1=1</code>,没有语法错误且逻辑判断为正确，所以返回正常。</p>
+<p>​    当输入 <code>and 1=2</code>时，后台执行 Sql 语句：<code>select * from &lt;表名&gt; where id = x and 1=2</code>,没有语法错误但是逻辑判断为假，所以返回错误。</p>
+<p>而如果该注入点类型为字符型，</p>
+<p>​    当输入<code>and 1=1</code>和 <code>and 1=2</code>时，后台执行sql语句：<code>select * from &lt;表名&gt; where id=&#39;x and 1=1&#39;</code>和 <code>select * from &lt;表名&gt; where id=&#39;x and 1=1</code>,将and语句作为字符进行id匹配，应该都没有查询结果，与事实不符因此该注入点为数字型注入点。</p>
+</blockquote>
+<h5 id="字符型注入点检测"><a href="#字符型注入点检测" class="headerlink" title="字符型注入点检测"></a>字符型注入点检测</h5><p>当输入变量为字符型时，可以使用’’ and ‘1’=’1和 ‘ and ‘1’=’2配合进行注入点类型检测：</p>
+<blockquote>
+<p>1.Url 地址中输入 <code>http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;1</code> 页面依旧运行正常，继续进行下一步。</p>
+<p>2.Url 地址中继续输入 <code>http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;2&#39;</code> 页面运行错误，则说明此 Sql 注入为数字型注入。</p>
+</blockquote>
+<p>原因与上面的数字型注入点检测原理类似，这里就不进行详细讲述了，感兴趣的读者可以自己尝试解释一下。</p>
+<h4 id="2-当前表行数测试"><a href="#2-当前表行数测试" class="headerlink" title="2.当前表行数测试"></a>2.当前表行数测试</h4><p>​    使用order by进行测试，直到出错为止。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x order by 8</span><br></pre></td></tr></table></figure>
+<h4 id="3-测试当前表的这些列"><a href="#3-测试当前表的这些列" class="headerlink" title="3.测试当前表的这些列"></a>3.测试当前表的这些列</h4><h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) #</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true" alt=""></p>
 <h3 id="文件写入"><a href="#文件写入" class="headerlink" title="文件写入"></a>文件写入</h3><p>​    在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。</p>
