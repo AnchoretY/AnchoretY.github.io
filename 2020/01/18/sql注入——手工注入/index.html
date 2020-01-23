@@ -89,8 +89,10 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/延时注入.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/行数测试.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/行数测试2.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true">
-<meta property="og:updated_time" content="2020-01-22T16:09:36.966Z">
+<meta property="og:updated_time" content="2020-01-23T02:42:14.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql注入——手工注入">
 <meta name="twitter:description" content="sql注入中常用到的sql表达式   表达式 描述      union 将查询结果进行联合输出，追加在列尾    union all     load 文件读取    into outfile 文件写入    @@datadir 数据库文件存放路径    user() 当前用户    version() 数据库版本    database() 数据库名称    sleep(n) 延时执行n秒">
@@ -492,9 +494,15 @@ C-->E(延时盲注)</pre>
 <p>2.Url 地址中继续输入 <code>http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;2&#39;</code> 页面运行错误，则说明此 Sql 注入为数字型注入。</p>
 </blockquote>
 <p>原因与上面的数字型注入点检测原理类似，这里就不进行详细讲述了，感兴趣的读者可以自己尝试解释一下。</p>
-<h4 id="2-当前表行数测试"><a href="#2-当前表行数测试" class="headerlink" title="2.当前表行数测试"></a>2.当前表行数测试</h4><p>​    使用order by进行测试，直到出错为止。</p>
+<h4 id="2-当前表行数测试"><a href="#2-当前表行数测试" class="headerlink" title="2.当前表行数测试"></a>2.当前表行数测试</h4><p>​    这里之所以要进行数据表行数测试是因为后面使用union进行联合查询时，明确后面要进行合并查询的列数。</p>
+<p>​    使用order by进行测试，不断增加后面的数字，直到出错为止。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x order by 8</span><br></pre></td></tr></table></figure>
-<h4 id="3-测试当前表的这些列"><a href="#3-测试当前表的这些列" class="headerlink" title="3.测试当前表的这些列"></a>3.测试当前表的这些列</h4><h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
+<p>下面为使用dvwa进行注入测试时的行数测试为例，当使用oder by 1和2时，页面正常显示</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/行数测试.png?raw=true" alt=""></p>
+<p>当将数字升到3是，产生如下报错，因此我们可以知道该表中只有两行。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/行数测试2.png?raw=true" alt=""></p>
+<h4 id="3-测试当前表中那些列有回显"><a href="#3-测试当前表中那些列有回显" class="headerlink" title="3.测试当前表中那些列有回显"></a>3.测试当前表中那些列有回显</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x union</span><br></pre></td></tr></table></figure>
+<h3 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h3><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) #</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true" alt=""></p>
 <h3 id="文件写入"><a href="#文件写入" class="headerlink" title="文件写入"></a>文件写入</h3><p>​    在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。</p>
@@ -675,7 +683,7 @@ C-->E(延时盲注)</pre>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入中常用到的sql表达式"><span class="nav-number">1.</span> <span class="nav-text">sql注入中常用到的sql表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql中常用的系统表"><span class="nav-number">2.</span> <span class="nav-text">mysql中常用的系统表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入分类"><span class="nav-number">3.</span> <span class="nav-text">sql注入分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典手工注入流程"><span class="nav-number">4.</span> <span class="nav-text">经典手工注入流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-注入点测试"><span class="nav-number">4.1.</span> <span class="nav-text">1.注入点测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数字型检测"><span class="nav-number">4.1.1.</span> <span class="nav-text">数字型检测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字符型注入点检测"><span class="nav-number">4.1.2.</span> <span class="nav-text">字符型注入点检测</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-当前表行数测试"><span class="nav-number">4.2.</span> <span class="nav-text">2.当前表行数测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-测试当前表的这些列"><span class="nav-number">4.3.</span> <span class="nav-text">3.测试当前表的这些列</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取文件"><span class="nav-number">5.</span> <span class="nav-text">读取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件写入"><span class="nav-number">6.</span> <span class="nav-text">文件写入</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入中常用到的sql表达式"><span class="nav-number">1.</span> <span class="nav-text">sql注入中常用到的sql表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql中常用的系统表"><span class="nav-number">2.</span> <span class="nav-text">mysql中常用的系统表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入分类"><span class="nav-number">3.</span> <span class="nav-text">sql注入分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典手工注入流程"><span class="nav-number">4.</span> <span class="nav-text">经典手工注入流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-注入点测试"><span class="nav-number">4.1.</span> <span class="nav-text">1.注入点测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数字型检测"><span class="nav-number">4.1.1.</span> <span class="nav-text">数字型检测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#字符型注入点检测"><span class="nav-number">4.1.2.</span> <span class="nav-text">字符型注入点检测</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-当前表行数测试"><span class="nav-number">4.2.</span> <span class="nav-text">2.当前表行数测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-测试当前表中那些列有回显"><span class="nav-number">4.3.</span> <span class="nav-text">3.测试当前表中那些列有回显</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读取文件"><span class="nav-number">5.</span> <span class="nav-text">读取文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件写入"><span class="nav-number">6.</span> <span class="nav-text">文件写入</span></a></li></ol></div>
             
 
           </div>
