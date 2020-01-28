@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="​    本文主要针对yolo模型的实现细节进行一些记录，前半部分不讨论yolo模型，直接将yolo模型当做黑盒子进行使用，讨论模型外的预处理以及输出表现等部分。 Yolo外部关键点1.boxes阈值过滤​    该部分主要用于将对各个boxes进行打分，根据阈值对boxes进行过滤。 12345678def yolo_filter_boxes(box_confidence, boxes, box">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-05T15:01:08.470Z">
+<meta property="og:updated_time" content="2020-01-27T09:14:44.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="目标检测——yolo算法实现">
 <meta name="twitter:description" content="​    本文主要针对yolo模型的实现细节进行一些记录，前半部分不讨论yolo模型，直接将yolo模型当做黑盒子进行使用，讨论模型外的预处理以及输出表现等部分。 Yolo外部关键点1.boxes阈值过滤​    该部分主要用于将对各个boxes进行打分，根据阈值对boxes进行过滤。 12345678def yolo_filter_boxes(box_confidence, boxes, box">
@@ -370,6 +370,8 @@
         <p>​    本文主要针对yolo模型的实现细节进行一些记录，前半部分不讨论yolo模型，直接将yolo模型当做黑盒子进行使用，讨论模型外的预处理以及输出表现等部分。</p>
 <h3 id="Yolo外部关键点"><a href="#Yolo外部关键点" class="headerlink" title="Yolo外部关键点"></a>Yolo外部关键点</h3><h4 id="1-boxes阈值过滤"><a href="#1-boxes阈值过滤" class="headerlink" title="1.boxes阈值过滤"></a>1.boxes阈值过滤</h4><p>​    该部分主要用于将<strong>对各个boxes进行打分，根据阈值对boxes进行过滤</strong>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">yolo_filter_boxes</span><span class="params">(box_confidence, boxes, box_class_probs, threshold = <span class="number">.6</span>)</span>:</span></span><br><span class="line">    box_scores = box_confidence*box_class_probs     <span class="comment">#boxes分数为置信度*类别概率</span></span><br><span class="line">    box_classes = K.argmax(box_scores,<span class="number">-1</span>)</span><br><span class="line">    box_class_scores = K.max(box_scores,<span class="number">-1</span>)</span><br><span class="line">    filtering_mask = box_class_scores&gt;threshold</span><br><span class="line">    scores = tf.boolean_mask(box_class_scores,filtering_mask)</span><br><span class="line">    boxes = tf.boolean_mask(boxes,filtering_mask)</span><br><span class="line">    classes = tf.boolean_mask(box_classes,filtering_mask)</span><br></pre></td></tr></table></figure>
+<p>bbox信息（x,y,w,h）为<strong>物体中心位置相对于格子位置</strong>的偏移、高度和宽度，均被归一化</p>
+<p>置信度反映了是够包含物体以及包含物体情况下的为位置准确性，定义为</p>
 
       
     </div>
