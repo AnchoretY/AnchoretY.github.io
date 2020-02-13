@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[对抗样本生成——GAN]]></title>
+    <url>%2F2020%2F02%2F13%2F%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[对抗样本生成——VAE]]></title>
+    <url>%2F2020%2F02%2F12%2F%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE%2F</url>
+    <content type="text"><![CDATA[​ 最近由于进行一些类文本生成的任务，因此对文本生成的相关的一些经典的可用于样本生成的网络进行了研究，本系列文章主要用于对这些模型及原理与应用做总结，不涉及复杂的公式推导。 相关文章： 对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成 AE(Auto Encoder)​ Auto Encoder中文名自动编码机，最开始用于数据压缩任务，例如：Google曾尝试使用该技术将图片再网络上只传输使用AE压缩过的编码值，而在本地进行还原来节约流量。后来也用于样本生成任务，但是用于样本生成存在着一些不可避免的问题，因此很快被VAE所取代。Auto Encoder结构如下所示： ​ 主要由Encoder和Decoder两部分组成，Encoder负责将原始的图片、文本等输入压缩成更低纬度的向量进行表示，Decoder负责将该向量表示进行复原，然后通过最小化Encoder输入与Decoder输出来进行两部分模型参数的优化。 ​ 训练完成后，训练好的Encoder部分可以输入图片等数据进行数据压缩； AE进行数据压缩的特点： 1.只能压缩与数据高相关度的数据 2.有损压缩 ​ 训练好的decoder可以输入随机的向量值生成样本，下图为样本生成示意图。 AE在进行样本生成时存在的问题： 1.当输入随机向量进行样本生成时，decoder部分输入的是一个随机的向量值，而AE只能保证训练集中有的数据具有比较好的效果，但是无法保证与训练集中的数据很接近的值依旧能够准确的进行判断（不能保证不存在跳变）。 2.没有随心所欲的去构造向量。因为输入的向量必须由原始的样本区进行构造隐藏编码，才能进行样本生成。 VAE(Varaient Auto Encoder)​ Variational Autoencoder中文名称变分自动编码器，是Auto Encoder的进化版，主要用于解决AE中存在的无法随心所欲的去生成样本，模型存在跳变等问题。核心思想为在生成隐藏向量的过程中加入一定的限制，使模型生成的样本近似的遵从标准正态分布，这样要进行样本生成我们就可以直接向模型输入一个标准正态分布的隐向量即可。 ​ VAE的使用过程中，需要在模型生成样本的准确率与生成隐向量符合正态分布的成都之间做一个权衡，因此在VAE中loss中包含两部分：均方误差、KL散度。均方误差用来衡量原始图片与生成图片之间的误差，KL散度用于表示隐含向量与标准正态分布之间的差距，其计算公式如下所示： ​ 而由于KL散的的计算问题，VAE的encoder不再直接输出一个隐含向量，而是生成两个向量，一个代表均值，一个代表方差。 ​ VAE的结构与AE模型基本一致，也分为Encoder、Decoder两部分，与AE的主要不同点在于隐藏向量的生成方式不同，VAE在进行向量生成时 总结​ 目前使用VAE进行样本生成是最常见的两种样本生成方式之一，与GAN相比存在的优势有： ​ 缺陷有： 1.VAE生成样本点的连续性不好。VAE进行生成采用的方式是每个像素点进行生成的，很难考虑像素点之间的联系，因此经常出现一些不连续的坏点。 2.要生成同样品质的样本，VAE需要更大的神经网络。 ​ 虽然二者各有优缺点，但是在实际使用中常常GAN比VAE拥有更加良好的表现，因此更多的人将注意力放在GAN系列模型上。]]></content>
+      <tags>
+        <tag>文本生成</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[sql注入——通过sqlmap进行getshell常见的问题]]></title>
     <url>%2F2020%2F01%2F20%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E9%80%9A%E8%BF%87sqlmap%E8%BF%9B%E8%A1%8Cgetshell%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[​ 在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件： 1.当前注入点为root权限 2.已知网站绝对路径 3.php转义功能关闭 4.secure_file_priv= 值为空 在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。 1.确认注入点权限​ 首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba 1sqlmap -u 网址 --is-dba 2.网站的绝对路径​ 获取网站的绝对路径在可以先进入sql-shell: 1sqlmap -u 网址 --sql-shell ​ 然后再在sql-shell中直接使用sql命令读取数据库文件存放路径： 1sql-shell&gt; select @@datadir; 然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。]]></content>
@@ -822,28 +835,6 @@
       </categories>
       <tags>
         <tag>spark</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[经典机器学习算法——逻辑回归]]></title>
-    <url>%2F2018%2F10%2F22%2F%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%2F</url>
-    <content type="text"><![CDATA[逻辑回归模型 ​ 逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用梯度下降算法来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。 注意：虽然名叫逻辑回归，但是实际上是一种分类模型 工作原理 12345每个回归系数初始化为 1重复 R 次: 计算整个数据集的梯度 使用 步长 x 梯度 更新回归系数的向量(梯度下降)返回回归系数 逻辑回归算法的特点 优点：计算代价低，可解释性强 缺点：容易欠拟合，分类精度可能不高 使用数据类型：数值型数据和标称型数据(只存在是和否两种结果的将数据) sigmod函数 ​ sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0到1之间的值，其公式和函数图像如下图： ​ 在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即 ​ 然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。 梯度上升算法 ​ 要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示: 这个梯度意味着要沿 x 的方向移动 ，沿 y 的方向移动 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。 ​ 上图展示了整个梯度上升的过程，梯度上升算法在到到每个点后都会从新估计移动的方向，而这个方向就是梯度方向，移动的速度大小由参数α控制。 训练过程 ​ 训练算法：使用梯度上升寻找最佳参数 123456&gt; 每个回归系数初始化为 1&gt; 重复 R 次:&gt; 计算整个数据集的梯度&gt; 使用 步长 x 梯度 更新回归系数的向量(梯度下降)&gt; 返回回归系数&gt; ​ 其中步长为超参数alpha，而梯度的计算如下： 即每个点的数据和其输入数据相同。因此权重的更新可以使用： ​ w:=w+α error x 其中α为常数步长，error为在当前参数值下与目标值的误差经过sigmod函数处理后的值，x为当当前样本的输入 123456789101112131415161718192021222324import numpy as npdef sigmod(x): return 1/1+np.exp(-x)def gradAscend(dataSet,labelSet,alpha,maxCycles): #将输入的数据转为向量格式 dataMat = np.mat(dataSet) labelMat = np.mat(labelSet).tramsponse() #获取输入数据的维度 m,n = np.shape(dataMat) #初始化回归系数 weights = np.ones((n,1)) #对回归系数进行迭代更新 for i in range(maxCycles): #计算使用当前回归系数LR的hx值，结果为(m,1)维向量 h = sigmod(dataMat*weights) #计算误差 error = labelMat-h #根据梯度进行回归系数更新 weights = weights + alpha*dataMat.transponse()*error return weights 随机梯度上升算法 ​ 随机梯度上升算法起到的作用和一般的梯度上升算法是一样的，只是由于一般的梯度上升算法在每次更新回归系数时需要遍历整个数据集，因此当数据量变动很大时，一般的梯度上升算法的时间消耗将会非常大，因此提出了每次只使用一个样本来进行参数更新的方式，随机梯度上升（下降）。 随机梯度上升算法的特点： ​ 1.每次参数更新只使用一个样本，速度快 ​ 2.可进行在线更新，是一个在线学习算法（也是由于每次回归系数更新只使用一个样本） 工作原理： 12345所有回归系数初始化为 1对数据集中每个样本 计算该样本的梯度 使用 alpha x gradient 更新回归系数值返回回归系数值 初步随机梯度下降代码： 1234567891011121314def stocgradAscend(dataSet,labelSet): #1.这里没有转换成矩阵的过程，整个过程完全都是在Numpy数据完成的 alpha = 0.01 m,n = np.shape(dataSet) weights = np.ones((n,1)) #2.回归系数更新过程中的h、error都是单个值，而在一般梯度上升算法中使用的是矩阵操作 for i in range(m): h = np.sigmod(dataSet[i]*weights) error = h - labelSet[i] weights = weights + alpha*error*dataSet[i] return weights 但是这种随机梯度上升算法在在实际的使用过程出现了参数最后难以收敛，最终结果周期性波动的问题，针对这种问题我们对这个问题将随机梯度下降做了下面两种优化 ​ 1.改进为 alpha 的值，alpha 在每次迭代的时候都会调整。另外，虽然 alpha 会随着迭代次数不断减少，但永远不会减小到 0，因为我们在计算公式中添加了一个常数项。 ​ ​ 2.修改randomIndex的值，从以前顺序的选择样本更改为完全随机的方式来选择用于回归系数的样本，每次随机从列表中选出一个值，然后从列表中删掉该值（再进行下一次迭代）。 最终版随机梯度下降： 1234567891011121314151617181920def stocgradAscend(dataSet,labelSet,numsIter=150): m,n = np.shape(dataSet) weights = np.ones(n,1) alpha = 0.01 for i in range(numsIter): #生成数据的索引 dataIndex = range(m) for i in range(m): #alpha会随着i和j的增大不断减小 alpha = 4/(i+j+1.0)+0.001 # alpha 会随着迭代不断减小，但永远不会减小到0，因为后边还有一个常数项0.0001 #生成随机选择要进行回归系数更新的数据索引号 randomIndex = np.random.uniform(0,len(dataIndex)) h = sigmod(np.sum(dataSet[dataIndex[randomIndex]]*weights)) error = h - dataSet[dataIndex[randomIndex]]*weights weights = weights + alpha*error*dataSet[dataIndex[randomIndex]] #在数据索引中删除 del(dataIndex[randomIndex]) return weights 预测过程 ​ LR模型的预测过程很简单，只需要根据训练过程训练出的参数，计算sigmod(w*x),如果这个值大于0.5，则分为1，反之则为0 123456def classfyLR:(inX,weights) prob = sigmod(np.sum(weights*inX)) if prob&gt;=0.5 return 1 else: return 0 注：这里的阈值其实是可以自行设定的 一些其他相关问题 1.LR模型和最大熵模型 ​ (1).logistic回归模型和最大熵模型都属于对数线性模型 ​ (2).当最大熵模型进行二分类时，最大熵模型就是逻辑回归模型 ​ (3) 学习他们的模型一般采用极大似估计或正则化的极大似然估计 ​ (4)二者可以形式化为无约束条件下的最优化问题 2.LR模型的多分类 ​ 逻辑回归也可以作用于多分类问题，对于多分类问题，处理思路如下：将多分类问题看做多个二分类，然后在各个sigmod得到的分数中区最大的值对应的类作为最终预测标签。]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[概率图模型]]></title>
-    <url>%2F2018%2F10%2F21%2F%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B%2F</url>
-    <content type="text"><![CDATA[​ 概率图模型是用图来表示变量概率依赖关系的理论，结合概率论与图论的知识，利用图来表示与模型有关的变量的联合概率分布 ​ 基本概率图模型主要包括贝叶斯网络、马尔科夫网络和隐马尔科夫网络三种类型。 ​ 基本的Graphical Model 可以大致分为两个类别：贝叶斯网络(Bayesian Network)和马尔可夫随机场(Markov Random Field)。它们的主要区别在于采用不同类型的图来表达变量之间的关系：贝叶斯网络采用有向无环图(Directed Acyclic Graph)来表达因果关系，马尔可夫随机场则采用无向图(Undirected Graph)来表达变量间的相互作用。这种结构上的区别导致了它们在建模和推断方面的一系列微妙的差异。一般来说，贝叶斯网络中每一个节点都对应于一个先验概率分布或者条件概率分布，因此整体的联合分布可以直接分解为所有单个节点所对应的分布的乘积。而对于马尔可夫场，由于变量之间没有明确的因果关系，它的联合概率分布通常会表达为一系列势函数（potential function）的乘积。通常情况下，这些乘积的积分并不等于1，因此，还要对其进行归一化才能形成一个有效的概率分布——这一点往往在实际应用中给参数估计造成非常大的困难。 概率图模型的表示理论​ 概率图模型的表示由参数和结构两部分组成。根据边有无方向性，可分为下面三种： ​ a、有向图模型—贝叶斯网络 ​ b、无向图模型—马尔科夫网络 ​ c、局部有向模型—条件随机场和链图]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
       </tags>
   </entry>
 </search>
