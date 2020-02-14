@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/GAN结构示意图.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/GAN生成器损失函数对比.png?raw=true">
-<meta property="og:updated_time" content="2020-02-14T13:39:29.885Z">
+<meta property="og:updated_time" content="2020-02-14T13:43:17.555Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对抗样本生成——GAN">
 <meta name="twitter:description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文名称生成对抗网络，是一种利用模">
@@ -421,8 +421,8 @@
 <p>​    该损失函数在代码实现中一般还是<strong>使用反标签的二进制交叉熵损失函数来进行实现</strong>，所谓反标签即为将生成的样本标注为1进行训练（正常生成样本标签为0），涉及到该部分的代码为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">criterion = nn.BCELoss()</span><br><span class="line">g_optimizer = torch.optim.Adam(D.parameters(), lr=<span class="number">0.0002</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">real_label = torch.ones(batch_size, <span class="number">1</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成模型根据随机输入生成fake_images,然后判别模型进行判别</span></span><br><span class="line">z = torch.randn(batch_size, latent_size)</span><br><span class="line">fake_images = G(z)</span><br><span class="line">outputs = D(fake_images)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练生成模型，使用反标签的二进制交叉熵损失函数</span></span><br><span class="line">g_loss = criterion(outputs, real_labels)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反向传播和优化</span></span><br><span class="line">reset_grad()</span><br><span class="line">g_loss.backward()</span><br><span class="line">g_optimizer.step()</span><br></pre></td></tr></table></figure>
 <p>【参考文献】</p>
-<p>李宏毅在线课程：<a href="https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw</a></p>
-<p>GAN损失函数详解：<a href="https://www.cnblogs.com/walter-xh/p/10051634.html" target="_blank" rel="noopener">https://www.cnblogs.com/walter-xh/p/10051634.html</a></p>
+<p>李宏毅在线课程:<a href="https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw</a></p>
+<p>GAN损失函数详解:<a href="https://www.cnblogs.com/walter-xh/p/10051634.html" target="_blank" rel="noopener">https://www.cnblogs.com/walter-xh/p/10051634.html</a></p>
 
       
     </div>
