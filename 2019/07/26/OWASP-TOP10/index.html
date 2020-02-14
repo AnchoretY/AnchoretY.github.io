@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。 1.注入​    sql注入等 ​    危害：导致数据丢失或数据破坏 常见混淆方式：  1.使用注释来进行截断 http://victim.com/news.php?id+un/**//ion+se">
+<meta name="description" content="​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。 1.注入​    sql注入等 ​    危害：导致数据丢失或数据破坏 常见混淆方式：  1.使用注释来进行截断 http://victim.com/news.php?id+un/*//ion+se/">
 <meta name="keywords" content="面试,安全">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OWASP_TOP10">
 <meta property="og:url" content="http://yoursite.com/2019/07/26/OWASP-TOP10/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。 1.注入​    sql注入等 ​    危害：导致数据丢失或数据破坏 常见混淆方式：  1.使用注释来进行截断 http://victim.com/news.php?id+un/**//ion+se">
+<meta property="og:description" content="​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。 1.注入​    sql注入等 ​    危害：导致数据丢失或数据破坏 常见混淆方式：  1.使用注释来进行截断 http://victim.com/news.php?id+un/*//ion+se/">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/Users/yhk/Library/Application%20Support/typora-user-images/image-20190726091123531.png">
 <meta property="og:image" content="https://images2015.cnblogs.com/blog/1076111/201701/1076111-20170121133837078-989051273.png">
 <meta property="og:updated_time" content="2019-10-20T08:11:46.374Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OWASP_TOP10">
-<meta name="twitter:description" content="​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。 1.注入​    sql注入等 ​    危害：导致数据丢失或数据破坏 常见混淆方式：  1.使用注释来进行截断 http://victim.com/news.php?id+un/**//ion+se">
+<meta name="twitter:description" content="​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。 1.注入​    sql注入等 ​    危害：导致数据丢失或数据破坏 常见混淆方式：  1.使用注释来进行截断 http://victim.com/news.php?id+un/*//ion+se/">
 <meta name="twitter:image" content="http://yoursite.com/Users/yhk/Library/Application%20Support/typora-user-images/image-20190726091123531.png">
 
 
@@ -377,9 +377,9 @@
 <p><strong>常见混淆方式：</strong></p>
 <blockquote>
 <p>1.使用注释来进行截断</p>
-<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3" target="_blank" rel="noopener">http://victim.com/news.php?id+un/**//ion+se/**/lect+1,2,3</a>–</p>
+<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3" target="_blank" rel="noopener">http://victim.com/news.php?id+un/*<em>//ion+se/*</em>/lect+1,2,3</a>—</p>
 <p>2.变换大小写</p>
-<p><a href="http://victim.com/news.php?id=1+UnIoN" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3–</p>
+<p><a href="http://victim.com/news.php?id=1+UnIoN" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3—</p>
 <p>3.替换关键词(将关键词插在关键词中)</p>
 <p><a href="http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--</a></p>
 </blockquote>
@@ -517,21 +517,19 @@
 <p>2.设置密码和会话的有效期，并强制使用强密码</p>
 <p>3.账号密码以密文形式传输在数据中hash存储</p>
 </blockquote>
-<blockquote>
-</blockquote>
 <h4 id="4-不安全对象的直接引用"><a href="#4-不安全对象的直接引用" class="headerlink" title="4.不安全对象的直接引用"></a>4.不安全对象的直接引用</h4><p>​    不安全的直接对象引用，也被称IDOR。IDOR允许攻击者<strong>绕过网站的身份验证机制，并通过修改指向对象链接中的参数值来直接访问目标对象资源</strong>，这类资源可以是属于其他用户的数据库条目以及服务器系统中的隐私文件等等。</p>
 <h5 id="常见攻击形式："><a href="#常见攻击形式：" class="headerlink" title="常见攻击形式："></a>常见攻击形式：</h5><blockquote>
 <p> <strong>目录遍历</strong></p>
 <p>​    假设 Web 应用程序允许为要呈现给用户存储在本地计算机上的文件。如果应用程序不验证应访问哪些文件，攻击者可以请求其他文件系统上的文件和那些也会显示。</p>
 <p>例如，如果攻击者通知 URL:<br>    <a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
+<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
 <p>这样 /etc/阴影文件返回并且呈现由 file.jsp 演示页面容易受到目录遍历攻击。</p>
 <p><strong>开方重定向</strong></p>
 <p>​     Web 应用程序有一个参数，允许其他地方的用户重定向到网站。如果此参数不实现正确使用白名单，攻击者可使用这一网络钓鱼攻击引诱到他们选择的站点的潜在受害者。</p>
 </blockquote>
 <p>例：</p>
 <p>例如，如果攻击者通知 URL:<br><a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
+<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
 <h5 id="防范："><a href="#防范：" class="headerlink" title="防范："></a>防范：</h5><blockquote>
 <p>1.验证用户输入的url请求，拒绝包含../和./的请求</p>
 <p>2.锁定服务器上的</p>
@@ -693,7 +691,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

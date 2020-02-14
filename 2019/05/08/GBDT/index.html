@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="简介​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？ 分类树和回归树####1.分类树 ​    分类树使用信息增益或增益比率来划分节点；每个节点样本的类别情况投">
+<meta name="description" content="简介​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？ 分类树和回归树1.分类树​    分类树使用信息增益或增益比率来划分节点；每个节点样本的类别情况投票决定测试">
 <meta name="keywords" content="机器学习,算法,面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GBDT">
 <meta property="og:url" content="http://yoursite.com/2019/05/08/GBDT/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="简介​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？ 分类树和回归树####1.分类树 ​    分类树使用信息增益或增益比率来划分节点；每个节点样本的类别情况投">
+<meta property="og:description" content="简介​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？ 分类树和回归树1.分类树​    分类树使用信息增益或增益比率来划分节点；每个节点样本的类别情况投票决定测试">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/%E5%9B%9E%E5%BD%92%E6%A0%91%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/提升树算法.png?raw=true">
@@ -94,7 +94,7 @@
 <meta property="og:updated_time" content="2019-05-27T08:38:41.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GBDT">
-<meta name="twitter:description" content="简介​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？ 分类树和回归树####1.分类树 ​    分类树使用信息增益或增益比率来划分节点；每个节点样本的类别情况投">
+<meta name="twitter:description" content="简介​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？ 分类树和回归树1.分类树​    分类树使用信息增益或增益比率来划分节点；每个节点样本的类别情况投票决定测试">
 <meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/%E5%9B%9E%E5%BD%92%E6%A0%91%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95.png?raw=true">
 
 
@@ -374,8 +374,7 @@
 
       
         <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>​    GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？</p>
-<h3 id="分类树和回归树"><a href="#分类树和回归树" class="headerlink" title="分类树和回归树"></a>分类树和回归树</h3><p>####1.分类树</p>
-<p>​    分类树使用<strong>信息增益或增益比率</strong>来划分节点；<strong>每个节点样本的类别情况投票</strong>决定<strong>测试样本的类别</strong>。</p>
+<h3 id="分类树和回归树"><a href="#分类树和回归树" class="headerlink" title="分类树和回归树"></a>分类树和回归树</h3><h4 id="1-分类树"><a href="#1-分类树" class="headerlink" title="1.分类树"></a>1.分类树</h4><p>​    分类树使用<strong>信息增益或增益比率</strong>来划分节点；<strong>每个节点样本的类别情况投票</strong>决定<strong>测试样本的类别</strong>。</p>
 <blockquote>
 <p>​       以C4.5分类树为例，C4.5分类树在每次分枝时，是穷举每一个feature的每一个阈值，找到使得按照feature&lt;=阈值，和feature&gt;阈值分成的两个分枝的熵最大的阈值(熵最大的概念可理解成尽可能每个分枝的男女比例都远离1:1)，按照该标准分枝得到两个新节点，用同样方法继续分枝直到所有人都被分入性别唯一的叶子节点，或达到预设的终止条件，若最终叶子节点中的性别不唯一，则以多数人的性别作为该叶子节点的性别。</p>
 </blockquote>
@@ -554,7 +553,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -609,7 +608,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类树和回归树"><span class="nav-number">2.</span> <span class="nav-text">分类树和回归树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-回归树"><span class="nav-number">2.1.</span> <span class="nav-text">2.回归树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decision-Tree：CART回归树"><span class="nav-number">3.</span> <span class="nav-text">Decision Tree：CART回归树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Graident-Boosting-梯度提升树"><span class="nav-number">4.</span> <span class="nav-text">Graident Boosting:梯度提升树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#提升树-Boosting-Tree"><span class="nav-number">4.1.</span> <span class="nav-text">提升树 Boosting Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Graident-Boosting-梯度提升树-1"><span class="nav-number">4.2.</span> <span class="nav-text">Graident Boosting:梯度提升树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT"><span class="nav-number">5.</span> <span class="nav-text">GBDT</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类树和回归树"><span class="nav-number">2.</span> <span class="nav-text">分类树和回归树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-分类树"><span class="nav-number">2.1.</span> <span class="nav-text">1.分类树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-回归树"><span class="nav-number">2.2.</span> <span class="nav-text">2.回归树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decision-Tree：CART回归树"><span class="nav-number">3.</span> <span class="nav-text">Decision Tree：CART回归树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Graident-Boosting-梯度提升树"><span class="nav-number">4.</span> <span class="nav-text">Graident Boosting:梯度提升树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#提升树-Boosting-Tree"><span class="nav-number">4.1.</span> <span class="nav-text">提升树 Boosting Tree</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Graident-Boosting-梯度提升树-1"><span class="nav-number">4.2.</span> <span class="nav-text">Graident Boosting:梯度提升树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT"><span class="nav-number">5.</span> <span class="nav-text">GBDT</span></a></li></ol></div>
             
 
           </div>

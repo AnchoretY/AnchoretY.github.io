@@ -297,6 +297,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/07/pytorch——finetune常用代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/07/pytorch——finetune常用代码/" itemprop="url">pytorch——finetune常用代码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-07T23:42:25+08:00">
+                2019-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="fine-tune整体流程"><a href="#fine-tune整体流程" class="headerlink" title="fine-tune整体流程"></a>fine-tune整体流程</h3><blockquote>
+<p><strong>1.加载预训练模型参数</strong></p>
+<p><strong>2.修改预训练模型，修改其后面的层为适合自己问题的层</strong></p>
+<p><strong>3.设置各层的可更新性。</strong>前面和预训练模型相同的部分不再进行训练，后面新加的部分还要重新进行训练</p>
+<p><strong>4.检查各层可更新性（可选）</strong></p>
+<p><strong>5.设置优化器只对更新前面设置为可更新的部分。</strong></p>
+</blockquote>
+<h4 id="1-加载预训练模型"><a href="#1-加载预训练模型" class="headerlink" title="1.加载预训练模型"></a>1.加载预训练模型</h4><p>​    一般在fine-tune中的第一步是首先加载一个已经预训练好的模型的参数，然后将预加载的模型后面的部分结构改造成自己需要的情况。其中包括两种情况：</p>
+<blockquote>
+<p>1.单单将其中的一两个单独的层进行简单的改造（如预训练的模型输出的类为1000类，目前想要使用的模型只包含两个类），使用原有的预训练模型。</p>
+<p>2.使用预训练模型的参数，但是后面的层需要更换为比较复杂的模型结构（常见的就是并行结构）</p>
+</blockquote>
+<h5 id="1-使用torchvision中已经预训练好的模型"><a href="#1-使用torchvision中已经预训练好的模型" class="headerlink" title="1.使用torchvision中已经预训练好的模型"></a>1.使用torchvision中已经预训练好的模型</h5><p>​    使用torchvision中已经预训练好的模型结构和参数，然后直接将尾部进行修改。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="comment"># 加载torchvision中已经训练好的resnet18模型，并且采用预训练的参数</span></span><br><span class="line">resnet = models.resnet18(pretrained=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># 最后一层重新随机参数，并且将输出类别改为2</span></span><br><span class="line">resnet.fc = nn.Linear(<span class="number">512</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="2-使用自己预训练好的模型，并且将输出的结果设置为并行结构"><a href="#2-使用自己预训练好的模型，并且将输出的结果设置为并行结构" class="headerlink" title="2.使用自己预训练好的模型，并且将输出的结果设置为并行结构"></a>2.使用自己预训练好的模型，并且将输出的结果设置为并行结构</h5><p>​    这里主要实现了之前自己已经预训练了，<strong>重新定义整体模型的结构（创建一个新的模型类），然后将共有部分的参数加载进来，不同的地方使用随机参数</strong>。</p>
+<blockquote>
+<p>注意：这里面新旧模型要共用的层名称一定要一致</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> models <span class="keyword">import</span> TextCNN</span><br><span class="line"></span><br><span class="line"><span class="comment">#加载新的模型结构，这里面的Text_CNN_Regression_Class模型结构已经设置为和之前的Text_CNN模型整体结构一致，最后的全连接层改为一个分类输出头加一个回归输出头</span></span><br><span class="line">model = Text_CNN_Regression_Class(len(FILE_TYPE_COL))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载预训练的模型的参数</span></span><br><span class="line">pretrained_dict = torch.load(<span class="string">"../model/Text_CNN_add_filetype_1:1_epoch5.state"</span>)</span><br><span class="line"><span class="comment"># 加载新的模型结构的初始化参数</span></span><br><span class="line">model_dict = model.state_dict()</span><br><span class="line"><span class="comment"># 将pretrained_dict里不属于model_dict的键剔除掉</span></span><br><span class="line">pretrained_dict = &#123;k: v <span class="keyword">for</span> k, v <span class="keyword">in</span> pretrained_dict.items() <span class="keyword">if</span> k <span class="keyword">in</span> model_dict&#125;<span class="comment">#如果你的k在预备训练当中，那么你的参数需要做转换，否则为原先的</span></span><br><span class="line"><span class="comment"># 更新现有的model_dict</span></span><br><span class="line">model_dict.update(pretrained_dict)<span class="comment">#利用预训练模型的参数，更新你的模型</span></span><br><span class="line"><span class="comment"># 加载我们真正需要的state_dict</span></span><br><span class="line">model.load_state_dict(model_dict)</span><br></pre></td></tr></table></figure>
+<h4 id="2-将指定层设置为参数更新，其余设置为参数不更新"><a href="#2-将指定层设置为参数更新，其余设置为参数不更新" class="headerlink" title="2.将指定层设置为参数更新，其余设置为参数不更新"></a>2.将指定层设置为参数更新，其余设置为参数不更新</h4><p>​    在fine-tune过程中经常用到的操作就是将整个神将网络的前半部分直接采用预训练好的模型参数，不再进行更新，这里主要实现了已经加载了预训练模型的参数，固定了除最后一个全连接层全部参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#对于模型的每个权重，使其不进行反向传播，即固定参数</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> resnet.parameters():</span><br><span class="line">    param.requires_grad = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将其中最后的全连接部分的网路参数设置为可反向传播</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> resnet.fc.parameters():</span><br><span class="line">    param.requires_grad = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-查看各层参数以及是否进行梯度更新（可选）"><a href="#3-查看各层参数以及是否进行梯度更新（可选）" class="headerlink" title="3.查看各层参数以及是否进行梯度更新（可选）"></a>3.查看各层参数以及是否进行梯度更新（可选）</h4><p>​    在fine-tune的过程中需要检查是不是已经将不需要更新梯度的层的各个参数值已经设置为不进行梯度更新，这是可以使用下面的代码进行查看:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> child <span class="keyword">in</span> resnet.children():</span><br><span class="line">    print(child)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> child.parameters():</span><br><span class="line">        print(param.requires_grad)</span><br></pre></td></tr></table></figure>
+<h4 id="4-将优化器设置为只更新需要更新的部分参数"><a href="#4-将优化器设置为只更新需要更新的部分参数" class="headerlink" title="4..将优化器设置为只更新需要更新的部分参数"></a>4..将优化器设置为只更新需要更新的部分参数</h4><p>​    这里主要用于前面的各个参数是否进行更新已经设置完成后的最后一步，完成这一部就可以只接将优化器直接用于整个神经网络的重新训练了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optimizer = optim.SGD(filter(<span class="keyword">lambda</span> p: p.requires_grad, model.parameters()), lr=<span class="number">1e-3</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/05/目标检测——yolo算法实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -493,8 +637,7 @@
         
           
             <h3 id="一、常见目标检测算法概述"><a href="#一、常见目标检测算法概述" class="headerlink" title="一、常见目标检测算法概述"></a>一、常见目标检测算法概述</h3><p>​    常见的目标检测算法目前主要分为三个方向：</p>
-<p>#####1.传统的目标检测算法</p>
-<p>​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化；</p>
+<h5 id="1-传统的目标检测算法"><a href="#1-传统的目标检测算法" class="headerlink" title="1.传统的目标检测算法"></a>1.传统的目标检测算法</h5><p>​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化；</p>
 <h5 id="2-候选区域-框-深度学习分类"><a href="#2-候选区域-框-深度学习分类" class="headerlink" title="2.候选区域/框+深度学习分类"></a>2.候选区域/框+深度学习分类</h5><p>​    通过先提取候选区域然后再用深度学习方法进行分类的方案。</p>
 <blockquote>
 <p>常见的该类型的目标检测算法有：</p>
@@ -504,11 +647,8 @@
 <p>​    Faster R-CNN：RPN+CNN+ROI</p>
 <p>​    R-CFN</p>
 </blockquote>
-<h5 id="3-基于深度学习的回归方法"><a href="#3-基于深度学习的回归方法" class="headerlink" title="3.基于深度学习的回归方法"></a>3.基于深度学习的回归方法</h5><h3 id="二、传统目标检测算法"><a href="#二、传统目标检测算法" class="headerlink" title="二、传统目标检测算法"></a>二、传统目标检测算法</h3><p>####(一)  传统目标检测的整体流程</p>
-<p>#####1.区域选择</p>
-<p>​    主要主要包括不同窗口的滑动窗口，时间复杂度很高</p>
-<p>#####2.特征提取</p>
-<p>​    </p>
+<h5 id="3-基于深度学习的回归方法"><a href="#3-基于深度学习的回归方法" class="headerlink" title="3.基于深度学习的回归方法"></a>3.基于深度学习的回归方法</h5><h3 id="二、传统目标检测算法"><a href="#二、传统目标检测算法" class="headerlink" title="二、传统目标检测算法"></a>二、传统目标检测算法</h3><h4 id="一-传统目标检测的整体流程"><a href="#一-传统目标检测的整体流程" class="headerlink" title="(一)  传统目标检测的整体流程"></a>(一)  传统目标检测的整体流程</h4><h5 id="1-区域选择"><a href="#1-区域选择" class="headerlink" title="1.区域选择"></a>1.区域选择</h5><p>​    主要主要包括不同窗口的滑动窗口，时间复杂度很高</p>
+<h5 id="2-特征提取"><a href="#2-特征提取" class="headerlink" title="2.特征提取"></a>2.特征提取</h5><p>​    </p>
 <h5 id="3-分类器分类"><a href="#3-分类器分类" class="headerlink" title="3.分类器分类"></a>3.分类器分类</h5><p>​    根据特征提取截断提取到的特征采用SVM、Adaboost等进行分类。</p>
 <h4 id="（二）目标检测任务"><a href="#（二）目标检测任务" class="headerlink" title="（二）目标检测任务"></a>（二）目标检测任务</h4><p>​    本质上是两个问题：1.图像识别 2.目标定位</p>
 <blockquote>
@@ -517,8 +657,6 @@
 <p>​    输出：物品类别</p>
 <p>​    主要方式：卷积神经网络</p>
 <p>​    评估方法：准确率等(常见分类问题的评估方法)</p>
-</blockquote>
-<blockquote>
 <p> 定位任务</p>
 <p>​    输入：图像向量</p>
 <p>​    输出：方框中图片的位置</p>
@@ -622,19 +760,17 @@
 <h5 id="2-将边框回归直接加入到了网络中，实现端到端"><a href="#2-将边框回归直接加入到了网络中，实现端到端" class="headerlink" title="2.将边框回归直接加入到了网络中，实现端到端"></a>2.将边框回归直接加入到了网络中，实现端到端</h5><p>​    之前的R-CNN框架是分为提取proposl、CNN提取特征、SVM分类器分类这种割裂开的三个阶段，而<strong>Fast R-CNN直接使用softmax替代SVM分类，同时利用多任务损失函数边框回归也加入到了网络中，这样整个的训练过程是端到端的(除去region proposal提取阶段)。</strong></p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图2.png?raw=true" alt=""></p>
 <h5 id="3-R-CNN和Fast-R-CNN对比："><a href="#3-R-CNN和Fast-R-CNN对比：" class="headerlink" title="3.R-CNN和Fast R-CNN对比："></a>3.R-CNN和Fast R-CNN对比：</h5><blockquote>
-<p>R-CNN:许多候选框（比如两千个）–&gt;CNN–&gt;得到每个候选框的特征–&gt;分类+回归</p>
-<p>Fast R-CNN：一张完整图片–&gt;CNN–&gt;得到每张候选框的特征–&gt;分类+回归</p>
+<p>R-CNN:许多候选框（比如两千个）—&gt;CNN—&gt;得到每个候选框的特征—&gt;分类+回归</p>
+<p>Fast R-CNN：一张完整图片—&gt;CNN—&gt;得到每张候选框的特征—&gt;分类+回归</p>
 <p>​    Fast R-CNN相对于R-CNN的提速原因就在于：不过不像R-CNN把每个候选区域给深度网络提特征，而是<strong>整张图提一次特征，再把候选框映射到conv5</strong>上，而SPP只需要计算一次特征，剩下的只需要在conv5层上操作就可以了。</p>
 </blockquote>
 <h5 id="4-存在问题"><a href="#4-存在问题" class="headerlink" title="4.存在问题"></a>4.存在问题</h5><p>​    虽然不在不再需要对每个候选框进行卷积运算，但是<strong>使用选择搜索算法进行候选框生成的过程也非常耗时</strong>。</p>
-<p>####（四）Faster R-CNN</p>
-<p><strong>核心</strong></p>
+<h4 id="（四）Faster-R-CNN"><a href="#（四）Faster-R-CNN" class="headerlink" title="（四）Faster R-CNN"></a>（四）Faster R-CNN</h4><p><strong>核心</strong></p>
 <blockquote>
 <p>​    引入Region Proposal Network(RPN)替代Selective Search，同时引入anchor box应对目标形状的变化问题</p>
 </blockquote>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN结构图.png?raw=true" alt=""></p>
-<p>#####　RPN</p>
-<p>​    首先在feature map上进行滑动的窗口，</p>
+<h5 id="RPN"><a href="#RPN" class="headerlink" title="　RPN"></a>　RPN</h5><p>​    首先在feature map上进行滑动的窗口，</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN四损失函数图.png?raw=true" alt=""></p>
 
           
@@ -1503,8 +1639,7 @@
       
         
           
-            <p>####1.什么是存储过程？优点是什么？</p>
-<p>​    存储过程是一些预编译的SQL语句。</p>
+            <h4 id="1-什么是存储过程？优点是什么？"><a href="#1-什么是存储过程？优点是什么？" class="headerlink" title="1.什么是存储过程？优点是什么？"></a>1.什么是存储过程？优点是什么？</h4><p>​    存储过程是一些预编译的SQL语句。</p>
 <p>​    优点：1.更加容易理解</p>
 <p>​                2.存储过程是一个预编译的代码模块，执行效率更高</p>
 <h4 id="2-索引是什么？有什么作用以及优缺点？"><a href="#2-索引是什么？有什么作用以及优缺点？" class="headerlink" title="2.索引是什么？有什么作用以及优缺点？"></a>2.索引是什么？有什么作用以及优缺点？</h4><p>​    索引是对数据库表中一或多个列的值进行排序的结构，是帮助MySQL高效获取数据的数据结构</p>
@@ -1619,148 +1754,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/数据可视化之箱型图/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/17/数据可视化之箱型图/" itemprop="url">数据可视化之箱型图</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-17T10:43:59+08:00">
-                2019-09-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="箱型图"><a href="#箱型图" class="headerlink" title="箱型图"></a>箱型图</h4><p>​    箱线图（Boxplot）也称箱须图（Box-whisker Plot），它是<strong>用一组数据中的最小值、第一四分位数、中位数、第三四分位数和最大值来反映数据分布的中心位置和散布范围，可以粗略地看出数据是否具有对称性</strong>。通过<strong>将多组数据的箱线图画在同一坐标上，则可以清晰地显示各组数据的分布差异</strong>，为发现问题、改进流程提供线索。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/标准箱型图.png?raw=true" alt=""></p>
-<h4 id="箱型图有哪些作用呢？"><a href="#箱型图有哪些作用呢？" class="headerlink" title="箱型图有哪些作用呢？"></a>箱型图有哪些作用呢？</h4><p><strong>1.为了反映原始数据的分布情况，比如数据的聚散情况和偏态</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不同分布的箱型图.png?raw=true" alt=""></p>
-<p>​    从图中我们可以直观地看出，<strong>箱形图的中位数和上四分位数的间距比较窄的话，对应曲线图，这个间距内的数据比较集中</strong>，还有就是<strong>箱形图的上（下）边缘比较长的话，对应曲线图，尾巴就比较长</strong>。</p>
-<p>2.异常值检测，在上下边缘之外的一般认为是异常值(这个和正太分布有关)</p>
-<p>3.可以直观的比较多组数据</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/多组数据比较箱型图实例.png?raw=true" alt=""></p>
-<p>从这图我们可以很直观地看出以下信息：<br>1.各科成绩中，英语和西方经济学的<strong>平均成绩比较高</strong>，而统计学和基础会计学的平均成绩比较低。（用中位数来衡量整体情况比较稳定）</p>
-<p>2.英语、市场营销学、西方经济学、计算机应用基础和财务管理成绩<strong>分布比较集中，因为箱子比较短</strong>。而经济数学、基础会计学和统计学成绩比较分散，我们可以对照考试成绩数据看看也可以证实。</p>
-<p>3.从各个箱形图的中位数和上下四位数的间距也可以看出，<strong>英语和市场营销学的成绩分布是非常的对称，而统计学呢？非常的不平衡，大部分数据都分布在70到85(中位数到上四分位数)分以上。</strong>同样，也可以从成绩单里的数据证实</p>
-<p>4<strong>.在计算机应用基础对应的箱形图出现了个异常点</strong>，我们回去看看成绩单，计算机那一栏，出现了个计算机大牛（真希望是我），考了95分，比第二名多了10分。而其他同学的成绩整体在80分左右。</p>
-<p>5。其实我们也可以从中得知，<strong>用平均值去衡量整体的情况有时很不合理，用中位数比较稳定，因为中位数不太会收到极值的影响，而平均值则受极值的影响很大。</strong></p>
-<h4 id="如何做箱型图"><a href="#如何做箱型图" class="headerlink" title="如何做箱型图"></a>如何做箱型图</h4><p>​    <strong>用到的主要模块：matplotlib,pandas,numpy</strong></p>
-<p>​    <strong>输入数据格式：单个数值列表</strong>，例如[1,3,1,5,4]</p>
-<p>​    <strong>核心参数:</strong></p>
-<blockquote>
-<p>x:输入数据一列数据或者一个列的数组</p>
-<p>labels:各个箱型子图的标签</p>
-<p>whis:上下边缘强制定义，决定了哪部分部署被定义为异常数据，默认值为1.5。上边缘：第一和第三个四分位数。也就是说，IQR是四分位范围(‘ Q3-Q1 ‘)，上边缘须将延伸至最后一个数据小于’ Q3 + whis<em>IQR ‘)。例如上四分位数为70，下四分位数为10，那么上边缘值为70+1.5\</em>(70-10)=160</p>
-</blockquote>
-<h5 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.boxplot(x=[df[[<span class="string">'parameters_max_len'</span>]].values,df[df[<span class="string">'label'</span>]==<span class="number">0</span>][<span class="string">'parameters_max_len'</span>].values,df[df[<span class="string">'label'</span>]==<span class="number">1</span>][<span class="string">'parameters_max_len'</span>].values],labels=[<span class="string">'all sample'</span>,<span class="string">'normal sample'</span>,<span class="string">'black sample'</span>],whis=<span class="number">2</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/箱型图实例.png?raw=true" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1811,7 +1804,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

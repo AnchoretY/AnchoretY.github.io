@@ -382,6 +382,7 @@
 <p>​    6.桶排序</p>
 </blockquote>
 <p>下面我将具体介绍各种排序算法的一些特点：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -444,6 +445,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <blockquote>
 <p>时间复杂度辅助记忆：</p>
 <ul>
@@ -482,9 +484,9 @@
 <p>基本思想：把记录按照下标的一定增量进行分组，对每组使用直接插入排序算法进行排序；随着增量逐渐减少，魅族包含的元素个数越来越多，当增量减至1时，整个文件被分成一组，算法终止。</p>
 </blockquote>
 <p><strong>稳定性：不稳定</strong></p>
-<p><strong>平均时间复杂度：O($$n^2$$)</strong> </p>
-<p><strong>最坏时间复杂度 :  O($$n^\frac{3}{2}$$)</strong></p>
-<p><strong>空间复杂度:O( $$n^2$$ )</strong></p>
+<p><strong>平均时间复杂度：O(<script type="math/tex">n^2</script>)</strong> </p>
+<p><strong>最坏时间复杂度 :  O(<script type="math/tex">n^\frac{3}{2}</script>)</strong></p>
+<p><strong>空间复杂度:O( <script type="math/tex">n^2</script> )</strong></p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/希尔排序实例.png?raw=true" alt=""></p>
 <h4 id="5-快速排序"><a href="#5-快速排序" class="headerlink" title="5.快速排序"></a>5.快速排序</h4><p>​    快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，<strong>此时pivot的位置就是排好序后他也应该在的位置。</strong>然后继续用递归算法分别处理pivot左边的元素和右边的元素。</p>
 <h5 id="对于大的乱序数据快速排序被认为是最快速的排序方式"><a href="#对于大的乱序数据快速排序被认为是最快速的排序方式" class="headerlink" title="对于大的乱序数据快速排序被认为是最快速的排序方式"></a>对于大的乱序数据快速排序被认为是最快速的排序方式</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(l&lt;r):</span><br><span class="line">        q = mpartition(arr,l,r)</span><br><span class="line">        quick_sort(arr,l,q<span class="number">-1</span>)    <span class="comment">#前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置</span></span><br><span class="line">        quick_sort(arr,q+<span class="number">1</span>,r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mpartition</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	递归子函数，povit放到指定位置</span></span><br><span class="line"><span class="string">    	return l:最终标志元素被放置的位置，本轮确定了的元素位置</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    poviot = arr[l]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> l&lt;r:</span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[r]&gt;=poviot:</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[l] = arr[r]</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[l]&lt;poviot:</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[r] = arr[l]</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    arr[l]  = poviot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
@@ -620,7 +622,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

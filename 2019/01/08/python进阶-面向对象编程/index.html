@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="1.__slots__ ​    用于指定class 实例能够指定的属性  注意：__slots__只对当前类起作用，对其子类无效  12345678910import tracebackclass Myclass(object):	__slots__ = [&quot;name&quot;,&quot;set_name]	s = MyClass()s.name = &quot;john&quot; #这里可以进行正常的赋值，因为包含在__slo">
+<meta name="description" content="1._slots_ ​    用于指定class 实例能够指定的属性  注意：_slots_只对当前类起作用，对其子类无效  12345678910import tracebackclass Myclass(object):	__slots__ = [&quot;name&quot;,&quot;set_name]	s = MyClass()s.name = &quot;john&quot; #这里可以进行正常的赋值，因为包含在__slots__">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python进阶-面向对象编程">
 <meta property="og:url" content="http://yoursite.com/2019/01/08/python进阶-面向对象编程/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="1.__slots__ ​    用于指定class 实例能够指定的属性  注意：__slots__只对当前类起作用，对其子类无效  12345678910import tracebackclass Myclass(object):	__slots__ = [&quot;name&quot;,&quot;set_name]	s = MyClass()s.name = &quot;john&quot; #这里可以进行正常的赋值，因为包含在__slo">
+<meta property="og:description" content="1._slots_ ​    用于指定class 实例能够指定的属性  注意：_slots_只对当前类起作用，对其子类无效  12345678910import tracebackclass Myclass(object):	__slots__ = [&quot;name&quot;,&quot;set_name]	s = MyClass()s.name = &quot;john&quot; #这里可以进行正常的赋值，因为包含在__slots__">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/__slots__.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/@property_2.png?raw=true">
 <meta property="og:updated_time" content="2019-01-12T08:04:26.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python进阶-面向对象编程">
-<meta name="twitter:description" content="1.__slots__ ​    用于指定class 实例能够指定的属性  注意：__slots__只对当前类起作用，对其子类无效  12345678910import tracebackclass Myclass(object):	__slots__ = [&quot;name&quot;,&quot;set_name]	s = MyClass()s.name = &quot;john&quot; #这里可以进行正常的赋值，因为包含在__slo">
+<meta name="twitter:description" content="1._slots_ ​    用于指定class 实例能够指定的属性  注意：_slots_只对当前类起作用，对其子类无效  12345678910import tracebackclass Myclass(object):	__slots__ = [&quot;name&quot;,&quot;set_name]	s = MyClass()s.name = &quot;john&quot; #这里可以进行正常的赋值，因为包含在__slots__">
 <meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/__slots__.png?raw=true">
 
 
@@ -370,10 +370,10 @@
       
 
       
-        <p>1.__slots__</p>
+        <p>1._<em>slots_</em></p>
 <p>​    用于指定class 实例能够指定的属性</p>
 <blockquote>
-<p>注意：__slots__只对当前类起作用，对其子类无效</p>
+<p>注意：_<em>slots_</em>只对当前类起作用，对其子类无效</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> traceback</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Myclass</span><span class="params">(object)</span>:</span></span><br><span class="line">	__slots__ = [<span class="string">"name"</span>,<span class="string">"set_name]</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">s = MyClass()</span></span><br><span class="line"><span class="string">s.name = "</span>john<span class="string">" #这里可以进行正常的赋值，因为包含在__slots__中</span></span><br><span class="line"><span class="string">try:</span></span><br><span class="line"><span class="string">	s.age = 2	#这里不能进行正常赋值</span></span><br><span class="line"><span class="string">except AttributeError:</span></span><br><span class="line"><span class="string">	traceback.print_exc()</span></span><br></pre></td></tr></table></figure>
 <p>Output:</p>
@@ -390,7 +390,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(object)</span>:</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @score.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self,value)</span>:</span></span><br><span class="line">        <span class="comment">#不是int类型时引发异常</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value,int):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"not int"</span>)    <span class="comment">#raise的作用是显示的引发异常</span></span><br><span class="line">        <span class="comment">#超出范围时引发异常</span></span><br><span class="line">        <span class="keyword">elif</span> (value&lt;<span class="number">0</span>) <span class="keyword">or</span> (value&gt;<span class="number">100</span>):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"score must in 0 to 100"</span>)</span><br><span class="line">        </span><br><span class="line">        self._score = value</span><br><span class="line">        </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">double_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score*<span class="number">2</span></span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">s = MyClass()</span><br><span class="line">s.score = <span class="number">3</span></span><br><span class="line">print(s.score)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="number">2300</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="string">"dfsd"</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line">print(s.double_score)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.double_score = <span class="number">2</span></span><br><span class="line"><span class="keyword">except</span> Exception:</span><br><span class="line">    traceback.print_exc()</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/@property_2.png?raw=true" alt=""></p>
 <p>描述器，主要是用来读写删除类的行为</p>
-<p>  函数可以直接使用__name__属性来获取函数名称</p>
+<p>  函数可以直接使用_<em>name_</em>属性来获取函数名称</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">	print(<span class="string">"2012"</span>)</span><br><span class="line"></span><br><span class="line">print(now.__name__)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	<span class="string">"now"</span></span><br></pre></td></tr></table></figure>
 <p>​    </p>
 
@@ -497,7 +497,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

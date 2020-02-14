@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;apos;ggplot&amp;apos;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.">
+<meta name="description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;#39;ggplot&amp;#39;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.ar">
 <meta name="keywords" content="数据分析,可视化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据可视化之散点图和折线图">
 <meta property="og:url" content="http://yoursite.com/2018/09/23/数据可视化之散点图和折线图/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;apos;ggplot&amp;apos;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.">
+<meta property="og:description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;#39;ggplot&amp;#39;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.ar">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%8A%98%E7%BA%BF%E5%9B%BE.png?raw=true">
 <meta property="og:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%A3%E7%82%B9%E5%9B%BE.png?raw=true">
@@ -93,7 +93,7 @@
 <meta property="og:updated_time" content="2019-09-17T02:48:26.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据可视化之散点图和折线图">
-<meta name="twitter:description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;apos;ggplot&amp;apos;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.">
+<meta name="twitter:description" content="数据可视化之散点图和折线图画图基本常用参数plt.figure(figure_size=(30,20))       指定图片大小 plt.style.use(&amp;#39;ggplot&amp;#39;)               指定图片风格 plt.title(&amp;quot;image title&amp;quot;,fontsize=30)  指定图片标题  指定坐标轴相关my_x_trick = np.ar">
 <meta name="twitter:image" content="https://github.com/Anchoret91/youdao_image/blob/master/%E6%8A%98%E7%BA%BF%E5%9B%BE.png?raw=true">
 
 
@@ -395,7 +395,7 @@
 
       
         <h1 id="数据可视化之散点图和折线图"><a href="#数据可视化之散点图和折线图" class="headerlink" title="数据可视化之散点图和折线图"></a>数据可视化之散点图和折线图</h1><h4 id="画图基本常用参数"><a href="#画图基本常用参数" class="headerlink" title="画图基本常用参数"></a>画图基本常用参数</h4><pre><code>plt.figure(figure_size=(30,20))       指定图片大小
-plt.style.use(&apos;ggplot&apos;)               指定图片风格
+plt.style.use(&#39;ggplot&#39;)               指定图片风格
 plt.title(&quot;image title&quot;,fontsize=30)  指定图片标题 
 </code></pre><h4 id="指定坐标轴相关"><a href="#指定坐标轴相关" class="headerlink" title="指定坐标轴相关"></a>指定坐标轴相关</h4><pre><code>my_x_trick = np.arrange(0,200,10)     
 plt.xtricks(my_x_trick,fontsize=20,rotation)   指定x轴，fontsize指定坐标轴字体，rotation指定文字旋转的角度
@@ -410,11 +410,11 @@ plt.show()
 <p>在一个文件中多次调用plt.plot(),使用不同的数据指定不同颜色和label可在一个图中画多条折线进行对比  </p>
 <p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%8A%98%E7%BA%BF%E5%9B%BE.png?raw=true" alt="image"></p>
 <h4 id="2-散点图"><a href="#2-散点图" class="headerlink" title="2.散点图"></a>2.散点图</h4><pre><code>方式一： 
-    plt.scatter(x1,x2,marker=&apos;o&apos;)       #指定画散点图，marker为点的形状
+    plt.scatter(x1,x2,marker=&#39;o&#39;)       #指定画散点图，marker为点的形状
     plt.show()
 
 方式二：
-    plt.plot(x1,x2,marker=&apos;o&apos;)            #plot使用marker=‘o’则为散点图
+    plt.plot(x1,x2,marker=&#39;o&#39;)            #plot使用marker=‘o’则为散点图
     plt.show()
 </code></pre><p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%A3%E7%82%B9%E5%9B%BE.png?raw=true" alt="image"></p>
 <p>在实际情况中第二种方式更为灵活，因此我们下重点介绍第二种方式的参数情况。</p>
@@ -432,7 +432,7 @@ plt.show()
 #使用TSNE进行降维
 tsne = TSNE(learning_rate=100)
 x = tsne.fit_transform(input)
-</code></pre><p>​<br>    labels = dbscan.labels_    #获取最终的预测结果<br>    unique_labels = set(dbscan.labels_) </p>
+</code></pre><p>​<br>    labels = dbscan.labels<em>    #获取最终的预测结果<br>    unique_labels = set(dbscan.labels</em>) </p>
 <pre><code>colors = plt.cm.Spectral(np.linspace(0,1,len(set(dbscan.labels_))))   #生成和标签种类数相同的颜色数组
 
 core_samples_mask =np.zeros_like(dbscan.labels_,dtype=bool)   
@@ -561,7 +561,7 @@ core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

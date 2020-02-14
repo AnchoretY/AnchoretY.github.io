@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="​     ###持久化 ​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这">
+<meta name="description" content="​     持久化​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这个RDD">
 <meta name="keywords" content="spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pyspark学习心得">
 <meta property="og:url" content="http://yoursite.com/2018/10/23/pyspark学习心得/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="​     ###持久化 ​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这">
+<meta property="og:description" content="​     持久化​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这个RDD">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-11-15T04:11:00.397Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pyspark学习心得">
-<meta name="twitter:description" content="​     ###持久化 ​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这">
+<meta name="twitter:description" content="​     持久化​    Spark中对于一个RDD执行多次算子的默认原理是这样的：每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。 ​    因此对于这种情况，我们的建议是：对多次使用的RDD进行持久化。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。以后每次对这个RDD">
 
 
 
@@ -391,8 +391,7 @@
 
       
         <p>​    </p>
-<p>###持久化</p>
-<p>​    Spark中对于一个RDD执行多次算子的<strong>默认</strong>原理是这样的：<strong>每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍</strong>，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。</p>
+<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>​    Spark中对于一个RDD执行多次算子的<strong>默认</strong>原理是这样的：<strong>每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍</strong>，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。</p>
 <p>​    因此对于这种情况，我们的建议是：<strong>对多次使用的RDD进行持久化</strong>。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。<strong>以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作</strong>。</p>
 <p>​    spark中的持久化操作主要分为两种：<strong>persist和cache</strong>。<strong>cache相当于使用MEMORY_ONLY级别的persist操作，而persist更灵活可以任意指定persist的级别。</strong></p>
 <blockquote>
@@ -539,7 +538,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -594,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何选择一种最合适的持久化策略"><span class="nav-number">1.</span> <span class="nav-text">如何选择一种最合适的持久化策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提高性能的算子"><span class="nav-number">2.</span> <span class="nav-text">提高性能的算子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用filter之后进行coalesce操作"><span class="nav-number">2.0.1.</span> <span class="nav-text">使用filter之后进行coalesce操作</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shuffle"><span class="nav-number">2.1.</span> <span class="nav-text">Shuffle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shuffle操作速度慢的原因"><span class="nav-number">2.2.</span> <span class="nav-text">shuffle操作速度慢的原因</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化"><span class="nav-number">1.</span> <span class="nav-text">持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何选择一种最合适的持久化策略"><span class="nav-number">2.</span> <span class="nav-text">如何选择一种最合适的持久化策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提高性能的算子"><span class="nav-number">3.</span> <span class="nav-text">提高性能的算子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用filter之后进行coalesce操作"><span class="nav-number">3.0.1.</span> <span class="nav-text">使用filter之后进行coalesce操作</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shuffle"><span class="nav-number">3.1.</span> <span class="nav-text">Shuffle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shuffle操作速度慢的原因"><span class="nav-number">3.2.</span> <span class="nav-text">shuffle操作速度慢的原因</span></a></li></ol></li></ol></div>
             
 
           </div>

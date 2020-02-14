@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="-d 容器在后台运行 -P 将容器内部的端口映射到我们的主机上  12docker ps    #查看全部正在开启的dockerdocker ps ####1.进入以及退出docker ​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。 12345678910#首先查看正在运行的docker，在其中选择想要进入的dock">
+<meta name="description" content="-d 容器在后台运行 -P 将容器内部的端口映射到我们的主机上  12docker ps    #查看全部正在开启的dockerdocker ps 1.进入以及退出docker​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。 12345678910#首先查看正在运行的docker，在其中选择想要进入的docker na">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker操作">
 <meta property="og:url" content="http://yoursite.com/2018/09/23/Docker操作/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="-d 容器在后台运行 -P 将容器内部的端口映射到我们的主机上  12docker ps    #查看全部正在开启的dockerdocker ps ####1.进入以及退出docker ​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。 12345678910#首先查看正在运行的docker，在其中选择想要进入的dock">
+<meta property="og:description" content="-d 容器在后台运行 -P 将容器内部的端口映射到我们的主机上  12docker ps    #查看全部正在开启的dockerdocker ps 1.进入以及退出docker​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。 12345678910#首先查看正在运行的docker，在其中选择想要进入的docker na">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-12-07T04:59:56.527Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker操作">
-<meta name="twitter:description" content="-d 容器在后台运行 -P 将容器内部的端口映射到我们的主机上  12docker ps    #查看全部正在开启的dockerdocker ps ####1.进入以及退出docker ​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。 12345678910#首先查看正在运行的docker，在其中选择想要进入的dock">
+<meta name="twitter:description" content="-d 容器在后台运行 -P 将容器内部的端口映射到我们的主机上  12docker ps    #查看全部正在开启的dockerdocker ps 1.进入以及退出docker​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。 12345678910#首先查看正在运行的docker，在其中选择想要进入的docker na">
 
 
 
@@ -373,8 +373,7 @@
 <p>-P 将容器内部的端口映射到我们的主机上</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps    #查看全部正在开启的docker</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-<p>####1.进入以及退出docker</p>
-<p>​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。</p>
+<h4 id="1-进入以及退出docker"><a href="#1-进入以及退出docker" class="headerlink" title="1.进入以及退出docker"></a>1.进入以及退出docker</h4><p>​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先查看正在运行的docker，在其中选择想要进入的docker name</span></span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后使用exec进行进入docker</span></span><br><span class="line">docker <span class="keyword">exec</span> --it docker_name /bin/bash/</span><br><span class="line"></span><br><span class="line"><span class="comment">#进行各种操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#退出docker</span></span><br><span class="line">exit或Ctrl+D</span><br></pre></td></tr></table></figure>
 <h3 id="2-docker和宿主主机之间传输文件"><a href="#2-docker和宿主主机之间传输文件" class="headerlink" title="2.docker和宿主主机之间传输文件"></a>2.docker和宿主主机之间传输文件</h3><p>​    docker 使用docker cp 命令来进行复制，<strong>无论容器有没有进行运行，复制操作都可以进行执行</strong>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#从docker中赋值文件到宿主主机</span></span><br><span class="line">docker cp docker_name:/docker_file_path local_path</span><br><span class="line"></span><br><span class="line"><span class="comment">#从宿主主机复制到docker</span></span><br><span class="line">docker cp local_path docker_name:/docker_file_path</span><br></pre></td></tr></table></figure>
@@ -497,7 +496,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -552,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-docker和宿主主机之间传输文件"><span class="nav-number">1.</span> <span class="nav-text">2.docker和宿主主机之间传输文件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-进入以及退出docker"><span class="nav-number">1.</span> <span class="nav-text">1.进入以及退出docker</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-docker和宿主主机之间传输文件"><span class="nav-number"></span> <span class="nav-text">2.docker和宿主主机之间传输文件</span></a></div>
             
 
           </div>

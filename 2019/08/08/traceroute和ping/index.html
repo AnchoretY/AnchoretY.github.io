@@ -371,7 +371,7 @@
         <p>​    在日常使用中我们常常会用到ping和traceroute，正好在面试中遇到了这个问题，特来整理一下，下面我们将对这两个协议的具体工作原理进行总结。</p>
 <h3 id="Ping"><a href="#Ping" class="headerlink" title="Ping"></a>Ping</h3><p>​    Ping 是 <strong>ICMP</strong> 的一个重要应用，主要用来测试两台主机之间的连通性。Ping 的原理是<strong>通过向目的主机发送 ICMP Echo 请求报文，目的主机收到之后会发送 Echo 回答报文</strong>。<strong>Ping 会根据时间和成功响应的次数估算出数据包往返时间以及丢包率。</strong></p>
 <h5 id="ping完成的工作流程"><a href="#ping完成的工作流程" class="headerlink" title="ping完成的工作流程"></a>ping完成的工作流程</h5><blockquote>
-<p>构造ICMP数据包–&gt;构造IP数据包–&gt;构造以太网数据帧—-物理传输到目标主机—-&gt;获取以太网数据帧–&gt;解析出IP数据包–&gt;解析出ICMP数据包–&gt;发送回送应答报文</p>
+<p>构造ICMP数据包—&gt;构造IP数据包—&gt;构造以太网数据帧——物理传输到目标主机——&gt;获取以太网数据帧—&gt;解析出IP数据包—&gt;解析出ICMP数据包—&gt;发送回送应答报文</p>
 </blockquote>
 <h3 id="Traceroute"><a href="#Traceroute" class="headerlink" title="Traceroute"></a>Traceroute</h3><p>​    Traceroute 是 <strong>ICMP</strong> 的另一个应用，<strong>用来跟踪一个分组从源点到终点的路径</strong>。有2种实现方案：基于UDP实现和基于ICMP实现。</p>
 <h4 id="基于UDP的实现"><a href="#基于UDP的实现" class="headerlink" title="基于UDP的实现"></a>基于UDP的实现</h4><p>​    在基于UDP的实现中，客户端发送的数据包是通过UDP协议来传输的，使用了一个大于30000的端口号，服务器在收到这个数据包的时候会返回一个端口不可达的ICMP错误信息，客户端<strong>通过判断收到的错误信息是TTL超时还是端口不可达来判断数据包是否到达目标主机。</strong></p>
@@ -509,7 +509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

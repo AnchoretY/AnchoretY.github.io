@@ -389,7 +389,7 @@
 <p><strong>Advertised TLS Extensions</strong>:大多数TLS流量提供<code>0x000d(signature_algorithms)</code>，但是良性流量会使用以下很少在恶意流量中见到的参数：0x0005 (status request)、0x3374 (next protocol negotiation)、0xff01 (renegotiation info</p>
 <p><strong>客户端公钥</strong>：良性流量往往选择256-bit的椭圆曲线密码公钥，而恶意流量往往选择2048-bit的RSA密码公钥。</p>
 </blockquote>
-<pre><code>**服务端方面**
+<pre><code>     **服务端方面**
 </code></pre><p>​        我们能够从<code>serverHello</code>流中得到服务端选择的<code>Offered Ciphersuites</code>和<code>Advertised TLS Extensions</code>信息。</p>
 <blockquote>
 <p>证书链长度：在<code>certificate</code>流中，我们能够得到服务端的证书链，长度为1的证书链中70%都来自恶意流量的签名，0.1%来自良性流量的自签名</p>
@@ -528,7 +528,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

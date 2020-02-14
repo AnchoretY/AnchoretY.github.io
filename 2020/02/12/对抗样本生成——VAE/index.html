@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="文本生成," />
+  <meta name="keywords" content="对抗样本生成," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="​    最近由于进行一些类文本生成的任务，因此对文本生成的相关的一些经典的可用于样本生成的网络进行了研究，本系列文章主要用于对这些模型及原理与应用做总结，不涉及复杂的公式推导。 相关文章：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  AE(Auto Encoder)​    Auto Encoder中文名自动编码机，最开始用于数据压缩任务，例如：Google曾尝试使用">
-<meta name="keywords" content="文本生成">
+<meta name="keywords" content="对抗样本生成">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对抗样本生成——VAE">
 <meta property="og:url" content="http://yoursite.com/2020/02/12/对抗样本生成——VAE/index.html">
@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/AE结构图.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/AE生成样本.png?raw=true">
-<meta property="og:updated_time" content="2020-02-13T02:58:50.775Z">
+<meta property="og:updated_time" content="2020-02-13T08:03:12.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对抗样本生成——VAE">
 <meta name="twitter:description" content="​    最近由于进行一些类文本生成的任务，因此对文本生成的相关的一些经典的可用于样本生成的网络进行了研究，本系列文章主要用于对这些模型及原理与应用做总结，不涉及复杂的公式推导。 相关文章：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  AE(Auto Encoder)​    Auto Encoder中文名自动编码机，最开始用于数据压缩任务，例如：Google曾尝试使用">
@@ -400,14 +400,14 @@
 <p>​    而由于KL散的的计算问题，VAE的encoder不再直接输出一个隐含向量，而是生成两个向量，一个代表均值，一个代表方差。</p>
 <p>​    VAE的结构与AE模型基本一致，也分为Encoder、Decoder两部分，与AE的主要不同点在于隐藏向量的生成方式不同，VAE在进行向量生成时</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    目前使用VAE进行样本生成是最常见的两种样本生成方式之一，与GAN相比存在的优势有：</p>
-<blockquote>
-</blockquote>
+<p>&gt;</p>
 <p>​    缺陷有：</p>
 <blockquote>
 <p>1.VAE生成样本点的连续性不好。VAE进行生成采用的方式是每个像素点进行生成的，很难考虑像素点之间的联系，因此经常出现一些不连续的坏点。</p>
 <p>2.要生成同样品质的样本，VAE需要更大的神经网络。</p>
 </blockquote>
 <p>​    虽然二者各有优缺点，但是在实际使用中常常GAN比VAE拥有更加良好的表现，因此更多的人将注意力放在GAN系列模型上。</p>
+<p>对抗样本生成相关的代码都在我的<a href="">Github</a>,需要的同学可以关注我的Github。</p>
 
       
     </div>
@@ -425,7 +425,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/文本生成/" rel="tag"># 文本生成</a>
+            <a href="/tags/对抗样本生成/" rel="tag"># 对抗样本生成</a>
           
         </div>
       
@@ -527,7 +527,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -297,6 +297,142 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/01/异常检测/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/01/异常检测/" itemprop="url">异常检测</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-01T21:41:22+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    异常检测，是指在大量正常的行为中找出少量的异常行为。</p>
+<h3 id="常见异常检测方式"><a href="#常见异常检测方式" class="headerlink" title="常见异常检测方式"></a>常见异常检测方式</h3><h4 id="1-分位点法"><a href="#1-分位点法" class="headerlink" title="1.分位点法"></a>1.分位点法</h4><p>​    超过四分位点之外的数据可以认为是异常数据</p>
+<h4 id="2-Z-score-高斯分布"><a href="#2-Z-score-高斯分布" class="headerlink" title="2.Z-score(高斯分布)"></a>2.Z-score(高斯分布)</h4><p>​    使用情况：一维或低维空间的异常检测算法</p>
+<p>该技术是假定数据时高斯分布，异常值是分布尾部的数据点，因此原理数据的平均值</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Z-score.png?raw=True" alt=""></p>
+<h4 id="3-孤立森林"><a href="#3-孤立森林" class="headerlink" title="3.孤立森林"></a>3.孤立森林</h4><p>略</p>
+<p>python实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> IsolationForest</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">clf = IsolationForest(max_samples=<span class="number">100</span>, random_state=<span class="number">42</span>)</span><br><span class="line">table = pd.concat([input_table[<span class="string">'Mean(ArrDelay)'</span>]], axis=<span class="number">1</span>)</span><br><span class="line">clf.fit(table)</span><br><span class="line">output_table = pd.DataFrame(clf.predict(table))</span><br></pre></td></tr></table></figure>
+<h4 id="4-聚类"><a href="#4-聚类" class="headerlink" title="4.聚类"></a>4.聚类</h4><p>​    最常采用的方式就是聚类的方式，根据不同聚类算法的特点，使用各种聚类算法时也有不同的方法和应用场景，下面来具体介绍一下我对聚类在异常检测中的常见做法</p>
+<h4 id="Kmeans"><a href="#Kmeans" class="headerlink" title="Kmeans"></a>Kmeans</h4><p>​    注意：Kmeans法做异常检测注意一定要做归一化</p>
+<p><strong>使用方法一</strong></p>
+<p>​    聚类完成后，使用距离中心点最远的第n个点到中心点的距离为阈值，大于阈值则为异常点</p>
+<p><strong>使用方法二</strong></p>
+<p>​    使用历史的全部数据进行聚类，使用这个聚类模型可以将数据中离质心最远的点找出来，将这个点到质心的距离设置为阈值，当有新数据进来时，判断这个数据到其质心的距离是否大于阈值，超过这个阈值则认为是异常。</p>
+<p>​    问题：历史数据并非全部为正常数据，也包含了异常数据</p>
+<p>​    解决 : 可以先将各个类中距离最远的那部分数据进行人工查看，确定不存在异常</p>
+<h4 id="DBSAN"><a href="#DBSAN" class="headerlink" title="DBSAN"></a>DBSAN</h4><p>​    直接对数据进行聚类，将不属于任意一类的样本作为异常样本</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/01/UEBA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -569,9 +705,9 @@
 <p><strong>常见混淆方式：</strong></p>
 <blockquote>
 <p>1.使用注释来进行截断</p>
-<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3" target="_blank" rel="noopener">http://victim.com/news.php?id+un/**//ion+se/**/lect+1,2,3</a>–</p>
+<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3" target="_blank" rel="noopener">http://victim.com/news.php?id+un/*<em>//ion+se/*</em>/lect+1,2,3</a>—</p>
 <p>2.变换大小写</p>
-<p><a href="http://victim.com/news.php?id=1+UnIoN" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3–</p>
+<p><a href="http://victim.com/news.php?id=1+UnIoN" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3—</p>
 <p>3.替换关键词(将关键词插在关键词中)</p>
 <p><a href="http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--</a></p>
 </blockquote>
@@ -709,21 +845,19 @@
 <p>2.设置密码和会话的有效期，并强制使用强密码</p>
 <p>3.账号密码以密文形式传输在数据中hash存储</p>
 </blockquote>
-<blockquote>
-</blockquote>
 <h4 id="4-不安全对象的直接引用"><a href="#4-不安全对象的直接引用" class="headerlink" title="4.不安全对象的直接引用"></a>4.不安全对象的直接引用</h4><p>​    不安全的直接对象引用，也被称IDOR。IDOR允许攻击者<strong>绕过网站的身份验证机制，并通过修改指向对象链接中的参数值来直接访问目标对象资源</strong>，这类资源可以是属于其他用户的数据库条目以及服务器系统中的隐私文件等等。</p>
 <h5 id="常见攻击形式："><a href="#常见攻击形式：" class="headerlink" title="常见攻击形式："></a>常见攻击形式：</h5><blockquote>
 <p> <strong>目录遍历</strong></p>
 <p>​    假设 Web 应用程序允许为要呈现给用户存储在本地计算机上的文件。如果应用程序不验证应访问哪些文件，攻击者可以请求其他文件系统上的文件和那些也会显示。</p>
 <p>例如，如果攻击者通知 URL:<br>    <a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
+<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
 <p>这样 /etc/阴影文件返回并且呈现由 file.jsp 演示页面容易受到目录遍历攻击。</p>
 <p><strong>开方重定向</strong></p>
 <p>​     Web 应用程序有一个参数，允许其他地方的用户重定向到网站。如果此参数不实现正确使用白名单，攻击者可使用这一网络钓鱼攻击引诱到他们选择的站点的潜在受害者。</p>
 </blockquote>
 <p>例：</p>
 <p>例如，如果攻击者通知 URL:<br><a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow*" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow*</a>*</p>
+<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
 <h5 id="防范："><a href="#防范：" class="headerlink" title="防范："></a>防范：</h5><blockquote>
 <p>1.验证用户输入的url请求，拒绝包含../和./的请求</p>
 <p>2.锁定服务器上的</p>
@@ -1130,7 +1264,7 @@
         
           
             <h3 id="作业帮"><a href="#作业帮" class="headerlink" title="作业帮"></a>作业帮</h3><p>​    作为秋招的首个面试，时间在晚上7点到9点半，面试过程中听到边上大佬在介绍工作时间，大小周制，早10点到晚9点，标准的互联网工作制吧，整体感觉还行，一次面了两面，感觉已经凉凉了，下面是面经：</p>
-<h5 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h5><p>​    上来直接拿一张纸直接开始写代码：一道题分三问：(1)声明数据结构，存储节点   (2)给定前序遍历序列，；例如：adcv*<em>dsf，”\</em>代表空”，恢复二叉树   (3)得到后续遍历序列   题目不难，但是第二问脑袋抽筋了，想了很久才写出来。。。   接下来是一道决策求期望的问题，给一枚色子投到几就能够获得几枚金币，第一次投掷后可以选择是否重新投掷，问如何进行决策才能获得最大期望以及最大期望值。</p>
+<h5 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h5><p>​    上来直接拿一张纸直接开始写代码：一道题分三问：(1)声明数据结构，存储节点   (2)给定前序遍历序列，；例如：adcv<em>*dsf，”\</em>代表空”，恢复二叉树   (3)得到后续遍历序列   题目不难，但是第二问脑袋抽筋了，想了很久才写出来。。。   接下来是一道决策求期望的问题，给一枚色子投到几就能够获得几枚金币，第一次投掷后可以选择是否重新投掷，问如何进行决策才能获得最大期望以及最大期望值。</p>
 <h5 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h5><p>​    问项目，感觉对项目并不是很感兴趣甚至有点嫌弃…，不说了直接上问题。主要写了四道题吧，第一个机器人寻路问题，在一个m*n的网格中，有多少条路线可以走到终点，好像是剑指offer上的题目吧,递归很简单。    第三个问题是一个概率问题，就是5枚硬币，一枚正面为字背面为人，两枚正反都为人，两枚正反都为字，随机投一枚硬币发现朝上的是字，问另一面也是字的概率，一个典型的贝叶斯估计问题。第四个合并两个二叉搜索树，思路就是先中序遍历两个序列存在数组中，然后合并两个排序数组，在重建二叉搜索树，但是！这里中序遍历的非递归我居然没写出来！！！。</p>
 <h3 id="百度-大搜"><a href="#百度-大搜" class="headerlink" title="百度 大搜"></a>百度 大搜</h3><h5 id="一面-1"><a href="#一面-1" class="headerlink" title="一面"></a>一面</h5><p>​    面试官说的两句话还是挺让人印象深刻的，<strong>做模型关键点不在模型算法上，更关键的应该是数据标注和特征提取</strong>，之前一直觉得机器学习才是这样，深度学习更主要的模型结构的设计，基本上没有怎么注意特征提取、数据标注，尤其是<strong>数据标注</strong>，面试官说在<strong>真正的大数据场景下是没法使用规则、人工标注的，更多的还是需要采用一定的高级自动化方式</strong>。</p>
 <p>​    编程题：1.求非递减数组各个元素平方后组成的非递减数组</p>
@@ -1310,7 +1444,7 @@
 <p><strong>Advertised TLS Extensions</strong>:大多数TLS流量提供<code>0x000d(signature_algorithms)</code>，但是良性流量会使用以下很少在恶意流量中见到的参数：0x0005 (status request)、0x3374 (next protocol negotiation)、0xff01 (renegotiation info</p>
 <p><strong>客户端公钥</strong>：良性流量往往选择256-bit的椭圆曲线密码公钥，而恶意流量往往选择2048-bit的RSA密码公钥。</p>
 </blockquote>
-<pre><code>**服务端方面**
+<pre><code>     **服务端方面**
 </code></pre><p>​        我们能够从<code>serverHello</code>流中得到服务端选择的<code>Offered Ciphersuites</code>和<code>Advertised TLS Extensions</code>信息。</p>
 <blockquote>
 <p>证书链长度：在<code>certificate</code>流中，我们能够得到服务端的证书链，长度为1的证书链中70%都来自恶意流量的签名，0.1%来自良性流量的自签名</p>
@@ -1602,7 +1736,7 @@
 </blockquote>
 <p>核心改进：</p>
 <blockquote>
-<p><strong>1.segment-level 的递归机制–&gt;解决固定长度上下文局限</strong></p>
+<p><strong>1.segment-level 的递归机制—&gt;解决固定长度上下文局限</strong></p>
 <p><strong>2.新的位置编码</strong></p>
 </blockquote>
 <p>实验条件下效果对比原始transformer效果提升情况：</p>
@@ -1780,8 +1914,6 @@
 <p>​    具体实现：</p>
 <blockquote>
 <p>​    <strong>XLNet 采取了 Attention 掩码的机制</strong>（一个掩码矩阵），你可以理解为，当前的输入句子是 X ，要预测的单词 Ti 是第 i 个单词，前面1到 i-1 个单词，<strong>在输入部分观察，并没发生变化，该是谁还是谁</strong>。<strong>但是在 Transformer 内部，通过 Attention 掩码，从 X 的输入单词里面，也就是 Ti 的上文和下文单词中，随机选择 i-1 个，放到 Ti 的上文位置中，把其它单词的输入通过 Attention 掩码隐藏掉，于是就能够达成我们期望的目标</strong>（当然这个所谓放到 Ti 的上文位置，只是一种形象的说法，其实在内部，就是通过 Attention Mask ，把其它没有被选到的单词 Mask 掉，不让它们在预测单词 Ti 的时候发生作用，如此而已。<strong>看着就类似于把这些被选中的单词放到了上文 Context_before 的位置</strong>,论文中采用<strong>双流自注意力机制</strong>来进行具体实现</p>
-</blockquote>
-<blockquote>
 <p>双流自注意力机制</p>
 <p>​    1.内容注意力    标准的transfomer计算过程</p>
 <p>​    2.Query流自注意力   这里并不是很懂</p>
@@ -1806,139 +1938,6 @@
 <p>4.文本分类和信息检索任务，有所提升，但幅度不大</p>
 <p>总结：主要是长文档任务提升比较明显，其他类型的任务提升不大</p>
 </blockquote>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/机试——数组中的逆序对/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/23/机试——数组中的逆序对/" itemprop="url">机试——数组中的逆序对</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T17:56:22+08:00">
-                2019-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>题目：在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007</p>
-<p>实例:</p>
-<p>​    输入：1,2,3,4,5,6,7,0</p>
-<p>​    输出：7</p>
-</blockquote>
-<p><a href="https://blog.csdn.net/lzq20115395/article/details/79554591" target="_blank" rel="noopener">https://blog.csdn.net/lzq20115395/article/details/79554591</a></p>
-<p>解法一：暴力冒泡</p>
-<p>​    这种方法比较简单，但是时间复杂度为O(n^2),这里不做详细阐述</p>
-<p>解法二：归并法</p>
-<p>​    完全按照归并排序的方式来进行，只是附加上一个全局变量，来记录。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">global</span> count</span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">InversePairs</span><span class="params">(data)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(data)</span>:</span></span><br><span class="line">        <span class="comment"># write code here</span></span><br><span class="line">        <span class="keyword">if</span> len(data) &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        num = int(len(data) / <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">        left = core(data[:num])</span><br><span class="line">        right =core(data[num:])</span><br><span class="line">        <span class="keyword">return</span> Merge(left, right)</span><br><span class="line">    core(data)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> count</span><br><span class="line"></span><br><span class="line"><span class="comment">#合并各个子数组</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Merge</span><span class="params">(left, right)</span>:</span></span><br><span class="line">        <span class="keyword">global</span> count</span><br><span class="line">        l1 = len(left)<span class="number">-1</span></span><br><span class="line">        l2 = len(right)<span class="number">-1</span></span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        num = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> l1&gt;=<span class="number">0</span> <span class="keyword">and</span> l2&gt;=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> left[l1]&lt;=right[l2]:</span><br><span class="line">                res = [right[l2]]+res</span><br><span class="line">                l2-=<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                res  = [left[l1]]+res</span><br><span class="line">                count += l2+<span class="number">1</span></span><br><span class="line">                l1-=<span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> l1&gt;=<span class="number">0</span>:</span><br><span class="line">            res  = [left[l1]]+res</span><br><span class="line">            l1-=<span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> l2&gt;=<span class="number">0</span>:</span><br><span class="line">            res = [right[l2]]+res</span><br><span class="line">            l2-=<span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<p>解法3：</p>
-<p>​    先将原来数组进行排序，然后从排完序的数据中去取出最小的，他在原数组中的位置能表示有多少比他大的数在他前面，每取出一个在原数组中删除该元素，保证后面去除的元素在原数组中是最小的，这样</p>
 
           
         
@@ -2024,7 +2023,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

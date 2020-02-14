@@ -297,6 +297,145 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/机试——回文子串相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/12/机试——回文子串相关/" itemprop="url">机试-回文子串相关</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T21:27:59+08:00">
+                2019-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="回文子串"><a href="#回文子串" class="headerlink" title="回文子串"></a>回文子串</h4><blockquote>
+<p>例：给定一个字符串，你的任务是计算这个字符串中有多少个回文子串。</p>
+<p>具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被计为是不同的子串。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countSubstrings</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        length = len(s) </span><br><span class="line">        result = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>,length+<span class="number">1</span>): <span class="comment">#这里注意循环的范围为range(i+1,length+1)    </span></span><br><span class="line">                <span class="keyword">if</span> s[i:j]==s[i:j][::<span class="number">-1</span>]:</span><br><span class="line">                    result += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<h4 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h4><p>​    最长回文子串也是回文串中常见的一中题目，下面是例题</p>
+<blockquote>
+<p>例：给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
+<p>思路一：Manacher算法</p>
+<p>​    首先先将字符串首尾以及字符和字符之间采用”#“进行补齐，补齐后的字符串总长度2n+1(n为原始字符串长度)。然后从第一个非#字符</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_length</span><span class="params">(string, index)</span>:</span></span><br><span class="line">            <span class="comment"># 循环求出index为中心的最长回文字串</span></span><br><span class="line">            length = <span class="number">0</span></span><br><span class="line">            seq = <span class="string">""</span></span><br><span class="line">            <span class="keyword">if</span> string[index]!=<span class="string">"#"</span>:</span><br><span class="line">                seq = string[index]</span><br><span class="line">                length = <span class="number">1</span></span><br><span class="line">            string_len = len(string)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,index+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> index+i&lt;string_len <span class="keyword">and</span> string[index-i]==string[index+i]:</span><br><span class="line">                    <span class="comment"># print(string[index-i],seq+string[index+i])</span></span><br><span class="line">                    <span class="keyword">if</span> string[index-i]!=<span class="string">"#"</span>:</span><br><span class="line">                        length +=<span class="number">2</span></span><br><span class="line">                        seq = string[index-i]+seq+string[index+i]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">return</span> length,seq</span><br><span class="line">        </span><br><span class="line">        s_list = [i <span class="keyword">for</span> i <span class="keyword">in</span> s]</span><br><span class="line">        string = <span class="string">"#"</span>+<span class="string">"#"</span>.join(s)+<span class="string">"#"</span></span><br><span class="line">        </span><br><span class="line">        length = len(string)</span><br><span class="line">        max_length = <span class="number">0</span></span><br><span class="line">        max_seq = <span class="string">""</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">0</span>,length):</span><br><span class="line">            <span class="comment"># print("====")</span></span><br><span class="line">            tmp_len,tmp_seq = get_length(string,index)</span><br><span class="line">            <span class="comment"># print(tmp_len,tmp_seq)</span></span><br><span class="line">            <span class="keyword">if</span> tmp_len&gt;max_length:</span><br><span class="line">                max_length = tmp_len</span><br><span class="line">                max_seq = tmp_seq</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> max_seq</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>思路二：动态规划</p>
+<p>​    这里的动态规划的核心思路就是从头开始向后进行遍历，每次想看<strong>头尾同时加入比最大之前最大回文子串的长多+1</strong>字符串是不是回文子串(注意但是首部索引不能超过0)，如果是则记录起始节点start，max_len的值+2；否则判断只在尾部进行字符串加1的字符串时不是回文子串（这里之说以不必尝试在头部加1，因为再从头开始遍历的过程中已经尝试了头部加1），如果是记录start节点，max_len的值+2</p>
+<p>​    f(x+1)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">longestPalindrome</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type s: str</span></span><br><span class="line"><span class="string">        :rtype: str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line"></span><br><span class="line">        length = len(s)</span><br><span class="line">        max_len = <span class="number">0</span></span><br><span class="line">        start = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">            <span class="keyword">if</span> i-max_len&gt;=<span class="number">1</span> <span class="keyword">and</span> s[i-max_len<span class="number">-1</span>:i+<span class="number">1</span>]==s[i-max_len<span class="number">-1</span>:i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i-max_len<span class="number">-1</span></span><br><span class="line">                max_len += <span class="number">2</span></span><br><span class="line">            <span class="keyword">elif</span> i-max_len&gt;=<span class="number">0</span> <span class="keyword">and</span> s[i-max_len:i+<span class="number">1</span>]==s[i-max_len:i+<span class="number">1</span>][::<span class="number">-1</span>]:</span><br><span class="line">                start = i-max_len</span><br><span class="line">                max_len += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> s[start:start+max_len]</span><br></pre></td></tr></table></figure>
+<h4 id="最长回文子序列516"><a href="#最长回文子序列516" class="headerlink" title="最长回文子序列516"></a>最长回文子序列516</h4><p>​    </p>
+<p>z</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/机试——含环链表相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -541,7 +680,7 @@
 <p><strong>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</strong></p>
 <blockquote>
 <p>为什么要使用三角函数来进行为之编码？</p>
-<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000*2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<strong>绝对位置</strong>。</p>
+<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000<em>2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<em>*绝对位置</em></em>。</p>
 <p>​    在另一方面，词语间的相对位置也是非常重要的，这也是选用正余弦函数做位置编码的最主要原因。因为</p>
 <p>​    sin(α+β) = sinαcosβ+cosαsinβ</p>
 <p>​    cos(α+β) = cosαcosβ+sinαsinβ</p>
@@ -595,8 +734,7 @@
 <p>​    神经网络随着深度的加深会会出现训练集loss逐渐下贱，趋于饱和，然后你再加深网络深度，训练集loss不降反升的情况。这是因为随着网络深度的增加，在深层的有效信息可能变得更加模糊，不利于最终的决策网络做出正确的决策，因此残差网络提出，建立残差连接的方式来将低层的信息也能传到高层，因此这样实现的深层网络至少不会比浅层网络差。</p>
 </blockquote>
 <h4 id="5-Layer-normalization"><a href="#5-Layer-normalization" class="headerlink" title="5.Layer normalization"></a>5.Layer normalization</h4><h5 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h5><p>​    Normalization 有很多种，但是它们都有一个<strong>共同的目的，那就是把输入转化成均值为 0 方差为 1 的数据</strong>。我们在把数据送入激活函数之前进行 normalization（归一化），<strong>因为我们不希望输入数据落在激活函数的饱和区。</strong></p>
-<p>#####Batch Normalization(BN)</p>
-<p>​    应用最广泛的Normalization就是Batch Normalization，其主要思想是:<strong>在每一层的每一批数据上进行归一化</strong>。我们可能会对输入数据进行归一化，但是经过该网络层的作用后，我们的数据已经不再是归一化的了。<strong>随着这种情况的发展，数据的偏差越来越大，我的反向传播需要考虑到这些大的偏差，这就迫使我们只能使用较小的学习率来防止梯度消失或者梯度爆炸。</strong></p>
+<h5 id="Batch-Normalization-BN"><a href="#Batch-Normalization-BN" class="headerlink" title="Batch Normalization(BN)"></a>Batch Normalization(BN)</h5><p>​    应用最广泛的Normalization就是Batch Normalization，其主要思想是:<strong>在每一层的每一批数据上进行归一化</strong>。我们可能会对输入数据进行归一化，但是经过该网络层的作用后，我们的数据已经不再是归一化的了。<strong>随着这种情况的发展，数据的偏差越来越大，我的反向传播需要考虑到这些大的偏差，这就迫使我们只能使用较小的学习率来防止梯度消失或者梯度爆炸。</strong></p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
 <h5 id="Layer-normalization-LN"><a href="#Layer-normalization-LN" class="headerlink" title="Layer normalization(LN)"></a>Layer normalization(LN)</h5><p>​    LN 是<strong>在每一个样本上计算均值和方差，而不是 BN 那种在批方向计算均值和方差</strong>.</p>
 <blockquote>
@@ -730,8 +868,7 @@
       
         
           
-            <p>###1.python在除法和C语言中的一点区别</p>
-<p>​    在Python3中，除法有 “/” 以及 “//” 两种，这两个有着明显的区别，具体区别看代码：</p>
+            <h3 id="1-python在除法和C语言中的一点区别"><a href="#1-python在除法和C语言中的一点区别" class="headerlink" title="1.python在除法和C语言中的一点区别"></a>1.python在除法和C语言中的一点区别</h3><p>​    在Python3中，除法有 “/” 以及 “//” 两种，这两个有着明显的区别，具体区别看代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">12</span>//<span class="number">10</span>)</span><br><span class="line">print(<span class="number">12</span>/<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
 <p>这两行代码的输出如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1.2</span></span><br></pre></td></tr></table></figure>
@@ -872,6 +1009,7 @@
 <p>​    6.桶排序</p>
 </blockquote>
 <p>下面我将具体介绍各种排序算法的一些特点：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -934,6 +1072,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <blockquote>
 <p>时间复杂度辅助记忆：</p>
 <ul>
@@ -972,9 +1111,9 @@
 <p>基本思想：把记录按照下标的一定增量进行分组，对每组使用直接插入排序算法进行排序；随着增量逐渐减少，魅族包含的元素个数越来越多，当增量减至1时，整个文件被分成一组，算法终止。</p>
 </blockquote>
 <p><strong>稳定性：不稳定</strong></p>
-<p><strong>平均时间复杂度：O($$n^2$$)</strong> </p>
-<p><strong>最坏时间复杂度 :  O($$n^\frac{3}{2}$$)</strong></p>
-<p><strong>空间复杂度:O( $$n^2$$ )</strong></p>
+<p><strong>平均时间复杂度：O(<script type="math/tex">n^2</script>)</strong> </p>
+<p><strong>最坏时间复杂度 :  O(<script type="math/tex">n^\frac{3}{2}</script>)</strong></p>
+<p><strong>空间复杂度:O( <script type="math/tex">n^2</script> )</strong></p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/希尔排序实例.png?raw=true" alt=""></p>
 <h4 id="5-快速排序"><a href="#5-快速排序" class="headerlink" title="5.快速排序"></a>5.快速排序</h4><p>​    快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，<strong>此时pivot的位置就是排好序后他也应该在的位置。</strong>然后继续用递归算法分别处理pivot左边的元素和右边的元素。</p>
 <h5 id="对于大的乱序数据快速排序被认为是最快速的排序方式"><a href="#对于大的乱序数据快速排序被认为是最快速的排序方式" class="headerlink" title="对于大的乱序数据快速排序被认为是最快速的排序方式"></a>对于大的乱序数据快速排序被认为是最快速的排序方式</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(l&lt;r):</span><br><span class="line">        q = mpartition(arr,l,r)</span><br><span class="line">        quick_sort(arr,l,q<span class="number">-1</span>)    <span class="comment">#前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置</span></span><br><span class="line">        quick_sort(arr,q+<span class="number">1</span>,r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mpartition</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	递归子函数，povit放到指定位置</span></span><br><span class="line"><span class="string">    	return l:最终标志元素被放置的位置，本轮确定了的元素位置</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    poviot = arr[l]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> l&lt;r:</span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[r]&gt;=poviot:</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[l] = arr[r]</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[l]&lt;poviot:</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[r] = arr[l]</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    arr[l]  = poviot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
@@ -1284,10 +1423,10 @@
       
         
           
-            <p>1.__slots__</p>
+            <p>1._<em>slots_</em></p>
 <p>​    用于指定class 实例能够指定的属性</p>
 <blockquote>
-<p>注意：__slots__只对当前类起作用，对其子类无效</p>
+<p>注意：_<em>slots_</em>只对当前类起作用，对其子类无效</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> traceback</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Myclass</span><span class="params">(object)</span>:</span></span><br><span class="line">	__slots__ = [<span class="string">"name"</span>,<span class="string">"set_name]</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">s = MyClass()</span></span><br><span class="line"><span class="string">s.name = "</span>john<span class="string">" #这里可以进行正常的赋值，因为包含在__slots__中</span></span><br><span class="line"><span class="string">try:</span></span><br><span class="line"><span class="string">	s.age = 2	#这里不能进行正常赋值</span></span><br><span class="line"><span class="string">except AttributeError:</span></span><br><span class="line"><span class="string">	traceback.print_exc()</span></span><br></pre></td></tr></table></figure>
 <p>Output:</p>
@@ -1304,7 +1443,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(object)</span>:</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @score.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self,value)</span>:</span></span><br><span class="line">        <span class="comment">#不是int类型时引发异常</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value,int):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"not int"</span>)    <span class="comment">#raise的作用是显示的引发异常</span></span><br><span class="line">        <span class="comment">#超出范围时引发异常</span></span><br><span class="line">        <span class="keyword">elif</span> (value&lt;<span class="number">0</span>) <span class="keyword">or</span> (value&gt;<span class="number">100</span>):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"score must in 0 to 100"</span>)</span><br><span class="line">        </span><br><span class="line">        self._score = value</span><br><span class="line">        </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">double_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score*<span class="number">2</span></span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">s = MyClass()</span><br><span class="line">s.score = <span class="number">3</span></span><br><span class="line">print(s.score)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="number">2300</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="string">"dfsd"</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line">print(s.double_score)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.double_score = <span class="number">2</span></span><br><span class="line"><span class="keyword">except</span> Exception:</span><br><span class="line">    traceback.print_exc()</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/@property_2.png?raw=true" alt=""></p>
 <p>描述器，主要是用来读写删除类的行为</p>
-<p>  函数可以直接使用__name__属性来获取函数名称</p>
+<p>  函数可以直接使用_<em>name_</em>属性来获取函数名称</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">	print(<span class="string">"2012"</span>)</span><br><span class="line"></span><br><span class="line">print(now.__name__)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	<span class="string">"now"</span></span><br></pre></td></tr></table></figure>
 <p>​    </p>
 
@@ -1741,127 +1880,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/pytorch建模基本操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/02/pytorch建模基本操作/" itemprop="url">pytorch建模基本操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T16:08:19+08:00">
-                2019-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.查看模型结构</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1912,7 +1930,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

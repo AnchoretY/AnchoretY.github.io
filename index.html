@@ -297,6 +297,147 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/13/对抗样本生成——DCGAN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/02/13/对抗样本生成——DCGAN/" itemprop="url">对抗样本生成——DCGAN</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-13T23:51:32+08:00">
+                2020-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="反卷积-Transposed-Convolution"><a href="#反卷积-Transposed-Convolution" class="headerlink" title="反卷积(Transposed Convolution)"></a>反卷积(Transposed Convolution)</h3><p>​    <strong>反卷积是图像领域中常见的一种上采样操作</strong>，反卷积<strong>并不是正常卷积的逆过程，而是一种特殊的正向卷积</strong>，先按照一定的比例通过补 <img src="https://www.zhihu.com/equation?tex=0" alt="[公式]"> 来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作<strong>只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。</strong></p>
+<p>​    正常的卷积操作生成的向量大小的计算公式为:</p>
+<center>    O = (W-F+2P)/S+1</center>
+
+<p>​    该过程使用矩阵进行描述为：</p>
+<center>Y=CX</center>
+
+<p>​    其中Y为输出矩阵，X为输入矩阵。通过推导可以得到稀疏矩阵C。</p>
+<p>​    而反卷积就是在实现这个对这个过程进行逆运算，即通过C和Y得到X。根据各个矩阵的尺寸大小，我们能很轻易的得到计算的过程，即为反卷积的操作：</p>
+<center>X = C{t}Y</center>
+
+
+
+
+
+
+
+
+
+<p>反卷积要实现的就是由卷积操作产出的向量</p>
+<p>参考文献：</p>
+<p>DCGAN pytorch教程：<a href="https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html" target="_blank" rel="noopener">https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/13/对抗样本生成——GAN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -368,7 +509,30 @@
       
         
           
-            
+            <p>​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的<a href="">github</a>。该系列包含的文章还包括：</p>
+<ul>
+<li><a href="">对抗样本生成—VAE</a></li>
+<li><a href="">对抗样本生成—GAN</a></li>
+<li><a href="">对抗样本生成—文本生成</a></li>
+</ul>
+<h3 id="GAN-Generative-Adversarial-Network"><a href="#GAN-Generative-Adversarial-Network" class="headerlink" title="GAN(Generative Adversarial Network)"></a>GAN(Generative Adversarial Network)</h3><p>​    GAN中文名称生成对抗网络，是一种利用模型对抗技术来生成指定类型样本的技术，与VAE一起是目前主要的两种文本生成技术之一。GAN主要包含generater(生成器)和discriminator(判别器)两部分，generator负责生成假的样本来骗过discriminator，discriminator负责对样本进行打分，判断是否为生成网络生成的样本。</p>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>​    Generator在GAN中负责接收随机的噪声输入，进行目标文本、图像的生成,其<strong>目标就是尽可能的生成更加真实的图片、文字去欺骗discriminator</strong>。具体的实现可以使用任何在其他领域证明有效的神经网络，本文使用最简单的全连接网络作为Generator进行实验。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 生成器结构</span></span><br><span class="line">G = nn.Sequential(</span><br><span class="line">        nn.Linear(latent_size, hidden_size), </span><br><span class="line">        nn.ReLU(),</span><br><span class="line">        nn.Linear(hidden_size, hidden_size),</span><br><span class="line">        nn.ReLU(),</span><br><span class="line">        nn.Linear(hidden_size, image_size),</span><br><span class="line">        nn.Tanh())</span><br></pre></td></tr></table></figure>
+<h3 id="Discriminator"><a href="#Discriminator" class="headerlink" title="Discriminator"></a>Discriminator</h3><p>​    Discriminator在GAN网络中负责将对输入的图像、文本进行判别，对其进行打分，打分越高越接近真实的图片，打分越低越可能是Generator生成的图像、文本，其<strong>目标是尽可能准确的对真实样本与生成样本进行准确的区分</strong>。与Generator一样Discriminator也可以使用任何网络实现，下面是pytorch中最简单的一种实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 判别器结构</span></span><br><span class="line">D = nn.Sequential(</span><br><span class="line">        nn.Linear(image_size, hidden_size), <span class="comment"># 判别的输入时图像数据</span></span><br><span class="line">        nn.LeakyReLU(<span class="number">0.2</span>),</span><br><span class="line">        nn.Linear(hidden_size, hidden_size),</span><br><span class="line">        nn.LeakyReLU(<span class="number">0.2</span>),</span><br><span class="line">        nn.Linear(hidden_size, <span class="number">1</span>),</span><br><span class="line">        nn.Sigmoid())</span><br></pre></td></tr></table></figure>
+<h3 id="Model-train"><a href="#Model-train" class="headerlink" title="Model train"></a>Model train</h3><p>​    GAN中由于两部分需要进行对抗，因此两部分并不是与一般神经网络一样整个网络同时进行跟新训练的，而是两部分分别进行训练。训练的基本思路如下所示：</p>
+<blockquote>
+<p>Epoch:</p>
+<pre><code> 1. 生成器使用初始化的参数随机输入向量生成图片。
+
+2. 生成器进行判别，使用判别器结果对判器参数进行更新。
+ 3. 固定判别器参数，对生成器使用更新好的判别器进行
+</code></pre></blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(num_epochs):</span><br><span class="line">    <span class="keyword">for</span> i, (images, _) <span class="keyword">in</span> enumerate(data_loader):</span><br><span class="line">        images = images.reshape(batch_size, <span class="number">-1</span>) </span><br><span class="line">        <span class="comment"># 创建标签，随后会用于损失函数BCE loss的计算</span></span><br><span class="line">        real_labels = torch.ones(batch_size, <span class="number">1</span>)  <span class="comment"># true_label设为1，表示True</span></span><br><span class="line">        fake_labels = torch.zeros(batch_size, <span class="number">1</span>) <span class="comment"># fake_label设为0，表示False</span></span><br><span class="line">				<span class="comment"># ================================================================== #</span></span><br><span class="line">        <span class="comment">#                      训练判别模型                      </span></span><br><span class="line">        <span class="comment"># ================================================================== #</span></span><br><span class="line">        <span class="comment"># 就是真实样本的损失</span></span><br><span class="line">        outputs = D(images)</span><br><span class="line">        d_loss_real = criterion(outputs, real_labels)</span><br><span class="line">        real_score = outputs</span><br><span class="line">        <span class="comment"># 计算生成样本的损失</span></span><br><span class="line">        <span class="comment"># 生成模型根据随机输入生成fake_images</span></span><br><span class="line">        z = torch.randn(batch_size, latent_size)</span><br><span class="line">        fake_images = G(z) </span><br><span class="line">        outputs = D(fake_images)</span><br><span class="line">        d_loss_fake = criterion(outputs, fake_labels)</span><br><span class="line">        fake_score = outputs</span><br><span class="line">        <span class="comment"># 计算判别网络部分的总损失</span></span><br><span class="line">        d_loss = d_loss_real + d_loss_fake</span><br><span class="line">        <span class="comment"># 对判别模型损失进行反向传播和参数优化</span></span><br><span class="line">        d_optimizer.zero_grad()</span><br><span class="line">    		g_optimizer.zero_grad()</span><br><span class="line">        d_loss.backward()</span><br><span class="line">        d_optimizer.step()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># ================================================================== #</span></span><br><span class="line">        <span class="comment">#                       训练生成模型                       </span></span><br><span class="line">        <span class="comment"># ================================================================== #</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 生成模型根据随机输入生成fake_images,然后判别模型进行判别</span></span><br><span class="line">        z = torch.randn(batch_size, latent_size)</span><br><span class="line">        fake_images = G(z)</span><br><span class="line">        outputs = D(fake_images)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 大致含义就是在训练初期，生成模型G还很菜，判别模型会拒绝高置信度的样本，因为这些样本与训练数据不同。</span></span><br><span class="line">        <span class="comment"># 这样log(1-D(G(z)))就近乎饱和，梯度计算得到的值很小，不利于反向传播和训练。</span></span><br><span class="line">        <span class="comment"># 换一种思路，通过计算最大化log(D(G(z))，就能够在训练初期提供较大的梯度值，利于快速收敛</span></span><br><span class="line">        g_loss = criterion(outputs, real_labels)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 反向传播和优化</span></span><br><span class="line">        reset_grad()</span><br><span class="line">        g_loss.backward()</span><br><span class="line">        g_optimizer.step()</span><br></pre></td></tr></table></figure>
+<p>​    从上面的实现过程我们可以发现一个问题：在进行判别模型训练损失函数的计算由两部分组成，而生成模型进行训练时只由一部分组成，并且该部分的交叉熵还是一种反常的使用方式，这是为什么呢？</p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>​    对于整个生成对抗网络，整个网络的更新目标为：</p>
+<script type="math/tex; mode=display">P_{G}</script><p><img src="/Users/yhk/Library/Application Support/typora-user-images/image-20200213183224313.png" alt="image-20200213183224313"></p>
+
           
         
       
@@ -516,14 +680,14 @@
 <p>​    而由于KL散的的计算问题，VAE的encoder不再直接输出一个隐含向量，而是生成两个向量，一个代表均值，一个代表方差。</p>
 <p>​    VAE的结构与AE模型基本一致，也分为Encoder、Decoder两部分，与AE的主要不同点在于隐藏向量的生成方式不同，VAE在进行向量生成时</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    目前使用VAE进行样本生成是最常见的两种样本生成方式之一，与GAN相比存在的优势有：</p>
-<blockquote>
-</blockquote>
+<p>&gt;</p>
 <p>​    缺陷有：</p>
 <blockquote>
 <p>1.VAE生成样本点的连续性不好。VAE进行生成采用的方式是每个像素点进行生成的，很难考虑像素点之间的联系，因此经常出现一些不连续的坏点。</p>
 <p>2.要生成同样品质的样本，VAE需要更大的神经网络。</p>
 </blockquote>
 <p>​    虽然二者各有优缺点，但是在实际使用中常常GAN比VAE拥有更加良好的表现，因此更多的人将注意力放在GAN系列模型上。</p>
+<p>对抗样本生成相关的代码都在我的<a href="">Github</a>,需要的同学可以关注我的Github。</p>
 
           
         
@@ -798,7 +962,8 @@ C-->E(延时盲注)</pre>
 <p>​    另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行。其中根据页面返回的布尔值(页面是否正确返回)进行sql注入称为<strong>布尔型盲注</strong>，根据页面返回时间的差异确定注入是否成功的sql注入称为<strong>延时盲注</strong>。下面是一个最常用延时注入的例子：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/延时注入.png?raw=true" alt=""></p>
 <p>在上面的例子中，再过个浏览器控制器的控制台中，可以看到该请求存在着10s左右的等待时间，也即是说明我们前面的进行拼遭的sql注入语句正确的进行了执行，因此可以判断该部分是一个可以进行利用的注入点。本文重点介绍一般的注入，关于盲注的具体使用将在后续的文章中进行介绍。</p>
-<h3 id="2-sql-注入中常用的关键字和系统表"><a href="#2-sql-注入中常用的关键字和系统表" class="headerlink" title="2.sql 注入中常用的关键字和系统表"></a>2.sql 注入中常用的关键字和系统表</h3><h4 id="sql注入中常用到的sql关键字"><a href="#sql注入中常用到的sql关键字" class="headerlink" title="sql注入中常用到的sql关键字"></a>sql注入中常用到的sql关键字</h4><table>
+<h3 id="2-sql-注入中常用的关键字和系统表"><a href="#2-sql-注入中常用的关键字和系统表" class="headerlink" title="2.sql 注入中常用的关键字和系统表"></a>2.sql 注入中常用的关键字和系统表</h3><h4 id="sql注入中常用到的sql关键字"><a href="#sql注入中常用到的sql关键字" class="headerlink" title="sql注入中常用到的sql关键字"></a>sql注入中常用到的sql关键字</h4><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">表达式</th>
@@ -844,10 +1009,12 @@ C-->E(延时盲注)</pre>
 </tr>
 </tbody>
 </table>
+</div>
 <blockquote>
 <p>@@表示系统变量</p>
 </blockquote>
-<h4 id="mysql中常用的系统表"><a href="#mysql中常用的系统表" class="headerlink" title="mysql中常用的系统表"></a>mysql中常用的系统表</h4><table>
+<h4 id="mysql中常用的系统表"><a href="#mysql中常用的系统表" class="headerlink" title="mysql中常用的系统表"></a>mysql中常用的系统表</h4><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">数据库</th>
@@ -871,6 +1038,7 @@ C-->E(延时盲注)</pre>
 </tr>
 </tbody>
 </table>
+</div>
 <blockquote>
 <p>Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。</p>
 </blockquote>
@@ -913,6 +1081,7 @@ C-->E(延时盲注)</pre>
 <p>​    这里获取到了mysql中存在着名为dvwa的数据库</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-数据库名称获取.png?raw=true" alt=""></p>
 <h4 id="5-数据表名获取"><a href="#5-数据表名获取" class="headerlink" title="5.数据表名获取"></a>5.数据表名获取</h4><p>​     表名获取利用系统自带数据中（mysql中的information_schema）中的tables表中的内容进行获取。tables表中常用的字段如下表所示：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -934,10 +1103,12 @@ C-->E(延时盲注)</pre>
 </tr>
 </tbody>
 </table>
+</div>
 <p>​    使用下面的语句进行表名探索：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,table_name from information_schema.tables where table_schema=&apos;dvwa&apos;#</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表名获取.png?raw=true" alt=""></p>
 <h4 id="6-字段获取"><a href="#6-字段获取" class="headerlink" title="6.字段获取"></a>6.字段获取</h4><p>​    字段获取利用系统自带的数据库（mysql中的information_schema）中的columns表中内容进行获取。columns表中常用字段如下表所示：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -964,6 +1135,7 @@ C-->E(延时盲注)</pre>
 </tr>
 </tbody>
 </table>
+</div>
 <p>​    使用下面语完成对指定表中的字段名称进行探索：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,column_name from information_schema.columns where table_schema=&apos;dvwa&apos; and table_name=&apos;users&apos;#</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表中列名获取.png?raw=true" alt=""></p>
@@ -1275,6 +1447,7 @@ C-->E(延时盲注)</pre>
 <p>3.各层参数更新可视化</p>
 </blockquote>
 <p>在TensorBoard中提供了各种类型的数据向量化的接口，主要包括：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1306,6 +1479,7 @@ C-->E(延时盲注)</pre>
 </tr>
 </tbody>
 </table>
+</div>
 <p>​    下面将具体介绍使用各个生成函数如何常用的功能。</p>
 <h4 id="1-模型结构可视化（add-scalae使用）"><a href="#1-模型结构可视化（add-scalae使用）" class="headerlink" title="1.模型结构可视化（add_scalae使用）"></a>1.模型结构可视化（add_scalae使用）</h4><p>​    模型结构可视化一般用于形象的观察模型的结构，包括模型的层级和各个层级之间的关系、各个层级之间的数据流动等，这里要使用的就是计算图可视化技术。</p>
 <p>​    首先，无论使用TensorBoard的任何功能都要先生成一个SummaryWriter，是一个后续所有内容基础，对应了一个TensorBoard可视化文件。</p>
@@ -1758,150 +1932,6 @@ C-->E(延时盲注)</pre>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/07/pytorch——finetune常用代码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/11/07/pytorch——finetune常用代码/" itemprop="url">pytorch——finetune常用代码</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-07T23:42:25+08:00">
-                2019-11-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="fine-tune整体流程"><a href="#fine-tune整体流程" class="headerlink" title="fine-tune整体流程"></a>fine-tune整体流程</h3><blockquote>
-<p><strong>1.加载预训练模型参数</strong></p>
-<p><strong>2.修改预训练模型，修改其后面的层为适合自己问题的层</strong></p>
-<p><strong>3.设置各层的可更新性。</strong>前面和预训练模型相同的部分不再进行训练，后面新加的部分还要重新进行训练</p>
-<p><strong>4.检查各层可更新性（可选）</strong></p>
-<p><strong>5.设置优化器只对更新前面设置为可更新的部分。</strong></p>
-</blockquote>
-<h4 id="1-加载预训练模型"><a href="#1-加载预训练模型" class="headerlink" title="1.加载预训练模型"></a>1.加载预训练模型</h4><p>​    一般在fine-tune中的第一步是首先加载一个已经预训练好的模型的参数，然后将预加载的模型后面的部分结构改造成自己需要的情况。其中包括两种情况：</p>
-<blockquote>
-<p>1.单单将其中的一两个单独的层进行简单的改造（如预训练的模型输出的类为1000类，目前想要使用的模型只包含两个类），使用原有的预训练模型。</p>
-<p>2.使用预训练模型的参数，但是后面的层需要更换为比较复杂的模型结构（常见的就是并行结构）</p>
-</blockquote>
-<h5 id="1-使用torchvision中已经预训练好的模型"><a href="#1-使用torchvision中已经预训练好的模型" class="headerlink" title="1.使用torchvision中已经预训练好的模型"></a>1.使用torchvision中已经预训练好的模型</h5><p>​    使用torchvision中已经预训练好的模型结构和参数，然后直接将尾部进行修改。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="comment"># 加载torchvision中已经训练好的resnet18模型，并且采用预训练的参数</span></span><br><span class="line">resnet = models.resnet18(pretrained=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># 最后一层重新随机参数，并且将输出类别改为2</span></span><br><span class="line">resnet.fc = nn.Linear(<span class="number">512</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-<h5 id="2-使用自己预训练好的模型，并且将输出的结果设置为并行结构"><a href="#2-使用自己预训练好的模型，并且将输出的结果设置为并行结构" class="headerlink" title="2.使用自己预训练好的模型，并且将输出的结果设置为并行结构"></a>2.使用自己预训练好的模型，并且将输出的结果设置为并行结构</h5><p>​    这里主要实现了之前自己已经预训练了，<strong>重新定义整体模型的结构（创建一个新的模型类），然后将共有部分的参数加载进来，不同的地方使用随机参数</strong>。</p>
-<blockquote>
-<p>注意：这里面新旧模型要共用的层名称一定要一致</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> models <span class="keyword">import</span> TextCNN</span><br><span class="line"></span><br><span class="line"><span class="comment">#加载新的模型结构，这里面的Text_CNN_Regression_Class模型结构已经设置为和之前的Text_CNN模型整体结构一致，最后的全连接层改为一个分类输出头加一个回归输出头</span></span><br><span class="line">model = Text_CNN_Regression_Class(len(FILE_TYPE_COL))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载预训练的模型的参数</span></span><br><span class="line">pretrained_dict = torch.load(<span class="string">"../model/Text_CNN_add_filetype_1:1_epoch5.state"</span>)</span><br><span class="line"><span class="comment"># 加载新的模型结构的初始化参数</span></span><br><span class="line">model_dict = model.state_dict()</span><br><span class="line"><span class="comment"># 将pretrained_dict里不属于model_dict的键剔除掉</span></span><br><span class="line">pretrained_dict = &#123;k: v <span class="keyword">for</span> k, v <span class="keyword">in</span> pretrained_dict.items() <span class="keyword">if</span> k <span class="keyword">in</span> model_dict&#125;<span class="comment">#如果你的k在预备训练当中，那么你的参数需要做转换，否则为原先的</span></span><br><span class="line"><span class="comment"># 更新现有的model_dict</span></span><br><span class="line">model_dict.update(pretrained_dict)<span class="comment">#利用预训练模型的参数，更新你的模型</span></span><br><span class="line"><span class="comment"># 加载我们真正需要的state_dict</span></span><br><span class="line">model.load_state_dict(model_dict)</span><br></pre></td></tr></table></figure>
-<h4 id="2-将指定层设置为参数更新，其余设置为参数不更新"><a href="#2-将指定层设置为参数更新，其余设置为参数不更新" class="headerlink" title="2.将指定层设置为参数更新，其余设置为参数不更新"></a>2.将指定层设置为参数更新，其余设置为参数不更新</h4><p>​    在fine-tune过程中经常用到的操作就是将整个神将网络的前半部分直接采用预训练好的模型参数，不再进行更新，这里主要实现了已经加载了预训练模型的参数，固定了除最后一个全连接层全部参数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#对于模型的每个权重，使其不进行反向传播，即固定参数</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> resnet.parameters():</span><br><span class="line">    param.requires_grad = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将其中最后的全连接部分的网路参数设置为可反向传播</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> resnet.fc.parameters():</span><br><span class="line">    param.requires_grad = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-查看各层参数以及是否进行梯度更新（可选）"><a href="#3-查看各层参数以及是否进行梯度更新（可选）" class="headerlink" title="3.查看各层参数以及是否进行梯度更新（可选）"></a>3.查看各层参数以及是否进行梯度更新（可选）</h4><p>​    在fine-tune的过程中需要检查是不是已经将不需要更新梯度的层的各个参数值已经设置为不进行梯度更新，这是可以使用下面的代码进行查看:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> child <span class="keyword">in</span> resnet.children():</span><br><span class="line">    print(child)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> child.parameters():</span><br><span class="line">        print(param.requires_grad)</span><br></pre></td></tr></table></figure>
-<h4 id="4-将优化器设置为只更新需要更新的部分参数"><a href="#4-将优化器设置为只更新需要更新的部分参数" class="headerlink" title="4..将优化器设置为只更新需要更新的部分参数"></a>4..将优化器设置为只更新需要更新的部分参数</h4><p>​    这里主要用于前面的各个参数是否进行更新已经设置完成后的最后一步，完成这一部就可以只接将优化器直接用于整个神经网络的重新训练了。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optimizer = optim.SGD(filter(<span class="keyword">lambda</span> p: p.requires_grad, model.parameters()), lr=<span class="number">1e-3</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1952,7 +1982,7 @@ C-->E(延时盲注)</pre>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

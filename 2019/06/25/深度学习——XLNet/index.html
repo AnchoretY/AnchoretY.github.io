@@ -405,8 +405,6 @@
 <p>​    具体实现：</p>
 <blockquote>
 <p>​    <strong>XLNet 采取了 Attention 掩码的机制</strong>（一个掩码矩阵），你可以理解为，当前的输入句子是 X ，要预测的单词 Ti 是第 i 个单词，前面1到 i-1 个单词，<strong>在输入部分观察，并没发生变化，该是谁还是谁</strong>。<strong>但是在 Transformer 内部，通过 Attention 掩码，从 X 的输入单词里面，也就是 Ti 的上文和下文单词中，随机选择 i-1 个，放到 Ti 的上文位置中，把其它单词的输入通过 Attention 掩码隐藏掉，于是就能够达成我们期望的目标</strong>（当然这个所谓放到 Ti 的上文位置，只是一种形象的说法，其实在内部，就是通过 Attention Mask ，把其它没有被选到的单词 Mask 掉，不让它们在预测单词 Ti 的时候发生作用，如此而已。<strong>看着就类似于把这些被选中的单词放到了上文 Context_before 的位置</strong>,论文中采用<strong>双流自注意力机制</strong>来进行具体实现</p>
-</blockquote>
-<blockquote>
 <p>双流自注意力机制</p>
 <p>​    1.内容注意力    标准的transfomer计算过程</p>
 <p>​    2.Query流自注意力   这里并不是很懂</p>
@@ -554,7 +552,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="1.用一条语句查询出每门课都大于80分的学生姓名   name class Socre     张三 语文 81   张三 数学 75   李四 语文 76   李四 数学 90   王五 语文 81    解法一： 123select distinct name from table where name not in (	select distinct name from table wher">
+<meta name="description" content="1.用一条语句查询出每门课都大于80分的学生姓名    name class Socre     张三 语文 81   张三 数学 75   李四 语文 76   李四 数学 90   王五 语文 81     解法一： 123select distinct name from table where name not in (	select distinct name from table wh">
 <meta name="keywords" content="面试,sql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sql常见面试题">
 <meta property="og:url" content="http://yoursite.com/2019/08/23/sql常见面试题/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="1.用一条语句查询出每门课都大于80分的学生姓名   name class Socre     张三 语文 81   张三 数学 75   李四 语文 76   李四 数学 90   王五 语文 81    解法一： 123select distinct name from table where name not in (	select distinct name from table wher">
+<meta property="og:description" content="1.用一条语句查询出每门课都大于80分的学生姓名    name class Socre     张三 语文 81   张三 数学 75   李四 语文 76   李四 数学 90   王五 语文 81     解法一： 123select distinct name from table where name not in (	select distinct name from table wh">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-08-25T02:05:18.116Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sql常见面试题">
-<meta name="twitter:description" content="1.用一条语句查询出每门课都大于80分的学生姓名   name class Socre     张三 语文 81   张三 数学 75   李四 语文 76   李四 数学 90   王五 语文 81    解法一： 123select distinct name from table where name not in (	select distinct name from table wher">
+<meta name="twitter:description" content="1.用一条语句查询出每门课都大于80分的学生姓名    name class Socre     张三 语文 81   张三 数学 75   李四 语文 76   李四 数学 90   王五 语文 81     解法一： 123select distinct name from table where name not in (	select distinct name from table wh">
 
 
 
@@ -368,7 +368,8 @@
       
 
       
-        <h4 id="1-用一条语句查询出每门课都大于80分的学生姓名"><a href="#1-用一条语句查询出每门课都大于80分的学生姓名" class="headerlink" title="1.用一条语句查询出每门课都大于80分的学生姓名"></a>1.用一条语句查询出每门课都大于80分的学生姓名</h4><table>
+        <h4 id="1-用一条语句查询出每门课都大于80分的学生姓名"><a href="#1-用一条语句查询出每门课都大于80分的学生姓名" class="headerlink" title="1.用一条语句查询出每门课都大于80分的学生姓名"></a>1.用一条语句查询出每门课都大于80分的学生姓名</h4><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>name</th>
@@ -404,11 +405,13 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>解法一：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">not</span> <span class="keyword">in</span> (</span><br><span class="line">	<span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> score&lt;=<span class="number">80</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>解法二：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">table</span> groupby <span class="keyword">name</span> <span class="keyword">having</span> <span class="keyword">min</span>(fenshu)&gt;<span class="number">80</span></span><br></pre></td></tr></table></figure>
-<h4 id="2-删除除了自动编号不同外，其他都相同的学生冗余信息"><a href="#2-删除除了自动编号不同外，其他都相同的学生冗余信息" class="headerlink" title="2.删除除了自动编号不同外，其他都相同的学生冗余信息"></a>2.删除除了自动编号不同外，其他都相同的学生冗余信息</h4><table>
+<h4 id="2-删除除了自动编号不同外，其他都相同的学生冗余信息"><a href="#2-删除除了自动编号不同外，其他都相同的学生冗余信息" class="headerlink" title="2.删除除了自动编号不同外，其他都相同的学生冗余信息"></a>2.删除除了自动编号不同外，其他都相同的学生冗余信息</h4><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>自动编号</th>
@@ -446,6 +449,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> tablename <span class="keyword">where</span> 自动编号 <span class="keyword">not</span> <span class="keyword">in</span> (<span class="keyword">select</span> <span class="keyword">min</span>(自动编号) groupby 学号，姓名，课程编号，课程名称，课程分数)</span><br></pre></td></tr></table></figure>
 <h4 id="3-有两个表A-和B-，均有key-和value-两个字段，如果B-的key-在A-中也有，就把B-的value-换为A-中对应的value"><a href="#3-有两个表A-和B-，均有key-和value-两个字段，如果B-的key-在A-中也有，就把B-的value-换为A-中对应的value" class="headerlink" title="3.有两个表A 和B ，均有key 和value 两个字段，如果B 的key 在A 中也有，就把B 的value 换为A 中对应的value"></a>3.有两个表A 和B ，均有key 和value 两个字段，如果B 的key 在A 中也有，就把B 的value 换为A 中对应的value</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update b set b.value=(select a.value from a where a.key=b.key) where b.id in (select b.id from b,a where b.key=a.key);</span><br></pre></td></tr></table></figure>
 <h4 id="5-查询表A中存在ID重复三次以上的记录"><a href="#5-查询表A中存在ID重复三次以上的记录" class="headerlink" title="5.查询表A中存在ID重复三次以上的记录"></a>5.查询表A中存在ID重复三次以上的记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from(select count(ID) as count from table group by ID)T where T.count&gt;3</span><br></pre></td></tr></table></figure>
@@ -578,7 +582,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

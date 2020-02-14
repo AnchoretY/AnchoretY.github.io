@@ -297,6 +297,127 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/pytorch建模基本操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/02/pytorch建模基本操作/" itemprop="url">pytorch建模基本操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-02T16:08:19+08:00">
+                2019-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.查看模型结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/02/python不显示警告信息设置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -522,8 +643,7 @@
 <h3 id="创建进程类"><a href="#创建进程类" class="headerlink" title="创建进程类"></a>创建进程类</h3><h4 id="1-单个进程类的创建"><a href="#1-单个进程类的创建" class="headerlink" title="1.单个进程类的创建"></a>1.单个进程类的创建</h4><p>​    <strong>1.创建单进程</strong></p>
 <p>​        </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>####使用进程池创建多进程</p>
-<p>​    Pool类可以提供指定数量的进程供用户调用，当有新的请求提交到Pool中时，如果池还没有满，就会创建一个新的进程来执行请求。如果池满，请求就会告知先等待，直到池中有进程结束，才会创建新的进程来执行这些请求。 </p>
+<h4 id="使用进程池创建多进程"><a href="#使用进程池创建多进程" class="headerlink" title="使用进程池创建多进程"></a>使用进程池创建多进程</h4><p>​    Pool类可以提供指定数量的进程供用户调用，当有新的请求提交到Pool中时，如果池还没有满，就会创建一个新的进程来执行请求。如果池满，请求就会告知先等待，直到池中有进程结束，才会创建新的进程来执行这些请求。 </p>
 <p>​    常用方法：</p>
 <p>​    <strong>1.apply</strong></p>
 <p>​    用于传递不定参数，同python中的apply函数一致，主进程会被阻塞直到函数执行结束（<strong>不建议使用</strong>，并且3.x以后不在出现）。</p>
@@ -554,8 +674,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number += value</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(value, number))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">raise</span> e</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        lock.release()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = <span class="number">0</span></span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
 <p>​    结果为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">main end</span><br><span class="line">init add1 number = <span class="number">0</span>			<span class="comment">#add1优先抢到锁，优先执行</span></span><br><span class="line">add1 number = <span class="number">1</span></span><br><span class="line">add1 number = <span class="number">2</span></span><br><span class="line">add1 number = <span class="number">3</span></span><br><span class="line">add1 number = <span class="number">4</span></span><br><span class="line">add1 number = <span class="number">5</span></span><br><span class="line">init add3 number = <span class="number">0</span>			<span class="comment">#add3被阻塞，等待add1执行完成，释放锁后执行add3</span></span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">add3 number = <span class="number">15</span></span><br><span class="line"><span class="comment">#注意观察上面add3部分，虽然在add1部分已经将number加到了5，但是由于number变量只是普通变量，不能在各个进程之间进行共享，因此add3开始还要从0开始加</span></span><br></pre></td></tr></table></figure>
-<p>####使用Value和Array来进行内存之中的共享通信</p>
-<p>​    一般的变量在进程之间是没法进行通讯的，multiprocessing 给我们提供了 <strong>Value 和 Array</strong> 模块，他们可以在不通的进程中共同使用。</p>
+<h4 id="使用Value和Array来进行内存之中的共享通信"><a href="#使用Value和Array来进行内存之中的共享通信" class="headerlink" title="使用Value和Array来进行内存之中的共享通信"></a>使用Value和Array来进行内存之中的共享通信</h4><p>​    一般的变量在进程之间是没法进行通讯的，multiprocessing 给我们提供了 <strong>Value 和 Array</strong> 模块，他们可以在不通的进程中共同使用。</p>
 <p>​    <strong>1.Value多进程共享变量</strong></p>
 <p>​    将前面加锁的程序中的变量使用multiprocessing提供的共享变量来进行</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,add_value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number.value += add_value</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"***************add&#123;0&#125; has added***********"</span>.format(add_value))</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">raise</span> e</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        lock.release()</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
@@ -565,8 +684,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(number,add_value,lock)</span>:</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"init add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">            number.value += add_value</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"***************add&#123;0&#125; has added***********"</span>.format(add_value))</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">"add&#123;0&#125; number = &#123;1&#125;"</span>.format(add_value, number.value))</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">raise</span> e</span><br><span class="line">        <span class="keyword">finally</span>:</span><br><span class="line">            lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">change</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)):</span><br><span class="line">        arr[i] = -arr[i]</span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    lock = multiprocessing.Lock()</span><br><span class="line">    number = multiprocessing.Value(<span class="string">'i'</span>, <span class="number">0</span>)</span><br><span class="line">    arr = multiprocessing.Array(<span class="string">'i'</span>, range(<span class="number">10</span>))</span><br><span class="line">    <span class="keyword">print</span> (arr[:])</span><br><span class="line">    p1 = multiprocessing.Process(target=add,args=(number, <span class="number">1</span>, lock))</span><br><span class="line">    p2 = multiprocessing.Process(target=add,args=(number, <span class="number">3</span>, lock))</span><br><span class="line">    p3 = multiprocessing.Process(target=change,args=(arr,))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    p3.start()</span><br><span class="line">    p3.join()</span><br><span class="line">    <span class="keyword">print</span> (arr[:])</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"main end"</span>)</span><br></pre></td></tr></table></figure>
 <p>​    输出结果为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line">init add3 number = <span class="number">0</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">[<span class="number">0</span>, <span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-3</span>, <span class="number">-4</span>, <span class="number">-5</span>, <span class="number">-6</span>, <span class="number">-7</span>, <span class="number">-8</span>, <span class="number">-9</span>]</span><br><span class="line">main end</span><br><span class="line">add3 number = <span class="number">3</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">6</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">9</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">12</span></span><br><span class="line">***************add3 has added***********</span><br><span class="line">add3 number = <span class="number">15</span></span><br><span class="line">init add1 number = <span class="number">15</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">16</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">17</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">18</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">19</span></span><br><span class="line">***************add1 has added***********</span><br><span class="line">add1 number = <span class="number">20</span></span><br></pre></td></tr></table></figure>
-<p>####使用Queue来实现多进程之间的数据传递</p>
-<p>​    Queue是多进程安全队列，可以使用Queue来实现进程之间的数据传递，使用的方式：</p>
+<h4 id="使用Queue来实现多进程之间的数据传递"><a href="#使用Queue来实现多进程之间的数据传递" class="headerlink" title="使用Queue来实现多进程之间的数据传递"></a>使用Queue来实现多进程之间的数据传递</h4><p>​    Queue是多进程安全队列，可以使用Queue来实现进程之间的数据传递，使用的方式：</p>
 <blockquote>
 <p>1.put 将数据插入到队列中</p>
 <p>​    包括两个可选参数：blocked和timeout</p>
@@ -1094,8 +1212,7 @@
       
         
           
-            <p>#####1.除自身以外的数组乘积</p>
-<p>给定长度为 <em>n</em> 的整数数组 <code>nums</code>，其中 <em>n</em> &gt; 1，返回输出数组 <code>output</code> ，其中 <code>output[i]</code> 等于 <code>nums</code> 中除 <code>nums[i]</code> 之外其余各元素的乘积。</p>
+            <h5 id="1-除自身以外的数组乘积"><a href="#1-除自身以外的数组乘积" class="headerlink" title="1.除自身以外的数组乘积"></a>1.除自身以外的数组乘积</h5><p>给定长度为 <em>n</em> 的整数数组 <code>nums</code>，其中 <em>n</em> &gt; 1，返回输出数组 <code>output</code> ，其中 <code>output[i]</code> 等于 <code>nums</code> 中除 <code>nums[i]</code> 之外其余各元素的乘积。</p>
 <p><strong>示例:</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">输出: [<span class="number">24</span>,<span class="number">12</span>,<span class="number">8</span>,<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
 <p><strong>说明：不能使用除法，在O(n)时间复杂度内解决此问题</strong></p>
@@ -1244,15 +1361,13 @@
         
           
             <p>​    项目要求需要在pyspark的集群中将一部分程序做集群的自动化部署，本文记录了程序部署过程中，使用到的一些技术以及遇到的一些问题。</p>
-<p>####1.SparkSession创建时设置不生效</p>
-<p>​    首先，要进行程序的自动化部署首先要将程序封装成python文件，在这个过程中<strong>可能会出现sparkSession谁知不能生效的问题，不论对SparkSession进行什么设置，都不会生生效</strong></p>
+<h4 id="1-SparkSession创建时设置不生效"><a href="#1-SparkSession创建时设置不生效" class="headerlink" title="1.SparkSession创建时设置不生效"></a>1.SparkSession创建时设置不生效</h4><p>​    首先，要进行程序的自动化部署首先要将程序封装成python文件，在这个过程中<strong>可能会出现sparkSession谁知不能生效的问题，不论对SparkSession进行什么设置，都不会生生效</strong></p>
 <blockquote>
 <p>这种问题是由于SparkSession的创建过程不能写在主程序中，必须要写在所有函数的外层，并且进行的在文件的初始部分穿创建</p>
 </blockquote>
 <h4 id="2-python-文件传入获取参数"><a href="#2-python-文件传入获取参数" class="headerlink" title="2.python 文件传入获取参数"></a>2.python 文件传入获取参数</h4><p>​    python文件也可以和shell脚本一样进行运行时传入参数，这里主要使用的的是python自带的sys和getopt包</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">要接受参数的python文件：</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> getopt</span><br><span class="line"></span><br><span class="line">opts,args = getopt.getopt(sys.argv[<span class="number">1</span>:],<span class="string">"d:"</span>,[<span class="string">"d:"</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> opt,arg <span class="keyword">in</span> opts:</span><br><span class="line">    <span class="keyword">if</span> opt <span class="keyword">in</span> (<span class="string">"-d"</span>,<span class="string">"--d"</span>):</span><br><span class="line">        input_file = arg</span><br><span class="line"><span class="comment">#后续可以直接使用input——file获取的变量名进行操作</span></span><br></pre></td></tr></table></figure>
-<p>####3.将python文件执行封装到shell脚本中</p>
-<p>​    这里之所以将python文件进行封装主要是为了方便移植，其实也可以直接设置将python脚本文件执行设置成定时任务，这里是一波瞎操作。主要为了练习和方便移植</p>
+<h4 id="3-将python文件执行封装到shell脚本中"><a href="#3-将python文件执行封装到shell脚本中" class="headerlink" title="3.将python文件执行封装到shell脚本中"></a>3.将python文件执行封装到shell脚本中</h4><p>​    这里之所以将python文件进行封装主要是为了方便移植，其实也可以直接设置将python脚本文件执行设置成定时任务，这里是一波瞎操作。主要为了练习和方便移植</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>首先在这个shell重要实现获取当前日期或前n天的日期</span><br><span class="line">date = `date -d "1 days ago"+%Y-%m-%d`</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>然后在将date作为参数后台执行这个程序并且生成日志</span><br><span class="line">python ***.py -d date &gt; /path/$&#123;date&#125;.log 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>=====================注意==============================</span><br><span class="line"><span class="meta">#</span>上面直接使用python执行时可能会出现系统中存在多个python导致部署时使用的python和之前测试使用的python不是一个python环境导致的，那么如何确定测试时使用的python环境呢？</span><br><span class="line"><span class="meta">#</span>要解决上述问题可以先从新进入到测试用的python环境，然后进行下面操作</span><br><span class="line">import sys</span><br><span class="line">print(sys.execyutable)</span><br><span class="line"><span class="meta">#</span>然后将python目录改为上面的python目录</span><br></pre></td></tr></table></figure>
 
           
@@ -1386,8 +1501,6 @@
 <p>常见副作用:</p>
 <p>​    1.<strong>只能使用特别小的速率进行训练</strong>，使用较大的速率进行训练时，出现梯度消失，无法进行下降</p>
 <p>​    2.最终与训练集拟合程度不高，例如与训练集的拟合程度只能达到90%</p>
-</blockquote>
-<blockquote>
 <p>若一定要将dropout和BN一起使用，那么可以采用下面方式：</p>
 <p>​    1.将dropout放在BN后面进行使用</p>
 <p>​    2.修改Dropout公式(如高斯Dropout)，使其对对方差不那么敏感</p>
@@ -1532,8 +1645,7 @@
 <p>主要方法：</p>
 <p>​    toArray()    将向量转化为numpy的array</p>
 </blockquote>
-<p>###2.DenseVector</p>
-<p>​    创建时，可以使用list、numpy array、等多种方式进行创建</p>
+<h3 id="2-DenseVector"><a href="#2-DenseVector" class="headerlink" title="2.DenseVector"></a>2.DenseVector</h3><p>​    创建时，可以使用list、numpy array、等多种方式进行创建</p>
 <blockquote>
 <p>常用方法：</p>
 <p>​    dot()     计算点乘,支持密集向量和numpy array、list、SparseVector、SciPy Sparse相乘</p>
@@ -1559,195 +1671,6 @@
 </blockquote>
 <p>注：加粗部分为SparseVector特有的</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建稀疏向量</span></span><br><span class="line">a = SparseVector(<span class="number">4</span>, [<span class="number">1</span>, <span class="number">3</span>], [<span class="number">3.0</span>, <span class="number">4.0</span>])</span><br><span class="line">a.toArray()</span><br><span class="line">output:</span><br><span class="line">    array([<span class="number">0.</span>, <span class="number">3.</span>, <span class="number">0.</span>, <span class="number">4.</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#计算点乘</span></span><br><span class="line">a.dot(array([<span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>, <span class="number">4.</span>]))</span><br><span class="line">output:</span><br><span class="line">    <span class="number">22.0</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">#获得存值得对应的索引列表</span></span><br><span class="line">a.indices</span><br><span class="line">output:</span><br><span class="line">   	array([<span class="number">1</span>, <span class="number">3</span>], dtype=int32)</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取向量维度</span></span><br><span class="line">a.size</span><br><span class="line">output:</span><br><span class="line">   	<span class="number">4</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/20/pyspark-文本向量化技术/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/20/pyspark-文本向量化技术/" itemprop="url">pyspark-向量化技术</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-20T20:09:24+08:00">
-                2018-11-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>​    在pyspark中文本的向量化技术主要在包pyspark.ml.feature中，主要包括以下几种：</p>
-<blockquote>
-<p>1.Ngram</p>
-<p>2.tf-idf</p>
-<p>3.Word2Vec</p>
-</blockquote>
-<h4 id="1-Ngram"><a href="#1-Ngram" class="headerlink" title="1.Ngram"></a>1.Ngram</h4><p>​    </p>
-<h3 id="2-tf-idf"><a href="#2-tf-idf" class="headerlink" title="2.tf-idf"></a>2.tf-idf</h3><p>​    在pyspark中tf和idf是分开的两个步骤</p>
-<p>​    （1）tf</p>
-<p>​    整个tf的过程就是一个将将各个文本进行计算频数统计的过程，使用前要先使用也定的算法来对语句进行分词，然后指定统计特征的数量再进行tf统计</p>
-<p>​    </p>
-<blockquote>
-<p>常用参数：</p>
-<p>​    1.numsFeatures   统计的特征数量，这个值一般通过<code>ParamGridBuilder</code>尝试得出最合适的值</p>
-<p>​    2.inputCol   输入列，输入类列为ArrayType的数据</p>
-<p>​    3.outputCol 输出列 ,输出列为Vector类型的数据</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>],),([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>,<span class="string">"watch"</span>,<span class="string">"or"</span>,<span class="string">"apple"</span>],)], [<span class="string">"words"</span>])</span><br><span class="line"></span><br><span class="line">hashingTF = HashingTF(numFeatures=<span class="number">10</span>, inputCol=<span class="string">"words"</span>, outputCol=<span class="string">"tf"</span>)</span><br><span class="line">hashingTF.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+--------------------------------+</span><br><span class="line">|words                              |tf                              |</span><br><span class="line">+-----------------------------------+--------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>])            |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>],[<span class="number">3.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">+-----------------------------------+--------------------------------+</span><br></pre></td></tr></table></figure>
-<p>​    其中，10代表了特征数，[1,3]代表了this和is对应的哈希值，[2.0,1.0]代表了this和is出现的频数.</p>
-<p>​    (2)idf</p>
-<blockquote>
-<p>常用参数：</p>
-<p>​    1.minDocFreq 最少要出现的频数，如果超过minDocFreq个样本中出现了这个关键词，这个频数将不tf-idf特征，直接为0</p>
-<p>​    2.inputCol     输入列</p>
-<p>​    3.ouputCol    输出列</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">idf = IDF(inputCol=<span class="string">"tf"</span>,outputCol=<span class="string">"tf-idf"</span>)</span><br><span class="line">idf_model = idf.fit(df)</span><br><span class="line"></span><br><span class="line">idf_model.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+--------------------------------+--------------------------------------------------------------+</span><br><span class="line">|words                              |tf                              |tf-idf                                                        |</span><br><span class="line">+-----------------------------------+--------------------------------+--------------------------------------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>])            |(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">0.0</span>,<span class="number">0.0</span>])                                          |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>],[<span class="number">3.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>],[<span class="number">0.0</span>,<span class="number">0.4054651081081644</span>,<span class="number">0.0</span>,<span class="number">0.4054651081081644</span>])|</span><br><span class="line">+-----------------------------------+--------------------------------+--------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
-<h3 id="3-CountVec"><a href="#3-CountVec" class="headerlink" title="3.CountVec"></a>3.CountVec</h3><p>​    CountVec是一种直接进行文本向量，直接词频统计的向量化方式，可以</p>
-<blockquote>
-<p>常用参数包括：</p>
-<p>​    minDF：要保证出现词的代表性。当minDF值大于1时，表示词汇表中出现的词最少要在minDf个文档中出现过，否则去除掉不进入词汇表；当minDF小于1，表示词汇表中出现的词最少要在包分之minDF*100个文档中出现才进入词汇表</p>
-<p>​    minTF：过滤文档中出现的过于罕见的词，因为这类词机乎不在什么文本中出现因此作为特征可区分的样本数量比较少。当minTF大于1时，表示这个词出现的频率必须高于这个才会进入词汇表；小于1时，表示这个大于一个分数时才进入词汇表</p>
-<p>​    binary:  是否只计算0/1,即是否出现该词。默认值为False。</p>
-<p>​    inputCol:输入列名，默认为None</p>
-<p>​    outputCol:输出列名，默认为None</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>],),([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>,<span class="string">"watch"</span>,<span class="string">"or"</span>,<span class="string">"apple"</span>],)], [<span class="string">"words"</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用Word2Vec进行词向量化</span></span><br><span class="line">countvec = CountVectorizer(inputCol=<span class="string">'words'</span>,outputCol=<span class="string">'countvec'</span>)</span><br><span class="line">countvec_model = countvec.fit(df)</span><br><span class="line">countvec_model.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|words                              |tf                                      |countvec                             |</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">1.0</span>])|(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用CountVec的binary模式进行向量化，</span></span><br><span class="line">countvec = CountVectorizer(inputCol=<span class="string">'words'</span>,outputCol=<span class="string">'countvec'</span>,binary=<span class="keyword">True</span>)</span><br><span class="line">countvec_model = countvec.fit(df)</span><br><span class="line">countvec_model.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|words                              |tf                                      |countvec                             |</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">1.0</span>])|(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br></pre></td></tr></table></figure>
-<p>###4.Word2Vec</p>
-<p>​    Word2Vec 是一种常见的文本向量化方式,使用神经网络讲一个词语和他前后的词语来进行表示这个这个词语，主要分为CBOW和Skip-</p>
-<p>​    特点：Word2Vec主要是结合了前后词生成各个词向量，具有一定的语义信息</p>
-<p><strong>在pyspark.ml.feature中存在Word2Vec和Word2VecModel两个对象，这两个对象之间存在什么区别和联系呢？</strong></p>
-<p>​    Word2Vec是Word2Vec基本参数设置部分，Word2VecModel是训练好以后的Word2Vec，有些函数只有Word2VecModel训练好以后才能使用</p>
-<blockquote>
-<p>常见参数：</p>
-<p>​    1.vectorSize    生成的词向量大小</p>
-<p>​    2.inputCol     输入列</p>
-<p>​    3.ouputCol    输出列</p>
-<p>​    4.windowSize   输出的词向量和该词前后多少个词与有关</p>
-<p>​    5.maxSentenceLength  输入句子的最大长度，超过改长度直接进行进行截断</p>
-<p>​    6.numPartitions 分区数，影响训练速度</p>
-<p>常用函数：</p>
-<p>​    这里的常见函数要对Word2VecModel才能使用</p>
-<p>​    getVectors()         获得词和词向量的对应关系,返回值为dataframe</p>
-<p>​    transform()        传入一个dataframe，将一个词列转换为词向量</p>
-<p>​    save()            保存模型</p>
-</blockquote>
-<p>使用要先使用训练集对其进行训练：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">输入数据：</span><br><span class="line">	已经使用一定的分词方式已经进行分词后的ArrayType数组</span><br><span class="line">输出：</span><br><span class="line">	当前句子各个词进行word2vec编码后的均值，维度为vectorSize</span><br><span class="line"> </span><br><span class="line">word2vec = Word2Vec(vectorSize=<span class="number">100</span>,inputCol=<span class="string">"word"</span>,outputCol=<span class="string">"word_vector"</span>,windowSize=<span class="number">3</span>,numPartitions=<span class="number">300</span>)</span><br><span class="line">word2vec_model = word2vec.fit(data)</span><br><span class="line"></span><br><span class="line"><span class="comment">#features将会在data的基础上多出一列word_vector，为vectorSize维数组</span></span><br><span class="line">features = word2vec.trandform(data)</span><br><span class="line"></span><br><span class="line">word2vec_model.save(<span class="string">"./model/name.word2vec"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>Word2Vec如何查看是否已经训练的很好：</strong></p>
-<blockquote>
-<p>​    1.选择两个在日常生活中已知词义相近的两个词A、B，再选一个与A词义不那么相近但也有一定相似度的词C</p>
-<p>​    2.计算A和B以及A和C的余弦距离</p>
-<p>​    3.比较其大小，当满足AB距离小于AC时，重新选择三个词重复上过程多次都满足，那么认为模型已经训练完毕；若不满足上述过程，那么继续加入样本进行训练</p>
-</blockquote>
-<p><strong>当word2vec中为了表达两个比较相近的词的相似性可以怎么做？比如在当前word2vec下tea、cooffe之间的相似性非常高，接近于1</strong></p>
-<blockquote>
-<p>​    增加word2vec的向量维度。可能是在当前维度中向量维度过小，导致这两个词无法表达充分，因此我们可以增加向量维度，以期待在更高维的向量空间中，可以区分这个名词</p>
-</blockquote>
-<p><strong>过程中可能用的：</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得某个词对应的词向量</span></span><br><span class="line">word2vec_model.getVectors().filter(<span class="string">"word=='0eva'"</span>).collect()[<span class="number">0</span>][<span class="string">'vector'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#计算两个词向量之间距离平方</span></span><br><span class="line">a1.squared_distance(a2)</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1833,7 +1756,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

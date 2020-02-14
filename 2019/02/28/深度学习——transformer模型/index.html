@@ -411,7 +411,7 @@
 <p><strong>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</strong></p>
 <blockquote>
 <p>为什么要使用三角函数来进行为之编码？</p>
-<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000*2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<strong>绝对位置</strong>。</p>
+<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000<em>2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<em>*绝对位置</em></em>。</p>
 <p>​    在另一方面，词语间的相对位置也是非常重要的，这也是选用正余弦函数做位置编码的最主要原因。因为</p>
 <p>​    sin(α+β) = sinαcosβ+cosαsinβ</p>
 <p>​    cos(α+β) = cosαcosβ+sinαsinβ</p>
@@ -465,8 +465,7 @@
 <p>​    神经网络随着深度的加深会会出现训练集loss逐渐下贱，趋于饱和，然后你再加深网络深度，训练集loss不降反升的情况。这是因为随着网络深度的增加，在深层的有效信息可能变得更加模糊，不利于最终的决策网络做出正确的决策，因此残差网络提出，建立残差连接的方式来将低层的信息也能传到高层，因此这样实现的深层网络至少不会比浅层网络差。</p>
 </blockquote>
 <h4 id="5-Layer-normalization"><a href="#5-Layer-normalization" class="headerlink" title="5.Layer normalization"></a>5.Layer normalization</h4><h5 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h5><p>​    Normalization 有很多种，但是它们都有一个<strong>共同的目的，那就是把输入转化成均值为 0 方差为 1 的数据</strong>。我们在把数据送入激活函数之前进行 normalization（归一化），<strong>因为我们不希望输入数据落在激活函数的饱和区。</strong></p>
-<p>#####Batch Normalization(BN)</p>
-<p>​    应用最广泛的Normalization就是Batch Normalization，其主要思想是:<strong>在每一层的每一批数据上进行归一化</strong>。我们可能会对输入数据进行归一化，但是经过该网络层的作用后，我们的数据已经不再是归一化的了。<strong>随着这种情况的发展，数据的偏差越来越大，我的反向传播需要考虑到这些大的偏差，这就迫使我们只能使用较小的学习率来防止梯度消失或者梯度爆炸。</strong></p>
+<h5 id="Batch-Normalization-BN"><a href="#Batch-Normalization-BN" class="headerlink" title="Batch Normalization(BN)"></a>Batch Normalization(BN)</h5><p>​    应用最广泛的Normalization就是Batch Normalization，其主要思想是:<strong>在每一层的每一批数据上进行归一化</strong>。我们可能会对输入数据进行归一化，但是经过该网络层的作用后，我们的数据已经不再是归一化的了。<strong>随着这种情况的发展，数据的偏差越来越大，我的反向传播需要考虑到这些大的偏差，这就迫使我们只能使用较小的学习率来防止梯度消失或者梯度爆炸。</strong></p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Batch%20normalization%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
 <h5 id="Layer-normalization-LN"><a href="#Layer-normalization-LN" class="headerlink" title="Layer normalization(LN)"></a>Layer normalization(LN)</h5><p>​    LN 是<strong>在每一个样本上计算均值和方差，而不是 BN 那种在批方向计算均值和方差</strong>.</p>
 <blockquote>
@@ -606,7 +605,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -661,7 +660,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transformer模型具体细节"><span class="nav-number">1.</span> <span class="nav-text">Transformer模型具体细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-位置编码（PositionalEncoding）"><span class="nav-number">1.1.</span> <span class="nav-text">1.位置编码（PositionalEncoding）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-scaled-Dot-Product-Attention"><span class="nav-number">1.2.</span> <span class="nav-text">2.scaled Dot-Product Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-多头Attention"><span class="nav-number">1.3.</span> <span class="nav-text">3.多头Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-残差连接"><span class="nav-number">1.4.</span> <span class="nav-text">4.残差连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Layer-normalization"><span class="nav-number">1.5.</span> <span class="nav-text">5.Layer normalization</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Normalization"><span class="nav-number">1.5.1.</span> <span class="nav-text">Normalization</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Layer-normalization-LN"><span class="nav-number">1.5.2.</span> <span class="nav-text">Layer normalization(LN)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Mask"><span class="nav-number">1.6.</span> <span class="nav-text">6.Mask</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#padding-mask"><span class="nav-number">1.6.1.</span> <span class="nav-text">padding mask</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Position-wise-前馈网络"><span class="nav-number">1.7.</span> <span class="nav-text">3.Position-wise 前馈网络</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transformer模型具体细节"><span class="nav-number">1.</span> <span class="nav-text">Transformer模型具体细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-位置编码（PositionalEncoding）"><span class="nav-number">1.1.</span> <span class="nav-text">1.位置编码（PositionalEncoding）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-scaled-Dot-Product-Attention"><span class="nav-number">1.2.</span> <span class="nav-text">2.scaled Dot-Product Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-多头Attention"><span class="nav-number">1.3.</span> <span class="nav-text">3.多头Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-残差连接"><span class="nav-number">1.4.</span> <span class="nav-text">4.残差连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Layer-normalization"><span class="nav-number">1.5.</span> <span class="nav-text">5.Layer normalization</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Normalization"><span class="nav-number">1.5.1.</span> <span class="nav-text">Normalization</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Batch-Normalization-BN"><span class="nav-number">1.5.2.</span> <span class="nav-text">Batch Normalization(BN)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Layer-normalization-LN"><span class="nav-number">1.5.3.</span> <span class="nav-text">Layer normalization(LN)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Mask"><span class="nav-number">1.6.</span> <span class="nav-text">6.Mask</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#padding-mask"><span class="nav-number">1.6.1.</span> <span class="nav-text">padding mask</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Position-wise-前馈网络"><span class="nav-number">1.7.</span> <span class="nav-text">3.Position-wise 前馈网络</span></a></li></ol></li></ol></div>
             
 
           </div>

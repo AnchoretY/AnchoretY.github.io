@@ -297,6 +297,196 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/DBSCAN和KMeans相关资源和理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/23/DBSCAN和KMeans相关资源和理解/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T15:41:35+08:00">
+                2018-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="DBSCAN和KMeans相关资源和理解"><a href="#DBSCAN和KMeans相关资源和理解" class="headerlink" title="DBSCAN和KMeans相关资源和理解"></a>DBSCAN和KMeans相关资源和理解</h1><h2 id="1-DBSCAN"><a href="#1-DBSCAN" class="headerlink" title="1.DBSCAN"></a>1.DBSCAN</h2><p>DBSCAN是是一种典型的<a href="">密度聚类算法</a>，算法主要的思是由密度可达关系导出最大的密度相连样本集合，将其作为一个类。<br>​    </p>
+<blockquote>
+<p>主要参数：</p>
+<ul>
+<li>最小分类样本数 </li>
+<li>半径</li>
+</ul>
+<ol>
+<li>DBSCAN算法为有参数算法，聚类的最终结果很大程度上取决于参数的设定</li>
+<li>DBSCAN算法不需要指定聚类个数，聚类个数根据算法和数据情况自动获得</li>
+</ol>
+</blockquote>
+<h4 id="DBSCAN聚类过程"><a href="#DBSCAN聚类过程" class="headerlink" title="DBSCAN聚类过程"></a>DBSCAN聚类过程</h4><blockquote>
+<ol>
+<li>首先根据半径画每个点的邻域，当点的邻域内点的个数大于最小样本数时，该点位为核心对象（原始数据集重点的变为核心对象和一般点）</li>
+<li>随机确定一个核心点作为初始点，将该初始点全部的最大密度相连的点作为一类。</li>
+<li>将分好类样本从原始的样本集中除去，从新选择核心对象作为聚类中心，再进行2.3操作，直至全部核心对象都被分类</li>
+</ol>
+</blockquote>
+<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/dbscan.png?raw=true" alt="image"></p>
+<h4 id="DBSCAN代码实现"><a href="#DBSCAN代码实现" class="headerlink" title="DBSCAN代码实现"></a>DBSCAN代码实现</h4><pre><code>from sklearn.cluster import DBSCAN
+
+dbcscan = DBSCAN(min_samples=30,eps=1.8)
+predict = dbscan.fit_predict(imput)
+</code></pre><h2 id="2-K-Means"><a href="#2-K-Means" class="headerlink" title="2.K-Means"></a>2.K-Means</h2><p>KMeans是一种原始性聚类算法，算法主要思想是通过迭代过程把数据集划分为不同的类别，使得评价聚类性能的准则函数达到最优，从而使生成的每个聚类内紧凑，类间独立。<br><strong>这一算法不适合处理离散型数据，对连续性数据具有良好的效果</strong></p>
+<blockquote>
+<ol>
+<li>Kmeans为无参数算法，算法执行过程中不需要进行调参</li>
+<li>Kmeans算法需要指定聚类个数K，这在实际问题中是很难进行确定的</li>
+</ol>
+</blockquote>
+<h4 id="KMeans聚类过程"><a href="#KMeans聚类过程" class="headerlink" title="KMeans聚类过程"></a>KMeans聚类过程</h4><blockquote>
+<ol>
+<li>根据指定的K值随机寻找K个点作为初始中心，将其他样本分别分给这些中心</li>
+<li>由分好的类计算均值作为其该类新的中心，重新对各个样本分到距离最近的中心，重复这一过程，直至中心不再变化</li>
+</ol>
+</blockquote>
+<h4 id="Kmeans代码实现"><a href="#Kmeans代码实现" class="headerlink" title="Kmeans代码实现"></a>Kmeans代码实现</h4><pre><code>from sklearn.cluster import KMeans
+
+kmeans = KMeans(n_clusters=8)
+predict = kmeans.fit_predict(input)
+</code></pre><h2 id="Kmeans、DBSCAN优缺点对比"><a href="#Kmeans、DBSCAN优缺点对比" class="headerlink" title="Kmeans、DBSCAN优缺点对比"></a>Kmeans、DBSCAN优缺点对比</h2><p>DBSCAN的主要优点有：</p>
+<p>　　　　1） 可以对任意形状的稠密数据集进行聚类，相对的，K-Means之类的聚类算法一般只适用于凸数据集。</p>
+<p>　　　　2） 可以在聚类的同时发现异常点，对数据集中的异常点不敏感。</p>
+<p>　　　　3） 聚类结果没有偏倚，相对的，K-Means之类的聚类算法初始值对聚类结果有很大影响。</p>
+<p>　　　　DBSCAN的主要缺点有：</p>
+<p>　　　　1）如果样本集的密度不均匀、聚类间距差相差很大时，聚类质量较差，这时用DBSCAN聚类一般不适合。</p>
+<p>　　　　2） 如果样本集较大时，聚类收敛时间较长，此时可以对搜索最近邻时建立的KD树或者球树进行规模限制来改进。</p>
+<p>　　　　3） 调参相对于传统的K-Means之类的聚类算法稍复杂，主要需要对距离阈值ϵ，邻域样本数阈值MinPts联合调参，不同的参数组合对最后的聚类效果有较大影响。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/决策树模型之CART树和C5-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -410,7 +600,7 @@
 <li>对每个特征A，对它所有的可能取值a，将数据集划分为A=a和A!=a两个部分计算集合D的<strong>基尼指数</strong>：</li>
 </ol>
 <p><img src="https://github.com/Anchoret91/youdao_image/blog/master/%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E5%88%92%E5%88%86%E5%90%8E%E7%9A%84Gini%E6%8C%87%E6%95%B0.png?raw=true" alt="image">  </p>
-<ol start="2">
+<ol>
 <li><p>遍历所有的特征 A，计算其所有可能取值 a 的基尼指数，选择 D 的基尼指数最小值对应的特征及切分点作为最优的划分，将数据分为两个子集。</p>
 </li>
 <li><p>对上述两个子节点递归调用步骤(1)(2), <strong>直到满足停止条件</strong>。  </p>
@@ -936,17 +1126,14 @@ du /home/yhk/ -h
 <p><strong>(3).不变性</strong><br>当我们对图片进行下采样时，图片的基本性质不变</p>
 <h4 id="2-卷积层的参数"><a href="#2-卷积层的参数" class="headerlink" title="2.卷积层的参数"></a>2.卷积层的参数</h4><blockquote>
 <p><strong>关键参数:</strong><br>　　in_channels ：特征的管道数，彩色图片为3，黑白图片则为1<br>　　out_channels : 输出管道个数，也就是滤波器个数<br>　　kernel_size : 卷积核大小</p>
-</blockquote>
-<blockquote>
 <p><strong>可选参数：</strong><br>　　padding:边界填充0的层数<br>　　stride:步长<br>　　bias: 是否使用偏置，默认是True</p>
 </blockquote>
 <h4 id="3-卷积层的输入输出"><a href="#3-卷积层的输入输出" class="headerlink" title="3.卷积层的输入输出"></a>3.卷积层的输入输出</h4><blockquote>
 <p><strong>输入：</strong><br>　　卷积层的输入格式为(batch,channels,width,heights)</p>
-</blockquote>
-<blockquote>
 <p><strong>输出：</strong><br>　　卷积层的输出取决于输入数据大小W、卷积核大小F、步长S、0填充个数P等四个方面，计算公式如下：<br>　　　　W-F+2P/S + 1</p>
 </blockquote>
 <p>这里在介绍几种常用的卷积层参数设置：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -971,6 +1158,7 @@ du /home/yhk/ -h
 </tr>
 </tbody>
 </table>
+</div>
 <p>一般卷积核大小不超过5</p>
 <h4 id="4-卷积层的参数共享"><a href="#4-卷积层的参数共享" class="headerlink" title="4.卷积层的参数共享"></a>4.卷积层的参数共享</h4><p>基于特征的相同性，因此可以使用相同的滤波器来检测不同位置的相同特征，参数共享共享机制有效的减少卷积层的参数个数，加快了卷积神经网络的训练速度。  </p>
 <p><strong>使用参数共享机制的CNN层参数个数为：</strong><br>　　　<strong>滤波器个数（out_dim） <em> 神经元大小（kernel_size　</em> kernel_size * input_dim）</strong>
@@ -986,6 +1174,7 @@ du /home/yhk/ -h
 </blockquote>
 <p><strong>池化层也可也进行0填充，但是几乎不用</strong></p>
 <p>池化层最常用的池化方式以及参数设置：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1004,6 +1193,7 @@ du /home/yhk/ -h
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>注意：池化层只能改变高度和宽度，不能改变深度；卷积层即可改变数据的宽度和高度也可以改变数据的深度</strong></p>
 <h3 id="经典卷积设计的趋向"><a href="#经典卷积设计的趋向" class="headerlink" title="经典卷积设计的趋向"></a>经典卷积设计的趋向</h3><p><strong>1. 使用小滤波器</strong><br><strong>2. 多个卷积层和非线性激活层交替的结构比单一的卷积层结构能更加有效的提取出更深层次的特征，并且参数个数更少</strong></p>
 <h2 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h2><p><strong>1.RNN模型的超参数</strong></p>
@@ -1023,8 +1213,6 @@ du /home/yhk/ -h
 <p>RNN的模型输出分为实际输出output和记忆状态h两部分。其中各自的形式和表达如下：</p>
 <blockquote>
 <p>实际输出output:<br>　　维度：(seq,batch,hidden<em>direction)<br>记忆状态：<br>　　维度：(layers </em> direction,bactch,hidden)</p>
-</blockquote>
-<blockquote>
 <p>注：使用batch_first可将batch放在最前面
 　　</p>
 </blockquote>
@@ -1036,7 +1224,8 @@ du /home/yhk/ -h
 </blockquote>
 <p>因为一个单词的词性不只与其上下文关系有关，还与其单词的字母排列情况有关，因此我们可以上面的基础上增加字符角度的lstm来进行表征其字母排列情况。</p>
 <blockquote>
-<p>完善方案：<br>　　遍历句子The dog ate apple中的每个单词：<br>　　　　将单词中的每个字母进行词向量表示，如apple转化成5 <em> char_dim的词向量<br>　　　　　　char_info = nn.embedding(x)<br>　　　　将其转换为３维：１</em> 5 <em> char_dim<br>　　　　　　char_info = char_info.unsqueeze(0)<br>　　　　将模型输入lstm模型，但这里取记忆状态作为输出,输出状态是h0维度为(1,1,hidden_dim)<br>　　　　　　_,h = char_lstm(char_info)<br>　　　　　　h[0]<br>　　将各个单词的输出组合成一个向量，按照seq进行拼接,形成一个1 </em> 4 <em> hidden_dim的向量<br>　　　　for word in words:<br>　　　　　　char_seq = make_sequeece(word,char_to_idx)<br>　　　　　　char_seq = self.char_lstm(char_seq)<br>　　　　　　word_set.append(char_seq)<br>　　　　char = torch.stack(word_set,1)<br>　根据前面基本方法将单词进行向量化，得到1 </em> 4 word_dim维向量，将其与字符级别的lstm结果从feature维度进行拼接，得到1 <em> 4 </em> char_hidden+word_dim维向量<br>　　　　x = torch.cat((x,char),dim=2)<br>　　最后将两个角度的得到的特征一起输入的最终的lstm模型，在经过全连接层得到最终结果</p>
+<p>完善方案：<br>　　遍历句子The dog ate apple中的每个单词：<br>　　　　将单词中的每个字母进行词向量表示，如apple转化成5 <em> char_dim的词向量<br>　　　　　　char_info = nn.embedding(x)<br>　　　　将其转换为３维：１</em> 5 <em> char<em>dim<br>　　　　　　char_info = char_info.unsqueeze(0)<br>　　　　将模型输入lstm模型，但这里取记忆状态作为输出,输出状态是h0维度为(1,1,hidden_dim)   
+　　　　　　</em>,h = char_lstm(char_info)<br>　　　　　　h[0]<br>　　将各个单词的输出组合成一个向量，按照seq进行拼接,形成一个1 </em> 4 <em> hidden_dim的向量<br>　　　　for word in words:<br>　　　　　　char_seq = make_sequeece(word,char_to_idx)<br>　　　　　　char_seq = self.char_lstm(char_seq)<br>　　　　　　word_set.append(char_seq)<br>　　　　char = torch.stack(word_set,1)<br>　根据前面基本方法将单词进行向量化，得到1 </em> 4 word_dim维向量，将其与字符级别的lstm结果从feature维度进行拼接，得到1 <em> 4 </em> char_hidden+word_dim维向量<br>　　　　x = torch.cat((x,char),dim=2)<br>　　最后将两个角度的得到的特征一起输入的最终的lstm模型，在经过全连接层得到最终结果</p>
 </blockquote>
 
           
@@ -1123,7 +1312,7 @@ du /home/yhk/ -h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">124</span>
+                  <span class="site-state-item-count">125</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
