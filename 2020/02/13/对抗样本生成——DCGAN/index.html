@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="反卷积(Transposed Convolution)​    反卷积是图像领域中常见的一种上采样操作，反卷积并不是正常卷积的逆过程，而是一种特殊的正向卷积，先按照一定的比例通过补  来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。 ​    正常的卷积操作生成的向量大小的计算公式为:     O = (W-">
+<meta name="description" content="反卷积(Transposed Convolution)​    反卷积是图像领域中常见的一种上采样操作，反卷积并不是正常卷积的逆过程，而是一种特殊的正向卷积，先按照一定的比例通过补 0来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。 ​    正常的卷积操作生成的向量大小的计算公式为: O = (W-F+2P">
 <meta name="keywords" content="对抗样本生成">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对抗样本生成——DCGAN">
 <meta property="og:url" content="http://yoursite.com/2020/02/13/对抗样本生成——DCGAN/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="反卷积(Transposed Convolution)​    反卷积是图像领域中常见的一种上采样操作，反卷积并不是正常卷积的逆过程，而是一种特殊的正向卷积，先按照一定的比例通过补  来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。 ​    正常的卷积操作生成的向量大小的计算公式为:     O = (W-">
+<meta property="og:description" content="反卷积(Transposed Convolution)​    反卷积是图像领域中常见的一种上采样操作，反卷积并不是正常卷积的逆过程，而是一种特殊的正向卷积，先按照一定的比例通过补 0来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。 ​    正常的卷积操作生成的向量大小的计算公式为: O = (W-F+2P">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://www.zhihu.com/equation?tex=0">
-<meta property="og:updated_time" content="2020-02-14T03:01:07.263Z">
+<meta property="og:updated_time" content="2020-02-14T05:54:21.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对抗样本生成——DCGAN">
-<meta name="twitter:description" content="反卷积(Transposed Convolution)​    反卷积是图像领域中常见的一种上采样操作，反卷积并不是正常卷积的逆过程，而是一种特殊的正向卷积，先按照一定的比例通过补  来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。 ​    正常的卷积操作生成的向量大小的计算公式为:     O = (W-">
-<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=0">
+<meta name="twitter:description" content="反卷积(Transposed Convolution)​    反卷积是图像领域中常见的一种上采样操作，反卷积并不是正常卷积的逆过程，而是一种特殊的正向卷积，先按照一定的比例通过补 0来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。 ​    正常的卷积操作生成的向量大小的计算公式为: O = (W-F+2P">
 
 
 
@@ -370,26 +368,12 @@
       
 
       
-        <h3 id="反卷积-Transposed-Convolution"><a href="#反卷积-Transposed-Convolution" class="headerlink" title="反卷积(Transposed Convolution)"></a>反卷积(Transposed Convolution)</h3><p>​    <strong>反卷积是图像领域中常见的一种上采样操作</strong>，反卷积<strong>并不是正常卷积的逆过程，而是一种特殊的正向卷积</strong>，先按照一定的比例通过补 <img src="https://www.zhihu.com/equation?tex=0" alt="[公式]"> 来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作<strong>只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。</strong></p>
+        <h3 id="反卷积-Transposed-Convolution"><a href="#反卷积-Transposed-Convolution" class="headerlink" title="反卷积(Transposed Convolution)"></a>反卷积(Transposed Convolution)</h3><p>​    <strong>反卷积是图像领域中常见的一种上采样操作</strong>，反卷积<strong>并不是正常卷积的逆过程，而是一种特殊的正向卷积</strong>，先按照一定的比例通过补 0来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作<strong>只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。</strong></p>
 <p>​    正常的卷积操作生成的向量大小的计算公式为:</p>
-<center>    O = (W-F+2P)/S+1</center>
-
-<p>​    该过程使用矩阵进行描述为：</p>
-<center>Y=CX</center>
-
-<p>​    其中Y为输出矩阵，X为输入矩阵。通过推导可以得到稀疏矩阵C。</p>
+<script type="math/tex; mode=display">O = (W-F+2P)/S+1</script><p>​    该过程使用矩阵进行描述为：</p>
+<script type="math/tex; mode=display">Y = CX</script><p>​    其中Y为输出矩阵，X为输入矩阵。通过推导可以得到稀疏矩阵C。</p>
 <p>​    而反卷积就是在实现这个对这个过程进行逆运算，即通过C和Y得到X。根据各个矩阵的尺寸大小，我们能很轻易的得到计算的过程，即为反卷积的操作：</p>
-<center>X = C{t}Y</center>
-
-
-
-
-
-
-
-
-
-<p>反卷积要实现的就是由卷积操作产出的向量</p>
+<script type="math/tex; mode=display">X= C_{t}Y</script><p>反卷积要实现的就是由卷积操作产出的向量</p>
 <p>参考文献：</p>
 <p>DCGAN pytorch教程：<a href="https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html" target="_blank" rel="noopener">https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html</a></p>
 
