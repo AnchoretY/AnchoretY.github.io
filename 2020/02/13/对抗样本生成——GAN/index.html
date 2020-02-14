@@ -88,7 +88,7 @@
 <meta property="og:description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文名称生成对抗网络，是一种利用模">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/Users/yhk/Library/Application%20Support/typora-user-images/image-20200213183224313.png">
-<meta property="og:updated_time" content="2020-02-14T06:26:16.868Z">
+<meta property="og:updated_time" content="2020-02-14T06:39:21.258Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对抗样本生成——GAN">
 <meta name="twitter:description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文名称生成对抗网络，是一种利用模">
@@ -396,8 +396,8 @@
 <p>​    对于整个判别器，其主要目的为尽可能的区分正常样本与生成样本，即网络的更新目标为：</p>
 <p>​                                                            <script type="math/tex">D^{*} = argmaxV(G,D)</script></p>
 <p>​    其中，</p>
-<p>​                                                <script type="math/tex">V(G,D) = E_{x\in\ P_{data}}\ [logD(x)]+E_{x\in\ P_{D}}\ [log(1-D(x))]</script></p>
-<p>​    仔细观察我们可以发现，</p>
+<p>​                                                <script type="math/tex">V(G,D) = E_{x\in\ P_{data}}\ [logD(x)]+E_{x\in\ P_{D}}\ [log(1-D(x))]\ （G固定）</script></p>
+<p>​    仔细观察我们可以发现，V(G,D)与交叉熵损失函数完全相同，这是因为当我们输入真实的样本时，D判别尽可能的为1，$E_{x\in\ P_{data}}\ [logD(x)]$为0即不在存在；当输入数据为生成样本时，</p>
 <p>​    </p>
 <p>​    对于判别器，主要目的是为了</p>
 <p><img src="/Users/yhk/Library/Application Support/typora-user-images/image-20200213183224313.png" alt="image-20200213183224313"></p>
