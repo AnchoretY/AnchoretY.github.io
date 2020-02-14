@@ -1517,7 +1517,7 @@
 <p>​                <script type="math/tex">Loss=-y_{i}loga_i</script></p>
 <p>​    去掉了累加和，因为只有一项y为1，其余都为0，而将yj=1带入得</p>
 <p>​       <script type="math/tex">Loss=-loga_i</script>            </p>
-<p>​    下面我们准备将损失函数对参数求导，参数的形式在该例子中，总共分w41,w42,w43,w51,w52,w53,w61,w62,w63.这些，那么比如我要求出w41,w42,w43的偏导，就需要将Loss函数求偏导传到结点4，然后再利用链式法则继续求导即可，举个例子此时求w41的偏导为:npm uninstall hexo-renderer-marked —save</p>
+<p>​    下面我们准备将损失函数对参数求导，参数的形式在该例子中，总共分w41,w42,w43,w51,w52,w53,w61,w62,w63.这些，那么比如我要求出w41,w42,w43的偏导，就需要将Loss函数求偏导传到结点4，然后再利用链式法则继续求导即可，举个例子此时求w41的偏导为:</p>
 <p>​                <script type="math/tex">\frac{\partial Loss}{\partial w_{ij}} = \frac{\partial Loss}{\partial a_j}\frac{\partial a_j}{\partial z_i}\frac{\partial z_i}{\partial w_{ij}}</script></p>
 <p>​    其中右边第一项q求导为：</p>
 <p>​             <script type="math/tex">\frac{\partial Loss}{\partial a_j} = -\frac{1}{a_j}</script></p>

@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax求导.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax求导2.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax%E6%B1%82%E5%AF%BC3.png?raw=true">
-<meta property="og:updated_time" content="2020-02-14T04:12:33.160Z">
+<meta property="og:updated_time" content="2020-02-14T04:18:10.570Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——损失函数">
 <meta name="twitter:description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：1.线性模型中使用平方误差函数，深度学习使用交叉熵函数 ​    2.平方误差损失函数更适合输出为连续,并且最后一层不含Sigmoid或Softmax激活函数的神经网络">
@@ -420,7 +420,7 @@
 <p>​                <script type="math/tex">Loss=-y_{i}loga_i</script></p>
 <p>​    去掉了累加和，因为只有一项y为1，其余都为0，而将yj=1带入得</p>
 <p>​       <script type="math/tex">Loss=-loga_i</script>            </p>
-<p>​    下面我们准备将损失函数对参数求导，参数的形式在该例子中，总共分w41,w42,w43,w51,w52,w53,w61,w62,w63.这些，那么比如我要求出w41,w42,w43的偏导，就需要将Loss函数求偏导传到结点4，然后再利用链式法则继续求导即可，举个例子此时求w41的偏导为:npm uninstall hexo-renderer-marked —save</p>
+<p>​    下面我们准备将损失函数对参数求导，参数的形式在该例子中，总共分w41,w42,w43,w51,w52,w53,w61,w62,w63.这些，那么比如我要求出w41,w42,w43的偏导，就需要将Loss函数求偏导传到结点4，然后再利用链式法则继续求导即可，举个例子此时求w41的偏导为:</p>
 <p>​                <script type="math/tex">\frac{\partial Loss}{\partial w_{ij}} = \frac{\partial Loss}{\partial a_j}\frac{\partial a_j}{\partial z_i}\frac{\partial z_i}{\partial w_{ij}}</script></p>
 <p>​    其中右边第一项q求导为：</p>
 <p>​             <script type="math/tex">\frac{\partial Loss}{\partial a_j} = -\frac{1}{a_j}</script></p>

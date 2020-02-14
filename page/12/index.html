@@ -2033,7 +2033,7 @@ plt.show()
 #使用TSNE进行降维
 tsne = TSNE(learning_rate=100)
 x = tsne.fit_transform(input)
-</code></pre><p>​<br>    labels = dbscan.labels<em>    #获取最终的预测结果<br>    unique_labels = set(dbscan.labels</em>) </p>
+</code></pre><p>​<br>    labels = dbscan.labels_    #获取最终的预测结果<br>    unique_labels = set(dbscan.labels_) </p>
 <pre><code>colors = plt.cm.Spectral(np.linspace(0,1,len(set(dbscan.labels_))))   #生成和标签种类数相同的颜色数组
 
 core_samples_mask =np.zeros_like(dbscan.labels_,dtype=bool)   
