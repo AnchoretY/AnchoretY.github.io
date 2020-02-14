@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax求导.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax求导2.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/softmax%E6%B1%82%E5%AF%BC3.png?raw=true">
-<meta property="og:updated_time" content="2020-02-14T04:18:10.570Z">
+<meta property="og:updated_time" content="2020-02-14T04:28:20.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——损失函数">
 <meta name="twitter:description" content="在机器机器学习和深度学习中有许多常见的损失函数，主要包括： ​        1.平方差函数MSE（Mean Squared Error） ​        2.交叉熵函数（Cross Entory）      损失函数选择的方法：1.线性模型中使用平方误差函数，深度学习使用交叉熵函数 ​    2.平方误差损失函数更适合输出为连续,并且最后一层不含Sigmoid或Softmax激活函数的神经网络">
@@ -1138,6 +1138,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
