@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文名称生成对抗网络，是一种利用模">
+<meta name="description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN) 对抗样本生成—DCGAN) 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文">
 <meta name="keywords" content="对抗样本生成">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对抗样本生成——GAN">
 <meta property="og:url" content="http://yoursite.com/2020/02/13/对抗样本生成——GAN/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文名称生成对抗网络，是一种利用模">
+<meta property="og:description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN) 对抗样本生成—DCGAN) 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/GAN结构示意图.png?raw=true">
-<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/GAN生成器损失函数对比.png?raw=true">
-<meta property="og:updated_time" content="2020-02-14T13:44:58.684Z">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/GAN生成器损失函数对比.png?raw=true =100*100">
+<meta property="og:updated_time" content="2020-02-20T02:09:18.257Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对抗样本生成——GAN">
-<meta name="twitter:description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文名称生成对抗网络，是一种利用模">
+<meta name="twitter:description" content="​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的github。该系列包含的文章还包括：  对抗样本生成—VAE 对抗样本生成—GAN) 对抗样本生成—DCGAN) 对抗样本生成—文本生成  GAN(Generative Adversarial Network)​    GAN中文">
 <meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/GAN结构示意图.png?raw=true">
 
 
@@ -371,10 +371,11 @@
       
 
       
-        <p>​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的<a href="">github</a>。该系列包含的文章还包括：</p>
+        <p>​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/GAN%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>。该系列包含的文章还包括：</p>
 <ul>
-<li><a href="">对抗样本生成—VAE</a></li>
-<li><a href="">对抗样本生成—GAN</a></li>
+<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/" target="_blank" rel="noopener">对抗样本生成—VAE</a></li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——GAN/">对抗样本生成—GAN</a>)</li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——DCGAN/">对抗样本生成—DCGAN</a>)</li>
 <li><a href="">对抗样本生成—文本生成</a></li>
 </ul>
 <h3 id="GAN-Generative-Adversarial-Network"><a href="#GAN-Generative-Adversarial-Network" class="headerlink" title="GAN(Generative Adversarial Network)"></a>GAN(Generative Adversarial Network)</h3><p>​    GAN中文名称生成对抗网络，是一种利用模型对抗技术来生成指定类型样本的技术，与VAE一起是目前主要的两种文本生成技术之一。GAN主要包含generater(生成器)和discriminator(判别器)两部分，generator负责生成假的样本来骗过discriminator，discriminator负责对样本进行打分，判断是否为生成网络生成的样本。</p>
@@ -415,11 +416,15 @@
 <p>​    对于生成器，在D固定的情况下，$E_{x\in\ P_{data}}\ [logD(x)]$为固定值，因此可以不做考虑，表达式转为：</p>
 <p>​                                                <script type="math/tex">\min\limits_{G}\max\limits_{D}E_{x\in\ P_{G}}\ [log(1-G(D(x)))]（其中D固定）</script></p>
 <p>​    使用该表达式作为目标函数进行参数更新存在的问题就是在训练的起始阶段，由于开始时生成样本的质量很低，因此判别器很容易给一个很低的分数，即D(x)非常小，而log(1-x)的函数在值接近0时斜率也很小，因此使用该函数作为损失函数在开始时很难进行参数更新。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GAN生成器损失函数对比.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GAN生成器损失函数对比.png?raw=true =100*100" style="zoom:50%;"></p>
 <p>​    因此生成器采用了一种与log（1-x）的更新方向一致并且在起始时斜率更大的函数。</p>
 <p>​                                            <script type="math/tex">E_{x\in P_{G}}[-logG(D(x))]</script></p>
 <p>​    该损失函数在代码实现中一般还是<strong>使用反标签的二进制交叉熵损失函数来进行实现</strong>，所谓反标签即为将生成的样本标注为1进行训练（正常生成样本标签为0），涉及到该部分的代码为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">criterion = nn.BCELoss()</span><br><span class="line">g_optimizer = torch.optim.Adam(D.parameters(), lr=<span class="number">0.0002</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">real_label = torch.ones(batch_size, <span class="number">1</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成模型根据随机输入生成fake_images,然后判别模型进行判别</span></span><br><span class="line">z = torch.randn(batch_size, latent_size)</span><br><span class="line">fake_images = G(z)</span><br><span class="line">outputs = D(fake_images)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练生成模型，使用反标签的二进制交叉熵损失函数</span></span><br><span class="line">g_loss = criterion(outputs, real_labels)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反向传播和优化</span></span><br><span class="line">reset_grad()</span><br><span class="line">g_loss.backward()</span><br><span class="line">g_optimizer.step()</span><br></pre></td></tr></table></figure>
+<h3 id="GAN与VAE对比"><a href="#GAN与VAE对比" class="headerlink" title="GAN与VAE对比"></a>GAN与VAE对比</h3><p>​    GAN和VAE都是样本生成领域非常常用的两个模型流派，那这两种模型有什么不同点呢？</p>
+<p>1.VAE进行对抗样本生成时，VAE的Encoder和GAN的Generator输入同样都为图片等真实样本，但<strong>VAE的Encoder输出的中间结果为隐藏向量值</strong>，而<strong>GAN的Generator输出的中间结果为生成的图片等生成样本</strong>。</p>
+<p>2.<strong>最终用来生成样本的部分不同</strong>。VAE最终使用Decoder部分来进行样本生成，GAN使用Generator进行样本生成。</p>
+<p>3.</p>
 <p>【参考文献】</p>
 <p>李宏毅在线课程:<a href="https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw</a></p>
 <p>GAN损失函数详解:<a href="https://www.cnblogs.com/walter-xh/p/10051634.html" target="_blank" rel="noopener">https://www.cnblogs.com/walter-xh/p/10051634.html</a></p>
@@ -597,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#GAN-Generative-Adversarial-Network"><span class="nav-number">1.</span> <span class="nav-text">GAN(Generative Adversarial Network)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generator"><span class="nav-number">2.</span> <span class="nav-text">Generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminator"><span class="nav-number">3.</span> <span class="nav-text">Discriminator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-train"><span class="nav-number">4.</span> <span class="nav-text">Model train</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数"><span class="nav-number">5.</span> <span class="nav-text">损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Generator-Loss"><span class="nav-number">5.1.</span> <span class="nav-text">Generator Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Discriminator-Loss"><span class="nav-number">5.2.</span> <span class="nav-text">Discriminator Loss</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#GAN-Generative-Adversarial-Network"><span class="nav-number">1.</span> <span class="nav-text">GAN(Generative Adversarial Network)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generator"><span class="nav-number">2.</span> <span class="nav-text">Generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminator"><span class="nav-number">3.</span> <span class="nav-text">Discriminator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-train"><span class="nav-number">4.</span> <span class="nav-text">Model train</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数"><span class="nav-number">5.</span> <span class="nav-text">损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Generator-Loss"><span class="nav-number">5.1.</span> <span class="nav-text">Generator Loss</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Discriminator-Loss"><span class="nav-number">5.2.</span> <span class="nav-text">Discriminator Loss</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAN与VAE对比"><span class="nav-number">6.</span> <span class="nav-text">GAN与VAE对比</span></a></li></ol></div>
             
 
           </div>
