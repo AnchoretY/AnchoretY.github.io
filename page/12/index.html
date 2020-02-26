@@ -297,6 +297,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/03/github基本使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/03/github基本使用/" itemprop="url">github基本使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-03T11:33:02+08:00">
+                2018-10-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<p><strong>github相关知识</strong>：</p>
+<p>​    github项目使用终端进行管理时分为三个区域：<strong>工作目录、暂存区（本地库）、github上的远程项目</strong>，当我们要更新以及操作一个项目时，要遵循以下的格式：</p>
+<blockquote>
+<p>1.先从github上面pull下远程的项目分支</p>
+<p>2.本地的项目文件夹中的文件进行更新（更新工作目录中的文件）</p>
+<p>3.使用add将更新的索引添加到本地库</p>
+<p>4.使用commit工作目录中的文件提交到暂存区(本地库)</p>
+<p>5.将文件push到远程分支或merge到远程分支</p>
+</blockquote>
+<p><strong>基本操作</strong></p>
+<blockquote>
+<p>git clone “ssh项目地址”    克隆远程项目</p>
+<p>git pull origin master         取回远程主机或本地的某个分支的更新，再与本地分支进行合并(这种写法是origin主机的master分支与本地当前分支进行合并)</p>
+<p>git push origin master     将本地的当前分支push到origin主机的master分支上</p>
+<p>git add “文件名”            将指定文件提交到本地库</p>
+<p>git commit -m “描述信息”    将本地的全部文件都提交到本地库</p>
+<p>git log                     打印该项目的版本操作信息</p>
+<p>git status                 查看到那个钱仓库状态</p>
+</blockquote>
+<p><strong>更新github</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将项目从github上面拉下来(本地已经有的可以跳过,已有则直接进入该文件夹)</span></span><br><span class="line">git clone github链接</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line">git status</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch <span class="keyword">is</span> up to date <span class="keyword">with</span> <span class="string">'origin/master'</span>.</span><br><span class="line"></span><br><span class="line">    nothing to commit, working tree clean</span><br><span class="line"> </span><br><span class="line"><span class="comment">#创建或者导入新文件到工作区</span></span><br><span class="line">touch <span class="string">"文件1"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将文件工作目录的文件提交到暂存区</span></span><br><span class="line">git add <span class="string">"文件1"</span> 	<span class="comment">#提交指定文件</span></span><br><span class="line">git add -A		<span class="comment">#一次提交工作目录中的全部文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line"> git status</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment">#第一次提交描述时需要设置账户信息</span></span><br><span class="line">git config --<span class="keyword">global</span> user.name <span class="string">"John Doe"</span></span><br><span class="line">git config --<span class="keyword">global</span> user.email johndoe@example.com</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加描述</span></span><br><span class="line">git commit -m <span class="string">"此次添加的描述信息"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看项目状态</span></span><br><span class="line">git status </span><br><span class="line">output:</span><br><span class="line">    On branch master</span><br><span class="line">    Your branch <span class="keyword">is</span> ahead of <span class="string">'origin/master'</span> by <span class="number">1</span> commit.</span><br><span class="line">      (use <span class="string">"git push"</span> to publish your local commits)</span><br><span class="line"></span><br><span class="line"><span class="comment">#将修改从暂存区提交到远程分支</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p><strong>删除已经提交到github上面的文件</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在本地拉取远程分支</span></span><br><span class="line">git pull original master</span><br><span class="line"></span><br><span class="line"><span class="comment">#在本地删除对应的文件</span></span><br><span class="line">git rm filename</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加描述上传到远程分支</span></span><br><span class="line">git commit -m <span class="string">"删除文件filename"</span></span><br><span class="line">git push original master</span><br></pre></td></tr></table></figure>
+<p><strong>已经提交到github上的文件进行版本回退</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先通过git log获取版本号</span></span><br><span class="line">git log</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后使用git revert 版本号来回退到指定版本</span></span><br><span class="line">git retvert 版本号</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后:x保存退出就可以了撤回到指定的版本了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最后再将本地分支push到github上</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p><strong>分支切换</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">git checkout ...    <span class="comment">#创建分支</span></span><br><span class="line"></span><br><span class="line">git checkout -b ... 	<span class="comment">#创建并且换到分支</span></span><br><span class="line"></span><br><span class="line">git checkout ... 	<span class="comment">#切换到分支</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git branch <span class="comment">#查看本地分支</span></span><br><span class="line"></span><br><span class="line">git branch -a  <span class="comment">#查看本地和远程的全部分支</span></span><br><span class="line"></span><br><span class="line">git push origin --delete dev2	<span class="comment">#删除远程分支</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/pyspark-ML库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1227,7 +1397,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/pytorch向量转化操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/tmux基本操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -1246,7 +1416,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/pytorch向量转化操作/" itemprop="url">pytorch向量转化操作</a></h1>
+                <a class="post-title-link" href="/2018/09/23/tmux基本操作/" itemprop="url">tmux基本操作</a></h1>
         
 
         <div class="post-meta">
@@ -1281,8 +1451,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pytorch/" itemprop="url" rel="index">
-                    <span itemprop="name">pytorch</span>
+                  <a href="/categories/Linux操作/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux操作</span>
                   </a>
                 </span>
 
@@ -1320,15 +1490,43 @@
       
         
           
-            <p><strong>1.cat</strong></p>
-<p>​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.manual_seed(<span class="number">1</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">y = torch.randn(<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">s = torch.cat((x,y),<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">print(x,y)</span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3]</span><br><span class="line"></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">1</span>x3]</span><br><span class="line">    </span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">3</span>x3]</span><br></pre></td></tr></table></figure>
-<p>注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式</p>
-<p><strong>2.unsequeeze和sequeeze</strong></p>
-<p>​    torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
-<p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
+            <p>tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。</p>
+<p><strong>tmux核心功能</strong></p>
+<blockquote>
+<p>1.tmux可以在一个窗口中创建多个窗格</p>
+<p>2.终端软件重启后通过命令行恢复上次的session</p>
+</blockquote>
+<p>在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表:</p>
+<p><strong>1. 窗格操作 </strong></p>
+<ul>
+<li><strong><code>%</code> 左右平分出两个窗格</strong></li>
+<li><strong><code>&quot;</code> 上下平分出两个窗格</strong></li>
+<li><code>x</code> 关闭当前窗格</li>
+<li><code>{</code> 当前窗格前移</li>
+<li><code>}</code> 当前窗格后移</li>
+<li><code>;</code> 选择上次使用的窗格</li>
+<li><strong><code>o</code> 选择下一个窗格，也可以使用上下左右方向键来选择</strong></li>
+<li><code>space</code> 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 <code>⌥1</code> 至 <code>⌥5</code>来切换</li>
+<li><code>z</code> 最大化当前窗格，再次执行可恢复原来大小</li>
+<li><strong><code>q</code> 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格</strong></li>
+</ul>
+<p><strong>2.会话操作</strong></p>
+<p>​    在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括：</p>
+<ul>
+<li><code>$</code> 重命名当前会话</li>
+<li><code>s</code> 选择会话列表</li>
+<li><code>d</code>  detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程</li>
+</ul>
+<p>​    在shell准进程中也可以进行直接对session进行操作：</p>
+<blockquote>
+<p>tmux new -s foo    #创建名为foo的会话</p>
+<p>tmux ls     #列出所有的tmux</p>
+<p>tmux a    #恢复至上一次回话</p>
+<p>tmux a -t foo #恢复会话名称为foo的会话</p>
+<p>tmux kill-session -t foo        #删除会话名称为foo的会话</p>
+<p>tmux kill-server #删除所有会话</p>
+</blockquote>
+<p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
 
           
         
@@ -1524,7 +1722,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/tmux基本操作/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/pytorch向量转化操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -1543,7 +1741,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/tmux基本操作/" itemprop="url">tmux基本操作</a></h1>
+                <a class="post-title-link" href="/2018/09/23/pytorch向量转化操作/" itemprop="url">pytorch向量转化操作</a></h1>
         
 
         <div class="post-meta">
@@ -1578,8 +1776,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux操作/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux操作</span>
+                  <a href="/categories/pytorch/" itemprop="url" rel="index">
+                    <span itemprop="name">pytorch</span>
                   </a>
                 </span>
 
@@ -1617,43 +1815,15 @@
       
         
           
-            <p>tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。</p>
-<p><strong>tmux核心功能</strong></p>
-<blockquote>
-<p>1.tmux可以在一个窗口中创建多个窗格</p>
-<p>2.终端软件重启后通过命令行恢复上次的session</p>
-</blockquote>
-<p>在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表:</p>
-<p><strong>1. 窗格操作 </strong></p>
-<ul>
-<li><strong><code>%</code> 左右平分出两个窗格</strong></li>
-<li><strong><code>&quot;</code> 上下平分出两个窗格</strong></li>
-<li><code>x</code> 关闭当前窗格</li>
-<li><code>{</code> 当前窗格前移</li>
-<li><code>}</code> 当前窗格后移</li>
-<li><code>;</code> 选择上次使用的窗格</li>
-<li><strong><code>o</code> 选择下一个窗格，也可以使用上下左右方向键来选择</strong></li>
-<li><code>space</code> 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 <code>⌥1</code> 至 <code>⌥5</code>来切换</li>
-<li><code>z</code> 最大化当前窗格，再次执行可恢复原来大小</li>
-<li><strong><code>q</code> 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格</strong></li>
-</ul>
-<p><strong>2.会话操作</strong></p>
-<p>​    在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括：</p>
-<ul>
-<li><code>$</code> 重命名当前会话</li>
-<li><code>s</code> 选择会话列表</li>
-<li><code>d</code>  detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程</li>
-</ul>
-<p>​    在shell准进程中也可以进行直接对session进行操作：</p>
-<blockquote>
-<p>tmux new -s foo    #创建名为foo的会话</p>
-<p>tmux ls     #列出所有的tmux</p>
-<p>tmux a    #恢复至上一次回话</p>
-<p>tmux a -t foo #恢复会话名称为foo的会话</p>
-<p>tmux kill-session -t foo        #删除会话名称为foo的会话</p>
-<p>tmux kill-server #删除所有会话</p>
-</blockquote>
-<p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
+            <p><strong>1.cat</strong></p>
+<p>​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.manual_seed(<span class="number">1</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">y = torch.randn(<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">s = torch.cat((x,y),<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">print(x,y)</span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3]</span><br><span class="line"></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">1</span>x3]</span><br><span class="line">    </span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">3</span>x3]</span><br></pre></td></tr></table></figure>
+<p>注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式</p>
+<p><strong>2.unsequeeze和sequeeze</strong></p>
+<p>​    torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
+<p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
 
           
         
@@ -1889,193 +2059,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/数据可视化之散点图和折线图/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/数据可视化之散点图和折线图/" itemprop="url">数据可视化之散点图和折线图</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T15:53:34+08:00">
-                2018-09-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/可视化/" itemprop="url" rel="index">
-                    <span itemprop="name">可视化</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="数据可视化之散点图和折线图"><a href="#数据可视化之散点图和折线图" class="headerlink" title="数据可视化之散点图和折线图"></a>数据可视化之散点图和折线图</h1><h4 id="画图基本常用参数"><a href="#画图基本常用参数" class="headerlink" title="画图基本常用参数"></a>画图基本常用参数</h4><pre><code>plt.figure(figure_size=(30,20))       指定图片大小
-plt.style.use(&#39;ggplot&#39;)               指定图片风格
-plt.title(&quot;image title&quot;,fontsize=30)  指定图片标题 
-</code></pre><h4 id="指定坐标轴相关"><a href="#指定坐标轴相关" class="headerlink" title="指定坐标轴相关"></a>指定坐标轴相关</h4><pre><code>my_x_trick = np.arrange(0,200,10)     
-plt.xtricks(my_x_trick,fontsize=20,rotation)   指定x轴，fontsize指定坐标轴字体，rotation指定文字旋转的角度
-plt.ytricks(fontsize=20)    指定y轴
-</code></pre><p>​    </p>
-<h2 id="指定画图类型"><a href="#指定画图类型" class="headerlink" title="指定画图类型"></a>指定画图类型</h2><h4 id="1-折线图"><a href="#1-折线图" class="headerlink" title="1.折线图"></a>1.折线图</h4><pre><code>plt.plot(x,y)   #不指定画图种类时默认为折线图
-plt.legend(loc = &quot;best&quot;,fontsize=40,shadow=1)  #进行图例格式设定
-plt.show()
-</code></pre><blockquote>
-<p>折线图中plot可用参数：<br>1.color=’red’    指定折线的颜色<br>2.label=’price’   指定改颜色的图例表示<br>3.marker=’-‘      设置折现格式，默认为’-‘,注意这里设置范围不要越界，当设置越界时转换其他图</p>
-</blockquote>
-<p>在一个文件中多次调用plt.plot(),使用不同的数据指定不同颜色和label可在一个图中画多条折线进行对比  </p>
-<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%8A%98%E7%BA%BF%E5%9B%BE.png?raw=true" alt="image"></p>
-<h4 id="2-散点图"><a href="#2-散点图" class="headerlink" title="2.散点图"></a>2.散点图</h4><pre><code>方式一： 
-    plt.scatter(x1,x2,marker=&#39;o&#39;)       #指定画散点图，marker为点的形状
-    plt.show()
-
-方式二：
-    plt.plot(x1,x2,marker=&#39;o&#39;)            #plot使用marker=‘o’则为散点图
-    plt.show()
-</code></pre><p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%A3%E7%82%B9%E5%9B%BE.png?raw=true" alt="image"></p>
-<p>在实际情况中第二种方式更为灵活，因此我们下重点介绍第二种方式的参数情况。</p>
-<blockquote>
-<p>散点图中常用参数（方式二）：  </p>
-<ol>
-<li>markerfacecolor  散点内部颜色  </li>
-<li>markeredgecolor  散点边缘颜色  </li>
-<li>markersize       散点大小</li>
-</ol>
-</blockquote>
-<p>下面我们以DBSCAN聚类后的结果进行将为可视化为例进行效果展示：</p>
-<pre><code>from sklearn.manifold import TSNE
-
-#使用TSNE进行降维
-tsne = TSNE(learning_rate=100)
-x = tsne.fit_transform(input)
-</code></pre><p>​<br>    labels = dbscan.labels_    #获取最终的预测结果<br>    unique_labels = set(dbscan.labels_) </p>
-<pre><code>colors = plt.cm.Spectral(np.linspace(0,1,len(set(dbscan.labels_))))   #生成和标签种类数相同的颜色数组
-
-core_samples_mask =np.zeros_like(dbscan.labels_,dtype=bool)   
-
-core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对应的位置置true
-</code></pre><p>​<br>    plt.style.use(‘ggplot’)<br>    plt.figure(figsize=(30,20))<br>    for k,col in zip(unique_labels,colors):<br>        if k==-1:<br>            col=’k’<br>        class_member_mask = (labels==k)<br>        xy = x[class_member_mask &amp; core_samples_mask]<br>        plt.plot(xy[:,0],xy[:,1],’o’,markerfacecolor=col,markeredgecolor=’k’,markersize=10)<br><img src="https://github.com/Anchoret91/youdao_image/blob/master/DBSCAN%E6%95%88%E6%9E%9C%E5%9B%BE.png?raw=true" alt="image"></p>
-<p>​        </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2126,7 +2109,7 @@ core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">125</span>
+                  <span class="site-state-item-count">126</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2148,7 +2131,7 @@ core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

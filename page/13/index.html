@@ -297,6 +297,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/数据可视化之散点图和折线图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/23/数据可视化之散点图和折线图/" itemprop="url">数据可视化之散点图和折线图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T15:53:34+08:00">
+                2018-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/可视化/" itemprop="url" rel="index">
+                    <span itemprop="name">可视化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数据可视化之散点图和折线图"><a href="#数据可视化之散点图和折线图" class="headerlink" title="数据可视化之散点图和折线图"></a>数据可视化之散点图和折线图</h1><h4 id="画图基本常用参数"><a href="#画图基本常用参数" class="headerlink" title="画图基本常用参数"></a>画图基本常用参数</h4><pre><code>plt.figure(figure_size=(30,20))       指定图片大小
+plt.style.use(&#39;ggplot&#39;)               指定图片风格
+plt.title(&quot;image title&quot;,fontsize=30)  指定图片标题 
+</code></pre><h4 id="指定坐标轴相关"><a href="#指定坐标轴相关" class="headerlink" title="指定坐标轴相关"></a>指定坐标轴相关</h4><pre><code>my_x_trick = np.arrange(0,200,10)     
+plt.xtricks(my_x_trick,fontsize=20,rotation)   指定x轴，fontsize指定坐标轴字体，rotation指定文字旋转的角度
+plt.ytricks(fontsize=20)    指定y轴
+</code></pre><p>​    </p>
+<h2 id="指定画图类型"><a href="#指定画图类型" class="headerlink" title="指定画图类型"></a>指定画图类型</h2><h4 id="1-折线图"><a href="#1-折线图" class="headerlink" title="1.折线图"></a>1.折线图</h4><pre><code>plt.plot(x,y)   #不指定画图种类时默认为折线图
+plt.legend(loc = &quot;best&quot;,fontsize=40,shadow=1)  #进行图例格式设定
+plt.show()
+</code></pre><blockquote>
+<p>折线图中plot可用参数：<br>1.color=’red’    指定折线的颜色<br>2.label=’price’   指定改颜色的图例表示<br>3.marker=’-‘      设置折现格式，默认为’-‘,注意这里设置范围不要越界，当设置越界时转换其他图</p>
+</blockquote>
+<p>在一个文件中多次调用plt.plot(),使用不同的数据指定不同颜色和label可在一个图中画多条折线进行对比  </p>
+<p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%8A%98%E7%BA%BF%E5%9B%BE.png?raw=true" alt="image"></p>
+<h4 id="2-散点图"><a href="#2-散点图" class="headerlink" title="2.散点图"></a>2.散点图</h4><pre><code>方式一： 
+    plt.scatter(x1,x2,marker=&#39;o&#39;)       #指定画散点图，marker为点的形状
+    plt.show()
+
+方式二：
+    plt.plot(x1,x2,marker=&#39;o&#39;)            #plot使用marker=‘o’则为散点图
+    plt.show()
+</code></pre><p><img src="https://github.com/Anchoret91/youdao_image/blob/master/%E6%95%A3%E7%82%B9%E5%9B%BE.png?raw=true" alt="image"></p>
+<p>在实际情况中第二种方式更为灵活，因此我们下重点介绍第二种方式的参数情况。</p>
+<blockquote>
+<p>散点图中常用参数（方式二）：  </p>
+<ol>
+<li>markerfacecolor  散点内部颜色  </li>
+<li>markeredgecolor  散点边缘颜色  </li>
+<li>markersize       散点大小</li>
+</ol>
+</blockquote>
+<p>下面我们以DBSCAN聚类后的结果进行将为可视化为例进行效果展示：</p>
+<pre><code>from sklearn.manifold import TSNE
+
+#使用TSNE进行降维
+tsne = TSNE(learning_rate=100)
+x = tsne.fit_transform(input)
+</code></pre><p>​<br>    labels = dbscan.labels_    #获取最终的预测结果<br>    unique_labels = set(dbscan.labels_) </p>
+<pre><code>colors = plt.cm.Spectral(np.linspace(0,1,len(set(dbscan.labels_))))   #生成和标签种类数相同的颜色数组
+
+core_samples_mask =np.zeros_like(dbscan.labels_,dtype=bool)   
+
+core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对应的位置置true
+</code></pre><p>​<br>    plt.style.use(‘ggplot’)<br>    plt.figure(figsize=(30,20))<br>    for k,col in zip(unique_labels,colors):<br>        if k==-1:<br>            col=’k’<br>        class_member_mask = (labels==k)<br>        xy = x[class_member_mask &amp; core_samples_mask]<br>        plt.plot(xy[:,0],xy[:,1],’o’,markerfacecolor=col,markeredgecolor=’k’,markersize=10)<br><img src="https://github.com/Anchoret91/youdao_image/blob/master/DBSCAN%E6%95%88%E6%9E%9C%E5%9B%BE.png?raw=true" alt="image"></p>
+<p>​        </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/23/DBSCAN和KMeans相关资源和理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1311,7 +1498,7 @@ du /home/yhk/ -h
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">125</span>
+                  <span class="site-state-item-count">126</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1333,7 +1520,7 @@ du /home/yhk/ -h
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
