@@ -815,20 +815,20 @@ core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对�
 
 
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-
   <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
    <script type="text/javascript">
         var gitalk = new Gitalk({
-          clientID: 'c5cb5ea1305f1f48f1ae',
-          clientSecret: 'b2ebabb0a40edbfad2080e4369d5987eb1fc2bca',
+          clientID: '3840ba8c8d80c18be7e3',
+          clientSecret: '1b00f2efe5285973c24da9ed9ac895775eacc8ea',
           repo: 'AnchoretY.github.io',
           owner: 'AnchoretY',
           admin: ['AnchoretY'],
-          id: md5(window.location.pathname),
+          id: md5(location.pathname),
           distractionFreeMode: 'true'
         })
-        gitalk.render('gitalk-container')           
-       </script>
+        gitalk.render('gitalk-container')
+    </script>
 
 
 
