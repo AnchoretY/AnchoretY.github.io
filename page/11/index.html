@@ -1,0 +1,2599 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="AnchoretY&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/page/11/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AnchoretY&#39;s blog">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/page/11/"/>
+
+
+
+
+
+  <title>AnchoretY's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right 
+  page-home">
+    <div class="headband"></div>
+
+    <a href="https://github.com/AnchoretY">
+	<img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub">
+    </a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/27/经典机器学习算法——KMeans/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/27/经典机器学习算法——KMeans/" itemprop="url">经典机器学习算法——KMeans</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-27T22:03:14+08:00">
+                2018-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="KMeans算法"><a href="#KMeans算法" class="headerlink" title="KMeans算法"></a>KMeans算法</h3><hr>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/23/pyspark学习心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/23/pyspark学习心得/" itemprop="url">pyspark学习心得</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-23T10:36:53+08:00">
+                2018-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    </p>
+<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>​    Spark中对于一个RDD执行多次算子的<strong>默认</strong>原理是这样的：<strong>每次你对一个RDD执行一个算子操作时，都会重新从源头处计算一遍</strong>，计算出那个RDD来，然后再对这个RDD执行你的算子操作。这种方式的性能是很差的。</p>
+<p>​    因此对于这种情况，我们的建议是：<strong>对多次使用的RDD进行持久化</strong>。此时Spark就会根据你的持久化策略，将RDD中的数据保存到内存或者磁盘中。<strong>以后每次对这个RDD进行算子操作时，都会直接从内存或磁盘中提取持久化的RDD数据，然后执行算子，而不会从源头处重新计算一遍这个RDD，再执行算子操作</strong>。</p>
+<p>​    spark中的持久化操作主要分为两种：<strong>persist和cache</strong>。<strong>cache相当于使用MEMORY_ONLY级别的persist操作，而persist更灵活可以任意指定persist的级别。</strong></p>
+<blockquote>
+<h3 id="如何选择一种最合适的持久化策略"><a href="#如何选择一种最合适的持久化策略" class="headerlink" title="如何选择一种最合适的持久化策略"></a>如何选择一种最合适的持久化策略</h3><ul>
+<li>默认情况下，<strong>性能最高</strong>的当然是<strong>MEMORY_ONLY</strong>，但前提是你的<strong>内存必须足够足够大</strong>，可以绰绰有余地存放下整个RDD的所有数据。<strong>因为不进行序列化与反序列化操作，就避免了这部分的性能开销</strong>；对这个RDD的后续算子操作，都是基于纯内存中的数据的操作，不需要从磁盘文件中读取数据，性能也很高；而且不需要复制一份数据副本，并远程传送到其他节点上。但是这里必须要注意的是，在实际的生产环境中，恐怕能够直接用这种策略的场景还是有限的，<strong>如果RDD中数据比较多</strong>时（比如几十亿），直接用这种持久化级别，<strong>会导致JVM的OOM内存溢出异常</strong>。</li>
+<li><strong>如果使用MEMORY_ONLY级别时发生了内存溢出，那么建议尝试使用MEMORY_ONLY_SER级别</strong>。该级别<strong>会将RDD数据序列化后再保存在内存中</strong>，此时<strong>每个partition仅仅是一个字节数组</strong>而已，大大减少了对象数量，并降低了内存占用。这种级别<strong>比MEMORY_ONLY多出来的性能开销，主要就是序列化与反序列化的开销</strong>。<strong>但是后续算子可以基于纯内存进行操作，因此性能总体还是比较高的</strong>。此外，可能发生的问题同上，如果RDD中的数据量过多的话，还是可能会导致OOM内存溢出的异常。</li>
+<li><strong>如果纯内存的级别都无法使用，那么建议使用MEMORY_AND_DISK_SER策略</strong>，而不是MEMORY_AND_DISK策略。因为既然到了这一步，就说明RDD的数据量很大，内存无法完全放下。序列化后的数据比较少，可以节省内存和磁盘的空间开销。同时<strong>该策略会优先尽量尝试将数据缓存在内存中，内存缓存不下才会写入磁盘</strong>。</li>
+<li>通常不建议使用DISK_ONLY和后缀为_2的级别：因为完全基于磁盘文件进行数据的读写，会导致性能急剧降低，有时还不如重新计算一次所有RDD。后缀为_2的级别，必须将所有数据都复制一份副本，并发送到其他节点上，数据复制以及网络传输会导致较大的性能开销，除非是要求作业的高可用性，否则不建议使用。</li>
+</ul>
+</blockquote>
+<h3 id="提高性能的算子"><a href="#提高性能的算子" class="headerlink" title="提高性能的算子"></a>提高性能的算子</h3><h5 id="使用filter之后进行coalesce操作"><a href="#使用filter之后进行coalesce操作" class="headerlink" title="使用filter之后进行coalesce操作"></a>使用filter之后进行coalesce操作</h5><p>通常对一个RDD执行filter算子过滤掉RDD中较多数据后（比如30%以上的数据），建议使用coalesce算子，手动减少RDD的partition数量，<strong>将RDD中的数据压缩到更少的partition中去</strong>。因为filter之后，RDD的每个partition中都会有很多数据被过滤掉，此时如果照常进行后续的计算，其实每个task处理的partition中的数据量并不是很多，有一点资源浪费，而且此时处理的task越多，可能速度反而越慢。因此用coalesce减少partition数量，将RDD中的数据压缩到更少的partition之后，<strong>只要使用更少的task即可处理完所有的partition</strong>。在某些场景下，对于性能的提升会有一定的帮助。</p>
+<h4 id="Shuffle"><a href="#Shuffle" class="headerlink" title="Shuffle"></a>Shuffle</h4><p>​    大多数<strong>spark作业的性能主要就消耗在shuffle环节</strong>，因为shuffle中包含了大量的磁盘IO、序列化、网络数据传输等操作。<strong>但是影响一个spark作业性能的主要因素还是代码开发、资源参数、以及数据倾斜</strong>，shuffle调优在优化spark作业性能中只能起较小的作用。</p>
+<blockquote>
+<h4 id="shuffle操作速度慢的原因"><a href="#shuffle操作速度慢的原因" class="headerlink" title="shuffle操作速度慢的原因"></a>shuffle操作速度慢的原因</h4></blockquote>
+<p>​    </p>
+<p>Pyspark使用过程中的一些小Tips：</p>
+<blockquote>
+<p>1、RDD.repartition(n)可以在最初对RDD进行分区操作，这个操作实际上是一个shuffle，可能比较耗时，但是如果之后的action比较多的话，可以减少下面操作的时间。其中的n值看cpu的个数，一般大于2倍cpu，小于1000。</p>
+<p>2、<strong>Action不能够太多</strong>，每一次的action都会将以上的taskset划分一个job，这样当job增多，而其中task并不释放，会占用更多的内存，使得gc拉低效率。</p>
+<p>3、<strong>在shuffle前面进行一个过滤，减少shuffle数据，并且过滤掉null值，以及空值</strong>。</p>
+<p>4、<strong>groupBy尽量通过reduceBy替代</strong>。reduceBy会在work节点做一次reduce，在整体进行reduce，相当于做了一次hadoop中的combine操作，而combine操作和reduceBy逻辑一致，这个groupBy不能保证。</p>
+<p>5、<strong>做join的时候，尽量用小RDD去join大RDD.</strong></p>
+<p>6、<strong>避免collect的使用</strong>。因为collect如果数据集超大的时候，会通过各个work进行收集，io增多，拉低性能，因此当数据集很大时要save到HDFS。</p>
+<p>7、RDD如果后面使用迭代，建议cache，但是一定要估计好数据的大小，避免比cache设定的内存还要大，如果大过内存就会删除之前存储的cache，可能导致计算错误，如果想要完全的存储可以使用persist（MEMORY_AND_DISK），因为cache就是persist（MEMORY_ONLY）。</p>
+<p>8、设置spark.cleaner.ttl，定时清除task，因为job的原因可能会缓存很多执行过去的task，所以定时回收可能避免集中gc操作拉低性能。</p>
+</blockquote>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/22/经典机器学习算法——逻辑回归/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/22/经典机器学习算法——逻辑回归/" itemprop="url">经典机器学习算法——逻辑回归</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-22T21:44:43+08:00">
+                2018-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="逻辑回归模型"><a href="#逻辑回归模型" class="headerlink" title="逻辑回归模型"></a>逻辑回归模型</h3><hr>
+<p>​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用<strong>梯度下降算法</strong>来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。</p>
+<blockquote>
+<p><strong>注意：虽然名叫逻辑回归，但是实际上是一种分类模型</strong></p>
+</blockquote>
+<p><strong>工作原理</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">每个回归系数初始化为 <span class="number">1</span></span><br><span class="line">重复 R 次:</span><br><span class="line">    计算整个数据集的梯度</span><br><span class="line">    使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">返回回归系数</span><br></pre></td></tr></table></figure>
+<p><strong>逻辑回归算法的特点</strong></p>
+<blockquote>
+<p>优点：计算代价低，可解释性强</p>
+<p>缺点：容易欠拟合，分类精度可能不高</p>
+<p>使用数据类型：数值型数据和标称型数据(只存在是和否两种结果的将数据)</p>
+</blockquote>
+<p><strong>sigmod函数</strong></p>
+<p>​    sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0到1之间的值，其公式和函数图像如下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod公式"></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%87%BD%E6%95%B0.png?raw=true" alt="sigmod函数"></p>
+<p>​    在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%AD%E7%9A%84z.png?raw=true" alt="逻辑回归中的z"></p>
+<p>​    然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。</p>
+<p><strong>梯度上升算法</strong></p>
+<p>​    要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A6%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod函数"></p>
+<p>这个梯度意味着要沿 x 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_6.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_6.png" alt="f(x, y)对x求偏导"></a> ，沿 y 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_7.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_7.png" alt="f(x, y)对y求偏导"></a> 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。<img src="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_8.png?raw=true" alt="梯度上升图"></p>
+<p>​    上图展示了整个梯度上升的过程，梯度上升算法在到到每个点后都会从新估计移动的方向，而这个方向就是梯度方向，移动的速度大小由参数α控制。</p>
+<p><strong>训练过程</strong></p>
+<p>​    训练算法：使用梯度上升寻找最佳参数</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; 每个回归系数初始化为 1</span><br><span class="line">&gt; 重复 R 次:</span><br><span class="line">&gt;     计算整个数据集的梯度</span><br><span class="line">&gt;     使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">&gt; 返回回归系数</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>​    其中步长为超参数alpha，而梯度的计算如下：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A61.png?raw=true" alt="梯度1"></p>
+<p>即每个点的数据和其输入数据相同。因此权重的更新可以使用：</p>
+<p>​        <strong>w:=w+α error x</strong></p>
+<p>其中α为常数步长，error为在当前参数值下与目标值的误差经过sigmod函数处理后的值，x为当当前样本的输入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmod</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/<span class="number">1</span>+np.exp(-x)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscend</span><span class="params">(dataSet,labelSet,alpha,maxCycles)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#将输入的数据转为向量格式</span></span><br><span class="line">    dataMat = np.mat(dataSet)</span><br><span class="line">    labelMat = np.mat(labelSet).tramsponse()</span><br><span class="line">    <span class="comment">#获取输入数据的维度</span></span><br><span class="line">    m,n = np.shape(dataMat)</span><br><span class="line">    <span class="comment">#初始化回归系数</span></span><br><span class="line">    weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">    <span class="comment">#对回归系数进行迭代更新</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(maxCycles):</span><br><span class="line">        <span class="comment">#计算使用当前回归系数LR的hx值，结果为(m,1)维向量</span></span><br><span class="line">        h = sigmod(dataMat*weights)</span><br><span class="line">        <span class="comment">#计算误差</span></span><br><span class="line">        error = labelMat-h</span><br><span class="line">        <span class="comment">#根据梯度进行回归系数更新</span></span><br><span class="line">        weights = weights + alpha*dataMat.transponse()*error</span><br><span class="line">    <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
+<p><strong>随机梯度上升算法</strong></p>
+<p>​    随机梯度上升算法起到的作用和一般的梯度上升算法是一样的，只是由于一般的梯度上升算法在每次更新回归系数时需要遍历整个数据集，因此当数据量变动很大时，一般的梯度上升算法的时间消耗将会非常大，因此提出了<strong>每次只使用一个样本来进行参数更新</strong>的方式，<strong>随机梯度上升（下降）</strong>。</p>
+<blockquote>
+<p>随机梯度上升算法的特点：</p>
+<p>​    1.每次参数更新只使用一个样本，速度快</p>
+<p>​    2.可进行在线更新，是一个<strong>在线学习算法</strong>（也是由于每次回归系数更新只使用一个样本）</p>
+</blockquote>
+<p>工作原理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">所有回归系数初始化为 <span class="number">1</span></span><br><span class="line">对数据集中每个样本</span><br><span class="line">    计算该样本的梯度</span><br><span class="line">    使用 alpha x gradient 更新回归系数值</span><br><span class="line">返回回归系数值</span><br></pre></td></tr></table></figure>
+<p>初步随机梯度下降代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stocgradAscend</span><span class="params">(dataSet,labelSet)</span>:</span></span><br><span class="line">    <span class="comment">#1.这里没有转换成矩阵的过程，整个过程完全都是在Numpy数据完成的</span></span><br><span class="line">    alpha = <span class="number">0.01</span></span><br><span class="line"></span><br><span class="line">    m,n = np.shape(dataSet)</span><br><span class="line"></span><br><span class="line">    weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">	<span class="comment">#2.回归系数更新过程中的h、error都是单个值，而在一般梯度上升算法中使用的是矩阵操作</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        h = np.sigmod(dataSet[i]*weights)</span><br><span class="line">        error = h - labelSet[i]</span><br><span class="line">        weights = weights + alpha*error*dataSet[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
+<p>但是这种随机梯度上升算法在在实际的使用过程出现了<strong>参数最后难以收敛，最终结果周期性波动</strong>的问题，针对这种问题我们对这个问题将随机梯度下降做了下面<strong>两种优化</strong></p>
+<p>​    1.改进为 alpha 的值，alpha 在每次迭代的时候都会调整。另外，虽然 alpha 会随着迭代次数不断减少，但永远不会减小到 0，因为我们在计算公式中添加了一个常数项。</p>
+<p>​    </p>
+<p>​    2.修改randomIndex的值，<strong>从以前顺序的选择样本</strong>更改为<strong>完全随机的方式来选择用于回归系数的样本</strong>，每次随机从列表中选出一个值，然后从列表中删掉该值（再进行下一次迭代）。</p>
+<p>最终版随机梯度下降：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stocgradAscend</span><span class="params">(dataSet,labelSet,numsIter=<span class="number">150</span>)</span>:</span></span><br><span class="line">	</span><br><span class="line">	m,n = np.shape(dataSet)</span><br><span class="line">	weights = np.ones(n,<span class="number">1</span>)</span><br><span class="line">	alpha = <span class="number">0.01</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(numsIter):</span><br><span class="line">        <span class="comment">#生成数据的索引</span></span><br><span class="line">		dataIndex = range(m)</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="comment">#alpha会随着i和j的增大不断减小</span></span><br><span class="line">			alpha = <span class="number">4</span>/(i+j+<span class="number">1.0</span>)+<span class="number">0.001</span> <span class="comment"># alpha 会随着迭代不断减小，但永远不会减小到0，因为后边还有一个常数项0.0001</span></span><br><span class="line">            <span class="comment">#生成随机选择要进行回归系数更新的数据索引号</span></span><br><span class="line">            randomIndex = np.random.uniform(<span class="number">0</span>,len(dataIndex))</span><br><span class="line">            h = sigmod(np.sum(dataSet[dataIndex[randomIndex]]*weights))</span><br><span class="line">            error = h - dataSet[dataIndex[randomIndex]]*weights</span><br><span class="line">            weights = weights + alpha*error*dataSet[dataIndex[randomIndex]]</span><br><span class="line">            <span class="comment">#在数据索引中删除</span></span><br><span class="line">            <span class="keyword">del</span>(dataIndex[randomIndex])</span><br><span class="line">     <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
+<p><strong>预测过程    </strong>    </p>
+<p>​    LR模型的预测过程很简单，只需要根据训练过程训练出的参数，计算sigmod(w*x),如果这个值大于0.5，则分为1，反之则为0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyLR</span>:</span>(inX,weights)</span><br><span class="line">    prob = sigmod(np.sum(weights*inX))</span><br><span class="line">    <span class="keyword">if</span> prob&gt;=<span class="number">0.5</span></span><br><span class="line">    	<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：这里的阈值其实是可以自行设定的</p>
+</blockquote>
+<h4 id="一些其他相关问题"><a href="#一些其他相关问题" class="headerlink" title="一些其他相关问题"></a>一些其他相关问题</h4><hr>
+<p><strong>1.LR模型和最大熵模型</strong></p>
+<blockquote>
+<p>​    (1).logistic回归模型和最大熵模型都属于对数线性模型</p>
+<p>​    (2).当最大熵模型进行二分类时，最大熵模型就是逻辑回归模型</p>
+<p>​    (3) 学习他们的模型一般采用极大似估计或正则化的极大似然估计</p>
+<p>​    (4)二者可以形式化为无约束条件下的最优化问题</p>
+</blockquote>
+<p><strong>2.LR模型的多分类</strong></p>
+<p>​    逻辑回归也可以作用于多分类问题，对于多分类问题，处理思路如下：将多分类问题看做多个二分类，然后在各个sigmod得到的分数中区最大的值对应的类作为最终预测标签。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/21/概率图模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/21/概率图模型/" itemprop="url">概率图模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T11:45:33+08:00">
+                2018-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    概率图模型是<strong>用图来表示变量概率依赖关系</strong>的理论，结合概率论与图论的知识，<strong>利用图来表示与模型有关的变量的联合概率分布</strong></p>
+<p>​    基本概率图模型主要包括<strong>贝叶斯网络</strong>、<strong>马尔科夫网络</strong>和<strong>隐马尔科夫</strong>网络三种类型。</p>
+<p>​    基本的Graphical Model 可以大致分为两个类别：贝叶斯网络(Bayesian Network)和马尔可夫随机场(Markov Random Field)。它们的主要区别在于采用不同类型的图来表达变量之间的关系：<strong>贝叶斯网络采用有向无环图</strong>(Directed Acyclic Graph)来表达因果关系，<strong>马尔可夫随机场则采用无向图</strong>(Undirected Graph)来表达变量间的相互作用。这种结构上的区别导致了它们在建模和推断方面的一系列微妙的差异。<strong>一般来说，贝叶斯网络中每一个节点都对应于一个先验概率分布或者条件概率分布，因此整体的联合分布可以直接分解为所有单个节点所对应的分布的乘积</strong>。而<strong>对于马尔可夫场，由于变量之间没有明确的因果关系，它的联合概率分布通常会表达为一系列势函数（potential function）的乘积。通常情况下，这些乘积的积分并不等于1，因此，还要对其进行归一化才能形成一个有效的概率分布</strong>——这一点往往在实际应用中给参数估计造成非常大的困难。</p>
+<h3 id="概率图模型的表示理论"><a href="#概率图模型的表示理论" class="headerlink" title="概率图模型的表示理论"></a>概率图模型的表示理论</h3><p>​    概率图模型的表示由<strong>参数和结构</strong>两部分组成。根据边有无方向性，可分为下面三种：</p>
+<p>​    <strong>a、有向图模型—贝叶斯网络</strong></p>
+<p>​    <strong>b、无向图模型—马尔科夫网络</strong></p>
+<p>​    <strong>c、局部有向模型—条件随机场和链图</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/21/最优化问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/21/最优化问题/" itemprop="url">最优化问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T10:30:09+08:00">
+                2018-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>最优化问题主要分为</p>
+<p>​    1.无约束优化问题</p>
+<p>​    2.等式优化问题</p>
+<p>​    3.含不等式优化问题</p>
+<p>​    <strong>对于无约束问题常常使用的方法就是Fermat定理</strong>，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。</p>
+<p>​    在<strong>求取有约束条件的优化问题</strong>时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。二者各有其使用范围：</p>
+<p>​    <strong>拉格朗日乘子法：等式约束的最优化问题</strong></p>
+<p>​    <strong>KTT条件：不等式约束下的最优化问题</strong></p>
+<blockquote>
+<p>对于一般的任意问题而言，这两种方法求得的解是使一组解成为最优解的必要条件，<strong>只有当原问题是凸问题的时候，求是求得的解是最优解的充分条件</strong>。</p>
+</blockquote>
+<h3 id="二、有约束最优化问题的求解"><a href="#二、有约束最优化问题的求解" class="headerlink" title="二、有约束最优化问题的求解"></a>二、有约束最优化问题的求解</h3><p>​    <strong>1.拉格朗日乘子法</strong></p>
+<p>​    对于等式约束，我们可以通过一个拉格朗日系数a 把等式约束和目标函数组合成为一个式子L(a, x) = f(x) + a*h(x), 这里把a和h(x)视为向量形式，a是横向量，h(x)为列向量，然后求取最优值，可以通过对L(a,x)对各个参数求导取零，联立等式进行求取。</p>
+<p>​    <strong>2.KTT条件</strong></p>
+<p>​    对于含有不等式的约束条件最优化问题，我们可以把所有的不等式约束、等式约束和目标函数全部写为一个式子L(a, b, x)= f(x) + a<em>g(x)+b</em>h(x)，KKT条件是说最优值必须满足以下条件：</p>
+<ol>
+<li><p>L(a, b, x)对x求导为零；</p>
+</li>
+<li><p>h(x) =0;</p>
+</li>
+<li><p>a*g(x) = 0;（g(x)为不等式约束）</p>
+</li>
+</ol>
+<p>求取这三个等式之后就能得到候选最优值。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/21/机器学习——正则化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/21/机器学习——正则化/" itemprop="url">机器学习——正则化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T10:15:45+08:00">
+                2018-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="正则化相关问题"><a href="#正则化相关问题" class="headerlink" title="正则化相关问题"></a>正则化相关问题</h3><hr>
+<p>1.实现参数的稀疏有什么好处吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。</span><br><span class="line">2.参数变少可以使整个模型获得更好的可解释性。</span><br></pre></td></tr></table></figure>
+<p>2.参数值越小代表模型越简单吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的区间里预测值产生较大的波动，这种较大的波动也反映了在这个区间里的导数很大，而只有较大的参数值才能产生较大的导数。因此复杂的模型，其参数值会比较大。</span><br></pre></td></tr></table></figure>
+<p>3.模型简单包括什么？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1.参数少</span><br><span class="line">2.参数值小</span><br></pre></td></tr></table></figure>
+<p>4.从贝叶斯角度看L1和L2正则化分贝数与什么分布？</p>
+<p>​    <strong>对于频率学派，认为要将参数θ作为未知的定值，而样本X是随机的</strong>，其着眼点在样本空间，参数θ虽然我们不知道是什么，但是他是固定的，我们需要通过随机产生的样本去估计这个参数，所以才有了最大似然估计这些方法。</p>
+<p>​    <strong>对于贝叶斯学派，把参数θ也视为满足某一个分布的随机变量，而X是固定的</strong>，其着眼点在参数空间，固定的操作模式是通过参数的先验分布结合样本信息得到参数的后验分布，核心是</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/贝叶斯公式.png?raw=true" alt=""></p>
+<p>​    <strong>L1正则化相当于先验分布是拉普拉斯分布，L2正则化相当于先验概率是正态分布。</strong>拉普拉斯分布的计算公式：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/拉普拉斯概率密度函数.png?raw=true" alt=""></p>
+<p>正态分布概率密度分布公式：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/正态分布概率密度函数.png?raw=true" alt=""></p>
+<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><hr>
+<p><strong>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作L1-norm和L2-norm，中文称作L1正则化和L2正则化，或者L1范数和L2范数。</strong></p>
+<p>对于线性回归模型，使用L1正则化的模型建叫做<strong>Lasso回归</strong>，使用L2正则化的模型叫做<strong>Ridge回归</strong>（岭回归）</p>
+<p><strong>概念</strong>：</p>
+<blockquote>
+<p>L1正则化是指权值向量绝对值之和，通常表示为||w||1</p>
+<p>L2正则化是指全职向量w中各个元素的平方和让后再求平方根，通常表示为||w||2</p>
+</blockquote>
+<p>下图是Python中Lasso回归的损失函数，式中加号后面一项α||w||1即为L1正则化项。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Lasso回归损失函数.png?raw=true" alt="img">﻿</p>
+<p>下图是Python中Ridge回归的损失函数，式中加号后面一项α||w||22 即为L2正则化项</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Ridge回归损失函数.png?raw=true" alt=""></p>
+<blockquote>
+<p>注：<br>1.上面的两个函数前半部分可以为任意的线性函数的损失函数，组合成的函数都可以成为Lasso回归会Ridge回归<br>2.上面两个式子中的α为正则化系数，后续通过交叉验证确定</p>
+</blockquote>
+<p>注：上面两个式子中的α为正则化系数，后续通过交叉验证确定)</p>
+<p><strong>L1正则化与L2正则化的作用：</strong></p>
+<blockquote>
+<p>L1正则化可产生稀疏权值矩阵，即<strong>产生一个稀疏模型，可用用于特征选择</strong></p>
+<p>L2正则化主要用于<strong>防止过拟合</strong></p>
+</blockquote>
+<p>﻿</p>
+<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><hr>
+<p><strong>L1正则化的标准形式：</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化公式.png?raw=true" alt=""></p>
+<p>​    其中J0是原始的损失函数，加好后面是L1正则化项。机器学习的最终目就是找出损失函数的最小值，当我们在原本的损失函数后面加上L1正则化后，相当于对J0做了一个约束，另L1正则化项等于L，则 J=J0+L，<strong>任务转化为在L1的约束下求J0最小值的解</strong>。<br>​    考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化可得到稀疏矩阵原因.png?raw=true" alt=""></p>
+<p>​    从图中可看出<strong>j0与L相交于L的一个顶点处，这个顶点即为最优解</strong>。注意这个顶点的值为（w1,w2）=(0,w)，可以想象，在更多维的情况下，L将会有很多突出的角，而<strong>J与这些叫接触的几率将远大于与L其他部位接触的概率</strong>，而这些角上将会有许多权值为0，<strong>从而产生系数矩阵，进而用于特征选择</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler </span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_bostonboston=load_boston() </span><br><span class="line"></span><br><span class="line">scaler=StandardScaler() </span><br><span class="line">X=scaler.fit_transform(boston[<span class="string">"data"</span>])</span><br><span class="line">Y=boston[<span class="string">"target"</span>]</span><br><span class="line">names=boston[<span class="string">"feature_names"</span>]</span><br><span class="line">lasso=Lasso(alpha=<span class="number">.3</span>)</span><br><span class="line">lasso.fit(X,Y)</span><br><span class="line"><span class="keyword">print</span><span class="string">"Lasso model: "</span>,pretty_print_linear(lasso.coef_,names,sort=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><hr>
+<p>L2正则化的标准形式</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化公式.png?raw=true" alt=""></p>
+<p>​    和L1正则化相同，<strong>任务转化为在L2的约束下求J0最小值的解</strong>。考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化不具有稀疏作用原因.png?raw=true" alt=""></p>
+<h5 id="机器学习过程中权值尽可能小的原因："><a href="#机器学习过程中权值尽可能小的原因：" class="headerlink" title="机器学习过程中权值尽可能小的原因："></a>机器学习过程中权值尽可能小的原因：</h5><blockquote>
+<p>试想对于一个模型，当参数很大时，只要数据偏移一点点，就会对结果造成很大的影响，如果参数较小，则数据偏移的多一点，也不会对结果产生多大的影响，<strong>抗扰动能力强</strong></p>
+</blockquote>
+<h4 id="为什么L2正则化可以使权值尽可能的小"><a href="#为什么L2正则化可以使权值尽可能的小" class="headerlink" title="为什么L2正则化可以使权值尽可能的小?"></a>为什么L2正则化可以使权值尽可能的小?</h4><blockquote>
+<p>对于损失函数不带L2正则化项的梯度下降时参数更新公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不带正则化项的参数更新表达式.png?raw=true" alt=""></p>
+<p>加入L2正则化项，参数更新公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/带正则化项的参数更新公式.png?raw=true" alt=""></p>
+<p>根据两个公式之间的差别，我们可以明显的看到，加入正则化以后的梯度下降在进行参数更新时，要先将原有的参数值乘以一个小于1的值，因此权值也会变得比不带的参数小</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/19/SVM模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/19/SVM模型/" itemprop="url">SVM模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-19T10:07:27+08:00">
+                2018-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.SVM模型的超参数</p>
+<p>​    SVM模型主要包括<strong>C</strong>和<strong>gamma</strong>两个超参数。</p>
+<p>​    <strong>C是惩罚系数，也就是对误差的宽容度</strong>，C越大代表越不能容忍出现误差，越容易出现过拟合；</p>
+<p>​    <strong>gamma是选择RBF核时，RBF核自带的一个参数，隐含的决定数据映射到新空间的后的分布</strong>，gamma越大，支持向量越少。</p>
+<blockquote>
+<p>支持向量的个数影响训练和预测的个数</p>
+<p>gamma的物理意义，大家提到很多的RBF的幅宽，它会影响每个支持向量对应的高斯的作用范围，从而影响泛化性能。我的理解：如果gamma设的太大,σ会很小，σ很小的高斯分布长得又高又瘦， 会造成只会作用于支持向量样本附近，对于未知样本分类效果很差，存在训练准确率可以很高，无穷小，则理论上，高斯核的SVM可以拟合任何非线性数据，但容易过拟合)而测试准确率不高的可能，就是通常说的过训练；而如果设的过小，则会造成平滑效应太大，无法在训练集上得到特别高的准确率，也会影响测试集的准确率</p>
+</blockquote>
+<p>2.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/流量解析过程中常用的一些工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/12/流量解析过程中常用的一些工具/" itemprop="url">流量解析过程中常用的一些工具</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T19:48:16+08:00">
+                2018-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/流量相关/" itemprop="url" rel="index">
+                    <span itemprop="name">流量相关</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在实际流量解析过程中一般使用</p>
+<p><strong>1.url编码解码-urllib</strong></p>
+<p>​    python使用<strong>urllib</strong>包来进行url编码和解码，对于python3：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">rawurl=<span class="string">"xxc=B&amp;z0=GB2312&amp;z1=%E4%B8%AD%E5%9B%BD"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#python2</span></span><br><span class="line">url = url.unquote(rawurl)</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br><span class="line">url=urllib.parse.unquote(rawurl)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="string">'xxc=B&amp;z0=GB2312&amp;z1=中国'</span></span><br></pre></td></tr></table></figure>
+<p><strong>2.字符串转十六进制</strong></p>
+<p>​    字符串转十六进制可以分为两种：1.对于已经是十六进制格式，但是已经被转为字符串，例如：””</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"><span class="comment">#python3</span></span><br></pre></td></tr></table></figure>
+<p><strong>3.原始字节串和十六进制字节串之间的转化—binascii</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">data_bytes = <span class="string">b"cfb5cdb3d5d2b2bbb5bdd6b8b6a8b5c4c2b7beb6a1a3"</span></span><br><span class="line">data_hex = <span class="string">b'\xcf\xb5\xcd\xb3\xd5\xd2\xb2\xbb\xb5\xbd\xd6\xb8\xb6\xa8\xb5\xc4\xc2\xb7\xbe\xb6\xa1\xa3'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#原始字节串==&gt;十六进制字节串</span></span><br><span class="line">binascii.hexlify(data_bytes)</span><br><span class="line"></span><br><span class="line"><span class="comment">#十六进制字节串==&gt;原始字节串</span></span><br><span class="line">binascii.unhexlify(data_bytes)</span><br></pre></td></tr></table></figure>
+<p>​    </p>
+<p>​    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/10/常用正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/10/常用正则表达式/" itemprop="url">常用正则表达式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T15:59:22+08:00">
+                2018-10-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>1.匹配一个指定字符串，指定字符串前后不能有任何字母和数字内容</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#以c99关键字为例</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/09/概率图模型——朴素贝叶斯/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/09/概率图模型——朴素贝叶斯/" itemprop="url">概率图模型——朴素贝叶斯</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-09T20:25:55+08:00">
+                2018-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过</p>
+<h4 id="朴素贝叶斯思想"><a href="#朴素贝叶斯思想" class="headerlink" title="朴素贝叶斯思想"></a>朴素贝叶斯思想</h4><hr>
+<p>​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于<strong>贝叶斯定理</strong>和<strong>条件独立假设</strong>来进行建模预测的模型。</p>
+<p><strong>朴素贝叶斯概率图</strong>    </p>
+<p><strong>贝叶斯定理</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p(AB)=P(A/B)P(B)</span><br><span class="line">    =P(B/A)P(A)</span><br><span class="line"></span><br><span class="line">在贝叶斯模型中用到的是下面的形式：</span><br><span class="line">    P(Ci/W) = P(W|Ci)*P(Ci)/P(W)</span><br><span class="line">其中，W为向量，有的多个值组成，Ci为标签，也就是上式可以写成下面的形式</span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)*P(Ci)/P(W)</span><br><span class="line">里面的P(Ci/w0,w1,..,w)就是机器学习建模最终的目标，在一定条件下是某一类的概率</span><br></pre></td></tr></table></figure>
+<p><strong>条件独立假设</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	条件独立假设认为：每个事件的发生都相互独立，互相之间没有影响。由于这个假设，上面的式子可以改为：</span><br><span class="line">    </span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)/P(Ci) = P(w0/Ci)P(w1/Ci)...P(wn/Ci)*P(Ci)/p(W)</span><br><span class="line">    </span><br><span class="line">到这里，我们可以知道，要求的最终的结果，只需要在训练集中求得P(Ci)以及在P(w0/Ci)...P(wn/Ci)即可</span><br></pre></td></tr></table></figure>
+<p><strong>模型训练</strong></p>
+<p>因此在NB算法训练时，只需要在训练集样本中到下面三个概率分布：</p>
+<p>​    1.P(Ci)，在训练集中标签1出现的概率(二分类只需要统计一个，n分类就需要n-1个)</p>
+<p>​    2.P(wj/Ci),在训练集中属于各个标签的条件下第n个特征是i的概率</p>
+<blockquote>
+<p><strong>注意：</strong>这里不需要统计P(W)的概率，因为最终属于各个类型的概率都需要除以相同的P(W)，因此约掉</p>
+</blockquote>
+<p>训练代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNB</span><span class="params">(dataSetList,labels)</span>:</span></span><br><span class="line">	dataSetVec = np.array(dataSetList)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#计算Pc</span></span><br><span class="line">    sampleNums = len(dataSetVec)</span><br><span class="line">    pc = np.sum(datasetVec)/sampleNums</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算p(wj/Ci),这里是二分类</span></span><br><span class="line">    p0Nums = <span class="number">0</span></span><br><span class="line">    p1Nums = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#这里涉及到初始化问题</span></span><br><span class="line">    p0Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    p1Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(labels)):</span><br><span class="line">        <span class="keyword">if</span> labels[i]==<span class="number">0</span>:</span><br><span class="line">            p0Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p0Nums += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p1Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p1Nums += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = p0Vecs/p0Nums</span><br><span class="line">    p1Vecs = p1Vecs/p1Nums</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pc,p0Vecs,p1Vecs</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>初始化问题</strong>：</p>
+<p>​    再利用贝叶斯分类器进行分类时，要计算多个概率等乘积以计算文档属于某个分类的概率，即计算：</p>
+<p>​    P(w0|c=1)P(w1|c=1)….P(wn|c=1)</p>
+<p>​    如果其中任意一项为0，那么最终的成绩也将等于0。为了降低这种情况造成的影响，可以将所有词初始化为1.</p>
+</blockquote>
+<p><strong>预测过程</strong></p>
+<p>​    NB模型的预测过程就是使用上面统计<strong>得到的概率分布与输入数据进行关联后</strong>，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的<strong>下溢出问题</strong>。</p>
+<blockquote>
+<p>​    <strong>下溢出问题</strong>：在python中当多个很小的数相乘时会产生下溢出问题(最后四舍五入得到0)</p>
+<p>​    <strong>解决办法：取自然对数。</strong>因为自然对数和原来的数怎增减性相同，极值点也相同</p>
+<p>​    使用自然对数后，上面的式可以转换成：</p>
+<p>​    P(Ci/w0,w1,..,w) = P(w0/Ci)P(w1/Ci)…P(wn/Ci)/P(Ci) —&gt;P(Ci/w0,w1,..,w) =  log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci)</p>
+</blockquote>
+<p><strong>预测代码</strong>：</p>
+<p>​    预测过程中将已知的概率分布与输入数据进行关联的方式：</p>
+<p>​        log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) ——&gt;log(P(w0/Ci))<em>x0+…+log(P(wn/Ci))</em>xn+log(P(Ci)</p>
+<p>​    这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyNB</span><span class="params">(input_data,pc,p0Vecs,p1Vecs)</span>:</span></span><br><span class="line">    <span class="comment">#这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来</span></span><br><span class="line">    <span class="comment">#这里之所以没有除以pw，是因为对每个类型的pw是一致的，就没有必要所有都除了</span></span><br><span class="line">    p0 = sum(input_data*np.log(p0Vecs))+math.log(pc)</span><br><span class="line">    p1 = sum(input_data*np.log(p1Vecs))+math.log(<span class="number">1</span>-pc)</span><br><span class="line">  	<span class="keyword">if</span> p0&gt;p1:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>​        </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">AnchoretY</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">126</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <!-- 底部导航栏相关 -->
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+
+  
+</div>
+
+<!-- 添加底部导航栏-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

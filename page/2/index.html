@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="AnchoretY&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AnchoretY&#39;s blog">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/page/2/"/>
+
+
+
+
+
+  <title>AnchoretY's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right 
+  page-home">
+    <div class="headband"></div>
+
+    <a href="https://github.com/AnchoretY">
+	<img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub">
+    </a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/08/pytorch——自定义损失函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/08/pytorch——自定义损失函数/" itemprop="url">pytorch——自定义损失函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-08T11:36:05+08:00">
+                2019-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/07/pytorch——finetune常用代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/07/pytorch——finetune常用代码/" itemprop="url">pytorch——finetune常用代码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-07T23:42:25+08:00">
+                2019-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="fine-tune整体流程"><a href="#fine-tune整体流程" class="headerlink" title="fine-tune整体流程"></a>fine-tune整体流程</h3><blockquote>
+<p><strong>1.加载预训练模型参数</strong></p>
+<p><strong>2.修改预训练模型，修改其后面的层为适合自己问题的层</strong></p>
+<p><strong>3.设置各层的可更新性。</strong>前面和预训练模型相同的部分不再进行训练，后面新加的部分还要重新进行训练</p>
+<p><strong>4.检查各层可更新性（可选）</strong></p>
+<p><strong>5.设置优化器只对更新前面设置为可更新的部分。</strong></p>
+</blockquote>
+<h4 id="1-加载预训练模型"><a href="#1-加载预训练模型" class="headerlink" title="1.加载预训练模型"></a>1.加载预训练模型</h4><p>​    一般在fine-tune中的第一步是首先加载一个已经预训练好的模型的参数，然后将预加载的模型后面的部分结构改造成自己需要的情况。其中包括两种情况：</p>
+<blockquote>
+<p>1.单单将其中的一两个单独的层进行简单的改造（如预训练的模型输出的类为1000类，目前想要使用的模型只包含两个类），使用原有的预训练模型。</p>
+<p>2.使用预训练模型的参数，但是后面的层需要更换为比较复杂的模型结构（常见的就是并行结构）</p>
+</blockquote>
+<h5 id="1-使用torchvision中已经预训练好的模型"><a href="#1-使用torchvision中已经预训练好的模型" class="headerlink" title="1.使用torchvision中已经预训练好的模型"></a>1.使用torchvision中已经预训练好的模型</h5><p>​    使用torchvision中已经预训练好的模型结构和参数，然后直接将尾部进行修改。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="comment"># 加载torchvision中已经训练好的resnet18模型，并且采用预训练的参数</span></span><br><span class="line">resnet = models.resnet18(pretrained=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># 最后一层重新随机参数，并且将输出类别改为2</span></span><br><span class="line">resnet.fc = nn.Linear(<span class="number">512</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="2-使用自己预训练好的模型，并且将输出的结果设置为并行结构"><a href="#2-使用自己预训练好的模型，并且将输出的结果设置为并行结构" class="headerlink" title="2.使用自己预训练好的模型，并且将输出的结果设置为并行结构"></a>2.使用自己预训练好的模型，并且将输出的结果设置为并行结构</h5><p>​    这里主要实现了之前自己已经预训练了，<strong>重新定义整体模型的结构（创建一个新的模型类），然后将共有部分的参数加载进来，不同的地方使用随机参数</strong>。</p>
+<blockquote>
+<p>注意：这里面新旧模型要共用的层名称一定要一致</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> models <span class="keyword">import</span> TextCNN</span><br><span class="line"></span><br><span class="line"><span class="comment">#加载新的模型结构，这里面的Text_CNN_Regression_Class模型结构已经设置为和之前的Text_CNN模型整体结构一致，最后的全连接层改为一个分类输出头加一个回归输出头</span></span><br><span class="line">model = Text_CNN_Regression_Class(len(FILE_TYPE_COL))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载预训练的模型的参数</span></span><br><span class="line">pretrained_dict = torch.load(<span class="string">"../model/Text_CNN_add_filetype_1:1_epoch5.state"</span>)</span><br><span class="line"><span class="comment"># 加载新的模型结构的初始化参数</span></span><br><span class="line">model_dict = model.state_dict()</span><br><span class="line"><span class="comment"># 将pretrained_dict里不属于model_dict的键剔除掉</span></span><br><span class="line">pretrained_dict = &#123;k: v <span class="keyword">for</span> k, v <span class="keyword">in</span> pretrained_dict.items() <span class="keyword">if</span> k <span class="keyword">in</span> model_dict&#125;<span class="comment">#如果你的k在预备训练当中，那么你的参数需要做转换，否则为原先的</span></span><br><span class="line"><span class="comment"># 更新现有的model_dict</span></span><br><span class="line">model_dict.update(pretrained_dict)<span class="comment">#利用预训练模型的参数，更新你的模型</span></span><br><span class="line"><span class="comment"># 加载我们真正需要的state_dict</span></span><br><span class="line">model.load_state_dict(model_dict)</span><br></pre></td></tr></table></figure>
+<h4 id="2-将指定层设置为参数更新，其余设置为参数不更新"><a href="#2-将指定层设置为参数更新，其余设置为参数不更新" class="headerlink" title="2.将指定层设置为参数更新，其余设置为参数不更新"></a>2.将指定层设置为参数更新，其余设置为参数不更新</h4><p>​    在fine-tune过程中经常用到的操作就是将整个神将网络的前半部分直接采用预训练好的模型参数，不再进行更新，这里主要实现了已经加载了预训练模型的参数，固定了除最后一个全连接层全部参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#对于模型的每个权重，使其不进行反向传播，即固定参数</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> resnet.parameters():</span><br><span class="line">    param.requires_grad = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#将其中最后的全连接部分的网路参数设置为可反向传播</span></span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> resnet.fc.parameters():</span><br><span class="line">    param.requires_grad = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-查看各层参数以及是否进行梯度更新（可选）"><a href="#3-查看各层参数以及是否进行梯度更新（可选）" class="headerlink" title="3.查看各层参数以及是否进行梯度更新（可选）"></a>3.查看各层参数以及是否进行梯度更新（可选）</h4><p>​    在fine-tune的过程中需要检查是不是已经将不需要更新梯度的层的各个参数值已经设置为不进行梯度更新，这是可以使用下面的代码进行查看:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> child <span class="keyword">in</span> resnet.children():</span><br><span class="line">    print(child)</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> child.parameters():</span><br><span class="line">        print(param.requires_grad)</span><br></pre></td></tr></table></figure>
+<h4 id="4-将优化器设置为只更新需要更新的部分参数"><a href="#4-将优化器设置为只更新需要更新的部分参数" class="headerlink" title="4..将优化器设置为只更新需要更新的部分参数"></a>4..将优化器设置为只更新需要更新的部分参数</h4><p>​    这里主要用于前面的各个参数是否进行更新已经设置完成后的最后一步，完成这一部就可以只接将优化器直接用于整个神经网络的重新训练了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optimizer = optim.SGD(filter(<span class="keyword">lambda</span> p: p.requires_grad, model.parameters()), lr=<span class="number">1e-3</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/05/目标检测——yolo算法实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/05/目标检测——yolo算法实现/" itemprop="url">目标检测——yolo算法实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-05T15:37:25+08:00">
+                2019-11-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    本文主要针对yolo模型的实现细节进行一些记录，前半部分不讨论yolo模型，直接将yolo模型当做黑盒子进行使用，讨论模型外的预处理以及输出表现等部分。</p>
+<h3 id="Yolo外部关键点"><a href="#Yolo外部关键点" class="headerlink" title="Yolo外部关键点"></a>Yolo外部关键点</h3><h4 id="1-boxes阈值过滤"><a href="#1-boxes阈值过滤" class="headerlink" title="1.boxes阈值过滤"></a>1.boxes阈值过滤</h4><p>​    该部分主要用于将<strong>对各个boxes进行打分，根据阈值对boxes进行过滤</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">yolo_filter_boxes</span><span class="params">(box_confidence, boxes, box_class_probs, threshold = <span class="number">.6</span>)</span>:</span></span><br><span class="line">    box_scores = box_confidence*box_class_probs     <span class="comment">#boxes分数为置信度*类别概率</span></span><br><span class="line">    box_classes = K.argmax(box_scores,<span class="number">-1</span>)</span><br><span class="line">    box_class_scores = K.max(box_scores,<span class="number">-1</span>)</span><br><span class="line">    filtering_mask = box_class_scores&gt;threshold</span><br><span class="line">    scores = tf.boolean_mask(box_class_scores,filtering_mask)</span><br><span class="line">    boxes = tf.boolean_mask(boxes,filtering_mask)</span><br><span class="line">    classes = tf.boolean_mask(box_classes,filtering_mask)</span><br></pre></td></tr></table></figure>
+<p>bbox信息（x,y,w,h）为<strong>物体中心位置相对于格子位置</strong>的偏移、高度和宽度，均被归一化</p>
+<p>置信度反映了是够包含物体以及包含物体情况下的为位置准确性，定义为</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/27/目标检测——常见目标检测算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/27/目标检测——常见目标检测算法/" itemprop="url">目标检测——常见目标检测算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-27T15:02:34+08:00">
+                2019-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、常见目标检测算法概述"><a href="#一、常见目标检测算法概述" class="headerlink" title="一、常见目标检测算法概述"></a>一、常见目标检测算法概述</h3><p>​    常见的目标检测算法目前主要分为三个方向：</p>
+<h5 id="1-传统的目标检测算法"><a href="#1-传统的目标检测算法" class="headerlink" title="1.传统的目标检测算法"></a>1.传统的目标检测算法</h5><p>​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化；</p>
+<h5 id="2-候选区域-框-深度学习分类"><a href="#2-候选区域-框-深度学习分类" class="headerlink" title="2.候选区域/框+深度学习分类"></a>2.候选区域/框+深度学习分类</h5><p>​    通过先提取候选区域然后再用深度学习方法进行分类的方案。</p>
+<blockquote>
+<p>常见的该类型的目标检测算法有：</p>
+<p>​    R-CNN：Selective Search+CNN+SVM</p>
+<p>​    SSP-Net：(ROI Pooling)</p>
+<p>​    Fast R-CNN：(Selective Search+CNN+ROI)</p>
+<p>​    Faster R-CNN：RPN+CNN+ROI</p>
+<p>​    R-CFN</p>
+</blockquote>
+<h5 id="3-基于深度学习的回归方法"><a href="#3-基于深度学习的回归方法" class="headerlink" title="3.基于深度学习的回归方法"></a>3.基于深度学习的回归方法</h5><h3 id="二、传统目标检测算法"><a href="#二、传统目标检测算法" class="headerlink" title="二、传统目标检测算法"></a>二、传统目标检测算法</h3><h4 id="一-传统目标检测的整体流程"><a href="#一-传统目标检测的整体流程" class="headerlink" title="(一)  传统目标检测的整体流程"></a>(一)  传统目标检测的整体流程</h4><h5 id="1-区域选择"><a href="#1-区域选择" class="headerlink" title="1.区域选择"></a>1.区域选择</h5><p>​    主要主要包括不同窗口的滑动窗口，时间复杂度很高</p>
+<h5 id="2-特征提取"><a href="#2-特征提取" class="headerlink" title="2.特征提取"></a>2.特征提取</h5><p>​    </p>
+<h5 id="3-分类器分类"><a href="#3-分类器分类" class="headerlink" title="3.分类器分类"></a>3.分类器分类</h5><p>​    根据特征提取截断提取到的特征采用SVM、Adaboost等进行分类。</p>
+<h4 id="（二）目标检测任务"><a href="#（二）目标检测任务" class="headerlink" title="（二）目标检测任务"></a>（二）目标检测任务</h4><p>​    本质上是两个问题：1.图像识别 2.目标定位</p>
+<blockquote>
+<p>图像识别任务</p>
+<p>​    输入：图像向量</p>
+<p>​    输出：物品类别</p>
+<p>​    主要方式：卷积神经网络</p>
+<p>​    评估方法：准确率等(常见分类问题的评估方法)</p>
+<p> 定位任务</p>
+<p>​    输入：图像向量</p>
+<p>​    输出：方框中图片的位置</p>
+<p>​    主要方式：1.看做回归问题  2.取图像窗口</p>
+<p>​    评估方法：IOU(目标检测专门的评估方法，用于评估预测到的区域和真正的物体区域的重合程度)</p>
+</blockquote>
+<p>​    图像识别问题思路比较简单也比较成熟了，不做过多的论述，下面将针对定位问题的两种方式进行具体的描述。</p>
+<h4 id="（三）定位问题的主要两种方案"><a href="#（三）定位问题的主要两种方案" class="headerlink" title="（三）定位问题的主要两种方案"></a>（三）定位问题的主要两种方案</h4><h5 id="1-使用回归模型"><a href="#1-使用回归模型" class="headerlink" title="1.使用回归模型"></a>1.使用回归模型</h5><p>​    将问题看做回归问题，预测出方框的坐标值。</p>
+<p><strong>基本的处理流程</strong>为：</p>
+<blockquote>
+<p><strong>1.先搭建一个图像识别任务的卷积神经网络(CNN+full connected)</strong></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/标准图像识别卷积神经网络.png?raw=true" alt=""></p>
+<p><strong>2.将上面搭建好的卷积神经网络进行的尾部与全连接分类网络并行的加入一个新的回归分类网络，形成classfication+regession模式</strong></p>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/分类回归型卷积神经网络.png?raw=true" alt=""></p>
+<p><strong>3.加入回归头后对regession部分采用欧式距离损失使用SGD进行训练</strong></p>
+<p>注意：由于regession很难进行训练，因此网络采取classfication的网络来计算出classfication head和regression head的共同的连接权值，然后前面的部分保持参数不变，只训练regession head部分的连接的权值(这里是第一次fine-tune)</p>
+<p><strong>4.预测阶段，两个头同时完成图像识别和定位的工作</strong></p>
+</blockquote>
+<h5 id="2-图像窗口法"><a href="#2-图像窗口法" class="headerlink" title="2.图像窗口法"></a>2.图像窗口法</h5><p>​    对一张图片，用各种大小的框（遍历整张图片）将图片截取出来，输入到CNN，然后CNN会输出这个框的得分（classification）以及这个框图片对应x,y,h,w（regression，根据得分的高低，我们选择了右下角的黑框作为目标位置的预测。）。</p>
+<p><strong>注：有的时候也会选择得分最高的两个框，然后取两框的交集作为最终的位置预测。</strong></p>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/图窗法基本形式.png?raw=true" alt=""></p>
+<p><strong>存在的问题:</strong></p>
+<blockquote>
+<p>​    时间效率问题，要遍历各种大小的框，然后都需要使用卷积神经网络进行一次特征提取，效率很低。</p>
+</blockquote>
+<p><strong>速度优化常用的方式：</strong></p>
+<p>​    把全连接层改为卷积层。</p>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/卷积层取代全连接层优化.png?raw=true" alt=""></p>
+<h4 id="四-传统目标检测的主要问题"><a href="#四-传统目标检测的主要问题" class="headerlink" title="(四) 传统目标检测的主要问题"></a>(四) 传统目标检测的主要问题</h4><blockquote>
+<ol>
+<li><p>基于滑动窗口的区域选择没有针对性，时间复杂度过高，窗口冗余</p>
+</li>
+<li><p>手工设计的特征对于对于真实环境中的多变不具有很好的普适性</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="三、候选区域-深度学习"><a href="#三、候选区域-深度学习" class="headerlink" title="三、候选区域+深度学习"></a>三、候选区域+深度学习</h3><h4 id="一-R-CNN"><a href="#一-R-CNN" class="headerlink" title="(一) R-CNN"></a>(一) R-CNN</h4><p>​    <strong>R-CNN模型即使用Region Proposal + CNN</strong>代替传统目标检测使用的滑动窗口+手工设计特征，首先在途中找出目标可能会出现的位置，即候选区域(Region Proposal)，可以保证在选取较少（几千甚至几百）的窗口的前提下保持较高的召回率。核心包括：</p>
+<blockquote>
+<p> 1.区域选择算法</p>
+<p>​    常见的选择性搜索算法主要有Selective Search<a href=""></a>和EdgeBoxs。</p>
+<p>2.CNN特征提取网络</p>
+<p>3.</p>
+</blockquote>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/R-CNN结构图.png?raw=true" alt=""></p>
+<h5 id="R-CNN整体流程"><a href="#R-CNN整体流程" class="headerlink" title="R-CNN整体流程"></a>R-CNN整体流程</h5><p>​    1.输入测试图像</p>
+<p>​    2.利用Selective Search算法从图像中从下到上提取2000个左右的可能包含物体的候选区域(各个候选区域的大小可能不同)，将各个候选区域缩放成统一的大小并输入到CNN网络中进行特征提取。</p>
+<p>​    3.将CNN网络中提取到的特征输入到SVM中进行分类</p>
+<h5 id="R-CNN具体步骤"><a href="#R-CNN具体步骤" class="headerlink" title="R-CNN具体步骤"></a>R-CNN具体步骤</h5><blockquote>
+<p><strong>1.首先训练一个分类模型。</strong></p>
+<p>​    例如训练一个TextCNN模型</p>
+<p><strong>2.对该模型做finue-tuning</strong></p>
+<p>​    去除原有全连接层</p>
+<p><strong>3.候选框选择</strong></p>
+<p>​    使用Selective Search算法进行候选框选择</p>
+<p><strong>4.对于每一个候选区域大小进行修正（统一大小）输入到前面训练好的CNN网络中，做一次前向运算，将卷积层提取到的特征存储到硬盘。</strong></p>
+<p><strong>5.使用第四步存储的各个候选框的特征训练一个SVM模型</strong>，来判断去区域中的物体是否为该类</p>
+<p><strong>6.使用回归器调整候选框位置。</strong></p>
+<p>​    对于每一个类，训练一个线性回归模型去判定这个框是否框得完美。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/回归器精修.png?raw=true" alt=""></p>
+</blockquote>
+<h5 id="R-CNN存在的问题"><a href="#R-CNN存在的问题" class="headerlink" title="R-CNN存在的问题"></a>R-CNN存在的问题</h5><blockquote>
+<p>​    对原始图片<strong>通过Selective Search提取的候选框region proposal多达2000个</strong>左右，而这2000个候选框<strong>每个框都需要进行CNN提特征+SVM分类，计算量很大</strong></p>
+</blockquote>
+<p>​    </p>
+<h4 id="二-SSP-Net"><a href="#二-SSP-Net" class="headerlink" title="(二) SSP Net"></a>(二) SSP Net</h4><p>​    SSP Net全称Spatial Pyramid Pooling Net（空间金字塔池化网络）</p>
+<h5 id="1-主要改进点"><a href="#1-主要改进点" class="headerlink" title="1.主要改进点"></a>1.主要改进点</h5><blockquote>
+<p><strong>1.提出ROI池化层。</strong></p>
+<p>​    可以保证不同大小的输入到CNN部分，输出大小相同的向量可以直接输入到一个全连接网络。</p>
+<p><strong>2.只对原图进行一次卷积特征提取。</strong></p>
+</blockquote>
+<h5 id="2-ROI池化层"><a href="#2-ROI池化层" class="headerlink" title="2.ROI池化层"></a>2.ROI池化层</h5><p>​    众所周知，CNN一般都含有卷积部分和全连接部分，其中，卷积层不需要固定尺寸的图像，而全连接层是需要固定大小的输入。所以一般在不同大小的数据输入到全连接网络之前一般都需要对数据进行crop（切割）或者warp(增大)到同一尺寸，才能输入到CNN网络中，但是采用这种处理方式将会到导致的问题是要么拉伸变形、要么数据不全，大大影响了识别的准确率。</p>
+<p>​    既然由于全连接FC层的存在，<strong>普通的CNN需要通过固定输入图片的大小来使得全连接层的输入固定。那借鉴卷积层可以适应任何尺寸，为何不能在卷积层的最后加入某种结构，使使得后面全连接层得到的输入变成固定的呢</strong>？</p>
+<blockquote>
+<p>作用:<strong>使CNN网络的输入可以是任意尺度的</strong>，在SPP layer中每一个pooling的filter会<strong>根据输入调整大小，而SPP的输出则是固定维数的向量，然后给到全连接FC层。</strong></p>
+</blockquote>
+<p><strong>具体流程</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/ROI结构图.png?raw=true" alt=""></p>
+<blockquote>
+<p>假设输入ROI Pooling层的feature map of conv5的shape是(h,w,c)</p>
+<ol>
+<li>首先ROI Pooling层把feature map of conv5划分成4*4的小方块(对应图中蓝色矩形),每个小方块的宽高分别为w/4,h/4,通道数为c,不能整除时需要取整.针对feature map的每个通道,分别在这16个小方块进行最大池化(MaxPooling),也就是取出小方块里的最大值.每一个通道都能取出16个最大值,所以所有通道共有16c个值</li>
+<li>然后ROI Pooling层把feature map of conv5划分成2*2的小方块(对应图中绿色矩形),使用同样的方法得到4c个值</li>
+<li>接着ROI Pooling层把feature map of conv5划分成1*1的小方块(对应图中灰色矩形),得到c个值</li>
+<li>最后将上面三个值串联起来得到长度为16c+4c+c=21c的特征表示</li>
+</ol>
+</blockquote>
+<h5 id="3-只对原图进行一次卷积"><a href="#3-只对原图进行一次卷积" class="headerlink" title="3.只对原图进行一次卷积"></a>3.只对原图进行一次卷积</h5><p>​    针对R-CNN中每个候选框都要单独输入到CNN中，这样做十分低效的缺陷，SSP Net针对这个缺陷做了优化：</p>
+<p>​    <strong>只对原图进行一次卷积运算，得到整张图的feature map，然后找到每个候选框在 feature map上的映射的patch，然后将每个候选框对应的patch卷积特征输入到SSP layer之后的层，完成特征提取工作。</strong></p>
+<blockquote>
+<p>速度比R-CNN方式提升了100倍</p>
+</blockquote>
+<h4 id="三-Fast-R-CNN"><a href="#三-Fast-R-CNN" class="headerlink" title="(三) Fast R-CNN"></a>(三) Fast R-CNN</h4><p>​    Fast R-CNN的实质就是在R-CNN的基础上增加了SSP Net的方法</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图.png?raw=true" alt=""></p>
+<p>与R-CNN框架相比的完善点：</p>
+<blockquote>
+<p>1.卷积层后面加入了一个ROI Pooling层</p>
+<p>2.损失函数使用了多任务损失函数，将边框回归直接加入到CNN网络中进行训练</p>
+</blockquote>
+<p>边框回归</p>
+<h5 id="1-加入ROI-pooling层"><a href="#1-加入ROI-pooling层" class="headerlink" title="1.加入ROI pooling层"></a>1.加入ROI pooling层</h5><p>​    ROI pooling layer实际上是SPP-NET的一个精简版，SSP-NET对每个proposal使用了不同大小的金字塔映射，而ROI pooling layer只需要下采样到一个7x7的特征图。对于VGG16网络conv5_3有512个特征图，这样所有region proposal对应了一个7*7*512维度的特征向量作为全连接层的输入。</p>
+<h5 id="2-将边框回归直接加入到了网络中，实现端到端"><a href="#2-将边框回归直接加入到了网络中，实现端到端" class="headerlink" title="2.将边框回归直接加入到了网络中，实现端到端"></a>2.将边框回归直接加入到了网络中，实现端到端</h5><p>​    之前的R-CNN框架是分为提取proposl、CNN提取特征、SVM分类器分类这种割裂开的三个阶段，而<strong>Fast R-CNN直接使用softmax替代SVM分类，同时利用多任务损失函数边框回归也加入到了网络中，这样整个的训练过程是端到端的(除去region proposal提取阶段)。</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图2.png?raw=true" alt=""></p>
+<h5 id="3-R-CNN和Fast-R-CNN对比："><a href="#3-R-CNN和Fast-R-CNN对比：" class="headerlink" title="3.R-CNN和Fast R-CNN对比："></a>3.R-CNN和Fast R-CNN对比：</h5><blockquote>
+<p>R-CNN:许多候选框（比如两千个）—&gt;CNN—&gt;得到每个候选框的特征—&gt;分类+回归</p>
+<p>Fast R-CNN：一张完整图片—&gt;CNN—&gt;得到每张候选框的特征—&gt;分类+回归</p>
+<p>​    Fast R-CNN相对于R-CNN的提速原因就在于：不过不像R-CNN把每个候选区域给深度网络提特征，而是<strong>整张图提一次特征，再把候选框映射到conv5</strong>上，而SPP只需要计算一次特征，剩下的只需要在conv5层上操作就可以了。</p>
+</blockquote>
+<h5 id="4-存在问题"><a href="#4-存在问题" class="headerlink" title="4.存在问题"></a>4.存在问题</h5><p>​    虽然不在不再需要对每个候选框进行卷积运算，但是<strong>使用选择搜索算法进行候选框生成的过程也非常耗时</strong>。</p>
+<h4 id="（四）Faster-R-CNN"><a href="#（四）Faster-R-CNN" class="headerlink" title="（四）Faster R-CNN"></a>（四）Faster R-CNN</h4><p><strong>核心</strong></p>
+<blockquote>
+<p>​    引入Region Proposal Network(RPN)替代Selective Search，同时引入anchor box应对目标形状的变化问题</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN结构图.png?raw=true" alt=""></p>
+<h5 id="RPN"><a href="#RPN" class="headerlink" title="　RPN"></a>　RPN</h5><p>​    首先在feature map上进行滑动的窗口，</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN四损失函数图.png?raw=true" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/27/目标检测——ROI池化层/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/27/目标检测——ROI池化层/" itemprop="url">目标检测——ROI池化层</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-27T00:17:42+08:00">
+                2019-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>​    RoI概念来源于SPP Net网络，其主要用于改善在卷积神经网络一般都包含卷积部分和全连接部分两个部分，卷积神经网络部分输入不需要固定尺寸，而全连接层则需要固定输入尺寸，因此在卷积神经网络中由于卷积部分提取到到的特征向量要输入到全连接网络中，因此卷积网络部分的的输入也只能输入固定的尺寸，但是在一些环境中所能提供的输入并不是一定的，因此在SSP Net中提出了RoI结构用来解决这个问题。</p>
+<h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><blockquote>
+<p>​    加<strong>在卷积层后</strong>用来将卷积层输出的不同尺寸的向量固定成一个尺寸，使其可以在<strong>模型原始输入向量大小不同时可将卷及部分输出的向量统一规格输入到后续的全连接部分。</strong></p>
+</blockquote>
+<h4 id="具体结构"><a href="#具体结构" class="headerlink" title="具体结构"></a>具体结构</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/ROI结构图.png?raw=true" alt=""></p>
+<blockquote>
+<p>假设输入ROI Pooling层的feature map of conv5的shape是(h,w,c)</p>
+<ol>
+<li>首先ROI Pooling层把feature map of conv5划分成4*4的小方块(对应图中蓝色矩形),每个小方块的宽高分别为w/4,h/4,通道数为c,不能整除时需要取整.针对feature map的每个通道,分别在这16个小方块进行最大池化(MaxPooling),也就是取出小方块里的最大值.每一个通道都能取出16个最大值,所以所有通道共有16c个值</li>
+<li>然后ROI Pooling层把feature map of conv5划分成2*2的小方块(对应图中绿色矩形),使用同样的方法得到4c个值</li>
+<li>接着ROI Pooling层把feature map of conv5划分成1*1的小方块(对应图中灰色矩形),得到c个值</li>
+<li>最后将上面三个值串联起来得到长度为16c+4c+c=21c的特征表示</li>
+</ol>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/目标检测——基本知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/26/目标检测——基本知识/" itemprop="url">目标检测——基本知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T17:45:19+08:00">
+                2019-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="1-什么是IoU-intersection-over-union-？"><a href="#1-什么是IoU-intersection-over-union-？" class="headerlink" title="1.什么是IoU(intersection-over-union)？"></a>1.什么是IoU(intersection-over-union)？</h4><blockquote>
+<p>IoU简单来讲就是模型产生的目标窗口和原来标记窗口的交叠率。具体计算公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/IoU.png?raw=true" alt=""></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/目标检测——SelectiveSearch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/26/目标检测——SelectiveSearch/" itemprop="url">目标检测——SelectiveSearch</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T17:40:22+08:00">
+                2019-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://blog.csdn.net/Tomxiaodai/article/details/81412354" target="_blank" rel="noopener">https://blog.csdn.net/Tomxiaodai/article/details/81412354</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/20/ddos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/20/ddos/" itemprop="url">ddos</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-20T22:19:12+08:00">
+                2019-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://www.cnblogs.com/bonelee/p/9204826.html" target="_blank" rel="noopener">https://www.cnblogs.com/bonelee/p/9204826.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/17/pandas列表存储被自动转换成字符串问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/17/pandas列表存储被自动转换成字符串问题/" itemprop="url">pandas列表存储被自动转换成字符串问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-17T10:39:11+08:00">
+                2019-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>问题描述:</strong></p>
+<p>​    在数据分析过程中发现当某一列的值为列表类型时，当存储成为csv时将自动将该列的列表存储成为对应的字符串，当重新进行读取时只能按照字符串进行处理。下面是一个真实的事例：</p>
+<p>​    首先直接创建一列数据类型为list，直接查看dataframe中存储的数据，发现还是正常的列表类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>df = DataFrame(columns=[<span class="string">'col1'</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df.append(Series([<span class="keyword">None</span>]), ignore_index=<span class="keyword">True</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df[<span class="string">'column1'</span>][<span class="number">0</span>] = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df</span><br><span class="line">     col1</span><br><span class="line"><span class="number">0</span>  [<span class="number">1</span>, <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<p>​    然后将dataframe进行存储后进行读取，这里可以看到列表列已经变成了字符串类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>df.to_csv(<span class="string">"XXX.csv"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df = pd.read_csv(<span class="string">"XXX.csv"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>df[<span class="string">'column1'</span>][<span class="number">0</span>]</span><br><span class="line"><span class="string">'[1, 2]'</span></span><br></pre></td></tr></table></figure>
+<p><strong>解决方案：</strong></p>
+<p>​    <strong>1.存储时不再存储为csv，存储为pickle文件</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> pickle</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">with</span> open(<span class="string">"data.pkl"</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> file:</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>	pickle.dump(df,file)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">with</span> open(<span class="string">'tmp.pkl'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> file:</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>	new_df =pickle.load(file)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>new_df[<span class="string">'col1'</span>][<span class="number">0</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<p>​    <strong>2.存储后将ast.literal_eval从str转化会list</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> ast <span class="keyword">import</span> literal_eval</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>literal_eval(<span class="string">'[1.23, 2.34]'</span>)</span><br><span class="line">[<span class="number">1.23</span>, <span class="number">2.34</span>]</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/每日学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/13/每日学习/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-13T21:15:18+08:00">
+                2019-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="2019-10-13"><a href="#2019-10-13" class="headerlink" title="2019.10.13"></a>2019.10.13</h3><p>​    1.大数据安全模型效果的提升主要可以从两方面进行着手，一方面是拿到典型集的样本，这是非常困难的。另一方面，通过数据建模将问题转化为搜索问题，例如数据驱动进化算法，直接穷举所有可行解。</p>
+<p>​    2.数据驱动算法：<a href="https://zhuanlan.zhihu.com/p/36212065" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36212065</a></p>
+<p>​    3.数据降维的新算法:UMAP(Uniform Manifold Approximation and Projection,统一流形逼近与投影),和在数据量较大的数据集上t-SNE相比具有很大的竞争力。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">AnchoretY</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">126</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <!-- 底部导航栏相关 -->
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+
+  
+</div>
+
+<!-- 添加底部导航栏-->
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
