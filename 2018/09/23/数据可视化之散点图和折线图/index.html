@@ -824,7 +824,7 @@ core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对�
           repo: 'AnchoretY.github.io',
           owner: 'AnchoretY',
           admin: ['AnchoretY'],
-          id: location.pathname,
+          id: md5(location.pathname),
           distractionFreeMode: 'true'
         })
         gitalk.render('gitalk-container')           
