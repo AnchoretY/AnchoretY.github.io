@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[123]]></title>
     <url>%2F2020%2F03%2F17%2F123%2F</url>
-    <content type="text"><![CDATA[fdfa]]></content>
+    <content type="text"><![CDATA[fdfa 1234567891011121314151617181920if (notInitIssueLinks.length &gt; 0) &#123; console.log(`本次有$&#123;notInitIssueLinks.length&#125;个链接需要初始化issue：`); console.log(notInitIssueLinks); console.log(&quot;开始提交初始化请求, 大约需要40秒...&quot;); /** * 部署好网站后，直接执行start，新增文章并不会生成评论 * 经测试，最少需要等待40秒，才可以正确生成， 怀疑跟github的api有关系，没有找到实锤 */ setTimeout(async ()=&gt;&#123; let initRet = await notInitIssueLinks.map(async (item) =&gt; &#123; &#125;); console.log(`已完成$&#123;initRet.length&#125;个！`); console.log(&quot;可以愉快的发表评论了！&quot;); &#125;,40000);作者：Hanson_dai链接：https://juejin.im/post/5c0f7951f265da611a47b51a来源：掘金著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。]]></content>
   </entry>
   <entry>
     <title><![CDATA[使用gitalk为hexo博客打造评论系统]]></title>
