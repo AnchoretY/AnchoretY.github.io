@@ -408,22 +408,22 @@
 <h4 id="2-Attention原理"><a href="#2-Attention原理" class="headerlink" title="2.Attention原理"></a>2.Attention原理</h4><p><strong>1.首先在RNN的过程中保存每个RNN单元的隐藏状态(h1….hn)</strong></p>
 <p><strong>2.对于decoder的每一个时刻t，因为此时有decoder的输入和上一时刻的输出，所以我们可以的当前步的隐藏状态St</strong></p>
 <p><strong>3.在每个t时刻用St和hi进行点积得到attention score</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention1.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention1.png?raw=true" alt></p>
 <p><strong>4.利用softmax函数将attention score转化为概率分布</strong></p>
 <p>​    利用下面的公式进行概率分布的计算：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式1.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/attention2.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式1.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/attention2.png?raw=true" alt></p>
 <p><strong>5.利用刚才的计算额Attention值对encoder的hi进行加权求和，得到decoder t时刻的注意力向量（也叫上下文向量）</strong></p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式2.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention3.png?raw=true" alt=""></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式2.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention3.png?raw=true" alt></p>
 <p><strong>6.最后将注意力向量和decoder t时刻的隐藏状态st并联起来做后续步骤（例如全连接进行分类）</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention4.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention4.png?raw=true" alt></p>
 <h4 id="3-Attention计算方式"><a href="#3-Attention计算方式" class="headerlink" title="3.Attention计算方式"></a>3.Attention计算方式</h4><p>​    前面一节中，我们的概率分布来自于h与s的点积再做softmax，这只是最基本的方式。在实际中，我们可以有不同的方法来产生这个概率分布，每一种方法都代表了一种具体的Attention机制。在各个attention中，attention的计算方式主要有<strong>加法attention</strong>和<strong>乘法attention</strong>两种。</p>
 <h5 id="3-1-加法attention"><a href="#3-1-加法attention" class="headerlink" title="3.1 加法attention"></a>3.1 加法attention</h5><p>​    在加法attention中我们不在使用st和hi的点乘，而是使用如下计算:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/加法attention.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/加法attention.png?raw=true" alt></p>
 <p>​    其中,va和Wa都是可以训练的参数。使用这种方式产生的数在送往softmax来进行概率分布计算</p>
 <h5 id="3-2-乘法attention"><a href="#3-2-乘法attention" class="headerlink" title="3.2 乘法attention"></a>3.2 乘法attention</h5><p>​    在乘法attention中使用h和s做点乘运算:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/乘法attention.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/乘法attention.png?raw=true" alt></p>
 <p>​    显然<strong>乘法attention的参数更少，计算效率更高。</strong></p>
 <h4 id="4-self-attention"><a href="#4-self-attention" class="headerlink" title="4.self-attention"></a>4.self-attention</h4><p>​    思想：在没有任何额外信息情况下，句子使用self-attention机制来处理自己，提取关键信息</p>
 <blockquote>
@@ -558,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -386,16 +386,16 @@
 <p>​    2.下一句话预测（NSP）模型接收成对的句子作为输入，并学习预测该对中的第二个句子是否是原始文档中的后续句子</p>
 <h3 id="双向attention"><a href="#双向attention" class="headerlink" title="双向attention"></a>双向attention</h3><p>​    在之前常见的attention结构都是单向的attention，顺序的从左到右，而借鉴Bi_LSTM和LSTM的关系，如果能将attention改为双向不是更好吗？</p>
 <p>​    将attention改为双向遇到的最大问题就是<strong>深度的增加导致信息泄露问题</strong>，如下图：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/双向attention信息泄露.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/双向attention信息泄露.png?raw=true" alt></p>
 <p>解决该问题主要的解决方案有两种：</p>
 <p>1.多层单向RNN，独立建模(ELMo)。前项后项信息不公用，分别为两个网络</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/ELMo.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/ELMo.png?raw=true" alt></p>
 <p>2.Mask ML(<strong>BERT采用</strong>)</p>
 <p>​    解决的问题：<strong>多层的</strong>self-attention信息泄漏问题</p>
 <p>​    随机mask语料中15%的token，然后将masked token 位置输出的最终隐层向量送入softmax，来预测masked token。</p>
 <p>​    在训练过程中作者随机mask 15%的token，而不是把像cbow一样把每个词都预测一遍。<strong>最终的损失函数只计算被mask掉那个token。</strong></p>
 <p>​    Mask如何做也是有技巧的，如果一直用标记[MASK]代替（在实际预测时是碰不到这个标记的）会影响模型，所以随机mask的时候10%的单词会被替代成其他单词，10%的单词不替换，剩下80%才被替换为[MASK]。]</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Mask_ML.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Mask_ML.png?raw=true" alt></p>
 <h3 id="BERT整体结构"><a href="#BERT整体结构" class="headerlink" title="BERT整体结构"></a>BERT整体结构</h3><h4 id="Input-representation"><a href="#Input-representation" class="headerlink" title="Input representation"></a>Input representation</h4><p>​    输入表征主要由下面<strong>三部分加和</strong>而成：</p>
 <p>​            <strong>1.词的向量化编码</strong></p>
 <blockquote>
@@ -410,9 +410,9 @@
 <blockquote>
 <p>和transormer不同的是，这里的position embedding是可训练的，不再是适用固定的公式计算</p>
 </blockquote>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/BERT_input_representation.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/BERT_input_representation.png?raw=true" alt></p>
 <h4 id="Transformer-Encoder"><a href="#Transformer-Encoder" class="headerlink" title="Transformer Encoder"></a>Transformer Encoder</h4><p>​    这里还会沿用Transformer的Encoder网络，首先是一个Multi-head self-attention，然后接一个Position-wise前馈网络，并且每个结构上都有残差连接.</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Transformer Encoder.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Transformer Encoder.png?raw=true" alt></p>
 <h4 id="Losses"><a href="#Losses" class="headerlink" title="Losses"></a>Losses</h4><p>​    Losses就是两部分，一部分是语言模型的任务的损失，一部分是上下文是否连续的损失。</p>
 <p>​    <strong>语言模型的任务的损失</strong></p>
 <p>​    对于Mask ML随机选择进行mask的15%的词，是否正确做损失函数(一般为交叉熵损失函数)</p>
@@ -562,7 +562,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

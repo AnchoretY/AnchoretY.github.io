@@ -431,14 +431,14 @@
 <p><strong>两种典型的ssrf攻击实例:</strong></p>
 <p>​    本地存在ssrf漏洞的页面为：<a href="http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php" target="_blank" rel="noopener">http://127.0.0.1/ssrf.php?url=http://127.0.0.1/2.php</a></p>
 <p>原始页面的功能为通过GET方式获取url参数的值，然后显示在网页页面上。如果将url参数的值改为<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a> ，这个页面则会出现百度页面内容。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF1.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF1.png?raw=true" alt></p>
 <p>​    因此利用这个漏洞，我们可以将url参数的值设置为内网址，这样可以做到获取内网信息的效果。</p>
 <p>​    <strong>探测内网某个服务器是否开启</strong></p>
 <p>​    将url参数设置为url=”192.168.0.2:3306”时，可以获取大到该内网主机上是否存在mysql服务。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF2.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF2.png?raw=true" alt></p>
 <p>​    <strong>读取内网服务器文件    </strong></p>
 <p>​    访问ssrf.php?url=file:///C:/Windows/win.ini 即可读取本地文件</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF3.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SSRF3.png?raw=true" alt></p>
 <p><strong>流量中检测SSRF可行性分析：</strong></p>
 <p>​    对于只能抓到外网向内网访问的流量的网口来说，从流量中检测SSRF只能从<strong>请求参数异常</strong>或<strong>返回包是否异常、是否包含敏感信息</strong>来进行检测。</p>
 <p><strong>SSRF漏洞修复建议:</strong></p>
@@ -567,7 +567,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

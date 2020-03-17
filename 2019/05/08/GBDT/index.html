@@ -392,17 +392,17 @@
 <p>为什么CART回归时的评价指标不再使用Gini、熵等不纯度指标？</p>
 <p>​    对于回归树算法来说最重要的是寻找最佳的划分点，那么回归树中的可划分点包含了所有特征的所有可取的值。在分类树中最佳划分点的判别标准是熵或者基尼系数，都是用纯度来衡量的，但是在回归树中的样本标签是连续数值，所以再使用熵之类的指标不再合适，取而代之的是平方误差，它能很好的评判拟合程度。</p>
 </blockquote>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%9B%9E%E5%BD%92%E6%A0%91%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%9B%9E%E5%BD%92%E6%A0%91%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95.png?raw=true" alt></p>
 <h3 id="Graident-Boosting-梯度提升树"><a href="#Graident-Boosting-梯度提升树" class="headerlink" title="Graident Boosting:梯度提升树"></a>Graident Boosting:梯度提升树</h3><p>​    梯度提升树（Grandient Boosting）是提升树（Boosting Tree）的一种改进算法，所以在讲梯度提升树之前先来说一下提升树</p>
 <h4 id="提升树-Boosting-Tree"><a href="#提升树-Boosting-Tree" class="headerlink" title="提升树 Boosting Tree"></a>提升树 Boosting Tree</h4><p>​        <strong>提升树就是通过不断建立树来不断拟合前一个问题的残差来不断接近目标。</strong>        </p>
 <p>​        先来个通俗理解：假如有个人30岁，我们首先用20岁去拟合，发现损失有10岁，这时我们用6岁去拟合剩下的损失，发现差距还有4岁，第三轮我们用3岁拟合剩下的差距，差距就只有一岁了。如果我们的迭代轮数还没有完，可以继续迭代下面，每一轮迭代，拟合的岁数误差都会减小。最后将每次拟合的岁数加起来便是模型输出的结果。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/提升树算法.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/提升树算法.png?raw=true" alt></p>
 <p>​    当损失函数是平方损失和指数损失函数时，梯度提升树每一步优化是很简单的，但是对于一般损失函数而言，往往每一步优化起来不那么容易，针对这一问题，Friedman提出了<strong>梯度提升树算法</strong>，这是利用最速下降的近似方法，<strong>其关键是利用损失函数的负梯度作为提升树算法中的残差的近似值。</strong></p>
 <h4 id="Graident-Boosting-梯度提升树-1"><a href="#Graident-Boosting-梯度提升树-1" class="headerlink" title="Graident Boosting:梯度提升树"></a>Graident Boosting:梯度提升树</h4><p>​    <strong>核心：利用损失函数的负梯度作为提升树算法中的残差的近似值。</strong></p>
 <p>下面我们来看一下负梯度具体的样子，第t轮的第i个样本的损失函数的负梯度为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负梯度.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负梯度.png?raw=true" alt></p>
 <p>那么对于分类问题呢？二分类和多分类的损失函数都是logloss，下面以回归问题为例对GBDT算法进行讲解。</p>
-<h3 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h3><p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT算法过程.png?raw=true" alt=""></p>
+<h3 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h3><p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT算法过程.png?raw=true" alt></p>
 <p>常见问题：</p>
 <p>1.GBDT和Xgboost的区别？</p>
 <blockquote>
@@ -556,7 +556,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

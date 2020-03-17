@@ -403,7 +403,7 @@
 <blockquote>
 <p>Xception模型</p>
 <p>​    先进行普通卷积操作，再对 1×1 卷积后的每个channel分别进行 3×3 卷积操作，最后将结果 concat</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true" alt></p>
 </blockquote>
 <p>​    加速计算：thin feature maps with small channel(不损失很大精度的前提下显著提升速度)</p>
 <h4 id="模型部分"><a href="#模型部分" class="headerlink" title="模型部分"></a>模型部分</h4><p>​    沿着特征图滑动几个mini-networks来检测可以片段，该网络采样特征图一个n<em>m的窗口，在mini-network层之后经过两个1\</em>m并列的层——区域回归层和区域分类层</p>
@@ -424,7 +424,7 @@
 <p>将交集序列的值小于0.2的标为消极序列</p>
 </blockquote>
 <p>​    如果既没有标为消极也没有标为积极，那么则忽略该区域。一般情况下消极区域的数量远大于积极区域，如果消极区域和积极区域的比例大于3：1，那么将其归置到3：1。</p>
-<h5 id="PLN层的损失函数："><a href="#PLN层的损失函数：" class="headerlink" title="PLN层的损失函数："></a>PLN层的损失函数：</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true" alt=""></p>
+<h5 id="PLN层的损失函数："><a href="#PLN层的损失函数：" class="headerlink" title="PLN层的损失函数："></a>PLN层的损失函数：</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true" alt></p>
 <p>​    参数意义：</p>
 <blockquote>
 <p>i：区域的编号</p>
@@ -432,7 +432,7 @@
 <p>posi、pos∗i :分别代表了区域的开始位置和结束位置</p>
 <p>Lcls：是区域的分类对数损失函数，</p>
 <p>Lreg: 是积极区域的回归损失函数，不关注负样本，该回归损失函数采用：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true" alt=""> </p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true" alt> </p>
 <p>​    x表示区域真实标签和预测值之间的差距</p>
 <p>λ：控制损失函数的前后两个部分的重要性，本文中采用的是1.0</p>
 <p>Ncls: 本文中设置为mini-batch 大小</p>
@@ -459,18 +459,18 @@
 <p>采用5层不同大小的卷积核，并且每个卷积核后都会带一个max-overtime pooling operation ，不同的卷积核大小保证了PCN能够精确地识别具有多种特征的攻击。这些特征被连接起来，在连接在层线性层，最后使用softmax输出是各种攻击的可能性</p>
 </blockquote>
 <h4 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h4><p>​    PCN部分的损失函数就是标准的交叉熵损失函数加上一个L1正则化项：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true" alt></p>
 <p>该层主要是一个文本分类的层，和PCN层共享相同的Embedding向量，输出给定区域是否为恶意以及攻击类型</p>
 <h3 id="数据产生方法"><a href="#数据产生方法" class="headerlink" title="数据产生方法"></a>数据产生方法</h3><blockquote>
 <p>1.首先使用传统的WAF找出正常流量</p>
 <p>2.构造sql、xss的payload参数值随机换到正常流量的参数值部分</p>
 </blockquote>
 <h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><h4 id="1-CSCI"><a href="#1-CSCI" class="headerlink" title="1.CSCI"></a>1.CSCI</h4><p>​    CSCI 2010数据集包含针对电子商务Web应用程序生成的流量，该数据集包含25,000多个异常请求和36,000个良性请求，使用其中2,072 SQLi和1,502 XSS样本作为黑样本，其他的正常流量和攻击流量统一标记为白样本。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true" alt></p>
 <p>​    LTD与RWAF相比，在精确率吧和召回率方面均要好。LTD和Libinjection都具有100%的精确率，但是LTD拥有更高的召回率。</p>
 <h4 id="2-真实流量"><a href="#2-真实流量" class="headerlink" title="2.真实流量"></a>2.真实流量</h4><p>数据来源</p>
 <p>​    300w条真实流量数据，其中包括38600个sql注入和xss攻击实例。    </p>
-<h4 id="Part-1-模型优越性的证明"><a href="#Part-1-模型优越性的证明" class="headerlink" title="Part 1  模型优越性的证明"></a>Part 1  模型优越性的证明</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true" alt=""></p>
+<h4 id="Part-1-模型优越性的证明"><a href="#Part-1-模型优越性的证明" class="headerlink" title="Part 1  模型优越性的证明"></a>Part 1  模型优越性的证明</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true" alt></p>
 <p>​    其中，</p>
 <p>​    <strong>1.LTD获得了最高的精确率，HMM-Web获得了最高的召回率，但是它的误报率过高</strong>，在在真实的WAF应用中，误报率必须少于0.01%。</p>
 <p>​    <strong>分析：</strong>在该实验中，HMM-Web方式之所以比LTD获得了更加高的准确率，是因为HMM-Web所采用的方式是基于异常检测的方式，只要是之前没有见过的流量都会被判别为恶意。但这种HMM异常检测的缺陷也非常的明显，每当有系统更新时，HMM-web模型都需要重新进行训练，因此HMM-web并不是一个很好的实时web入侵检测方式。</p>
@@ -478,23 +478,23 @@
 <p>对于对于Web攻击检测，在误报和召回之间存在权衡，而低误报是生产环境中的先决条件。因为高误报会造成用户正常访问的阻塞</p>
 </blockquote>
 <p>​    <strong>2.Libinjection和LTD都获得了100%的精确率，但LTD的召回率达到了99.8%，而Libinjection只有71%。</strong>下面是一些Libinjection误分类而LTD分类正确分类的样本：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true" alt></p>
 <p>​    <strong>分析：</strong>这里的解释有点没太看懂，好像有点和上表对不上，大致意思是说Libinjection过分依赖指纹库，进行微小的改变都很难进行检测，而且由于有些正常流量可能偶尔也会出现指纹库中的部分内容，因此很容易误报</p>
 <p>​    <strong>3.LTD比RWAF方式准确率和召回率都好。</strong></p>
 <h4 id="Part2-PLN部分有效性的证明"><a href="#Part2-PLN部分有效性的证明" class="headerlink" title="Part2 PLN部分有效性的证明"></a>Part2 PLN部分有效性的证明</h4><p>实验组1：LTD</p>
 <p>实验组2 ：VPCN,把url参数部分却分为key-value形式，LTD去掉PLN部分只留下PCN部分进行分类</p>
 <p><em>个人看法：这里我个人觉得对比试验有点问题，因为直接用PCN部分进行分类不一定非要进行参数切分，因此这里使用切与不切分进行对比，证明LTD效率更高个人认为不成立，应该使用直接使用PCN进行对原始embedding后的内容进行分类</em></p>
-<h5 id="1-效率上"><a href="#1-效率上" class="headerlink" title="1.效率上"></a>1.效率上</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true" alt="">    </p>
+<h5 id="1-效率上"><a href="#1-效率上" class="headerlink" title="1.效率上"></a>1.效率上</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true" alt>    </p>
 <p>​    在有GPU的的环境下，带PLN的网络比不带的快6倍，没有GPU的环境下快了8倍。</p>
 <p>​    分析：LTD之所以效率高的多是因为不使用PLN，直接参数个数过多，27.5的Url有13个参数以上，切分参数需要花费大量的时间，在真实流量中，包含参数个数可能更多。另一方面，一些开发者因为某些原因重新模块来隐藏参数，在这种情况下，基于规则的计算需要更加复杂的计算来提取该值。<strong>与传统的方法相比，LTD通过限制检测区域来加快计算效率，另一方面也避免了参数重写造成的切割效率问题</strong></p>
 <h5 id="2-准确率"><a href="#2-准确率" class="headerlink" title="2.准确率"></a>2.准确率</h5><p>​    <strong>对照组</strong>：典型的char级cnn从原始请求进行分类</p>
 <p>​    数据集来源：</p>
 <p>​        训练集：真实流量中320w正常流量，80w攻击样本</p>
 <p>​        测试数据集：10w条不同时间的正常流量数据，在其中选择10000个样本随机将其中一个参数的值替换为SQLi、XSS的攻击载荷，形成恶意样本，其他的为正常样本</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true" alt></p>
 <p>​    经过实验，明显可以看出，<strong>直接的CNN的误报率和漏报率比LTD都要高得多</strong>，而这时因为一般payload的长度都很短，而url请求的长度很长。某些已知攻击的payload长度最短可以为6个字符，而这些很短的payload就可以隐藏在很长的背景字符串之中，导致CNN很难学到恶意payload，而LTD中的PLN模块能通过过滤不相关部分来发现隐藏在很长背景字符串中的短payload，因此，LTD可以更准确地区分实际的攻击有效负载和那些恶意的良性URL片段。</p>
 <h5 id="Part3-PLN输出可疑区域个数选择"><a href="#Part3-PLN输出可疑区域个数选择" class="headerlink" title="Part3 PLN输出可疑区域个数选择"></a>Part3 PLN输出可疑区域个数选择</h5><p>​    分别绘制了xss、sql在1~5个可以区域的ROC、PR曲线，如下：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true" alt></p>
 <p>​    <strong>当区域数为3时，SQLi和XSS均达到了最好或者非常接近最好的准确率</strong>。使用更多的区域数能够获得更好的召回率，但是误报率将大大升高。</p>
 <h3 id="依然存在的问题"><a href="#依然存在的问题" class="headerlink" title="依然存在的问题"></a>依然存在的问题</h3><p>​    1.限定输入长度，对于特长的尾部追加式的攻击依然没有识别能力</p>
 <p>​    2.单纯的在SQLi和XSS上进行实验，未来还需要文件包含和代码执行等其他攻击类型进行检测</p>
@@ -632,7 +632,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

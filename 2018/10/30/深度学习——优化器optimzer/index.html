@@ -419,7 +419,7 @@
       
         <p>​    在机器学习和深度学习中，选择合适的优化器不仅可<strong>以加快学习速度</strong>，而且可以<strong>避免在训练过程中困到的鞍点</strong>。</p>
 <h4 id="1-Gradient-Descent-（GD）"><a href="#1-Gradient-Descent-（GD）" class="headerlink" title="1.Gradient Descent （GD）"></a>1.Gradient Descent （GD）</h4><p>​    BGD是一种使用全部训练集数据来计算损失函数的梯度来进行参数更新更新的方式，梯度更新计算公式如下：</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/BGD%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/BGD%E5%8F%82%E6%95%B0%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F.png?raw=true" alt></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(nb_epochs):</span><br><span class="line">  params_grad = evaluate_gradient(loss_function, data, params)</span><br><span class="line">  params = params - learning_rate * params_grad</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>缺点：</p>
@@ -435,7 +435,7 @@
 <p>​    <strong>2.容易收敛到局部最优点,但有时也可能因为震荡的原因跳过局部最小值</strong></p>
 </blockquote>
 <h4 id="3-Batch-Gradient-Descent-（BGD）"><a href="#3-Batch-Gradient-Descent-（BGD）" class="headerlink" title="3.Batch Gradient Descent （BGD）"></a>3.Batch Gradient Descent （BGD）</h4><p>​    BGD <strong>每一次利用一小批样本，即 n 个样本进行计算</strong>，这样它可以<strong>降低参数更新时的方差，收敛更稳定</strong>，<strong>另一方面可以充分地利用深度学习库中高度优化的矩阵操作来进行更有效的梯度计算</strong>。</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/MBGD%E5%8F%82%E6%95%B0%E5%85%AC%E5%BC%8F.png?raw=true" alt=""></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/MBGD%E5%8F%82%E6%95%B0%E5%85%AC%E5%BC%8F.png?raw=true" alt></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(nb_epochs):</span><br><span class="line">  np.random.shuffle(data)</span><br><span class="line">  <span class="keyword">for</span> batch <span class="keyword">in</span> get_batches(data, batch_size=<span class="number">50</span>):</span><br><span class="line">    params_grad = evaluate_gradient(loss_function, batch, params)</span><br><span class="line">    params = params - learning_rate * params_grad</span><br></pre></td></tr></table></figure>
 <p>​    <strong>参数值设定：batch_szie一般在设置在50~256之间</strong></p>
 <blockquote>
@@ -462,9 +462,9 @@
 <p>​    相较于 SGD，Adagrad 相当于对学习率多加了一个约束，即：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adagrad参数更新公式.png?raw=true" alt="SGD计算公式"></p>
 <p>​    对于经典的SGD：</p>
-<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/SGD与Adagrad对比.png?raw=true" alt=""></p>
+<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/SGD与Adagrad对比.png?raw=true" alt></p>
 <p>​    而对于Adagrad：</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Adagrad和SGD对比.png?raw=true" alt=""></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Adagrad和SGD对比.png?raw=true" alt></p>
 <p>其中，r为梯度累积变量，r的初始值为0。ε为全局学习率，需要自己设置。δ为小常数，为了数值稳定大约设置为10-7    </p>
 <p>​    <strong>超参数设定：一般η选取0.01，ε一般设置为10-7</strong></p>
 <p>​                </p>
@@ -478,18 +478,18 @@
 <p>2.将初始学习速率换成了<strong>RMS[Δθ]</strong>(梯度的均方根)</p>
 </blockquote>
 <h5 id="part-one"><a href="#part-one" class="headerlink" title="part one"></a>part one</h5><p>​    (1) 将累计梯度信息从<strong>全部的历史信息</strong>变为<strong>当前时间窗口向前一个时间窗口内的累积</strong>：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta改进1.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta改进1.png?raw=true" alt></p>
 <p>​    (2)将上述公式进行开方，作为每次迭代更新后的学习率衰减系数</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/adadelta改进2.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/adadelta改进2.png?raw=true" alt></p>
 <p>记</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta改进3.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta改进3.png?raw=true" alt></p>
 <p>其中 是为了防止分母为0加上的一个极小值。</p>
 <p>​    这里解决了梯度一直会下降到很小的值得问题。</p>
 <h5 id="part-two"><a href="#part-two" class="headerlink" title="part two"></a>part two</h5><p>​    将原始的学习速率换为参数值在前一时刻的RMS</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta最终更新公式.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Adadelta最终更新公式.png?raw=true" alt></p>
 <p>​    因为原始的学习速率已经换成了前一时刻的RMS值，因此，<strong>对于adadelta已经不需要选择初始的学习速率</strong></p>
 <h4 id="7-RMSprop"><a href="#7-RMSprop" class="headerlink" title="7.RMSprop"></a>7.RMSprop</h4><p>​    RMSprop 与 Adadelta 的第一种形式相同：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RMSprop参数更新公式.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RMSprop参数更新公式.png?raw=true" alt></p>
 <p>​    <strong>使用的是指数加权平均，旨在消除梯度下降中的摆动，与Momentum的效果一样，某一维度的导数比较大，则指数加权平均就大，某一维度的导数比较小，则其指数加权平均就小，这样就保证了各维度导数都在一个量级，进而减少了摆动。允许使用一个更大的学习率η</strong></p>
 <p>​    <strong>超参数设置：建议设定 γ 为 0.9, 学习率 η 为 0.001</strong></p>
 <h4 id="7-Adam"><a href="#7-Adam" class="headerlink" title="7.Adam"></a>7.Adam</h4><blockquote>
@@ -631,7 +631,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

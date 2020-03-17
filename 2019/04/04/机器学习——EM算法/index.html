@@ -380,7 +380,7 @@
 <p>2.含隐变量的参数估计—EM算法</p>
 </blockquote>
 <h4 id="2-jensen不等式"><a href="#2-jensen不等式" class="headerlink" title="2.jensen不等式"></a>2.jensen不等式</h4><p><strong>X是一个随机变量，f(X)是一个凸函数（二阶导数大或等于0），那么有：</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/jensen不等式.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/jensen不等式.png?raw=true" alt></p>
 <p><strong>当且仅当X是常数的时候等号成立</strong></p>
 <p><strong>如果f（X）是凹函数，不等号反向</strong></p>
 <h4 id="3-先验概率、后验概率、条件概率"><a href="#3-先验概率、后验概率、条件概率" class="headerlink" title="3.先验概率、后验概率、条件概率"></a>3.先验概率、后验概率、条件概率</h4><p>​    <strong>先验概率：P(Y)</strong>   </p>
@@ -403,19 +403,19 @@
 <p>​    熵的另一种解读也就是<strong>自信息的期望</strong></p>
 <p>​        <strong>H(X) = E[I(X)] = ∑P(x)I(x) = -∑p(x)logp(x)</strong></p>
 <h4 id="6-条件熵"><a href="#6-条件熵" class="headerlink" title="6.条件熵"></a>6.条件熵</h4><p>​    在给定y条件下，x的条件自信息量为I(x|y)，X的集合的条件熵为</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵1.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵1.png?raw=true" alt></p>
 <p>​    进一步在给定Y（各个y）的条件下，X集合的条件熵：</p>
-<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵2.png?raw=true" alt=""></p>
+<p>​        <img src="https://github.com/AnchoretY/images/blob/master/blog/条件熵2.png?raw=true" alt></p>
 <p>​    也就是在<strong>联合符号集合上的条件自信息量两个概率的加权平均</strong>    </p>
 <h4 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h4><p>​    EM算法主要用于求解概率模型的<strong>极大似然估计</strong>或<strong>极大后验概率</strong>。EM算法是通过<strong>迭代求解</strong>观测数据<strong>对数似然函数L(θ) = logP(Y|θ)的极大化</strong>，实现参数估计的。</p>
 <blockquote>
 <p>每次迭代主要分为E、M两步：</p>
 <p>​    E步：求期望。即求log(P，Z|θ)关于P(Z|Y，θi)的期望</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/M步公式.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/M步公式.png?raw=true" alt></p>
 <p>(各个隐变量可能的概率下乘以出现这种结果的总和)</p>
 <p>​        </p>
 <p>​    M步：极大化Q函数得到新的参数θ</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/E步公式.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/E步公式.png?raw=true" alt></p>
 <p>​    在构建具体的EM算法时，最重要的时定义Q函数，每次迭代中，Em算法通过极大似然化Q函数来增大对数似然函数L(θ)</p>
 </blockquote>
 <h5 id="算法推导"><a href="#算法推导" class="headerlink" title="算法推导"></a>算法推导</h5><p><strong>注意：1.EM算法在每次迭代后均能提高观测数据的似然函数值</strong></p>
@@ -545,7 +545,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -375,13 +375,13 @@
         <p>​    最近由于进行一些类文本生成的任务，因此对文本生成的相关的一些经典的可用于样本生成的网络进行了研究，本系列文章主要用于对这些模型及原理与应用做总结，不涉及复杂的公式推导。</p>
 <p>相关文章：</p>
 <ul>
-<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/" target="_blank" rel="noopener">对抗样本生成—VAE</a></li>
+<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/">对抗样本生成—VAE</a></li>
 <li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——GAN/">对抗样本生成—GAN</a>)</li>
 <li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——DCGAN/">对抗样本生成—DCGAN</a>)</li>
-<li><a href="">对抗样本生成—文本生成</a></li>
+<li><a href>对抗样本生成—文本生成</a></li>
 </ul>
 <h3 id="AE-Auto-Encoder"><a href="#AE-Auto-Encoder" class="headerlink" title="AE(Auto Encoder)"></a>AE(Auto Encoder)</h3><p>​    Auto Encoder中文名自动编码机，最开始用于数据压缩任务，例如：Google曾尝试使用该技术将图片再网络上只传输使用AE压缩过的编码值，而在本地进行还原来节约流量。后来也用于样本生成任务，但是用于样本生成存在着一些不可避免的问题，因此很快被VAE所取代。Auto Encoder结构如下所示：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/AE结构图.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/AE结构图.png?raw=true" alt></p>
 <p>​    主要<strong>由Encoder和Decoder两部分组成</strong>，<strong>Encoder</strong>负责将原始的图片、文本等输入<strong>压缩</strong>成更低纬度的向量进行表示，<strong>Decoder</strong>负责将该向量表示进行<strong>复原</strong>，然后通过最小化Encoder输入与Decoder输出来进行两部分模型参数的优化。</p>
 <p>​    训练完成后<strong>，训练好的Encoder部分可以输入图片等数据进行数据压缩</strong>；</p>
 <p><strong>AE进行数据压缩的特点：</strong></p>
@@ -390,7 +390,7 @@
 <p>2.有损压缩</p>
 </blockquote>
 <p>​    <strong>训练好的decoder可以输入随机的向量值生成样本</strong>，下图为样本生成示意图。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/AE生成样本.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/AE生成样本.png?raw=true" alt></p>
 <p><strong>AE在进行样本生成时存在的问题：</strong></p>
 <blockquote>
 <p>1.当输入随机向量进行样本生成时，decoder部分输入的是一个随机的向量值，而AE只能保证训练集中有的数据具有比较好的效果，但是无法保证与训练集中的数据很接近的值依旧能够准确的进行判断（不能保证不存在跳变）。</p>
@@ -537,7 +537,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

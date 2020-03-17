@@ -372,10 +372,10 @@
       
         <p>​    本文为对抗样本生成系列文章的第二篇文章，主要对DCGAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/GAN%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>。该系列包含的文章还包括：</p>
 <ul>
-<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/" target="_blank" rel="noopener">对抗样本生成—VAE</a></li>
+<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/">对抗样本生成—VAE</a></li>
 <li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——GAN/">对抗样本生成—GAN</a>)</li>
 <li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——DCGAN/">对抗样本生成—DCGAN</a>)</li>
-<li><a href="">对抗样本生成—文本生成</a></li>
+<li><a href>对抗样本生成—文本生成</a></li>
 </ul>
 <p>​    DCGAN时CNN与GAN相结合的一种实现方式，源自于论文《Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks》，该模型主要讨论了如何将CNN引入GAN网络，将CNN引入GAN网络并非直接将Generator和Discriminator的全连接网络直接替换成CNN即可，而是要对CNN网络进行特定的设计才能使CNN网络有效的快速收敛。本文将对DCGAN中一些核心观点进行详细论述并对其中核心部分的代码实现进行解析，完整的代码实现可以关注我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/DCGAN%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>.</p>
 <p>​    DCGAN中一些核心关键点如下：</p>
@@ -397,7 +397,7 @@
 <p>优化器：Adam  0.01或0.0002</p>
 </blockquote>
 <h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>​    生成器主要反卷积层、BN层、激活函数层三部分堆叠而成，其结构如下所示：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/DCGAN生成器结构.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/DCGAN生成器结构.png?raw=true" alt></p>
 <blockquote>
 <p>在DCGAN中一个最为核心的结构就是反卷积层，那么什么是反卷积层呢？</p>
 <p>​    <strong>反卷积是图像领域中常见的一种上采样操作</strong>，反卷积<strong>并不是正常卷积的逆过程，而是一种特殊的正向卷积</strong>，先按照一定的比例通过补 0来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作<strong>只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。</strong></p>
@@ -541,7 +541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

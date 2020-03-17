@@ -373,7 +373,7 @@
 
       
         <p>原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），<strong>里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt></p>
 <h4 id="Word2Vec对原始语言模型的改进："><a href="#Word2Vec对原始语言模型的改进：" class="headerlink" title="Word2Vec对原始语言模型的改进："></a>Word2Vec对原始语言模型的改进：</h4><blockquote>
 <p>1.<strong>对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。</strong></p>
 <p>比如输入的是三个4维词向量：(1,2,3,4),(9,6,11,8),(5,10,7,12)(1,2,3,4),(9,6,11,8),(5,10,7,12),那么我们word2vec映射后的词向量就是(5,6,7,8)(5,6,7,8)。由于这里是从多个词向量变成了一个词向量。</p>
@@ -405,8 +405,8 @@
 <p>​    <strong>核心思想</strong>：<strong>通过负采样将问题转化为求解一个正例和neg个负例进行二元回归问题</strong>。每次只是通过采样neg个不同的中心词做负例，就可以训练模型</p>
 <p>​    <strong>方法：</strong>我们有一个训练样本，中心词是w,它周围上下文共有2c个词，记为context(w)。由于这个中心词w,的确和context(w)相关存在，因此它是一个真实的正例。<strong>通过Negative Sampling采样，我们得到neg个</strong>和w不同的中心词wi,i=1,2,..neg，这样context(w)和wi就组成了neg个<strong>并不真实存在的负例</strong>。<strong>利用这一个正例和neg个负例，我们进行二元逻辑回归，得到负采样对应每个词wi对应的模型参数θi，和每个词的词向量</strong>。</p>
 <p>​    <strong>本质上是对训练集进行了采样，从而减小了训练集的大小。</strong></p>
-<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true" alt=""></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true" alt=""></p>
+<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true" alt></p>
 <p><strong>3、 word2vec负采样有什么作用？</strong></p>
 <p>1<strong>.加速了模型计算</strong>，模型每次只需要更新采样的词的权重，不用更新所有的权重</p>
 <p>2.<strong>保证了模型训练的效果</strong>，中心词其实只跟它周围的词有关系，位置离着很远的词没有关系</p>
@@ -576,7 +576,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

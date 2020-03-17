@@ -405,15 +405,15 @@
 <p>还原的词干不一定非常准确，但是只要这个词的所有形式全部都转化成同一个词干就可以了，因为他们都有共同的含义</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.porter <span class="keyword">import</span> PorterStemmer</span><br><span class="line">stemmed = [PoeterStemmer().stem(w) <span class="keyword">for</span> w <span class="keyword">in</span> words]</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词干提取.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词干提取.png?raw=true" alt></p>
 <p>​    <strong>词型还原</strong>是将词还原成标准化形式的另一种技术，利用<strong>字典的方式</strong>将一个词的不同形式映射到其词根</p>
 <p>​    方式：字典</p>
 <p>​    优点:可以将较大的词型变化很大的正确还原到词根</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.wordnet <span class="keyword">import</span> WordNetLemmater</span><br><span class="line"></span><br><span class="line">lemmed = [WordNetLemmater.lemmative(w) <span class="keyword">for</span> w <span class="keyword">in</span> words]</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型还原1.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型还原1.png?raw=true" alt></p>
 <p>​    这里我们发现只有ones被还原成了one，其他词并没有找到词的原型，这是因为词型转化是针对词型进行的，只会转化指定词型的词，默认只转换名词，因此上面只有ones被转换了，下面我们来指定转换动词：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from nltk.stem.wordnet import WordNetLemmater</span><br><span class="line"></span><br><span class="line">lemmed = [WordNetLemmater.lemmative(w) for w in words]</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型转换2.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型转换2.png?raw=true" alt></p>
 <h4 id="8-向量化"><a href="#8-向量化" class="headerlink" title="8.向量化"></a>8.向量化</h4><p>​    向量化是将提取好的token转化成向量表示，准备输入到模型中。常见的方式包括词袋模型、tf-idf、Word2vec、doc2vec等</p>
 <h4 id="9-分类模型或聚类模型"><a href="#9-分类模型或聚类模型" class="headerlink" title="9. 分类模型或聚类模型"></a>9. 分类模型或聚类模型</h4><p>​    根据实际情况选用合适的分类模型，聚类模型。</p>
 <p>注意:<strong>上面的处理流程并不是全部都一定要进行,</strong>可以根据实际情况进行选择,例如在下一篇文章情感分类中,只是使用了标准化、去停用词、词干提取、向量化、分类等步骤</p>
@@ -541,7 +541,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

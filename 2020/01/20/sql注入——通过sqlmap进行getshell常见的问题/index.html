@@ -382,13 +382,13 @@
 <p>在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。</p>
 <h3 id="1-确认注入点权限"><a href="#1-确认注入点权限" class="headerlink" title="1.确认注入点权限"></a>1.确认注入点权限</h3><p>​    首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --is-dba</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/产看当前注入点是否为root权限结果.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/产看当前注入点是否为root权限结果.png?raw=true" alt></p>
 <h3 id="2-网站的绝对路径"><a href="#2-网站的绝对路径" class="headerlink" title="2.网站的绝对路径"></a>2.网站的绝对路径</h3><p>​    获取网站的绝对路径在可以先进入sql-shell:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --sql-shell</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/进入sql-shell.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/进入sql-shell.png?raw=true" alt></p>
 <p>​    然后再在sql-shell中直接使用sql命令读取数据库文件存放路径：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql-shell&gt; select @@datadir;</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true" alt=""></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true" alt></p>
 <p>然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。</p>
 
       
@@ -514,7 +514,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">128</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

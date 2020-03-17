@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[123]]></title>
+    <url>%2F2020%2F03%2F17%2F123%2F</url>
+    <content type="text"><![CDATA[fdfa]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[使用gitalk为hexo博客打造评论系统]]></title>
     <url>%2F2020%2F03%2F16%2F%E4%BD%BF%E7%94%A8gitalk%E4%B8%BAhexo%E5%8D%9A%E5%AE%A2%E6%89%93%E9%80%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%2F</url>
     <content type="text"><![CDATA[gitalk实现hexo博客评论功能1. Github注册OAuth应用&emsp;&emsp;在GitHub上注册新应用，链接：https://github.com/settings/applications/new 参数说明： Application name： # 应用名称，随意 Homepage URL： # 网站URL Application description # 描述，随意 Authorization callback URL：# 网站URL &emsp;&emsp;点击注册后，页面跳转如下，其中Client ID和Client Secret在后面的配置中需要用到，到时复制粘贴即可： 2. 新建gitalk.swig&emsp;&emsp;新建themes/next/layout/_third-party/comments/gitalk.swig文件，并添加内容： 1234567891011121314151617&#123;% if page.comments &amp;&amp; theme.gitalk.enable %&#125; &lt;link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"&gt; &lt;script src="https://unpkg.com/gitalk/dist/gitalk.min.js"&gt;&lt;/script&gt; &lt;script src="/js/src/md5.min.js"&gt;&lt;/script&gt; &lt;script type="text/javascript"&gt; var gitalk = new Gitalk(&#123; clientID: '&#123;&#123; theme.gitalk.ClientID &#125;&#125;', clientSecret: '&#123;&#123; theme.gitalk.ClientSecret &#125;&#125;', repo: '&#123;&#123; theme.gitalk.repo &#125;&#125;', owner: '&#123;&#123; theme.gitalk.githubID &#125;&#125;', admin: ['&#123;&#123; theme.gitalk.adminUser &#125;&#125;'], id: md5(location.pathname), # 使用md5确保id长度不超过50，关键 distractionFreeMode: '&#123;&#123; theme.gitalk.distractionFreeMode &#125;&#125;' &#125;) gitalk.render('gitalk-container') &lt;/script&gt;&#123;% endif %&#125; &emsp;&emsp;为了配合其中的md5函数能够使用，这里要引入js脚本。将 md5.min.js 文件下载下来放到 themes/next/source/js/src/ 路径下。 3. 修改comments.swig&emsp;&emsp;修改themes/next/layout/_partials/comments.swig，添加内容如下，与前面的elseif同一级别上： 12&#123;% elseif theme.gitalk.enable %&#125; &lt;div id=&quot;gitalk-container&quot;&gt;&lt;/div&gt; 4. 修改index.swig&emsp;&emsp;修改themes/next/layout/_third-party/comments/index.swig，在最后一行添加内容： 1&#123;% include &apos;gitalk.swig&apos; %&#125; 5. 新建gitalk.styl&emsp;&emsp;新建/source/css/_common/components/third-party/gitalk.styl文件，添加内容： 1234.gt-header a, .gt-comments a, .gt-popup a border-bottom: none;.gt-container .gt-popup .gt-action.is--active:before top: 0.7em; 6. 修改third-party.styl&emsp;&emsp;修改themes/next/source/css/_common/components/third-party/third-party.styl，在最后一行上添加内容，引入样式： 1@import &quot;gitalk&quot;; 7. 修改_config.yml&emsp;&emsp;在主题配置文件themes/next/next/_config.yml中添加如下内容： 12345678gitalk: enable: true githubID: github帐号 repo: 仓库名称 ClientID: Client ID ClientSecret: Client Secret adminUser: github帐号 #指定可初始化评论账户 distractionFreeMode: true 最终呈现效果： 博主使用github账号登录后其他用户可以正常使用评论 文章评论自动初始化]]></content>
@@ -812,19 +817,6 @@
       </categories>
       <tags>
         <tag>web安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[NLP—关键词提取算法]]></title>
-    <url>%2F2018%2F11%2F01%2FNLP%E2%80%94%E5%85%B3%E9%94%AE%E8%AF%8D%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[关键词提取算法 tf-idf(词频-逆文档频率)​ ​ 其中count(w)为关键词出现的次数，|Di|为文档中所有词的数量。 ​ ​ 其中，N为所有文档的总数，I(w,Di)表示文档Di是否包含该关键词，，包含则为1，不包含则为0，若词在所有文档中均未出现，则IDF公式中分母则为0，因此在分母上加1做平滑(smooth) ​ 最终关键词在文档中的tf-idf值： ​ tf-idf特点： ​ 1.一个词在一个文档中的频率越高，在其他文档中出现的次数越少，tf-idf值越大 ​ 2.tf-idf同时兼顾了词频和新鲜度，可以有效地过滤掉常见词 ​ TextRank​ TextRank算法借鉴于Google的PageRank算法，主要在考虑词的关键度主要考虑链接数量和链接质量（链接到的词的重要度）两个因素。 ​ TextRank算法应用到关键词抽取时连个关键点：1.词与词之间的关联没有权重（即不考虑词与词是否相似） 2.每个词并不是与文档中每个次都有链接关系而是只与一个特定窗口大小内词与才有关联关系。 TextRank特点： ​ 1.不需要使用语料库进行训练，由一篇文章就可以提取出关键词 ​ 2.由于TextRank算法涉及到构建词图以及迭代计算，因此计算速度较慢 ​ 3.虽然考虑了上下文关系，但是仍然将频繁次作为关键词 ​ 4.TextRank算法具有将一定的将关键词进行合并提取成关键短语的能力 ​]]></content>
-      <categories>
-        <category>机器学习</category>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-        <tag>NLP</tag>
       </tags>
   </entry>
 </search>
