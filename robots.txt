@@ -10,5 +10,4 @@ Disallow: /css/
 Disallow: /fonts/
 Disallow: /fancybox/
 Sitemap: https://anchorety.github.io/sitemap.xml
-Sitemap: https://anchorety.github.io/baidu_sitemap.xml
 

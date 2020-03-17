@@ -12,7 +12,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
 
-<meta name="baidu-site-verification" content="GuUC0IgCT5" />
 
 
 
@@ -90,10 +89,11 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.oinrou1zu1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.omqozl59j4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.s46t0rbm2u.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.14iwxldo9xy.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.935oysn75jk.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.9x38d5f8lyv.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ps2s9psp4do.png">
-<meta property="og:updated_time" content="2020-03-17T05:52:22.033Z">
+<meta property="og:updated_time" content="2020-03-17T08:48:57.468Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo博客进行SEO优化，添加sitemap站点">
 <meta name="twitter:description" content="Sitemap是什么​    &amp;emsp;&amp;emsp;Sitemap中文名称站点地图，他可以是任意形式的文档用来采用分级的形式描述了一个网站的架构，从而帮助访问者以及搜索引擎的机器人找到网站中的页面，使所有页面可被找到来增强搜索引擎优化的效果，因此添加站点地图对于优化SEO来说很重要。 图片 添加站点地图1. 安装hexo-generator-sitemap&amp;emsp;&amp;emsp;常规操作，在Gi">
@@ -382,19 +382,19 @@
 <h3 id="2-设置内容"><a href="#2-设置内容" class="headerlink" title="2.设置内容"></a>2.设置内容</h3><ul>
 <li><p><strong>根目录下的<code>_config.yml</code>配置文件</strong></p>
 <p>&emsp;&emsp;在文件末尾中添加：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">## Sitemap</span><br><span class="line">sitemap:</span><br><span class="line">  path: sitemap.xml</span><br><span class="line"> </span><br><span class="line">## Baidu sitemap</span><br><span class="line">baidusitemap:</span><br><span class="line">    path: baidusitemap.xml</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">## Sitemap</span><br><span class="line">sitemap:</span><br><span class="line">  path: sitemap.xml</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;修改文件中的url为博客地址：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.oinrou1zu1.png" alt="image"></p>
 </li>
 <li><p><strong>生成<code>sitemap.xml</code>文件</strong></p>
-<p>&emsp;&emsp;使用<code>hexo g</code>生成命令就在<code>yourwebsite.github.io\public</code>中生成<code>sitemap.xml</code>和<code>baidusitemap.xml</code>.然后将其中生成的文件移动到网站根目录下（因为我的public目录在浏览器无法访问，可以直接访问可以不做）</p>
+<p>&emsp;&emsp;使用<code>hexo g</code>生成命令就在<code>yourwebsite.github.io\public</code>中生成<code>sitemap.xml</code>然后将其中生成的文件移动到网站根目录下（因为我的public目录在浏览器无法访问，可以直接访问可以不做）</p>
 <blockquote>
 <p>这里需要前面的hexo-generator-sitemap工具安装成功了才能生成</p>
 </blockquote>
 </li>
 <li><p><strong>新建<code>robots.txt</code>文件</strong></p>
 <p>&emsp;&emsp;在网站根目录<code>/source</code>目录中新建一个<code>robots.txt</code>，该文件为是<strong>Robots协议</strong>的文件，用来<strong>告诉引擎哪些页面可以抓取，哪些不能</strong>。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Allow: /</span><br><span class="line">Allow: /archives/</span><br><span class="line">Allow: /categories/</span><br><span class="line">Allow: /tags/</span><br><span class="line">Allow: /about/</span><br><span class="line"></span><br><span class="line">Disallow: /vendors/</span><br><span class="line">Disallow: /js/</span><br><span class="line">Disallow: /css/</span><br><span class="line">Disallow: /fonts/</span><br><span class="line">Disallow: /fancybox/</span><br><span class="line"></span><br><span class="line">Sitemap: https://anchorety.github.io/sitemap.xml</span><br><span class="line">Sitemap: https://anchorety.github.io/baidu_sitemap.xml</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Allow: /</span><br><span class="line">Allow: /archives/</span><br><span class="line">Allow: /categories/</span><br><span class="line">Allow: /tags/</span><br><span class="line">Allow: /about/</span><br><span class="line"></span><br><span class="line">Disallow: /vendors/</span><br><span class="line">Disallow: /js/</span><br><span class="line">Disallow: /css/</span><br><span class="line">Disallow: /fonts/</span><br><span class="line">Disallow: /fancybox/</span><br><span class="line"></span><br><span class="line">Sitemap: https://anchorety.github.io/sitemap.xml</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>使用<code>hexo d -g</code>进行部署</strong></p>
 </li>
@@ -404,13 +404,15 @@
 </li>
 <li><p><strong>添加博客域名</strong></p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.omqozl59j4.png" alt="image"></p>
-<p>&emsp;&emsp;点击继续后会进入网站所有权验证，任选一种方式进行验证即可。</p>
-<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.s46t0rbm2u.png" alt="image"></p>
+<p>&emsp;&emsp;点击继续后会进入网站所有权验证,选择html标签验证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.14iwxldo9xy.png" alt="image"></p>
+<p>&emsp;&emsp;在网站<code>themes/next/layout/_partials/head.swig</code>头部加入提示中的连接</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.935oysn75jk.png" alt="image"></p>
 <p>&emsp;&emsp;验证成功后进入网站资源管理页面</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.9x38d5f8lyv.png" alt="image"></p>
 </li>
 <li><p><strong>添加站点地图</strong></p>
-<p>&emsp;&emsp;点击左侧导航栏中站点地图，然后输入前面sitemap.xml文件存放的地址(我的地址是网站根目录下，直接输入sitemap.xml即可1)，提交后出现成功状态即可。</p>
+<p>&emsp;&emsp;点击左侧导航栏中站点地图，然后输入前面sitemap.xml文件存放的地址(我的地址是网站根目录下，直接输入sitemap.xml即可)，提交后出现成功状态即可。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ps2s9psp4do.png" alt="image"></p>
 </li>
 </ul>
