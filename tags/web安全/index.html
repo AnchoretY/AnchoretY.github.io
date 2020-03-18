@@ -113,7 +113,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="AnchoretY&#39;s blog">
-<meta property="og:url" content="https://anchorety.github.io/tags/Web安全/index.html">
+<meta property="og:url" content="https://anchorety.github.io/tags/web安全/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -147,13 +147,13 @@
 
 
 
-  <link rel="canonical" href="https://anchorety.github.io/tags/Web安全/"/>
+  <link rel="canonical" href="https://anchorety.github.io/tags/web安全/"/>
 
 
 
 
 
-  <title>标签: Web安全 | AnchoretY's blog</title>
+  <title>标签: web安全 | AnchoretY's blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>Web安全<small>标签</small>
+        <h1>web安全<small>标签</small>
         </h1>
       </div>
 
@@ -333,37 +333,9 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/2020/01/20/sql注入——通过sqlmap进行getshell常见的问题/" itemprop="url">
+            <a class="post-title-link" href="/2018/11/02/web安全——CSRF和SSRF/" itemprop="url">
               
-                <span itemprop="name">sql注入——通过sqlmap进行getshell常见的问题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-01-20T10:22:24+08:00"
-              content="2020-01-20" >
-          01-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/01/18/sql注入——手工注入/" itemprop="url">
-              
-                <span itemprop="name">sql注入——手工注入</span>
+                <span itemprop="name">web安全——CSRF和SSRF</span>
               
             </a>
         
@@ -371,37 +343,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2020-01-18T09:43:39+08:00"
-              content="2020-01-18" >
-          01-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2020/01/17/sql注入——sqlmap6步注入法/" itemprop="url">
-              
-                <span itemprop="name">sql注入——sqlmap6步注入法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-01-17T18:43:43+08:00"
-              content="2020-01-17" >
-          01-17
+              datetime="2018-11-02T10:04:02+08:00"
+              content="2018-11-02" >
+          11-02
         </time>
       </div>
 
@@ -602,6 +546,8 @@
   
 
 
+  
+
 
 
 
@@ -640,6 +586,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -999,6 +950,77 @@
           $('body').css('overflow', '');
 
           proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
+     proceedsearch();
         }
       });
     }
