@@ -24,7 +24,7 @@
   <entry>
     <title><![CDATA[hexo博客高阶设置]]></title>
     <url>%2F2020%2F03%2F16%2Fhexo%E5%8D%9A%E5%AE%A2%E9%AB%98%E9%98%B6%E8%AE%BE%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[1. 设置首页文章列表不显示全文(只显示预览)&emsp;&emsp;编辑进入hexo博客项目的themes/next/_config.yml文件,搜索”auto_excerpt“,找到如下部分： 12345# Automatically Excerpt. Not recommand.# Please use &lt;!-- more --&gt; in the post to control excerpt accurately. auto_excerpt: enable: false length: 150 ​ 将enable修改为true，length设置为150，然后hexo d -g重新进行网站部署。]]></content>
+    <content type="text"><![CDATA[1. 设置首页文章列表不显示全文(只显示预览)&emsp;&emsp;编辑进入hexo博客项目的themes/next/_config.yml文件,搜索”auto_excerpt“,找到如下部分： 12345# Automatically Excerpt. Not recommand.# Please use &lt;!-- more --&gt; in the post to control excerpt accurately. auto_excerpt: enable: false length: 150 ​ 将enable修改为true，length设置为150，然后hexo d -g重新进行网站部署。 用户可以在文章中通过 &lt;!-- more --&gt; 标记来精确划分摘要信息，标记之前的段落将作为摘要显示在首页。]]></content>
       <tags>
         <tag>博客</tag>
       </tags>
