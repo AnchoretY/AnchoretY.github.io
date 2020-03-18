@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch向量转化操作/">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -316,7 +316,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/pytorch向量转化操作/" itemprop="url">pytorch向量转化操作</a></h1>
+                <a class="post-title-link" href="/2018/09/23/pytorch运算操作/" itemprop="url">pytorch运算操作</a></h1>
         
 
         <div class="post-meta">
@@ -390,13 +390,16 @@
       
         
           
-          1.cat
-​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。
-12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = 
+          1.transponse
+​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。
+12#交换两个维度torch.transponse(dim1,dim2)
+2.matmul和bmm
+​    matmul和bmm都是实现batch的矩阵乘法操作。
+1234
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/23/pytorch向量转化操作/#more" rel="contents">
+            <a class="btn" href="/2018/09/23/pytorch运算操作/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -601,7 +604,7 @@ tmux核心功能
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch向量转化操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -620,7 +623,7 @@ tmux核心功能
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/pytorch运算操作/" itemprop="url">pytorch运算操作</a></h1>
+                <a class="post-title-link" href="/2018/09/23/pytorch向量转化操作/" itemprop="url">pytorch向量转化操作</a></h1>
         
 
         <div class="post-meta">
@@ -694,16 +697,13 @@ tmux核心功能
       
         
           
-          1.transponse
-​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。
-12#交换两个维度torch.transponse(dim1,dim2)
-2.matmul和bmm
-​    matmul和bmm都是实现batch的矩阵乘法操作。
-1234
+          1.cat
+​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。
+12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = 
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/23/pytorch运算操作/#more" rel="contents">
+            <a class="btn" href="/2018/09/23/pytorch向量转化操作/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1370,7 +1370,7 @@ CART树分类的主要
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/Github-hexo博客使用/">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/hexo博客基本使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="AnchoretY">
@@ -1389,7 +1389,7 @@ CART树分类的主要
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/23/Github-hexo博客使用/" itemprop="url">Github+hexo博客使用</a></h1>
+                <a class="post-title-link" href="/2018/09/23/hexo博客基本使用/" itemprop="url">hexo博客基本使用</a></h1>
         
 
         <div class="post-meta">
@@ -1470,7 +1470,7 @@ CART树分类的主要
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/09/23/Github-hexo博客使用/#more" rel="contents">
+            <a class="btn" href="/2018/09/23/hexo博客基本使用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1952,6 +1952,26 @@ find . -type f | wc -l
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
 
 
 

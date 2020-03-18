@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://anchorety.github.io/2020/03/16/%E4%BD%BF%E7%94%A8gitalk%E4%B8%BAhexo%E5%8D%9A%E5%AE%A2%E6%89%93%E9%80%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>https://anchorety.github.io/2020/03/16/hexo%E5%8D%9A%E5%AE%A2%E6%89%93%E9%80%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</loc>
+    <lastmod>2020-03-18</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2018/09/23/hexo%E5%8D%9A%E5%AE%A2%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2020-03-18</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2020/03/16/hexo%E5%8D%9A%E5%AE%A2%E9%AB%98%E9%98%B6%E8%AE%BE%E7%BD%AE/</loc>
     <lastmod>2020-03-18</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2020/03/17/345/</loc>
@@ -9,9 +15,6 @@
   </url>  <url>
     <loc>https://anchorety.github.io/2020/03/17/hexo%E5%8D%9A%E5%AE%A2%E8%BF%9B%E8%A1%8CSEO%E4%BC%98%E5%8C%96%EF%BC%8C%E6%B7%BB%E5%8A%A0sitemap%E7%AB%99%E7%82%B9/</loc>
     <lastmod>2020-03-17</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2020/03/16/github-hexo%E5%8D%9A%E5%AE%A2%E9%AB%98%E9%98%B6%E8%AE%BE%E7%BD%AE/</loc>
-    <lastmod>2020-03-16</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/11/15/pytorch-tensorboard%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
     <lastmod>2020-03-14</lastmod>
@@ -387,8 +390,5 @@
   </url>  <url>
     <loc>https://anchorety.github.io/2018/09/23/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</loc>
     <lastmod>2018-09-26</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2018/09/23/Github-hexo%E5%8D%9A%E5%AE%A2%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2018-09-23</lastmod>
   </url>
 </urlset>
