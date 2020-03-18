@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="安全,前沿论文," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-basedDeep Neural Networks》 主要针对的攻击类型:sql、xss 采用的方式:先定位攻击载荷在进行恶意检测 内容解读： ​    主要分为两阶段网络  PLN(Payload Locat-ing Network):在整个url、pos">
+<meta name="keywords" content="安全,前沿论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里2019年最新论文-定位然后检测恶意攻击">
+<meta property="og:url" content="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-basedDeep Neural Networks》 主要针对的攻击类型:sql、xss 采用的方式:先定位攻击载荷在进行恶意检测 内容解读： ​    主要分为两阶段网络  PLN(Payload Locat-ing Network):在整个url、pos">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true">
+<meta property="og:updated_time" content="2019-09-11T04:36:13.388Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里2019年最新论文-定位然后检测恶意攻击">
+<meta name="twitter:description" content="论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-basedDeep Neural Networks》 主要针对的攻击类型:sql、xss 采用的方式:先定位攻击载荷在进行恶意检测 内容解读： ​    主要分为两阶段网络  PLN(Payload Locat-ing Network):在整个url、pos">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/"/>
+
+
+
+
+
+  <title>阿里2019年最新论文-定位然后检测恶意攻击 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/AnchoretY">
+	<img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub">
+    </a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">阿里2019年最新论文-定位然后检测恶意攻击</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T20:55:58+08:00">
+                2019-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-based<br>Deep Neural Networks》</p>
+<p>主要针对的攻击类型:sql、xss</p>
+<p>采用的方式:先定位攻击载荷在进行恶意检测</p>
+<p>内容解读：</p>
+<p>​    主要分为两阶段网络</p>
+<blockquote>
+<p>PLN(Payload Locat-ing Network):在整个url、post中定位到关键部分，去掉无用信息</p>
+<p>PCN(Payload Classification Network):利用PLN网络得到的关注度信息进行分类</p>
+</blockquote>
+<h2 id="PLN"><a href="#PLN" class="headerlink" title="PLN"></a>PLN</h2><p>​    <strong>目标</strong>：</p>
+<p>​    <strong>输入</strong>:固定长度的请求输入文本</p>
+<p>​    <strong>输出:</strong>区域位置和可疑置信度</p>
+<p>​    <strong>核心思想</strong>：图像分割的思想</p>
+<blockquote>
+<p>PLN网络要进行单独的训练，然后加到PCN网络之前，固定参数值(我的理解)</p>
+</blockquote>
+<h4 id="request请求编码"><a href="#request请求编码" class="headerlink" title="request请求编码"></a>request请求编码</h4><p>​    首先设置一个最大长度L，然后进行字符级别的embedding，即每个字符都转化成一个对应的k维Embbeding向量，最终输出为：L*K维向量</p>
+<blockquote>
+<p>这里的最大长度法和我们之前的方法类似，直接进行长度限制，忽略了在超长的正常参数尾部追加恶意payload形式的攻击    </p>
+</blockquote>
+<h4 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h4><p>​    模型：Xception</p>
+<blockquote>
+<p>Xception模型</p>
+<p>​    先进行普通卷积操作，再对 1×1 卷积后的每个channel分别进行 3×3 卷积操作，最后将结果 concat</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true" alt></p>
+</blockquote>
+<p>​    加速计算：thin feature maps with small channel(不损失很大精度的前提下显著提升速度)</p>
+<h4 id="模型部分"><a href="#模型部分" class="headerlink" title="模型部分"></a>模型部分</h4><p>​    沿着特征图滑动几个mini-networks来检测可以片段，该网络采样特征图一个n<em>m的窗口，在mini-network层之后经过两个1\</em>m并列的层——区域回归层和区域分类层</p>
+<blockquote>
+<p>为了保证保持嵌入张量中这些向量的语义完整性，我们令m等于字符向量的嵌入大小。</p>
+</blockquote>
+<p>reg层输出坐标：(p,2p)有效载荷的开始位置和结束位置</p>
+<p>cls层：输出每个区域的得分</p>
+<p>对于输入特征图为W<em>H的，将会有H\</em>P个区域</p>
+<p>并不是所有区域都是有效的，</p>
+<h5 id="区域的标注"><a href="#区域的标注" class="headerlink" title="区域的标注"></a>区域的标注</h5><p>区域标注为积极标签的方法为:</p>
+<blockquote>
+<p>1.将用于最大的交集序列（Ios）的区域标为积极</p>
+<p>2.将交集序列的值（Ios）大于0.5的值定位积极</p>
+</blockquote>
+<p>区域标注为消极标签:</p>
+<blockquote>
+<p>将交集序列的值小于0.2的标为消极序列</p>
+</blockquote>
+<p>​    如果既没有标为消极也没有标为积极，那么则忽略该区域。一般情况下消极区域的数量远大于积极区域，如果消极区域和积极区域的比例大于3：1，那么将其归置到3：1。</p>
+<h5 id="PLN层的损失函数："><a href="#PLN层的损失函数：" class="headerlink" title="PLN层的损失函数："></a>PLN层的损失函数：</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true" alt></p>
+<p>​    参数意义：</p>
+<blockquote>
+<p>i：区域的编号</p>
+<p>li:区域的label，积极区域为1，否则为0</p>
+<p>posi、pos∗i :分别代表了区域的开始位置和结束位置</p>
+<p>Lcls：是区域的分类对数损失函数，</p>
+<p>Lreg: 是积极区域的回归损失函数，不关注负样本，该回归损失函数采用：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true" alt> </p>
+<p>​    x表示区域真实标签和预测值之间的差距</p>
+<p>λ：控制损失函数的前后两个部分的重要性，本文中采用的是1.0</p>
+<p>Ncls: 本文中设置为mini-batch 大小</p>
+<p>Nreg:本文设置为区域个数，</p>
+</blockquote>
+<h4 id="数据标注"><a href="#数据标注" class="headerlink" title="数据标注"></a>数据标注</h4><p>​    在整个LTD模型结构中，需要大量的标注数据，本文提出了基于HMM的异常检测系统来辅助序列标注，该系统通过大量的HMM模型来实现，每个host的每个url的参数值都会训练一个hmm模型，检测到的异常参数经过规则检测系统确定为xss或sql会标记起始和结束位置。</p>
+<p>​    <strong>作用:表示有效payload位置</strong></p>
+<p>​    <strong>方法：参数hmm+规则系统</strong></p>
+<blockquote>
+<p>实例：</p>
+<p>​    uri1 = /a.php?id=1&amp;name=1’ and 1=1</p>
+<p>首先提取各个参数的值，得到</p>
+<p>​    {val1 : 1, val2 : 1′ and 1 = 1}</p>
+<p>使用hmm参数异常检测模型确定是否存在异常参数值</p>
+<p>​    val2是异常的参数值</p>
+<p>使用规则模型判别该参数为sql注入，定位位置，标记异常区域</p>
+<p>​     [Start (17), End (27), Label (1)]</p>
+</blockquote>
+<h2 id="PCN"><a href="#PCN" class="headerlink" title="PCN"></a>PCN</h2><p>​    目标:对PLN层定位的可疑区域，在PCN部分进行深入的分析，找到攻击的区域，</p>
+<p>​    输入：PLN中得分最高的三个区域(最可疑)</p>
+<p>​    输出: 是否为攻击以及攻击类型</p>
+<p>​    核心思想：采用CNN进行文本分类</p>
+<h4 id="具体做法"><a href="#具体做法" class="headerlink" title="具体做法"></a>具体做法</h4><blockquote>
+<p>采用5层不同大小的卷积核，并且每个卷积核后都会带一个max-overtime pooling operation ，不同的卷积核大小保证了PCN能够精确地识别具有多种特征的攻击。这些特征被连接起来，在连接在层线性层，最后使用softmax输出是各种攻击的可能性</p>
+</blockquote>
+<h4 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h4><p>​    PCN部分的损失函数就是标准的交叉熵损失函数加上一个L1正则化项：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true" alt></p>
+<p>该层主要是一个文本分类的层，和PCN层共享相同的Embedding向量，输出给定区域是否为恶意以及攻击类型</p>
+<h3 id="数据产生方法"><a href="#数据产生方法" class="headerlink" title="数据产生方法"></a>数据产生方法</h3><blockquote>
+<p>1.首先使用传统的WAF找出正常流量</p>
+<p>2.构造sql、xss的payload参数值随机换到正常流量的参数值部分</p>
+</blockquote>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><h4 id="1-CSCI"><a href="#1-CSCI" class="headerlink" title="1.CSCI"></a>1.CSCI</h4><p>​    CSCI 2010数据集包含针对电子商务Web应用程序生成的流量，该数据集包含25,000多个异常请求和36,000个良性请求，使用其中2,072 SQLi和1,502 XSS样本作为黑样本，其他的正常流量和攻击流量统一标记为白样本。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true" alt></p>
+<p>​    LTD与RWAF相比，在精确率吧和召回率方面均要好。LTD和Libinjection都具有100%的精确率，但是LTD拥有更高的召回率。</p>
+<h4 id="2-真实流量"><a href="#2-真实流量" class="headerlink" title="2.真实流量"></a>2.真实流量</h4><p>数据来源</p>
+<p>​    300w条真实流量数据，其中包括38600个sql注入和xss攻击实例。    </p>
+<h4 id="Part-1-模型优越性的证明"><a href="#Part-1-模型优越性的证明" class="headerlink" title="Part 1  模型优越性的证明"></a>Part 1  模型优越性的证明</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true" alt></p>
+<p>​    其中，</p>
+<p>​    <strong>1.LTD获得了最高的精确率，HMM-Web获得了最高的召回率，但是它的误报率过高</strong>，在在真实的WAF应用中，误报率必须少于0.01%。</p>
+<p>​    <strong>分析：</strong>在该实验中，HMM-Web方式之所以比LTD获得了更加高的准确率，是因为HMM-Web所采用的方式是基于异常检测的方式，只要是之前没有见过的流量都会被判别为恶意。但这种HMM异常检测的缺陷也非常的明显，每当有系统更新时，HMM-web模型都需要重新进行训练，因此HMM-web并不是一个很好的实时web入侵检测方式。</p>
+<blockquote>
+<p>对于对于Web攻击检测，在误报和召回之间存在权衡，而低误报是生产环境中的先决条件。因为高误报会造成用户正常访问的阻塞</p>
+</blockquote>
+<p>​    <strong>2.Libinjection和LTD都获得了100%的精确率，但LTD的召回率达到了99.8%，而Libinjection只有71%。</strong>下面是一些Libinjection误分类而LTD分类正确分类的样本：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true" alt></p>
+<p>​    <strong>分析：</strong>这里的解释有点没太看懂，好像有点和上表对不上，大致意思是说Libinjection过分依赖指纹库，进行微小的改变都很难进行检测，而且由于有些正常流量可能偶尔也会出现指纹库中的部分内容，因此很容易误报</p>
+<p>​    <strong>3.LTD比RWAF方式准确率和召回率都好。</strong></p>
+<h4 id="Part2-PLN部分有效性的证明"><a href="#Part2-PLN部分有效性的证明" class="headerlink" title="Part2 PLN部分有效性的证明"></a>Part2 PLN部分有效性的证明</h4><p>实验组1：LTD</p>
+<p>实验组2 ：VPCN,把url参数部分却分为key-value形式，LTD去掉PLN部分只留下PCN部分进行分类</p>
+<p><em>个人看法：这里我个人觉得对比试验有点问题，因为直接用PCN部分进行分类不一定非要进行参数切分，因此这里使用切与不切分进行对比，证明LTD效率更高个人认为不成立，应该使用直接使用PCN进行对原始embedding后的内容进行分类</em></p>
+<h5 id="1-效率上"><a href="#1-效率上" class="headerlink" title="1.效率上"></a>1.效率上</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true" alt>    </p>
+<p>​    在有GPU的的环境下，带PLN的网络比不带的快6倍，没有GPU的环境下快了8倍。</p>
+<p>​    分析：LTD之所以效率高的多是因为不使用PLN，直接参数个数过多，27.5的Url有13个参数以上，切分参数需要花费大量的时间，在真实流量中，包含参数个数可能更多。另一方面，一些开发者因为某些原因重新模块来隐藏参数，在这种情况下，基于规则的计算需要更加复杂的计算来提取该值。<strong>与传统的方法相比，LTD通过限制检测区域来加快计算效率，另一方面也避免了参数重写造成的切割效率问题</strong></p>
+<h5 id="2-准确率"><a href="#2-准确率" class="headerlink" title="2.准确率"></a>2.准确率</h5><p>​    <strong>对照组</strong>：典型的char级cnn从原始请求进行分类</p>
+<p>​    数据集来源：</p>
+<p>​        训练集：真实流量中320w正常流量，80w攻击样本</p>
+<p>​        测试数据集：10w条不同时间的正常流量数据，在其中选择10000个样本随机将其中一个参数的值替换为SQLi、XSS的攻击载荷，形成恶意样本，其他的为正常样本</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true" alt></p>
+<p>​    经过实验，明显可以看出，<strong>直接的CNN的误报率和漏报率比LTD都要高得多</strong>，而这时因为一般payload的长度都很短，而url请求的长度很长。某些已知攻击的payload长度最短可以为6个字符，而这些很短的payload就可以隐藏在很长的背景字符串之中，导致CNN很难学到恶意payload，而LTD中的PLN模块能通过过滤不相关部分来发现隐藏在很长背景字符串中的短payload，因此，LTD可以更准确地区分实际的攻击有效负载和那些恶意的良性URL片段。</p>
+<h5 id="Part3-PLN输出可疑区域个数选择"><a href="#Part3-PLN输出可疑区域个数选择" class="headerlink" title="Part3 PLN输出可疑区域个数选择"></a>Part3 PLN输出可疑区域个数选择</h5><p>​    分别绘制了xss、sql在1~5个可以区域的ROC、PR曲线，如下：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true" alt></p>
+<p>​    <strong>当区域数为3时，SQLi和XSS均达到了最好或者非常接近最好的准确率</strong>。使用更多的区域数能够获得更好的召回率，但是误报率将大大升高。</p>
+<h3 id="依然存在的问题"><a href="#依然存在的问题" class="headerlink" title="依然存在的问题"></a>依然存在的问题</h3><p>​    1.限定输入长度，对于特长的尾部追加式的攻击依然没有识别能力</p>
+<p>​    2.单纯的在SQLi和XSS上进行实验，未来还需要文件包含和代码执行等其他攻击类型进行检测</p>
+<p>​    3.所谓的提升了可解释性我觉得并没有很好地可以追溯源头</p>
+<p>【1】Hmm-web: A framework for the detection of attacks against web applications</p>
+<p>【2】Xception:Deep learning with depthwise separable convolutions.</p>
+<p>【3】Detection of sql injection attacks using hidden markov model.</p>
+<p> 【4】Character-aware neural language models.</p>
+<p>【5】A method for stochastic optimization</p>
+<p>【6】 Light-head r-cnn: In defense of two-stage object detector.</p>
+<p>【7】Application of the generic feature selection measure in detection of web attacks</p>
+<p>【8】Ef-ficient character-level document classification by combining convolution and recurrent layers</p>
+<p>貌似</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/安全/" rel="tag"># 安全</a>
+          
+            <a href="/tags/前沿论文/" rel="tag"># 前沿论文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/25/python——浅拷贝和深拷贝/" rel="next" title="python——浅拷贝和深拷贝">
+                <i class="fa fa-chevron-left"></i> python——浅拷贝和深拷贝
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/17/数据可视化之箱型图/" rel="prev" title="数据可视化之箱型图">
+                数据可视化之箱型图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">AnchoretY</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">130</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLN"><span class="nav-number">1.</span> <span class="nav-text">PLN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#request请求编码"><span class="nav-number">1.0.1.</span> <span class="nav-text">request请求编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特征提取"><span class="nav-number">1.0.2.</span> <span class="nav-text">特征提取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型部分"><span class="nav-number">1.0.3.</span> <span class="nav-text">模型部分</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#区域的标注"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">区域的标注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PLN层的损失函数："><span class="nav-number">1.0.3.2.</span> <span class="nav-text">PLN层的损失函数：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据标注"><span class="nav-number">1.0.4.</span> <span class="nav-text">数据标注</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCN"><span class="nav-number">2.</span> <span class="nav-text">PCN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体做法"><span class="nav-number">2.0.1.</span> <span class="nav-text">具体做法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#损失函数"><span class="nav-number">2.0.2.</span> <span class="nav-text">损失函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据产生方法"><span class="nav-number">2.1.</span> <span class="nav-text">数据产生方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-number">2.2.</span> <span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CSCI"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.CSCI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-真实流量"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.真实流量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Part-1-模型优越性的证明"><span class="nav-number">2.2.3.</span> <span class="nav-text">Part 1  模型优越性的证明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Part2-PLN部分有效性的证明"><span class="nav-number">2.2.4.</span> <span class="nav-text">Part2 PLN部分有效性的证明</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-效率上"><span class="nav-number">2.2.4.1.</span> <span class="nav-text">1.效率上</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-准确率"><span class="nav-number">2.2.4.2.</span> <span class="nav-text">2.准确率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Part3-PLN输出可疑区域个数选择"><span class="nav-number">2.2.4.3.</span> <span class="nav-text">Part3 PLN输出可疑区域个数选择</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依然存在的问题"><span class="nav-number">2.3.</span> <span class="nav-text">依然存在的问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <!-- 底部导航栏相关 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+
+  
+</div>
+
+<!-- 添加底部导航栏-->
+<div class="powered-by">
+<span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize("");
+    }
+  </script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: 'c5cb5ea1305f1f48f1ae',
+          clientSecret: 'b2ebabb0a40edbfad2080e4369d5987eb1fc2bca',
+          repo: 'AnchoretY.github.io',
+          owner: 'AnchoretY',
+          admin: ['AnchoretY'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+    </script>
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
