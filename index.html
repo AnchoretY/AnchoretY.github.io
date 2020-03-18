@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -260,7 +260,7 @@
           <h2 id="Sitemap是什么"><a href="#Sitemap是什么" class="headerlink" title="Sitemap是什么"></a>Sitemap是什么</h2><p>​    &emsp;&emsp;<strong>Sitemap中文名称站点地图</strong>，他可以是任意形式的文档用来<strong>采用分级的形式描述了一个网站的架构</strong>，从而<strong>帮助访问者以及搜索引擎的机器人找到网站中的页面</strong>，<strong>使所有页面可被找到来增强搜索引擎优化的效果</strong>，因此<strong>添加站点地图对于优化SEO来说很重要</strong>。</p>
 <p>图片</p>
 <h2 id="添加站点地图"><a href="#添加站点地图" class="headerlink" title="添加站点地图"></a>添加站点地图</h2><h3 id="1-安装hexo-generator-sitemap"><a href="#1-安装hexo-generator-sitemap" class="headerlink" title="1. 安装hexo-generator-sitemap"></a>1. 安装hexo-generator-sitemap</h3><p>&emsp;&emsp;常规操作，在Git Bash中输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-sitemap --save   #适用于google</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save   #适用于baidu</span><br></pre></td></tr></table></figure>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install </span>hexo-generator-sitemap --save   <span class="comment">#适用于google</span></span><br><span class="line">npm <span class="keyword">install </span>hexo-generator-<span class="keyword">baidu-sitemap </span>--save   <span class="comment">#适用于baidu</span></span><br></pre></td></tr></table></figure>
 <h3 id="2-设置内容"><a href="#2-设置内容" class="headerlink" title="2.设置内容"></a>2.设置内容</h3><ul>
 <li><p><strong>根目录下的<code>_config.yml</code>配置文件</strong></p>
 <p>&emsp;&emsp;在文件末尾中添加：</p>
@@ -304,7 +304,7 @@
 <h3 id="4-等待"><a href="#4-等待" class="headerlink" title="4.等待"></a>4.等待</h3><p>&emsp;&emsp;在进行完前面的环节后，控制台界面大部分时候都只能显示</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.vpplz2askz.png" alt="image"></p>
 <p>&emsp;&emsp;只需要等待Google进行页面爬取就好了，一般等待一两天后就可以完全被Google收录了。可是使用google搜索下面内容进行收录查验：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site: xxx.github.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site: xxx<span class="selector-class">.github</span><span class="selector-class">.com</span></span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;完全被收录后：</p>
 <p>图片</p>
 
@@ -444,7 +444,7 @@
 
       
           <h3 id="1-设置首页文章列表不显示全文-只显示预览"><a href="#1-设置首页文章列表不显示全文-只显示预览" class="headerlink" title="1. 设置首页文章列表不显示全文(只显示预览)"></a>1. 设置首页文章列表不显示全文(只显示预览)</h3><p>&emsp;&emsp;编辑进入hexo博客项目的<strong>themes/next/_config.yml</strong>文件,搜索”<strong>auto_excerpt</strong>“,找到如下部分：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Automatically Excerpt. Not recommand.</span><br><span class="line"><span class="meta">#</span> Please use &lt;!-- more --&gt; in the post to control excerpt accurately.</span><br><span class="line">  auto_excerpt:</span><br><span class="line">  enable: false</span><br><span class="line">  length: 150</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Automatically Excerpt. Not recommand.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Please use &lt;!-- more --&gt; <span class="keyword">in</span> the post to control excerpt accurately.</span></span><br><span class="line">  auto_excerpt:</span><br><span class="line">  enable: false</span><br><span class="line">  length: 150</span><br></pre></td></tr></table></figure>
 <p>​    将<strong>enable修改为true，length设置为150</strong>，然后<strong>hexo d -g</strong>重新进行网站部署。</p>
 <p>用户可以在文章中通过 <code>&lt;!-- more --&gt;</code> 标记来精确划分摘要信息，标记之前的段落将作为摘要显示在首页。</p>
 
@@ -1364,7 +1364,7 @@ C-->E(延时盲注)</pre>
   <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>
 
         

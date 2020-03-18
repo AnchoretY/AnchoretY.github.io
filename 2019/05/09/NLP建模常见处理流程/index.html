@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="1.清洗​    主要包括清除掉无关内容和区分出各个部分。  段落的首尾单独区分：这里比较常见的一种却分时将段落的首尾单独区分出来，因为首尾句一般都是更加具有代表性的句子  2.标准化​    主要包含了字母小写化和标点符号替换两个步骤 123456#字母小写化str.lower()#标点符号替换为空格import retext = re.sub(r&quot;a-zA-Z0-9&quot;,&quot; &quot;) 3.标记化(分">
@@ -259,7 +259,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nltk.stem.wordnet <span class="keyword">import</span> WordNetLemmater</span><br><span class="line"></span><br><span class="line">lemmed = [WordNetLemmater.lemmative(w) <span class="keyword">for</span> w <span class="keyword">in</span> words]</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型还原1.png?raw=true" alt></p>
 <p>​    这里我们发现只有ones被还原成了one，其他词并没有找到词的原型，这是因为词型转化是针对词型进行的，只会转化指定词型的词，默认只转换名词，因此上面只有ones被转换了，下面我们来指定转换动词：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from nltk.stem.wordnet import WordNetLemmater</span><br><span class="line"></span><br><span class="line">lemmed = [WordNetLemmater.lemmative(w) for w in words]</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from nltk<span class="selector-class">.stem</span><span class="selector-class">.wordnet</span> import WordNetLemmater</span><br><span class="line"></span><br><span class="line">lemmed = [WordNetLemmater.lemmative(w) <span class="keyword">for</span> w <span class="keyword">in</span> words]</span><br></pre></td></tr></table></figure>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/词型转换2.png?raw=true" alt></p>
 <h4 id="8-向量化"><a href="#8-向量化" class="headerlink" title="8.向量化"></a>8.向量化</h4><p>​    向量化是将提取好的token转化成向量表示，准备输入到模型中。常见的方式包括词袋模型、tf-idf、Word2vec、doc2vec等</p>
 <h4 id="9-分类模型或聚类模型"><a href="#9-分类模型或聚类模型" class="headerlink" title="9. 分类模型或聚类模型"></a>9. 分类模型或聚类模型</h4><p>​    根据实际情况选用合适的分类模型，聚类模型。</p>
@@ -419,7 +419,7 @@
   <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>
 
         

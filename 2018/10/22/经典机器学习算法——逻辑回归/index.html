@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="逻辑回归模型 ​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用梯度下降算法来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。  注意：虽然名叫逻辑回归，但是实际上是一种分类模型  工作原理 12345每个回归系数初始化为 1重复 R 次:    计算整个数据集的">
@@ -261,7 +261,7 @@
 <p><strong>训练过程</strong></p>
 <p>​    训练算法：使用梯度上升寻找最佳参数</p>
 <blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; 每个回归系数初始化为 1</span><br><span class="line">&gt; 重复 R 次:</span><br><span class="line">&gt;     计算整个数据集的梯度</span><br><span class="line">&gt;     使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">&gt; 返回回归系数</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> 每个回归系数初始化为 1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 重复 R 次:</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">     计算整个数据集的梯度</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">     使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 返回回归系数</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>​    其中步长为超参数alpha，而梯度的计算如下：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A61.png?raw=true" alt="梯度1"></p>
@@ -456,7 +456,7 @@
   <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>
 
         

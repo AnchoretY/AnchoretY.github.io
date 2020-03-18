@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -155,85 +155,6 @@
             
 
   <div class="posts-expand">
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/23/pytorch运算操作/" class="post-title-link" itemprop="url">pytorch运算操作</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-03-28 16:08:38" itemprop="dateModified" datetime="2019-03-28T16:08:38+08:00">2019-03-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>1.transponse</strong></p>
-<p>​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换两个维度</span></span><br><span class="line">torch.transponse(dim1,dim2)</span><br></pre></td></tr></table></figure>
-<p><strong>2.matmul和bmm</strong></p>
-<p>​    matmul和bmm都是实现batch的矩阵乘法操作。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand((<span class="number">2</span>,<span class="number">3</span>,<span class="number">10</span>))</span><br><span class="line">b = torch.rand((<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">res1 = torch.matmul(a,b.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#res1 = torch.matmul(a,b.transose(1,2))</span></span><br><span class="line"><span class="keyword">print</span> res1.size()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3x2]</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
         
   
   
@@ -411,6 +332,85 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
 <p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/23/pytorch运算操作/" class="post-title-link" itemprop="url">pytorch运算操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-03-28 16:08:38" itemprop="dateModified" datetime="2019-03-28T16:08:38+08:00">2019-03-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1.transponse</strong></p>
+<p>​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换两个维度</span></span><br><span class="line">torch.transponse(dim1,dim2)</span><br></pre></td></tr></table></figure>
+<p><strong>2.matmul和bmm</strong></p>
+<p>​    matmul和bmm都是实现batch的矩阵乘法操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand((<span class="number">2</span>,<span class="number">3</span>,<span class="number">10</span>))</span><br><span class="line">b = torch.rand((<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">res1 = torch.matmul(a,b.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#res1 = torch.matmul(a,b.transose(1,2))</span></span><br><span class="line"><span class="keyword">print</span> res1.size()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3x2]</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -1001,7 +1001,7 @@ predict = kmeans.fit_predict(input)
 <p>创建博文页面首先要cd 到博客的根目录下，然后运行命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;页面名称&quot;</span><br></pre></td></tr></table></figure>
 <p>这样则在博客站点的source/_posts/文件夹下创建了指定的“页面名称.md”文件，可以直接对其进行编辑。完成编辑后就可已使用下面的同步命令来将修改提交到GIthub上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g    #生成静态文件并部署到服务器，g是generate代表生成文件，d是depoly代表部署到服务器</span><br></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d -g    #生成静态文件并部署到服务器，g是<span class="keyword">generate</span>代表生成文件，d是depoly代表部署到服务器</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -1439,7 +1439,7 @@ du /home/yhk/ -h
   <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.7.1
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.7.2
   </div>
 
         
