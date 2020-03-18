@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -100,6 +100,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -133,9 +134,39 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
 </div>
     </header>
 
@@ -155,6 +186,103 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/05/机器学习和深度学习在实践中的一些经验/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/05/机器学习和深度学习在实践中的一些经验/" class="post-title-link" itemprop="url">机器学习和深度学习在实践中的一些经验</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-05 14:45:00" itemprop="dateCreated datePublished" datetime="2018-11-05T14:45:00+08:00">2018-11-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-02-28 17:16:09" itemprop="dateModified" datetime="2019-02-28T17:16:09+08:00">2019-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习，深度学习/" itemprop="url" rel="index"><span itemprop="name">机器学习，深度学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="使用GBDT算法构造特征"><a href="#使用GBDT算法构造特征" class="headerlink" title="使用GBDT算法构造特征"></a>使用GBDT算法构造特征</h4><p>​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。</p>
+<p>​    在这篇论文中提出可以<strong>使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果</strong>。</p>
+<blockquote>
+<p>实践情况</p>
+<p>​    1.本人使用这种方式在ctr预估中已经进行过实验，准确率提升2%</p>
+<p>​    2.美团在外卖预计送达时间预测中进行了实验，各个时段平均偏差减少了3%</p>
+</blockquote>
+<p><strong>(1) 超参数选择</strong></p>
+<p>a. 首先为了节点分裂时质量和随机性，分裂时所使用的最大特征数目为√n。<br>b. GBDT迭代次数（树的数量）。</p>
+<ul>
+<li>树的数量决定了后续构造特征的规模，与学习速率相互对应。通常学习速率设置较小，但如果过小，会导致迭代次数大幅增加，使得新构造的特征规模过大。</li>
+<li>通过GridSearch+CrossValidation可以寻找到最合适的迭代次数+学习速率的超参组合。<br>c. GBDT树深度需要足够合理，通常在4~6较为合适。</li>
+<li>虽然增加树的数量和深度都可以增加新构造的特征规模。但树深度过大，会造成模型过拟合以及导致新构造特征过于稀疏。</li>
+</ul>
+<p><strong>（2）训练方案</strong></p>
+<p>​    将训练数据随机抽样50%，一分为二。前50%用于训练GBDT模型，后50%的数据在通过GBDT输出样本在每棵树中输出的叶子节点索引位置，并记录存储，用于后续的新特征的构造和编码，以及后续模型的训练。如样本x通过GBDT输出后得到的形式如下：x → [25,20,22,….,30,28] ，列表中表示样本在GBDT每个树中输出的叶子节点索引位置。</p>
+<p>​    由于样本经过GBDT输出后得到的x → [25,20,22,….,30,28] 是一组新特征，但由于这组新特征是叶子节点的ID，其值不能直接表达任何信息，故不能直接用于ETA场景的预估。为了解决上述的问题，避免训练过程中无用信息对模型产生的负面影响，需要通过独热码（OneHotEncoder）的编码方式对新特征进行处理，将新特征转化为可用的0-1的特征。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT%20构造新特征.png?raw=true" alt></p>
+<p>​    以图5中的第一棵树和第二棵树为例，第一棵树共有三个叶子节点，样本会在三个叶子节点的其中之一输出。所以样本在该棵树有会有可能输出三个不同分类的值，需要由3个bit值来表达样本在该树中输出的含义。图中样本在第一棵树的第一个叶子节点输出，独热码表示为{100}；而第二棵树有四个叶子节点，且样本在第三个叶子节点输出，则表示为{0010}。将样本在每棵树的独热码拼接起来，表示为{1000010}，即通过两棵CART树构造了7个特征，构造特征的规模与GBDT中CART树的叶子节点规模直接相关。</p>
+<p>Wide&amp;Deep在推荐中应用</p>
+<p>【参考文献】</p>
+<ol>
+<li>He X, Pan J, Jin O, et al. <a href="https://research.fb.com/publications/practical-lessons-from-predicting-clicks-on-ads-at-facebook/" target="_blank" rel="noopener">Practical Lessons from Predicting Clicks on Ads at Facebook</a>[C]. Proceedings of 20th ACM SIGKDD Conference on Knowledge Discovery and Data Mining. ACM, 2014: 1-9.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -1142,143 +1270,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/21/机器学习——正则化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/21/机器学习——正则化/" class="post-title-link" itemprop="url">机器学习——正则化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-21 10:15:45" itemprop="dateCreated datePublished" datetime="2018-10-21T10:15:45+08:00">2018-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-08-26 15:04:55" itemprop="dateModified" datetime="2019-08-26T15:04:55+08:00">2019-08-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="正则化相关问题"><a href="#正则化相关问题" class="headerlink" title="正则化相关问题"></a>正则化相关问题</h3><hr>
-<p>1.实现参数的稀疏有什么好处吗？</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。</span><br><span class="line"><span class="number">2.</span>参数变少可以使整个模型获得更好的可解释性。</span><br></pre></td></tr></table></figure>
-<p>2.参数值越小代表模型越简单吗？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的区间里预测值产生较大的波动，这种较大的波动也反映了在这个区间里的导数很大，而只有较大的参数值才能产生较大的导数。因此复杂的模型，其参数值会比较大。</span><br></pre></td></tr></table></figure>
-<p>3.模型简单包括什么？</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>参数少</span><br><span class="line"><span class="number">2.</span>参数值小</span><br></pre></td></tr></table></figure>
-<p>4.从贝叶斯角度看L1和L2正则化分贝数与什么分布？</p>
-<p>​    <strong>对于频率学派，认为要将参数θ作为未知的定值，而样本X是随机的</strong>，其着眼点在样本空间，参数θ虽然我们不知道是什么，但是他是固定的，我们需要通过随机产生的样本去估计这个参数，所以才有了最大似然估计这些方法。</p>
-<p>​    <strong>对于贝叶斯学派，把参数θ也视为满足某一个分布的随机变量，而X是固定的</strong>，其着眼点在参数空间，固定的操作模式是通过参数的先验分布结合样本信息得到参数的后验分布，核心是</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/贝叶斯公式.png?raw=true" alt></p>
-<p>​    <strong>L1正则化相当于先验分布是拉普拉斯分布，L2正则化相当于先验概率是正态分布。</strong>拉普拉斯分布的计算公式：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/拉普拉斯概率密度函数.png?raw=true" alt></p>
-<p>正态分布概率密度分布公式：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/正态分布概率密度函数.png?raw=true" alt></p>
-<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><hr>
-<p><strong>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作L1-norm和L2-norm，中文称作L1正则化和L2正则化，或者L1范数和L2范数。</strong></p>
-<p>对于线性回归模型，使用L1正则化的模型建叫做<strong>Lasso回归</strong>，使用L2正则化的模型叫做<strong>Ridge回归</strong>（岭回归）</p>
-<p><strong>概念</strong>：</p>
-<blockquote>
-<p>L1正则化是指权值向量绝对值之和，通常表示为||w||1</p>
-<p>L2正则化是指全职向量w中各个元素的平方和让后再求平方根，通常表示为||w||2</p>
-</blockquote>
-<p>下图是Python中Lasso回归的损失函数，式中加号后面一项α||w||1即为L1正则化项。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Lasso回归损失函数.png?raw=true" alt="img">﻿</p>
-<p>下图是Python中Ridge回归的损失函数，式中加号后面一项α||w||22 即为L2正则化项</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Ridge回归损失函数.png?raw=true" alt></p>
-<blockquote>
-<p>注：<br>1.上面的两个函数前半部分可以为任意的线性函数的损失函数，组合成的函数都可以成为Lasso回归会Ridge回归<br>2.上面两个式子中的α为正则化系数，后续通过交叉验证确定</p>
-</blockquote>
-<p>注：上面两个式子中的α为正则化系数，后续通过交叉验证确定)</p>
-<p><strong>L1正则化与L2正则化的作用：</strong></p>
-<blockquote>
-<p>L1正则化可产生稀疏权值矩阵，即<strong>产生一个稀疏模型，可用用于特征选择</strong></p>
-<p>L2正则化主要用于<strong>防止过拟合</strong></p>
-</blockquote>
-<p>﻿</p>
-<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><hr>
-<p><strong>L1正则化的标准形式：</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化公式.png?raw=true" alt></p>
-<p>​    其中J0是原始的损失函数，加好后面是L1正则化项。机器学习的最终目就是找出损失函数的最小值，当我们在原本的损失函数后面加上L1正则化后，相当于对J0做了一个约束，另L1正则化项等于L，则 J=J0+L，<strong>任务转化为在L1的约束下求J0最小值的解</strong>。<br>​    考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化可得到稀疏矩阵原因.png?raw=true" alt></p>
-<p>​    从图中可看出<strong>j0与L相交于L的一个顶点处，这个顶点即为最优解</strong>。注意这个顶点的值为（w1,w2）=(0,w)，可以想象，在更多维的情况下，L将会有很多突出的角，而<strong>J与这些叫接触的几率将远大于与L其他部位接触的概率</strong>，而这些角上将会有许多权值为0，<strong>从而产生系数矩阵，进而用于特征选择</strong>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler </span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_bostonboston=load_boston() </span><br><span class="line"></span><br><span class="line">scaler=StandardScaler() </span><br><span class="line">X=scaler.fit_transform(boston[<span class="string">"data"</span>])</span><br><span class="line">Y=boston[<span class="string">"target"</span>]</span><br><span class="line">names=boston[<span class="string">"feature_names"</span>]</span><br><span class="line">lasso=Lasso(alpha=<span class="number">.3</span>)</span><br><span class="line">lasso.fit(X,Y)</span><br><span class="line"><span class="keyword">print</span><span class="string">"Lasso model: "</span>,pretty_print_linear(lasso.coef_,names,sort=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><hr>
-<p>L2正则化的标准形式</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化公式.png?raw=true" alt></p>
-<p>​    和L1正则化相同，<strong>任务转化为在L2的约束下求J0最小值的解</strong>。考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化不具有稀疏作用原因.png?raw=true" alt></p>
-<h5 id="机器学习过程中权值尽可能小的原因："><a href="#机器学习过程中权值尽可能小的原因：" class="headerlink" title="机器学习过程中权值尽可能小的原因："></a>机器学习过程中权值尽可能小的原因：</h5><blockquote>
-<p>试想对于一个模型，当参数很大时，只要数据偏移一点点，就会对结果造成很大的影响，如果参数较小，则数据偏移的多一点，也不会对结果产生多大的影响，<strong>抗扰动能力强</strong></p>
-</blockquote>
-<h4 id="为什么L2正则化可以使权值尽可能的小"><a href="#为什么L2正则化可以使权值尽可能的小" class="headerlink" title="为什么L2正则化可以使权值尽可能的小?"></a>为什么L2正则化可以使权值尽可能的小?</h4><blockquote>
-<p>对于损失函数不带L2正则化项的梯度下降时参数更新公式为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不带正则化项的参数更新表达式.png?raw=true" alt></p>
-<p>加入L2正则化项，参数更新公式为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/带正则化项的参数更新公式.png?raw=true" alt></p>
-<p>根据两个公式之间的差别，我们可以明显的看到，加入正则化以后的梯度下降在进行参数更新时，要先将原有的参数值乘以一个小于1的值，因此权值也会变得比不带的参数小</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1344,7 +1340,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-count">131</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1449,6 +1445,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 
