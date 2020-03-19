@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://anchorety.github.io/2020/03/17/hexo%E5%8D%9A%E5%AE%A2%E8%BF%9B%E8%A1%8CSEO%E4%BC%98%E5%8C%96%EF%BC%8C%E6%B7%BB%E5%8A%A0sitemap%E7%AB%99%E7%82%B9/</loc>
+    <lastmod>2020-03-19</lastmod>
+  </url>  <url>
     <loc>https://anchorety.github.io/2020/03/18/hexo%E5%8D%9A%E5%AE%A2%E5%8D%87%E7%BA%A7/</loc>
     <lastmod>2020-03-19</lastmod>
   </url>  <url>
@@ -17,9 +20,6 @@
     <lastmod>2020-03-18</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2020/03/17/345/</loc>
-    <lastmod>2020-03-17</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2020/03/17/hexo%E5%8D%9A%E5%AE%A2%E8%BF%9B%E8%A1%8CSEO%E4%BC%98%E5%8C%96%EF%BC%8C%E6%B7%BB%E5%8A%A0sitemap%E7%AB%99%E7%82%B9/</loc>
     <lastmod>2020-03-17</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/11/15/pytorch-tensorboard%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
