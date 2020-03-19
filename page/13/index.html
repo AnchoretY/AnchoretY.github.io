@@ -438,6 +438,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch向量转化操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/23/pytorch向量转化操作/" class="post-title-link" itemprop="url">pytorch向量转化操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-01-21 14:52:17" itemprop="dateModified" datetime="2019-01-21T14:52:17+08:00">2019-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>171</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1.cat</strong></p>
+<p>​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.manual_seed(<span class="number">1</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">y = torch.randn(<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">s = torch.cat((x,y),<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">print(x,y)</span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3]</span><br><span class="line"></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">1</span>x3]</span><br><span class="line">    </span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">3</span>x3]</span><br></pre></td></tr></table></figure>
+<p>注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式</p>
+<p><strong>2.unsequeeze和sequeeze</strong></p>
+<p>​    torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
+<p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -636,102 +732,6 @@
 <p>tmux kill-server #删除所有会话</p>
 </blockquote>
 <p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch向量转化操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/23/pytorch向量转化操作/" class="post-title-link" itemprop="url">pytorch向量转化操作</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-01-21 14:52:17" itemprop="dateModified" datetime="2019-01-21T14:52:17+08:00">2019-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>171</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>1.cat</strong></p>
-<p>​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.manual_seed(<span class="number">1</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">y = torch.randn(<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">s = torch.cat((x,y),<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">print(x,y)</span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3]</span><br><span class="line"></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">1</span>x3]</span><br><span class="line">    </span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">3</span>x3]</span><br></pre></td></tr></table></figure>
-<p>注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式</p>
-<p><strong>2.unsequeeze和sequeeze</strong></p>
-<p>​    torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
-<p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
