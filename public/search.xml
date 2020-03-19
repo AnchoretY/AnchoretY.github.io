@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[hexo博客——优雅写作]]></title>
     <url>%2F2020%2F03%2F19%2Fhexo%E5%8D%9A%E5%AE%A2%E2%80%94%E2%80%94%E4%BC%98%E9%9B%85%E5%86%99%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[添加背景色&emsp;为段落添加背景色可以通过note标签来完成，其标准格式为: 文本内容 (支持行内标签) &emsp;&emsp;支持的class类型包括多种，包括default primary success info warning danger，也可以不指定 class。下面各种class对应的颜色效果展示： Default Default Default]]></content>
+    <content type="text"><![CDATA[添加背景色&emsp;为段落添加背景色可以通过note标签来完成，其标准格式为: 文本内容 (支持行内标签) &emsp;&emsp;支持的class类型包括多种，包括default primary success info warning danger，也可以不指定 class。下面各种class对应的颜色效果展示： Default Default Default &emsp;&emsp;这里支持的背景色显示形式也支持多种风格，可以直接在主题配置文件中进行设置 themes/next/_config.yml123456note: # Note 标签样式预设 style: modern # simple | modern | flat | disabled icons: false # 是否显示图标 border_radius: 3 # 圆角半径 light_bg_offset: 0 # 默认背景减淡效果，以百分比计算]]></content>
       <tags>
         <tag>博客</tag>
       </tags>
