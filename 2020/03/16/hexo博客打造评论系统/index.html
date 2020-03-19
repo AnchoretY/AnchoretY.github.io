@@ -1,1 +1,572 @@
-null
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="gitalk实现hexo博客评论功能">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo博客打造评论系统">
+<meta property="og:url" content="https://anchorety.github.io/2020/03/16/hexo博客打造评论系统/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="gitalk实现hexo博客评论功能">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ue332ss57b.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ywhey2o6cdd.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f6pw9frdqo.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.wv7w6b40hv.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.56bh8f8f7yb.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ysh5txdldwd.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.l9heaiesv2k.png">
+<meta property="og:updated_time" content="2020-03-18T06:58:06.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hexo博客打造评论系统">
+<meta name="twitter:description" content="gitalk实现hexo博客评论功能">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ue332ss57b.png">
+
+<link rel="canonical" href="https://anchorety.github.io/2020/03/16/hexo博客打造评论系统/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>hexo博客打造评论系统 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2020/03/16/hexo博客打造评论系统/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo博客打造评论系统
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-16 16:13:49" itemprop="dateCreated datePublished" datetime="2020-03-16T16:13:49+08:00">2020-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-18 14:58:06" itemprop="dateModified" datetime="2020-03-18T14:58:06+08:00">2020-03-18</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span></span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>NaN:aN</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="gitalk实现hexo博客评论功能"><a href="#gitalk实现hexo博客评论功能" class="headerlink" title="gitalk实现hexo博客评论功能"></a>gitalk实现hexo博客评论功能</h2><hr>
+<a id="more"></a>
+<h3 id="1-Github注册OAuth应用"><a href="#1-Github注册OAuth应用" class="headerlink" title="1. Github注册OAuth应用"></a>1. Github注册OAuth应用</h3><p>&emsp;&emsp;在GitHub上注册新应用，链接：<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">https://github.com/settings/applications/new</a></p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ue332ss57b.png" alt="image"></p>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li><p>Application name： # 应用名称，随意</p>
+</li>
+<li><p>Homepage URL： # 网站URL</p>
+</li>
+<li><p>Application description # 描述，随意</p>
+</li>
+<li><p>Authorization callback URL：# 网站URL</p>
+</li>
+</ul>
+<p>&emsp;&emsp;点击注册后，页面跳转如下，其中Client ID和Client Secret在后面的配置中需要用到，到时复制粘贴即可：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ywhey2o6cdd.png" alt="image"></p>
+<h3 id="2-新建gitalk-swig"><a href="#2-新建gitalk-swig" class="headerlink" title="2. 新建gitalk.swig"></a>2. 新建<code>gitalk.swig</code></h3><p>&emsp;&emsp;新建<code>themes/next/layout/_third-party/comments/gitalk.swig</code>文件，并添加内容：</p>
+<figure class="highlight shell"><figcaption><span>:themes/next/layout/_third-party/comments/gitalk.swig</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if page.comments &amp;&amp; theme.gitalk.enable %&#125;</span><br><span class="line">  &lt;link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"&gt;</span><br><span class="line">  &lt;script src="https://unpkg.com/gitalk/dist/gitalk.min.js"&gt;&lt;/script&gt;</span><br><span class="line">  &lt;script src="/js/src/md5.min.js"&gt;&lt;/script&gt;</span><br><span class="line">   &lt;script type="text/javascript"&gt;</span><br><span class="line">        var gitalk = new Gitalk(&#123;</span><br><span class="line">          clientID: '&#123;&#123; theme.gitalk.ClientID &#125;&#125;',</span><br><span class="line">          clientSecret: '&#123;&#123; theme.gitalk.ClientSecret &#125;&#125;',</span><br><span class="line">          repo: '&#123;&#123; theme.gitalk.repo &#125;&#125;',</span><br><span class="line">          owner: '&#123;&#123; theme.gitalk.githubID &#125;&#125;',</span><br><span class="line">          admin: ['&#123;&#123; theme.gitalk.adminUser &#125;&#125;'],</span><br><span class="line">          id: md5(location.pathname), # 使用md5确保id长度不超过50，关键</span><br><span class="line">          distractionFreeMode: '&#123;&#123; theme.gitalk.distractionFreeMode &#125;&#125;'</span><br><span class="line">        &#125;)</span><br><span class="line">        gitalk.render('gitalk-container')</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;为了配合其中的md5函数能够使用，这里要引入js脚本。将 <a href="https://github.com/blueimp/JavaScript-MD5/blob/master/js/md5.min.js" target="_blank" rel="noopener">md5.min.js</a> 文件下载下来放到 themes/next/source/js/src/ 路径下。</p>
+<h3 id="3-修改comments-swig"><a href="#3-修改comments-swig" class="headerlink" title="3. 修改comments.swig"></a>3. 修改<code>comments.swig</code></h3><p>&emsp;&emsp;修改<code>themes/next/layout/_partials/comments.swig</code>，添加内容如下，与前面的<code>elseif</code>同一级别上：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name">elseif</span> theme.gitalk.enable %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"gitalk-container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f6pw9frdqo.png" alt="image"></p>
+<h3 id="4-修改index-swig"><a href="#4-修改index-swig" class="headerlink" title="4. 修改index.swig"></a>4. 修改<code>index.swig</code></h3><p>&emsp;&emsp;修改<code>themes/next/layout/_third-party/comments/index.swig</code>，在最后一行添加内容：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="name">include</span></span> 'gitalk.swig' %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
+<h3 id="5-新建gitalk-styl"><a href="#5-新建gitalk-styl" class="headerlink" title="5. 新建gitalk.styl"></a>5. 新建<code>gitalk.styl</code></h3><p>&emsp;&emsp;新建<code>/source/css/_common/components/third-party/gitalk.styl</code>文件，添加内容：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.gt-header</span> <span class="selector-tag">a</span>, <span class="selector-class">.gt-comments</span> <span class="selector-tag">a</span>, <span class="selector-class">.gt-popup</span> a</span><br><span class="line">  <span class="attribute">border-bottom</span>: none;</span><br><span class="line"><span class="selector-class">.gt-container</span> <span class="selector-class">.gt-popup</span> <span class="selector-class">.gt-action</span><span class="selector-class">.is--active</span>:before</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0.7em</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="6-修改third-party-styl"><a href="#6-修改third-party-styl" class="headerlink" title="6. 修改third-party.styl"></a>6. 修改<code>third-party.styl</code></h3><p>&emsp;&emsp;修改<code>themes/next/source/css/_common/components/third-party/third-party.styl</code>，在最后一行上添加内容，引入样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"gitalk"</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="7-修改-config-yml"><a href="#7-修改-config-yml" class="headerlink" title="7. 修改_config.yml"></a>7. 修改<code>_config.yml</code></h3><p>&emsp;&emsp;在主题配置文件<code>themes/next/next/_config.yml</code>中添加如下内容：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">  enable: <span class="literal">true</span></span><br><span class="line">  githubID: github帐号</span><br><span class="line">  repo: 仓库名称</span><br><span class="line">  ClientID:<span class="built_in"> Client </span>ID</span><br><span class="line">  ClientSecret:<span class="built_in"> Client </span>Secret</span><br><span class="line">  adminUser: github帐号 #指定可初始化评论账户</span><br><span class="line">  distractionFreeMode: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h3 id="8-修改index-md文件使about、tag、categories页面不显示评论页面"><a href="#8-修改index-md文件使about、tag、categories页面不显示评论页面" class="headerlink" title="8.修改index.md文件使about、tag、categories页面不显示评论页面"></a>8.修改<code>index.md</code>文件使about、tag、categories页面不显示评论页面</h3><p>&emsp;&emsp;上面的操作步骤完成后，tag的页面显示如下,about和categories页面类似:</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.wv7w6b40hv.png" alt="image" style="zoom:30%;"></p>
+<p>​    </p>
+<p>&emsp;&emsp;这里只需要在<code>source/</code>文件夹下分别新建 <code>about</code>、<code>categories</code>、<code>tags</code> <strong>文件夹</strong>，每个文件夹里面都新建一个 <code>index.md</code> 文件（已有的直接添加comment: false），内容为</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span>  <span class="comment"># 标题</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">"about"</span>  <span class="comment"># about、categories、tags</span></span><br><span class="line"><span class="attr">comments:</span> <span class="literal">false</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;就可以正常显示了</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.56bh8f8f7yb.png" alt="image" style="zoom:33%;"> </p>
+<p>分类页面</p>
+<p>最终呈现效果：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ysh5txdldwd.png" alt="image"></p>
+<p>博主使用github账号登录后其他用户可以正常使用评论</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.l9heaiesv2k.png" alt="image"></p>
+<p>部署</p>
+<h2 id="文章评论自动初始化"><a href="#文章评论自动初始化" class="headerlink" title="文章评论自动初始化"></a>文章评论自动初始化</h2><hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/博客/" rel="tag"># 博客</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/16/hexo博客高阶设置/" rel="prev" title="hexo博客高阶设置">
+      <i class="fa fa-chevron-left"></i> hexo博客高阶设置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/17/hexo博客进行SEO优化，添加sitemap站点/" rel="next" title="hexo博客进行SEO优化，添加sitemap站点">
+      hexo博客进行SEO优化，添加sitemap站点 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#gitalk实现hexo博客评论功能"><span class="nav-text">gitalk实现hexo博客评论功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Github注册OAuth应用"><span class="nav-text">1. Github注册OAuth应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-新建gitalk-swig"><span class="nav-text">2. 新建gitalk.swig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-修改comments-swig"><span class="nav-text">3. 修改comments.swig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-修改index-swig"><span class="nav-text">4. 修改index.swig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-新建gitalk-styl"><span class="nav-text">5. 新建gitalk.styl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-修改third-party-styl"><span class="nav-text">6. 修改third-party.styl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-修改-config-yml"><span class="nav-text">7. 修改_config.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-修改index-md文件使about、tag、categories页面不显示评论页面"><span class="nav-text">8.修改index.md文件使about、tag、categories页面不显示评论页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章评论自动初始化"><span class="nav-text">文章评论自动初始化</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.7.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'c5cb5ea1305f1f48f1ae',
+      clientSecret: 'b2ebabb0a40edbfad2080e4369d5987eb1fc2bca',
+      repo        : 'AnchoretY.github.io',
+      owner       : 'AnchoretY',
+      admin       : ['AnchoretY'],
+      id          : 'aa64a6ae8c6ad6f9bd13d50bb5bc2373',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

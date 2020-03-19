@@ -1,1 +1,593 @@
-null
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="1.什么是存储过程？优点是什么？​    存储过程是一些预编译的SQL语句。 ​    优点：1.更加容易理解 ​                2.存储过程是一个预编译的代码模块，执行效率更高 2.索引是什么？有什么作用以及优缺点？​    索引是对数据库表中一或多个列的值进行排序的结构，是帮助MySQL高效获取数据的数据结构 ​    注意：所以需要占用物理和数据空间 ​    作用:1.加快">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库相关总结">
+<meta property="og:url" content="https://anchorety.github.io/2019/10/09/数据库相关总结/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="1.什么是存储过程？优点是什么？​    存储过程是一些预编译的SQL语句。 ​    优点：1.更加容易理解 ​                2.存储过程是一个预编译的代码模块，执行效率更高 2.索引是什么？有什么作用以及优缺点？​    索引是对数据库表中一或多个列的值进行排序的结构，是帮助MySQL高效获取数据的数据结构 ​    注意：所以需要占用物理和数据空间 ​    作用:1.加快">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-09T15:06:37.774Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库相关总结">
+<meta name="twitter:description" content="1.什么是存储过程？优点是什么？​    存储过程是一些预编译的SQL语句。 ​    优点：1.更加容易理解 ​                2.存储过程是一个预编译的代码模块，执行效率更高 2.索引是什么？有什么作用以及优缺点？​    索引是对数据库表中一或多个列的值进行排序的结构，是帮助MySQL高效获取数据的数据结构 ​    注意：所以需要占用物理和数据空间 ​    作用:1.加快">
+
+<link rel="canonical" href="https://anchorety.github.io/2019/10/09/数据库相关总结/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>数据库相关总结 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/09/数据库相关总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库相关总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-10-09 11:03:48 / 修改时间：23:06:37" itemprop="dateCreated datePublished" datetime="2019-10-09T11:03:48+08:00">2019-10-09</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span></span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>NaN:aN</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="1-什么是存储过程？优点是什么？"><a href="#1-什么是存储过程？优点是什么？" class="headerlink" title="1.什么是存储过程？优点是什么？"></a>1.什么是存储过程？优点是什么？</h4><p>​    存储过程是一些预编译的SQL语句。</p>
+<p>​    优点：1.更加容易理解</p>
+<p>​                2.存储过程是一个预编译的代码模块，执行效率更高</p>
+<h4 id="2-索引是什么？有什么作用以及优缺点？"><a href="#2-索引是什么？有什么作用以及优缺点？" class="headerlink" title="2.索引是什么？有什么作用以及优缺点？"></a>2.索引是什么？有什么作用以及优缺点？</h4><p>​    索引是对数据库表中一或多个列的值进行排序的结构，是帮助MySQL高效获取数据的数据结构</p>
+<p>​    <strong>注意：所以需要占用物理和数据空间</strong></p>
+<p>​    <strong>作用</strong>:1.加快数据库检索速度</p>
+<p>​            2.降低了插入、删除、修改等维护任务的速度</p>
+<p>​            3.唯一索引可以确保每一行数据的唯一性</p>
+<p>​            4.通过使用索引，可以在查询的过程中使用优化隐藏器，提高系统的性能</p>
+<p>​    <strong>建立索引的原则</strong>：在使用最频繁的、需要排序的字段上建立索引</p>
+<h4 id="3-什么是事务？"><a href="#3-什么是事务？" class="headerlink" title="3.什么是事务？"></a>3.什么是事务？</h4><p>​    事务（Transaction）是<strong>并发控制的基本单位</strong>。所谓的事务，它是一个操作序列，这些操作要么都执行，要么都不执行，它是一个<strong>不可分割的工作单位</strong>。事务是数据库维护数据一致性的单位，<strong>在每个事务结束时，都能保持数据一致性。</strong></p>
+<p><strong>事务的特性：</strong></p>
+<p>​        (1）原子性：即不可分割性，事务要么全部被执行，要么就全部不被执行。</p>
+<p>​    （2）一致性或可串性。事务的执行使得数据库从一种正确状态转换成另一种正确状态</p>
+<p>​    （3）隔离性。在事务正确提交之前，不允许把该事务对数据的任何改变提供给任何其他事务，</p>
+<p>​    （4） 持久性。事务正确提交后，其结果将永久保存在数据库中，即使在事务提交后有了其他故障，事务的处理结果也会得到保存。</p>
+<h4 id="4-使用索引查询一定能提高查询的性能吗？为什么？"><a href="#4-使用索引查询一定能提高查询的性能吗？为什么？" class="headerlink" title="4.使用索引查询一定能提高查询的性能吗？为什么？"></a>4.使用索引查询一定能提高查询的性能吗？为什么？</h4><p>​    通常索引查询要比全表扫描速度要快，但是也存在特殊情况：</p>
+<p>​    索引需要空间来存储,也需要定期维护, 每当有记录在表中增减或索引列被修改时,这意味着每条记录的INSERT,DELETE,UPDATE将为此多付出4,5 次的磁盘I/O，因为索引需要额外的存储空间和处理,那些不必要的索引反而会使查询反应时间变慢.</p>
+<h4 id="5-drop、delete与truncate的区别"><a href="#5-drop、delete与truncate的区别" class="headerlink" title="5.drop、delete与truncate的区别"></a>5.drop、delete与truncate的区别</h4><p>​    1.效果上：delete和truncate只删除表的数据不删除表的结构</p>
+<p>​    2.<strong>速度上</strong>：drop&gt; truncate &gt;delete</p>
+<p>​    3.<strong>操作类型</strong>：delete是dml,这个操作要放到rollback segment中，事物提交后才生效，如果有相应的trigger，执行时将被触发。truncated、drop是ddl，操作立即生效，但不能进行回滚，操作不触发trigger</p>
+<p>​    <strong>使用场景</strong>:</p>
+<p>​        1.不需要一张表时，用drop</p>
+<p>​        2.删除部分数据行时，用delete+where子句</p>
+<p>​        3.保留表而删除所有数据时，用truncate</p>
+<h4 id="6-超键、候选键、主键、外键分别是什么？"><a href="#6-超键、候选键、主键、外键分别是什么？" class="headerlink" title="6.超键、候选键、主键、外键分别是什么？"></a>6.超键、候选键、主键、外键分别是什么？</h4><p>​    <strong>超键：在关系中能唯一表示元组属性集称为关系模式的超键</strong>。一个属性获多个属性的组合都可以作为超键。<strong>超键包含候选键和主键</strong>。</p>
+<p>​    <strong>候选键</strong>：最小的超键，没有冗余元素的超键。</p>
+<p>​    <strong>主键</strong>：数据库表中对存储数据对象予以唯一完整标识的数据列或属性组合。一个数据列只能有一个主键，并且逐渐的值不能为NULL</p>
+<p>​    <strong>外键：</strong>在一个表中存在另一个表的主键称为词表的外键。</p>
+<h4 id="7-什么是视图？以及视图的使用场景有哪些？"><a href="#7-什么是视图？以及视图的使用场景有哪些？" class="headerlink" title="7.什么是视图？以及视图的使用场景有哪些？"></a>7.什么是视图？以及视图的使用场景有哪些？</h4><p>​    <strong>视图是一种由一个或多个真实表的行或者列组成的虚拟的表，具有和物理表相同的功能。可以对视图进行增，改，查，操作，对视图的修改不影响基本表</strong>。</p>
+<p>​    <strong>使用场景</strong>：1.希望只暴露部分字段给访问者，可以使用视图</p>
+<p>​                        2.查询的数据来源于不同的表，而查询者希望以一种统一的方式查询，可以使用视图</p>
+<h4 id="8-乐观锁和悲观锁"><a href="#8-乐观锁和悲观锁" class="headerlink" title="8.乐观锁和悲观锁"></a>8.乐观锁和悲观锁</h4><p>​    数据库管理系统（DBMS）中的<strong>并发控制</strong>的任务是<strong>确保在多个事务同时存取数据库中同一数据时不破坏事务的隔离性和统一性以及数据库的统一性</strong>。<strong>乐观并发控制(乐观锁)和悲观并发控制（悲观锁）是并发控制主要采用的技术手段。</strong></p>
+<p><strong>悲观锁</strong>：假定会发生并发冲突，屏蔽一切可能违反数据完整性的操作</p>
+<p><strong>乐观锁</strong>：假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性。</p>
+<h4 id="9、说一说三个范式。"><a href="#9、说一说三个范式。" class="headerlink" title="9、说一说三个范式。"></a>9、说一说三个范式。</h4><p>​    第一范式（1NF）：数据库表中的<strong>字段都是单一属性的，不可再分</strong>。这个单一属性由基本类型构成，包括整型、实数、字符型、逻辑型、日期型等。</p>
+<p>​    第二范式（2NF）：<strong>对记录的惟一性约束，要求记录有惟一标识，即实体的惟一性</strong>；  </p>
+<p>​    第三范式（3NF）：对字段冗余性的约束，即<strong>任何字段不能由其他字段派生出来</strong>，它要求字段没有冗余</p>
+<p><strong>优势：</strong></p>
+<p>​    <strong>可以尽量减少冗余，使的更新更快、体积更小</strong></p>
+<h4 id="10-什么是触发器（trigger）？Mysql中都有哪些触发器？"><a href="#10-什么是触发器（trigger）？Mysql中都有哪些触发器？" class="headerlink" title="10.什么是触发器（trigger）？Mysql中都有哪些触发器？"></a>10.什么是触发器（trigger）？Mysql中都有哪些触发器？</h4><p>​    触发器是指一段代码，当触发某个事件时，自动执行这些代码，提供给程序员和数据分析员来保证数据完整性的一种方法，它是与表事件相关的特殊的存储过程。。</p>
+<p>​    在mysql中一共有6中触发器：</p>
+<p>​        1.Before Insert</p>
+<p>​        2.After Insert</p>
+<p>​        3.Before Update</p>
+<p>​        4.After Update</p>
+<p>​        5.Before Delete</p>
+<p>​        6.After Delete</p>
+<h4 id="11-常见mysql表引擎"><a href="#11-常见mysql表引擎" class="headerlink" title="11.常见mysql表引擎"></a>11.常见mysql表引擎</h4><p>​    InnoDB、MyISAM、Memory</p>
+<h4 id="12-关系数据库和非关系型数据库"><a href="#12-关系数据库和非关系型数据库" class="headerlink" title="12.关系数据库和非关系型数据库"></a>12.关系数据库和非关系型数据库</h4><h5 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h5><p>​    关系型数据库<strong>最典型的数据结构是表，由二维表及其之间的联系所组成的一个数据组织</strong></p>
+<p><strong>代表</strong>:</p>
+<p>​    <strong>Oracle、SQL Server、Access、Mysql</strong></p>
+<p><strong>优点</strong>：<br>    1、易于维护：都是使用表结构，格式一致；<br>    2、使用方便：SQL语言通用，可用于复杂查询；<br>    3、复杂操作：支持SQL，可用于一个表以及多个表之间非常复杂的查询。<br><strong>缺点</strong>：<br>    1、读写性能比较差，尤其是海量数据的高效率读写；<br>    2、固定的表结构，灵活度稍欠；<br>    3、高并发读写需求，传统关系型数据库来说，硬盘I/O是一个很大的瓶颈。</p>
+<h5 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h5><p>​    非关系型数据库严格上不是一种数据库，应该是<strong>一种数据结构化存储方法的集合，可以是文档或者键值对等</strong>。</p>
+<p><strong>代表：</strong></p>
+<p>​    Hbase    key-value形式</p>
+<p>​    Redis    key-value形式</p>
+<p>​    MongodDB    key-value形式</p>
+<p>​    Neo4j    图形数据库</p>
+<p><strong>优点</strong>：<br>    1、格式灵活：存储数据的格式可以是key,value形式、文档形式、图片形式等等，文档形式、图片形式等等，使用灵活，应用场景广泛，而关系型数据库则只支持基础类型。<br>    2、速度快：nosql可以使用硬盘或者随机存储器作为载体，而关系型数据库只能使用硬盘；<br>    3、高扩展性；<br>    4、成本低：nosql数据库部署简单，基本都是开源软件。</p>
+<p><strong>缺点</strong>：<br>    1、不提供sql支持，学习和使用成本较高；<br>    2、无事务处理；<br>    3、数据结构相对复杂，复杂查询方面稍欠。</p>
+<h4 id="13-CHAR和VARCHAR的区别"><a href="#13-CHAR和VARCHAR的区别" class="headerlink" title="13.CHAR和VARCHAR的区别"></a>13.CHAR和VARCHAR的区别</h4><p>​    1.char和varchar类型在存储和检索方面有所不同</p>
+<p>​    2.char列长度固定为创建声明时生命的长度，长度范围是1到255，当char值被存储时，他们被用空格填充到指定长度，检索char值时要删除尾随空格</p>
+<h4 id="14-如果一个表有一列定义为TIMESTAMP，将发生什么？"><a href="#14-如果一个表有一列定义为TIMESTAMP，将发生什么？" class="headerlink" title="14.如果一个表有一列定义为TIMESTAMP，将发生什么？"></a>14.如果一个表有一列定义为TIMESTAMP，将发生什么？</h4><p>​    每当行被更改时，时间戳字段都会获取当前时间戳</p>
+<h4 id="15-什么是内连接、外连接、自连接？"><a href="#15-什么是内连接、外连接、自连接？" class="headerlink" title="15.什么是内连接、外连接、自连接？"></a>15.什么是内连接、外连接、自连接？</h4><p>​    <strong>内连接</strong> 则是只有条件的交叉连接，根据某个条件筛选出符合条件的记录，不符合条件的记录不会出现在结果集中，即<strong>内连接只连接匹配的行</strong>。<br>​    <strong>外连接</strong> 其结果集中<strong>不仅包含符合连接条件的行，而且还会包括左表、右表或两个表中</strong><br><strong>的所有数据行</strong>，这三种情况依<strong>次称之为左外连接，右外连接，和全外连接</strong>。</p>
+<p>​    左外连接，也称左连接，左表为主表，左表中的所有记录都会出现在结果集中，对于那些在右表中并没有匹配的记录，仍然要显示，右边对应的那些字段值以NULL来填充。右外连接，也称右连接，右表为主表，右表中的所有记录都会出现在结果集中。左连接和右连接可以互换，<strong>MySQL目前还不支持全外连接</strong>。</p>
+<h4 id="16-SQL语言包括哪几部分？每部分都有哪些操作关键字？"><a href="#16-SQL语言包括哪几部分？每部分都有哪些操作关键字？" class="headerlink" title="16.SQL语言包括哪几部分？每部分都有哪些操作关键字？"></a>16.SQL语言包括哪几部分？每部分都有哪些操作关键字？</h4><p>SQL语言包括<strong>数据定义(DDL)、数据操纵(DML),数据控制(DCL)和数据查询（DQL）</strong>四个部分。</p>
+<p>​    数据定义：Create Table,Alter Table,Drop Table, Craete/Drop Index等</p>
+<p>​    数据操纵：Select ,insert,update,delete,</p>
+<p>​    数据控制：grant,revoke</p>
+<p>​    数据查询：select</p>
+<h4 id="17-完整性约束包括哪些？"><a href="#17-完整性约束包括哪些？" class="headerlink" title="17.完整性约束包括哪些？"></a>17.完整性约束包括哪些？</h4><p>数据完整性(Data Integrity)是指数据的精确(Accuracy)和可靠性(Reliability)。</p>
+<p><strong>分为以下四类：</strong></p>
+<p>​    1) <strong>实体完整性</strong>：规定表的每一行在表中是惟一的实体。</p>
+<p>​    2) <strong>域完整性</strong>：是指表中的列必须满足某种特定的数据类型约束，其中约束又包括取值范围、精度等规定。</p>
+<p>​    3) <strong>参照完整性</strong>：是指两个表的主关键字和外关键字的数据应一致，保证了表之间的数据的一致性，防止了数据丢失或无意义的数据在数据库中扩散。</p>
+<p>​    4) <strong>用户定义的完整性</strong>：不同的关系数据库系统根据其应用环境的不同，往往还需要一些特殊的约束条件。用户定义的完整性即是针对某个特定关系数据库的约束条件，它反映某一具体应用必须满足的语义要求。</p>
+<p>​    <strong>与表有关的约束：包括列约束(NOT NULL（非空约束）)和表约束(PRIMARY KEY、foreign key、check、UNIQUE) 。</strong></p>
+<h4 id="18-什么是锁？"><a href="#18-什么是锁？" class="headerlink" title="18.什么是锁？"></a>18.什么是锁？</h4><p>​    数据库是一个多用户使用的共享资源。当多个用户并发地存取数据时，在数据库中就会产生多个事务同时存取同一数据的情况。若对并发操作不加控制就可能会读取和存储不正确的数据，破坏数据库的一致性。</p>
+<p>​    <strong>基本锁类型：行级锁和表级锁</strong></p>
+<h4 id="19-NULL是什么？"><a href="#19-NULL是什么？" class="headerlink" title="19.NULL是什么？"></a>19.NULL是什么？</h4>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/09/17/数据可视化之箱型图/" rel="prev" title="数据可视化之箱型图">
+      <i class="fa fa-chevron-left"></i> 数据可视化之箱型图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/10/13/每日学习/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是存储过程？优点是什么？"><span class="nav-text">1.什么是存储过程？优点是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-索引是什么？有什么作用以及优缺点？"><span class="nav-text">2.索引是什么？有什么作用以及优缺点？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-什么是事务？"><span class="nav-text">3.什么是事务？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-使用索引查询一定能提高查询的性能吗？为什么？"><span class="nav-text">4.使用索引查询一定能提高查询的性能吗？为什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-drop、delete与truncate的区别"><span class="nav-text">5.drop、delete与truncate的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-超键、候选键、主键、外键分别是什么？"><span class="nav-text">6.超键、候选键、主键、外键分别是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-什么是视图？以及视图的使用场景有哪些？"><span class="nav-text">7.什么是视图？以及视图的使用场景有哪些？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-乐观锁和悲观锁"><span class="nav-text">8.乐观锁和悲观锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9、说一说三个范式。"><span class="nav-text">9、说一说三个范式。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-什么是触发器（trigger）？Mysql中都有哪些触发器？"><span class="nav-text">10.什么是触发器（trigger）？Mysql中都有哪些触发器？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-常见mysql表引擎"><span class="nav-text">11.常见mysql表引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-关系数据库和非关系型数据库"><span class="nav-text">12.关系数据库和非关系型数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#关系型数据库"><span class="nav-text">关系型数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#非关系型数据库"><span class="nav-text">非关系型数据库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-CHAR和VARCHAR的区别"><span class="nav-text">13.CHAR和VARCHAR的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-如果一个表有一列定义为TIMESTAMP，将发生什么？"><span class="nav-text">14.如果一个表有一列定义为TIMESTAMP，将发生什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-什么是内连接、外连接、自连接？"><span class="nav-text">15.什么是内连接、外连接、自连接？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-SQL语言包括哪几部分？每部分都有哪些操作关键字？"><span class="nav-text">16.SQL语言包括哪几部分？每部分都有哪些操作关键字？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-完整性约束包括哪些？"><span class="nav-text">17.完整性约束包括哪些？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-什么是锁？"><span class="nav-text">18.什么是锁？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-NULL是什么？"><span class="nav-text">19.NULL是什么？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.7.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'c5cb5ea1305f1f48f1ae',
+      clientSecret: 'b2ebabb0a40edbfad2080e4369d5987eb1fc2bca',
+      repo        : 'AnchoretY.github.io',
+      owner       : 'AnchoretY',
+      admin       : ['AnchoretY'],
+      id          : '608b163be6282dae24bbb59b9a1861c1',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

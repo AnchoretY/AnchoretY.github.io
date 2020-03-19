@@ -1,1 +1,669 @@
-null
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="一、常见目标检测算法概述​    常见的目标检测算法目前主要分为三个方向： 1.传统的目标检测算法​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化； 2.候选区域/框+深度学习分类​    通过先提取候选区域然后再用深度学习方法进行分类的方案。  常见的该类型的目标检测算法有： ​    R-CNN：Selective Search+CNN+SVM ​">
+<meta name="keywords" content="深度学习,目标检测,图像">
+<meta property="og:type" content="article">
+<meta property="og:title" content="目标检测——常见目标检测算法">
+<meta property="og:url" content="https://anchorety.github.io/2019/10/27/目标检测——常见目标检测算法/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="一、常见目标检测算法概述​    常见的目标检测算法目前主要分为三个方向： 1.传统的目标检测算法​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化； 2.候选区域/框+深度学习分类​    通过先提取候选区域然后再用深度学习方法进行分类的方案。  常见的该类型的目标检测算法有： ​    R-CNN：Selective Search+CNN+SVM ​">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/标准图像识别卷积神经网络.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/分类回归型卷积神经网络.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/图窗法基本形式.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/卷积层取代全连接层优化.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/R-CNN结构图.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/回归器精修.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/ROI结构图.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图2.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN结构图.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN四损失函数图.png?raw=true">
+<meta property="og:updated_time" content="2019-10-28T08:48:40.524Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="目标检测——常见目标检测算法">
+<meta name="twitter:description" content="一、常见目标检测算法概述​    常见的目标检测算法目前主要分为三个方向： 1.传统的目标检测算法​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化； 2.候选区域/框+深度学习分类​    通过先提取候选区域然后再用深度学习方法进行分类的方案。  常见的该类型的目标检测算法有： ​    R-CNN：Selective Search+CNN+SVM ​">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/标准图像识别卷积神经网络.png?raw=true">
+
+<link rel="canonical" href="https://anchorety.github.io/2019/10/27/目标检测——常见目标检测算法/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>目标检测——常见目标检测算法 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/27/目标检测——常见目标检测算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          目标检测——常见目标检测算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-27 15:02:34" itemprop="dateCreated datePublished" datetime="2019-10-27T15:02:34+08:00">2019-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-28 16:48:40" itemprop="dateModified" datetime="2019-10-28T16:48:40+08:00">2019-10-28</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span></span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>NaN:aN</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、常见目标检测算法概述"><a href="#一、常见目标检测算法概述" class="headerlink" title="一、常见目标检测算法概述"></a>一、常见目标检测算法概述</h3><p>​    常见的目标检测算法目前主要分为三个方向：</p>
+<h5 id="1-传统的目标检测算法"><a href="#1-传统的目标检测算法" class="headerlink" title="1.传统的目标检测算法"></a>1.传统的目标检测算法</h5><p>​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化；</p>
+<h5 id="2-候选区域-框-深度学习分类"><a href="#2-候选区域-框-深度学习分类" class="headerlink" title="2.候选区域/框+深度学习分类"></a>2.候选区域/框+深度学习分类</h5><p>​    通过先提取候选区域然后再用深度学习方法进行分类的方案。</p>
+<blockquote>
+<p>常见的该类型的目标检测算法有：</p>
+<p>​    R-CNN：Selective Search+CNN+SVM</p>
+<p>​    SSP-Net：(ROI Pooling)</p>
+<p>​    Fast R-CNN：(Selective Search+CNN+ROI)</p>
+<p>​    Faster R-CNN：RPN+CNN+ROI</p>
+<p>​    R-CFN</p>
+</blockquote>
+<h5 id="3-基于深度学习的回归方法"><a href="#3-基于深度学习的回归方法" class="headerlink" title="3.基于深度学习的回归方法"></a>3.基于深度学习的回归方法</h5><h3 id="二、传统目标检测算法"><a href="#二、传统目标检测算法" class="headerlink" title="二、传统目标检测算法"></a>二、传统目标检测算法</h3><h4 id="一-传统目标检测的整体流程"><a href="#一-传统目标检测的整体流程" class="headerlink" title="(一)  传统目标检测的整体流程"></a>(一)  传统目标检测的整体流程</h4><h5 id="1-区域选择"><a href="#1-区域选择" class="headerlink" title="1.区域选择"></a>1.区域选择</h5><p>​    主要主要包括不同窗口的滑动窗口，时间复杂度很高</p>
+<h5 id="2-特征提取"><a href="#2-特征提取" class="headerlink" title="2.特征提取"></a>2.特征提取</h5><p>​    </p>
+<h5 id="3-分类器分类"><a href="#3-分类器分类" class="headerlink" title="3.分类器分类"></a>3.分类器分类</h5><p>​    根据特征提取截断提取到的特征采用SVM、Adaboost等进行分类。</p>
+<h4 id="（二）目标检测任务"><a href="#（二）目标检测任务" class="headerlink" title="（二）目标检测任务"></a>（二）目标检测任务</h4><p>​    本质上是两个问题：1.图像识别 2.目标定位</p>
+<blockquote>
+<p>图像识别任务</p>
+<p>​    输入：图像向量</p>
+<p>​    输出：物品类别</p>
+<p>​    主要方式：卷积神经网络</p>
+<p>​    评估方法：准确率等(常见分类问题的评估方法)</p>
+<p> 定位任务</p>
+<p>​    输入：图像向量</p>
+<p>​    输出：方框中图片的位置</p>
+<p>​    主要方式：1.看做回归问题  2.取图像窗口</p>
+<p>​    评估方法：IOU(目标检测专门的评估方法，用于评估预测到的区域和真正的物体区域的重合程度)</p>
+</blockquote>
+<p>​    图像识别问题思路比较简单也比较成熟了，不做过多的论述，下面将针对定位问题的两种方式进行具体的描述。</p>
+<h4 id="（三）定位问题的主要两种方案"><a href="#（三）定位问题的主要两种方案" class="headerlink" title="（三）定位问题的主要两种方案"></a>（三）定位问题的主要两种方案</h4><h5 id="1-使用回归模型"><a href="#1-使用回归模型" class="headerlink" title="1.使用回归模型"></a>1.使用回归模型</h5><p>​    将问题看做回归问题，预测出方框的坐标值。</p>
+<p><strong>基本的处理流程</strong>为：</p>
+<blockquote>
+<p><strong>1.先搭建一个图像识别任务的卷积神经网络(CNN+full connected)</strong></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/标准图像识别卷积神经网络.png?raw=true" alt></p>
+<p><strong>2.将上面搭建好的卷积神经网络进行的尾部与全连接分类网络并行的加入一个新的回归分类网络，形成classfication+regession模式</strong></p>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/分类回归型卷积神经网络.png?raw=true" alt></p>
+<p><strong>3.加入回归头后对regession部分采用欧式距离损失使用SGD进行训练</strong></p>
+<p>注意：由于regession很难进行训练，因此网络采取classfication的网络来计算出classfication head和regression head的共同的连接权值，然后前面的部分保持参数不变，只训练regession head部分的连接的权值(这里是第一次fine-tune)</p>
+<p><strong>4.预测阶段，两个头同时完成图像识别和定位的工作</strong></p>
+</blockquote>
+<h5 id="2-图像窗口法"><a href="#2-图像窗口法" class="headerlink" title="2.图像窗口法"></a>2.图像窗口法</h5><p>​    对一张图片，用各种大小的框（遍历整张图片）将图片截取出来，输入到CNN，然后CNN会输出这个框的得分（classification）以及这个框图片对应x,y,h,w（regression，根据得分的高低，我们选择了右下角的黑框作为目标位置的预测。）。</p>
+<p><strong>注：有的时候也会选择得分最高的两个框，然后取两框的交集作为最终的位置预测。</strong></p>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/图窗法基本形式.png?raw=true" alt></p>
+<p><strong>存在的问题:</strong></p>
+<blockquote>
+<p>​    时间效率问题，要遍历各种大小的框，然后都需要使用卷积神经网络进行一次特征提取，效率很低。</p>
+</blockquote>
+<p><strong>速度优化常用的方式：</strong></p>
+<p>​    把全连接层改为卷积层。</p>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/卷积层取代全连接层优化.png?raw=true" alt></p>
+<h4 id="四-传统目标检测的主要问题"><a href="#四-传统目标检测的主要问题" class="headerlink" title="(四) 传统目标检测的主要问题"></a>(四) 传统目标检测的主要问题</h4><blockquote>
+<ol>
+<li><p>基于滑动窗口的区域选择没有针对性，时间复杂度过高，窗口冗余</p>
+</li>
+<li><p>手工设计的特征对于对于真实环境中的多变不具有很好的普适性</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="三、候选区域-深度学习"><a href="#三、候选区域-深度学习" class="headerlink" title="三、候选区域+深度学习"></a>三、候选区域+深度学习</h3><h4 id="一-R-CNN"><a href="#一-R-CNN" class="headerlink" title="(一) R-CNN"></a>(一) R-CNN</h4><p>​    <strong>R-CNN模型即使用Region Proposal + CNN</strong>代替传统目标检测使用的滑动窗口+手工设计特征，首先在途中找出目标可能会出现的位置，即候选区域(Region Proposal)，可以保证在选取较少（几千甚至几百）的窗口的前提下保持较高的召回率。核心包括：</p>
+<blockquote>
+<p> 1.区域选择算法</p>
+<p>​    常见的选择性搜索算法主要有Selective Search<a href></a>和EdgeBoxs。</p>
+<p>2.CNN特征提取网络</p>
+<p>3.</p>
+</blockquote>
+<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/R-CNN结构图.png?raw=true" alt></p>
+<h5 id="R-CNN整体流程"><a href="#R-CNN整体流程" class="headerlink" title="R-CNN整体流程"></a>R-CNN整体流程</h5><p>​    1.输入测试图像</p>
+<p>​    2.利用Selective Search算法从图像中从下到上提取2000个左右的可能包含物体的候选区域(各个候选区域的大小可能不同)，将各个候选区域缩放成统一的大小并输入到CNN网络中进行特征提取。</p>
+<p>​    3.将CNN网络中提取到的特征输入到SVM中进行分类</p>
+<h5 id="R-CNN具体步骤"><a href="#R-CNN具体步骤" class="headerlink" title="R-CNN具体步骤"></a>R-CNN具体步骤</h5><blockquote>
+<p><strong>1.首先训练一个分类模型。</strong></p>
+<p>​    例如训练一个TextCNN模型</p>
+<p><strong>2.对该模型做finue-tuning</strong></p>
+<p>​    去除原有全连接层</p>
+<p><strong>3.候选框选择</strong></p>
+<p>​    使用Selective Search算法进行候选框选择</p>
+<p><strong>4.对于每一个候选区域大小进行修正（统一大小）输入到前面训练好的CNN网络中，做一次前向运算，将卷积层提取到的特征存储到硬盘。</strong></p>
+<p><strong>5.使用第四步存储的各个候选框的特征训练一个SVM模型</strong>，来判断去区域中的物体是否为该类</p>
+<p><strong>6.使用回归器调整候选框位置。</strong></p>
+<p>​    对于每一个类，训练一个线性回归模型去判定这个框是否框得完美。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/回归器精修.png?raw=true" alt></p>
+</blockquote>
+<h5 id="R-CNN存在的问题"><a href="#R-CNN存在的问题" class="headerlink" title="R-CNN存在的问题"></a>R-CNN存在的问题</h5><blockquote>
+<p>​    对原始图片<strong>通过Selective Search提取的候选框region proposal多达2000个</strong>左右，而这2000个候选框<strong>每个框都需要进行CNN提特征+SVM分类，计算量很大</strong></p>
+</blockquote>
+<p>​    </p>
+<h4 id="二-SSP-Net"><a href="#二-SSP-Net" class="headerlink" title="(二) SSP Net"></a>(二) SSP Net</h4><p>​    SSP Net全称Spatial Pyramid Pooling Net（空间金字塔池化网络）</p>
+<h5 id="1-主要改进点"><a href="#1-主要改进点" class="headerlink" title="1.主要改进点"></a>1.主要改进点</h5><blockquote>
+<p><strong>1.提出ROI池化层。</strong></p>
+<p>​    可以保证不同大小的输入到CNN部分，输出大小相同的向量可以直接输入到一个全连接网络。</p>
+<p><strong>2.只对原图进行一次卷积特征提取。</strong></p>
+</blockquote>
+<h5 id="2-ROI池化层"><a href="#2-ROI池化层" class="headerlink" title="2.ROI池化层"></a>2.ROI池化层</h5><p>​    众所周知，CNN一般都含有卷积部分和全连接部分，其中，卷积层不需要固定尺寸的图像，而全连接层是需要固定大小的输入。所以一般在不同大小的数据输入到全连接网络之前一般都需要对数据进行crop（切割）或者warp(增大)到同一尺寸，才能输入到CNN网络中，但是采用这种处理方式将会到导致的问题是要么拉伸变形、要么数据不全，大大影响了识别的准确率。</p>
+<p>​    既然由于全连接FC层的存在，<strong>普通的CNN需要通过固定输入图片的大小来使得全连接层的输入固定。那借鉴卷积层可以适应任何尺寸，为何不能在卷积层的最后加入某种结构，使使得后面全连接层得到的输入变成固定的呢</strong>？</p>
+<blockquote>
+<p>作用:<strong>使CNN网络的输入可以是任意尺度的</strong>，在SPP layer中每一个pooling的filter会<strong>根据输入调整大小，而SPP的输出则是固定维数的向量，然后给到全连接FC层。</strong></p>
+</blockquote>
+<p><strong>具体流程</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/ROI结构图.png?raw=true" alt></p>
+<blockquote>
+<p>假设输入ROI Pooling层的feature map of conv5的shape是(h,w,c)</p>
+<ol>
+<li>首先ROI Pooling层把feature map of conv5划分成4*4的小方块(对应图中蓝色矩形),每个小方块的宽高分别为w/4,h/4,通道数为c,不能整除时需要取整.针对feature map的每个通道,分别在这16个小方块进行最大池化(MaxPooling),也就是取出小方块里的最大值.每一个通道都能取出16个最大值,所以所有通道共有16c个值</li>
+<li>然后ROI Pooling层把feature map of conv5划分成2*2的小方块(对应图中绿色矩形),使用同样的方法得到4c个值</li>
+<li>接着ROI Pooling层把feature map of conv5划分成1*1的小方块(对应图中灰色矩形),得到c个值</li>
+<li>最后将上面三个值串联起来得到长度为16c+4c+c=21c的特征表示</li>
+</ol>
+</blockquote>
+<h5 id="3-只对原图进行一次卷积"><a href="#3-只对原图进行一次卷积" class="headerlink" title="3.只对原图进行一次卷积"></a>3.只对原图进行一次卷积</h5><p>​    针对R-CNN中每个候选框都要单独输入到CNN中，这样做十分低效的缺陷，SSP Net针对这个缺陷做了优化：</p>
+<p>​    <strong>只对原图进行一次卷积运算，得到整张图的feature map，然后找到每个候选框在 feature map上的映射的patch，然后将每个候选框对应的patch卷积特征输入到SSP layer之后的层，完成特征提取工作。</strong></p>
+<blockquote>
+<p>速度比R-CNN方式提升了100倍</p>
+</blockquote>
+<h4 id="三-Fast-R-CNN"><a href="#三-Fast-R-CNN" class="headerlink" title="(三) Fast R-CNN"></a>(三) Fast R-CNN</h4><p>​    Fast R-CNN的实质就是在R-CNN的基础上增加了SSP Net的方法</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图.png?raw=true" alt></p>
+<p>与R-CNN框架相比的完善点：</p>
+<blockquote>
+<p>1.卷积层后面加入了一个ROI Pooling层</p>
+<p>2.损失函数使用了多任务损失函数，将边框回归直接加入到CNN网络中进行训练</p>
+</blockquote>
+<p>边框回归</p>
+<h5 id="1-加入ROI-pooling层"><a href="#1-加入ROI-pooling层" class="headerlink" title="1.加入ROI pooling层"></a>1.加入ROI pooling层</h5><p>​    ROI pooling layer实际上是SPP-NET的一个精简版，SSP-NET对每个proposal使用了不同大小的金字塔映射，而ROI pooling layer只需要下采样到一个7x7的特征图。对于VGG16网络conv5_3有512个特征图，这样所有region proposal对应了一个7*7*512维度的特征向量作为全连接层的输入。</p>
+<h5 id="2-将边框回归直接加入到了网络中，实现端到端"><a href="#2-将边框回归直接加入到了网络中，实现端到端" class="headerlink" title="2.将边框回归直接加入到了网络中，实现端到端"></a>2.将边框回归直接加入到了网络中，实现端到端</h5><p>​    之前的R-CNN框架是分为提取proposl、CNN提取特征、SVM分类器分类这种割裂开的三个阶段，而<strong>Fast R-CNN直接使用softmax替代SVM分类，同时利用多任务损失函数边框回归也加入到了网络中，这样整个的训练过程是端到端的(除去region proposal提取阶段)。</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图2.png?raw=true" alt></p>
+<h5 id="3-R-CNN和Fast-R-CNN对比："><a href="#3-R-CNN和Fast-R-CNN对比：" class="headerlink" title="3.R-CNN和Fast R-CNN对比："></a>3.R-CNN和Fast R-CNN对比：</h5><blockquote>
+<p>R-CNN:许多候选框（比如两千个）—&gt;CNN—&gt;得到每个候选框的特征—&gt;分类+回归</p>
+<p>Fast R-CNN：一张完整图片—&gt;CNN—&gt;得到每张候选框的特征—&gt;分类+回归</p>
+<p>​    Fast R-CNN相对于R-CNN的提速原因就在于：不过不像R-CNN把每个候选区域给深度网络提特征，而是<strong>整张图提一次特征，再把候选框映射到conv5</strong>上，而SPP只需要计算一次特征，剩下的只需要在conv5层上操作就可以了。</p>
+</blockquote>
+<h5 id="4-存在问题"><a href="#4-存在问题" class="headerlink" title="4.存在问题"></a>4.存在问题</h5><p>​    虽然不在不再需要对每个候选框进行卷积运算，但是<strong>使用选择搜索算法进行候选框生成的过程也非常耗时</strong>。</p>
+<h4 id="（四）Faster-R-CNN"><a href="#（四）Faster-R-CNN" class="headerlink" title="（四）Faster R-CNN"></a>（四）Faster R-CNN</h4><p><strong>核心</strong></p>
+<blockquote>
+<p>​    引入Region Proposal Network(RPN)替代Selective Search，同时引入anchor box应对目标形状的变化问题</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN结构图.png?raw=true" alt></p>
+<h5 id="RPN"><a href="#RPN" class="headerlink" title="　RPN"></a>　RPN</h5><p>​    首先在feature map上进行滑动的窗口，</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN四损失函数图.png?raw=true" alt></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+              <a href="/tags/目标检测/" rel="tag"># 目标检测</a>
+              <a href="/tags/图像/" rel="tag"># 图像</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/27/目标检测——ROI池化层/" rel="prev" title="目标检测——ROI池化层">
+      <i class="fa fa-chevron-left"></i> 目标检测——ROI池化层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/05/目标检测——yolo算法实现/" rel="next" title="目标检测——yolo算法实现">
+      目标检测——yolo算法实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、常见目标检测算法概述"><span class="nav-text">一、常见目标检测算法概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-传统的目标检测算法"><span class="nav-text">1.传统的目标检测算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-候选区域-框-深度学习分类"><span class="nav-text">2.候选区域/框+深度学习分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-基于深度学习的回归方法"><span class="nav-text">3.基于深度学习的回归方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、传统目标检测算法"><span class="nav-text">二、传统目标检测算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一-传统目标检测的整体流程"><span class="nav-text">(一)  传统目标检测的整体流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-区域选择"><span class="nav-text">1.区域选择</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-特征提取"><span class="nav-text">2.特征提取</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-分类器分类"><span class="nav-text">3.分类器分类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（二）目标检测任务"><span class="nav-text">（二）目标检测任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（三）定位问题的主要两种方案"><span class="nav-text">（三）定位问题的主要两种方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-使用回归模型"><span class="nav-text">1.使用回归模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-图像窗口法"><span class="nav-text">2.图像窗口法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四-传统目标检测的主要问题"><span class="nav-text">(四) 传统目标检测的主要问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、候选区域-深度学习"><span class="nav-text">三、候选区域+深度学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一-R-CNN"><span class="nav-text">(一) R-CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#R-CNN整体流程"><span class="nav-text">R-CNN整体流程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#R-CNN具体步骤"><span class="nav-text">R-CNN具体步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#R-CNN存在的问题"><span class="nav-text">R-CNN存在的问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二-SSP-Net"><span class="nav-text">(二) SSP Net</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-主要改进点"><span class="nav-text">1.主要改进点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-ROI池化层"><span class="nav-text">2.ROI池化层</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-只对原图进行一次卷积"><span class="nav-text">3.只对原图进行一次卷积</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三-Fast-R-CNN"><span class="nav-text">(三) Fast R-CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-加入ROI-pooling层"><span class="nav-text">1.加入ROI pooling层</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-将边框回归直接加入到了网络中，实现端到端"><span class="nav-text">2.将边框回归直接加入到了网络中，实现端到端</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-R-CNN和Fast-R-CNN对比："><span class="nav-text">3.R-CNN和Fast R-CNN对比：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-存在问题"><span class="nav-text">4.存在问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（四）Faster-R-CNN"><span class="nav-text">（四）Faster R-CNN</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#RPN"><span class="nav-text">　RPN</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">45</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">NaNm</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">NaN:aN</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.7.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'c5cb5ea1305f1f48f1ae',
+      clientSecret: 'b2ebabb0a40edbfad2080e4369d5987eb1fc2bca',
+      repo        : 'AnchoretY.github.io',
+      owner       : 'AnchoretY',
+      admin       : ['AnchoretY'],
+      id          : '3905b1dcaf7f1c9e136dde7088f9f2f6',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
