@@ -190,128 +190,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/07/概率图模型——HMM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/07/概率图模型——HMM/" class="post-title-link" itemprop="url">概率图模型——HMM</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-11-07 12:04:02" itemprop="dateCreated datePublished" datetime="2018-11-07T12:04:02+08:00">2018-11-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-11-12 20:51:06" itemprop="dateModified" datetime="2018-11-12T20:51:06+08:00">2018-11-12</time>
-              </span>
-
-          
-            <span id="/2018/11/07/概率图模型——HMM/" class="post-meta-item leancloud_visitors" data-flag-title="概率图模型——HMM" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/11/07/概率图模型——HMM/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/11/07/概率图模型——HMM/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>517</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>马尔科夫模型假设：</p>
-<p>​    1.马尔科夫模型认为每一时刻的表现x有一个状态z与其对应</p>
-<p>​    2.观测独立性假设：每个时刻的输出都只与当前的状态有关</p>
-<p>​    3.贝叶斯公式P(o|λ) = P(λ|o)P(o) / P(λ)</p>
-<h4 id="马尔科夫模型的推导过程"><a href="#马尔科夫模型的推导过程" class="headerlink" title="马尔科夫模型的推导过程"></a>马尔科夫模型的推导过程</h4><p>​    对于马尔科夫模型，求解的最终目的是</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">maxP</span>(<span class="params">o1o2...on|λ1λ2...λn</span>)</span></span><br></pre></td></tr></table></figure>
-<p>​    由于p(o|λ)是个关于2n各变量的条件概率，并且n不固定，因此没办法进行精确计算。因此马尔科夫链模型采用了一种更加巧妙地方式来进行建模。</p>
-<p>​    首先，根据贝叶斯公式可以得：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>) / P(λ)</span><br></pre></td></tr></table></figure>
-<p>​    λ为给定的输入，因此P(λ)为常数，因此可以忽略.因此</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>)</span><br></pre></td></tr></table></figure>
-<p>​    而根据观测独立性假设，可以得到</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P(o1o2...<span class="keyword">on</span>|λ<span class="number">1</span>λ<span class="number">2.</span>..λn) = P(o1|λ<span class="number">1</span>)P(o2|λ<span class="number">2</span>)...P(<span class="keyword">on</span>|λn)</span><br><span class="line">	P(o) = P(o1)P(o2|o1)P(o3|o1,o2)...P(<span class="keyword">on</span>|<span class="keyword">on</span><span class="number">-1</span>,<span class="keyword">on</span><span class="number">-2</span>,...,o1)</span><br></pre></td></tr></table></figure>
-<p>​    而由于其次马尔科夫假设，每个输出仅与上一个一个输出有关，那么</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span>) = p(<span class="name">o1</span>)P(<span class="name">o2</span><span class="name">|o1)....P(on|</span><span class="name">on-1</span>)</span><br></pre></td></tr></table></figure>
-<p>​    因此最终可得：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) ~ p(o1)P(o1|</span><span class="name">o2</span>)P(λ|o2)P(o2|o3)P(λ<span class="number">3</span>|o3)...P(on|on-1)P(λ|on)</span><br></pre></td></tr></table></figure>
-<p>​    其中，P(λk|ok)为发射概率，P(ok|ok-1)为转移概率。</p>
-<h4 id="维特比算法"><a href="#维特比算法" class="headerlink" title="维特比算法"></a>维特比算法</h4><p>​    维特比算法是隐马尔科夫模型最终求解当前表现链最可能对应的状态链使用的一种动态规划算法。主要思想是：</p>
-<p>HMM模型训练后的输出为：初始状态概率矩阵、状态转移矩阵、发射概率矩阵三个结果，用来后续进行预测</p>
-<p>概率图模型大部分都是这样，输出为几个概率矩阵</p>
-<p>而LR模型的输出就为系数矩阵了</p>
-<p>我们可以看出来，LR在使用训练好的模型进行与测试效率较高，而HMM使用训练好的模型进行训练时效率较低</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/05/机器学习和深度学习在实践中的一些经验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1610,6 +1488,138 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/21/最优化问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/21/最优化问题/" class="post-title-link" itemprop="url">最优化问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-21 10:30:09" itemprop="dateCreated datePublished" datetime="2018-10-21T10:30:09+08:00">2018-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-10-22 21:46:30" itemprop="dateModified" datetime="2018-10-22T21:46:30+08:00">2018-10-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/10/21/最优化问题/" class="post-meta-item leancloud_visitors" data-flag-title="最优化问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/10/21/最优化问题/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/21/最优化问题/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>605</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>最优化问题主要分为</p>
+<p>​    1.无约束优化问题</p>
+<p>​    2.等式优化问题</p>
+<p>​    3.含不等式优化问题</p>
+<p>​    <strong>对于无约束问题常常使用的方法就是Fermat定理</strong>，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。</p>
+<p>​    在<strong>求取有约束条件的优化问题</strong>时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。二者各有其使用范围：</p>
+<p>​    <strong>拉格朗日乘子法：等式约束的最优化问题</strong></p>
+<p>​    <strong>KTT条件：不等式约束下的最优化问题</strong></p>
+<blockquote>
+<p>对于一般的任意问题而言，这两种方法求得的解是使一组解成为最优解的必要条件，<strong>只有当原问题是凸问题的时候，求是求得的解是最优解的充分条件</strong>。</p>
+</blockquote>
+<h3 id="二、有约束最优化问题的求解"><a href="#二、有约束最优化问题的求解" class="headerlink" title="二、有约束最优化问题的求解"></a>二、有约束最优化问题的求解</h3><p>​    <strong>1.拉格朗日乘子法</strong></p>
+<p>​    对于等式约束，我们可以通过一个拉格朗日系数a 把等式约束和目标函数组合成为一个式子L(a, x) = f(x) + a*h(x), 这里把a和h(x)视为向量形式，a是横向量，h(x)为列向量，然后求取最优值，可以通过对L(a,x)对各个参数求导取零，联立等式进行求取。</p>
+<p>​    <strong>2.KTT条件</strong></p>
+<p>​    对于含有不等式的约束条件最优化问题，我们可以把所有的不等式约束、等式约束和目标函数全部写为一个式子L(a, b, x)= f(x) + a<em>g(x)+b</em>h(x)，KKT条件是说最优值必须满足以下条件：</p>
+<ol>
+<li><p>L(a, b, x)对x求导为零；</p>
+</li>
+<li><p>h(x) =0;</p>
+</li>
+<li><p>a*g(x) = 0;（g(x)为不等式约束）</p>
+</li>
+</ol>
+<p>求取这三个等式之后就能得到候选最优值。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1680,7 +1690,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-count">131</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

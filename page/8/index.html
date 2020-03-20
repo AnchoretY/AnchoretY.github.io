@@ -190,143 +190,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/13/机试——动态规划和回溯法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/04/13/机试——动态规划和回溯法/" class="post-title-link" itemprop="url">机试——动态规划和回溯法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-04-13 16:50:40" itemprop="dateCreated datePublished" datetime="2019-04-13T16:50:40+08:00">2019-04-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-08-18 10:30:55" itemprop="dateModified" datetime="2019-08-18T10:30:55+08:00">2019-08-18</time>
-              </span>
-
-          
-            <span id="/2019/04/13/机试——动态规划和回溯法/" class="post-meta-item leancloud_visitors" data-flag-title="机试——动态规划和回溯法" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/04/13/机试——动态规划和回溯法/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/13/机试——动态规划和回溯法/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="动态规划DP"><a href="#动态规划DP" class="headerlink" title="动态规划DP"></a>动态规划DP</h3><p>​    基本思想也是将待求解问题分解成若干个子问题，先求解子问题，然后从这些问题的解得到原问题的解。与分治法不同的是，适合于用动态规划求解的问题，经分解得到子问题往往不是互相独立的。</p>
-<p>​    核心：找到递推公式</p>
-<h4 id="二维递归"><a href="#二维递归" class="headerlink" title="二维递归"></a>二维递归</h4><h5 id="1-背包问题"><a href="#1-背包问题" class="headerlink" title="1.背包问题"></a>1.背包问题</h5><h5 id="2-分割等和子数组-也会背包问题"><a href="#2-分割等和子数组-也会背包问题" class="headerlink" title="2.分割等和子数组(也会背包问题)"></a>2.分割等和子数组(也会背包问题)</h5><p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
-<p><strong>注意:</strong></p>
-<ol>
-<li>每个数组中的元素不会超过 100</li>
-<li>数组的大小不会超过 200</li>
-</ol>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: [<span class="number">1</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">输出: true</span><br><span class="line"></span><br><span class="line">解释: 数组可以分割成 [<span class="number">1</span>, <span class="number">5</span>, <span class="number">5</span>] 和 [<span class="number">11</span>].</span><br></pre></td></tr></table></figure>
-<p>​    本题是一个经典的动态规划问题的题型——0/1背包问题,背包的大小为sum(nums)/2。该问题首先要我们初始化一个数组w，w[i]代表能否将背包填充到i，而能将背包填充到i有两种方式，一种是直接使用i大小的块，第二是使用多个小块，因此我们可以总结出递推公式：</p>
-<p>​    w[i] = w[i]||w[i-num]</p>
-<p>​    这个递推公式用程序表示就是：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(c, num - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">      w[i] = w[i] <span class="keyword">or</span> w[i - num]</span><br></pre></td></tr></table></figure>
-<p>​    举例来说：</p>
-<p>​        对于输入[1,5,11,5]来说，<br>​        当num=1时，通过递推式只能得到w[1]=true<br>​        当num=5时，通过递推式能够得到w[5]=true,w[6]=true，因为可以通过1+5组合<br>​        当num=5时，通过递推式能够得到新的w[11]=true（5+6=11）<br>​        当num=11时，没有新改动w<br>​        所以此时可以发现w[11]=true，所以可以等分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canPartition</span><span class="params">(self, nums)</span> -&gt; bool:</span></span><br><span class="line">        <span class="comment"># 计算总价值</span></span><br><span class="line">        c = sum(nums)</span><br><span class="line">        <span class="comment"># 奇数直接排除</span></span><br><span class="line">        <span class="keyword">if</span> c % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        c = c // <span class="number">2</span></span><br><span class="line">        w = [<span class="keyword">False</span>] * (c + <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 第0个位置设置为true，表示当元素出现的时候让w[i-num]为True,也就是w[i]为True</span></span><br><span class="line">        w[<span class="number">0</span>] = <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(c, num - <span class="number">1</span>, <span class="number">-1</span>):</span><br><span class="line">                w[i] = w[i] <span class="keyword">or</span> w[i - num]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> w[c]</span><br></pre></td></tr></table></figure>
-<p>​    当然本题也就可以使用BST，但是时间复杂度太高，leetcode没过</p>
-<h5 id><a href="#" class="headerlink" title=" "></a> </h5><h3 id="回溯法-深度优先搜索BST"><a href="#回溯法-深度优先搜索BST" class="headerlink" title="回溯法-深度优先搜索BST"></a>回溯法-深度优先搜索BST</h3><p>​    在包含问题的所有解的解空间树中，按照深度优先搜索的策略，从根结点出发深度探索解空间树。当探索到某一结点时，要先判断该结点是否包含问题的解，如果包含，就从该结点出发继续探索下去，如果该结点不包含问题的解，则逐层向其祖先结点回溯。</p>
-<p>​    核心：暴力遍历</p>
-<h5 id="1-求解一个集合的全部子集"><a href="#1-求解一个集合的全部子集" class="headerlink" title="1.求解一个集合的全部子集"></a>1.求解一个集合的全部子集</h5><p>给定一组<strong>不含重复元素</strong>的整数数组 <em>nums</em>，返回该数组所有可能的子集（幂集）。</p>
-<p><strong>说明：</strong>解集不能包含重复的子集。</p>
-<p><strong>示例:</strong></p>
-<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = <span class="comment">[1,2,3]</span></span><br><span class="line">输出:</span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  <span class="comment">[3]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[1]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[2]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[1,2,3]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[1,3]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[2,3]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[1,2]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[]</span></span></span><br><span class="line"><span class="comment">]</span></span><br></pre></td></tr></table></figure>
-<p>​    找子集相关问题的BST基本上采用的<strong>核心思想：每个位置都可能出现采用或者不采用两种情况，而如果可能出现重复的元素，那么就要事先将原数组进行排序，存进result之前判断是否已有</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subsets</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,i,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> i==length:</span><br><span class="line">                result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            <span class="comment">#每次向后遍历时有两种情况，一种是将当前节点值加入到tmp中，一种是不加入</span></span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp+[nums[i]])</span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp)</span><br><span class="line">            </span><br><span class="line">        nums.sort()</span><br><span class="line">        length = len(nums) </span><br><span class="line">        result = []</span><br><span class="line">        core(nums,<span class="number">0</span>,[])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<p>拓展：含重复的子集</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subsetsWithDup</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,i,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> i==length:</span><br><span class="line">                <span class="keyword">if</span> tmp <span class="keyword">not</span> <span class="keyword">in</span> result: </span><br><span class="line">                    result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            </span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp)</span><br><span class="line">            core(nums,i+<span class="number">1</span>,tmp+[nums[i]])</span><br><span class="line">            </span><br><span class="line">        length = len(nums)</span><br><span class="line">        result = []</span><br><span class="line">        nums.sort()   <span class="comment">#这里必须要先排序</span></span><br><span class="line">        core(nums,<span class="number">0</span>,[])</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h5 id="2-全排列"><a href="#2-全排列" class="headerlink" title="2.全排列"></a>2.全排列</h5><p>给定一个<strong>没有重复</strong>数字的序列，返回其所有可能的全排列。</p>
-<p><strong>示例:</strong></p>
-<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入: <span class="comment">[1,2,3]</span></span><br><span class="line">输出:</span><br><span class="line"><span class="comment">[</span></span><br><span class="line"><span class="comment">  <span class="comment">[1,2,3]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[1,3,2]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[2,1,3]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[2,3,1]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[3,1,2]</span>,</span></span><br><span class="line"><span class="comment">  <span class="comment">[3,2,1]</span></span></span><br><span class="line"><span class="comment">]</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">permute</span><span class="params">(self, nums: List[int])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> nums==[]:</span><br><span class="line">                result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                s = nums[::]</span><br><span class="line">                s.remove(num)</span><br><span class="line">                core(s,tmp+[num])</span><br><span class="line">                </span><br><span class="line">        result = []</span><br><span class="line">        core(nums,[])</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<p>拓展：含重复数组的全排列</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">permuteUnique</span><span class="params">(self, nums: List[int])</span> -&gt; List[List[int]]:</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(nums,tmp)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> nums==[]:</span><br><span class="line">                <span class="keyword">if</span> tmp <span class="keyword">not</span> <span class="keyword">in</span> result:</span><br><span class="line">                    result.append(tmp)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">                s = nums[::]</span><br><span class="line">                s.remove(num)</span><br><span class="line">                core(s,tmp+[num])</span><br><span class="line">                </span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        nums.sort()</span><br><span class="line">        core(nums,[])</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h5 id="3-划分为k个相等的子集"><a href="#3-划分为k个相等的子集" class="headerlink" title="3.划分为k个相等的子集"></a>3.划分为k个相等的子集</h5><p>给定一个整数数组  <code>nums</code> 和一个正整数 <code>k</code>，找出是否有可能把这个数组分成 <code>k</code> 个非空子集，其总和都相等。</p>
-<p><strong>示例 1：</strong></p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入： nums = [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">2</span>, <span class="number">1</span>], k = <span class="number">4</span></span><br><span class="line">输出： True</span><br><span class="line">说明： 有可能将其分成 <span class="number">4</span> 个子集（<span class="number">5</span>），（<span class="number">1</span>,<span class="number">4</span>），（<span class="number">2</span>,<span class="number">3</span>），（<span class="number">2</span>,<span class="number">3</span>）等于总和。</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">canPartitionKSubsets</span><span class="params">(self, nums: List[int], k: int)</span> -&gt; bool:</span></span><br><span class="line">				</span><br><span class="line">        <span class="keyword">if</span> k == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="comment">#如果不能被k整除，那么直接无解</span></span><br><span class="line">        sum_num = sum(nums)</span><br><span class="line">        <span class="keyword">if</span> sum_num % k != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">          </span><br><span class="line">        avg = sum_num // k </span><br><span class="line">        nums.sort(reverse=<span class="keyword">True</span>)</span><br><span class="line">        </span><br><span class="line">        n = len(nums)</span><br><span class="line">        <span class="keyword">if</span> n &lt; k :<span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        visited = set()   <span class="comment">#标志位，标志哪个位置已经被使用过了</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(k,tmp_sum,loc)</span>:</span></span><br><span class="line">          	<span class="comment">#当选用的几个数之和等于目标值，那么k减一，再找下一个子集</span></span><br><span class="line">            <span class="keyword">if</span> tmp_sum == avg:</span><br><span class="line">                <span class="keyword">return</span>  dfs(k<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">            <span class="comment">#如果k==1，由于上面已经验证过可以被k整除，因此一定成立</span></span><br><span class="line">            <span class="keyword">if</span> k == <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(loc,n):</span><br><span class="line">                <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> visited <span class="keyword">and</span> nums[i] + tmp_sum &lt;= avg:</span><br><span class="line">                    visited.add(i)</span><br><span class="line">                    <span class="keyword">if</span> dfs(k,tmp_sum+nums[i],i+<span class="number">1</span>):</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">                    visited.remove(i)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> dfs(k,<span class="number">0</span>,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/12/深度学习——词向量表示之word2vec/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1641,6 +1504,110 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/02/27/面试总结-Python和C语言中的一些不同/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/02/27/面试总结-Python和C语言中的一些不同/" class="post-title-link" itemprop="url">面试总结-Python和C语言中的一些不同</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-02-27 21:18:33 / 修改时间：22:17:01" itemprop="dateCreated datePublished" datetime="2019-02-27T21:18:33+08:00">2019-02-27</time>
+            </span>
+
+          
+            <span id="/2019/02/27/面试总结-Python和C语言中的一些不同/" class="post-meta-item leancloud_visitors" data-flag-title="面试总结-Python和C语言中的一些不同" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/02/27/面试总结-Python和C语言中的一些不同/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/02/27/面试总结-Python和C语言中的一些不同/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>278</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-python在除法和C语言中的一点区别"><a href="#1-python在除法和C语言中的一点区别" class="headerlink" title="1.python在除法和C语言中的一点区别"></a>1.python在除法和C语言中的一点区别</h3><p>​    在Python3中，除法有 “/” 以及 “//” 两种，这两个有着明显的区别，具体区别看代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">12</span>//<span class="number">10</span>)</span><br><span class="line">print(<span class="number">12</span>/<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>这两行代码的输出如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1.2</span></span><br></pre></td></tr></table></figure>
+<p>当被除数是负数的时候，又是另一种情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">-12</span>/<span class="number">10</span>)      <span class="comment">#不补整</span></span><br><span class="line">print(int(<span class="number">-12</span>/<span class="number">10</span>)) <span class="comment">#向正方向进行补整</span></span><br><span class="line">print(<span class="number">-13</span>//<span class="number">10</span>)     <span class="comment">#向负方向进行补整</span></span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-1.2</span></span><br><span class="line">    <span class="number">-1</span></span><br><span class="line">    <span class="number">-2</span></span><br></pre></td></tr></table></figure>
+<p>​    因此，综合前面的正负两种情况，我们可以看出<strong>当我们想要达到和C++同样的向上取整，只能使用int(a/b)方式。</strong></p>
+<h3 id="2-python在求余时和C的一点区别"><a href="#2-python在求余时和C的一点区别" class="headerlink" title="2.python在求余时和C的一点区别"></a>2.python在求余时和C的一点区别</h3><p>​    对于正数求余运算，python和C++完全相同，但是对于负数求余运算，python和C++存在着较大的差别，下面我们通过例子来说明二者的差别。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#C++</span></span><br><span class="line">count&gt;&gt;<span class="number">-123</span>%<span class="number">10</span>;</span><br><span class="line">output:</span><br><span class="line">    <span class="number">-3</span></span><br><span class="line"><span class="comment">#python</span></span><br><span class="line">print(<span class="number">-123</span>%<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-7</span>    <span class="comment">#这里是向下取10的余数</span></span><br></pre></td></tr></table></figure>
+<p>​    为了实现和C++相同效果的取余运算，我们只能采用如下方式进行取余运算</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> a&gt;=<span class="number">0</span></span><br><span class="line">	print(a%<span class="number">10</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	print(a%<span class="number">-10</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1711,7 +1678,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-count">131</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
