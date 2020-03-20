@@ -20,13 +20,11 @@
     var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
   </script>
 
-  <meta name="description" content="gitalk实现hexo博客评论功能">
-<meta name="keywords" content="博客">
+  <meta name="keywords" content="博客">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo博客打造评论系统">
 <meta property="og:url" content="https://anchorety.github.io/2020/03/16/hexo博客打造评论系统/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="gitalk实现hexo博客评论功能">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ue332ss57b.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ywhey2o6cdd.png">
@@ -41,10 +39,9 @@
 <meta property="og:image" content="https://anchorety.github.io/Users/yhk/Library/Application%20Support/typora-user-images/image-20200320095850290.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4mxnnxu5xlj.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.1x2lbwouzha.png">
-<meta property="og:updated_time" content="2020-03-20T02:44:07.080Z">
+<meta property="og:updated_time" content="2020-03-20T03:01:36.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo博客打造评论系统">
-<meta name="twitter:description" content="gitalk实现hexo博客评论功能">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ue332ss57b.png">
 
 <link rel="canonical" href="https://anchorety.github.io/2020/03/16/hexo博客打造评论系统/">
@@ -239,7 +236,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-20 10:44:07" itemprop="dateModified" datetime="2020-03-20T10:44:07+08:00">2020-03-20</time>
+                <time title="修改时间：2020-03-20 11:01:36" itemprop="dateModified" datetime="2020-03-20T11:01:36+08:00">2020-03-20</time>
               </span>
 
           
@@ -288,9 +285,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="gitalk实现hexo博客评论功能"><a href="#gitalk实现hexo博客评论功能" class="headerlink" title="gitalk实现hexo博客评论功能"></a>gitalk实现hexo博客评论功能</h2><hr>
+        <hr>
 <a id="more"></a>
-<h4 id="1-Github注册OAuth应用"><a href="#1-Github注册OAuth应用" class="headerlink" title="1. Github注册OAuth应用"></a>1. Github注册OAuth应用</h4><p>&emsp;&emsp;在GitHub上注册新应用，链接：<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">https://github.com/settings/applications/new</a></p>
+<h2 id="gitalk实现hexo博客评论功能"><a href="#gitalk实现hexo博客评论功能" class="headerlink" title="gitalk实现hexo博客评论功能"></a>gitalk实现hexo博客评论功能</h2><h3 id="1-Github注册OAuth应用"><a href="#1-Github注册OAuth应用" class="headerlink" title="1. Github注册OAuth应用"></a>1. Github注册OAuth应用</h3><p>&emsp;&emsp;在GitHub上注册新应用，链接：<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">https://github.com/settings/applications/new</a></p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ue332ss57b.png" alt="image"></p>
 <p><strong>参数说明</strong>：</p>
 <ul>
@@ -305,21 +302,21 @@
 </ul>
 <p>&emsp;&emsp;点击注册后，页面跳转如下，其中Client ID和Client Secret在后面的配置中需要用到，到时复制粘贴即可：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ywhey2o6cdd.png" alt="image"></p>
-<h4 id="2-新建gitalk-swig"><a href="#2-新建gitalk-swig" class="headerlink" title="2. 新建gitalk.swig"></a>2. 新建<code>gitalk.swig</code></h4><p>&emsp;&emsp;新建<code>themes/next/layout/_third-party/comments/gitalk.swig</code>文件，并添加内容：</p>
+<h3 id="2-新建gitalk-swig"><a href="#2-新建gitalk-swig" class="headerlink" title="2. 新建gitalk.swig"></a>2. 新建<code>gitalk.swig</code></h3><p>&emsp;&emsp;新建<code>themes/next/layout/_third-party/comments/gitalk.swig</code>文件，并添加内容：</p>
 <figure class="highlight shell"><figcaption><span>:themes/next/layout/_third-party/comments/gitalk.swig</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if page.comments &amp;&amp; theme.gitalk.enable %&#125;</span><br><span class="line">  &lt;link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"&gt;</span><br><span class="line">  &lt;script src="https://unpkg.com/gitalk/dist/gitalk.min.js"&gt;&lt;/script&gt;</span><br><span class="line">  &lt;script src="/js/src/md5.min.js"&gt;&lt;/script&gt;</span><br><span class="line">   &lt;script type="text/javascript"&gt;</span><br><span class="line">        var gitalk = new Gitalk(&#123;</span><br><span class="line">          clientID: '&#123;&#123; theme.gitalk.ClientID &#125;&#125;',</span><br><span class="line">          clientSecret: '&#123;&#123; theme.gitalk.ClientSecret &#125;&#125;',</span><br><span class="line">          repo: '&#123;&#123; theme.gitalk.repo &#125;&#125;',</span><br><span class="line">          owner: '&#123;&#123; theme.gitalk.githubID &#125;&#125;',</span><br><span class="line">          admin: ['&#123;&#123; theme.gitalk.adminUser &#125;&#125;'],</span><br><span class="line">          id: md5(location.pathname), # 使用md5确保id长度不超过50，关键</span><br><span class="line">          distractionFreeMode: '&#123;&#123; theme.gitalk.distractionFreeMode &#125;&#125;'</span><br><span class="line">        &#125;)</span><br><span class="line">        gitalk.render('gitalk-container')</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;为了配合其中的md5函数能够使用，这里要引入js脚本。将 <a href="https://github.com/blueimp/JavaScript-MD5/blob/master/js/md5.min.js" target="_blank" rel="noopener">md5.min.js</a> 文件下载下来放到 themes/next/source/js/src/ 路径下。</p>
-<h4 id="3-修改comments-swig"><a href="#3-修改comments-swig" class="headerlink" title="3. 修改comments.swig"></a>3. 修改<code>comments.swig</code></h4><p>&emsp;&emsp;修改<code>themes/next/layout/_partials/comments.swig</code>，添加内容如下，与前面的<code>elseif</code>同一级别上：</p>
+<h3 id="3-修改comments-swig"><a href="#3-修改comments-swig" class="headerlink" title="3. 修改comments.swig"></a>3. 修改<code>comments.swig</code></h3><p>&emsp;&emsp;修改<code>themes/next/layout/_partials/comments.swig</code>，添加内容如下，与前面的<code>elseif</code>同一级别上：</p>
 <figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name">elseif</span> theme.gitalk.enable %&#125;</span><span class="xml"></span></span><br><span class="line"><span class="xml"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"gitalk-container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f6pw9frdqo.png" alt="image"></p>
-<h4 id="4-修改index-swig"><a href="#4-修改index-swig" class="headerlink" title="4. 修改index.swig"></a>4. 修改<code>index.swig</code></h4><p>&emsp;&emsp;修改<code>themes/next/layout/_third-party/comments/index.swig</code>，在最后一行添加内容：</p>
+<h3 id="4-修改index-swig"><a href="#4-修改index-swig" class="headerlink" title="4. 修改index.swig"></a>4. 修改<code>index.swig</code></h3><p>&emsp;&emsp;修改<code>themes/next/layout/_third-party/comments/index.swig</code>，在最后一行添加内容：</p>
 <figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span><span class="template-tag">&#123;% <span class="name"><span class="name">include</span></span> 'gitalk.swig' %&#125;</span><span class="xml"></span></span><br></pre></td></tr></table></figure>
-<h4 id="5-新建gitalk-styl"><a href="#5-新建gitalk-styl" class="headerlink" title="5. 新建gitalk.styl"></a>5. 新建<code>gitalk.styl</code></h4><p>&emsp;&emsp;新建<code>/source/css/_common/components/third-party/gitalk.styl</code>文件，添加内容：</p>
+<h3 id="5-新建gitalk-styl"><a href="#5-新建gitalk-styl" class="headerlink" title="5. 新建gitalk.styl"></a>5. 新建<code>gitalk.styl</code></h3><p>&emsp;&emsp;新建<code>/source/css/_common/components/third-party/gitalk.styl</code>文件，添加内容：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.gt-header</span> <span class="selector-tag">a</span>, <span class="selector-class">.gt-comments</span> <span class="selector-tag">a</span>, <span class="selector-class">.gt-popup</span> a</span><br><span class="line">  <span class="attribute">border-bottom</span>: none;</span><br><span class="line"><span class="selector-class">.gt-container</span> <span class="selector-class">.gt-popup</span> <span class="selector-class">.gt-action</span><span class="selector-class">.is--active</span>:before</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0.7em</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="6-修改third-party-styl"><a href="#6-修改third-party-styl" class="headerlink" title="6. 修改third-party.styl"></a>6. 修改<code>third-party.styl</code></h4><p>&emsp;&emsp;修改<code>themes/next/source/css/_common/components/third-party/third-party.styl</code>，在最后一行上添加内容，引入样式：</p>
+<h3 id="6-修改third-party-styl"><a href="#6-修改third-party-styl" class="headerlink" title="6. 修改third-party.styl"></a>6. 修改<code>third-party.styl</code></h3><p>&emsp;&emsp;修改<code>themes/next/source/css/_common/components/third-party/third-party.styl</code>，在最后一行上添加内容，引入样式：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"gitalk"</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="7-修改-config-yml"><a href="#7-修改-config-yml" class="headerlink" title="7. 修改_config.yml"></a>7. 修改<code>_config.yml</code></h4><p>&emsp;&emsp;在主题配置文件<code>themes/next/next/_config.yml</code>中添加如下内容：</p>
+<h3 id="7-修改-config-yml"><a href="#7-修改-config-yml" class="headerlink" title="7. 修改_config.yml"></a>7. 修改<code>_config.yml</code></h3><p>&emsp;&emsp;在主题配置文件<code>themes/next/next/_config.yml</code>中添加如下内容：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">  enable: <span class="literal">true</span></span><br><span class="line">  githubID: github帐号</span><br><span class="line">  repo: 仓库名称</span><br><span class="line">  ClientID:<span class="built_in"> Client </span>ID</span><br><span class="line">  ClientSecret:<span class="built_in"> Client </span>Secret</span><br><span class="line">  adminUser: github帐号 #指定可初始化评论账户</span><br><span class="line">  distractionFreeMode: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<h4 id="8-修改index-md文件使about、tag、categories页面不显示评论页面"><a href="#8-修改index-md文件使about、tag、categories页面不显示评论页面" class="headerlink" title="8.修改index.md文件使about、tag、categories页面不显示评论页面"></a>8.修改<code>index.md</code>文件使about、tag、categories页面不显示评论页面</h4><p>&emsp;&emsp;上面的操作步骤完成后，tag的页面显示如下,about和categories页面类似:</p>
+<h3 id="8-修改index-md文件使about、tag、categories页面不显示评论页面"><a href="#8-修改index-md文件使about、tag、categories页面不显示评论页面" class="headerlink" title="8.修改index.md文件使about、tag、categories页面不显示评论页面"></a>8.修改<code>index.md</code>文件使about、tag、categories页面不显示评论页面</h3><p>&emsp;&emsp;上面的操作步骤完成后，tag的页面显示如下,about和categories页面类似:</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.wv7w6b40hv.png" alt="image" style="zoom:30%;"></p>
 <p>​    </p>
 <p>&emsp;&emsp;这里只需要在<code>source/</code>文件夹下分别新建 <code>about</code>、<code>categories</code>、<code>tags</code> <strong>文件夹</strong>，每个文件夹里面都新建一个 <code>index.md</code> 文件（已有的直接添加comment: false），内容为</p>
@@ -342,24 +339,24 @@
 </ol>
 </blockquote>
 <p>下面将对使用Valine打造评论系统的详细过程进行介绍：</p>
-<h4 id="1-账号注册"><a href="#1-账号注册" class="headerlink" title="1.账号注册"></a>1.账号注册</h4><p>&emsp;&emsp;因为是商用软件，因此使用Valine首先要进行的就是登陆<a href="https://www.leancloud.cn" target="_blank" rel="noopener">LeanCloud网站</a>进行账号注册。</p>
+<h3 id="1-账号注册"><a href="#1-账号注册" class="headerlink" title="1.账号注册"></a>1.账号注册</h3><p>&emsp;&emsp;因为是商用软件，因此使用Valine首先要进行的就是登陆<a href="https://www.leancloud.cn" target="_blank" rel="noopener">LeanCloud网站</a>进行账号注册。</p>
 <div class="note primary">
             <p>因为网络安全法的出台，现在LeanCloud账号注册必选要进行实名认证后才能正常使用</p>
           </div>
-<h4 id="2-创建应用"><a href="#2-创建应用" class="headerlink" title="2.创建应用"></a>2.创建应用</h4><p>&emsp;&emsp;点击创建应用，输入应用名称，选择开发版进行创建。</p>
+<h3 id="2-创建应用"><a href="#2-创建应用" class="headerlink" title="2.创建应用"></a>2.创建应用</h3><p>&emsp;&emsp;点击创建应用，输入应用名称，选择开发版进行创建。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.gbbp2qov7xo.png" alt="image"></p>
 <p>&emsp;&emsp;创建成功后，出现界面</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.7ju3bv7h4c.png" alt="image" style="zoom:50%;"></p>
-<h4 id="3-打开应用存储，创建存储表"><a href="#3-打开应用存储，创建存储表" class="headerlink" title="3. 打开应用存储，创建存储表"></a>3. 打开应用存储，创建存储表</h4><p>&emsp;&emsp;打开应用，选择左边的存储，进入后点击创建Class，分别创建Counter和Comment两个Class，创建时全向都选择无任何限制，面向全部用户。</p>
+<h3 id="3-打开应用存储，创建存储表"><a href="#3-打开应用存储，创建存储表" class="headerlink" title="3. 打开应用存储，创建存储表"></a>3. 打开应用存储，创建存储表</h3><p>&emsp;&emsp;打开应用，选择左边的存储，进入后点击创建Class，分别创建Counter和Comment两个Class，创建时全向都选择无任何限制，面向全部用户。</p>
 <div class="note primary">
             <p>Counter为文章阅读计数存储表，Comment为评论存储表。</p>
           </div>
 <p>&emsp;&emsp;创建成功后如下：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.70shbacm58k.png" alt="image" style="zoom:50%;"></p>
-<h4 id="4-关闭其他服务，设置Web安全域名"><a href="#4-关闭其他服务，设置Web安全域名" class="headerlink" title="4.关闭其他服务，设置Web安全域名"></a>4.关闭其他服务，设置Web安全域名</h4><p>&emsp;&emsp;点击左侧导航栏设置选项，点击安全中心，关闭除数据存储外其他选型，然后在Web安全域名中填写博客地址。</p>
+<h3 id="4-关闭其他服务，设置Web安全域名"><a href="#4-关闭其他服务，设置Web安全域名" class="headerlink" title="4.关闭其他服务，设置Web安全域名"></a>4.关闭其他服务，设置Web安全域名</h3><p>&emsp;&emsp;点击左侧导航栏设置选项，点击安全中心，关闭除数据存储外其他选型，然后在Web安全域名中填写博客地址。</p>
 <p><img src="/Users/yhk/Library/Application Support/typora-user-images/image-20200320095850290.png" alt="image-20200320095850290"></p>
-<h4 id="5-点击应用key，获取应用的AppID、AppKey"><a href="#5-点击应用key，获取应用的AppID、AppKey" class="headerlink" title="5.点击应用key，获取应用的AppID、AppKey"></a>5.点击应用key，获取应用的AppID、AppKey</h4><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4mxnnxu5xlj.png" alt="image"></p>
-<h4 id="6-修改主题配置文件进行配置"><a href="#6-修改主题配置文件进行配置" class="headerlink" title="6.修改主题配置文件进行配置"></a>6.修改主题配置文件进行配置</h4><p>&emsp;&emsp;打开主题目录下_config.yml文件搜索valine对其进行配置。</p>
+<h3 id="5-点击应用key，获取应用的AppID、AppKey"><a href="#5-点击应用key，获取应用的AppID、AppKey" class="headerlink" title="5.点击应用key，获取应用的AppID、AppKey"></a>5.点击应用key，获取应用的AppID、AppKey</h3><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4mxnnxu5xlj.png" alt="image"></p>
+<h3 id="6-修改主题配置文件进行配置"><a href="#6-修改主题配置文件进行配置" class="headerlink" title="6.修改主题配置文件进行配置"></a>6.修改主题配置文件进行配置</h3><p>&emsp;&emsp;打开主题目录下_config.yml文件搜索valine对其进行配置。</p>
 <figure class="highlight diff"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">valine:</span><br><span class="line">  enable: true   </span><br><span class="line">  appid: xxx #上面保存的APPID</span><br><span class="line">  appkey: xxx #上面保存的AppKey</span><br><span class="line">  visitor: true #阅读统计</span><br><span class="line">  guest_info: nick,mail #评论用户信息设置</span><br><span class="line"><span class="deletion">-  language: zh-CN</span></span><br><span class="line"><span class="addition">+  language: zh-cn</span></span><br></pre></td></tr></table></figure>
 <div class="note primary">
             <p>这里language只能是小写，大写会造成评论区域不显示</p>
