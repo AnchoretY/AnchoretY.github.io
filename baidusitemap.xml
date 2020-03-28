@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/</loc>
+    <lastmod>2020-03-28</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/</loc>
+    <lastmod>2020-03-28</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/</loc>
+    <lastmod>2020-03-28</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2019/11/15/pytorch-tensorboard%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
+    <lastmod>2020-03-24</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2019/01/02/python%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A%E4%BF%A1%E6%81%AF%E8%AE%BE%E7%BD%AE/</loc>
+    <lastmod>2020-03-24</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2019/07/26/OWASP-TOP10/</loc>
+    <lastmod>2020-03-24</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2020/03/16/hexo%E5%8D%9A%E5%AE%A2%E9%AB%98%E9%98%B6%E8%AE%BE%E7%BD%AE/</loc>
+    <lastmod>2020-03-21</lastmod>
+  </url>  <url>
     <loc>https://anchorety.github.io/2020/03/18/hexo%E5%8D%9A%E5%AE%A2%E5%8D%87%E7%BA%A7/</loc>
     <lastmod>2020-03-21</lastmod>
   </url>  <url>
@@ -13,26 +34,11 @@
     <loc>https://anchorety.github.io/2020/02/21/%E5%AF%B9AI%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</loc>
     <lastmod>2020-03-21</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2020/03/16/hexo%E5%8D%9A%E5%AE%A2%E9%AB%98%E9%98%B6%E8%AE%BE%E7%BD%AE/</loc>
-    <lastmod>2020-03-21</lastmod>
-  </url>  <url>
     <loc>https://anchorety.github.io/2020/03/17/hexo%E5%8D%9A%E5%AE%A2%E8%BF%9B%E8%A1%8CSEO%E4%BC%98%E5%8C%96%EF%BC%8C%E6%B7%BB%E5%8A%A0sitemap%E7%AB%99%E7%82%B9/</loc>
     <lastmod>2020-03-21</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2018/09/23/hexo%E5%8D%9A%E5%AE%A2%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2020-03-18</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2019/11/15/pytorch-tensorboard%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
-    <lastmod>2020-03-14</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/</loc>
-    <lastmod>2020-02-20</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/</loc>
-    <lastmod>2020-02-20</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/</loc>
-    <lastmod>2020-02-20</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2018/10/30/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/</loc>
     <lastmod>2020-02-14</lastmod>
@@ -74,9 +80,6 @@
     <lastmod>2019-10-26</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/10/20/ddos/</loc>
-    <lastmod>2019-10-20</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2019/07/26/OWASP-TOP10/</loc>
     <lastmod>2019-10-20</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2018/12/30/python%E5%A4%9A%E8%BF%9B%E7%A8%8B/</loc>
@@ -308,9 +311,6 @@
     <lastmod>2019-01-07</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/01/02/pytorch%E5%BB%BA%E6%A8%A1%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</loc>
-    <lastmod>2019-01-02</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2019/01/02/python%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A%E4%BF%A1%E6%81%AF%E8%AE%BE%E7%BD%AE/</loc>
     <lastmod>2019-01-02</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2018/12/25/hadoop%E4%BD%BF%E7%94%A8/</loc>
