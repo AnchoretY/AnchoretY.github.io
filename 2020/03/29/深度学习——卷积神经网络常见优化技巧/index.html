@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.wkhzwv5hhq9.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2pjmwu98tyn.png">
-<meta property="og:updated_time" content="2020-03-30T02:20:36.036Z">
+<meta property="og:updated_time" content="2020-03-30T02:23:40.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习——卷积神经网络常见优化技巧">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;本文为卷积神经网络的进阶版使用使用技巧，包括1*1、全局平均池化等操作进行各种模型优化，并采用对比实验的方式来对效果进行直观展示。">
@@ -228,7 +228,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-30 10:20:36" itemprop="dateModified" datetime="2020-03-30T10:20:36+08:00">2020-03-30</time>
+                <time title="修改时间：2020-03-30 10:23:40" itemprop="dateModified" datetime="2020-03-30T10:23:40+08:00">2020-03-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -296,8 +296,8 @@
 <h3 id="1-1卷积的使用"><a href="#1-1卷积的使用" class="headerlink" title="1*1卷积的使用"></a>1*1卷积的使用</h3><p>&emsp;&emsp;在使用卷积神经网络进行大量卷积运算时，最常用的优化方法就是采用1<em>1的卷积核降低kernel，然后再使用卷积较大的卷积核进行卷积。该方法来自于Google提出的Inception模型，在该模型的模型优化中，作者针对采用多个并行的卷积核所产生的参数过多的问题，提出在深层卷积之前先采用1\</em>1的卷积进行降channel，然后再使用想要的卷积核进行卷积，在达到相同效果的前提下显著降低网络参数数量。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2pjmwu98tyn.png" alt="image"></p>
 <h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>&emsp;&emsp;对于输入数据维度为（$B_i，C_i，W_i，H_i$）的卷积神经网络使用为（$C_f,W_f,H_f$）的卷积核进行特征提取，卷积层网络参数的计算公式:</p>
-<script type="math/tex; mode=display">parameters = C_i*C_f*W_f*W_h</script><p>&emsp;&emsp;以输入数据维度(128,24,50,50)、使用卷积层为（48,3,3）为例，直接使用卷积层参数个数为：</p>
-<script type="math/tex; mode=display">parameters1 = 24*3*3*48 =  10368</script><p>&emsp;&emsp;而如果在使用该卷积核之前先使用一个(12,1,1)的卷积核进行降channel到12，那么该部分的参数个数为：</p>
+<script type="math/tex; mode=display">Parameters = C_i*C_f*W_f*W_h</script><p>&emsp;&emsp;以输入数据维度(128,24,50,50)、使用卷积层为（48,3,3）为例，直接使用卷积层参数个数为：</p>
+<script type="math/tex; mode=display">Parameters1 = 24*3*3*48 =  10368</script><p>&emsp;&emsp;而如果在使用该卷积核之前先使用一个(12,1,1)的卷积核进行降channel到12，那么该部分的参数个数为：</p>
 <script type="math/tex; mode=display">Parameters2 = 24*1*1*12 +12*3*3*48 = 5472</script><p>​    参数数量下降了近一倍。</p>
 <h4 id="对比实验"><a href="#对比实验" class="headerlink" title="对比实验"></a>对比实验</h4><p>&emsp;&emsp;本文的对比实验采用以前自己写的一个模型进行实验，</p>
 <h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
