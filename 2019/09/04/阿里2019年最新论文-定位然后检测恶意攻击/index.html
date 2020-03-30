@@ -1,1 +1,686 @@
-null
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-basedDeep Neural Networks》 主要针对的攻击类型:sql、xss 采用的方式:先定位攻击载荷在进行恶意检测 内容解读： ​    主要分为两阶段网络  PLN(Payload Locat-ing Network):在整个url、pos">
+<meta name="keywords" content="安全,前沿论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里2019年最新论文-定位然后检测恶意攻击">
+<meta property="og:url" content="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-basedDeep Neural Networks》 主要针对的攻击类型:sql、xss 采用的方式:先定位攻击载荷在进行恶意检测 内容解读： ​    主要分为两阶段网络  PLN(Payload Locat-ing Network):在整个url、pos">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true">
+<meta property="og:updated_time" content="2020-03-29T09:55:41.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里2019年最新论文-定位然后检测恶意攻击">
+<meta name="twitter:description" content="论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-basedDeep Neural Networks》 主要针对的攻击类型:sql、xss 采用的方式:先定位攻击载荷在进行恶意检测 内容解读： ​    主要分为两阶段网络  PLN(Payload Locat-ing Network):在整个url、pos">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true">
+
+<link rel="canonical" href="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>阿里2019年最新论文-定位然后检测恶意攻击 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阿里2019年最新论文-定位然后检测恶意攻击
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-04 20:55:58" itemprop="dateCreated datePublished" datetime="2019-09-04T20:55:58+08:00">2019-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-29 17:55:41" itemprop="dateModified" datetime="2020-03-29T17:55:41+08:00">2020-03-29</time>
+              </span>
+
+          
+            <span id="/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/" class="post-meta-item leancloud_visitors" data-flag-title="阿里2019年最新论文-定位然后检测恶意攻击" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-based<br>Deep Neural Networks》</p>
+<p>主要针对的攻击类型:sql、xss</p>
+<p>采用的方式:先定位攻击载荷在进行恶意检测</p>
+<p>内容解读：</p>
+<p>​    主要分为两阶段网络</p>
+<blockquote>
+<p>PLN(Payload Locat-ing Network):在整个url、post中定位到关键部分，去掉无用信息</p>
+<p>PCN(Payload Classification Network):利用PLN网络得到的关注度信息进行分类</p>
+</blockquote>
+<h2 id="PLN"><a href="#PLN" class="headerlink" title="PLN"></a>PLN</h2><p>​    <strong>目标</strong>：</p>
+<p>​    <strong>输入</strong>:固定长度的请求输入文本</p>
+<p>​    <strong>输出:</strong>区域位置和可疑置信度</p>
+<p>​    <strong>核心思想</strong>：图像分割的思想</p>
+<blockquote>
+<p>PLN网络要进行单独的训练，然后加到PCN网络之前，固定参数值(我的理解)</p>
+</blockquote>
+<h4 id="request请求编码"><a href="#request请求编码" class="headerlink" title="request请求编码"></a>request请求编码</h4><p>​    首先设置一个最大长度L，然后进行字符级别的embedding，即每个字符都转化成一个对应的k维Embbeding向量，最终输出为：L*K维向量</p>
+<blockquote>
+<p>这里的最大长度法和我们之前的方法类似，直接进行长度限制，忽略了在超长的正常参数尾部追加恶意payload形式的攻击    </p>
+</blockquote>
+<h4 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h4><p>​    模型：Xception</p>
+<blockquote>
+<p>Xception模型</p>
+<p>​    先进行普通卷积操作，再对 1×1 卷积后的每个channel分别进行 3×3 卷积操作，最后将结果 concat</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true" alt></p>
+</blockquote>
+<p>​    加速计算：thin feature maps with small channel(不损失很大精度的前提下显著提升速度)</p>
+<h4 id="模型部分"><a href="#模型部分" class="headerlink" title="模型部分"></a>模型部分</h4><p>​    沿着特征图滑动几个mini-networks来检测可以片段，该网络采样特征图一个n<em>m的窗口，在mini-network层之后经过两个1\</em>m并列的层——区域回归层和区域分类层</p>
+<blockquote>
+<p>为了保证保持嵌入张量中这些向量的语义完整性，我们令m等于字符向量的嵌入大小。</p>
+</blockquote>
+<p>reg层输出坐标：(p,2p)有效载荷的开始位置和结束位置</p>
+<p>cls层：输出每个区域的得分</p>
+<p>对于输入特征图为W<em>H的，将会有H\</em>P个区域</p>
+<p>并不是所有区域都是有效的，</p>
+<h5 id="区域的标注"><a href="#区域的标注" class="headerlink" title="区域的标注"></a>区域的标注</h5><p>区域标注为积极标签的方法为:</p>
+<blockquote>
+<p>1.将用于最大的交集序列（Ios）的区域标为积极</p>
+<p>2.将交集序列的值（Ios）大于0.5的值定位积极</p>
+</blockquote>
+<p>区域标注为消极标签:</p>
+<blockquote>
+<p>将交集序列的值小于0.2的标为消极序列</p>
+</blockquote>
+<p>​    如果既没有标为消极也没有标为积极，那么则忽略该区域。一般情况下消极区域的数量远大于积极区域，如果消极区域和积极区域的比例大于3：1，那么将其归置到3：1。</p>
+<h5 id="PLN层的损失函数："><a href="#PLN层的损失函数：" class="headerlink" title="PLN层的损失函数："></a>PLN层的损失函数：</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true" alt></p>
+<p>​    参数意义：</p>
+<blockquote>
+<p>i：区域的编号</p>
+<p>li:区域的label，积极区域为1，否则为0</p>
+<p>posi、pos∗i :分别代表了区域的开始位置和结束位置</p>
+<p>Lcls：是区域的分类对数损失函数，</p>
+<p>Lreg: 是积极区域的回归损失函数，不关注负样本，该回归损失函数采用：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true" alt> </p>
+<p>​    x表示区域真实标签和预测值之间的差距</p>
+<p>λ：控制损失函数的前后两个部分的重要性，本文中采用的是1.0</p>
+<p>Ncls: 本文中设置为mini-batch 大小</p>
+<p>Nreg:本文设置为区域个数，</p>
+</blockquote>
+<h4 id="数据标注"><a href="#数据标注" class="headerlink" title="数据标注"></a>数据标注</h4><p>​    在整个LTD模型结构中，需要大量的标注数据，本文提出了基于HMM的异常检测系统来辅助序列标注，该系统通过大量的HMM模型来实现，每个host的每个url的参数值都会训练一个hmm模型，检测到的异常参数经过规则检测系统确定为xss或sql会标记起始和结束位置。</p>
+<p>​    <strong>作用:表示有效payload位置</strong></p>
+<p>​    <strong>方法：参数hmm+规则系统</strong></p>
+<blockquote>
+<p>实例：</p>
+<p>​    uri1 = /a.php?id=1&amp;name=1’ and 1=1</p>
+<p>首先提取各个参数的值，得到</p>
+<p>​    {val1 : 1, val2 : 1′ and 1 = 1}</p>
+<p>使用hmm参数异常检测模型确定是否存在异常参数值</p>
+<p>​    val2是异常的参数值</p>
+<p>使用规则模型判别该参数为sql注入，定位位置，标记异常区域</p>
+<p>​     [Start (17), End (27), Label (1)]</p>
+</blockquote>
+<h2 id="PCN"><a href="#PCN" class="headerlink" title="PCN"></a>PCN</h2><p>​    目标:对PLN层定位的可疑区域，在PCN部分进行深入的分析，找到攻击的区域，</p>
+<p>​    输入：PLN中得分最高的三个区域(最可疑)</p>
+<p>​    输出: 是否为攻击以及攻击类型</p>
+<p>​    核心思想：采用CNN进行文本分类</p>
+<h4 id="具体做法"><a href="#具体做法" class="headerlink" title="具体做法"></a>具体做法</h4><blockquote>
+<p>采用5层不同大小的卷积核，并且每个卷积核后都会带一个max-overtime pooling operation ，不同的卷积核大小保证了PCN能够精确地识别具有多种特征的攻击。这些特征被连接起来，在连接在层线性层，最后使用softmax输出是各种攻击的可能性</p>
+</blockquote>
+<h4 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h4><p>​    PCN部分的损失函数就是标准的交叉熵损失函数加上一个L1正则化项：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true" alt></p>
+<p>该层主要是一个文本分类的层，和PCN层共享相同的Embedding向量，输出给定区域是否为恶意以及攻击类型</p>
+<h3 id="数据产生方法"><a href="#数据产生方法" class="headerlink" title="数据产生方法"></a>数据产生方法</h3><blockquote>
+<p>1.首先使用传统的WAF找出正常流量</p>
+<p>2.构造sql、xss的payload参数值随机换到正常流量的参数值部分</p>
+</blockquote>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><h4 id="1-CSCI"><a href="#1-CSCI" class="headerlink" title="1.CSCI"></a>1.CSCI</h4><p>​    CSCI 2010数据集包含针对电子商务Web应用程序生成的流量，该数据集包含25,000多个异常请求和36,000个良性请求，使用其中2,072 SQLi和1,502 XSS样本作为黑样本，其他的正常流量和攻击流量统一标记为白样本。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true" alt></p>
+<p>​    LTD与RWAF相比，在精确率吧和召回率方面均要好。LTD和Libinjection都具有100%的精确率，但是LTD拥有更高的召回率。</p>
+<h4 id="2-真实流量"><a href="#2-真实流量" class="headerlink" title="2.真实流量"></a>2.真实流量</h4><p>数据来源</p>
+<p>​    300w条真实流量数据，其中包括38600个sql注入和xss攻击实例。    </p>
+<h4 id="Part-1-模型优越性的证明"><a href="#Part-1-模型优越性的证明" class="headerlink" title="Part 1  模型优越性的证明"></a>Part 1  模型优越性的证明</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true" alt></p>
+<p>​    其中，</p>
+<p>​    <strong>1.LTD获得了最高的精确率，HMM-Web获得了最高的召回率，但是它的误报率过高</strong>，在在真实的WAF应用中，误报率必须少于0.01%。</p>
+<p>​    <strong>分析：</strong>在该实验中，HMM-Web方式之所以比LTD获得了更加高的准确率，是因为HMM-Web所采用的方式是基于异常检测的方式，只要是之前没有见过的流量都会被判别为恶意。但这种HMM异常检测的缺陷也非常的明显，每当有系统更新时，HMM-web模型都需要重新进行训练，因此HMM-web并不是一个很好的实时web入侵检测方式。</p>
+<blockquote>
+<p>对于对于Web攻击检测，在误报和召回之间存在权衡，而低误报是生产环境中的先决条件。因为高误报会造成用户正常访问的阻塞</p>
+</blockquote>
+<p>​    <strong>2.Libinjection和LTD都获得了100%的精确率，但LTD的召回率达到了99.8%，而Libinjection只有71%。</strong>下面是一些Libinjection误分类而LTD分类正确分类的样本：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true" alt></p>
+<p>​    <strong>分析：</strong>这里的解释有点没太看懂，好像有点和上表对不上，大致意思是说Libinjection过分依赖指纹库，进行微小的改变都很难进行检测，而且由于有些正常流量可能偶尔也会出现指纹库中的部分内容，因此很容易误报</p>
+<p>​    <strong>3.LTD比RWAF方式准确率和召回率都好。</strong></p>
+<h4 id="Part2-PLN部分有效性的证明"><a href="#Part2-PLN部分有效性的证明" class="headerlink" title="Part2 PLN部分有效性的证明"></a>Part2 PLN部分有效性的证明</h4><p>实验组1：LTD</p>
+<p>实验组2 ：VPCN,把url参数部分却分为key-value形式，LTD去掉PLN部分只留下PCN部分进行分类</p>
+<p><em>个人看法：这里我个人觉得对比试验有点问题，因为直接用PCN部分进行分类不一定非要进行参数切分，因此这里使用切与不切分进行对比，证明LTD效率更高个人认为不成立，应该使用直接使用PCN进行对原始embedding后的内容进行分类</em></p>
+<h5 id="1-效率上"><a href="#1-效率上" class="headerlink" title="1.效率上"></a>1.效率上</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true" alt>    </p>
+<p>​    在有GPU的的环境下，带PLN的网络比不带的快6倍，没有GPU的环境下快了8倍。</p>
+<p>​    分析：LTD之所以效率高的多是因为不使用PLN，直接参数个数过多，27.5的Url有13个参数以上，切分参数需要花费大量的时间，在真实流量中，包含参数个数可能更多。另一方面，一些开发者因为某些原因重新模块来隐藏参数，在这种情况下，基于规则的计算需要更加复杂的计算来提取该值。<strong>与传统的方法相比，LTD通过限制检测区域来加快计算效率，另一方面也避免了参数重写造成的切割效率问题</strong></p>
+<h5 id="2-准确率"><a href="#2-准确率" class="headerlink" title="2.准确率"></a>2.准确率</h5><p>​    <strong>对照组</strong>：典型的char级cnn从原始请求进行分类</p>
+<p>​    数据集来源：</p>
+<p>​        训练集：真实流量中320w正常流量，80w攻击样本</p>
+<p>​        测试数据集：10w条不同时间的正常流量数据，在其中选择10000个样本随机将其中一个参数的值替换为SQLi、XSS的攻击载荷，形成恶意样本，其他的为正常样本</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true" alt></p>
+<p>​    经过实验，明显可以看出，<strong>直接的CNN的误报率和漏报率比LTD都要高得多</strong>，而这时因为一般payload的长度都很短，而url请求的长度很长。某些已知攻击的payload长度最短可以为6个字符，而这些很短的payload就可以隐藏在很长的背景字符串之中，导致CNN很难学到恶意payload，而LTD中的PLN模块能通过过滤不相关部分来发现隐藏在很长背景字符串中的短payload，因此，LTD可以更准确地区分实际的攻击有效负载和那些恶意的良性URL片段。</p>
+<h5 id="Part3-PLN输出可疑区域个数选择"><a href="#Part3-PLN输出可疑区域个数选择" class="headerlink" title="Part3 PLN输出可疑区域个数选择"></a>Part3 PLN输出可疑区域个数选择</h5><p>​    分别绘制了xss、sql在1~5个可以区域的ROC、PR曲线，如下：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true" alt></p>
+<p>​    <strong>当区域数为3时，SQLi和XSS均达到了最好或者非常接近最好的准确率</strong>。使用更多的区域数能够获得更好的召回率，但是误报率将大大升高。</p>
+<h3 id="依然存在的问题"><a href="#依然存在的问题" class="headerlink" title="依然存在的问题"></a>依然存在的问题</h3><p>​    1.限定输入长度，对于特长的尾部追加式的攻击依然没有识别能力</p>
+<p>​    2.单纯的在SQLi和XSS上进行实验，未来还需要文件包含和代码执行等其他攻击类型进行检测</p>
+<p>​    3.所谓的提升了可解释性我觉得并没有很好地可以追溯源头</p>
+<p>【1】Hmm-web: A framework for the detection of attacks against web applications</p>
+<p>【2】Xception:Deep learning with depthwise separable convolutions.</p>
+<p>【3】Detection of sql injection attacks using hidden markov model.</p>
+<p> 【4】Character-aware neural language models.</p>
+<p>【5】A method for stochastic optimization</p>
+<p>【6】 Light-head r-cnn: In defense of two-stage object detector.</p>
+<p>【7】Application of the generic feature selection measure in detection of web attacks</p>
+<p>【8】Ef-ficient character-level document classification by combining convolution and recurrent layers</p>
+<p>貌似</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/" title="阿里2019年最新论文-定位然后检测恶意攻击">https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/安全/" rel="tag"># 安全</a>
+              <a href="/tags/前沿论文/" rel="tag"># 前沿论文</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/08/25/python——浅拷贝和深拷贝/" rel="prev" title="python——浅拷贝和深拷贝">
+      <i class="fa fa-chevron-left"></i> python——浅拷贝和深拷贝
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/17/数据可视化之箱型图/" rel="next" title="数据可视化之箱型图">
+      数据可视化之箱型图 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PLN"><span class="nav-text">PLN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#request请求编码"><span class="nav-text">request请求编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特征提取"><span class="nav-text">特征提取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型部分"><span class="nav-text">模型部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据标注"><span class="nav-text">数据标注</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCN"><span class="nav-text">PCN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#具体做法"><span class="nav-text">具体做法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#损失函数"><span class="nav-text">损失函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据产生方法"><span class="nav-text">数据产生方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CSCI"><span class="nav-text">1.CSCI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-真实流量"><span class="nav-text">2.真实流量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Part-1-模型优越性的证明"><span class="nav-text">Part 1  模型优越性的证明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Part2-PLN部分有效性的证明"><span class="nav-text">Part2 PLN部分有效性的证明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依然存在的问题"><span class="nav-text">依然存在的问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
