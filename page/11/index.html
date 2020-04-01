@@ -190,260 +190,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/07/概率图模型——HMM/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/07/概率图模型——HMM/" class="post-title-link" itemprop="url">概率图模型——HMM</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-11-07 12:04:02" itemprop="dateCreated datePublished" datetime="2018-11-07T12:04:02+08:00">2018-11-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-11-12 20:51:06" itemprop="dateModified" datetime="2018-11-12T20:51:06+08:00">2018-11-12</time>
-              </span>
-
-          
-            <span id="/2018/11/07/概率图模型——HMM/" class="post-meta-item leancloud_visitors" data-flag-title="概率图模型——HMM" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/11/07/概率图模型——HMM/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/11/07/概率图模型——HMM/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>517</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>马尔科夫模型假设：</p>
-<p>​    1.马尔科夫模型认为每一时刻的表现x有一个状态z与其对应</p>
-<p>​    2.观测独立性假设：每个时刻的输出都只与当前的状态有关</p>
-<p>​    3.贝叶斯公式P(o|λ) = P(λ|o)P(o) / P(λ)</p>
-<h4 id="马尔科夫模型的推导过程"><a href="#马尔科夫模型的推导过程" class="headerlink" title="马尔科夫模型的推导过程"></a>马尔科夫模型的推导过程</h4><p>​    对于马尔科夫模型，求解的最终目的是</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">maxP</span>(<span class="params">o1o2...on|λ1λ2...λn</span>)</span></span><br></pre></td></tr></table></figure>
-<p>​    由于p(o|λ)是个关于2n各变量的条件概率，并且n不固定，因此没办法进行精确计算。因此马尔科夫链模型采用了一种更加巧妙地方式来进行建模。</p>
-<p>​    首先，根据贝叶斯公式可以得：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>) / P(λ)</span><br></pre></td></tr></table></figure>
-<p>​    λ为给定的输入，因此P(λ)为常数，因此可以忽略.因此</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>)</span><br></pre></td></tr></table></figure>
-<p>​    而根据观测独立性假设，可以得到</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P(o1o2...<span class="keyword">on</span>|λ<span class="number">1</span>λ<span class="number">2.</span>..λn) = P(o1|λ<span class="number">1</span>)P(o2|λ<span class="number">2</span>)...P(<span class="keyword">on</span>|λn)</span><br><span class="line">	P(o) = P(o1)P(o2|o1)P(o3|o1,o2)...P(<span class="keyword">on</span>|<span class="keyword">on</span><span class="number">-1</span>,<span class="keyword">on</span><span class="number">-2</span>,...,o1)</span><br></pre></td></tr></table></figure>
-<p>​    而由于其次马尔科夫假设，每个输出仅与上一个一个输出有关，那么</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span>) = p(<span class="name">o1</span>)P(<span class="name">o2</span><span class="name">|o1)....P(on|</span><span class="name">on-1</span>)</span><br></pre></td></tr></table></figure>
-<p>​    因此最终可得：</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) ~ p(o1)P(o1|</span><span class="name">o2</span>)P(λ|o2)P(o2|o3)P(λ<span class="number">3</span>|o3)...P(on|on-1)P(λ|on)</span><br></pre></td></tr></table></figure>
-<p>​    其中，P(λk|ok)为发射概率，P(ok|ok-1)为转移概率。</p>
-<h4 id="维特比算法"><a href="#维特比算法" class="headerlink" title="维特比算法"></a>维特比算法</h4><p>​    维特比算法是隐马尔科夫模型最终求解当前表现链最可能对应的状态链使用的一种动态规划算法。主要思想是：</p>
-<p>HMM模型训练后的输出为：初始状态概率矩阵、状态转移矩阵、发射概率矩阵三个结果，用来后续进行预测</p>
-<p>概率图模型大部分都是这样，输出为几个概率矩阵</p>
-<p>而LR模型的输出就为系数矩阵了</p>
-<p>我们可以看出来，LR在使用训练好的模型进行与测试效率较高，而HMM使用训练好的模型进行训练时效率较低</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/05/机器学习和深度学习在实践中的一些经验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/05/机器学习和深度学习在实践中的一些经验/" class="post-title-link" itemprop="url">机器学习和深度学习在实践中的一些经验</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-11-05 14:45:00" itemprop="dateCreated datePublished" datetime="2018-11-05T14:45:00+08:00">2018-11-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-02-28 17:16:09" itemprop="dateModified" datetime="2019-02-28T17:16:09+08:00">2019-02-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习，深度学习/" itemprop="url" rel="index"><span itemprop="name">机器学习，深度学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/11/05/机器学习和深度学习在实践中的一些经验/" class="post-meta-item leancloud_visitors" data-flag-title="机器学习和深度学习在实践中的一些经验" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/11/05/机器学习和深度学习在实践中的一些经验/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/11/05/机器学习和深度学习在实践中的一些经验/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="使用GBDT算法构造特征"><a href="#使用GBDT算法构造特征" class="headerlink" title="使用GBDT算法构造特征"></a>使用GBDT算法构造特征</h4><p>​    Facebook 2014年的文章介绍了通过GBDT解决LR的特征组合问题。[1]GBDT思想对于发现多种有区分性的特征和组合特征具有天然优势，可以用来构造新的组合特征。</p>
-<p>​    在这篇论文中提出可以<strong>使用GBDT各棵数输出节点的索引号来作为新的特征，对各个树渠道的索引号做one-hot编码，然后与原始的特征一起新的特征输入到模型中往往会起到不错的效果</strong>。</p>
-<blockquote>
-<p>实践情况</p>
-<p>​    1.本人使用这种方式在ctr预估中已经进行过实验，准确率提升2%</p>
-<p>​    2.美团在外卖预计送达时间预测中进行了实验，各个时段平均偏差减少了3%</p>
-</blockquote>
-<p><strong>(1) 超参数选择</strong></p>
-<p>a. 首先为了节点分裂时质量和随机性，分裂时所使用的最大特征数目为√n。<br>b. GBDT迭代次数（树的数量）。</p>
-<ul>
-<li>树的数量决定了后续构造特征的规模，与学习速率相互对应。通常学习速率设置较小，但如果过小，会导致迭代次数大幅增加，使得新构造的特征规模过大。</li>
-<li>通过GridSearch+CrossValidation可以寻找到最合适的迭代次数+学习速率的超参组合。<br>c. GBDT树深度需要足够合理，通常在4~6较为合适。</li>
-<li>虽然增加树的数量和深度都可以增加新构造的特征规模。但树深度过大，会造成模型过拟合以及导致新构造特征过于稀疏。</li>
-</ul>
-<p><strong>（2）训练方案</strong></p>
-<p>​    将训练数据随机抽样50%，一分为二。前50%用于训练GBDT模型，后50%的数据在通过GBDT输出样本在每棵树中输出的叶子节点索引位置，并记录存储，用于后续的新特征的构造和编码，以及后续模型的训练。如样本x通过GBDT输出后得到的形式如下：x → [25,20,22,….,30,28] ，列表中表示样本在GBDT每个树中输出的叶子节点索引位置。</p>
-<p>​    由于样本经过GBDT输出后得到的x → [25,20,22,….,30,28] 是一组新特征，但由于这组新特征是叶子节点的ID，其值不能直接表达任何信息，故不能直接用于ETA场景的预估。为了解决上述的问题，避免训练过程中无用信息对模型产生的负面影响，需要通过独热码（OneHotEncoder）的编码方式对新特征进行处理，将新特征转化为可用的0-1的特征。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GBDT%20构造新特征.png?raw=true" alt></p>
-<p>​    以图5中的第一棵树和第二棵树为例，第一棵树共有三个叶子节点，样本会在三个叶子节点的其中之一输出。所以样本在该棵树有会有可能输出三个不同分类的值，需要由3个bit值来表达样本在该树中输出的含义。图中样本在第一棵树的第一个叶子节点输出，独热码表示为{100}；而第二棵树有四个叶子节点，且样本在第三个叶子节点输出，则表示为{0010}。将样本在每棵树的独热码拼接起来，表示为{1000010}，即通过两棵CART树构造了7个特征，构造特征的规模与GBDT中CART树的叶子节点规模直接相关。</p>
-<p>Wide&amp;Deep在推荐中应用</p>
-<p>【参考文献】</p>
-<ol>
-<li>He X, Pan J, Jin O, et al. <a href="https://research.fb.com/publications/practical-lessons-from-predicting-clicks-on-ads-at-facebook/" target="_blank" rel="noopener">Practical Lessons from Predicting Clicks on Ads at Facebook</a>[C]. Proceedings of 20th ACM SIGKDD Conference on Knowledge Discovery and Data Mining. ACM, 2014: 1-9.</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/02/web安全——CSRF和SSRF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1610,11 +1356,310 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/21/最优化问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/21/最优化问题/" class="post-title-link" itemprop="url">最优化问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-21 10:30:09" itemprop="dateCreated datePublished" datetime="2018-10-21T10:30:09+08:00">2018-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-10-22 21:46:30" itemprop="dateModified" datetime="2018-10-22T21:46:30+08:00">2018-10-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/10/21/最优化问题/" class="post-meta-item leancloud_visitors" data-flag-title="最优化问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/10/21/最优化问题/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/21/最优化问题/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>605</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>最优化问题主要分为</p>
+<p>​    1.无约束优化问题</p>
+<p>​    2.等式优化问题</p>
+<p>​    3.含不等式优化问题</p>
+<p>​    <strong>对于无约束问题常常使用的方法就是Fermat定理</strong>，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。</p>
+<p>​    在<strong>求取有约束条件的优化问题</strong>时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。二者各有其使用范围：</p>
+<p>​    <strong>拉格朗日乘子法：等式约束的最优化问题</strong></p>
+<p>​    <strong>KTT条件：不等式约束下的最优化问题</strong></p>
+<blockquote>
+<p>对于一般的任意问题而言，这两种方法求得的解是使一组解成为最优解的必要条件，<strong>只有当原问题是凸问题的时候，求是求得的解是最优解的充分条件</strong>。</p>
+</blockquote>
+<h3 id="二、有约束最优化问题的求解"><a href="#二、有约束最优化问题的求解" class="headerlink" title="二、有约束最优化问题的求解"></a>二、有约束最优化问题的求解</h3><p>​    <strong>1.拉格朗日乘子法</strong></p>
+<p>​    对于等式约束，我们可以通过一个拉格朗日系数a 把等式约束和目标函数组合成为一个式子L(a, x) = f(x) + a*h(x), 这里把a和h(x)视为向量形式，a是横向量，h(x)为列向量，然后求取最优值，可以通过对L(a,x)对各个参数求导取零，联立等式进行求取。</p>
+<p>​    <strong>2.KTT条件</strong></p>
+<p>​    对于含有不等式的约束条件最优化问题，我们可以把所有的不等式约束、等式约束和目标函数全部写为一个式子L(a, b, x)= f(x) + a<em>g(x)+b</em>h(x)，KKT条件是说最优值必须满足以下条件：</p>
+<ol>
+<li><p>L(a, b, x)对x求导为零；</p>
+</li>
+<li><p>h(x) =0;</p>
+</li>
+<li><p>a*g(x) = 0;（g(x)为不等式约束）</p>
+</li>
+</ol>
+<p>求取这三个等式之后就能得到候选最优值。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/21/机器学习——正则化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/21/机器学习——正则化/" class="post-title-link" itemprop="url">机器学习——正则化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-21 10:15:45" itemprop="dateCreated datePublished" datetime="2018-10-21T10:15:45+08:00">2018-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-26 15:04:55" itemprop="dateModified" datetime="2019-08-26T15:04:55+08:00">2019-08-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/10/21/机器学习——正则化/" class="post-meta-item leancloud_visitors" data-flag-title="机器学习——正则化" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/10/21/机器学习——正则化/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/21/机器学习——正则化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="正则化相关问题"><a href="#正则化相关问题" class="headerlink" title="正则化相关问题"></a>正则化相关问题</h3><hr>
+<p>1.实现参数的稀疏有什么好处吗？</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>可以简化模型，避免过拟合。因为一个模型中真正重要的参数可能并不多，如果考虑所有的参数起作用，那么可以对训练数据可以预测的很好，但是对测试数据就只能呵呵了。</span><br><span class="line"><span class="number">2.</span>参数变少可以使整个模型获得更好的可解释性。</span><br></pre></td></tr></table></figure>
+<p>2.参数值越小代表模型越简单吗？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是的。这是因为越复杂的模型，越是会尝试对所有的样本进行拟合，甚至包括一些异常样本点，这就容易造成在较小的区间里预测值产生较大的波动，这种较大的波动也反映了在这个区间里的导数很大，而只有较大的参数值才能产生较大的导数。因此复杂的模型，其参数值会比较大。</span><br></pre></td></tr></table></figure>
+<p>3.模型简单包括什么？</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>参数少</span><br><span class="line"><span class="number">2.</span>参数值小</span><br></pre></td></tr></table></figure>
+<p>4.从贝叶斯角度看L1和L2正则化分贝数与什么分布？</p>
+<p>​    <strong>对于频率学派，认为要将参数θ作为未知的定值，而样本X是随机的</strong>，其着眼点在样本空间，参数θ虽然我们不知道是什么，但是他是固定的，我们需要通过随机产生的样本去估计这个参数，所以才有了最大似然估计这些方法。</p>
+<p>​    <strong>对于贝叶斯学派，把参数θ也视为满足某一个分布的随机变量，而X是固定的</strong>，其着眼点在参数空间，固定的操作模式是通过参数的先验分布结合样本信息得到参数的后验分布，核心是</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/贝叶斯公式.png?raw=true" alt></p>
+<p>​    <strong>L1正则化相当于先验分布是拉普拉斯分布，L2正则化相当于先验概率是正态分布。</strong>拉普拉斯分布的计算公式：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/拉普拉斯概率密度函数.png?raw=true" alt></p>
+<p>正态分布概率密度分布公式：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/正态分布概率密度函数.png?raw=true" alt></p>
+<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><hr>
+<p><strong>机器学习中几乎都可以看到损失函数后面会添加一个额外项，常用的额外项一般有两种，一般英文称作L1-norm和L2-norm，中文称作L1正则化和L2正则化，或者L1范数和L2范数。</strong></p>
+<p>对于线性回归模型，使用L1正则化的模型建叫做<strong>Lasso回归</strong>，使用L2正则化的模型叫做<strong>Ridge回归</strong>（岭回归）</p>
+<p><strong>概念</strong>：</p>
+<blockquote>
+<p>L1正则化是指权值向量绝对值之和，通常表示为||w||1</p>
+<p>L2正则化是指全职向量w中各个元素的平方和让后再求平方根，通常表示为||w||2</p>
+</blockquote>
+<p>下图是Python中Lasso回归的损失函数，式中加号后面一项α||w||1即为L1正则化项。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Lasso回归损失函数.png?raw=true" alt="img">﻿</p>
+<p>下图是Python中Ridge回归的损失函数，式中加号后面一项α||w||22 即为L2正则化项</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Ridge回归损失函数.png?raw=true" alt></p>
+<blockquote>
+<p>注：<br>1.上面的两个函数前半部分可以为任意的线性函数的损失函数，组合成的函数都可以成为Lasso回归会Ridge回归<br>2.上面两个式子中的α为正则化系数，后续通过交叉验证确定</p>
+</blockquote>
+<p>注：上面两个式子中的α为正则化系数，后续通过交叉验证确定)</p>
+<p><strong>L1正则化与L2正则化的作用：</strong></p>
+<blockquote>
+<p>L1正则化可产生稀疏权值矩阵，即<strong>产生一个稀疏模型，可用用于特征选择</strong></p>
+<p>L2正则化主要用于<strong>防止过拟合</strong></p>
+</blockquote>
+<p>﻿</p>
+<h3 id="L1正则化"><a href="#L1正则化" class="headerlink" title="L1正则化"></a>L1正则化</h3><hr>
+<p><strong>L1正则化的标准形式：</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化公式.png?raw=true" alt></p>
+<p>​    其中J0是原始的损失函数，加好后面是L1正则化项。机器学习的最终目就是找出损失函数的最小值，当我们在原本的损失函数后面加上L1正则化后，相当于对J0做了一个约束，另L1正则化项等于L，则 J=J0+L，<strong>任务转化为在L1的约束下求J0最小值的解</strong>。<br>​    考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L1正则化可得到稀疏矩阵原因.png?raw=true" alt></p>
+<p>​    从图中可看出<strong>j0与L相交于L的一个顶点处，这个顶点即为最优解</strong>。注意这个顶点的值为（w1,w2）=(0,w)，可以想象，在更多维的情况下，L将会有很多突出的角，而<strong>J与这些叫接触的几率将远大于与L其他部位接触的概率</strong>，而这些角上将会有许多权值为0，<strong>从而产生系数矩阵，进而用于特征选择</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Lasso</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler </span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_bostonboston=load_boston() </span><br><span class="line"></span><br><span class="line">scaler=StandardScaler() </span><br><span class="line">X=scaler.fit_transform(boston[<span class="string">"data"</span>])</span><br><span class="line">Y=boston[<span class="string">"target"</span>]</span><br><span class="line">names=boston[<span class="string">"feature_names"</span>]</span><br><span class="line">lasso=Lasso(alpha=<span class="number">.3</span>)</span><br><span class="line">lasso.fit(X,Y)</span><br><span class="line"><span class="keyword">print</span><span class="string">"Lasso model: "</span>,pretty_print_linear(lasso.coef_,names,sort=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="L2正则化"><a href="#L2正则化" class="headerlink" title="L2正则化"></a>L2正则化</h3><hr>
+<p>L2正则化的标准形式</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化公式.png?raw=true" alt></p>
+<p>​    和L1正则化相同，<strong>任务转化为在L2的约束下求J0最小值的解</strong>。考虑二维情况，即只有两个权值w1和w2，此时L=|w1|+|w2|，对于梯度下降算法，求解j0的过程中画出等值线，同时将L1正则化的函数L也在w1、w2空间化出来，<strong>二者图像首次相交处即为最优解</strong>，获得下图：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/youdao/L2正则化不具有稀疏作用原因.png?raw=true" alt></p>
+<h5 id="机器学习过程中权值尽可能小的原因："><a href="#机器学习过程中权值尽可能小的原因：" class="headerlink" title="机器学习过程中权值尽可能小的原因："></a>机器学习过程中权值尽可能小的原因：</h5><blockquote>
+<p>试想对于一个模型，当参数很大时，只要数据偏移一点点，就会对结果造成很大的影响，如果参数较小，则数据偏移的多一点，也不会对结果产生多大的影响，<strong>抗扰动能力强</strong></p>
+</blockquote>
+<h4 id="为什么L2正则化可以使权值尽可能的小"><a href="#为什么L2正则化可以使权值尽可能的小" class="headerlink" title="为什么L2正则化可以使权值尽可能的小?"></a>为什么L2正则化可以使权值尽可能的小?</h4><blockquote>
+<p>对于损失函数不带L2正则化项的梯度下降时参数更新公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不带正则化项的参数更新表达式.png?raw=true" alt></p>
+<p>加入L2正则化项，参数更新公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/带正则化项的参数更新公式.png?raw=true" alt></p>
+<p>根据两个公式之间的差别，我们可以明显的看到，加入正则化以后的梯度下降在进行参数更新时，要先将原有的参数值乘以一个小于1的值，因此权值也会变得比不带的参数小</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1682,7 +1727,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">132</span>
+          <span class="site-state-item-count">130</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1695,7 +1740,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-count">48</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

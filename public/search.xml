@@ -208,9 +208,9 @@
     <url>%2F2019%2F10%2F17%2Fpandas%E5%88%97%E8%A1%A8%E5%AD%98%E5%82%A8%E8%A2%AB%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%E6%88%90%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[问题描述: ​ 在数据分析过程中发现当某一列的值为列表类型时，当存储成为csv时将自动将该列的列表存储成为对应的字符串，当重新进行读取时只能按照字符串进行处理。下面是一个真实的事例： ​ 首先直接创建一列数据类型为list，直接查看dataframe中存储的数据，发现还是正常的列表类型 123456&gt;&gt;&gt; df = DataFrame(columns=['col1'])&gt;&gt;&gt; df.append(Series([None]), ignore_index=True)&gt;&gt;&gt; df['column1'][0] = [1, 2]&gt;&gt;&gt; df col10 [1, 2] ​ 然后将dataframe进行存储后进行读取，这里可以看到列表列已经变成了字符串类型： 1234&gt;&gt;&gt; df.to_csv("XXX.csv")&gt;&gt;&gt; df = pd.read_csv("XXX.csv")&gt;&gt;&gt; df['column1'][0]'[1, 2]' 解决方案： ​ 1.存储时不再存储为csv，存储为pickle文件 1234567&gt;&gt;&gt; import pickle&gt;&gt;&gt; with open("data.pkl",'wb') as file:&gt;&gt;&gt; pickle.dump(df,file)&gt;&gt;&gt; with open('tmp.pkl', 'rb') as file:&gt;&gt;&gt; new_df =pickle.load(file)&gt;&gt;&gt; new_df['col1'][0][1, 2] ​ 2.存储后将ast.literal_eval从str转化会list 123&gt;&gt;&gt; from ast import literal_eval&gt;&gt;&gt; literal_eval('[1.23, 2.34]')[1.23, 2.34]]]></content>
       <tags>
-        <tag>python</tag>
         <tag>数据分析</tag>
-        <tag>问题</tag>
+        <tag>pandas</tag>
+        <tag>常见问题</tag>
       </tags>
   </entry>
   <entry>
@@ -371,14 +371,6 @@
         <tag>安全</tag>
         <tag>入侵检测</tag>
         <tag>论文阅读</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[银行——票据知识]]></title>
-    <url>%2F2019%2F07%2F02%2F%E9%93%B6%E8%A1%8C%E2%80%94%E2%80%94%E7%A5%A8%E6%8D%AE%E7%9F%A5%E8%AF%86%2F</url>
-    <content type="text"><![CDATA[票据的四种结算方式： ​ 1.银行汇票 ​ 2.支票 ​ 3.银行本票 ​ 4.商业汇票 1.银行汇票​ 由出票银行签发，由其在见票时，无条件支付给收款人，或持票人。 ​ 使用期限：1个月 2.商业汇票​ 出票人签发商业汇票的目的是“空手套白狼”想几个月后再付款 ​ 使用期限：3-6个月 ​ 商业汇票的提示付款期限（持票人和银行之间）为自汇票到期日起10日 3.支票​ 是由出票人签发的，委托办理支票存款业务的银行在见票时无条件支付确定的金额给收款人或持票人的票据。 ​ 使用期限：10个工作日内 4.本票​ 本票（在我国指银行本票）是银行签发承诺自己在见票时无条件支付。 ​ 使用期限：2个月 贴现：拿没有到期的票据到银行兑现或做支付手段，并由银行扣除从交付日至到期止这段时间内的利息。 1.银行汇票与银行本票的区别 ​ 银行汇票是一笔交易一办。如：要支付给华联公司29.75万元，则银行汇票上只打上正好的29.75万元，属于一次一清； ​ 银行本票是一次办出一笔钱留着慢慢用。 2.几种汇票在进行核算时的不同 ​ 由于银行汇票、支票、银行本票是到银行“见票即付”，是一种存取自由的票据，相当于手里拿着钱一样方便快捷，故以上三种票据的核算账户是“银行存款”。​ 但是拿到商业汇票只能表示有收钱的权利，并不代表已经收到了钱，故不能用“银行存款”账户，其结算方式按付款方和收款方的角度分为“应付票据”和“应收票据” 3.票据结算中那一种提示付款期限最长？​ 银行本票（2个月）]]></content>
-      <tags>
-        <tag>银行，金融知识</tag>
       </tags>
   </entry>
   <entry>
@@ -825,11 +817,6 @@
     <content type="text"><![CDATA[​ ububtu默认情况下会存在一个默认回收站，当使用的文件被误删除需要找回时，可以进入到回收站找到该文件，将其恢复出来即可 回收站位置： ​ ~/.local/share/Trash 找回方式： ​ 进入该目录，直接将该目录中的文件考出即可]]></content>
   </entry>
   <entry>
-    <title><![CDATA[pandas常用设置]]></title>
-    <url>%2F2018%2F11%2F12%2Fpandas%E5%B8%B8%E7%94%A8%E8%AE%BE%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[1.]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[概率图模型——HMM]]></title>
     <url>%2F2018%2F11%2F07%2F%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B%E2%80%94%E2%80%94HMM%2F</url>
     <content type="text"><![CDATA[马尔科夫模型假设： ​ 1.马尔科夫模型认为每一时刻的表现x有一个状态z与其对应 ​ 2.观测独立性假设：每个时刻的输出都只与当前的状态有关 ​ 3.贝叶斯公式P(o|λ) = P(λ|o)P(o) / P(λ) 马尔科夫模型的推导过程​ 对于马尔科夫模型，求解的最终目的是 1maxP(o1o2...on|λ1λ2...λn) ​ 由于p(o|λ)是个关于2n各变量的条件概率，并且n不固定，因此没办法进行精确计算。因此马尔科夫链模型采用了一种更加巧妙地方式来进行建模。 ​ 首先，根据贝叶斯公式可以得： 1P(o|λ) = P(λ|o)P(o) / P(λ) ​ λ为给定的输入，因此P(λ)为常数，因此可以忽略.因此 1P(o|λ) = P(λ|o)P(o) ​ 而根据观测独立性假设，可以得到 12P(o1o2...on|λ1λ2...λn) = P(o1|λ1)P(o2|λ2)...P(on|λn) P(o) = P(o1)P(o2|o1)P(o3|o1,o2)...P(on|on-1,on-2,...,o1) ​ 而由于其次马尔科夫假设，每个输出仅与上一个一个输出有关，那么 1P(o) = p(o1)P(o2|o1)....P(on|on-1) ​ 因此最终可得： 1P(o|λ) ~ p(o1)P(o1|o2)P(λ|o2)P(o2|o3)P(λ3|o3)...P(on|on-1)P(λ|on) ​ 其中，P(λk|ok)为发射概率，P(ok|ok-1)为转移概率。 维特比算法​ 维特比算法是隐马尔科夫模型最终求解当前表现链最可能对应的状态链使用的一种动态规划算法。主要思想是： HMM模型训练后的输出为：初始状态概率矩阵、状态转移矩阵、发射概率矩阵三个结果，用来后续进行预测 概率图模型大部分都是这样，输出为几个概率矩阵 而LR模型的输出就为系数矩阵了 我们可以看出来，LR在使用训练好的模型进行与测试效率较高，而HMM使用训练好的模型进行训练时效率较低]]></content>
@@ -1070,14 +1057,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[tmux基本操作]]></title>
-    <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
+    <title><![CDATA[pytorch向量转化操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
       <categories>
-        <category>Linux操作</category>
+        <category>pytorch</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>pytorch</tag>
       </tags>
   </entry>
   <entry>
@@ -1092,14 +1079,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pytorch向量转化操作]]></title>
-    <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
+    <title><![CDATA[tmux基本操作]]></title>
+    <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
       <categories>
-        <category>pytorch</category>
+        <category>Linux操作</category>
       </categories>
       <tags>
-        <tag>pytorch</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
