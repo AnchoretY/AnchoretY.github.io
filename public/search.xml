@@ -740,7 +740,7 @@
     <url>%2F2019%2F01%2F07%2Fpython2%E5%92%8Cpython3%E7%9A%84%E4%B8%8D%E5%90%8C%E7%82%B9%2F</url>
     <content type="text"><![CDATA[​ 因为系统移植过程中一直出现python3程序向python2转化的问题，因此这里记录下我在程序移植过程中遇到过的坑。 1.python2和python3的url编码解码函数接口 2.python2和python3向文件中写入中文时指定编码方式 ​ 对于python3来说，要在写入文件时指定编码方式是十分简单的，只需要下面的方式即可： 12with open(filename,'a',encoding='utf-8') as f: f.write("中文") ​ 但对于python2，要在写入文件时,手动添加utf-8文件的前缀 123456import sysreload(sys)sys.setdefaultencoding('utf-8')with open(r'd:\sss.txt','w') as f: f.write(unicode("\xEF\xBB\xBF", "utf-8"))#函数将\xEF\xBB\xBF写到文件开头，指示文件为UTF-8编码。 f.write(u'中文') 3.python2和python3外置函数区别 在python3中外置函数文件可以直接进行调用，如在下面的文件结构 12|--main.py tools—— 在python2中外置函数文件目录下必须要有init.py 空文件，否则无法进行加载 12 4.python2和python3文件中中文问题 ​ 在python3中，输出和备注等一切位置都可以直接使用中文，不需要任何额外的代码，在python2中，必须要在包含中文的python文件中加入 1#coding=utf-8 ​ 才能出现中文，否则报错。]]></content>
       <categories>
-        <category>python 进阶操作</category>
+        <category>python</category>
       </categories>
       <tags>
         <tag>python</tag>
@@ -756,7 +756,7 @@
     <url>%2F2019%2F01%2F02%2Fpython%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A%E4%BF%A1%E6%81%AF%E8%AE%BE%E7%BD%AE%2F</url>
     <content type="text"><![CDATA[&emsp;&emsp;在使用python处理多线程或者循环次数较多时，常常会因为系统爆出一些警告信息而影响结果的查看，比如下面的警告： 十分影响美观，造成结果混乱，很难找到有效的信息，下面我们使用python自带的warning设置，设置过滤warn级别的告警 12import warningswarnings.filterwarnings("ignore") 结果变为：]]></content>
       <tags>
-        <tag>python进阶操作</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>

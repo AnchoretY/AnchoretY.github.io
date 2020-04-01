@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://anchorety.github.io/2019/01/02/python%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A%E4%BF%A1%E6%81%AF%E8%AE%BE%E7%BD%AE/</loc>
+    
+    <lastmod>2020-04-01T01:30:41.709Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://anchorety.github.io/2019/01/07/python2%E5%92%8Cpython3%E7%9A%84%E4%B8%8D%E5%90%8C%E7%82%B9/</loc>
     
-    <lastmod>2020-04-01T01:27:13.536Z</lastmod>
+    <lastmod>2020-04-01T01:30:26.474Z</lastmod>
     
   </url>
   
@@ -75,13 +82,6 @@
     <loc>https://anchorety.github.io/2019/11/15/pytorch-tensorboard%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
     
     <lastmod>2020-03-24T04:50:11.203Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://anchorety.github.io/2019/01/02/python%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%AD%A6%E5%91%8A%E4%BF%A1%E6%81%AF%E8%AE%BE%E7%BD%AE/</loc>
-    
-    <lastmod>2020-03-24T04:49:41.789Z</lastmod>
     
   </url>
   
