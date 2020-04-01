@@ -20,18 +20,17 @@
     var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
   </script>
 
-  <meta name="description" content="一、常见目标检测算法概述​    常见的目标检测算法目前主要分为三个方向： 1.传统的目标检测算法​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化； 2.候选区域/框+深度学习分类​    通过先提取候选区域然后再用深度学习方法进行分类的方案。  常见的该类型的目标检测算法有： ​    R-CNN：Selective Search+CNN+SVM ​">
+  <meta name="description" content="&amp;emsp;&amp;emsp;本文从整体上对目标检测算法做了概述，首先对目前目标检测算法的主要流派做阐述，然后针对传统目标检测算法以及新兴的候选区域+深度学习方式两种方式的主流目标检测算法分别做比较详细介绍。">
 <meta name="keywords" content="深度学习,目标检测,图像">
 <meta property="og:type" content="article">
 <meta property="og:title" content="目标检测——常见目标检测算法">
 <meta property="og:url" content="https://anchorety.github.io/2019/10/27/目标检测——常见目标检测算法/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="一、常见目标检测算法概述​    常见的目标检测算法目前主要分为三个方向： 1.传统的目标检测算法​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化； 2.候选区域/框+深度学习分类​    通过先提取候选区域然后再用深度学习方法进行分类的方案。  常见的该类型的目标检测算法有： ​    R-CNN：Selective Search+CNN+SVM ​">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;本文从整体上对目标检测算法做了概述，首先对目前目标检测算法的主要流派做阐述，然后针对传统目标检测算法以及新兴的候选区域+深度学习方式两种方式的主流目标检测算法分别做比较详细介绍。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.12zbhb158on.png">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/标准图像识别卷积神经网络.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/分类回归型卷积神经网络.png?raw=true">
-<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/图窗法基本形式.png?raw=true">
-<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/卷积层取代全连接层优化.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/R-CNN结构图.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/回归器精修.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/ROI结构图.png?raw=true">
@@ -39,11 +38,11 @@
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Fast_R-CNN结构图2.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN结构图.png?raw=true">
 <meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/Faster_R-CNN四损失函数图.png?raw=true">
-<meta property="og:updated_time" content="2020-03-31T03:22:11.499Z">
+<meta property="og:updated_time" content="2020-03-31T09:28:25.797Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="目标检测——常见目标检测算法">
-<meta name="twitter:description" content="一、常见目标检测算法概述​    常见的目标检测算法目前主要分为三个方向： 1.传统的目标检测算法​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化； 2.候选区域/框+深度学习分类​    通过先提取候选区域然后再用深度学习方法进行分类的方案。  常见的该类型的目标检测算法有： ​    R-CNN：Selective Search+CNN+SVM ​">
-<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/标准图像识别卷积神经网络.png?raw=true">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;本文从整体上对目标检测算法做了概述，首先对目前目标检测算法的主要流派做阐述，然后针对传统目标检测算法以及新兴的候选区域+深度学习方式两种方式的主流目标检测算法分别做比较详细介绍。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.12zbhb158on.png">
 
 <link rel="canonical" href="https://anchorety.github.io/2019/10/27/目标检测——常见目标检测算法/">
 
@@ -237,7 +236,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-31 11:22:11" itemprop="dateModified" datetime="2020-03-31T11:22:11+08:00">2020-03-31</time>
+                <time title="修改时间：2020-03-31 17:28:25" itemprop="dateModified" datetime="2020-03-31T17:28:25+08:00">2020-03-31</time>
               </span>
 
           
@@ -267,14 +266,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.9k</span>
+              <span>3.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -286,64 +285,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="一、常见目标检测算法概述"><a href="#一、常见目标检测算法概述" class="headerlink" title="一、常见目标检测算法概述"></a>一、常见目标检测算法概述</h3><p>​    常见的目标检测算法目前主要分为三个方向：</p>
-<h5 id="1-传统的目标检测算法"><a href="#1-传统的目标检测算法" class="headerlink" title="1.传统的目标检测算法"></a>1.传统的目标检测算法</h5><p>​    Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化；</p>
-<h5 id="2-候选区域-框-深度学习分类"><a href="#2-候选区域-框-深度学习分类" class="headerlink" title="2.候选区域/框+深度学习分类"></a>2.候选区域/框+深度学习分类</h5><p>​    通过先提取候选区域然后再用深度学习方法进行分类的方案。</p>
-<blockquote>
-<p>常见的该类型的目标检测算法有：</p>
-<p>​    R-CNN：Selective Search+CNN+SVM</p>
-<p>​    SSP-Net：(ROI Pooling)</p>
-<p>​    Fast R-CNN：(Selective Search+CNN+ROI)</p>
-<p>​    Faster R-CNN：RPN+CNN+ROI</p>
-<p>​    R-CFN</p>
-</blockquote>
-<h5 id="3-基于深度学习的回归方法"><a href="#3-基于深度学习的回归方法" class="headerlink" title="3.基于深度学习的回归方法"></a>3.基于深度学习的回归方法</h5><h3 id="二、传统目标检测算法"><a href="#二、传统目标检测算法" class="headerlink" title="二、传统目标检测算法"></a>二、传统目标检测算法</h3><h4 id="一-传统目标检测的整体流程"><a href="#一-传统目标检测的整体流程" class="headerlink" title="(一)  传统目标检测的整体流程"></a>(一)  传统目标检测的整体流程</h4><h5 id="1-区域选择"><a href="#1-区域选择" class="headerlink" title="1.区域选择"></a>1.区域选择</h5><p>​    主要主要包括不同窗口的滑动窗口，时间复杂度很高</p>
-<h5 id="2-特征提取"><a href="#2-特征提取" class="headerlink" title="2.特征提取"></a>2.特征提取</h5><p>​    </p>
-<h5 id="3-分类器分类"><a href="#3-分类器分类" class="headerlink" title="3.分类器分类"></a>3.分类器分类</h5><p>​    根据特征提取截断提取到的特征采用SVM、Adaboost等进行分类。</p>
-<h4 id="（二）目标检测任务"><a href="#（二）目标检测任务" class="headerlink" title="（二）目标检测任务"></a>（二）目标检测任务</h4><p>​    本质上是两个问题：1.图像识别 2.目标定位</p>
-<blockquote>
-<p>图像识别任务</p>
-<p>​    输入：图像向量</p>
-<p>​    输出：物品类别</p>
-<p>​    主要方式：卷积神经网络</p>
-<p>​    评估方法：准确率等(常见分类问题的评估方法)</p>
-<p> 定位任务</p>
-<p>​    输入：图像向量</p>
-<p>​    输出：方框中图片的位置</p>
-<p>​    主要方式：1.看做回归问题  2.取图像窗口</p>
-<p>​    评估方法：IOU(目标检测专门的评估方法，用于评估预测到的区域和真正的物体区域的重合程度)</p>
-</blockquote>
-<p>​    图像识别问题思路比较简单也比较成熟了，不做过多的论述，下面将针对定位问题的两种方式进行具体的描述。</p>
-<h4 id="（三）定位问题的主要两种方案"><a href="#（三）定位问题的主要两种方案" class="headerlink" title="（三）定位问题的主要两种方案"></a>（三）定位问题的主要两种方案</h4><h5 id="1-使用回归模型"><a href="#1-使用回归模型" class="headerlink" title="1.使用回归模型"></a>1.使用回归模型</h5><p>​    将问题看做回归问题，预测出方框的坐标值。</p>
-<p><strong>基本的处理流程</strong>为：</p>
-<blockquote>
+        <p>&emsp;&emsp;本文从整体上对目标检测算法做了概述，首先对目前目标检测算法的主要流派做阐述，然后针对传统目标检测算法以及新兴的候选区域+深度学习方式两种方式的主流目标检测算法分别做比较详细介绍。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.12zbhb158on.png" alt="image"></p>
+<a id="more"></a>
+<h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="1-回归-分类双头网络"><a href="#1-回归-分类双头网络" class="headerlink" title="1.回归+分类双头网络"></a>1.回归+分类双头网络</h3><p>&emsp;&emsp;将问题看做回归问题，预测出方框的坐标值。</p>
+<p>&emsp;&emsp;<strong>基本的处理流程</strong></p>
 <p><strong>1.先搭建一个图像识别任务的卷积神经网络(CNN+full connected)</strong></p>
 <p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/标准图像识别卷积神经网络.png?raw=true" alt></p>
 <p><strong>2.将上面搭建好的卷积神经网络进行的尾部与全连接分类网络并行的加入一个新的回归分类网络，形成classfication+regession模式</strong></p>
-<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/分类回归型卷积神经网络.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/分类回归型卷积神经网络.png?raw=true" alt></p>
 <p><strong>3.加入回归头后对regession部分采用欧式距离损失使用SGD进行训练</strong></p>
-<p>注意：由于regession很难进行训练，因此网络采取classfication的网络来计算出classfication head和regression head的共同的连接权值，然后前面的部分保持参数不变，只训练regession head部分的连接的权值(这里是第一次fine-tune)</p>
+<div class="note info">
+            <p>由于regession很难进行训练，因此网络采取classfication的网络来计算出classfication head和regression head的共同的连接权值，然后前面的部分保持参数不变，只训练regession head部分的连接的权值(这里是第一次fine-tune)</p>
+          </div>
 <p><strong>4.预测阶段，两个头同时完成图像识别和定位的工作</strong></p>
-</blockquote>
-<h5 id="2-图像窗口法"><a href="#2-图像窗口法" class="headerlink" title="2.图像窗口法"></a>2.图像窗口法</h5><p>​    对一张图片，用各种大小的框（遍历整张图片）将图片截取出来，输入到CNN，然后CNN会输出这个框的得分（classification）以及这个框图片对应x,y,h,w（regression，根据得分的高低，我们选择了右下角的黑框作为目标位置的预测。）。</p>
-<p><strong>注：有的时候也会选择得分最高的两个框，然后取两框的交集作为最终的位置预测。</strong></p>
-<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/图窗法基本形式.png?raw=true" alt></p>
-<p><strong>存在的问题:</strong></p>
-<blockquote>
-<p>​    时间效率问题，要遍历各种大小的框，然后都需要使用卷积神经网络进行一次特征提取，效率很低。</p>
-</blockquote>
-<p><strong>速度优化常用的方式：</strong></p>
-<p>​    把全连接层改为卷积层。</p>
-<p> <img src="https://github.com/AnchoretY/images/blob/master/blog/卷积层取代全连接层优化.png?raw=true" alt></p>
-<h4 id="四-传统目标检测的主要问题"><a href="#四-传统目标检测的主要问题" class="headerlink" title="(四) 传统目标检测的主要问题"></a>(四) 传统目标检测的主要问题</h4><blockquote>
-<ol>
-<li><p>基于滑动窗口的区域选择没有针对性，时间复杂度过高，窗口冗余</p>
-</li>
-<li><p>手工设计的特征对于对于真实环境中的多变不具有很好的普适性</p>
-</li>
-</ol>
-</blockquote>
-<h3 id="三、候选区域-深度学习"><a href="#三、候选区域-深度学习" class="headerlink" title="三、候选区域+深度学习"></a>三、候选区域+深度学习</h3><h4 id="一-R-CNN"><a href="#一-R-CNN" class="headerlink" title="(一) R-CNN"></a>(一) R-CNN</h4><p>​    <strong>R-CNN模型即使用Region Proposal + CNN</strong>代替传统目标检测使用的滑动窗口+手工设计特征，首先在途中找出目标可能会出现的位置，即候选区域(Region Proposal)，可以保证在选取较少（几千甚至几百）的窗口的前提下保持较高的召回率。核心包括：</p>
+<h3 id="2-候选区域-深度学习"><a href="#2-候选区域-深度学习" class="headerlink" title="2.候选区域+深度学习"></a>2.候选区域+深度学习</h3><h4 id="two-stage模型"><a href="#two-stage模型" class="headerlink" title="two-stage模型"></a>two-stage模型</h4><p>&emsp;&emsp;two-stage模型与传统的目标检测算法、人们的认知方式比较接近，即首先采用</p>
+<h4 id="一-R-CNN"><a href="#一-R-CNN" class="headerlink" title="(一) R-CNN"></a>(一) R-CNN</h4><p>​    <strong>R-CNN模型即使用Region Proposal + CNN</strong>代替传统目标检测使用的滑动窗口+手工设计特征，首先在途中找出目标可能会出现的位置，即候选区域(Region Proposal)，可以保证在选取较少（几千甚至几百）的窗口的前提下保持较高的召回率。核心包括：</p>
 <blockquote>
 <p> 1.区域选择算法</p>
 <p>​    常见的选择性搜索算法主要有Selective Search<a href></a>和EdgeBoxs。</p>
@@ -526,7 +483,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、常见目标检测算法概述"><span class="nav-text">一、常见目标检测算法概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、传统目标检测算法"><span class="nav-text">二、传统目标检测算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一-传统目标检测的整体流程"><span class="nav-text">(一)  传统目标检测的整体流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（二）目标检测任务"><span class="nav-text">（二）目标检测任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（三）定位问题的主要两种方案"><span class="nav-text">（三）定位问题的主要两种方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四-传统目标检测的主要问题"><span class="nav-text">(四) 传统目标检测的主要问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、候选区域-深度学习"><span class="nav-text">三、候选区域+深度学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一-R-CNN"><span class="nav-text">(一) R-CNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二-SSP-Net"><span class="nav-text">(二) SSP Net</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三-Fast-R-CNN"><span class="nav-text">(三) Fast R-CNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（四）Faster-R-CNN"><span class="nav-text">（四）Faster R-CNN</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-text"> </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-回归-分类双头网络"><span class="nav-text">1.回归+分类双头网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-候选区域-深度学习"><span class="nav-text">2.候选区域+深度学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#two-stage模型"><span class="nav-text">two-stage模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一-R-CNN"><span class="nav-text">(一) R-CNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二-SSP-Net"><span class="nav-text">(二) SSP Net</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三-Fast-R-CNN"><span class="nav-text">(三) Fast R-CNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（四）Faster-R-CNN"><span class="nav-text">（四）Faster R-CNN</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
