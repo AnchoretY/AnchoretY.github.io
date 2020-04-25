@@ -190,6 +190,114 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/Docker操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/23/Docker操作/" class="post-title-link" itemprop="url">Docker操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-23 23:37:06" itemprop="dateCreated datePublished" datetime="2018-09-23T23:37:06+08:00">2018-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-12-07 12:59:56" itemprop="dateModified" datetime="2018-12-07T12:59:56+08:00">2018-12-07</time>
+              </span>
+
+          
+            <span id="/2018/09/23/Docker操作/" class="post-meta-item leancloud_visitors" data-flag-title="Docker操作" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/09/23/Docker操作/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/23/Docker操作/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>169</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>-d 容器在后台运行</p>
+<p>-P 将容器内部的端口映射到我们的主机上</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps    #查看全部正在开启的docker</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<h4 id="1-进入以及退出docker"><a href="#1-进入以及退出docker" class="headerlink" title="1.进入以及退出docker"></a>1.进入以及退出docker</h4><p>​    进入docker命令主要分为两种，attach和exec命令，但是由于exec命令退出后容器继续运行，因此更为常用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先查看正在运行的docker，在其中选择想要进入的docker name</span></span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后使用exec进行进入docker</span></span><br><span class="line">docker <span class="keyword">exec</span> --it docker_name /bin/bash/</span><br><span class="line"></span><br><span class="line"><span class="comment">#进行各种操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#退出docker</span></span><br><span class="line">exit或Ctrl+D</span><br></pre></td></tr></table></figure>
+<h3 id="2-docker和宿主主机之间传输文件"><a href="#2-docker和宿主主机之间传输文件" class="headerlink" title="2.docker和宿主主机之间传输文件"></a>2.docker和宿主主机之间传输文件</h3><p>​    docker 使用docker cp 命令来进行复制，<strong>无论容器有没有进行运行，复制操作都可以进行执行</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#从docker中赋值文件到宿主主机</span></span><br><span class="line">docker cp docker_name:/docker_file_path local_path</span><br><span class="line"></span><br><span class="line"><span class="comment">#从宿主主机复制到docker</span></span><br><span class="line">docker cp local_path docker_name:/docker_file_path</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch向量转化操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -288,120 +396,6 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
 <p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/23/pytorch运算操作/" class="post-title-link" itemprop="url">pytorch运算操作</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-03-28 16:08:38" itemprop="dateModified" datetime="2019-03-28T16:08:38+08:00">2019-03-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/09/23/pytorch运算操作/" class="post-meta-item leancloud_visitors" data-flag-title="pytorch运算操作" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/09/23/pytorch运算操作/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/23/pytorch运算操作/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>97</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>1.transponse</strong></p>
-<p>​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换两个维度</span></span><br><span class="line">torch.transponse(dim1,dim2)</span><br></pre></td></tr></table></figure>
-<p><strong>2.matmul和bmm</strong></p>
-<p>​    matmul和bmm都是实现batch的矩阵乘法操作。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand((<span class="number">2</span>,<span class="number">3</span>,<span class="number">10</span>))</span><br><span class="line">b = torch.rand((<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">res1 = torch.matmul(a,b.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#res1 = torch.matmul(a,b.transose(1,2))</span></span><br><span class="line"><span class="keyword">print</span> res1.size()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3x2]</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -547,6 +541,120 @@
 <p>tmux kill-server #删除所有会话</p>
 </blockquote>
 <p><strong>除了上面常用的快捷键以外，还可以直接使用<code>前缀快捷键⌃b加?</code>来查看所有快捷键列表</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/23/pytorch运算操作/" class="post-title-link" itemprop="url">pytorch运算操作</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-03-28 16:08:38" itemprop="dateModified" datetime="2019-03-28T16:08:38+08:00">2019-03-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/09/23/pytorch运算操作/" class="post-meta-item leancloud_visitors" data-flag-title="pytorch运算操作" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/09/23/pytorch运算操作/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/23/pytorch运算操作/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>97</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1.transponse</strong></p>
+<p>​    torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交换两个维度</span></span><br><span class="line">torch.transponse(dim1,dim2)</span><br></pre></td></tr></table></figure>
+<p><strong>2.matmul和bmm</strong></p>
+<p>​    matmul和bmm都是实现batch的矩阵乘法操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand((<span class="number">2</span>,<span class="number">3</span>,<span class="number">10</span>))</span><br><span class="line">b = torch.rand((<span class="number">2</span>,<span class="number">2</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">res1 = torch.matmul(a,b.transpose(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#res1 = torch.matmul(a,b.transose(1,2))</span></span><br><span class="line"><span class="keyword">print</span> res1.size()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3x2]</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -1467,239 +1575,11 @@ du /home/yhk/ -h
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/Pytorch入门学习心得/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/23/Pytorch入门学习心得/" class="post-title-link" itemprop="url">Pytorch入门学习心得</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-23 01:18:06" itemprop="dateCreated datePublished" datetime="2018-09-23T01:18:06+08:00">2018-09-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-03-15 15:12:07" itemprop="dateModified" datetime="2019-03-15T15:12:07+08:00">2019-03-15</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/09/23/Pytorch入门学习心得/" class="post-meta-item leancloud_visitors" data-flag-title="Pytorch入门学习心得" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/09/23/Pytorch入门学习心得/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/23/Pytorch入门学习心得/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h2><h3 id="1-Dropout"><a href="#1-Dropout" class="headerlink" title="1.Dropout"></a>1.Dropout</h3><p>Drop是一种现在在深度学习中使用最为广泛的防止过拟合的方式  </p>
-<p><strong>核心思想</strong>:再训练神经网格时的时候依据概率P保留每个神经元的权重，也就是说每次训练的时候都会有一些神经元被置0，这样就保证神经网络神经网络不会过度学习</p>
-<p><strong>注意</strong>：我们只是在训练的时候使用dropout去使一些神经元不参与训练，但是在预测阶段会使用全部的神经元参与预测</p>
-<p><strong>使用情况</strong>：卷积神经网路只在最后的全连接层中使用dropout，循环神经网络一般只在不同层循环结构体之间使用dropout</p>
-<h3 id="２-Batch-Normalization"><a href="#２-Batch-Normalization" class="headerlink" title="２.Batch Normalization"></a>２.Batch Normalization</h3><p><strong>核心思想</strong>：将标准化应用的整个前向传播和反向传播的过程中。传统的标准化一般只是在输入数据之前将数据进行标准化处理，而批标准化是在神经网络的训练过程中对每层的输入数据都进行一个标准化</p>
-<p><strong>使用位置</strong>:线性层和非线性层之间</p>
-<p><strong>作用</strong>：1.加快收敛速度　　2.防止过拟合</p>
-<p>​    </p>
-<h3 id="３-从神经网络角度看线性回归和逻辑回归的区别？"><a href="#３-从神经网络角度看线性回归和逻辑回归的区别？" class="headerlink" title="３.从神经网络角度看线性回归和逻辑回归的区别？"></a>３.从神经网络角度看线性回归和逻辑回归的区别？</h3><p>　　丛神经网络角度上看，逻辑回归只是在线性回归的基础上计入了一层Sigmod激活函数。
-　　
-　　
-　　
-　</p>
-<h3 id="４-全连接网络设计趋势"><a href="#４-全连接网络设计趋势" class="headerlink" title="４.全连接网络设计趋势"></a>４.全连接网络设计趋势</h3><p><strong>1. 使用线性层和非线性激活函数交替的结果来代替线性层交替的结构往往能大大提升准确率</strong><br><strong>2. 在线性层和非线性激活函数之间加入批标准化处理加快收敛速度</strong></p>
-<h2 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h2><h3 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h3><p>卷积层可以看作是多个滤波器的集合，<strong>滤波器在深度上要和输入数据保持一致</strong>，让每个滤波器在宽度和深度高度上进行滑动卷积，然后计算整个滤波器和输入数据任意一处的内积，<strong>输出数据的深度和滤波器的个数保持一致</strong></p>
-<h4 id="1-卷积层为什么有效？"><a href="#1-卷积层为什么有效？" class="headerlink" title="1.卷积层为什么有效？"></a>1.卷积层为什么有效？</h4><p><strong>(1).局部性</strong><br>判断题图片的类型并不是根据整张图片来决定的，而是由一定的局部区域决定的</p>
-<p><strong>(2).相同性</strong><br>对于不同的图片，如果他们属于同一类，他们将具有相同的特征，但这些特征可能属于图片的不同位置，但是在不同位置的检测方式几乎是一样的</p>
-<p><strong>(3).不变性</strong><br>当我们对图片进行下采样时，图片的基本性质不变</p>
-<h4 id="2-卷积层的参数"><a href="#2-卷积层的参数" class="headerlink" title="2.卷积层的参数"></a>2.卷积层的参数</h4><blockquote>
-<p><strong>关键参数:</strong><br>　　in_channels ：特征的管道数，彩色图片为3，黑白图片则为1<br>　　out_channels : 输出管道个数，也就是滤波器个数<br>　　kernel_size : 卷积核大小</p>
-<p><strong>可选参数：</strong><br>　　padding:边界填充0的层数<br>　　stride:步长<br>　　bias: 是否使用偏置，默认是True</p>
-</blockquote>
-<h4 id="3-卷积层的输入输出"><a href="#3-卷积层的输入输出" class="headerlink" title="3.卷积层的输入输出"></a>3.卷积层的输入输出</h4><blockquote>
-<p><strong>输入：</strong><br>　　卷积层的输入格式为(batch,channels,width,heights)</p>
-<p><strong>输出：</strong><br>　　卷积层的输出取决于输入数据大小W、卷积核大小F、步长S、0填充个数P等四个方面，计算公式如下：<br>　　　　W-F+2P/S + 1</p>
-</blockquote>
-<p>这里在介绍几种常用的卷积层参数设置：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>卷积核大小</th>
-<th>0填充层数</th>
-<th>步长</th>
-<th>卷积层输出</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>3</td>
-<td>1</td>
-<td>1</td>
-<td>保持输入维度不变</td>
-</tr>
-<tr>
-<td>3</td>
-<td>0</td>
-<td>1</td>
-<td>输入维度减2</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>一般卷积核大小不超过5</p>
-<h4 id="4-卷积层的参数共享"><a href="#4-卷积层的参数共享" class="headerlink" title="4.卷积层的参数共享"></a>4.卷积层的参数共享</h4><p>基于特征的相同性，因此可以使用相同的滤波器来检测不同位置的相同特征，参数共享共享机制有效的减少卷积层的参数个数，加快了卷积神经网络的训练速度。  </p>
-<p><strong>使用参数共享机制的CNN层参数个数为：</strong><br>　　　<strong>滤波器个数（out_dim） <em> 神经元大小（kernel_size　</em> kernel_size * input_dim）</strong>
-　　　</p>
-<p>例如：当卷积层的的输出是20 <em> 20 </em> 32，窗口大小是3 <em> 3，输入数据深度是10时，当不适用参数共享时神经元个数为20 </em> 20 <em> 32，每个神经元个数为3 </em> 3 <em> 10，总参数个数为12800 </em> 900 =11520000个参数。但当我们使用参数共享时，因为输出深度为32，所以存在32个滤波器，每个滤波器存在参数3 <em> 3 </em> 10个，而总参数个数即为90 * 32个，大大减少了参数的个数</p>
-<h3 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h3><h4 id="1-使用池化层有什么作用？"><a href="#1-使用池化层有什么作用？" class="headerlink" title="1.使用池化层有什么作用？"></a>1.使用池化层有什么作用？</h4><ol>
-<li>有效的缩小矩阵的尺寸</li>
-<li>加快计算速度</li>
-<li>防止过拟合</li>
-</ol>
-<h4 id="2-池化层的参数设置"><a href="#2-池化层的参数设置" class="headerlink" title="2.池化层的参数设置"></a>2.池化层的参数设置</h4><blockquote>
-<p>关键参数：<br>　　kernel_size ：池化层的大小</p>
-</blockquote>
-<p><strong>池化层也可也进行0填充，但是几乎不用</strong></p>
-<p>池化层最常用的池化方式以及参数设置：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>池化类型</th>
-<th>卷积核大小</th>
-<th>步长</th>
-<th>池化层输出</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>MaxPooling</td>
-<td>2</td>
-<td>2</td>
-<td>输入维度的一半</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>注意：池化层只能改变高度和宽度，不能改变深度；卷积层即可改变数据的宽度和高度也可以改变数据的深度</strong></p>
-<h3 id="经典卷积设计的趋向"><a href="#经典卷积设计的趋向" class="headerlink" title="经典卷积设计的趋向"></a>经典卷积设计的趋向</h3><p><strong>1. 使用小滤波器</strong><br><strong>2. 多个卷积层和非线性激活层交替的结构比单一的卷积层结构能更加有效的提取出更深层次的特征，并且参数个数更少</strong></p>
-<h2 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h2><p><strong>1.RNN模型的超参数</strong></p>
-<blockquote>
-<p>关键参数：<br>　　input_size:输入的维度<br>　　hidden_size：隐藏层维度，也是最终输出的维度<br>　　num_layers: RNN层数<br>可选参数:<br>　　batch_first : 将输入输出的batch放在最前面，顺序为（batch,seq,feature）<br>　　bidirectional: True表示双向循环神经网络，默认为False<br>　　dropout: 参数接受一个0~1之间的一个值，会将网路中出最后一层外加入dropout层</p>
-</blockquote>
-<p><strong>2.RNN模型的输入</strong>  </p>
-<p>RNN模型的输入为:<strong>(seq,batch,feature)</strong>,这里要重点注意，在建立模型时可使用batch_first将顺序变成正常的(batch,seq,feature)．</p>
-<p>其中的含义为:</p>
-<blockquote>
-<p>batch:  样本个数</p>
-<p>seq: 每个样本依据附近的样本个数</p>
-<p>feature:  每个样本特征数</p>
-</blockquote>
-<p>其实RNN的网络中需要两个输入，上面的序列输入是主要输入，必须进行人工指定，还有一个起始状态输入，可选进行输入，不指定则默认为全0</p>
-<p><strong>3.RNN模型的输出</strong></p>
-<p>RNN的模型输出分为实际输出output和记忆状态h两部分。其中各自的形式和表达如下：</p>
-<blockquote>
-<p>实际输出output:<br>　　维度：(seq,batch,hidden<em>direction)<br>记忆状态：<br>　　维度：(layers </em> direction,bactch,hidden)</p>
-<p>注：使用batch_first可将batch放在最前面
-　　</p>
-</blockquote>
-<p><strong>4.RNN使用作词性判断</strong></p>
-<p>因为RNN可根据上下文进行输出，因此使用RNN模型根据上下文的词性判断某个词的词性比直接根据该单词判断效果更好。</p>
-<p>训练集：<br>​    输入：给定的句子<br>​    标签：句子中每个单词的词性</p>
-<blockquote>
-<p>基本原理：<br>　　首先我们使用word_embedding将句子中的每个词进行词向量化，如：The dog ate apple  转化成4 <em> word_dim 的词向量<br>　　　　x = x.embedding(x)<br>　　因为lstm需要的输入形式为3维，因此我们要将其转换为1 </em> 4 <em> word_dim<br>　　　　x = x.unsqueeze(0)<br>　　再将其输入到lstm模型中，得到模型的实际输出维度为：batch </em> seq * hidden_dim<br>　　　　output<br>　　因为我们需要判断是的最后一个词的词性，因此我们只需要取最后一个seq就好了<br>　　　　output[:,-1,:]</p>
-</blockquote>
-<p>因为一个单词的词性不只与其上下文关系有关，还与其单词的字母排列情况有关，因此我们可以上面的基础上增加字符角度的lstm来进行表征其字母排列情况。</p>
-<blockquote>
-<p>完善方案：<br>　　遍历句子The dog ate apple中的每个单词：<br>　　　　将单词中的每个字母进行词向量表示，如apple转化成5 <em> char_dim的词向量<br>　　　　　　char_info = nn.embedding(x)<br>　　　　将其转换为３维：１</em> 5 <em> char_dim<br>　　　　　　char_info = char_info.unsqueeze(0)<br>　　　　将模型输入lstm模型，但这里取记忆状态作为输出,输出状态是h0维度为(1,1,hidden_dim)<br>　　　　　　_,h = char_lstm(char_info)<br>　　　　　　h[0]<br>　　将各个单词的输出组合成一个向量，按照seq进行拼接,形成一个1 </em> 4 <em> hidden_dim的向量<br>　　　　for word in words:<br>　　　　　　char_seq = make_sequeece(word,char_to_idx)<br>　　　　　　char_seq = self.char_lstm(char_seq)<br>　　　　　　word_set.append(char_seq)<br>　　　　char = torch.stack(word_set,1)<br>　根据前面基本方法将单词进行向量化，得到1 </em> 4 word_dim维向量，将其与字符级别的lstm结果从feature维度进行拼接，得到1 <em> 4 </em> char_hidden+word_dim维向量<br>　　　　x = torch.cat((x,char),dim=2)<br>　　最后将两个角度的得到的特征一起输入的最终的lstm模型，在经过全连接层得到最终结果</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1767,20 +1647,20 @@ du /home/yhk/ -h
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-count">131</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
