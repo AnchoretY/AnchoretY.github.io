@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
   </script>
 
-  <meta name="description" content="概述：本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。转自：https://www.cnblogs.com/bonelee/p/9204826.html">
+  <meta name="description" content="概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务。大部分的Ddos攻击都会利用服务器的各种漏洞以及基础设施漏洞的对僵尸网络的流量进行放大，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安全——ddos">
 <meta property="og:url" content="https://anchorety.github.io/2020/04/24/安全——ddos/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="概述：本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。转自：https://www.cnblogs.com/bonelee/p/9204826.html">
+<meta property="og:description" content="概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务。大部分的Ddos攻击都会利用服务器的各种漏洞以及基础设施漏洞的对僵尸网络的流量进行放大，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.voe30khfd1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qeimqwdakph.png">
-<meta property="og:updated_time" content="2020-04-25T07:55:43.625Z">
+<meta property="og:updated_time" content="2020-04-25T08:10:04.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安全——ddos">
-<meta name="twitter:description" content="概述：本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。转自：https://www.cnblogs.com/bonelee/p/9204826.html">
+<meta name="twitter:description" content="概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务。大部分的Ddos攻击都会利用服务器的各种漏洞以及基础设施漏洞的对僵尸网络的流量进行放大，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.voe30khfd1.png">
 
 <link rel="canonical" href="https://anchorety.github.io/2020/04/24/安全——ddos/">
@@ -227,7 +227,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-25 15:55:43" itemprop="dateModified" datetime="2020-04-25T15:55:43+08:00">2020-04-25</time>
+                <time title="修改时间：2020-04-25 16:10:04" itemprop="dateModified" datetime="2020-04-25T16:10:04+08:00">2020-04-25</time>
               </span>
 
           
@@ -276,10 +276,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>概述：本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。转自：<a href="https://www.cnblogs.com/bonelee/p/9204826.html" target="_blank" rel="noopener">https://www.cnblogs.com/bonelee/p/9204826.html</a></p>
+        <p>概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其<strong>主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务</strong>。大部分的Ddos攻击都会利用<strong>服务器的各种漏洞</strong>以及<strong>基础设施漏洞</strong>的对僵尸网络的<strong>流量进行放大</strong>，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.voe30khfd1.png" alt="image"></p>
 <a id="more"></a>
-<p>&emsp;&emsp;Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其<strong>主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务</strong>。大部分的Ddos攻击都会利用<strong>服务器的各种漏洞</strong>以及<strong>基础设施漏洞</strong>的对僵尸网络的<strong>流量进行放大</strong>，从而做到以小搏大的效果，提升攻击的效率。</p>
 <h3 id="1-SYN-Flood"><a href="#1-SYN-Flood" class="headerlink" title="1.SYN Flood"></a>1.SYN Flood</h3><p>&emsp;&emsp;SYN Flood是互联网上最经典的DDoS攻击方式之一，最早出现于1999年左右，雅虎是当时最著名的受害者。SYN Flood攻击利用了TCP三次握手的缺陷，能够以较小代价使目标服务器无法响应，且难以追查。</p>
 <p><strong>标准的TCP三次握手过程如下</strong>：</p>
 <blockquote>
@@ -290,7 +289,7 @@
 </blockquote>
 <p>&emsp;&emsp;经过这三步，TCP连接就建立完成。TCP协议为了实现可靠传输，在三次握手的过程中设置了一些异常处理机制。<strong>第三步中如果服务器没有收到客户端的最终ACK确认报文，会一直处于SYN_RECV状态，将客户端IP加入等待列表，并重发第二步的SYN+ACK报文。重发一般进行3-5次，大约间隔30秒左右轮询一次等待列表重试所有客户端。另一方面，服务器在自己发出了SYN+ACK报文后，会预分配资源为即将建立的TCP连接储存信息做准备，这个资源在等待重试期间一直保留。</strong>更为重要的是，服务器资源有限，可以维护的SYN_RECV状态超过极限后就不再接受新的SYN报文，也就是拒绝新的TCP连接建立。</p>
 <p>&emsp;&emsp;SYN Flood正是利用了上文中TCP协议的设定，达到攻击的目的。<strong>攻击者伪装大量的IP地址给服务器发送SYN报文，由于伪造的IP地址几乎不可能存在，也就几乎没有设备会给服务器返回任何应答了</strong>。因此，服务器将会维持一个庞大的等待列表，不停地重试发送SYN+ACK报文，同时占用着大量的资源无法释放。更为关键的是，<strong>被攻击服务器的SYN_RECV队列被恶意的数据包占满，不再接受新的SYN请求，合法用户无法完成三次握手建立起TCP连接</strong>。也就是说，这个服务器被SYN Flood拒绝服务了。</p>
-<h4 id="2-DNS-Query-Flood"><a href="#2-DNS-Query-Flood" class="headerlink" title="2.DNS Query Flood"></a>2.DNS Query Flood</h4><p>&emsp;&emsp;作为互联网最基础、最核心的服务，DNS自然也是DDoS攻击的重要目标之一。打垮DNS服务能够间接打垮一家公司的全部业务，或者打垮一个地区的网络服务。前些时候风头正盛的黑客组织anonymous也曾经宣布要攻击全球互联网的13台根DNS服务器，不过最终没有得手。</p>
+<h3 id="2-DNS-Query-Flood"><a href="#2-DNS-Query-Flood" class="headerlink" title="2.DNS Query Flood"></a>2.DNS Query Flood</h3><p>&emsp;&emsp;作为互联网最基础、最核心的服务，DNS自然也是DDoS攻击的重要目标之一。打垮DNS服务能够间接打垮一家公司的全部业务，或者打垮一个地区的网络服务。前些时候风头正盛的黑客组织anonymous也曾经宣布要攻击全球互联网的13台根DNS服务器，不过最终没有得手。</p>
 <div class="note info">
             <p>DNS Query Flood的攻击目标为DNS基础设施</p>
           </div>
@@ -326,8 +325,10 @@
 <h5 id="2-Slow-body"><a href="#2-Slow-body" class="headerlink" title="2.Slow body"></a>2.Slow body</h5><p>&emsp;&emsp;<strong>攻击者发送一个HTTP POST请求，该请求的Content-Length头部值很大，使得Web服务器或代理认为客户端要发送很大的数据。服务器会保持连接准备接收数据，但攻击客户端每次只发送很少量的数据，使该连接一直保持存活，消耗服务器的连接和内存资源</strong>。抓包数据可见，攻击客户端与服务器建立TCP连接后，发送了完整的HTTP头部，POST方法带有较大的Content-Length，然后每10s发送一次随机的参数。服务器因为没有接收到相应Content-Length的body，而持续的等待客户端发送数据。</p>
 <h5 id="3-Slow-read"><a href="#3-Slow-read" class="headerlink" title="3.Slow read"></a>3.Slow read</h5><p>&emsp;<strong>&emsp;客户端与服务器建立连接并发送了一个HTTP请求，客户端发送完整的请求给服务器端，然后一直保持这个连接，以很低的速度读取Response</strong>，比如很长一段时间客户端不读取任何数据，通过发送Zero Window到服务器，让服务器误以为客户端很忙，直到连接快超时前才读取一个字节，以消耗服务器的连接和内存资源。抓包数据可见，客户端把数据发给服务器后，服务器发送响应时，收到了客户端的ZeroWindow提示（表示自己没有缓冲区用于接收数据），服务器不得不持续的向客户端发出ZeroWindowProbe包，询问客户端是否可以接收数据。</p>
 <h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
-<li><a href="https://www.jianshu.com/p/dff5a0d537d8" target="_blank" rel="noopener">https://www.jianshu.com/p/dff5a0d537d8</a></li>
-<li>xxx</li>
+<li><p><a href="https://www.jianshu.com/p/dff5a0d537d8" target="_blank" rel="noopener">https://www.jianshu.com/p/dff5a0d537d8</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/bonelee/p/9204826.html" target="_blank" rel="noopener">https://www.cnblogs.com/bonelee/p/9204826.html</a></p>
+</li>
 </ul>
 
     </div>
@@ -425,7 +426,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SYN-Flood"><span class="nav-text">1.SYN Flood</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DNS-Query-Flood"><span class="nav-text">2.DNS Query Flood</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-DNS-反射攻击"><span class="nav-text">3.DNS 反射攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-HTTP-Flood（CC攻击）"><span class="nav-text">4.HTTP Flood（CC攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-慢速攻击"><span class="nav-text">5. 慢速攻击</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SYN-Flood"><span class="nav-text">1.SYN Flood</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-DNS-Query-Flood"><span class="nav-text">2.DNS Query Flood</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-DNS-反射攻击"><span class="nav-text">3.DNS 反射攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-HTTP-Flood（CC攻击）"><span class="nav-text">4.HTTP Flood（CC攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-慢速攻击"><span class="nav-text">5. 慢速攻击</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
