@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[腾讯AI-WAF建设以及维护经验]]></title>
+    <url>%2F2020%2F07%2F02%2F%E8%85%BE%E8%AE%AFAI-WAF%E5%BB%BA%E8%AE%BE%E4%BB%A5%E5%8F%8A%E7%BB%B4%E6%8A%A4%E7%BB%8F%E9%AA%8C%2F</url>
+    <content type="text"><![CDATA[概述：本文来自于腾讯安全应急响应中心发布的两篇博客，主要对其中比较有启发性的一些问题做总结。 &emsp;&emsp;在本篇文章中提出了一种使用使用语义、策略、AI三种方式进行协作的AI WAF建设方式，其主要针对于XSS、SQL等具有明显的语义结构的攻击形式。 整体结构 1.流量压缩&emsp;&emsp;这里是大多数实际应用的WAF产品所必需的第一步，因为在真实的互联网环境中，正常流量与攻击流量的比例大约在10000：1，因此一般WAF产品都使用一定的策略大大减少需要使用WAF进行判断的流量，增加整个系统的处理效率。在腾讯的门神WAF中提到所使用的方法为：过滤公司出口IP、敏感攻击特征关键字进行字符串匹配（注意这里是敏感关键字匹配，不是正则，敏感关键字匹配的效率比正则表达式要高） 2.请求预处理&emsp;&emsp;请求预处理阶段是无论传统WAF还是AI WAF系统中都需要进行的检测准备，主要包括解析处理和解码处理两部分。 解析处理：对http请求按协议规范解析提取出各个字段字段的Key-Value，包括json的一些特殊处理等。 解码处理：解码处理主要是为了避免payload通过各种编码绕过检测,针对URL编码、URL多重编码、base64编码、unicode编码、html实体编码，通过解码阶段处理最终还原出原始payload，再输出给后面模块处理。 解码通常使用循环解码来保证编码已经被完全解析。 参考文档 12345graph LRA(sql注入) --&gt; B(普通注入)A --&gt; C(圆角长方形)C--&gt;D(布尔型盲注)C--&gt;E(延时盲注) 2.数学公式参考文档 &emsp;&emsp;单行数学公式: \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\&emsp;&emsp;行内数学公式$\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\ $ 标题二1.表格 [ ] 计划任务 [x] 完成任务 2. 列表 项目 Value 电脑 $1600 手机 $12 导管 $1 Column 1 Column 2 centered 文本居中 right-aligned 文本居左 3.note标记 Default primary success info warning danger 参考文献 WAF建设运营及AI应用实践 门神WAF众测总结]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[目标检测——FasterRCNN]]></title>
+    <url>%2F2020%2F05%2F03%2F%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E2%80%94%E2%80%94FasterRCNN%2F</url>
+    <content type="text"><![CDATA[概述：首页描述 标题一1.Mermaid流程图参考文档 12345graph LRA(sql注入) --&gt; B(普通注入)A --&gt; C(圆角长方形)C--&gt;D(布尔型盲注)C--&gt;E(延时盲注) 2.数学公式参考文档 &emsp;&emsp;单行数学公式: \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\&emsp;&emsp;行内数学公式$\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\ $ 标题二1.表格 [ ] 计划任务 [x] 完成任务 2. 列表 项目 Value 电脑 $1600 手机 $12 导管 $1 Column 1 Column 2 centered 文本居中 right-aligned 文本居左 3.note标记 Default primary success info warning danger 参考文献 xxx xxx]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[安全——ddos]]></title>
     <url>%2F2020%2F04%2F24%2F%E5%AE%89%E5%85%A8%E2%80%94%E2%80%94ddos%2F</url>
     <content type="text"><![CDATA[概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务。大部分的Ddos攻击都会利用服务器的各种漏洞以及基础设施漏洞的对僵尸网络的流量进行放大，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。 1.SYN Flood&emsp;&emsp;SYN Flood是互联网上最经典的DDoS攻击方式之一，最早出现于1999年左右，雅虎是当时最著名的受害者。SYN Flood攻击利用了TCP三次握手的缺陷，能够以较小代价使目标服务器无法响应，且难以追查。 标准的TCP三次握手过程如下： &emsp;&emsp;客户端发送一个包含SYN标志的TCP报文，SYN即同步(Synchronize)，同步报文会指明客户端使用的端口以及TCP连接的初始序号; &emsp;&emsp;服务器在收到客户端的SYN报文后，将返回一个SYN+ACK(即确认Acknowledgement)的报文，表示客户端的请求被接受，同时TCP初始序号自动加1; &emsp;&emsp;客户端也返回一个确认报文ACK给服务器端，同样TCP序列号被加1。 &emsp;&emsp;经过这三步，TCP连接就建立完成。TCP协议为了实现可靠传输，在三次握手的过程中设置了一些异常处理机制。第三步中如果服务器没有收到客户端的最终ACK确认报文，会一直处于SYN_RECV状态，将客户端IP加入等待列表，并重发第二步的SYN+ACK报文。重发一般进行3-5次，大约间隔30秒左右轮询一次等待列表重试所有客户端。另一方面，服务器在自己发出了SYN+ACK报文后，会预分配资源为即将建立的TCP连接储存信息做准备，这个资源在等待重试期间一直保留。更为重要的是，服务器资源有限，可以维护的SYN_RECV状态超过极限后就不再接受新的SYN报文，也就是拒绝新的TCP连接建立。 &emsp;&emsp;SYN Flood正是利用了上文中TCP协议的设定，达到攻击的目的。攻击者伪装大量的IP地址给服务器发送SYN报文，由于伪造的IP地址几乎不可能存在，也就几乎没有设备会给服务器返回任何应答了。因此，服务器将会维持一个庞大的等待列表，不停地重试发送SYN+ACK报文，同时占用着大量的资源无法释放。更为关键的是，被攻击服务器的SYN_RECV队列被恶意的数据包占满，不再接受新的SYN请求，合法用户无法完成三次握手建立起TCP连接。也就是说，这个服务器被SYN Flood拒绝服务了。 2.DNS Query Flood&emsp;&emsp;作为互联网最基础、最核心的服务，DNS自然也是DDoS攻击的重要目标之一。打垮DNS服务能够间接打垮一家公司的全部业务，或者打垮一个地区的网络服务。前些时候风头正盛的黑客组织anonymous也曾经宣布要攻击全球互联网的13台根DNS服务器，不过最终没有得手。 DNS Query Flood的攻击目标为DNS基础设施 &emsp;&emsp;UDP攻击是最容易发起海量流量的攻击手段，而且源IP随机伪造难以追查。但过滤比较容易，因为大多数IP并不提供UDP服务，直接丢弃UDP流量即可。所以现在纯粹的UDP流量攻击比较少见了，取而代之的是UDP协议承载的DNS Query Flood攻击。简单地说，越上层协议上发动的DDoS攻击越难以防御，因为协议越上层，与业务关联越大，防御系统面临的情况越复杂。 DNS Query Flood就是攻击者操纵大量傀儡机器，对目标发起海量的域名查询请求。为了防止基于ACL的过滤，必须提高数据包的随机性。常用的做法是UDP层随机伪造源IP地址、随机伪造源端口等参数。在DNS协议层，随机伪造查询ID以及待解析域名。随机伪造待解析域名除了防止过滤外，还可以降低命中DNS缓存的可能性，尽可能多地消耗DNS服务器的CPU资源。 3.DNS 反射攻击&emsp;&emsp;使用DNS反射攻击，攻击者会构造一份请求，将该请求的发件方填写成为自己想要攻击的目标，然后将该请求发送给DNS解析服务器，DNS解析服务器受到该请求后会给出相当详尽的响应信息，并通过庞大的数据包，将其发送给攻击者想要攻击的地址，从达到攻击者使用较小的带宽来消耗目标服务器较大的带宽。 发送的 DNS 查询请求数据包大小一般为 60 字节左右，而查询返回结果的数据包大小通常为 3000 字节以上，因此，使用该方式进行放大攻击能够达到 50 倍以上的放大效果。 正常DNS查询：&emsp;&emsp;源IP地址 —–DNS查询—-&gt; DNS服务器 —–DNS回复包—-&gt; 源IP地址 DNS反射攻击：&emsp;&emsp;伪造IP地址 —–DNS查询—-&gt; DNS服务器 —–DNS回复包—-&gt; 伪造的IP地址（攻击目标） 防御方法： &emsp;&emsp;1.如果内部有DNS服务器，将DNS服务器设置为只对内部DNS解析请求相应。 &emsp;&emsp;2.限制DNS响应包大小，超过限制大小的数据包直接丢弃。 4.HTTP Flood（CC攻击）&emsp;&emsp;攻击者通过代理或僵尸主机向目标服务器发起大量的HTTP报文，请求涉及数据库操作的URI（Universal Resource Identifier）或其它消耗系统资源的URI，造成服务器资源耗尽，无法响应正常请求。例如门户网站经常受到的HTTP Flood攻击，攻击的最大特征就是选择消耗服务器CPU或内存资源的URI，如具有数据库操作的URI。 CC攻击的特性： 1.攻击对象：一般Ddos都是针对IP进行的拒绝服务，而CC攻击是针对页面进行的拒绝服务。 2.攻击发起者：CC攻击绝大多数都需要使用僵尸网络进行攻击，使用IP也都是真实的肉鸡IP地址。 2.请求有效性：CC攻击的请求都是正常的请求，IP地址也都是正常的IP。 3.受到攻击后的表现:服务器可以正常ping通，但是网页无法访问。 5. 慢速攻击&emsp;&emsp;慢速攻击是CC攻击的一种变体，和CC攻击一样，只要Web服务器开放了Web服务，那么它就可以是一个靶子，HTTP协议在接收到request之前是不对请求内容作校验的，所以即使你的Web应用没有可用的form表单，这个攻击一样有效。 基本原理： &emsp;&emsp;对任何一个开放了HTTP访问的服务器HTTP服务器，先建立了一个连接，指定一个比较大的content-length，然后以非常低的速度发包，比如1-10s发一个字节，然后维持住这个连接不断开。如果客户端持续建立这样的连接，那么服务器上可用的连接将一点一点被占满，从而导致拒绝服务。 &emsp;&emsp;在客户端以单线程方式建立较大数量的无用连接，并保持持续发包的代价非常的低廉。实际试验中一台普通PC可以建立的连接在3000个以上。这对一台普通的Web server，将是致命的打击。更不用说结合肉鸡群做分布式DoS了。鉴于此攻击简单的利用程度、拒绝服务的后果、带有逃逸特性的攻击方式，这类攻击一炮而红，成为众多攻击者的研究和利用对象。 细分实例： &emsp;&emsp;慢速攻击发展到今天，其种类可以分为下面几个种类： 1.low headers &emsp;&emsp;Web应用在处理HTTP请求之前都要先接收完所有的HTTP头部，因为HTTP头部中包含了一些Web应用可能用到的重要的信息。攻击者利用这点，发起一个HTTP请求，一直不停的发送HTTP头部，消耗服务器的连接和内存资源。抓包数据可见，攻击客户端与服务器建立TCP连接后，每30秒才向服务器发送一个HTTP头部，而Web服务器再没接收到2个连续的\r\n时，会认为客户端没有发送完头部，而持续的等等客户端发送数据。 2.Slow body&emsp;&emsp;攻击者发送一个HTTP POST请求，该请求的Content-Length头部值很大，使得Web服务器或代理认为客户端要发送很大的数据。服务器会保持连接准备接收数据，但攻击客户端每次只发送很少量的数据，使该连接一直保持存活，消耗服务器的连接和内存资源。抓包数据可见，攻击客户端与服务器建立TCP连接后，发送了完整的HTTP头部，POST方法带有较大的Content-Length，然后每10s发送一次随机的参数。服务器因为没有接收到相应Content-Length的body，而持续的等待客户端发送数据。 3.Slow read&emsp;&emsp;客户端与服务器建立连接并发送了一个HTTP请求，客户端发送完整的请求给服务器端，然后一直保持这个连接，以很低的速度读取Response，比如很长一段时间客户端不读取任何数据，通过发送Zero Window到服务器，让服务器误以为客户端很忙，直到连接快超时前才读取一个字节，以消耗服务器的连接和内存资源。抓包数据可见，客户端把数据发给服务器后，服务器发送响应时，收到了客户端的ZeroWindow提示（表示自己没有缓冲区用于接收数据），服务器不得不持续的向客户端发出ZeroWindowProbe包，询问客户端是否可以接收数据。 参考文献 https://www.jianshu.com/p/dff5a0d537d8 https://www.cnblogs.com/bonelee/p/9204826.html]]></content>
@@ -1062,17 +1072,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[pytorch向量转化操作]]></title>
-    <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
-      <categories>
-        <category>pytorch</category>
-      </categories>
-      <tags>
-        <tag>pytorch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[tmux基本操作]]></title>
     <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
@@ -1081,6 +1080,17 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[pytorch向量转化操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
       </tags>
   </entry>
   <entry>
