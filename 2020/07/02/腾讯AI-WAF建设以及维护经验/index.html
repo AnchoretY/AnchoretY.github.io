@@ -32,7 +32,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.678jyfqhb8l.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2r70q9cqbja.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.fy4ad1ow576.png">
-<meta property="og:updated_time" content="2020-07-03T16:37:09.281Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.e4tdsh5o35g.png">
+<meta property="og:updated_time" content="2020-07-04T01:20:02.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="腾讯AI-WAF建设以及维护经验">
 <meta name="twitter:description" content="概述：本文来自于腾讯安全应急响应中心发布的两篇博客，主要对其中比较有启发性的一些问题做总结。">
@@ -230,7 +231,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-04 00:37:09" itemprop="dateModified" datetime="2020-07-04T00:37:09+08:00">2020-07-04</time>
+                <time title="修改时间：2020-07-04 09:20:02" itemprop="dateModified" datetime="2020-07-04T09:20:02+08:00">2020-07-04</time>
               </span>
 
           
@@ -260,7 +261,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -304,24 +305,18 @@
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2r70q9cqbja.png" alt="image"></p>
 <p>&emsp;&emsp;再经过语法分析：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.fy4ad1ow576.png" alt="image"></p>
-<div class="note default">
-            <p>Default</p>
-          </div>
-<div class="note primary">
-            <p>primary</p>
-          </div>
-<div class="note success">
-            <p>success</p>
-          </div>
+<h4 id="4-基于机器学习的打分评判"><a href="#4-基于机器学习的打分评判" class="headerlink" title="4.基于机器学习的打分评判"></a>4.基于机器学习的打分评判</h4><p>&emsp;&emsp;这里腾讯所使用的方式与之前我做方法非常类似，都是<strong>使用HMM作为打分模型，以人工经验去拟定阈值</strong>，评分高于阈值则认为为异常，然后再使用过程中根据实际反馈去不断调整阈值。</p>
 <div class="note info">
-            <p>info</p>
+            <p>这里之所以会使用HMM模型来进行打分与是因为HMM的序列性，不仅仅可以和一般地模型一样表示里面的敏感词是否出现以及出现次数，还可以很好的表征出词出现的先后顺序</p>
           </div>
-<div class="note warning">
-            <p>warning</p>
-          </div>
-<div class="note danger">
-            <p>danger</p>
-          </div>
+<p>&emsp;&emsp;这篇文章主要针对于XSS，<strong>特征工程采用对payload根据XSS攻击模式进行分词，应用专家经验知识干预和特征提取技巧进行特征化</strong>，如可以采用基于词集模型编码。</p>
+<h3 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h3><p>&emsp;&emsp;最终测试攻击检出率可以达到99%，同时误报率控制在0.03%以下。最终提供了一个简单的demo接口，输出风险情况和完整的语法树结构：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.e4tdsh5o35g.png" alt="image"></p>
+<h3 id="启发"><a href="#启发" class="headerlink" title="启发"></a>启发</h3><ul>
+<li>在使用AI进行检测之前必须使用一些高效率的策略对网络流量进行粗筛</li>
+<li>解码部分采用循环解码保证解码完全，但是同时也要考虑到因为循环解码而产生的安全性问题</li>
+<li>采用众测的方式来当前AI WAF存在的不足之处，从而快速进行完善</li>
+</ul>
 <h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
 <li><a href="https://mp.weixin.qq.com/s?__biz=MjM5NzE1NjA0MQ==&amp;mid=2651199346&amp;idx=1&amp;sn=99f470d46554149beebb8f89fbcb1578&amp;chksm=bd2cf2d48a5b7bc2b3aecb501855cc2efedc60f6f01026543ac2df5fa138ab2bf424fc5ab2b0&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">WAF建设运营及AI应用实践</a></li>
 <li><a href="https://mp.weixin.qq.com/s/w5TwFl4Ac1jCTX0A1H_VbQ" target="_blank" rel="noopener">门神WAF众测总结</a></li>
@@ -422,7 +417,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体结构"><span class="nav-text">整体结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-流量压缩"><span class="nav-text">1.流量压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-请求预处理"><span class="nav-text">2.请求预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-词法分析和文法分析"><span class="nav-text">3.词法分析和文法分析</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体结构"><span class="nav-text">整体结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-流量压缩"><span class="nav-text">1.流量压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-请求预处理"><span class="nav-text">2.请求预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-词法分析和文法分析"><span class="nav-text">3.词法分析和文法分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-基于机器学习的打分评判"><span class="nav-text">4.基于机器学习的打分评判</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#成果"><span class="nav-text">成果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启发"><span class="nav-text">启发</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
