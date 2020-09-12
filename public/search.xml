@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[pandas使用多进程进行数据处理]]></title>
+    <url>%2F2020%2F09%2F04%2Fpandas%E4%BD%BF%E7%94%A8%E5%A4%9A%E8%BF%9B%E7%A8%8B%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%2F</url>
+    <content type="text"><![CDATA[概述：pandas是一种非常常用的数据分析工具，但是pandas本身并没有任何多线程，因此对于数据量比较大的数据很难进行高效的数据处理，因此本文提供了一种使用joblib库使pandas计算多进程计算的方式，使其可以高效的进行数据处理。 joblib工具&emsp;&emsp;joblib是一种Python高效计算的工具。主要用于Python多进程并行计算、高效对象持久化。 1.多进程高效计算&emsp;&emsp;joblib最常用的功能就是 1234&gt;&gt;&gt; from joblib import Parallel, delayed&gt;&gt;&gt; from math import sqrt&gt;&gt;&gt; Parallel(n_jobs=1)(delayed(sqrt)(i**2) for i in range(10))[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0] 2.高效的对象持久化&emsp;&emsp;joblib的另外一个常用功能就是用来替代pickle对对象的持久化与读取，使对象持久化以及持久化对象读取过程更加高效，使用方式与pickle保持一致。 12joblib.dump() # 对象进行持久化joblib.load() # 读取持久化对象 使用joblib对pandas进行多进程计算1234567891011121314from joblib import Parallel,delayeddef tmp_func(df1): tqdm.pandas(ncols=50) df1["dns_record_nums"] = df1.progress_apply(lambda x:get_DNS_Record_Nums(x.domain),axis=1) return df1 def apply_parallel(df_grouped,func): results = Parallel(n_jobs=30)(delayed(func)(group) for name,group in df_grouped) return pd.concat(results)# 每条数据一个分组df_grouped = df1.groupby(df1.index)%time df1 = apply_parallel(df_grouped,tmp_func) 参考文献 xxx xxx]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[pandas使用tqdm进度条]]></title>
+    <url>%2F2020%2F09%2F04%2Fpandas%E4%BD%BF%E7%94%A8tqdm%E8%BF%9B%E5%BA%A6%E6%9D%A1%2F</url>
+    <content type="text"><![CDATA[概述：tqdm工具常用来在python中执行for循环时生成进度条工具，从而显式的观察到任务的完成状态以及全部完成需要的时间，现在tqdm同样提供了对pandas中apply和gooupby的支持，这里简要说明其使用方法。 pandas 引入进度条&emsp;&emsp;在pandas中使用tqdm进度条工具很简单，直接使用tqdm.pandas接口，然后将apply替换成progress_apply即可，使用的实例代码如下： 12345from tqdm import tqdmfrom tqdm.gui import tqdm as tqdm_guitqdm.pandas(ncols=50)df1["dns_record_nums"] = df1.progress_apply(lambda x:get_DNS_Record_Nums(x.domain),axis=1)]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[谱聚类]]></title>
+    <url>%2F2020%2F08%2F19%2F%E8%B0%B1%E8%81%9A%E7%B1%BB%2F</url>
+    <content type="text"><![CDATA[概述：首页描述 xDNSMon 产生恶意域名50w以上 时间序列的方式，前后访问 相同的客户端请求、应答 垃圾网段：主要集中在美国和香港的一些特定机房里 内网数据泄露： 域名注册数据受GDPR数据保护影响，对黑灰产打击有什么影响 whois查询不到注册信息 whois时间、注册人其他业务、url证书判断是否为白的，不能确定在进一步从流量请求周期性。 谱聚类【论文】On spectral clustering: Analysis and an algorithm 1.概念&emsp;&emsp;在多元统计和数据聚类当中，谱聚类技术充分利用了数据的相似度矩阵光谱（特征值）来实现在聚类之前的降维到更小的维度下。这个相似度矩阵被提供作为输入，包括有在每对点之间的关联相似度的量化方法。 参考文档 12345graph LRA(sql注入) --&gt; B(普通注入)A --&gt; C(圆角长方形)C--&gt;D(布尔型盲注)C--&gt;E(延时盲注) 2.数学公式参考文档 &emsp;&emsp;单行数学公式: \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\&emsp;&emsp;行内数学公式$\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\ $ 标题二1.表格 [ ] 计划任务 [x] 完成任务 2. 列表 项目 Value 电脑 $1600 手机 $12 导管 $1 Column 1 Column 2 centered 文本居中 right-aligned 文本居左 3.note标记 Default primary success info warning danger 参考文献 xxx xxx]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[docker部署gpu-pytorch环境]]></title>
     <url>%2F2020%2F07%2F28%2Fdocker%E9%83%A8%E7%BD%B2gpu-pytorch%E7%8E%AF%E5%A2%83%2F</url>
     <content type="text"><![CDATA[概述：最近在公司的服务器上里进行环境部署，需要使用GPU进行深度学习，发现之前使用docker部署的环境直接安装nvidia驱动会不停的产生错误，折腾了一整天，终于成功的在docker镜像中成功部署显卡驱动，使用pytorch成功调用显卡进行深度学习训练，本篇博客对整个docker-torch-gpu部署过程进行记录。 docker中调用GPU关键点1——使用已经部署好GPU的image&emsp;&emsp;这里首先给想要在docker中使用GPU的朋友一个忠告，尽量不要使用已经部署好其他环境的docker来安装GPU驱动，而是直接去找到包含了GPU驱动和cuda的image来安装其他需要的包。 &emsp;&emsp;首先在docker hub上找到pytorch官方发布的images项目，点击进入。 &emsp;&emsp;然后点击Tags按钮在其中找到对应的版本。 &emsp;&emsp;按照对应版本的image后面显示的方式进行下拉镜像。 1docker pull pytorch/pytorch:1.4-cuda10.1-cudnn7-devel &emsp;&emsp;对于需要的cuda版本不清楚的，可以再docker外面使用nvidia-smi查看宿主机所使用的cuda版本进行确定。 注意：上面的截图是另一台机器的截图，按照上面的截图前面pull的镜像也cuda版本应该为10.2，而不是10.1 关键点2——使用runtime属性指定nvidia&emsp;&emsp;使用docker进行GPU利用的第二个关键点就是使用部署好GPU环境的image生成container时，要使用附加参数—runtime指定使用nvidia驱动，创建方式如下： 12345sudo docker run --runtime=nvidia \ # --it \ # 指定交互式启动 -p 12345:8888 \ # 指定端口映射，将容器内8888端口映射成外面可访问的12345端口 -v /home/docker_share:/home/ \ # 设置目录映射，将container内的/home/映射到/home/docker_share image_id bash &emsp;&emsp;使用该命令成功创建并进入docker后，采用nvida-smi命令查看是否GPU可用。出现下面界面证明GPU可用。 参考文献 https://zhuanlan.zhihu.com/p/109477627 https://bluesmilery.github.io/blogs/252e6902/]]></content>
