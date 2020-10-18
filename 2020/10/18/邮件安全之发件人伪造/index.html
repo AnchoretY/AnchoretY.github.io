@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f2n2dkn46sw.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cn7hyhwmcd5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png">
-<meta property="og:updated_time" content="2020-10-18T04:11:18.562Z">
+<meta property="og:updated_time" content="2020-10-18T04:17:58.986Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件安全之发件人伪造">
 <meta name="twitter:description" content="概述：首页描述">
@@ -224,7 +224,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-10-18 10:20:09 / 修改时间：12:11:18" itemprop="dateCreated datePublished" datetime="2020-10-18T10:20:09+08:00">2020-10-18</time>
+              <time title="创建时间：2020-10-18 10:20:09 / 修改时间：12:17:58" itemprop="dateCreated datePublished" datetime="2020-10-18T10:20:09+08:00">2020-10-18</time>
             </span>
 
           
@@ -316,26 +316,23 @@
 <li>HELP ——查询服务器支持什么命令</li>
 </ul>
 </blockquote>
-<h4 id="SMTP协议存在的缺陷"><a href="#SMTP协议存在的缺陷" class="headerlink" title="SMTP协议存在的缺陷"></a>SMTP协议存在的缺陷</h4><h3 id="电子邮件邮件身份验证技术"><a href="#电子邮件邮件身份验证技术" class="headerlink" title="电子邮件邮件身份验证技术"></a>电子邮件邮件身份验证技术</h3><p>&emsp;&emsp;<code>SMTP</code>不支持邮件加密、完整性校验和验证发件人身份。由于这些缺陷, 发送方电子邮件信息可能会被网络传输中的监听者截取流量读取消息内容导致隐私泄漏, 也可能遭受中间人攻击(<code>Man-in-the-Middle attack</code>, <code>MitM</code>)导致邮件消息篡改, 带来网络钓鱼攻击,邮件的身份验证 –&gt; <code>SPF</code>, <code>DKIM</code>, <code>DMARC</code></p>
+<h4 id="SMTP协议存在的缺陷"><a href="#SMTP协议存在的缺陷" class="headerlink" title="SMTP协议存在的缺陷"></a>SMTP协议存在的缺陷</h4><p>&emsp;&emsp;</p>
+<h3 id="电子邮件邮件身份验证技术"><a href="#电子邮件邮件身份验证技术" class="headerlink" title="电子邮件邮件身份验证技术"></a>电子邮件邮件身份验证技术</h3><p>&emsp;&emsp;<code>SMTP</code>不支持邮件加密、完整性校验和验证发件人身份。由于这些缺陷, 发送方电子邮件信息可能会被网络传输中的监听者截取流量读取消息内容导致隐私泄漏, 也可能遭受中间人攻击(<code>Man-in-the-Middle attack</code>, <code>MitM</code>)导致邮件消息篡改, 带来网络钓鱼攻击,邮件的身份验证 –&gt; <code>SPF</code>, <code>DKIM</code>, <code>DMARC</code></p>
 <h4 id="1-SPF"><a href="#1-SPF" class="headerlink" title="1.SPF"></a>1.SPF</h4><p>&emsp;&emsp;SPF，全称为 Sender Policy Framework，即发件人策略框架。根据 <strong>SMTP 的规则，发件人的邮箱地址是可以由发信方任意声明的</strong>,这显然是极不安全的。</p>
 <p><strong>SPF 出现的目的，就是为了防止随意伪造发件人</strong>。</p>
-<p><strong>原理：</strong></p>
-<blockquote>
-<p>&emsp;&emsp;SPF 记录实际上是<strong>服务器的一个 DNS 记录</strong>，使用电子邮件的头部信息中的 <strong>‘Return Path’ 或 ‘Mail From’</strong> 这两个邮件头里的<strong>域名</strong>来结合<strong>真正提供这个邮件的服务商 DNS 里面的记录去验证发送邮件服务器是否是冒充行为</strong>。原理其实很简单：</p>
+<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
+<p>&emsp;&emsp;SPF 记录实际上是<strong>服务器的一个 DNS 记录</strong>，使用电子邮件的头部信息中的 <strong>‘HELO’ 或 ‘Mail From’</strong> 这两个邮件头里的<strong>域名</strong>来结合<strong>真正提供这个邮件的服务商 DNS 里面的记录去验证发送邮件服务器是否是冒充行为</strong>。原理其实很简单：</p>
 <p>&emsp;&emsp;假设邮件服务器收到了一封邮件，来自主机的 IP 是<code>173.194.72.103</code>，并且声称发件人为<code>email@example.com</code>。为了确认发件人不是伪造的，邮件服务器会去查询<code>example.com</code>的 SPF 记录。如果该域的 SPF 记录设置允许 IP 为<code>173.194.72.103</code>的主机发送邮件，则服务器就认为这封邮件是合法的；如果不允许，则通常会退信，或将其标记为垃圾/仿冒邮件。</p>
 <p>&emsp;&emsp;因为不怀好心的人虽然可以「声称」他的邮件来自<code>example.com</code>，但是他却无权操作<code>example.com</code>的 DNS 记录；同时他也无法伪造自己的 IP 地址。因此 SPF 是很有效的，当前基本上所有的邮件服务提供商（例如 Gmail、QQ 邮箱等）都会验证它。</p>
 </blockquote>
-<p><strong>记录查询：</strong></p>
-<p>&emsp;&emsp;spf记录本质上是服务器上的TXT类型的DNS记录，因此要查询SPF记录只需要使用dig命令进行查询：</p>
+<h5 id="记录查询"><a href="#记录查询" class="headerlink" title="记录查询"></a>记录查询</h5><p>&emsp;&emsp;spf记录本质上是服务器上的TXT类型的DNS记录，因此要查询SPF记录只需要使用dig命令进行查询：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; dig -t txt <span class="number">163.</span>com		<span class="comment"># 查询163邮箱的spf</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line"><span class="number">163.</span>com.		<span class="number">1160</span>	IN	TXT	<span class="string">"v=spf1 include:spf.163.com -all"</span>  <span class="comment"># 其中的一条记录,代表了spf规则遵从spf.163.com的，在其中没有包含的都不允许接收</span></span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;以查询xxx@163.com的spf记录为例，完整的查询过程如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; dig -t txt <span class="number">163.</span>com		<span class="comment"># 查询163邮箱的spf</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line"><span class="number">163.</span>com.		<span class="number">1160</span>	IN	TXT	<span class="string">"v=spf1 include:spf.163.com -all"</span>  <span class="comment"># 其中的一条记录,代表了spf规则遵从spf.163.com的，在其中没有包含的都不允许接收</span></span><br><span class="line">&gt;&gt; dig -t txt spf<span class="number">.163</span>.com </span><br><span class="line">ANSWER SECTION:</span><br><span class="line">spf<span class="number">.163</span>.com.		<span class="number">7283</span>	IN	TXT	<span class="string">"v=spf1 include:a.spf.163.com include:b.spf.163.com include:c.spf.163.com include:d.spf.163.com include:e.spf.163.com -all"</span>   <span class="comment"># spf规则为a、b、c、d、e几个域名spf规则的和</span></span><br><span class="line">&gt;&gt; dig -t txt a.spf<span class="number">.163</span>.com   <span class="comment"># 这里以a.spf.163.com为例，实际上还应对其他4个域名的spf记录进行访问</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line">a.spf<span class="number">.163</span>.com.		<span class="number">60</span>	IN	TXT	<span class="string">"v=spf1 ip4:220.181.12.0/22 ip4:220.181.31.0/24 ip4:123.125.50.0/24 ip4:220.181.72.0/24 ip4:123.58.178.0/24 ip4:123.58.177.0/24 ip4:113.108.225.0/24 ip4:218.107.63.0/24 ip4:123.58.189.128/25 ip4:123.126.96.0/24 ip4:123.126.97.0/24 -all"</span>     <span class="comment"># 明确了可以接收的ip地址</span></span><br></pre></td></tr></table></figure>
-<p><strong>生效时间：</strong></p>
-<blockquote>
+<h5 id="生效时间"><a href="#生效时间" class="headerlink" title="生效时间"></a>生效时间</h5><blockquote>
 <p>SPF 记录本质上是一个 DNS 记录，所以并不是修改之后立即生效的——通常需要几个小时的时间。</p>
 </blockquote>
-<p><strong>检测是否能够通过SPF验证：</strong></p>
-<p>&emsp;&emsp;这里可以使用一个在线验证网站进行查询：<a href="https://www.kitterman.com/spf/validate.html?" target="_blank" rel="noopener">SPF Record Testing Tools</a></p>
+<h5 id="人工检测通过SPF验证"><a href="#人工检测通过SPF验证" class="headerlink" title="人工检测通过SPF验证**"></a>人工检测通过SPF验证**</h5><p>&emsp;&emsp;这里可以使用一个在线验证网站进行查询：<a href="https://www.kitterman.com/spf/validate.html?" target="_blank" rel="noopener">SPF Record Testing Tools</a></p>
 <p>&emsp;&emsp;首先对邮箱服务器对应的SPF记录进行查询（当然这里也可以使用dig命令进行手动查询）：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96vuhoz1jkm.png" alt="image"></p>
 <p>&emsp;&emsp;查询结果如下：</p>
@@ -345,7 +342,7 @@
 <p>&emsp;&emsp;最终查询结果如下：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png" alt="image"></p>
 <p>&emsp;&emsp;<code>Results - PASS sender SPF authorized</code>表示验证成功。验证失败则显示为<code>Results - FAIL Message may be rejected</code></p>
-<h4 id="2-DKIM"><a href="#2-DKIM" class="headerlink" title="2.DKIM"></a>2.DKIM</h4><h4 id="3-DMARC"><a href="#3-DMARC" class="headerlink" title="3.DMARC"></a>3.DMARC</h4><h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
+<h5 id="SPF存在的缺陷："><a href="#SPF存在的缺陷：" class="headerlink" title="SPF存在的缺陷："></a>SPF存在的缺陷：</h5><h4 id="2-DKIM"><a href="#2-DKIM" class="headerlink" title="2.DKIM"></a>2.DKIM</h4><h4 id="3-DMARC"><a href="#3-DMARC" class="headerlink" title="3.DMARC"></a>3.DMARC</h4><h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(sql注入)  --&gt; B(普通注入)</span><br><span class="line">A --&gt; C(圆角长方形)</span><br><span class="line">C--&gt;D(布尔型盲注)</span><br><span class="line">C--&gt;E(延时盲注)</span><br></pre></td></tr></table></figure>
 <h4 id="2-数学公式"><a href="#2-数学公式" class="headerlink" title="2.数学公式"></a>2.数学公式</h4><p><a href="https://khan.github.io/KaTeX/" target="_blank" rel="noopener">参考文档</a></p>
 <p>&emsp;&emsp;单行数学公式:</p>
