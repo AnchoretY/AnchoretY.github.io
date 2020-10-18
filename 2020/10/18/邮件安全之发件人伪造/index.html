@@ -28,7 +28,11 @@
 <meta property="og:description" content="概述：首页描述">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jzg4j0zofql.png">
-<meta property="og:updated_time" content="2020-10-18T03:05:36.945Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96vuhoz1jkm.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f2n2dkn46sw.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cn7hyhwmcd5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png">
+<meta property="og:updated_time" content="2020-10-18T04:11:18.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件安全之发件人伪造">
 <meta name="twitter:description" content="概述：首页描述">
@@ -220,7 +224,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-10-18 10:20:09 / 修改时间：11:05:36" itemprop="dateCreated datePublished" datetime="2020-10-18T10:20:09+08:00">2020-10-18</time>
+              <time title="创建时间：2020-10-18 10:20:09 / 修改时间：12:11:18" itemprop="dateCreated datePublished" datetime="2020-10-18T10:20:09+08:00">2020-10-18</time>
             </span>
 
           
@@ -250,14 +254,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>733</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -284,7 +288,64 @@
 <p>POP3与IMAP协议：</p>
 <p>&emsp;&emsp;POP3和IMAP功能类似，主要用于收件方查看、管理收到的邮件，但是POP3协议具有只能从服务器端将用户的邮件下载到本地进行管理，并且同时会删除服务器端的邮件，而IMAP则可以不对全部邮件下载，直接在服务器上进行查看和其他操作。</p>
 </blockquote>
-<h3 id="电子邮件邮件身份验证技术"><a href="#电子邮件邮件身份验证技术" class="headerlink" title="电子邮件邮件身份验证技术"></a>电子邮件邮件身份验证技术</h3><h4 id="1-SPF"><a href="#1-SPF" class="headerlink" title="1.SPF"></a>1.SPF</h4><h4 id="2-DKIM"><a href="#2-DKIM" class="headerlink" title="2.DKIM"></a>2.DKIM</h4><h4 id="3-DMARC"><a href="#3-DMARC" class="headerlink" title="3.DMARC"></a>3.DMARC</h4><h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
+<h3 id="SMTP发件过程"><a href="#SMTP发件过程" class="headerlink" title="SMTP发件过程"></a>SMTP发件过程</h3><h4 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h4><p>&emsp;&emsp;SMTP通常有两种工作模式。发送SMTP和接收SMTP。具体工作方式为：发送SMTP在接收到用户的邮件请求后，判断此邮件<strong>是否为本地邮件</strong>，若<strong>是</strong>则<strong>直接投送到用户的邮箱</strong>，<strong>否则向DNS查询远端邮件服务器的MX记录</strong>，并建立<strong>与远端接收SMTP之间的一个双向传送通道</strong>，此后SMTP命令由发送SMTP发出，由接收SMTP接收，而应答则反方向传送。一旦传送通道建立，<strong>SMTP发送者发送MAIL命令指明邮件发送者</strong>。如果<strong>SMTP接收者可以接收邮件则返回OK</strong>应答。<strong>SMTP发送者再发出RCPT命令确认邮件是否接收到</strong>。如果<strong>SMTP接收者接收，则返回OK应答</strong>；如果<strong>不能接收到，则发出拒绝接收应答（但不中止整个邮件操作）</strong>，双方将如此<strong>反复多次</strong>。当接收者收到全部邮件后会接收到特别的序列，接收者成功处理了邮件，则返回OK应答。</p>
+<blockquote>
+<p> 注意：SMTP发送只负责将邮件发送到目标服务器上，而不是直接投递给接受者的邮箱，接受者是通过使用其身份登录到服务器上才仅进行的邮件操作。</p>
+</blockquote>
+<h4 id="服务器查找"><a href="#服务器查找" class="headerlink" title="服务器查找"></a>服务器查找</h4><p>&emsp;&emsp;在接收到用户的邮件请求后，如果判断不是本地邮件，则要进行请求邮件发送方的邮件服务器查找，查找过程如下：</p>
+<blockquote>
+<ul>
+<li>查找邮箱后缀域名的MX记录所指向的域名地址</li>
+<li>根据指向域名地址通过dns查找域名地址指向的服务器ip</li>
+<li>tcp连接服务器ip：25（默认端口)（用来登陆或者发送）</li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;完成服务器查找后直接进行后续的登录发送操作即可。</p>
+<h4 id="交互过程"><a href="#交互过程" class="headerlink" title="交互过程"></a>交互过程</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>telnet smtp<span class="number">.163</span>.com <span class="number">25</span>【tcp连接】</span><br><span class="line"><span class="number">220</span> <span class="number">163.</span>com Anti-spam GT <span class="keyword">for</span> Coremail System (<span class="number">163</span>com[<span class="number">20141201</span>])【欢迎信息】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>HELO <span class="number">163.</span>com</span><br><span class="line"><span class="number">250</span> OK</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>auth login【请求登陆】</span><br><span class="line"><span class="number">334</span> dXNlcm5dhbWU6【要求用户名】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Z3dfdsaffEDF=【输入base64用户名】</span><br><span class="line"><span class="number">334</span> UGFzc3ddvcmQ6【要求密码】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fdasDSDFFFfDS=【输入base64密码】</span><br><span class="line"><span class="number">235</span> Authentication successful【登陆成功】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>MAIL FROM:xxx@<span class="number">163.</span>com【发件地址】</span><br><span class="line">rcpt to:xxx@<span class="number">163.</span>com【收件地址】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>DATA【data命令，要求发送内容】</span><br><span class="line"><span class="number">354</span> End data <span class="keyword">with</span> .【提示信息，以.作为结束符号】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>FROM:gule11@<span class="number">163.</span>com【要显示的发件地址】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>TO:xxx@<span class="number">163.</span>com【要显示的收件地址】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>helllo world【内容】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>.【结束】</span><br><span class="line"><span class="number">250</span> Mail OK queued <span class="keyword">as</span> smtp13,EcCowABHIv39riFXqUpKBA—<span class="number">.47592</span>S3 <span class="number">1461825582</span>【返回发送状态，我的测试不幸进入垃圾邮件】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>QUIT【退出命令】</span><br><span class="line"><span class="number">221</span> Bye</span><br></pre></td></tr></table></figure>
+<h4 id="SMTP常见命令"><a href="#SMTP常见命令" class="headerlink" title="SMTP常见命令"></a>SMTP常见命令</h4><p>SMTP命令不区分大小写，但参数区分大小写。常用命令如下：</p>
+<blockquote>
+<ul>
+<li>HELO ——向服务器标识用户身份发送者能欺骗、说谎，但一般情况下服务器都能检测到</li>
+<li>RCPT TO: ——用来标志邮件接收者的地址，常用在MAIL FROM后，可以有多个RCPT TO</li>
+<li>DATA ——将之后的数据作为数据发送，以.标志数据的结尾</li>
+<li>REST ——重置会话，当前传输被取消</li>
+<li>NOOP ——要求服务器返回OK应答，一般用作测试</li>
+<li>QUIT ——结束会话</li>
+<li>VRFY ——验证指定的邮箱是否存在，由于安全方面的原因，服务器大多禁止此命令</li>
+<li>EXPN ——验证给定的邮箱列表是否存在，由于安全方面的原因，服务器大多禁止此命令</li>
+<li>HELP ——查询服务器支持什么命令</li>
+</ul>
+</blockquote>
+<h4 id="SMTP协议存在的缺陷"><a href="#SMTP协议存在的缺陷" class="headerlink" title="SMTP协议存在的缺陷"></a>SMTP协议存在的缺陷</h4><h3 id="电子邮件邮件身份验证技术"><a href="#电子邮件邮件身份验证技术" class="headerlink" title="电子邮件邮件身份验证技术"></a>电子邮件邮件身份验证技术</h3><p>&emsp;&emsp;<code>SMTP</code>不支持邮件加密、完整性校验和验证发件人身份。由于这些缺陷, 发送方电子邮件信息可能会被网络传输中的监听者截取流量读取消息内容导致隐私泄漏, 也可能遭受中间人攻击(<code>Man-in-the-Middle attack</code>, <code>MitM</code>)导致邮件消息篡改, 带来网络钓鱼攻击,邮件的身份验证 –&gt; <code>SPF</code>, <code>DKIM</code>, <code>DMARC</code></p>
+<h4 id="1-SPF"><a href="#1-SPF" class="headerlink" title="1.SPF"></a>1.SPF</h4><p>&emsp;&emsp;SPF，全称为 Sender Policy Framework，即发件人策略框架。根据 <strong>SMTP 的规则，发件人的邮箱地址是可以由发信方任意声明的</strong>,这显然是极不安全的。</p>
+<p><strong>SPF 出现的目的，就是为了防止随意伪造发件人</strong>。</p>
+<p><strong>原理：</strong></p>
+<blockquote>
+<p>&emsp;&emsp;SPF 记录实际上是<strong>服务器的一个 DNS 记录</strong>，使用电子邮件的头部信息中的 <strong>‘Return Path’ 或 ‘Mail From’</strong> 这两个邮件头里的<strong>域名</strong>来结合<strong>真正提供这个邮件的服务商 DNS 里面的记录去验证发送邮件服务器是否是冒充行为</strong>。原理其实很简单：</p>
+<p>&emsp;&emsp;假设邮件服务器收到了一封邮件，来自主机的 IP 是<code>173.194.72.103</code>，并且声称发件人为<code>email@example.com</code>。为了确认发件人不是伪造的，邮件服务器会去查询<code>example.com</code>的 SPF 记录。如果该域的 SPF 记录设置允许 IP 为<code>173.194.72.103</code>的主机发送邮件，则服务器就认为这封邮件是合法的；如果不允许，则通常会退信，或将其标记为垃圾/仿冒邮件。</p>
+<p>&emsp;&emsp;因为不怀好心的人虽然可以「声称」他的邮件来自<code>example.com</code>，但是他却无权操作<code>example.com</code>的 DNS 记录；同时他也无法伪造自己的 IP 地址。因此 SPF 是很有效的，当前基本上所有的邮件服务提供商（例如 Gmail、QQ 邮箱等）都会验证它。</p>
+</blockquote>
+<p><strong>记录查询：</strong></p>
+<p>&emsp;&emsp;spf记录本质上是服务器上的TXT类型的DNS记录，因此要查询SPF记录只需要使用dig命令进行查询：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; dig -t txt <span class="number">163.</span>com		<span class="comment"># 查询163邮箱的spf</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line"><span class="number">163.</span>com.		<span class="number">1160</span>	IN	TXT	<span class="string">"v=spf1 include:spf.163.com -all"</span>  <span class="comment"># 其中的一条记录,代表了spf规则遵从spf.163.com的，在其中没有包含的都不允许接收</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;以查询xxx@163.com的spf记录为例，完整的查询过程如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; dig -t txt <span class="number">163.</span>com		<span class="comment"># 查询163邮箱的spf</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line"><span class="number">163.</span>com.		<span class="number">1160</span>	IN	TXT	<span class="string">"v=spf1 include:spf.163.com -all"</span>  <span class="comment"># 其中的一条记录,代表了spf规则遵从spf.163.com的，在其中没有包含的都不允许接收</span></span><br><span class="line">&gt;&gt; dig -t txt spf<span class="number">.163</span>.com </span><br><span class="line">ANSWER SECTION:</span><br><span class="line">spf<span class="number">.163</span>.com.		<span class="number">7283</span>	IN	TXT	<span class="string">"v=spf1 include:a.spf.163.com include:b.spf.163.com include:c.spf.163.com include:d.spf.163.com include:e.spf.163.com -all"</span>   <span class="comment"># spf规则为a、b、c、d、e几个域名spf规则的和</span></span><br><span class="line">&gt;&gt; dig -t txt a.spf<span class="number">.163</span>.com   <span class="comment"># 这里以a.spf.163.com为例，实际上还应对其他4个域名的spf记录进行访问</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line">a.spf<span class="number">.163</span>.com.		<span class="number">60</span>	IN	TXT	<span class="string">"v=spf1 ip4:220.181.12.0/22 ip4:220.181.31.0/24 ip4:123.125.50.0/24 ip4:220.181.72.0/24 ip4:123.58.178.0/24 ip4:123.58.177.0/24 ip4:113.108.225.0/24 ip4:218.107.63.0/24 ip4:123.58.189.128/25 ip4:123.126.96.0/24 ip4:123.126.97.0/24 -all"</span>     <span class="comment"># 明确了可以接收的ip地址</span></span><br></pre></td></tr></table></figure>
+<p><strong>生效时间：</strong></p>
+<blockquote>
+<p>SPF 记录本质上是一个 DNS 记录，所以并不是修改之后立即生效的——通常需要几个小时的时间。</p>
+</blockquote>
+<p><strong>检测是否能够通过SPF验证：</strong></p>
+<p>&emsp;&emsp;这里可以使用一个在线验证网站进行查询：<a href="https://www.kitterman.com/spf/validate.html?" target="_blank" rel="noopener">SPF Record Testing Tools</a></p>
+<p>&emsp;&emsp;首先对邮箱服务器对应的SPF记录进行查询（当然这里也可以使用dig命令进行手动查询）：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96vuhoz1jkm.png" alt="image"></p>
+<p>&emsp;&emsp;查询结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f2n2dkn46sw.png" alt="image"></p>
+<p>&emsp;&emsp;输入IP、spf记录、发送域名、HELO内容进行SPF验证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cn7hyhwmcd5.png" alt="image"></p>
+<p>&emsp;&emsp;最终查询结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png" alt="image"></p>
+<p>&emsp;&emsp;<code>Results - PASS sender SPF authorized</code>表示验证成功。验证失败则显示为<code>Results - FAIL Message may be rejected</code></p>
+<h4 id="2-DKIM"><a href="#2-DKIM" class="headerlink" title="2.DKIM"></a>2.DKIM</h4><h4 id="3-DMARC"><a href="#3-DMARC" class="headerlink" title="3.DMARC"></a>3.DMARC</h4><h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(sql注入)  --&gt; B(普通注入)</span><br><span class="line">A --&gt; C(圆角长方形)</span><br><span class="line">C--&gt;D(布尔型盲注)</span><br><span class="line">C--&gt;E(延时盲注)</span><br></pre></td></tr></table></figure>
 <h4 id="2-数学公式"><a href="#2-数学公式" class="headerlink" title="2.数学公式"></a>2.数学公式</h4><p><a href="https://khan.github.io/KaTeX/" target="_blank" rel="noopener">参考文档</a></p>
 <p>&emsp;&emsp;单行数学公式:</p>
@@ -452,7 +513,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mermaid流程图"><span class="nav-text">1.Mermaid流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-数学公式"><span class="nav-text">2.数学公式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标题二"><span class="nav-text">标题二</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-表格"><span class="nav-text">1.表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-列表"><span class="nav-text">2. 列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-note标记"><span class="nav-text">3.note标记</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mermaid流程图"><span class="nav-text">1.Mermaid流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-数学公式"><span class="nav-text">2.数学公式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标题二"><span class="nav-text">标题二</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-表格"><span class="nav-text">1.表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-列表"><span class="nav-text">2. 列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-note标记"><span class="nav-text">3.note标记</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
