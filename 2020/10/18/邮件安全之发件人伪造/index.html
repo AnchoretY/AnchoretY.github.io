@@ -32,7 +32,9 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f2n2dkn46sw.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cn7hyhwmcd5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png">
-<meta property="og:updated_time" content="2020-10-18T04:17:58.986Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.da6u84sq01r.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.bkx6ym4svup.png">
+<meta property="og:updated_time" content="2020-10-18T11:49:56.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件安全之发件人伪造">
 <meta name="twitter:description" content="概述：首页描述">
@@ -224,7 +226,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-10-18 10:20:09 / 修改时间：12:17:58" itemprop="dateCreated datePublished" datetime="2020-10-18T10:20:09+08:00">2020-10-18</time>
+              <time title="创建时间：2020-10-18 10:20:09 / 修改时间：19:49:56" itemprop="dateCreated datePublished" datetime="2020-10-18T10:20:09+08:00">2020-10-18</time>
             </span>
 
           
@@ -254,7 +256,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -342,7 +344,35 @@
 <p>&emsp;&emsp;最终查询结果如下：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png" alt="image"></p>
 <p>&emsp;&emsp;<code>Results - PASS sender SPF authorized</code>表示验证成功。验证失败则显示为<code>Results - FAIL Message may be rejected</code></p>
-<h5 id="SPF存在的缺陷："><a href="#SPF存在的缺陷：" class="headerlink" title="SPF存在的缺陷："></a>SPF存在的缺陷：</h5><h4 id="2-DKIM"><a href="#2-DKIM" class="headerlink" title="2.DKIM"></a>2.DKIM</h4><h4 id="3-DMARC"><a href="#3-DMARC" class="headerlink" title="3.DMARC"></a>3.DMARC</h4><h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
+<h5 id="SPF存在的缺陷："><a href="#SPF存在的缺陷：" class="headerlink" title="SPF存在的缺陷："></a>SPF存在的缺陷：</h5><p>&emsp;&emsp;与邮件转发器不兼容，转发电子邮件时，SPF检查可能会失败，因为SPF组件会对转发服务器（而不是原始发送服务器）进行身份验证。</p>
+<h4 id="2-DKIM"><a href="#2-DKIM" class="headerlink" title="2.DKIM"></a>2.DKIM</h4><p>&emsp;&emsp;DKIM全称DomainKeys Identified Mail，DKIM使用加密技术对发件人的身份进行验证，并对邮件完整性进行保护。</p>
+<p>&emsp;&emsp;启用DKIM的服务器当发送邮件时，邮件发送方生成一个DKIM-Signature，并使用私钥进行进行加密，并附在邮件的DATA部分的header中，当目标邮件服务器收到邮件后，将使用查询DKIM-Signature中的d字段，获取发送者的公钥，并验证DKIM有效性。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.da6u84sq01r.png" alt="image"></p>
+<p>&emsp;&emsp;其中：</p>
+<blockquote>
+<ul>
+<li>d ： 代表发送者的域名</li>
+<li>h :  代表DKIM覆盖的头部字段列表</li>
+<li>l ：代表DKIM保证的有近头部长度</li>
+</ul>
+</blockquote>
+<h4 id="3-DMARC"><a href="#3-DMARC" class="headerlink" title="3.DMARC"></a>3.DMARC</h4><p>&emsp;&emsp;DMARC是建立在SPF和DKIM之上的一种身份验证机制，在使用DMARC机制的邮件服务器中，接收邮件时，接收邮件服务器首先查询From字段所对应的域的DMARC策略，获知应该如何处理认证失败的邮件，</p>
+<blockquote>
+<ol>
+<li>身份对齐验证：检查From字段中的域与SPF或DKIM中的域是否匹配<ul>
+<li>严格模式：From中的域名需要与SPF、DKIM中的域名完全一致</li>
+<li>宽松模式：只需要From中的注册域名（@后面的部分）与SPF、DKIM中保持一致</li>
+</ul>
+</li>
+<li>SPF</li>
+<li>DKIM</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;如果SPF或DKIM显示一个积极的结果，并且From中身份认证对齐成功，那么DMARC身份认证通过。DMARC身份认证比单独使用SPF或DKIM的鲁棒性更强，<strong>对于转发的电子邮件，SPF认证可能会失败，但是DKIM能够正常认证，DMARC还是能够正常通过。</strong>只有当两者都全部认证失败或身份对齐失败才会认为DMARC认证失败。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.bkx6ym4svup.png" alt="image"></p>
+<h3 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h3><p>&emsp;&emsp;SPF和DKIM虽然都能具有一定的发件人身份验证的能力，但都不是完美的，SPF认证HELO/MAIL FROM身份，DKIM认证h中的头部字段，但都没有对展示给用户的FROM字段进行验证，因此即使已经被SPF、DKIM认证的邮件的发件人依旧能够被伪造。</p>
+<p>&emsp;&emsp;结合SPF和DMARC的这两种机制，可确保无法伪造邮件头部。</p>
+<h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(sql注入)  --&gt; B(普通注入)</span><br><span class="line">A --&gt; C(圆角长方形)</span><br><span class="line">C--&gt;D(布尔型盲注)</span><br><span class="line">C--&gt;E(延时盲注)</span><br></pre></td></tr></table></figure>
 <h4 id="2-数学公式"><a href="#2-数学公式" class="headerlink" title="2.数学公式"></a>2.数学公式</h4><p><a href="https://khan.github.io/KaTeX/" target="_blank" rel="noopener">参考文档</a></p>
 <p>&emsp;&emsp;单行数学公式:</p>
@@ -510,7 +540,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mermaid流程图"><span class="nav-text">1.Mermaid流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-数学公式"><span class="nav-text">2.数学公式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标题二"><span class="nav-text">标题二</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-表格"><span class="nav-text">1.表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-列表"><span class="nav-text">2. 列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-note标记"><span class="nav-text">3.note标记</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-text">存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mermaid流程图"><span class="nav-text">1.Mermaid流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-数学公式"><span class="nav-text">2.数学公式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标题二"><span class="nav-text">标题二</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-表格"><span class="nav-text">1.表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-列表"><span class="nav-text">2. 列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-note标记"><span class="nav-text">3.note标记</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
