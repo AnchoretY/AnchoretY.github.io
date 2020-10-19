@@ -36,7 +36,11 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.bkx6ym4svup.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.n5idcpjk1m.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.syk30dz5if.png">
-<meta property="og:updated_time" content="2020-10-19T08:10:59.625Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.r9u95x0yzg9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.55246bwa5lj.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.egz2tq8ift.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.apzgxlxn27.png">
+<meta property="og:updated_time" content="2020-10-19T09:29:22.826Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件安全之发件人伪造">
 <meta name="twitter:description" content="概述：首页描述">
@@ -234,7 +238,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-19 16:10:59" itemprop="dateModified" datetime="2020-10-19T16:10:59+08:00">2020-10-19</time>
+                <time title="修改时间：2020-10-19 17:29:22" itemprop="dateModified" datetime="2020-10-19T17:29:22+08:00">2020-10-19</time>
               </span>
 
           
@@ -264,14 +268,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.3k</span>
+              <span>5.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -388,11 +392,22 @@
 </ol>
 <h4 id="1-HELO、MAIL-FROM混乱"><a href="#1-HELO、MAIL-FROM混乱" class="headerlink" title="1.HELO、MAIL FROM混乱"></a>1.HELO、MAIL FROM混乱</h4><p>&emsp;&emsp;SMTP提供了HELO和MAIL FROM两个字段来表示发件人的邮箱地址，SPF标准指出应当同时对两者进行验证，但是，检查MAIL FROM是强制的，而HELO只是推荐进行检查。</p>
 <p>&emsp;&emsp;DMARC标准指出DMARC验证应该使用MAIL FROM进行，当MAIL FROM为空才使用HELO进行验证。利用上面这两种机制，可使用下面的两种机制进行发件人欺骗：</p>
-<h5 id="1-1-不存在子域名"><a href="#1-1-不存在子域名" class="headerlink" title="1.1 不存在子域名"></a>1.1 不存在子域名</h5><p>&emsp;&emsp;这种攻击方式如下图所示，MAIL FROM输入为合法域名下的不存在子域名，因为不存在子域名的SPF策略，SPF无法对其进行验证，转而使用HELO字段进行SPF验证，而HELO字段是攻击者可以进行任意设置的，因此可以通过SPF验证；同时，因为MAIL FROm地址不为空，DMARC将继续使用MAIL FROM进行域对齐，因为二级域名为合法域，因此DMARC域名对齐验证通过。邮件可以成功实现发件人伪造。</p>
+<h5 id="1-1-不存在子域名"><a href="#1-1-不存在子域名" class="headerlink" title="1.1 不存在子域名"></a>1.1 不存在子域名</h5><p>&emsp;&emsp;这种攻击方式如下图所示，MAIL FROM输入为合法域名下的不存在子域名，因为不存在子域名的SPF策略，SPF无法对其进行验证，转而使用HELO字段进行SPF验证，而HELO字段是攻击者可以进行任意设置的，因此可以通过SPF验证；同时，因为MAIL FROm地址不为空，DMARC将继续使用MAIL FROM进行域对齐，因为二级域名为合法域，与FORM字段域名相同，因此DMARC域名对齐验证通过。邮件成功绕过DMARC身份认证。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.n5idcpjk1m.png" alt="image" style="zoom:50%;"></p>
-<h5 id="1-2-“空”-MAIL-FROM"><a href="#1-2-“空”-MAIL-FROM" class="headerlink" title="1.2 “空” MAIL FROM"></a>1.2 “空” MAIL FROM</h5><p>&emsp;&emsp;在某些SPF实现中，将对(右侧内容视作注释内容，因此当使用<code>(any@legitimate.com</code>作为MAIL FROM地址时，SPF会将其视为空，然后使用HELO字段进行SPF验证，与上面相同，SPF通过验证并将验证结果传递给DMARC，在某些DMARC的验证中，仅仅将其视为普通地址进行域对齐身份验证，成功通过DMARC验证，从而实现发件人伪造。</p>
+<h5 id="1-2-“空”-MAIL-FROM"><a href="#1-2-“空”-MAIL-FROM" class="headerlink" title="1.2 “空” MAIL FROM"></a>1.2 “空” MAIL FROM</h5><p>&emsp;&emsp;在某些SPF实现中，将对(右侧内容视作注释内容，因此当使用<code>(any@legitimate.com</code>作为MAIL FROM地址时，SPF会将其视为空，然后使用HELO字段进行SPF验证，与上面相同，SPF通过验证并将验证结果传递给DMARC，在某些DMARC的验证中，仅仅将其视为普通地址进行与FROM域名进行域对齐身份验证，成功通过DMARC验证。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.syk30dz5if.png" alt="image" style="zoom:50%;"></p>
-<p>&emsp;&emsp;结合SPF和DMARC的这两种机制，可确保无法伪造邮件头部。</p>
+<h4 id="2-身份验证组件与DNS组件不一致性"><a href="#2-身份验证组件与DNS组件不一致性" class="headerlink" title="2. 身份验证组件与DNS组件不一致性"></a>2. 身份验证组件与DNS组件不一致性</h4><p>&emsp;&emsp;这种身份认证绕过方式<strong>利用了身份认证组件和DNS组件之间的不一致性</strong>，攻击者制作模糊域，使身份验证组件认为他正在查询合法域，但DNS组件实际上在查询攻击者的域以获得策略记录。</p>
+<p>&emsp;&emsp;下图展示了这种攻击的实例，在C语言中，NUL(“\x00”)被认为是终止符，而在Perl和PHP中，将不被视为终止符，利用这种特性，攻击者对任意电子邮件可以构造绕过身份认证，首先他们使用自己的私有DKIM对邮件进行签名、生成DKIM-Signature标头，将标头中的<code>d=&quot;legitimate.com&quot;</code>，而<code>s=&quot;atttacker.com.\x00.any&quot;</code>,当Gmail服务器（Gmail服务器存在该问题）其DKIM组件查询<code>s._domiankey.d</code>，即<code>attack.com.\x00.any._domainkey.legitimate</code>来获取公钥，DNS组件进行对改地址进行解析时会将NUL字符视为终止符，因此将从<code>attack.com</code>获取公钥（攻击者的公钥），然后DKIM组件使用攻击者的公钥验证伪造邮件，错误的认为合法域名已经对该域进行可签名。另一方面，DMARC将使用<code>d=legitimate.com</code>域名与FORM域名对齐认证，二者相同，成功通过DMARC认证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.r9u95x0yzg9.png" alt="image" style="zoom:50%;"></p>
+<h4 id="3-认证结果注入"><a href="#3-认证结果注入" class="headerlink" title="3. 认证结果注入"></a>3. 认证结果注入</h4><h5 id="Authentication-Results"><a href="#Authentication-Results" class="headerlink" title="Authentication-Results"></a>Authentication-Results</h5><p>&emsp;&emsp;SPF和DKIM以头部中的Authentication-Results将验证结果传递给DMARC组件，下面为Authentication-Results实例：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.55246bwa5lj.png" alt="image"></p>
+<p>&emsp;&emsp;其中<code>spf=pass</code>和<code>dkim=pass</code>表示邮件服务器通过了example.com的spf和dkim认证，<code>smtp.mailfrom</code>表示SPF组件验证的域名，<code>header.d</code>表示DKIM验证的域名，括号内的内容为备注。DMARC组件解析这个字段来进行DMAR域名对齐认证。</p>
+<h5 id="认证结果注入攻击"><a href="#认证结果注入攻击" class="headerlink" title="认证结果注入攻击"></a>认证结果注入攻击</h5><p>&emsp;&emsp;这种身份认证的绕过方式来源于认证结果从一个组件传递到另一个组件的过程中，元字符的存在因起了身份认证类似于SQLi的攻击。对于某些特殊字符，SPF和DKIM会将这些字符视为数据，而DMARC组件在解析认证结果时将会将其视为控制信息，从而发生攻击。</p>
+<h5 id="3-1-DKIM认证结果注入"><a href="#3-1-DKIM认证结果注入" class="headerlink" title="3.1 DKIM认证结果注入"></a>3.1 DKIM认证结果注入</h5><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.egz2tq8ift.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;攻击者使用自己的私钥生成DKIM-Signature标头，在标头中使用带<code>（</code>的<code>d=</code>，例如在下例中，<code>d=legitimate.com(.attacker.com</code>,DKIM组件将查询<code>selector._domainkey.legitimate.com(. attacker.com</code>,该域名在攻击者的控制之下，获取攻击者的公钥并通过dkim验证，返回的结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.apzgxlxn27.png" alt="image"></p>
+<p>&emsp;&emsp;当DMARC收到Authentication-Results，对<code>d=xxx</code>进行解析时，将会将其解析为<code>legitmate.com</code>,因为会将“（”后的内容视为注释，同时DMARC中解析到的域名与FORM标头匹配，成功通过DMARC身份认证。</p>
+<h5 id="3-2-SPF认证结果注入"><a href="#3-2-SPF认证结果注入" class="headerlink" title="3.2 SPF认证结果注入"></a>3.2 SPF认证结果注入</h5><p>&emsp;&emsp;结合SPF和DMARC的这两种机制，可确保无法伪造邮件头部。</p>
 <h4 id><a href="#" class="headerlink" title=" "></a> </h4><div class="note default">
             <p>Default</p>
           </div>
@@ -511,7 +526,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-text">存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-HELO、MAIL-FROM混乱"><span class="nav-text">1.HELO、MAIL FROM混乱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-text"> </span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-text">存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-HELO、MAIL-FROM混乱"><span class="nav-text">1.HELO、MAIL FROM混乱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-身份验证组件与DNS组件不一致性"><span class="nav-text">2. 身份验证组件与DNS组件不一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-认证结果注入"><span class="nav-text">3. 认证结果注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-text"> </span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
