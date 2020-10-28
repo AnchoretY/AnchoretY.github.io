@@ -190,6 +190,304 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/23/sql常见面试题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/23/sql常见面试题/" class="post-title-link" itemprop="url">sql常见面试题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-23 14:02:22" itemprop="dateCreated datePublished" datetime="2019-08-23T14:02:22+08:00">2019-08-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-25 10:05:18" itemprop="dateModified" datetime="2019-08-25T10:05:18+08:00">2019-08-25</time>
+              </span>
+
+          
+            <span id="/2019/08/23/sql常见面试题/" class="post-meta-item leancloud_visitors" data-flag-title="sql常见面试题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/23/sql常见面试题/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/23/sql常见面试题/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>603</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="1-用一条语句查询出每门课都大于80分的学生姓名"><a href="#1-用一条语句查询出每门课都大于80分的学生姓名" class="headerlink" title="1.用一条语句查询出每门课都大于80分的学生姓名"></a>1.用一条语句查询出每门课都大于80分的学生姓名</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>class</th>
+<th>Socre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td>语文</td>
+<td>81</td>
+</tr>
+<tr>
+<td>张三</td>
+<td>数学</td>
+<td>75</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>语文</td>
+<td>76</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>数学</td>
+<td>90</td>
+</tr>
+<tr>
+<td>王五</td>
+<td>语文</td>
+<td>81</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>解法一：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">not</span> <span class="keyword">in</span> (</span><br><span class="line">	<span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> score&lt;=<span class="number">80</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>解法二：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">table</span> groupby <span class="keyword">name</span> <span class="keyword">having</span> <span class="keyword">min</span>(fenshu)&gt;<span class="number">80</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-删除除了自动编号不同外，其他都相同的学生冗余信息"><a href="#2-删除除了自动编号不同外，其他都相同的学生冗余信息" class="headerlink" title="2.删除除了自动编号不同外，其他都相同的学生冗余信息"></a>2.删除除了自动编号不同外，其他都相同的学生冗余信息</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>自动编号</th>
+<th>学号</th>
+<th>姓名</th>
+<th>课程编号</th>
+<th>课程名称</th>
+<th>课程分数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2005001</td>
+<td>张三</td>
+<td>0001</td>
+<td>数学</td>
+<td>69</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2005002</td>
+<td>李四</td>
+<td>0001</td>
+<td>数学</td>
+<td>80</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2005001</td>
+<td>张三</td>
+<td>0001</td>
+<td>数学</td>
+<td>69</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> tablename <span class="keyword">where</span> 自动编号 <span class="keyword">not</span> <span class="keyword">in</span> (<span class="keyword">select</span> <span class="keyword">min</span>(自动编号) groupby 学号，姓名，课程编号，课程名称，课程分数)</span><br></pre></td></tr></table></figure>
+<h4 id="3-有两个表A-和B-，均有key-和value-两个字段，如果B-的key-在A-中也有，就把B-的value-换为A-中对应的value"><a href="#3-有两个表A-和B-，均有key-和value-两个字段，如果B-的key-在A-中也有，就把B-的value-换为A-中对应的value" class="headerlink" title="3.有两个表A 和B ，均有key 和value 两个字段，如果B 的key 在A 中也有，就把B 的value 换为A 中对应的value"></a>3.有两个表A 和B ，均有key 和value 两个字段，如果B 的key 在A 中也有，就把B 的value 换为A 中对应的value</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update b set b.value=(select a.value from a where a.key=b.key) where b.id in (select b.id from b,a where b.key=a.key);</span><br></pre></td></tr></table></figure>
+<h4 id="5-查询表A中存在ID重复三次以上的记录"><a href="#5-查询表A中存在ID重复三次以上的记录" class="headerlink" title="5.查询表A中存在ID重复三次以上的记录"></a>5.查询表A中存在ID重复三次以上的记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from(select count(ID) as count from table group by ID)T where T.count&gt;3</span><br></pre></td></tr></table></figure>
+<h4 id="6-取出每个班级成绩前两名的同学，表结构为sno、sname、class、score"><a href="#6-取出每个班级成绩前两名的同学，表结构为sno、sname、class、score" class="headerlink" title="6.取出每个班级成绩前两名的同学，表结构为sno、sname、class、score"></a>6.取出每个班级成绩前两名的同学，表结构为sno、sname、class、score</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> sname,<span class="keyword">class</span>,score <span class="keyword">from</span> grade <span class="keyword">where</span> (</span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> grade <span class="keyword">as</span> f <span class="keyword">where</span> f.class==grade.class <span class="keyword">and</span> f.score&gt;=grade.score</span><br><span class="line">) &lt;=<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h4 id="6-经典的学习成绩问题"><a href="#6-经典的学习成绩问题" class="headerlink" title="6.经典的学习成绩问题"></a>6.经典的学习成绩问题</h4><p>已知关系模式：</p>
+<p>​    s (sno,sname) 学生关系。sno 为学号，sname 为姓名<br>​    c (cno,cname,cteacher) 课程关系cno 为课程号，cname 为课程名，cteacher 为任课教师<br>​    sc(sno,cno,scgrade) 选课关系。scgrade 为成绩</p>
+<p><strong>1．找出没有选修过“李明”老师讲授课程的所有学生姓名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sname from s where cno in (select cno from c where cteacher==&apos;李明&apos;)</span><br></pre></td></tr></table></figure>
+<p><strong>2．列出有二门以上（含两门）不及格课程的学生姓名及其平均成绩</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>3．列出既学过“1”号课程，又学过“2”号课程的所有学生姓名<br>4．列出“1”号课成绩比“2”号同学该门课成绩高的所有学生的学号<br>5．列出“1”号课成绩比“2”号课成绩高的所有学生的学号及其“1”号课和“2”号课的成绩</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/21/常见map-reduce面试题目/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/21/常见map-reduce面试题目/" class="post-title-link" itemprop="url">常见map_reduce面试题目</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-08-21 18:26:25 / 修改时间：18:29:03" itemprop="dateCreated datePublished" datetime="2019-08-21T18:26:25+08:00">2019-08-21</time>
+            </span>
+
+          
+            <span id="/2019/08/21/常见map-reduce面试题目/" class="post-meta-item leancloud_visitors" data-flag-title="常见map_reduce面试题目" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/21/常见map-reduce面试题目/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/21/常见map-reduce面试题目/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>285</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Map-reduce"><a href="#Map-reduce" class="headerlink" title="Map reduce"></a>Map reduce</h3><p><strong>Map 阶段</strong></p>
+<blockquote>
+<p>1、先将HDFS中的输入文件file按照一定的标准进行切片</p>
+<p>2、调用自己编写的map逻辑，将输入的键值对<k1，v1>变成<k2，v2></k2，v2></k1，v1></p>
+<p>3、按照一定的规则对输出的键值对<k2,v2>进行分区</k2,v2></p>
+<p>4、对每个分区中的键值对进行<strong>排序</strong>。</p>
+</blockquote>
+<p><strong>Reduce 阶段</strong></p>
+<blockquote>
+<p>1、对多个Mapper任务的输出，按照不同的分区，通过网络拷贝到不同的Reducer节点上进行处理，将数据按照分区拷贝到不同的Reducer节点之后，对多个Mapper任务的输出在进行合并，排序。</p>
+<p>2、调用自己的reduce逻辑，将键值对<k2,v2s>变为<k3,v3>.在这里注意：每一个键值对<k2,v2s>都会调用一次reduce函数。</k2,v2s></k3,v3></k2,v2s></p>
+<p>3、将Reducer任务的输出保存到指定的文件中。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/21/python代码效率优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1549,200 +1847,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/07/25/矩形搜索、遍历相关算法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/25/矩形搜索、遍历相关算法/" class="post-title-link" itemprop="url">矩形搜索、遍历相关算法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-07-25 10:55:39 / 修改时间：10:59:55" itemprop="dateCreated datePublished" datetime="2019-07-25T10:55:39+08:00">2019-07-25</time>
-            </span>
-
-          
-            <span id="/2019/07/25/矩形搜索、遍历相关算法/" class="post-meta-item leancloud_visitors" data-flag-title="矩形搜索、遍历相关算法" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/07/25/矩形搜索、遍历相关算法/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/07/25/矩形搜索、遍历相关算法/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>265</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.矩阵中的路径</p>
-<blockquote>
-<p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。 例如 a b c e s f c s a d e e 这样的3 X 4 矩阵中包含一条字符串”bcced”的路径，但是矩阵中不包含”abcb”路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。</p>
-</blockquote>
-<p>关键点：1.该问题很容易可以看出是回溯问题，在回溯问题上最好不要使用直接的队列删除</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/07/25/常见文件解压命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/25/常见文件解压命令/" class="post-title-link" itemprop="url">常见文件解压命令</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-07-25 09:10:44 / 修改时间：09:16:38" itemprop="dateCreated datePublished" datetime="2019-07-25T09:10:44+08:00">2019-07-25</time>
-            </span>
-
-          
-            <span id="/2019/07/25/常见文件解压命令/" class="post-meta-item leancloud_visitors" data-flag-title="常见文件解压命令" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/07/25/常见文件解压命令/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/07/25/常见文件解压命令/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>50</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Rar文件解压"><a href="#Rar文件解压" class="headerlink" title="Rar文件解压"></a>Rar文件解压</h3><h5 id="1-查看不解压"><a href="#1-查看不解压" class="headerlink" title="1.查看不解压"></a>1.查看不解压</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unrar l filename.rar</span><br></pre></td></tr></table></figure>
-<h5 id="2-带路径解压"><a href="#2-带路径解压" class="headerlink" title="2.带路径解压"></a>2.带路径解压</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unrar x filename.rar</span><br></pre></td></tr></table></figure>
-<h5 id="3-不带路径解压-全部在文件夹内的内容全部解压到当前目录"><a href="#3-不带路径解压-全部在文件夹内的内容全部解压到当前目录" class="headerlink" title="3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)"></a>3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unrar e filename.rar</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1815,7 +1919,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">140</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

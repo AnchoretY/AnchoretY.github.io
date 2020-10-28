@@ -48,7 +48,8 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.b8yqpj5m2of.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.z9xo30nyrxc.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.irh2e8cx3b.png">
-<meta property="og:updated_time" content="2020-10-20T14:47:47.338Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ektodhc5pa8.png">
+<meta property="og:updated_time" content="2020-10-24T02:43:21.027Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="邮件安全之发件人伪造">
 <meta name="twitter:description" content="概述：首页描述">
@@ -246,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-20 22:47:47" itemprop="dateModified" datetime="2020-10-20T22:47:47+08:00">2020-10-20</time>
+                <time title="修改时间：2020-10-24 10:43:21" itemprop="dateModified" datetime="2020-10-24T10:43:21+08:00">2020-10-24</time>
               </span>
 
           
@@ -276,7 +277,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.9k</span>
+              <span>8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -425,7 +426,7 @@
 <p>&emsp;&emsp;在一些邮件服务器中，对MAIL FROM的语法进行了一定的限制，MIAL FROM中不再能使用上面的特殊字符，但是我们可以使用另一种方式来进行SPF认证结果注入，如下图所示，邮件服务器进行SPF查询时将使用<code>legitimate.com&#39;@a.attack.com</code>进行查询，该域名的SPF记录为攻击者设定，因此伪造的邮件能够成功通过SPF验证，而DMARC进行身份验证结果解析时，将<code>&#39;</code>后的内容视为注释，使用域名<code>legitimate.com</code>与MAIL FROM域名进行对齐，成功通过DMARC认证。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.moc7pw4qrbb.png" alt="image" style="zoom:50%;"></p>
 <h3 id="UI不匹配问题"><a href="#UI不匹配问题" class="headerlink" title="UI不匹配问题"></a>UI不匹配问题</h3><p>&emsp;&emsp;由于电子邮件服务和邮件代理（MUA）分别处理消息，UI不匹配攻击利用了电子邮件服务器验证消息和MUA最终展示给用户的内容不一致来进行欺骗。</p>
-<h4 id="1-含糊的From头"><a href="#1-含糊的From头" class="headerlink" title="1.含糊的From头"></a>1.含糊的From头</h4><p>&emsp;&emsp;经过研究发现，虽然SMTP标注中明确指出了电子邮件必须具有一个From header，但是仍存在大量电子邮件提供商和邮件代理并没有严格遵守这项规定，不会拒收这类邮件而是只是用第一个From header进行DMARC检查，这就造成了攻击者进行欺骗留下了机会。</p>
+<h4 id="1-From头模糊"><a href="#1-From头模糊" class="headerlink" title="1.From头模糊"></a>1.From头模糊</h4><p>&emsp;&emsp;经过研究发现，虽然SMTP标注中明确指出了电子邮件必须具有一个From header，但是仍存在大量电子邮件提供商和邮件代理并没有严格遵守这项规定，不会拒收这类邮件而是只是用第一个From header进行DMARC检查，这就造成了攻击者进行欺骗留下了机会。</p>
 <h5 id="1-1-多个From-header"><a href="#1-1-多个From-header" class="headerlink" title="1.1 多个From header"></a>1.1 多个From header</h5><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96ccjyjsznl.png" alt="image"></p>
 <p>&emsp;&emsp;这种攻击方式，首先邮件服务器需要与许多个From header，其次邮件服务器与电子邮件客户端需要具有不同的解析方式。攻击者在使用多个From header，例如上图中服务器使用第一个From字段进行DMARC对齐认证，而电子邮件客户端将第二个From header展示给用户。</p>
 <h5 id="1-2-使用空格跳过多From-header检测"><a href="#1-2-使用空格跳过多From-header检测" class="headerlink" title="1.2 使用空格跳过多From header检测"></a>1.2 使用空格跳过多From header检测</h5><p>&emsp;&emsp;SMTP标准规定每个email头部由字段名、冒号、字段对应的值组成，攻击者可以通过字段名之前或之后插入空格来违反此结构，那么不同的客户端、服务器将使用不同方式处理错误的标头，这为禁止使用多个From的邮件服务器使用多From header绕过认证提供了新的机会。</p>
@@ -449,24 +450,19 @@
 <p>&emsp;&emsp;攻击者还可以使用多种技术融合来绕过更加复杂的身份验证，例如对于身份验证严格的Gmail邮件服务器，它拒绝多个From头，如果不存在From头邮件服务器将则根据MAIL From的值添加一个新的From头，攻击者同样可以使用多种技术的融合绕过，完成欺骗。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.irh2e8cx3b.png" alt="image"></p>
 <p>&emsp;&emsp;绕过方式如上图所示，<strong>首先在邮件的第一个头部字段使用前置空格的From字段，Resent-From作为备用的发件人字段，MAIL FROM使用空值</strong>。Gmail邮件服务器能够正确识别出折叠空格的From字段的内容，进行DMARC认证，然后在邮件的头部添加Authentication-results，这将导致MUA将From解析成为一个折叠的内容，即Authentication-results的一部分，随后它将按照MAIL Form的值添加一个From字段，这里新添的From字段为空，因此MUA将忽略From，使用Resent-From进行展示，成功进行发件人欺骗。</p>
-<h3 id><a href="#" class="headerlink" title="#"></a>#</h3><div class="note default">
-            <p>Default</p>
-          </div>
-<div class="note primary">
-            <p>primary</p>
-          </div>
-<div class="note success">
-            <p>success</p>
-          </div>
-<div class="note info">
-            <p>info</p>
-          </div>
-<div class="note warning">
-            <p>warning</p>
-          </div>
-<div class="note danger">
-            <p>danger</p>
-          </div>
+<h4 id="2-邮件地址模糊"><a href="#2-邮件地址模糊" class="headerlink" title="2.邮件地址模糊"></a>2.邮件地址模糊</h4><h5 id="2-1-复杂的From-header语法"><a href="#2-1-复杂的From-header语法" class="headerlink" title="2.1 复杂的From header语法"></a>2.1 复杂的From header语法</h5><p>&emsp;&emsp;下图展示了标准具有单个From地址的From字段:</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ektodhc5pa8.png" alt="image"></p>
+<p>&emsp;&emsp;主要包含四个部分：</p>
+<blockquote>
+<ol>
+<li><p>Display name: 可选，用于标识发件人的姓名，由于该地址不受身份认真的保护因此经常用于网路钓鱼中欺骗受害者。</p>
+</li>
+<li><p>Route portion: </p>
+</li>
+<li>Real address: </li>
+<li>Comments:</li>
+</ol>
+</blockquote>
 <h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
 <li>xxx</li>
 <li>xxx</li>
@@ -506,7 +502,10 @@
     <a href="/2020/09/04/pandas使用多进程进行数据处理/" rel="prev" title="pandas使用多进程进行数据处理">
       <i class="fa fa-chevron-left"></i> pandas使用多进程进行数据处理
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/26/TLS安全协议/" rel="next" title="TLS安全协议">
+      TLS安全协议 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -567,7 +566,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#身份认证机制本身存在的问题"><span class="nav-text">身份认证机制本身存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-HELO、MAIL-FROM混乱"><span class="nav-text">1.HELO、MAIL FROM混乱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-身份验证组件与DNS组件不一致性"><span class="nav-text">2. 身份验证组件与DNS组件不一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-认证结果注入"><span class="nav-text">3. 认证结果注入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI不匹配问题"><span class="nav-text">UI不匹配问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-含糊的From头"><span class="nav-text">1.含糊的From头</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-text">#</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#身份认证机制本身存在的问题"><span class="nav-text">身份认证机制本身存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-HELO、MAIL-FROM混乱"><span class="nav-text">1.HELO、MAIL FROM混乱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-身份验证组件与DNS组件不一致性"><span class="nav-text">2. 身份验证组件与DNS组件不一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-认证结果注入"><span class="nav-text">3. 认证结果注入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI不匹配问题"><span class="nav-text">UI不匹配问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-From头模糊"><span class="nav-text">1.From头模糊</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-邮件地址模糊"><span class="nav-text">2.邮件地址模糊</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -583,7 +582,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">140</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
