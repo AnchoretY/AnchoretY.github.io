@@ -190,6 +190,122 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/26/new-和-init/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/26/new-和-init/" class="post-title-link" itemprop="url">__new__和__init__</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-26 22:40:33" itemprop="dateCreated datePublished" datetime="2019-04-26T22:40:33+08:00">2019-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-25 12:46:23" itemprop="dateModified" datetime="2019-08-25T12:46:23+08:00">2019-08-25</time>
+              </span>
+
+          
+            <span id="/2019/04/26/new-和-init/" class="post-meta-item leancloud_visitors" data-flag-title="__new__和__init__" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/26/new-和-init/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/26/new-和-init/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>677</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>执行顺序：类中同时出现new()和init()时，先调用new()，再调用init()</strong></p>
+<h5 id="python中-new-和-init-的区别"><a href="#python中-new-和-init-的区别" class="headerlink" title="python中__new__和__init__的区别"></a>python中__new__和__init__的区别</h5><blockquote>
+<p><strong>1.用法不同</strong>：</p>
+<p>​    __new__()用于创建实例，所以该方法是<strong>在实例创建之前被调用</strong>，它是类级别的方法，是个静态方法；</p>
+<p>​    __init__() 用于初始化实例，所以该方法是<strong>在实例对象创建后被调用</strong>，它是实例级别的方法，用于设置对象属性的一些初始值</p>
+<p>​    注：由此可知，__new__()在__init__() 之前被调用。如果__new__() 创建的是当前类的实例，会自动调用__init__()函数，通过return调用的__new__()的参数cls来保证是当前类实例，如果是其他类的类名，那么创建返回的是其他类实例，就不会调用当前类的__init__()函数</p>
+<p>2.传入参数不同：</p>
+<p>​    __new__()<strong>至少有一个参数cls，代表当前类</strong>，此参数在实例化时由Python解释器自动识别；</p>
+<p>​    __init__()<strong>至少有一个参数self</strong>，就是这个__new__()返回的实例，__init__()在__new__()的基础上完成一些初始化的操作。</p>
+<p>3.返回值不同：</p>
+<p>​    __new__()必须有返回值，返回实例对象；</p>
+<p>　__init__()不需要返回值。</p>
+</blockquote>
+<h4 id="new-的两种常见用法"><a href="#new-的两种常见用法" class="headerlink" title="__new__的两种常见用法"></a>__new__的两种常见用法</h4><h5 id="1-继承不可变的类"><a href="#1-继承不可变的类" class="headerlink" title="1.继承不可变的类"></a>1.继承不可变的类</h5><p>​    __new__()方法主要用于继承一些不可变的class，比如int, str, tuple， 提供一个自定义这些类的实例化过程的途径，一般通过重载__new__()方法来实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PostiveInterger</span><span class="params">(int)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls,value)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> super(PostiveInterger,cls).__new__(cls,abs(value))</span><br><span class="line">a = PostiveInterger(<span class="number">-10</span>)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-实现单例模式"><a href="#2-实现单例模式" class="headerlink" title="2.实现单例模式"></a>2.实现单例模式</h5><p>​    可以用来实现单例模式，也就是使<strong>每次实例化时只返回同一个实例对象</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleobject</span><span class="params">(object)</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> cls.instance:</span><br><span class="line">      cls.instance = super(Singleobject,cls).new(cls)</span><br><span class="line">    <span class="keyword">return</span> cls.instance</span><br><span class="line"></span><br><span class="line">object1 = Singleobject()</span><br><span class="line">object2 = Singleobject()</span><br><span class="line"></span><br><span class="line">object1.attr = <span class="string">'value1'</span></span><br><span class="line"></span><br><span class="line">print(object1.attr,object2.attr)</span><br><span class="line">print(object1 <span class="keyword">is</span> object2)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">  value1,value1</span><br><span class="line">  <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/20/数学算法——排列组合/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1440,149 +1556,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/03/19/机试——二叉树遍历/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/19/机试——二叉树遍历/" class="post-title-link" itemprop="url">机试——二叉树遍历</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-19 23:02:04" itemprop="dateCreated datePublished" datetime="2019-03-19T23:02:04+08:00">2019-03-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-05-21 23:00:26" itemprop="dateModified" datetime="2019-05-21T23:00:26+08:00">2019-05-21</time>
-              </span>
-
-          
-            <span id="/2019/03/19/机试——二叉树遍历/" class="post-meta-item leancloud_visitors" data-flag-title="机试——二叉树遍历" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/03/19/机试——二叉树遍历/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/03/19/机试——二叉树遍历/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>884</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    二叉树最常用的遍历算法主要分为下面几种：</p>
-<p>​    <strong>1.先序遍历</strong></p>
-<p>​    <strong>2.中序遍历</strong></p>
-<p>​    <strong>3.后序遍历</strong></p>
-<p>​    <strong>4.层次遍历</strong></p>
-<p>​    下面我们将针对这些遍历算法的递归与非递归实现分别给出代码实现以及特点。</p>
-<blockquote>
-<p>这里有一点我们需要注意:</p>
-<p>​    无论是前序、中序、后续，都是指根节点访问的顺序，<strong>而左右节点的相对访问顺序永远是相同的，即先访问做节点，后访问右节点。</strong></p>
-</blockquote>
-<h3 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h3><p>​    先序遍历指在二叉树遍历过程中首先输出根节点，然后再分别输出左右节点的遍历方式。</p>
-<h5 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">core</span><span class="params">(result,root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> </span><br><span class="line">            result.append(root.val)</span><br><span class="line">            core(result,root.left)</span><br><span class="line">            core(result,root.right)</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        core(result,root)</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h5 id="非递归实现"><a href="#非递归实现" class="headerlink" title="非递归实现"></a>非递归实现</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        res = []</span><br><span class="line">        stack = [root]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            node = stack.pop()</span><br><span class="line">            res.append(node.val)</span><br><span class="line">            <span class="comment">#注意这里的顺序一定是先右后左，和一般的相反</span></span><br><span class="line">            <span class="keyword">if</span> node.right!=<span class="keyword">None</span>:</span><br><span class="line">                stack.append(node.right)</span><br><span class="line">            <span class="keyword">if</span> node.left!=<span class="keyword">None</span>:</span><br><span class="line">                stack.append(node.left)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><p>​    二叉树的中序遍历是指现先遍历左节点，中间遍历根节点，最后在遍历右节点的便利方式。</p>
-<h4 id="递归实现-1"><a href="#递归实现-1" class="headerlink" title="递归实现"></a>递归实现</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Core</span><span class="params">(root)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">return</span> []</span><br><span class="line">            </span><br><span class="line">            Core(root.left)</span><br><span class="line">            result.append(root.val)</span><br><span class="line">            Core(root.right)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        Core(root)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h4 id="非递归实现-1"><a href="#非递归实现-1" class="headerlink" title="非递归实现"></a>非递归实现</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inorderTraversal</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        stack = []</span><br><span class="line">        result = []</span><br><span class="line">        </span><br><span class="line">        pos = root</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> pos:</span><br><span class="line">            <span class="keyword">if</span> pos:</span><br><span class="line">                stack.append(pos)</span><br><span class="line">                pos = pos.left</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pos = stack.pop()</span><br><span class="line">                result.append(pos.val)</span><br><span class="line">                pos = pos.right</span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h3 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h3><h3 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h3><h4 id="非递归实现-2"><a href="#非递归实现-2" class="headerlink" title="非递归实现"></a>非递归实现</h4><p>​    利用<strong>队列</strong>先进先出的特点，依次将结点的左、右孩子入队，然后依次出队访问，以此为循环。当有些题目中要求按照层输出时，需要根据每层的节点个数做一个计数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">levelOrder</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">            <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        queue = [root]</span><br><span class="line">        result = []</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            tmp = []</span><br><span class="line">            number_flag = len(queue)   <span class="comment">#层节点个数计数器</span></span><br><span class="line">            i = <span class="number">0</span></span><br><span class="line">            <span class="keyword">while</span> i&lt;number_flag:</span><br><span class="line">                node = queue.pop(<span class="number">0</span>)</span><br><span class="line">                tmp.append(node.val)</span><br><span class="line">                <span class="keyword">if</span> node.left:</span><br><span class="line">                    queue.append(node.left)</span><br><span class="line">                <span class="keyword">if</span> node.right:</span><br><span class="line">                    queue.append(node.right)</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">            result.append(tmp)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h3 id="根据两个序列复原二叉树"><a href="#根据两个序列复原二叉树" class="headerlink" title="根据两个序列复原二叉树"></a>根据两个序列复原二叉树</h3><p>​    这种题目其实只有两个，核心是找出先根据一个序列找出根节点，然后在根据另一个序列找出其左右子树的元素，然后不断的递归这个过程即可。</p>
-<h5 id="已知前序遍历中序遍历"><a href="#已知前序遍历中序遍历" class="headerlink" title="已知前序遍历中序遍历"></a>已知前序遍历中序遍历</h5><p>​    在<strong>已知前序遍历的题目中，就以前序遍历为基础，去不断地区分剩下的数据应该在左子树还是右子树即可</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buildTree</span><span class="params">(self, preorder: List[int], inorder: List[int])</span> -&gt; TreeNode:</span></span><br><span class="line">				<span class="string">"""</span></span><br><span class="line"><span class="string">					先将前序遍历的第一个节点作为根节点，然后在后序遍历中找到其对应的位置，左右分别做相同的操作</span></span><br><span class="line"><span class="string">				"""</span></span><br><span class="line">        len_pre = len(preorder)</span><br><span class="line">        len_in = len(inorder)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> len_pre==<span class="number">0</span> <span class="keyword">or</span> len_in==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        tree_root = TreeNode(preorder[<span class="number">0</span>])</span><br><span class="line">        preorder = preorder[<span class="number">1</span>:]</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        left_len = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> inorder:</span><br><span class="line">            <span class="keyword">if</span> i==tree_root.val:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">        inorder.remove(tree_root.val)</span><br><span class="line">        <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.left =  self.buildTree(preorder[:left_len],inorder[:left_len])</span><br><span class="line">        <span class="keyword">if</span> len(preorder)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.right = self.buildTree(preorder[left_len:],inorder[left_len:])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
-<h5 id="已知前序遍历和后序遍历"><a href="#已知前序遍历和后序遍历" class="headerlink" title="已知前序遍历和后序遍历"></a>已知前序遍历和后序遍历</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">constructFromPrePost</span><span class="params">(self, pre, post)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type pre: List[int]</span></span><br><span class="line"><span class="string">        :type post: List[int]</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            前序遍历的第一个节点必定是根节点，随后的节点就是其左子树的根节点，然后再在</span></span><br><span class="line"><span class="string">        后序遍历中找到这个节点的位置就可以确定左子树中有哪些节点，右子树中有哪些节点</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        tree_root = TreeNode(pre[<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        pre = pre[<span class="number">1</span>:]</span><br><span class="line">        post = post[:<span class="number">-1</span>]</span><br><span class="line">        left_len = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> post:</span><br><span class="line">            <span class="keyword">if</span> i==pre[<span class="number">0</span>]:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                left_len+=<span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.left = self.constructFromPrePost(pre[:left_len],post[:left_len])</span><br><span class="line">        <span class="keyword">if</span> len(post)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">            tree_root.right = self.constructFromPrePost(pre[left_len:],post[left_len:])</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
-<h5 id="已知中序后序遍历构造二叉树"><a href="#已知中序后序遍历构造二叉树" class="headerlink" title="已知中序后序遍历构造二叉树"></a>已知中序后序遍历构造二叉树</h5><pre><code> 没有前序遍历时，使用后序遍历定根节点     
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buildTree</span><span class="params">(self, inorder: List[int], postorder: List[int])</span> -&gt; TreeNode:</span>  </span><br><span class="line">	len_in = len(inorder)</span><br><span class="line">  len_post = len(postorder)</span><br><span class="line">  <span class="keyword">if</span> len_in==<span class="number">0</span> <span class="keyword">or</span> len_in!=len_post:</span><br><span class="line">      <span class="keyword">return</span>  <span class="keyword">None</span></span><br><span class="line">  </span><br><span class="line">  tree_root = TreeNode(postorder[<span class="number">-1</span>])</span><br><span class="line">  postorder = postorder[:<span class="number">-1</span>]</span><br><span class="line">  left_len = <span class="number">0</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> inorder:</span><br><span class="line">      <span class="keyword">if</span> i==tree_root.val:</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line">      <span class="keyword">else</span>:</span><br><span class="line">          left_len += <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  inorder.remove(tree_root.val)</span><br><span class="line">  <span class="keyword">if</span> left_len&gt;=<span class="number">1</span>:</span><br><span class="line">      tree_root.left = self.buildTree(inorder[:left_len],postorder[:left_len])</span><br><span class="line">  <span class="keyword">if</span> len(postorder)-left_len&gt;=<span class="number">1</span>:</span><br><span class="line">      tree_root.right = self.buildTree(inorder[left_len:],postorder[left_len:])</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> tree_root</span><br></pre></td></tr></table></figure>
-<h3 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h3><p>​    </p>
-<blockquote>
-<p>二叉搜索树的性质:</p>
-<p>​    1.中序遍历的结果有序</p>
-<p>​    2.左子树上的节点都比根节点小，右子树都比根节点大</p>
-</blockquote>
-<h5 id="修剪二叉搜索树"><a href="#修剪二叉搜索树" class="headerlink" title="修剪二叉搜索树"></a>修剪二叉搜索树</h5><p>​    给定一个二叉搜索树，同时给定最小边界<code>L</code> 和最大边界 <code>R</code>。通过修剪二叉搜索树，使得所有节点的值在<code>[L, R]</code>中 (R&gt;=L) 。你可能需要改变树的根节点，所以结果应当返回修剪好的二叉搜索树的新的根节点。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trimBST</span><span class="params">(self, root, L, R)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :type L: int</span></span><br><span class="line"><span class="string">        :type R: int</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> root==<span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> root.val&lt;L:</span><br><span class="line">            <span class="keyword">return</span> self.trimBST(root.right,L,R)</span><br><span class="line">        <span class="keyword">elif</span> root.val&gt;R:</span><br><span class="line">            <span class="keyword">return</span> self.trimBST(root.left,L,R)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            root.left = self.trimBST(root.left,L,R)</span><br><span class="line">            root.right = self.trimBST(root.right,L,R)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
-<h5 id="把二叉搜索树转化为累加树"><a href="#把二叉搜索树转化为累加树" class="headerlink" title="把二叉搜索树转化为累加树"></a>把二叉搜索树转化为累加树</h5><p>给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree)，使得每个节点的值是原来的节点值加上所有大于它的节点值之和。</p>
-<p><strong>例如：</strong></p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入: 二叉搜索树:</span><br><span class="line">              <span class="number">5</span></span><br><span class="line">            /   <span class="string">\</span></span><br><span class="line">           <span class="number">2</span>     <span class="number">13</span></span><br><span class="line"></span><br><span class="line">输出: 转换为累加树:</span><br><span class="line">             <span class="number">18</span></span><br><span class="line">            /   <span class="string">\</span></span><br><span class="line">          <span class="number">20</span>     <span class="number">13</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertBST</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: TreeNode</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        root_ref = root</span><br><span class="line">        stack = []</span><br><span class="line">        prev = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> root:</span><br><span class="line">            <span class="keyword">while</span> root:</span><br><span class="line">                stack.append(root)</span><br><span class="line">                root = root.right</span><br><span class="line">            root = stack.pop()</span><br><span class="line">            root.val += prev</span><br><span class="line">            prev = root.val</span><br><span class="line">            root = root.left</span><br><span class="line">        <span class="keyword">return</span> root_ref</span><br></pre></td></tr></table></figure>
-<h5 id="验证搜索二叉树"><a href="#验证搜索二叉树" class="headerlink" title="验证搜索二叉树"></a>验证搜索二叉树</h5><p>给定一个二叉树，判断其是否是一个有效的二叉搜索树。</p>
-<p>假设一个二叉搜索树具有如下特征：</p>
-<ul>
-<li>节点的左子树只包含<strong>小于</strong>当前节点的数。</li>
-<li>节点的右子树只包含<strong>大于</strong>当前节点的数。</li>
-<li>所有左子树和右子树自身必须也是二叉搜索树。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">方法一：用搜索二叉树的性质<span class="number">1</span>，中序遍历一定有序，那么我们只需要在中序遍历中保证后添加的数比前面添加的最后一个数的即可，出现不符合这一规律的直接返回<span class="keyword">False</span></span><br><span class="line">	注：这里需要特别注意，二叉搜索数中不能出现两个一样的值，因此不能直接输出中序序列和排序号好的序列对比</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isValidBST</span><span class="params">(self, root)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type root: TreeNode</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        stack  = []</span><br><span class="line">        pos = root</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">or</span> pos:</span><br><span class="line">            <span class="keyword">while</span> pos:</span><br><span class="line">                stack.append(pos)</span><br><span class="line">                pos = pos.left</span><br><span class="line">            </span><br><span class="line">            pos = stack.pop()</span><br><span class="line">            <span class="keyword">if</span> result!=[]:</span><br><span class="line">                <span class="keyword">if</span> result[<span class="number">-1</span>]&lt;pos.val:</span><br><span class="line">                    result.append(pos.val)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                result.append(pos.val)</span><br><span class="line">            pos = pos.right</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1655,7 +1628,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">144</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
