@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述：首页描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="邮件安全之发件人伪造">
+<meta property="og:url" content="https://anchorety.github.io/2020/10/18/邮件安全之发件人伪造/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="概述：首页描述">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jzg4j0zofql.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96vuhoz1jkm.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f2n2dkn46sw.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cn7hyhwmcd5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.da6u84sq01r.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.bkx6ym4svup.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.55246bwa5lj.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.n5idcpjk1m.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.syk30dz5if.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.r9u95x0yzg9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.55246bwa5lj.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.egz2tq8ift.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.apzgxlxn27.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.9o0639067no.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.moc7pw4qrbb.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96ccjyjsznl.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ppozabcqa3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.b8yqpj5m2of.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.z9xo30nyrxc.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.irh2e8cx3b.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ektodhc5pa8.png">
+<meta property="og:updated_time" content="2020-10-24T02:43:21.027Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="邮件安全之发件人伪造">
+<meta name="twitter:description" content="概述：首页描述">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jzg4j0zofql.png">
+
+<link rel="canonical" href="https://anchorety.github.io/2020/10/18/邮件安全之发件人伪造/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>邮件安全之发件人伪造 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2020/10/18/邮件安全之发件人伪造/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          邮件安全之发件人伪造
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-18 10:20:09" itemprop="dateCreated datePublished" datetime="2020-10-18T10:20:09+08:00">2020-10-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-24 10:43:21" itemprop="dateModified" datetime="2020-10-24T10:43:21+08:00">2020-10-24</time>
+              </span>
+
+          
+            <span id="/2020/10/18/邮件安全之发件人伪造/" class="post-meta-item leancloud_visitors" data-flag-title="邮件安全之发件人伪造" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/18/邮件安全之发件人伪造/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/18/邮件安全之发件人伪造/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>概述：首页描述</p>
+<p><img src alt></p>
+<a id="more"></a>
+<h3 id="电子邮件工作原理"><a href="#电子邮件工作原理" class="headerlink" title="电子邮件工作原理"></a>电子邮件工作原理</h3><p>&emsp;&emsp;电子邮件传输过程中主要涉及到SMTP、IMAP、POP3三种协议，具体功能如下：</p>
+<blockquote>
+<p>SMTP:全称Simple Mail Transfer Protocol，即简单邮件传输协议，主要用于<strong>发送邮件</strong>，使用端口号<strong>25</strong>。</p>
+<p>IMAP:全称Internet Mail Access Protocol，即交互式邮件存取协议，主要用于<strong>收取邮件</strong>，使用端口<strong>143</strong></p>
+<p>POP3:全称Post Office Protocol-Version 3，即邮局协议，主要用于<strong>收取邮件</strong>，使用端口<strong>110</strong>。</p>
+</blockquote>
+<p>&emsp;&emsp;电子邮件工作的整个过程如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jzg4j0zofql.png" alt="image"></p>
+<blockquote>
+<p>POP3与IMAP协议：</p>
+<p>&emsp;&emsp;POP3和IMAP功能类似，主要用于收件方查看、管理收到的邮件，但是POP3协议具有只能从服务器端将用户的邮件下载到本地进行管理，并且同时会删除服务器端的邮件，而IMAP则可以不对全部邮件下载，直接在服务器上进行查看和其他操作。</p>
+</blockquote>
+<h3 id="SMTP发件过程"><a href="#SMTP发件过程" class="headerlink" title="SMTP发件过程"></a>SMTP发件过程</h3><h4 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h4><p>&emsp;&emsp;SMTP通常有两种工作模式。发送SMTP和接收SMTP。具体工作方式为：发送SMTP在接收到用户的邮件请求后，判断此邮件<strong>是否为本地邮件</strong>，若<strong>是</strong>则<strong>直接投送到用户的邮箱</strong>，<strong>否则向DNS查询远端邮件服务器的MX记录</strong>，并建立<strong>与远端接收SMTP之间的一个双向传送通道</strong>，此后SMTP命令由发送SMTP发出，由接收SMTP接收，而应答则反方向传送。一旦传送通道建立，<strong>SMTP发送者发送MAIL命令指明邮件发送者</strong>。如果<strong>SMTP接收者可以接收邮件则返回OK</strong>应答。<strong>SMTP发送者再发出RCPT命令确认邮件是否接收到</strong>。如果<strong>SMTP接收者接收，则返回OK应答</strong>；如果<strong>不能接收到，则发出拒绝接收应答（但不中止整个邮件操作）</strong>，双方将如此<strong>反复多次</strong>。当接收者收到全部邮件后会接收到特别的序列，接收者成功处理了邮件，则返回OK应答。</p>
+<blockquote>
+<p> 注意：SMTP发送只负责将邮件发送到目标服务器上，而不是直接投递给接受者的邮箱，接受者是通过使用其身份登录到服务器上才仅进行的邮件操作。</p>
+</blockquote>
+<h4 id="服务器查找"><a href="#服务器查找" class="headerlink" title="服务器查找"></a>服务器查找</h4><p>&emsp;&emsp;在接收到用户的邮件请求后，如果判断不是本地邮件，则要进行请求邮件发送方的邮件服务器查找，查找过程如下：</p>
+<blockquote>
+<ul>
+<li>查找邮箱后缀域名的MX记录所指向的域名地址</li>
+<li>根据指向域名地址通过dns查找域名地址指向的服务器ip</li>
+<li>tcp连接服务器ip：25（默认端口)（用来登陆或者发送）</li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;完成服务器查找后直接进行后续的登录发送操作即可。</p>
+<h4 id="交互过程"><a href="#交互过程" class="headerlink" title="交互过程"></a>交互过程</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>telnet smtp<span class="number">.163</span>.com <span class="number">25</span>【tcp连接】</span><br><span class="line"><span class="number">220</span> <span class="number">163.</span>com Anti-spam GT <span class="keyword">for</span> Coremail System (<span class="number">163</span>com[<span class="number">20141201</span>])【欢迎信息】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>HELO <span class="number">163.</span>com</span><br><span class="line"><span class="number">250</span> OK</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>auth login【请求登陆】</span><br><span class="line"><span class="number">334</span> dXNlcm5dhbWU6【要求用户名】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Z3dfdsaffEDF=【输入base64用户名】</span><br><span class="line"><span class="number">334</span> UGFzc3ddvcmQ6【要求密码】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fdasDSDFFFfDS=【输入base64密码】</span><br><span class="line"><span class="number">235</span> Authentication successful【登陆成功】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>MAIL FROM:xxx@<span class="number">163.</span>com【发件地址】</span><br><span class="line">rcpt to:xxx@<span class="number">163.</span>com【收件地址】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>DATA【data命令，要求发送内容】</span><br><span class="line"><span class="number">354</span> End data <span class="keyword">with</span> .【提示信息，以.作为结束符号】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>FROM:gule11@<span class="number">163.</span>com【要显示的发件地址】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>TO:xxx@<span class="number">163.</span>com【要显示的收件地址】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>helllo world【内容】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>.【结束】</span><br><span class="line"><span class="number">250</span> Mail OK queued <span class="keyword">as</span> smtp13,EcCowABHIv39riFXqUpKBA—<span class="number">.47592</span>S3 <span class="number">1461825582</span>【返回发送状态，我的测试不幸进入垃圾邮件】</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>QUIT【退出命令】</span><br><span class="line"><span class="number">221</span> Bye</span><br></pre></td></tr></table></figure>
+<h4 id="SMTP常见命令"><a href="#SMTP常见命令" class="headerlink" title="SMTP常见命令"></a>SMTP常见命令</h4><p>SMTP命令不区分大小写，但参数区分大小写。常用命令如下：</p>
+<blockquote>
+<ul>
+<li>HELO ——向服务器标识用户身份发送者能欺骗、说谎，但一般情况下服务器都能检测到</li>
+<li>RCPT TO: ——用来标志邮件接收者的地址，常用在MAIL FROM后，可以有多个RCPT TO</li>
+<li>DATA ——将之后的数据作为数据发送，以.标志数据的结尾</li>
+<li>REST ——重置会话，当前传输被取消</li>
+<li>NOOP ——要求服务器返回OK应答，一般用作测试</li>
+<li>QUIT ——结束会话</li>
+<li>VRFY ——验证指定的邮箱是否存在，由于安全方面的原因，服务器大多禁止此命令</li>
+<li>EXPN ——验证给定的邮箱列表是否存在，由于安全方面的原因，服务器大多禁止此命令</li>
+<li>HELP ——查询服务器支持什么命令</li>
+</ul>
+</blockquote>
+<h4 id="SMTP协议存在的缺陷"><a href="#SMTP协议存在的缺陷" class="headerlink" title="SMTP协议存在的缺陷"></a>SMTP协议存在的缺陷</h4><p>&emsp;&emsp;</p>
+<h3 id="电子邮件邮件身份验证技术"><a href="#电子邮件邮件身份验证技术" class="headerlink" title="电子邮件邮件身份验证技术"></a>电子邮件邮件身份验证技术</h3><p>&emsp;&emsp;<code>SMTP</code>不支持邮件加密、完整性校验和验证发件人身份。由于这些缺陷, 发送方电子邮件信息可能会被网络传输中的监听者截取流量读取消息内容导致隐私泄漏, 也可能遭受中间人攻击(<code>Man-in-the-Middle attack</code>, <code>MitM</code>)导致邮件消息篡改, 带来网络钓鱼攻击,邮件的身份验证 –&gt; <code>SPF</code>, <code>DKIM</code>, <code>DMARC</code></p>
+<h4 id="1-SPF"><a href="#1-SPF" class="headerlink" title="1.SPF"></a>1.SPF</h4><p>&emsp;&emsp;SPF，全称为 Sender Policy Framework，即发件人策略框架。根据 <strong>SMTP 的规则，发件人的邮箱地址是可以由发信方任意声明的</strong>,这显然是极不安全的。</p>
+<p><strong>SPF 出现的目的，就是为了防止随意伪造发件人</strong>。</p>
+<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
+<p>&emsp;&emsp;SPF 记录实际上是<strong>服务器的一个 DNS 记录</strong>，使用电子邮件的头部信息中的 <strong>‘HELO’ 或 ‘Mail From’</strong> 这两个邮件头里的<strong>域名</strong>来结合<strong>真正提供这个邮件的服务商 DNS 里面的记录去验证发送邮件服务器是否是冒充行为</strong>。原理其实很简单：</p>
+<p>&emsp;&emsp;假设邮件服务器收到了一封邮件，来自主机的 IP 是<code>173.194.72.103</code>，并且声称发件人为<code>email@example.com</code>。为了确认发件人不是伪造的，邮件服务器会去查询<code>example.com</code>的 SPF 记录。如果该域的 SPF 记录设置允许 IP 为<code>173.194.72.103</code>的主机发送邮件，则服务器就认为这封邮件是合法的；如果不允许，则通常会退信，或将其标记为垃圾/仿冒邮件。</p>
+<p>&emsp;&emsp;因为不怀好心的人虽然可以「声称」他的邮件来自<code>example.com</code>，但是他却无权操作<code>example.com</code>的 DNS 记录；同时他也无法伪造自己的 IP 地址。因此 SPF 是很有效的，当前基本上所有的邮件服务提供商（例如 Gmail、QQ 邮箱等）都会验证它。</p>
+</blockquote>
+<h5 id="记录查询"><a href="#记录查询" class="headerlink" title="记录查询"></a>记录查询</h5><p>&emsp;&emsp;spf记录本质上是服务器上的TXT类型的DNS记录，因此要查询SPF记录只需要使用dig命令进行查询：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; dig -t txt <span class="number">163.</span>com		<span class="comment"># 查询163邮箱的spf</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line"><span class="number">163.</span>com.		<span class="number">1160</span>	IN	TXT	<span class="string">"v=spf1 include:spf.163.com -all"</span>  <span class="comment"># 其中的一条记录,代表了spf规则遵从spf.163.com的，在其中没有包含的都不允许接收</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;以查询xxx@163.com的spf记录为例，完整的查询过程如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; dig -t txt <span class="number">163.</span>com		<span class="comment"># 查询163邮箱的spf</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line"><span class="number">163.</span>com.		<span class="number">1160</span>	IN	TXT	<span class="string">"v=spf1 include:spf.163.com -all"</span>  <span class="comment"># 其中的一条记录,代表了spf规则遵从spf.163.com的，在其中没有包含的都不允许接收</span></span><br><span class="line">&gt;&gt; dig -t txt spf<span class="number">.163</span>.com </span><br><span class="line">ANSWER SECTION:</span><br><span class="line">spf<span class="number">.163</span>.com.		<span class="number">7283</span>	IN	TXT	<span class="string">"v=spf1 include:a.spf.163.com include:b.spf.163.com include:c.spf.163.com include:d.spf.163.com include:e.spf.163.com -all"</span>   <span class="comment"># spf规则为a、b、c、d、e几个域名spf规则的和</span></span><br><span class="line">&gt;&gt; dig -t txt a.spf<span class="number">.163</span>.com   <span class="comment"># 这里以a.spf.163.com为例，实际上还应对其他4个域名的spf记录进行访问</span></span><br><span class="line">ANSWER SECTION:</span><br><span class="line">a.spf<span class="number">.163</span>.com.		<span class="number">60</span>	IN	TXT	<span class="string">"v=spf1 ip4:220.181.12.0/22 ip4:220.181.31.0/24 ip4:123.125.50.0/24 ip4:220.181.72.0/24 ip4:123.58.178.0/24 ip4:123.58.177.0/24 ip4:113.108.225.0/24 ip4:218.107.63.0/24 ip4:123.58.189.128/25 ip4:123.126.96.0/24 ip4:123.126.97.0/24 -all"</span>     <span class="comment"># 明确了可以接收的ip地址</span></span><br></pre></td></tr></table></figure>
+<h5 id="生效时间"><a href="#生效时间" class="headerlink" title="生效时间"></a>生效时间</h5><blockquote>
+<p>SPF 记录本质上是一个 DNS 记录，所以并不是修改之后立即生效的——通常需要几个小时的时间。</p>
+</blockquote>
+<h5 id="人工检测通过SPF验证"><a href="#人工检测通过SPF验证" class="headerlink" title="人工检测通过SPF验证**"></a>人工检测通过SPF验证**</h5><p>&emsp;&emsp;这里可以使用一个在线验证网站进行查询：<a href="https://www.kitterman.com/spf/validate.html?" target="_blank" rel="noopener">SPF Record Testing Tools</a></p>
+<p>&emsp;&emsp;首先对邮箱服务器对应的SPF记录进行查询（当然这里也可以使用dig命令进行手动查询）：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96vuhoz1jkm.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;查询结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.f2n2dkn46sw.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;输入IP、spf记录、发送域名、HELO内容进行SPF验证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cn7hyhwmcd5.png" alt="image"></p>
+<p>&emsp;&emsp;最终查询结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.uxusao4lund.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;<code>Results - PASS sender SPF authorized</code>表示验证成功。验证失败则显示为<code>Results - FAIL Message may be rejected</code></p>
+<h5 id="SPF存在的缺陷："><a href="#SPF存在的缺陷：" class="headerlink" title="SPF存在的缺陷："></a>SPF存在的缺陷：</h5><p>&emsp;&emsp;与邮件转发器不兼容，转发电子邮件时，SPF检查可能会失败，因为SPF组件会对转发服务器（而不是原始发送服务器）进行身份验证。</p>
+<h4 id="2-DKIM"><a href="#2-DKIM" class="headerlink" title="2.DKIM"></a>2.DKIM</h4><p>&emsp;&emsp;DKIM全称DomainKeys Identified Mail，DKIM使用加密技术对发件人的身份进行验证，并对邮件完整性进行保护。</p>
+<p>&emsp;&emsp;启用DKIM的服务器当发送邮件时，邮件发送方生成一个DKIM-Signature，并使用私钥进行进行加密，并附在邮件的DATA部分的header中，当目标邮件服务器收到邮件后，将使用查询DKIM-Signature中的d字段，获取发送者的公钥，并验证DKIM有效性。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.da6u84sq01r.png" alt="image"></p>
+<p>&emsp;&emsp;其中：</p>
+<blockquote>
+<ul>
+<li>d ： 代表发送者的域名</li>
+<li>h :  代表DKIM覆盖的头部字段列表</li>
+<li>l ：代表DKIM保证的有近头部长度</li>
+</ul>
+</blockquote>
+<h4 id="3-DMARC"><a href="#3-DMARC" class="headerlink" title="3.DMARC"></a>3.DMARC</h4><p>&emsp;&emsp;DMARC是建立在SPF和DKIM之上的一种身份验证机制，在使用DMARC机制的邮件服务器中，接收邮件时，接收邮件服务器首先查询From字段所对应的域的DMARC策略，获知应该如何处理认证失败的邮件，</p>
+<blockquote>
+<ol>
+<li>身份对齐验证：检查From字段中的域与SPF或DKIM中的域是否匹配<ul>
+<li>严格模式：From中的域名需要与SPF、DKIM中的域名完全一致</li>
+<li>宽松模式：只需要From中的注册域名（@后面的部分）与SPF、DKIM中保持一致</li>
+</ul>
+</li>
+<li>SPF</li>
+<li>DKIM</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;如果SPF或DKIM显示一个积极的结果，并且From中身份认证对齐成功，那么DMARC身份认证通过。DMARC身份认证比单独使用SPF或DKIM的鲁棒性更强，<strong>对于转发的电子邮件，SPF认证可能会失败，但是DKIM能够正常认证，DMARC还是能够正常通过。</strong>只有当两者都全部认证失败或身份对齐失败才会认为DMARC认证失败。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.bkx6ym4svup.png" alt="image"></p>
+<p>&emsp;&emsp;SPF、DKIM认证的结果将显示在<strong>Authentication-Results</strong>中，DMARC将从中解析域名来与文件内容中的FORM字段进行对齐验证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.55246bwa5lj.png" alt="image"></p>
+<h3 id="身份认证机制本身存在的问题"><a href="#身份认证机制本身存在的问题" class="headerlink" title="身份认证机制本身存在的问题"></a>身份认证机制本身存在的问题</h3><p>&emsp;虽然身份验证机制看起来很美好，但是在实际使用中由于身份认证本身存在的一些缺陷，仍然使攻击者能够通过一定的技术手段绕过认证，发送伪造邮件。</p>
+<h5 id="在身份认证保护下依旧产生发件人伪造的原因"><a href="#在身份认证保护下依旧产生发件人伪造的原因" class="headerlink" title="在身份认证保护下依旧产生发件人伪造的原因"></a>在身份认证保护下依旧产生发件人伪造的原因</h5><ol>
+<li>不同身份认证组件之间的解释使用</li>
+<li><p>邮件服务器和邮件客户端对特殊格式的不同解析</p>
+</li>
+<li><p>例如5节</p>
+</li>
+</ol>
+<h4 id="1-HELO、MAIL-FROM混乱"><a href="#1-HELO、MAIL-FROM混乱" class="headerlink" title="1.HELO、MAIL FROM混乱"></a>1.HELO、MAIL FROM混乱</h4><p>&emsp;&emsp;SMTP提供了HELO和MAIL FROM两个字段来表示发件人的邮箱地址，SPF标准指出应当同时对两者进行验证，但是，检查MAIL FROM是强制的，而HELO只是推荐进行检查。</p>
+<p>&emsp;&emsp;DMARC标准指出DMARC验证应该使用MAIL FROM进行，当MAIL FROM为空才使用HELO进行验证。利用上面这两种机制，可使用下面的两种机制进行发件人欺骗：</p>
+<h5 id="1-1-不存在子域名"><a href="#1-1-不存在子域名" class="headerlink" title="1.1 不存在子域名"></a>1.1 不存在子域名</h5><p>&emsp;&emsp;这种攻击方式如下图所示，MAIL FROM输入为合法域名下的不存在子域名，因为不存在子域名的SPF策略，SPF无法对其进行验证，转而使用HELO字段进行SPF验证，而HELO字段是攻击者可以进行任意设置的，因此可以通过SPF验证；同时，因为MAIL FROm地址不为空，DMARC将继续使用MAIL FROM进行域对齐，因为二级域名为合法域，与FORM字段域名相同，因此DMARC域名对齐验证通过。邮件成功绕过DMARC身份认证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.n5idcpjk1m.png" alt="image" style="zoom:50%;"></p>
+<h5 id="1-2-“空”-MAIL-FROM"><a href="#1-2-“空”-MAIL-FROM" class="headerlink" title="1.2 “空” MAIL FROM"></a>1.2 “空” MAIL FROM</h5><p>&emsp;&emsp;在某些SPF实现中，将对(右侧内容视作注释内容，因此当使用<code>(any@legitimate.com</code>作为MAIL FROM地址时，SPF会将其视为空，然后使用HELO字段进行SPF验证，与上面相同，SPF通过验证并将验证结果传递给DMARC，在某些DMARC的验证中，仅仅将其视为普通地址进行与FROM域名进行域对齐身份验证，成功通过DMARC验证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.syk30dz5if.png" alt="image" style="zoom:50%;"></p>
+<h4 id="2-身份验证组件与DNS组件不一致性"><a href="#2-身份验证组件与DNS组件不一致性" class="headerlink" title="2. 身份验证组件与DNS组件不一致性"></a>2. 身份验证组件与DNS组件不一致性</h4><p>&emsp;&emsp;这种身份认证绕过方式<strong>利用了身份认证组件和DNS组件之间的不一致性</strong>，攻击者制作模糊域，使身份验证组件认为他正在查询合法域，但DNS组件实际上在查询攻击者的域以获得策略记录。</p>
+<p>&emsp;&emsp;下图展示了这种攻击的实例，在C语言中，NUL(“\x00”)被认为是终止符，而在Perl和PHP中，将不被视为终止符，利用这种特性，攻击者对任意电子邮件可以构造绕过身份认证，首先他们使用自己的私有DKIM对邮件进行签名、生成DKIM-Signature标头，将标头中的<code>d=&quot;legitimate.com&quot;</code>，而<code>s=&quot;atttacker.com.\x00.any&quot;</code>,当Gmail服务器（Gmail服务器存在该问题）其DKIM组件查询<code>s._domiankey.d</code>，即<code>attack.com.\x00.any._domainkey.legitimate</code>来获取公钥，DNS组件进行对改地址进行解析时会将NUL字符视为终止符，因此将从<code>attack.com</code>获取公钥（攻击者的公钥），然后DKIM组件使用攻击者的公钥验证伪造邮件，错误的认为合法域名已经对该域进行可签名。另一方面，DMARC将使用<code>d=legitimate.com</code>域名与FORM域名对齐认证，二者相同，成功通过DMARC认证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.r9u95x0yzg9.png" alt="image" style="zoom:50%;"></p>
+<h4 id="3-认证结果注入"><a href="#3-认证结果注入" class="headerlink" title="3. 认证结果注入"></a>3. 认证结果注入</h4><h5 id="Authentication-Results"><a href="#Authentication-Results" class="headerlink" title="Authentication-Results"></a>Authentication-Results</h5><p>&emsp;&emsp;SPF和DKIM以头部中的Authentication-Results将验证结果传递给DMARC组件，下面为Authentication-Results实例：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.55246bwa5lj.png" alt="image"></p>
+<p>&emsp;&emsp;其中<code>spf=pass</code>和<code>dkim=pass</code>表示邮件服务器通过了example.com的spf和dkim认证，<code>smtp.mailfrom</code>表示SPF组件验证的域名，<code>header.d</code>表示DKIM验证的域名，括号内的内容为备注。DMARC组件解析这个字段来进行DMAR域名对齐认证。</p>
+<h5 id="认证结果注入攻击"><a href="#认证结果注入攻击" class="headerlink" title="认证结果注入攻击"></a>认证结果注入攻击</h5><p>&emsp;&emsp;这种身份认证的绕过方式来源于认证结果从一个组件传递到另一个组件的过程中，元字符的存在因起了身份认证类似于SQLi的攻击。对于某些特殊字符，SPF和DKIM会将这些字符视为数据，而DMARC组件在解析认证结果时将会将其视为控制信息，从而发生攻击。</p>
+<h5 id="3-1-DKIM认证结果注入"><a href="#3-1-DKIM认证结果注入" class="headerlink" title="3.1 DKIM认证结果注入"></a>3.1 DKIM认证结果注入</h5><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.egz2tq8ift.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;攻击者使用自己的私钥生成DKIM-Signature标头，在标头中使用带<code>（</code>的<code>d=</code>，例如在下例中，<code>d=legitimate.com(.attacker.com</code>,DKIM组件将查询<code>selector._domainkey.legitimate.com(. attacker.com</code>,该域名在攻击者的控制之下，获取攻击者的公钥并通过dkim验证，返回的结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.apzgxlxn27.png" alt="image"></p>
+<p>&emsp;&emsp;当DMARC收到Authentication-Results，对<code>d=xxx</code>进行解析时，将会将其解析为<code>legitmate.com</code>,因为会将“（”后的内容视为注释，同时DMARC中解析到的域名与FORM标头匹配，成功通过DMARC身份认证。</p>
+<blockquote>
+<p>“（双引号）和‘（单引号）与”(”具有相同的效果</p>
+</blockquote>
+<h5 id="3-2-SPF认证结果注入"><a href="#3-2-SPF认证结果注入" class="headerlink" title="3.2 SPF认证结果注入"></a>3.2 SPF认证结果注入</h5><p>&emsp;&emsp;SPF认证结果注入与DKIM认证结果注入与DKIM结果认证类似，攻击者在MAIL FROM中使用相同的网址SPF认证注入攻击，例如下面的SPF认证结果注入。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.9o0639067no.png" alt="image" style="zoom:50%;"></p>
+<p>&emsp;&emsp;在一些邮件服务器中，对MAIL FROM的语法进行了一定的限制，MIAL FROM中不再能使用上面的特殊字符，但是我们可以使用另一种方式来进行SPF认证结果注入，如下图所示，邮件服务器进行SPF查询时将使用<code>legitimate.com&#39;@a.attack.com</code>进行查询，该域名的SPF记录为攻击者设定，因此伪造的邮件能够成功通过SPF验证，而DMARC进行身份验证结果解析时，将<code>&#39;</code>后的内容视为注释，使用域名<code>legitimate.com</code>与MAIL FROM域名进行对齐，成功通过DMARC认证。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.moc7pw4qrbb.png" alt="image" style="zoom:50%;"></p>
+<h3 id="UI不匹配问题"><a href="#UI不匹配问题" class="headerlink" title="UI不匹配问题"></a>UI不匹配问题</h3><p>&emsp;&emsp;由于电子邮件服务和邮件代理（MUA）分别处理消息，UI不匹配攻击利用了电子邮件服务器验证消息和MUA最终展示给用户的内容不一致来进行欺骗。</p>
+<h4 id="1-From头模糊"><a href="#1-From头模糊" class="headerlink" title="1.From头模糊"></a>1.From头模糊</h4><p>&emsp;&emsp;经过研究发现，虽然SMTP标注中明确指出了电子邮件必须具有一个From header，但是仍存在大量电子邮件提供商和邮件代理并没有严格遵守这项规定，不会拒收这类邮件而是只是用第一个From header进行DMARC检查，这就造成了攻击者进行欺骗留下了机会。</p>
+<h5 id="1-1-多个From-header"><a href="#1-1-多个From-header" class="headerlink" title="1.1 多个From header"></a>1.1 多个From header</h5><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.96ccjyjsznl.png" alt="image"></p>
+<p>&emsp;&emsp;这种攻击方式，首先邮件服务器需要与许多个From header，其次邮件服务器与电子邮件客户端需要具有不同的解析方式。攻击者在使用多个From header，例如上图中服务器使用第一个From字段进行DMARC对齐认证，而电子邮件客户端将第二个From header展示给用户。</p>
+<h5 id="1-2-使用空格跳过多From-header检测"><a href="#1-2-使用空格跳过多From-header检测" class="headerlink" title="1.2 使用空格跳过多From header检测"></a>1.2 使用空格跳过多From header检测</h5><p>&emsp;&emsp;SMTP标准规定每个email头部由字段名、冒号、字段对应的值组成，攻击者可以通过字段名之前或之后插入空格来违反此结构，那么不同的客户端、服务器将使用不同方式处理错误的标头，这为禁止使用多个From的邮件服务器使用多From header绕过认证提供了新的机会。</p>
+<p><strong>情形一</strong>：</p>
+<p>&emsp;&emsp;虽然邮件服务器拒绝使用多个From头的电子邮件，但是攻击者使用折叠空间成功的From头绕过。因为服务器的DMARC组件可以识别出成功折叠的From头，验证<code>attack.com</code>，但是邮件代理客户端却将其作为未知头，而不是From头，因此将展示它认为只有一个From字段，即<code>admin@legitimate.com</code>，因此将<code>admin@legitimate.com</code>展示给客户。</p>
+<div class="note info">
+            <p>这种情况要求请求邮件服务器能够成功识别出From头，而邮件代理客户端不能识别。</p>
+          </div>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ppozabcqa3.png" alt="image"></p>
+<p><strong>情形二：</strong></p>
+<p>&emsp;&emsp;我们也可以利用电子邮件服务器进行邮件转发时特殊的行为来欺骗邮件代理客户端。以下图为例，Fastmail.com邮件服务器和Fastmail.com邮件代理客户端<strong>否无法识别包含空格的From header，而是将其当做前一个From的一部分进行处理</strong>，但是Fastmail.com邮件服务器<strong>对成功读取到的From header将进行规范化，即再转发邮件时删除其中的空格</strong>。这样MUA收到的邮件为标准的多From header问题。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.b8yqpj5m2of.png" alt="image"></p>
+<p><strong>情形三：利用备用From header</strong></p>
+<p>&emsp;&emsp;在SMTP标准中，包含多个标识电子邮件发件人的角色，From代表编写消息的用户，Sender代表提交消息的用户，Resent-From代表代表转发消息的用户，通常只有From字段才在电子邮件认证和现实中起作用，但是如果攻击者故意制作没有From或无法识别的From字段，在某些情况下如果无法识别From字段，则使用备用头来标识发件人。</p>
+<blockquote>
+<p>在测试的邮件服务器中，当无法读取到From字段时，Gmail显示resent-From来作为发件人展示，其他的都是只使用From进行DMARC认证，如果没有From字段，那么将不执行DMARC认证或返回None。</p>
+</blockquote>
+<p>&emsp;&emsp;如下面所示，Naver.com（电子邮件服务器）能够识别空格折叠的From头，认证attack值，但是Outlook(代理邮件客户端)无法识别它，因此将展示备用头Sender，造成发件人欺骗。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.z9xo30nyrxc.png" alt="image"></p>
+<p><strong>情形四：利用多种技术的融合来绕过更加严格的身份认证</strong></p>
+<p>&emsp;&emsp;攻击者还可以使用多种技术融合来绕过更加复杂的身份验证，例如对于身份验证严格的Gmail邮件服务器，它拒绝多个From头，如果不存在From头邮件服务器将则根据MAIL From的值添加一个新的From头，攻击者同样可以使用多种技术的融合绕过，完成欺骗。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.irh2e8cx3b.png" alt="image"></p>
+<p>&emsp;&emsp;绕过方式如上图所示，<strong>首先在邮件的第一个头部字段使用前置空格的From字段，Resent-From作为备用的发件人字段，MAIL FROM使用空值</strong>。Gmail邮件服务器能够正确识别出折叠空格的From字段的内容，进行DMARC认证，然后在邮件的头部添加Authentication-results，这将导致MUA将From解析成为一个折叠的内容，即Authentication-results的一部分，随后它将按照MAIL Form的值添加一个From字段，这里新添的From字段为空，因此MUA将忽略From，使用Resent-From进行展示，成功进行发件人欺骗。</p>
+<h4 id="2-邮件地址模糊"><a href="#2-邮件地址模糊" class="headerlink" title="2.邮件地址模糊"></a>2.邮件地址模糊</h4><h5 id="2-1-复杂的From-header语法"><a href="#2-1-复杂的From-header语法" class="headerlink" title="2.1 复杂的From header语法"></a>2.1 复杂的From header语法</h5><p>&emsp;&emsp;下图展示了标准具有单个From地址的From字段:</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.ektodhc5pa8.png" alt="image"></p>
+<p>&emsp;&emsp;主要包含四个部分：</p>
+<blockquote>
+<ol>
+<li><p>Display name: 可选，用于标识发件人的姓名，由于该地址不受身份认真的保护因此经常用于网路钓鱼中欺骗受害者。</p>
+</li>
+<li><p>Route portion: </p>
+</li>
+<li>Real address: </li>
+<li>Comments:</li>
+</ol>
+</blockquote>
+<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
+<li>xxx</li>
+<li>xxx</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2020/10/18/邮件安全之发件人伪造/" title="邮件安全之发件人伪造">https://anchorety.github.io/2020/10/18/邮件安全之发件人伪造/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/04/pandas使用多进程进行数据处理/" rel="prev" title="pandas使用多进程进行数据处理">
+      <i class="fa fa-chevron-left"></i> pandas使用多进程进行数据处理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/26/TLS安全协议/" rel="next" title="TLS安全协议">
+      TLS安全协议 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件工作原理"><span class="nav-text">电子邮件工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SMTP发件过程"><span class="nav-text">SMTP发件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作机制"><span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务器查找"><span class="nav-text">服务器查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#交互过程"><span class="nav-text">交互过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP常见命令"><span class="nav-text">SMTP常见命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SMTP协议存在的缺陷"><span class="nav-text">SMTP协议存在的缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件邮件身份验证技术"><span class="nav-text">电子邮件邮件身份验证技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-SPF"><span class="nav-text">1.SPF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-DKIM"><span class="nav-text">2.DKIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-DMARC"><span class="nav-text">3.DMARC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#身份认证机制本身存在的问题"><span class="nav-text">身份认证机制本身存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-HELO、MAIL-FROM混乱"><span class="nav-text">1.HELO、MAIL FROM混乱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-身份验证组件与DNS组件不一致性"><span class="nav-text">2. 身份验证组件与DNS组件不一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-认证结果注入"><span class="nav-text">3. 认证结果注入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI不匹配问题"><span class="nav-text">UI不匹配问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-From头模糊"><span class="nav-text">1.From头模糊</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-邮件地址模糊"><span class="nav-text">2.邮件地址模糊</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">147</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
