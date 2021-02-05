@@ -27,6 +27,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="概述：首页描述">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.lqonfcv1txg.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4twfklm0r3a.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.w4mjc1lawsc.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.91lsazkj1eq.png">
@@ -34,13 +35,13 @@
 <meta property="og:image" content="https://anchorety.github.io/Users/yhk/Library/Application%20Support/typora-user-images/image-20210114204437816.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.pl7h8zuiuva.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.n47h006c4p.png">
-<meta property="og:image" content="https://anchorety.github.io/Users/yhk/Library/Application%20Support/typora-user-images/image-20210115120209191.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.5myigboujsr.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.najd2pi1lbh.png">
-<meta property="og:updated_time" content="2021-01-15T08:54:08.027Z">
+<meta property="og:updated_time" content="2021-02-05T06:49:39.959Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TLS-Handshake协议">
 <meta name="twitter:description" content="概述：首页描述">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4twfklm0r3a.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.lqonfcv1txg.png">
 
 <link rel="canonical" href="https://anchorety.github.io/2021/01/12/TLS-Handshake协议/">
 
@@ -234,7 +235,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-15 16:54:08" itemprop="dateModified" datetime="2021-01-15T16:54:08+08:00">2021-01-15</time>
+                <time title="修改时间：2021-02-05 14:49:39" itemprop="dateModified" datetime="2021-02-05T14:49:39+08:00">2021-02-05</time>
               </span>
 
           
@@ -264,7 +265,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.2k</span>
+              <span>5.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -286,6 +287,12 @@
         <p>概述：首页描述</p>
 <p><img src alt></p>
 <a id="more"></a>
+<h3 id="整体通信过程"><a href="#整体通信过程" class="headerlink" title="整体通信过程"></a>整体通信过程</h3><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.lqonfcv1txg.png" alt="image"></p>
+<h4 id="stage-1"><a href="#stage-1" class="headerlink" title="stage 1"></a>stage 1</h4><p>&emsp;&emsp;客户端发送Client向服务端通知客户端支持的加密套件情况，发起TLS连接。</p>
+<h4 id="Stage-2"><a href="#Stage-2" class="headerlink" title="Stage 2"></a>Stage 2</h4><p>&emsp;&emsp;服务端向客户端表明其证书以及加密通信的参数。首先通过Server Hello表明服务端选用的加密算法，然后使用Certificate向客户端发送服务端的证书、Server Key Exchange表明ECDiffie-Hellman相关的加密参数，最后使用Server Hello Done表明服务端Hello信息发送完成。</p>
+<h4 id="Stage3"><a href="#Stage3" class="headerlink" title="Stage3"></a>Stage3</h4><p>&emsp;&emsp;客户端向服务端发送ECDiffie-Hellman相关的参数，并通知服务端开始使用加密数据进行通信。首先使用Client Key Exchange发送客户端的ECDiffie-Hellman相关参数值，然后使用Change Cipher Spec通知服务端开始使用加密数据进行通信，最后Finished表明TLS握手客户端部分完成。</p>
+<h4 id="Stage-4"><a href="#Stage-4" class="headerlink" title="Stage 4"></a>Stage 4</h4><p>&emsp;&emsp;服务端通知客户开始使用加密数据进行数据通信，完成TLS握手服务端部分。</p>
+<h3 id="客户端与服务器处理过程"><a href="#客户端与服务器处理过程" class="headerlink" title="客户端与服务器处理过程"></a>客户端与服务器处理过程</h3><p>&emsp;&emsp;上面部分讲解了TLS在网络通信上的整体流程，那么在进行网络通信的过程中客户端与服务器分别做了哪些操作呢？下图很好的表示二者的在TLS通信过程中全部处理过程。</p>
 <h3 id="关键问题"><a href="#关键问题" class="headerlink" title="关键问题"></a>关键问题</h3><ul>
 <li><p>会话秘钥生成</p>
 </li>
@@ -327,7 +334,7 @@
 <li><strong>Random(Server)</strong>：服务端随机数，为后面生成会话秘钥做准备。</li>
 <li><strong>Extension(Server)</strong>: 服务端使用的拓展</li>
 </ul>
-<h3 id="3-Certificate"><a href="#3-Certificate" class="headerlink" title="3.Certificate"></a>3.Certificate</h3><p>&emsp;&emsp;服务端发送服务端证书给客户端，<strong>服务端证书主要用于用于确认服务端身份，使Clinet确认服务端公钥</strong>。</p>
+<h4 id="3-Certificate"><a href="#3-Certificate" class="headerlink" title="3.Certificate"></a>3.Certificate</h4><p>&emsp;&emsp;服务端发送服务端证书给客户端，<strong>服务端证书主要用于用于确认服务端身份，使Clinet确认服务端公钥</strong>。</p>
 <h4 id="（1）证书结构"><a href="#（1）证书结构" class="headerlink" title="（1）证书结构"></a>（1）证书结构</h4><p>&emsp;&emsp;数字证书由CA（Certificate Authority）机构进行签发，关键内容包括：</p>
 <ul>
 <li><p><strong>证书颁发者（issuer）</strong>:</p>
@@ -384,7 +391,7 @@
 <div class="note default">
             <p>Root CA浏览器中已经内置，直接信任，这就使为什么有些网络会被HTTPS认证绿锁</p>
           </div>
-<h3 id="4-Server-Key-Exchange"><a href="#4-Server-Key-Exchange" class="headerlink" title="4.Server Key Exchange"></a>4.Server Key Exchange</h3><p>&emsp;&emsp;该消息主要用于发送Server端 ECDiffie-Hellman等加密算法相关参数。加密算法由Server Hello报文进行选择，当选择的报文为DHE、DH_ano等加密算法组时才会有Server Key Exchange报文。</p>
+<h4 id="4-Server-Key-Exchange"><a href="#4-Server-Key-Exchange" class="headerlink" title="4.Server Key Exchange"></a>4.Server Key Exchange</h4><p>&emsp;&emsp;该消息主要用于发送Server端 ECDiffie-Hellman等加密算法相关参数。加密算法由Server Hello报文进行选择，当选择的报文为DHE、DH_ano等加密算法组时才会有Server Key Exchange报文。</p>
 <p><strong>Server端加密算法相关参数作用</strong>：发送给Client，Client根据对方参数和自身参数计算出Premaster srcert。</p>
 <h4 id="Premaster-secert计算"><a href="#Premaster-secert计算" class="headerlink" title="Premaster secert计算"></a>Premaster secert计算</h4><p>&emsp;&emsp;Premaster secert的计算方式主要有RSA和Diffe-Hellan两种。</p>
 <ul>
@@ -397,25 +404,25 @@
           </div>
 </li>
 </ul>
-<p><img src="/Users/yhk/Library/Application Support/typora-user-images/image-20210115120209191.png" alt="image-20210115120209191" style="zoom:67%;"></p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.5myigboujsr.png" alt="image"></p>
 <div class="note default">
             <p><strong>Premaster secert是TLS中通信能能否破解最为关键的环节</strong>。</p>
           </div>
-<h3 id="5-Server-Hello-Done"><a href="#5-Server-Hello-Done" class="headerlink" title="5. Server Hello Done"></a>5. Server Hello Done</h3><p>&emsp;&emsp;Server端向Client发送Server Hello Done消息，表明服务端握手已经加送完成。</p>
+<h4 id="5-Server-Hello-Done"><a href="#5-Server-Hello-Done" class="headerlink" title="5. Server Hello Done"></a>5. Server Hello Done</h4><p>&emsp;&emsp;Server端向Client发送Server Hello Done消息，表明服务端握手已经加送完成。</p>
 <div class="note default">
             <p>Certificate、Server Key Exchange、Server Hello Done三个消息经常使用一个报文进行发送。</p>
           </div>
-<h3 id="6-Client-Key-Exchange"><a href="#6-Client-Key-Exchange" class="headerlink" title="6. Client Key Exchange"></a>6. Client Key Exchange</h3><p>&emsp;&emsp;客户端收到Server端发来的证书，进行证书验证，确认证书可信后，会向Server端发送Client Key Exchange消息，其中包含了Premaster秘钥相关的信息。</p>
+<h5 id="6-Client-Key-Exchange"><a href="#6-Client-Key-Exchange" class="headerlink" title="6. Client Key Exchange"></a>6. Client Key Exchange</h5><p>&emsp;&emsp;客户端收到Server端发来的证书，进行证书验证，确认证书可信后，会向Server端发送Client Key Exchange消息，其中包含了Premaster秘钥相关的信息。</p>
 <blockquote>
 <p>Client key Exchange是无论使用什么秘钥交换算法都需要发送的消息。</p>
 <p>&emsp;&emsp;RSA：使用Client公钥加密后的Premaster secert秘钥。</p>
 <p>&emsp;&emsp;DH:  Pa</p>
 </blockquote>
-<h3 id="7-Change-Cipher-Spec"><a href="#7-Change-Cipher-Spec" class="headerlink" title="7. Change Cipher Spec"></a>7. Change Cipher Spec</h3><p>&emsp;&emsp;客户端发送Change Cipher Spec消息来通知Server端开始使用加密的方式来进行通信。</p>
-<h3 id="8-Finished"><a href="#8-Finished" class="headerlink" title="8.Finished"></a>8.Finished</h3><p>&emsp;&emsp;客户端使用之前握手过程中获得的Server Random、Client Random、Premaster secert计算master secert(会话秘钥)，然后使用会话秘钥采用加密算法使用master secret对（对称算法，加密套件中的第二部分）之前所有握手消息进行HMAC计算，然后使用Finished消息发送给服务端，<strong>用于验证密钥交换和身份验证过程是否成功。</strong></p>
+<h4 id="7-Change-Cipher-Spec"><a href="#7-Change-Cipher-Spec" class="headerlink" title="7. Change Cipher Spec"></a>7. Change Cipher Spec</h4><p>&emsp;&emsp;客户端发送Change Cipher Spec消息来通知Server端开始使用加密的方式来进行通信。</p>
+<h4 id="8-Finished"><a href="#8-Finished" class="headerlink" title="8.Finished"></a>8.Finished</h4><p>&emsp;&emsp;客户端使用之前握手过程中获得的Server Random、Client Random、Premaster secert计算master secert(会话秘钥)，然后使用会话秘钥采用加密算法使用master secret对（对称算法，加密套件中的第二部分）之前所有握手消息进行HMAC计算，然后使用Finished消息发送给服务端，<strong>用于验证密钥交换和身份验证过程是否成功。</strong></p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.najd2pi1lbh.png" alt="image"></p>
-<h3 id="9-Change-Cipher-Spec"><a href="#9-Change-Cipher-Spec" class="headerlink" title="9. Change Cipher Spec"></a>9. Change Cipher Spec</h3><p>&emsp;&emsp;服务端收到客户端加密的的Finished消息后，服务器采用完全相同的方法来计算Hash和MAC值，相同则认为身份验证成功，Server端接受这个Master secret作为后续通信的秘钥，然后使用Change Cipher Spec来通知Client端开始使用加密的方式来进行通信。</p>
-<h3 id="10-Finished"><a href="#10-Finished" class="headerlink" title="10. Finished"></a>10. Finished</h3><p>&emsp;&emsp;服务端使用与客户端完全相同的方式对以往全部信息的进行MAC和Hash运算，然后将其使用使用master secret加密后发给客户端，客户端验证成功后则认为会话秘钥协商成功，后续开始正式加密通信。</p>
+<h4 id="9-Change-Cipher-Spec"><a href="#9-Change-Cipher-Spec" class="headerlink" title="9. Change Cipher Spec"></a>9. Change Cipher Spec</h4><p>&emsp;&emsp;服务端收到客户端加密的的Finished消息后，服务器采用完全相同的方法来计算Hash和MAC值，相同则认为身份验证成功，Server端接受这个Master secret作为后续通信的秘钥，然后使用Change Cipher Spec来通知Client端开始使用加密的方式来进行通信。</p>
+<h4 id="10-Finished"><a href="#10-Finished" class="headerlink" title="10. Finished"></a>10. Finished</h4><p>&emsp;&emsp;服务端使用与客户端完全相同的方式对以往全部信息的进行MAC和Hash运算，然后将其使用使用master secret加密后发给客户端，客户端验证成功后则认为会话秘钥协商成功，后续开始正式加密通信。</p>
 <div class="note default">
             <p>服务端发进行Hash和Mac运算的消息比Client端进行Hash和Mac运算的消息要多出客户端的 Change Cipher Spec和Finished这两个消息。</p>
           </div>
@@ -525,7 +532,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键问题"><span class="nav-text">关键问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信过程"><span class="nav-text">通信过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Client-Hello"><span class="nav-text">1.Client Hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Server-Hello"><span class="nav-text">2. Server Hello</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Certificate"><span class="nav-text">3.Certificate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）证书结构"><span class="nav-text">（1）证书结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）数字签名"><span class="nav-text">（2）数字签名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（3）证书签发与验证"><span class="nav-text">（3）证书签发与验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（4）证书链"><span class="nav-text">（4）证书链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Server-Key-Exchange"><span class="nav-text">4.Server Key Exchange</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Premaster-secert计算"><span class="nav-text">Premaster secert计算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Server-Hello-Done"><span class="nav-text">5. Server Hello Done</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Client-Key-Exchange"><span class="nav-text">6. Client Key Exchange</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Change-Cipher-Spec"><span class="nav-text">7. Change Cipher Spec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Finished"><span class="nav-text">8.Finished</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Change-Cipher-Spec"><span class="nav-text">9. Change Cipher Spec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-Finished"><span class="nav-text">10. Finished</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体通信过程"><span class="nav-text">整体通信过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#stage-1"><span class="nav-text">stage 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-2"><span class="nav-text">Stage 2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage3"><span class="nav-text">Stage3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-4"><span class="nav-text">Stage 4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端与服务器处理过程"><span class="nav-text">客户端与服务器处理过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键问题"><span class="nav-text">关键问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通信过程"><span class="nav-text">通信过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Client-Hello"><span class="nav-text">1.Client Hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Server-Hello"><span class="nav-text">2. Server Hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Certificate"><span class="nav-text">3.Certificate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）证书结构"><span class="nav-text">（1）证书结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）数字签名"><span class="nav-text">（2）数字签名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（3）证书签发与验证"><span class="nav-text">（3）证书签发与验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（4）证书链"><span class="nav-text">（4）证书链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Server-Key-Exchange"><span class="nav-text">4.Server Key Exchange</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Premaster-secert计算"><span class="nav-text">Premaster secert计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Server-Hello-Done"><span class="nav-text">5. Server Hello Done</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-Change-Cipher-Spec"><span class="nav-text">7. Change Cipher Spec</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Finished"><span class="nav-text">8.Finished</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-Change-Cipher-Spec"><span class="nav-text">9. Change Cipher Spec</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-Finished"><span class="nav-text">10. Finished</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
