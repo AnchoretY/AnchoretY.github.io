@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.1veke49jng9.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.srspzv4kju.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.6qwopz3oy1s.png">
-<meta property="og:updated_time" content="2021-02-22T10:25:16.970Z">
+<meta property="og:updated_time" content="2021-02-22T10:29:39.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络中的后门攻击">
 <meta name="twitter:description" content="概述：首页描述">
@@ -223,7 +223,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-02-22 14:38:19 / 修改时间：18:25:16" itemprop="dateCreated datePublished" datetime="2021-02-22T14:38:19+08:00">2021-02-22</time>
+              <time title="创建时间：2021-02-22 14:38:19 / 修改时间：18:29:39" itemprop="dateCreated datePublished" datetime="2021-02-22T14:38:19+08:00">2021-02-22</time>
             </span>
 
           
@@ -280,9 +280,11 @@
 <p><em>作者：Yingqi Liu, Shiqing Ma, Yousra Aafer</em></p>
 <p><em>年份：2018</em></p>
 <p><em>出处：NDSS 2018</em></p>
-<p> <strong>前提假设</strong>：具有完全的模型访问权限，但没有训练、测试数据的访问权限</p>
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2sim6fn4y66.png" alt="image"></p>
+<blockquote>
+<p> <strong>前提假设</strong>：具有完全的模型访问权限，但没有训练、测试数据的访问权限</p>
+</blockquote>
 <h3 id="1-木马触发器生成"><a href="#1-木马触发器生成" class="headerlink" title="1. 木马触发器生成"></a>1. 木马触发器生成</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>&emsp;&emsp;木马触发器是指是指能够使模型造成误判的特殊输入，这种特殊的输入通常是完整的输入的一小部分。木马触发器的作用：在正常的输入上附加触发器，可以使模型本来能够正确分类的样本误判成为指定的类别，从而使用木马触发器控制具有后门的模型。</p>
 <h4 id="生成过程"><a href="#生成过程" class="headerlink" title="生成过程"></a>生成过程</h4><p>&emsp;&emsp;<strong>攻击者选择一个trigger mask（用于注入触发器的子集）</strong>，图（A）中使用Apple图标即为trigger mask，在tirgger mask中的全部像素点都将被用于插入trigger。<strong>然后扫描要攻击的神经网络，选择容易通过操纵trigger mask中的内容来控制的节点作为目标节点</strong>，图（A）中fc5中被加粗的节点即为目标神经元。<strong>最后使用木马触发器生成算法调整trigger mask中的像素值生成一个trigger来使目标目标神经元的值最大化</strong>，图（A）中即生成了一个彩色的苹果触发器，能够使目标节点的值从0.1变为10。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.1veke49jng9.png" alt="image"></p>
