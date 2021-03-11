@@ -190,6 +190,151 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/09/概率图模型——朴素贝叶斯/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/09/概率图模型——朴素贝叶斯/" class="post-title-link" itemprop="url">概率图模型——朴素贝叶斯</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-09 20:25:55" itemprop="dateCreated datePublished" datetime="2018-10-09T20:25:55+08:00">2018-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/10/09/概率图模型——朴素贝叶斯/" class="post-meta-item leancloud_visitors" data-flag-title="概率图模型——朴素贝叶斯" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/10/09/概率图模型——朴素贝叶斯/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/09/概率图模型——朴素贝叶斯/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>971</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过</p>
+<h4 id="朴素贝叶斯思想"><a href="#朴素贝叶斯思想" class="headerlink" title="朴素贝叶斯思想"></a>朴素贝叶斯思想</h4><hr>
+<p>​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于<strong>贝叶斯定理</strong>和<strong>条件独立假设</strong>来进行建模预测的模型。</p>
+<p><strong>朴素贝叶斯概率图</strong>    </p>
+<p><strong>贝叶斯定理</strong></p>
+<figure class="highlight tp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p(AB)=<span class="keyword">P</span>(A/B)<span class="keyword">P</span>(B)</span><br><span class="line">    =<span class="keyword">P</span>(B/A)<span class="keyword">P</span>(A)</span><br><span class="line"></span><br><span class="line">在贝叶斯模型中用到的是下面的形式：</span><br><span class="line">    <span class="keyword">P</span>(Ci/<span class="keyword">W</span>) = <span class="keyword">P</span>(<span class="keyword">W</span>|Ci)*<span class="keyword">P</span>(Ci)/<span class="keyword">P</span>(<span class="keyword">W</span>)</span><br><span class="line">其中，<span class="keyword">W</span>为向量，有的多个值组成，Ci为标签，也就是上式可以写成下面的形式</span><br><span class="line">    <span class="keyword">P</span>(Ci/w<span class="number">0</span>,w<span class="number">1</span>,..,w) = <span class="keyword">P</span>(w<span class="number">0</span>,w<span class="number">1</span>,...,wn/Ci)*<span class="keyword">P</span>(Ci)/<span class="keyword">P</span>(<span class="keyword">W</span>)</span><br><span class="line">里面的<span class="keyword">P</span>(Ci/w<span class="number">0</span>,w<span class="number">1</span>,..,w)就是机器学习建模最终的目标，在一定条件下是某一类的概率</span><br></pre></td></tr></table></figure>
+<p><strong>条件独立假设</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	条件独立假设认为：每个事件的发生都相互独立，互相之间没有影响。由于这个假设，上面的式子可以改为：</span><br><span class="line">    </span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)/P(Ci) = P(w0/Ci)P(w1/Ci)...P(wn/Ci)*P(Ci)/p(W)</span><br><span class="line">    </span><br><span class="line">到这里，我们可以知道，要求的最终的结果，只需要在训练集中求得P(Ci)以及在P(w0/Ci)...P(wn/Ci)即可</span><br></pre></td></tr></table></figure>
+<p><strong>模型训练</strong></p>
+<p>因此在NB算法训练时，只需要在训练集样本中到下面三个概率分布：</p>
+<p>​    1.P(Ci)，在训练集中标签1出现的概率(二分类只需要统计一个，n分类就需要n-1个)</p>
+<p>​    2.P(wj/Ci),在训练集中属于各个标签的条件下第n个特征是i的概率</p>
+<blockquote>
+<p><strong>注意：</strong>这里不需要统计P(W)的概率，因为最终属于各个类型的概率都需要除以相同的P(W)，因此约掉</p>
+</blockquote>
+<p>训练代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNB</span><span class="params">(dataSetList,labels)</span>:</span></span><br><span class="line">	dataSetVec = np.array(dataSetList)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#计算Pc</span></span><br><span class="line">    sampleNums = len(dataSetVec)</span><br><span class="line">    pc = np.sum(datasetVec)/sampleNums</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算p(wj/Ci),这里是二分类</span></span><br><span class="line">    p0Nums = <span class="number">0</span></span><br><span class="line">    p1Nums = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#这里涉及到初始化问题</span></span><br><span class="line">    p0Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    p1Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(labels)):</span><br><span class="line">        <span class="keyword">if</span> labels[i]==<span class="number">0</span>:</span><br><span class="line">            p0Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p0Nums += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p1Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p1Nums += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = p0Vecs/p0Nums</span><br><span class="line">    p1Vecs = p1Vecs/p1Nums</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pc,p0Vecs,p1Vecs</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>初始化问题</strong>：</p>
+<p>​    再利用贝叶斯分类器进行分类时，要计算多个概率等乘积以计算文档属于某个分类的概率，即计算：</p>
+<p>​    P(w0|c=1)P(w1|c=1)….P(wn|c=1)</p>
+<p>​    如果其中任意一项为0，那么最终的成绩也将等于0。为了降低这种情况造成的影响，可以将所有词初始化为1.</p>
+</blockquote>
+<p><strong>预测过程</strong></p>
+<p>​    NB模型的预测过程就是使用上面统计<strong>得到的概率分布与输入数据进行关联后</strong>，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的<strong>下溢出问题</strong>。</p>
+<blockquote>
+<p>​    <strong>下溢出问题</strong>：在python中当多个很小的数相乘时会产生下溢出问题(最后四舍五入得到0)</p>
+<p>​    <strong>解决办法：取自然对数。</strong>因为自然对数和原来的数怎增减性相同，极值点也相同</p>
+<p>​    使用自然对数后，上面的式可以转换成：</p>
+<p>​    P(Ci/w0,w1,..,w) = P(w0/Ci)P(w1/Ci)…P(wn/Ci)/P(Ci) —&gt;P(Ci/w0,w1,..,w) =  log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci)</p>
+</blockquote>
+<p><strong>预测代码</strong>：</p>
+<p>​    预测过程中将已知的概率分布与输入数据进行关联的方式：</p>
+<p>​        log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) ——&gt;log(P(w0/Ci))<em>x0+…+log(P(wn/Ci))</em>xn+log(P(Ci)</p>
+<p>​    这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyNB</span><span class="params">(input_data,pc,p0Vecs,p1Vecs)</span>:</span></span><br><span class="line">    <span class="comment">#这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来</span></span><br><span class="line">    <span class="comment">#这里之所以没有除以pw，是因为对每个类型的pw是一致的，就没有必要所有都除了</span></span><br><span class="line">    p0 = sum(input_data*np.log(p0Vecs))+math.log(pc)</span><br><span class="line">    p1 = sum(input_data*np.log(p1Vecs))+math.log(<span class="number">1</span>-pc)</span><br><span class="line">  	<span class="keyword">if</span> p0&gt;p1:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>​        </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/03/github基本使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1091,123 +1236,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch向量转化操作/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/09/23/pytorch向量转化操作/" class="post-title-link" itemprop="url">pytorch向量转化操作</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/09/23/pytorch向量转化操作/" class="post-meta-item leancloud_visitors" data-flag-title="pytorch向量转化操作" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/09/23/pytorch向量转化操作/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/23/pytorch向量转化操作/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>171</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong>1.cat</strong></p>
-<p>​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.manual_seed(<span class="number">1</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">y = torch.randn(<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">s = torch.cat((x,y),<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">print(x,y)</span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3]</span><br><span class="line"></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">1</span>x3]</span><br><span class="line">    </span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">3</span>x3]</span><br></pre></td></tr></table></figure>
-<p>注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式</p>
-<p><strong>2.unsequeeze和sequeeze</strong></p>
-<p>​    torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
-<p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch运算操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1467,7 +1495,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/常见机器学习基本问题/">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/23/pytorch向量转化操作/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1481,7 +1509,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2018/09/23/常见机器学习基本问题/" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/2018/09/23/pytorch向量转化操作/" class="post-title-link" itemprop="url">pytorch向量转化操作</a>
         </h1>
 
         <div class="post-meta">
@@ -1491,7 +1519,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-09-23 16:04:13" itemprop="dateCreated datePublished" datetime="2018-09-23T16:04:13+08:00">2018-09-23</time>
+              <time title="创建时间：2018-09-23 17:49:58" itemprop="dateCreated datePublished" datetime="2018-09-23T17:49:58+08:00">2018-09-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -1506,12 +1534,12 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
                 </span>
             </span>
 
           
-            <span id="/2018/09/23/常见机器学习基本问题/" class="post-meta-item leancloud_visitors" data-flag-title="" title="阅读次数">
+            <span id="/2018/09/23/pytorch向量转化操作/" class="post-meta-item leancloud_visitors" data-flag-title="pytorch向量转化操作" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -1526,8 +1554,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2018/09/23/常见机器学习基本问题/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/23/常见机器学习基本问题/" itemprop="commentCount"></span>
+    <a title="valine" href="/2018/09/23/pytorch向量转化操作/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/23/pytorch向量转化操作/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1537,7 +1565,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>813</span>
+              <span>171</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1556,65 +1584,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="常见机器学习机基本问题"><a href="#常见机器学习机基本问题" class="headerlink" title="常见机器学习机基本问题"></a>常见机器学习机基本问题</h1><p><strong>1.参数模型和非参数模型的区别？</strong>  </p>
-<p><strong>参数模型</strong>：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数  </p>
-<blockquote>
-<p>典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络  </p>
-<p>参数模型的优点：</p>
-<ol>
-<li>简单：容易理解和解释结果</li>
-<li>快速：训练速度快</li>
-<li>数据需求量少</li>
-</ol>
-<p>参数模型的局限性：</p>
-<ol>
-<li>模型的目标函数形式假设大大限制了模型</li>
-<li>由于参数模型复杂度一般不高，因此更适合简单问题</li>
-</ol>
-</blockquote>
-<p><strong>非参数模型</strong>：不对目标函数的形式做出任何强烈的假设的算法，可以在训练集中自由的学习任何函数形式  </p>
-<blockquote>
-<p>典型的非参数模型:KNN、决策树、SVM  </p>
-<p>非参数学习模型的优点：</p>
-<ol>
-<li>灵活性强，可拟合各种不同形式的样本</li>
-<li>性能：模型效果一般较好</li>
-</ol>
-<p>非参数学习模型的局限性</p>
-<ol>
-<li>训练数据需求量大</li>
-<li>训练速度慢，因为一般非参数模型要训练更多的参数</li>
-<li>可解释性差</li>
-<li>更容易出过拟合</li>
-</ol>
-</blockquote>
-<p><strong>2.生成模型和判别模型</strong>  </p>
-<p>由生成方法生成的模型成为生成模型，由判别方法产生的模型成为生成模型。下面重点介绍两种方法。  </p>
-<p><strong>生成方法</strong>:由数据学联合概率分布P(X,Y)，然后求出条件概率P(Y|X)作为预测模型,即生成模型。（之所以称为生成方法是因为模型表示了给定输入X产生出Y的生成关系）</p>
-<blockquote>
-<p>典型的生成模型:朴素贝叶斯、隐马尔科夫链</p>
-<p>生成方法特点:</p>
-<ol>
-<li>可还原联合概率分布</li>
-<li>收敛速度更快</li>
-<li>生成方法可处理隐变量，但判别方法不能</li>
-</ol>
-</blockquote>
-<p><strong>判别方法</strong>：由数据直接学习决策函数f(x)或者条件概率分布f(Y|X)作为预测模型，即判别模型。</p>
-<blockquote>
-<p>典型的判别模型:KNN、感知机、决策树、LR</p>
-<p>判别模型的特点：</p>
-<ol>
-<li>直接学习决策函数或条件概率，直接面对预测，准确率更高</li>
-<li>由于直接学习决策函数或条件概率，可以对数据进行各种程度上的抽象、定义特征并使用特征，简化学习问题</li>
-</ol>
-</blockquote>
-<p><strong>3.常见损失函数以及应用？</strong></p>
-<p><strong>逻辑斯特损失函数：</strong></p>
-<p><strong>对数似然损失</strong></p>
-<p><strong>合页损失</strong></p>
-<p><strong>指数损失</strong></p>
-<p><strong>4.朴素贝叶斯“朴素”表现在哪里？</strong><br>“朴素”主要表现在它假设<strong>所有特征在数据集中的作用是同样且独立的</strong>，而在真实世界中这种假设是不成立的，因此称之为朴素贝叶斯。</p>
+          <p><strong>1.cat</strong></p>
+<p>​    对数据沿着某一维度进行拼接，cat后数据的总维数不变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">torch.manual_seed(<span class="number">1</span>)</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">y = torch.randn(<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">s = torch.cat((x,y),<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">print(x,y)</span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">2</span>x3]</span><br><span class="line"></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">1</span>x3]</span><br><span class="line">    </span><br><span class="line">     <span class="number">0.6614</span>  <span class="number">0.2669</span>  <span class="number">0.0617</span></span><br><span class="line">     <span class="number">0.6213</span> <span class="number">-0.4519</span> <span class="number">-0.1661</span></span><br><span class="line">    <span class="number">-1.5228</span>  <span class="number">0.3817</span> <span class="number">-1.0276</span></span><br><span class="line">    [torch.FloatTensor of size <span class="number">3</span>x3]</span><br></pre></td></tr></table></figure>
+<p>注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式</p>
+<p><strong>2.unsequeeze和sequeeze</strong></p>
+<p>​    torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.删除指定的维数为1的维度</span></span><br><span class="line">    <span class="comment">#方式一：</span></span><br><span class="line">    torch.sequeeze(a,<span class="number">2</span>) </span><br><span class="line">    <span class="comment">#方式二：</span></span><br><span class="line">    a.sequeeze(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#2.删除全部维度为1的维度</span></span><br><span class="line">	torch.sequeeze(a)</span><br></pre></td></tr></table></figure>
+<p>​    torch.unsequeeze主要用于维度拓展，增加维数为1的维度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.unsequeeze(a,<span class="number">2</span>)   <span class="comment">#在维度2增加维数为1的维度</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -1702,7 +1680,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">156</span>
+          <span class="site-state-item-count">157</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
