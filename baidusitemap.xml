@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://anchorety.github.io/2021/03/09/AI%E2%80%94Fuzzing%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2021-03-09</lastmod>
+    <loc>https://anchorety.github.io/2021/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94DQN/</loc>
+    <lastmod>2021-03-15</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2021/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2021-03-08</lastmod>
+    <loc>https://anchorety.github.io/2021/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0/</loc>
+    <lastmod>2021-03-15</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2021/03/09/AI%E2%80%94Fuzzing%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2021-03-15</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2021/03/14/%E5%A4%9A%E7%94%B5%E8%84%91hexo%E5%8D%9A%E5%AE%A2%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2021-03-15</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2021/03/02/%E5%9F%BA%E4%BA%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B%E5%99%A8%E7%BB%95%E8%BF%87%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2021-03-02</lastmod>
@@ -325,10 +331,10 @@
     <loc>https://anchorety.github.io/2019/09/04/%E9%98%BF%E9%87%8C2019%E5%B9%B4%E6%9C%80%E6%96%B0%E8%AE%BA%E6%96%87-%E5%AE%9A%E4%BD%8D%E7%84%B6%E5%90%8E%E6%A3%80%E6%B5%8B%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2018/09/23/tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</loc>
+    <loc>https://anchorety.github.io/2018/09/23/pytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2018/09/23/pytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C/</loc>
+    <loc>https://anchorety.github.io/2018/09/23/tmux%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/04/17/%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E5%A0%86%E7%9B%B8%E5%85%B3%E7%9A%84%E9%97%AE%E9%A2%98/</loc>

@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[AI—Fuzzing技术]]></title>
-    <url>%2F2021%2F03%2F09%2FAI%E2%80%94Fuzzing%E6%8A%80%E6%9C%AF%2F</url>
-    <content type="text"><![CDATA[概述：首页描述 传统Fuzzing技术Fuzzing流程1. 测试用例生成&emsp;&emsp;测试用例的生成可以被分为基于变异策略的方式与基于生成策略的方式。基于生成策略的测试用例生成方式直接根据已经程序要的输入格式生成样本，不需要原始样本来供变异。基于变异策略的方式使用已有的测试用例进行变异，生成新的测试用例。下面主要介绍基于变异策略的样本生成方式，其关键环节包括： 种子生成 突变算法 测试用例生成 测试用例过滤 &emsp;&emsp;种子是符合程序输入的原始样本，种子经过使用不同的突变算法和突变不同位置生成测试用例，对于生成的测试用例，并不是所有的测试用例都要进行验证，而是在生成的测试用例中使用测试用例过滤程序（根据覆盖率等）选择能够触发新的路径或漏洞的用例。 2. 程序执行&emsp;&emsp;将生成的测试用例输入到目标程序中进行执行 3. 运行状态监控&emsp;&emsp;运行状态监控阶段监控程序监控目标程序的运行状态，并将程序执行的结果反馈给测试用例生成阶段用于新的样本生成，当程序发生崩溃或产生错误时，监控程序都会对其进行记录，供以后分析复现。常用的见识所使用的的技术包括：污点检测、二进制代码检测。 4.分析阶段&emsp;&emsp;分析阶段对运行转台监控阶段产生的程序崩溃与错误进行分析，确定是否是一个bug。 局限性 种子如何变异 怎么提高代码覆盖率 如何避开验证 辅助技术 静态代码分析 动态代码分析 动态符号执行 动态符号执行通过符号值作为作为程序输入生成一些列的路径限制，然后判断路径是否是可达的， 动态污点分析 参考文档 12345graph LRA(sql注入) --&gt; B(普通注入)A --&gt; C(圆角长方形)C--&gt;D(布尔型盲注)C--&gt;E(延时盲注) 2.数学公式参考文档 &emsp;&emsp;单行数学公式: \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\&emsp;&emsp;行内数学公式$\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\ $ 标题二1.表格 [ ] 计划任务 [x] 完成任务 2. 列表 项目 Value 电脑 $1600 手机 $12 导管 $1 Column 1 Column 2 centered 文本居中 right-aligned 文本居左 3.note标记 Default primary success info warning danger 参考文献 xxx xxx]]></content>
+    <title><![CDATA[强化学习——DQN]]></title>
+    <url>%2F2021%2F03%2F15%2F%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94DQN%2F</url>
+    <content type="text"><![CDATA[概述：首页描述 &emsp;&emsp;DQN是一种融合了深度神经网络与Q learning的方法，这种方式的核心思想是：使用神经网络来当做Q表来存储大量的Q值。 神经网络更新DQN两个关键点experience replay&emsp;&emsp;DQN每次更新时，都会随机抽取之前的一些经历进行学习 作用：打乱了过往之间经验的相关性，也使得神经网络更新更有效率 Fixed Q-target&emsp;&emsp;Fixed Q-target也是一种打乱相关性的机理, 如果使用 fixed Q-targets, 我们就会在 DQN 中使用到两个结构相同但参数不同的神经网络,分别预测Q估计和Q现实，预测Q估计的神经网络具备最新的参数，而预测Q现实的神经网络则是一段时间以前的。 参考文献 xxx xxx]]></content>
   </entry>
   <entry>
-    <title><![CDATA[强化学习]]></title>
-    <url>%2F2021%2F03%2F08%2F%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%2F</url>
-    <content type="text"><![CDATA[概述：强化学习一些相关知识的介绍。 强化学习与监督学习的区别 监督学习的训练数据之间一般是独立的，每一条数据都会有反馈，强化学习则是每一步与时间顺序前后关系紧密，多步执行之后才会有反馈。 目标不同：强化学习是的目标是看重行为序列的长期受益，监督学习则是关注输入数据的输出与标签间的误差。 强化学习的奖惩概念是没有正确和错误之分的，而监督学习的输出的标签是存在正确与错误的区别的。 强化学习是一个学习+决策的过程，具有和环境的持续交互能力（交互的结果以奖惩的方式返回），而监督学习则不具备这种与环境进行交互的能力。 参考文献 xxx xxx]]></content>
+    <title><![CDATA[多电脑hexo博客管理]]></title>
+    <url>%2F2021%2F03%2F14%2F%E5%A4%9A%E7%94%B5%E8%84%91hexo%E5%8D%9A%E5%AE%A2%E7%AE%A1%E7%90%86%2F</url>
+    <content type="text"><![CDATA[概述：最近新添了一台台式机，准备与mbp同时管理博客，这里记录一下设置过程。 部署过程源主机1. 创建新分支&emsp;&emsp;在正常写博客并进行部署时，只会将博客相关的静态文件同步到github的master分支，master分支上的静态文件如下图所示，以供网站展示使用，而不会将生成这些文件的源文件传输到github上。而我们要在两台电脑上共同进行博客管理，就需要创建而外分支，将源文件传输到新的分支进行同步管理。 &emsp;&emsp;在github上创建新的hexo分支 &emsp;&emsp;将仓库的hexo分支设置为默认分支 2.源文件上传到hexo分支&emsp;&emsp;首先将新建的hexo分支克隆克隆到本地,然后进入该目录 12git clone 地址cd username.github.io &emsp;&emsp;确认当前分支为hexo 123git branchoutput: *hexo &emsp;&emsp;上传源文件，将本地博客部署的源文件全部拷贝进username.github.io文件目录中（源文件文件夹为质保函下图中结构的文件夹，我的博客中为blog文件夹） 12cp /blog/blog username.github.io/git push origin hexo 新主机&emsp;&emsp;将旧电脑中username.github.io全部文件复制进新主机，然后执行下面操作： 1. 安装npm和node2. 安装hexo3. 安装git3. 在新机器生成ssh key添加到github中&emsp;&emsp;在新的机器生成ssh秘钥 1ssh-keygen -t rsa -C “your email” &emsp;&emsp;连按三个回车，最终得到了生成的ssh公钥和私钥 12id_rsa 私钥id_rsa.pub 公钥 &emsp;&emsp;在github账户设置中导入ssh key 多设备共同编写博客&emsp;&emsp;单设备编写博客时，博客编写完成只需要使用hexo d -g即可完成部署，而使用多设备进行共同编辑博客除了需要对博客网站需要的静态文件进行部署以外，还需要将博客相关的源文件同步到hexo分支。 1234567891011# 从远程hexo分支部署拉取最新的源文件git pull origin hexo# 书写博客...# 部署博客（静态文件）hexo d -g# 将源文件同步到hexo分支git push origin hexo 遇到的问题1. hexo安装完成后，使用hexo d -g部署博客出现The &quot;mode&quot; argument must be integer. Received an instance of Object&emsp;&emsp;这个问题主要是由于之前的电脑使用的npm版本与现在的电脑安装的版本不同，而这语法不一致导致的问题，这里使用n进行node版本管理解决该问题。 &emsp;&emsp;安装n： 1npm install -g n &emsp;&emsp;然后下载与原电脑版本相同的node版本（我这里是12.14.0，下载后会进行自动切换） 1n 12.14.0 &emsp;&emsp;使用单独的n查看已有node版本和当前选择的node版本。]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+  </entry>
+  <entry>
+    <title><![CDATA[AI—Fuzzing技术]]></title>
+    <url>%2F2021%2F03%2F09%2FAI%E2%80%94Fuzzing%E6%8A%80%E6%9C%AF%2F</url>
+    <content type="text"><![CDATA[概述：首页描述 传统Fuzzing技术Fuzzing流程1. 测试用例生成&emsp;&emsp;测试用例的生成可以被分为基于变异策略的方式与基于生成策略的方式。基于生成策略的测试用例生成方式直接根据已经程序要的输入格式生成样本，不需要原始样本来供变异。基于变异策略的方式使用已有的测试用例进行变异，生成新的测试用例。下面主要介绍基于变异策略的样本生成方式，其关键环节包括： 种子生成 突变算法 测试用例生成 测试用例过滤 &emsp;&emsp;种子是符合程序输入的原始样本，种子经过使用不同的突变算法和突变不同位置生成测试用例，对于生成的测试用例，并不是所有的测试用例都要进行验证，而是在生成的测试用例中使用测试用例过滤程序（根据覆盖率等）选择能够触发新的路径或漏洞的用例。 2. 程序执行&emsp;&emsp;将生成的测试用例输入到目标程序中进行执行 3. 运行状态监控&emsp;&emsp;运行状态监控阶段监控程序监控目标程序的运行状态，并将程序执行的结果反馈给测试用例生成阶段用于新的样本生成，当程序发生崩溃或产生错误时，监控程序都会对其进行记录，供以后分析复现。常用的见识所使用的的技术包括：污点检测、二进制代码检测。 4.分析阶段&emsp;&emsp;分析阶段对运行转台监控阶段产生的程序崩溃与错误进行分析，确定是否是一个bug。 局限性 种子如何变异 怎么提高代码覆盖率 如何避开验证 辅助技术 静态代码分析 动态代码分析 动态符号执行 动态符号执行通过符号值作为作为程序输入生成一些列的路径限制，然后判断路径是否是可达的， 动态污点分析 参考文献 xxx xxx]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[强化学习——概述]]></title>
+    <url>%2F2021%2F03%2F08%2F%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0%2F</url>
+    <content type="text"><![CDATA[概述：强化学习一些相关知识的介绍。 强化学习与监督学习的区别 监督学习的训练数据之间一般是独立的，每一条数据都会有反馈，强化学习则是每一步与时间顺序前后关系紧密，多步执行之后才会有反馈。 目标不同：强化学习是的目标是看重行为序列的长期受益，监督学习则是关注输入数据的输出与标签间的误差。 强化学习的奖惩概念是没有正确和错误之分的，而监督学习的输出的标签是存在正确与错误的区别的。 强化学习是一个学习+决策的过程，具有和环境的持续交互能力（交互的结果以奖惩的方式返回），而监督学习则不具备这种与环境进行交互的能力。 强化学习要素 行为：研究对象要有有限中行为可以进行选 状态：随着对象采取不同的行为，对象的状态表示发生变化 奖惩函数：设计好函数，当研究对象在某种情况给与奖励，某些情况下给与惩罚 经典算法 QLearning Saras DQN（Deep Q Learning） 参考文献 xxx xxx]]></content>
   </entry>
   <entry>
     <title><![CDATA[基于字符串的恶意软件检测器绕过方法]]></title>
@@ -1192,6 +1205,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[pytorch向量转化操作]]></title>
+    <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
+      <categories>
+        <category>pytorch</category>
+      </categories>
+      <tags>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[pytorch运算操作]]></title>
     <url>%2F2018%2F09%2F23%2Fpytorch%E8%BF%90%E7%AE%97%E6%93%8D%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[1.transponse ​ torch.transponse操作是转置操作，是一种在矩阵乘法中最常用的几种操作之一。 12#交换两个维度torch.transponse(dim1,dim2) 2.matmul和bmm ​ matmul和bmm都是实现batch的矩阵乘法操作。 123456789a = torch.rand((2,3,10))b = torch.rand((2,2,10))res1 = torch.matmul(a,b.transpose(1,2))#res1 = torch.matmul(a,b.transose(1,2))print res1.size()output: [torch.FloatTensor of size 2x3x2]]]></content>
@@ -1211,17 +1235,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[pytorch向量转化操作]]></title>
-    <url>%2F2018%2F09%2F23%2Fpytorch%E5%90%91%E9%87%8F%E8%BD%AC%E5%8C%96%E6%93%8D%E4%BD%9C%2F</url>
-    <content type="text"><![CDATA[1.cat ​ 对数据沿着某一维度进行拼接，cat后数据的总维数不变。 12345678910111213141516171819202122import torchtorch.manual_seed(1)x = torch.randn(2,3)y = torch.randn(1,3)s = torch.cat((x,y),0)print(x,y)print(s)output: 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 [torch.FloatTensor of size 2x3] -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 1x3] 0.6614 0.2669 0.0617 0.6213 -0.4519 -0.1661 -1.5228 0.3817 -1.0276 [torch.FloatTensor of size 3x3] 注：torch.cat和torch.concat作用用法完全相同，只是concat的简写形式 2.unsequeeze和sequeeze ​ torch.sequeeze主要用于维度压缩，去除掉维数为1的维度。 12345678#1.删除指定的维数为1的维度 #方式一： torch.sequeeze(a,2) #方式二： a.sequeeze(2)#2.删除全部维度为1的维度 torch.sequeeze(a) ​ torch.unsequeeze主要用于维度拓展，增加维数为1的维度。 1torch.unsequeeze(a,2) #在维度2增加维数为1的维度]]></content>
-      <categories>
-        <category>pytorch</category>
-      </categories>
-      <tags>
-        <tag>pytorch</tag>
       </tags>
   </entry>
   <entry>

