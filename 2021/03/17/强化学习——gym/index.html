@@ -20,15 +20,19 @@
     var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="AnchoretY&#39;s blog">
-<meta property="og:url" content="https://anchorety.github.io/archives/2019/06/index.html">
+  <meta name="description" content="概述：gym是一种常用的强化学习算法开发和比较库，gym中不仅提供了许多种已经设计好的环境，还提供gym环境的基类，允许用户通过这些基类区进一步构造自己的强化学习环境类，本文将重点对如何使用gym类生成自定义的gym环境类进行讲解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习——gym">
+<meta property="og:url" content="https://anchorety.github.io/2021/03/17/强化学习——gym/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="概述：gym是一种常用的强化学习算法开发和比较库，gym中不仅提供了许多种已经设计好的环境，还提供gym环境的基类，允许用户通过这些基类区进一步构造自己的强化学习环境类，本文将重点对如何使用gym类生成自定义的gym环境类进行讲解。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-03-17T10:31:34.130Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AnchoretY&#39;s blog">
+<meta name="twitter:title" content="强化学习——gym">
+<meta name="twitter:description" content="概述：gym是一种常用的强化学习算法开发和比较库，gym中不仅提供了许多种已经设计好的环境，还提供gym环境的基类，允许用户通过这些基类区进一步构造自己的强化学习环境类，本文将重点对如何使用gym类生成自定义的gym环境类进行讲解。">
 
-<link rel="canonical" href="https://anchorety.github.io/archives/2019/06/">
+<link rel="canonical" href="https://anchorety.github.io/2021/03/17/强化学习——gym/">
 
 
 <script id="page-configurations">
@@ -36,11 +40,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false
+    isPost : true
   };
 </script>
 
-  <title>归档 | AnchoretY's blog</title>
+  <title>强化学习——gym | AnchoretY's blog</title>
   
 
 
@@ -185,154 +189,156 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2021/03/17/强化学习——gym/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          强化学习——gym
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-03-17 17:56:54 / 修改时间：18:31:34" itemprop="dateCreated datePublished" datetime="2021-03-17T17:56:54+08:00">2021-03-17</time>
+            </span>
+
+          
+            <span id="/2021/03/17/强化学习——gym/" class="post-meta-item leancloud_visitors" data-flag-title="强化学习——gym" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">非常好! 目前共计 160 篇日志。 继续努力。</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/17/强化学习——gym/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/17/强化学习——gym/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>496</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-25T15:35:46+08:00"
-              content="2019-06-25">
-          06-25
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/25/深度学习——transformer-XL/" itemprop="url">
-            <span itemprop="name">深度学习——transformer XL</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-25T13:55:31+08:00"
-              content="2019-06-25">
-          06-25
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/25/深度学习——XLNet/" itemprop="url">
-            <span itemprop="name">深度学习——XLNet</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-23T17:56:22+08:00"
-              content="2019-06-23">
-          06-23
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/23/机试——数组中的逆序对/" itemprop="url">
-            <span itemprop="name">机试——数组中的逆序对</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-23T12:25:20+08:00"
-              content="2019-06-23">
-          06-23
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/23/机试——从1到n正数中1出现的个数/" itemprop="url">
-            <span itemprop="name">机试——从1到n正数中1出现的个数</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-23T11:06:54+08:00"
-              content="2019-06-23">
-          06-23
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/23/机试——二叉搜索树转双向链表/" itemprop="url">
-            <span itemprop="name">机试——二叉搜索树转双向链表</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-06-05T20:40:36+08:00"
-              content="2019-06-05">
-          06-05
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/06/05/58同城AILab面经/" itemprop="url">
-            <span itemprop="name">58同城AILab面经</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
+        <p>概述：gym是一种常用的强化学习算法开发和比较库，gym中不仅提供了许多种已经设计好的环境，还提供gym环境的基类，允许用户通过这些基类区进一步构造自己的强化学习环境类，本文将重点对如何使用gym类生成自定义的gym环境类进行讲解。</p>
+<p><img src alt></p>
+<a id="more"></a>
+<h3 id="gym基类"><a href="#gym基类" class="headerlink" title="gym基类"></a>gym基类</h3><p>&emsp;&emsp;设计用户自定义的gym化的库，主要需要对下面的库进行重写：</p>
+<ul>
+<li>step : </li>
+<li>reset</li>
+<li>render</li>
+<li>close</li>
+<li>Seed</li>
+</ul>
+<p><strong>必须实现的方法有：</strong></p>
+<p>__init__( ): 用于初始化动作空间与状态空间，便于强化学习算法在给定的状态空间中搜索合适的动作。</p>
+<p>step() :  用于编写智能体与环境交互的逻辑，该函数输入为action，输出则为执行完action所处的状态、当前动作的回报、是否结束当前episode、调试信息四种，强化学习中关键的环境状态的更新、奖惩判断都在这个函数中进行。</p>
+<p>reset() : 用于在每轮开始之前重置智能体状态。</p>
+<p><strong>不是必须实现的但有助于调试算法的内容：</strong></p>
+<p>metadata、render()、close()是与图像显示有关的，我们不涉及这一部分，感兴趣的同学可以自行编写相关内容。</p>
+<h3 id="实现实例"><a href="#实现实例" class="headerlink" title="实现实例"></a>实现实例</h3><p>&emsp;&emsp;这里以</p>
+<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
+<li>xxx</li>
+<li>xxx</li>
+</ul>
 
     </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2021/03/17/强化学习——gym/" title="强化学习——gym">https://anchorety.github.io/2021/03/17/强化学习——gym/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/15/强化学习——DQN/" rel="prev" title="强化学习——DQN">
+      <i class="fa fa-chevron-left"></i> 强化学习——DQN
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -379,6 +385,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#gym基类"><span class="nav-text">gym基类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现实例"><span class="nav-text">实现实例</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -511,6 +518,59 @@ if (document.querySelectorAll('pre.mermaid').length) {
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://anchorety.github.io/2021/03/17/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94gym/</loc>
+    <lastmod>2021-03-17</lastmod>
+  </url>  <url>
     <loc>https://anchorety.github.io/2021/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94DQN/</loc>
     <lastmod>2021-03-15</lastmod>
   </url>  <url>
@@ -67,10 +70,10 @@
     <loc>https://anchorety.github.io/2019/03/12/%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E5%90%AB%E7%8E%AF%E9%93%BE%E8%A1%A8%E7%9B%B8%E5%85%B3/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2019/06/23/%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E8%BD%AC%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/</loc>
+    <loc>https://anchorety.github.io/2019/06/23/%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E4%BB%8E1%E5%88%B0n%E6%AD%A3%E6%95%B0%E4%B8%AD1%E5%87%BA%E7%8E%B0%E7%9A%84%E4%B8%AA%E6%95%B0/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2019/06/23/%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E4%BB%8E1%E5%88%B0n%E6%AD%A3%E6%95%B0%E4%B8%AD1%E5%87%BA%E7%8E%B0%E7%9A%84%E4%B8%AA%E6%95%B0/</loc>
+    <loc>https://anchorety.github.io/2019/06/23/%E6%9C%BA%E8%AF%95%E2%80%94%E2%80%94%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E8%BD%AC%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/10/27/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E2%80%94%E2%80%94ROI%E6%B1%A0%E5%8C%96%E5%B1%82/</loc>
@@ -91,10 +94,10 @@
     <loc>https://anchorety.github.io/2019/01/07/pythonic%E7%A8%8B%E5%BA%8F%E8%A7%84%E8%8C%83%E5%8C%96/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2018/10/19/SVM%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>https://anchorety.github.io/2021/01/12/TLS-Handshake%E5%8D%8F%E8%AE%AE/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2021/01/12/TLS-Handshake%E5%8D%8F%E8%AE%AE/</loc>
+    <loc>https://anchorety.github.io/2018/10/19/SVM%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/03/28/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-BN/</loc>
@@ -211,10 +214,10 @@
     <loc>https://anchorety.github.io/2019/04/12/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E8%AF%8D%E5%90%91%E9%87%8F%E8%A1%A8%E7%A4%BA%E4%B9%8Bword2vec/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2018/10/21/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>https://anchorety.github.io/2018/10/30/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BC%98%E5%8C%96%E5%99%A8optimzer/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2018/10/30/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E4%BC%98%E5%8C%96%E5%99%A8optimzer/</loc>
+    <loc>https://anchorety.github.io/2018/10/21/%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2021-02-19</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2019/07/25/%E7%9F%A9%E5%BD%A2%E6%90%9C%E7%B4%A2%E3%80%81%E9%81%8D%E5%8E%86%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95/</loc>
