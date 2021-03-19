@@ -66,6 +66,20 @@ categories:
 
 
 
+#### 1. 种子文件迭代
+
+
+
+**《Skyfire: Data-Driven Seed Generation for Fuzzing》, 2017, S&P**
+
+&emsp;&emsp;使用数据驱动的种子生成方法，使用PCFG(Probabilistic context-sensitive grammar，其中包含了语义和语法信息)在大量的数据中提取语义信息和语法规则，用于生成种子，这种方法生成的种子文件可以确保可以通过语义解析和语法检查的前提下，执行到目标程序更深层次的路径，从而挖掘更深层次的漏洞。
+
+**《Faster Fuzzing: Reinitialization with Deep Neural Models》, 2017**
+
+
+
+
+
 ##### 参考文献
 
 - xxx
