@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述：首页描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习——天授">
+<meta property="og:url" content="https://anchorety.github.io/2021/03/18/强化学习——天授/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="概述：首页描述">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.p999qm4p7xn.png">
+<meta property="og:image" content="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png">
+<meta property="og:image" content="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png">
+<meta property="og:image" content="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png">
+<meta property="og:image" content="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png">
+<meta property="og:image" content="https://tianshou.readthedocs.io/zh/latest/_images/math/15e200352238591033cc5f6ff4e508d9e54eed42.png">
+<meta property="og:image" content="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png">
+<meta property="og:image" content="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png">
+<meta property="og:updated_time" content="2021-03-19T03:29:41.663Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="强化学习——天授">
+<meta name="twitter:description" content="概述：首页描述">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.p999qm4p7xn.png">
+
+<link rel="canonical" href="https://anchorety.github.io/2021/03/18/强化学习——天授/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>强化学习——天授 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2021/03/18/强化学习——天授/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          强化学习——天授
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-18 14:54:51" itemprop="dateCreated datePublished" datetime="2021-03-18T14:54:51+08:00">2021-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-19 11:29:41" itemprop="dateModified" datetime="2021-03-19T11:29:41+08:00">2021-03-19</time>
+              </span>
+
+          
+            <span id="/2021/03/18/强化学习——天授/" class="post-meta-item leancloud_visitors" data-flag-title="强化学习——天授" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/18/强化学习——天授/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/18/强化学习——天授/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>978</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>概述：首页描述</p>
+<p><img src alt></p>
+<a id="more"></a>
+<h3 id="框架结构"><a href="#框架结构" class="headerlink" title="框架结构"></a>框架结构</h3><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.p999qm4p7xn.png" alt="image" style="zoom:50%;"></p>
+<h4 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h4><p>&emsp;&emsp;在tianshou中的Buffer本质上就是传统方法中即Memory，用于存储最近学习过程中一定数量的信息，其中的信息包括：</p>
+<blockquote>
+<ul>
+<li><code>obs</code> <img src="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"> 时刻的观测值；</li>
+<li><code>act</code> <img src="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"> 时刻采取的动作值；</li>
+<li><code>rew</code> <img src="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"> 时刻环境返回的奖励函数值；</li>
+<li><code>done</code> <img src="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"> 时刻是否结束这个episode；</li>
+<li><code>obs_next</code> <img src="https://tianshou.readthedocs.io/zh/latest/_images/math/15e200352238591033cc5f6ff4e508d9e54eed42.png" alt="t+1"> 时刻的观测值；</li>
+<li><code>info</code> <img src="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"> 时刻环境给出的额外信息（gym.Env会返回4个东西，最后一个就是它）；</li>
+<li><code>policy</code> <img src="https://tianshou.readthedocs.io/zh/latest/_images/math/907a4add6d5db5b7f197f7924f1371b8ac404fe6.png" alt="t"> 时刻由policy计算出的需要额外存储的数据；</li>
+</ul>
+</blockquote>
+<h4 id="Collector"><a href="#Collector" class="headerlink" title="Collector"></a>Collector</h4><blockquote>
+<ul>
+<li><code>max_epoch</code>：最大允许的训练轮数，有可能没训练完这么多轮就会停止（因为满足了 <code>stop_fn</code> 的条件）</li>
+<li><code>step_per_epoch</code>：每个epoch要更新多少次策略网络</li>
+<li><code>collect_per_step</code>：每次更新前要收集多少帧与环境的交互数据。上面的代码参数意思是，每收集10帧进行一次网络更新</li>
+<li><code>episode_per_test</code>：每次测试的时候花几个rollout进行测试</li>
+<li><code>batch_size</code>：每次策略计算的时候批量处理多少数据</li>
+<li><code>train_fn</code>：在每个epoch训练之前被调用的函数，输入的是当前第几轮epoch和当前用于训练的env一共step了多少次。上面的代码意味着，在每次训练前将epsilon设置成0.1</li>
+<li><code>test_fn</code>：在每个epoch测试之前被调用的函数，输入的是当前第几轮epoch和当前用于训练的env一共step了多少次。上面的代码意味着，在每次测试前将epsilon设置成0.05</li>
+<li><p><code>stop_fn</code>：停止条件，输入是当前平均总奖励回报（the average undiscounted returns），返回是否要停止训练</p>
+</li>
+<li><p><code>writer</code>：天授支持 <a href="https://www.tensorflow.org/tensorboard" target="_blank" rel="noopener">TensorBoard</a>，可以像下面这样初始化：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">   from torch.utils.tensorboard import SummaryWriter</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">   writer = SummaryWriter(<span class="string">'log/dqn'</span>)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;返回结果为<code>字典</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">'train_step'</span>: <span class="number">9246</span>,</span><br><span class="line">    <span class="string">'train_episode'</span>: <span class="number">504.0</span>,</span><br><span class="line">    <span class="string">'train_time/collector'</span>: <span class="string">'0.65s'</span>,</span><br><span class="line">    <span class="string">'train_time/model'</span>: <span class="string">'1.97s'</span>,</span><br><span class="line">    <span class="string">'train_speed'</span>: <span class="string">'3518.79 step/s'</span>,</span><br><span class="line">    <span class="string">'test_step'</span>: <span class="number">49112</span>,</span><br><span class="line">    <span class="string">'test_episode'</span>: <span class="number">400.0</span>,</span><br><span class="line">    <span class="string">'test_time'</span>: <span class="string">'1.38s'</span>,</span><br><span class="line">    <span class="string">'test_speed'</span>: <span class="string">'35600.52 step/s'</span>,</span><br><span class="line">    <span class="string">'best_reward'</span>: <span class="number">199.03</span>,</span><br><span class="line">    <span class="string">'duration'</span>: <span class="string">'4.01s'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Trainer"><a href="#Trainer" class="headerlink" title="Trainer"></a>Trainer</h4><p> <strong>标准训练器使用</strong></p>
+<p> <strong>自定义训练训练器</strong></p>
+<p>&emsp;&emsp;在tianshou中Trainer只使用了很少的封装，用户可以很容易的进行自定义自己的训练策略，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在正式训练前先收集5000帧数据</span></span><br><span class="line">policy.set_eps(<span class="number">1</span>)</span><br><span class="line">train_collector.collect(n_step=<span class="number">5000</span>)</span><br><span class="line"></span><br><span class="line">policy.set_eps(<span class="number">0.1</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(int(<span class="number">1e6</span>)):  <span class="comment"># 训练总数</span></span><br><span class="line">    collect_result = train_collector.collect(n_step=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 如果收集的episode平均总奖励回报超过了阈值，或者每隔1000步，</span></span><br><span class="line">    <span class="comment"># 就会对policy进行测试</span></span><br><span class="line">    <span class="keyword">if</span> collect_result[<span class="string">'rew'</span>] &gt;= env.spec.reward_threshold <span class="keyword">or</span> i % <span class="number">1000</span> == <span class="number">0</span>:</span><br><span class="line">        policy.set_eps(<span class="number">0.05</span>)</span><br><span class="line">        result = test_collector.collect(n_episode=<span class="number">100</span>)</span><br><span class="line">        <span class="keyword">if</span> result[<span class="string">'rew'</span>] &gt;= env.spec.reward_threshold:</span><br><span class="line">            print(<span class="string">f'Finished training! Test mean returns: <span class="subst">&#123;result[<span class="string">"rew"</span>]&#125;</span>'</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 重新设置eps为0.1，表示训练策略</span></span><br><span class="line">            policy.set_eps(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用采样出的数据组进行策略训练</span></span><br><span class="line">    losses = policy.learn(train_collector.sample(batch_size=<span class="number">64</span>))</span><br></pre></td></tr></table></figure>
+<p>DQNPolicy(</p>
+<p>model :DQN组成的基础模型</p>
+<p>optim：模型优化算法</p>
+<p>discount_factor=0.9,  奖励衰减率</p>
+<p>estimation_step=3 :更新的窗口</p>
+<p>target_update_freq：记忆体更新频率，也就是记忆体的大小</p>
+<p>)</p>
+<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
+<li>xxx</li>
+<li>xxx</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2021/03/18/强化学习——天授/" title="强化学习——天授">https://anchorety.github.io/2021/03/18/强化学习——天授/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/17/强化学习——gym/" rel="prev" title="强化学习——gym">
+      <i class="fa fa-chevron-left"></i> 强化学习——gym
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#框架结构"><span class="nav-text">框架结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Buffer"><span class="nav-text">Buffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Collector"><span class="nav-text">Collector</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Trainer"><span class="nav-text">Trainer</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">161</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

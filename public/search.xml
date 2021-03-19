@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[强化学习——天授]]></title>
+    <url>%2F2021%2F03%2F18%2F%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%A4%A9%E6%8E%88%2F</url>
+    <content type="text"><![CDATA[概述：首页描述 框架结构 Buffer&emsp;&emsp;在tianshou中的Buffer本质上就是传统方法中即Memory，用于存储最近学习过程中一定数量的信息，其中的信息包括： obs 时刻的观测值； act 时刻采取的动作值； rew 时刻环境返回的奖励函数值； done 时刻是否结束这个episode； obs_next 时刻的观测值； info 时刻环境给出的额外信息（gym.Env会返回4个东西，最后一个就是它）； policy 时刻由policy计算出的需要额外存储的数据； Collector max_epoch：最大允许的训练轮数，有可能没训练完这么多轮就会停止（因为满足了 stop_fn 的条件） step_per_epoch：每个epoch要更新多少次策略网络 collect_per_step：每次更新前要收集多少帧与环境的交互数据。上面的代码参数意思是，每收集10帧进行一次网络更新 episode_per_test：每次测试的时候花几个rollout进行测试 batch_size：每次策略计算的时候批量处理多少数据 train_fn：在每个epoch训练之前被调用的函数，输入的是当前第几轮epoch和当前用于训练的env一共step了多少次。上面的代码意味着，在每次训练前将epsilon设置成0.1 test_fn：在每个epoch测试之前被调用的函数，输入的是当前第几轮epoch和当前用于训练的env一共step了多少次。上面的代码意味着，在每次测试前将epsilon设置成0.05 stop_fn：停止条件，输入是当前平均总奖励回报（the average undiscounted returns），返回是否要停止训练 writer：天授支持 TensorBoard，可以像下面这样初始化： 123&gt; from torch.utils.tensorboard import SummaryWriter&gt; writer = SummaryWriter('log/dqn')&gt; &emsp;&emsp;返回结果为字典： 12345678910111213&#123; 'train_step': 9246, 'train_episode': 504.0, 'train_time/collector': '0.65s', 'train_time/model': '1.97s', 'train_speed': '3518.79 step/s', 'test_step': 49112, 'test_episode': 400.0, 'test_time': '1.38s', 'test_speed': '35600.52 step/s', 'best_reward': 199.03, 'duration': '4.01s'&#125; Trainer 标准训练器使用 自定义训练训练器 &emsp;&emsp;在tianshou中Trainer只使用了很少的封装，用户可以很容易的进行自定义自己的训练策略，例如： 12345678910111213141516171819202122# 在正式训练前先收集5000帧数据policy.set_eps(1)train_collector.collect(n_step=5000)policy.set_eps(0.1)for i in range(int(1e6)): # 训练总数 collect_result = train_collector.collect(n_step=10) # 如果收集的episode平均总奖励回报超过了阈值，或者每隔1000步， # 就会对policy进行测试 if collect_result['rew'] &gt;= env.spec.reward_threshold or i % 1000 == 0: policy.set_eps(0.05) result = test_collector.collect(n_episode=100) if result['rew'] &gt;= env.spec.reward_threshold: print(f'Finished training! Test mean returns: &#123;result["rew"]&#125;') break else: # 重新设置eps为0.1，表示训练策略 policy.set_eps(0.1) # 使用采样出的数据组进行策略训练 losses = policy.learn(train_collector.sample(batch_size=64)) DQNPolicy( model :DQN组成的基础模型 optim：模型优化算法 discount_factor=0.9, 奖励衰减率 estimation_step=3 :更新的窗口 target_update_freq：记忆体更新频率，也就是记忆体的大小 ) 参考文献 xxx xxx]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[强化学习——gym]]></title>
     <url>%2F2021%2F03%2F17%2F%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94gym%2F</url>
     <content type="text"><![CDATA[概述：gym是一种常用的强化学习算法开发和比较库，gym中不仅提供了许多种已经设计好的环境，还提供gym环境的基类，允许用户通过这些基类区进一步构造自己的强化学习环境类，本文将重点对如何使用gym类生成自定义的gym环境类进行讲解。 gym基类&emsp;&emsp;设计用户自定义的gym化的库，主要需要对下面的库进行重写： step : reset render close Seed 必须实现的方法有： __init__( ): 用于初始化动作空间与状态空间，便于强化学习算法在给定的状态空间中搜索合适的动作。 step() : 用于编写智能体与环境交互的逻辑，该函数输入为action，输出则为执行完action所处的状态、当前动作的回报、是否结束当前episode、调试信息四种，强化学习中关键的环境状态的更新、奖惩判断都在这个函数中进行。 reset() : 用于在每轮开始之前重置智能体状态。 不是必须实现的但有助于调试算法的内容： metadata、render()、close()是与图像显示有关的，我们不涉及这一部分，感兴趣的同学可以自行编写相关内容。 实现实例&emsp;&emsp;这里以 参考文献 xxx xxx]]></content>
@@ -21,7 +26,7 @@
   <entry>
     <title><![CDATA[AI—Fuzzing技术]]></title>
     <url>%2F2021%2F03%2F09%2FAI%E2%80%94Fuzzing%E6%8A%80%E6%9C%AF%2F</url>
-    <content type="text"><![CDATA[概述：首页描述 传统Fuzzing技术Fuzzing流程1. 测试用例生成&emsp;&emsp;测试用例的生成可以被分为基于变异策略的方式与基于生成策略的方式。基于生成策略的测试用例生成方式直接根据已经程序要的输入格式生成样本，不需要原始样本来供变异。基于变异策略的方式使用已有的测试用例进行变异，生成新的测试用例。下面主要介绍基于变异策略的样本生成方式，其关键环节包括： 种子生成 突变算法 测试用例生成 测试用例过滤 &emsp;&emsp;种子是符合程序输入的原始样本，种子经过使用不同的突变算法和突变不同位置生成测试用例，对于生成的测试用例，并不是所有的测试用例都要进行验证，而是在生成的测试用例中使用测试用例过滤程序（根据覆盖率等）选择能够触发新的路径或漏洞的用例。 2. 程序执行&emsp;&emsp;将生成的测试用例输入到目标程序中进行执行 3. 运行状态监控&emsp;&emsp;运行状态监控阶段监控程序监控目标程序的运行状态，并将程序执行的结果反馈给测试用例生成阶段用于新的样本生成，当程序发生崩溃或产生错误时，监控程序都会对其进行记录，供以后分析复现。常用的见识所使用的的技术包括：污点检测、二进制代码检测。 4.分析阶段&emsp;&emsp;分析阶段对运行转台监控阶段产生的程序崩溃与错误进行分析，确定是否是一个bug。 局限性 种子如何变异 怎么提高代码覆盖率 如何避开验证 辅助技术 静态代码分析 动态代码分析 动态符号执行 动态符号执行通过符号值作为作为程序输入生成一些列的路径限制，然后判断路径是否是可达的， 动态污点分析 参考文献 xxx xxx]]></content>
+    <content type="text"><![CDATA[概述：首页描述 传统Fuzzing技术Fuzzing流程1. 测试用例生成&emsp;&emsp;测试用例的生成可以被分为基于变异策略的方式与基于生成策略的方式。基于生成策略的测试用例生成方式直接根据已经程序要的输入格式生成样本，不需要原始样本来供变异。基于变异策略的方式使用已有的测试用例进行变异，生成新的测试用例。下面主要介绍基于变异策略的样本生成方式，其关键环节包括： 种子生成 突变算法 测试用例生成 测试用例过滤 &emsp;&emsp;种子是符合程序输入的原始样本，种子经过使用不同的突变算法和突变不同位置生成测试用例，对于生成的测试用例，并不是所有的测试用例都要进行验证，而是在生成的测试用例中使用测试用例过滤程序（根据覆盖率等）选择能够触发新的路径或漏洞的用例。 2. 程序执行&emsp;&emsp;将生成的测试用例输入到目标程序中进行执行 3. 运行状态监控&emsp;&emsp;运行状态监控阶段监控程序监控目标程序的运行状态，并将程序执行的结果反馈给测试用例生成阶段用于新的样本生成，当程序发生崩溃或产生错误时，监控程序都会对其进行记录，供以后分析复现。常用的见识所使用的的技术包括：污点检测、二进制代码检测。 4.分析阶段&emsp;&emsp;分析阶段对运行转台监控阶段产生的程序崩溃与错误进行分析，确定是否是一个bug。 局限性 种子如何变异 怎么提高代码覆盖率 如何避开验证 辅助技术 静态代码分析 动态代码分析 动态符号执行 动态符号执行通过符号值作为作为程序输入生成一些列的路径限制，然后判断路径是否是可达的， 动态污点分析 1. 种子文件迭代《Skyfire: Data-Driven Seed Generation for Fuzzing》, 2017, S&amp;P &emsp;&emsp;使用数据驱动的种子生成方法，使用PCFG(Probabilistic context-sensitive grammar，其中包含了语义和语法信息)在大量的数据中提取语义信息和语法规则，用于生成种子，这种方法生成的种子文件可以确保可以通过语义解析和语法检查的前提下，执行到目标程序更深层次的路径，从而挖掘更深层次的漏洞。 《Faster Fuzzing: Reinitialization with Deep Neural Models》, 2017 参考文献 xxx xxx]]></content>
   </entry>
   <entry>
     <title><![CDATA[强化学习——概述]]></title>
@@ -249,8 +254,8 @@
     <url>%2F2020%2F01%2F20%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E9%80%9A%E8%BF%87sqlmap%E8%BF%9B%E8%A1%8Cgetshell%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[​ 在上一篇文章中，我们提到了要使用sqlmap中自带的os-shell命令直接getshell要有下面四个先条件： 1.当前注入点为root权限 2.已知网站绝对路径 3.php转义功能关闭 4.secure_file_priv= 值为空 在本文中将针对在实际环境中使用sqlmap进行getshell如何获取这些先决条件来进行详细介绍。 1.确认注入点权限​ 首先要确认注入点权限是否为root权限，可以直接使用sqlmap自带的测试命令is-dba 1sqlmap -u 网址 --is-dba 2.网站的绝对路径​ 获取网站的绝对路径在可以先进入sql-shell: 1sqlmap -u 网址 --sql-shell ​ 然后再在sql-shell中直接使用sql命令读取数据库文件存放路径： 1sql-shell&gt; select @@datadir; 然后通过数据库文件的位置进行网站所在的绝对路径进行猜测。]]></content>
       <tags>
-        <tag>sql注入</tag>
         <tag>Web安全</tag>
+        <tag>sql注入</tag>
       </tags>
   </entry>
   <entry>
@@ -258,8 +263,8 @@
     <url>%2F2020%2F01%2F18%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%2F</url>
     <content type="text"><![CDATA[​ 本文主要对手工方式sql注入进行介绍，包括sql注入的介绍和分类、sql注入中常用的关键字与敏感函数、经典的手工注入、利用sql注入进行文件的写入与读取等几部分。 ​ 后续的sql注入系列文章还将对使用sqlmap进行sql注入以及进行sql注入过程常见的一些关键问题做阐述，可以参见后面的文章： sql注入——sqlmap6步注入法 sql注入——通过sqlmap进行getshell常见的问题 sql注入介绍与分类​ graph LR A(sql注入) --> B(普通注入) A --> C(圆角长方形) C-->D(布尔型盲注) C-->E(延时盲注) ​ 常见的sql注入主要分从注入结果的展现形式上分为普通注入和盲注两大类。最简单也是最常见的就是普通话的sql注入了，这种注入方式进行注入有直观展示的结果进行结果展示，一般可以直接使用union语句进行联合查询获取信息上传文件等操作，后续在经典手工注入流程中讲述的就是使用普通注入进行sql注入。 ​ 另外一大类sql注入就是盲注，这种sql注入方式一般用于页面并没有对sql注入的查询结果直接进行返回，只能通过返回的一些其他信息判断注入的片段是否正确进行了执行。其中根据页面返回的布尔值(页面是否正确返回)进行sql注入称为布尔型盲注，根据页面返回时间的差异确定注入是否成功的sql注入称为延时盲注。下面是一个最常用延时注入的例子： 在上面的例子中，再过个浏览器控制器的控制台中，可以看到该请求存在着10s左右的等待时间，也即是说明我们前面的进行拼遭的sql注入语句正确的进行了执行，因此可以判断该部分是一个可以进行利用的注入点。本文重点介绍一般的注入，关于盲注的具体使用将在后续的文章中进行介绍。 2.sql 注入中常用的关键字和系统表sql注入中常用到的sql关键字 表达式 描述 union 将查询结果进行联合输出，追加在列尾 union all load 文件读取 into outfile 文件写入 @@datadir 数据库文件存放路径 user() 当前用户 version() 数据库版本 database() 数据库名称 sleep(n) 延时执行n秒 @@表示系统变量 mysql中常用的系统表 数据库 表名 描述 information_schema tables mysql中存储的全部表名，使用table_schema指定数据库名 select table_schema.tables where table_scheama=数据库名 information_schema columns mysql中存储全部其他表的字段名，使用table_name指定表名 select information_schema.columns where table_name=表名 Information_schema是mysql中自带的一个数据库，这个数据库中包含了其他数据的各种信息，包括数据库中的表名、权限、字段名等。 3.经典手工注入流程1.注入点测试​ 注入点测试主要分为是否存在sql注入检测与sql注入类型检测两个部分。要检测时候否存在sql注入只需要在要进行检测的参数后面加单引号，看是会因’个数不匹配而报错（这里的报错不一定是真的报错，可能只是页面不在正常显示之前的内容也可以看做报错的一种）。 1http://xxx/abc.php?id=1' ​ sql注入的注入点的类型主要分为数字型注入点和字符型注入点两种，分别对应着要进行sql注入的参数值在数据库中存储的类型是字符型还是数字型，直接影响到后面进行后续的注入的一些细节。 数字型检测​ 当输入变量的类型为数字类型时，可以使用and 1=1和and 1=2配合进行注入点类型进行检测: Url 地址中输入 http://xxx/abc.php?id= x and 1=1 页面依旧运行正常，继续进行下一步。 Url 地址中继续输入 http://xxx/abc.php?id= x and 1=2 页面运行错误，则说明此 Sql 注入为数字型注入。 原因为: 如果当前注入点类型为数字型， ​ 当输入 and 1=1时，后台执行 Sql 语句：select * from &lt;表名&gt; where id = x and 1=1,没有语法错误且逻辑判断为正确，所以返回正常。 ​ 当输入 and 1=2时，后台执行 Sql 语句：select * from &lt;表名&gt; where id = x and 1=2,没有语法错误但是逻辑判断为假，所以返回错误。 而如果该注入点类型为字符型， ​ 当输入and 1=1和 and 1=2时，后台执行sql语句：select * from &lt;表名&gt; where id=&#39;x and 1=1&#39;和 select * from &lt;表名&gt; where id=&#39;x and 1=1,将and语句作为字符进行id匹配，应该都没有查询结果，与事实不符因此该注入点为数字型注入点。 字符型注入点检测当输入变量为字符型时，可以使用’’ and ‘1’=’1和 ‘ and ‘1’=’2配合进行注入点类型检测： 1.Url 地址中输入 http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;1 页面依旧运行正常，继续进行下一步。 2.Url 地址中继续输入 http://xxx/abc.php?id= x&#39; and &#39;1&#39;=&#39;2&#39; 页面运行错误，则说明此 Sql 注入为数字型注入。 原因与上面的数字型注入点检测原理类似，这里就不进行详细讲述了，感兴趣的读者可以自己尝试解释一下。 2.当前表行数测试​ 这里之所以要进行数据表行数测试是因为后面使用union进行联合查询时，明确后面要进行合并查询的列数。 要进行列数测试要使用order by进行测试，不断增加后面的数字，直到出错为止。 1http://xxx/abc.php?id=x order by 8 下面为使用dvwa进行注入测试时的行数测试为例，当使用oder by 1和2时，页面正常显示 当将数字升到3是，产生如下报错，因此我们可以知道该表中只有两行。 3.测试当前表中那些列有回显123# and 1=2为了不展示本改进心跳查询的内容，只展示union进行联合查询的内容# 最后的#是为了闭合本来sql语句中后面的‘http://xxx/abc.php?id=x and 1=2 union select 1,2# 这里dvwa表中本身就只有两列数据全部在前台进行显示 4.查询数据库名称​ 查询当前数据库名称我们可以直接使用数据库内置函数database()进行获取，利用该函数进行当前数据库名称获取的典型注入代码如下所示: 12# 这里将database函数卸载第二个参数位置处，将在第二个参数展示的位置进行展示。也可以写在第一个参数位置http://xxx/abc.php?id=x and 1=2 union select 1,database()# ​ 这里获取到了mysql中存在着名为dvwa的数据库 5.数据表名获取​ 表名获取利用系统自带数据中（mysql中的information_schema）中的tables表中的内容进行获取。tables表中常用的字段如下表所示： 数据表 字段 含义 tables table_schema 字段所属的数据库名 tables table_name 字段所属的表名 ​ 使用下面的语句进行表名探索： 1http://xxx/abc.php?id=x and 1=2 union select 1,table_name from information_schema.tables where table_schema=&apos;dvwa&apos;# 6.字段获取​ 字段获取利用系统自带的数据库（mysql中的information_schema）中的columns表中内容进行获取。columns表中常用字段如下表所示： 数据表 字段 含义 columns table_schema 字段所属的数据库名 columns table_name 字段所属的表名 columns column_name 字段名称 ​ 使用下面语完成对指定表中的字段名称进行探索： 1http://xxx/abc.php?id=x and 1=2 union select 1,column_name from information_schema.columns where table_schema=&apos;dvwa&apos; and table_name=&apos;users&apos;# ​ 从上面的例子中我们可以看到在users表中存在着User和Password两个字段保存着网站管理员的用户和密码，接下来就可以直接对这两列的内容进行获取了。 7.读取关键字段1http://xxx/abc.php?id=x and 1=2 union select user,password from dvwa.users # 4.文件的写入读取​ 除了上面的基本的注入步骤外，找到注入点后还可以直接利用sql注入漏洞进行进一步的文件相关操作，可以直接通过sql注入实现对文件的读取与写入，利用文件的写入功能实现webshell的上传、系统用户名密码获取等功能。 读取文件​ 在具有文件写入权限时常常可以直接使用进行文件读取，读取到文件后可以xxx 1=1&apos; and 1=2 union select laod_file(&apos;/etc/password&apos;) # 文件写入​ 在具有文件写入权限时可以使用文件读取命令写入小马文件，获取shell。 1=1 and 1=2 union select ’小马文件内容‘into outfile '文件目录+文件名']]></content>
       <tags>
-        <tag>sql注入</tag>
         <tag>Web安全</tag>
+        <tag>sql注入</tag>
       </tags>
   </entry>
   <entry>
@@ -267,8 +272,8 @@
     <url>%2F2020%2F01%2F17%2Fsql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94sqlmap6%E6%AD%A5%E6%B3%A8%E5%85%A5%E6%B3%95%2F</url>
     <content type="text"><![CDATA[​ 前段时间一直在研究Webshell相关内容，涉及到使用sql注入进行getshell，因此准备对于sql注入过程做一个比较系统的总结，sql注入部分主要分为sqlmap6步法和手工注入法两部分，本文将主要针对sqlmap注入法进行介绍，手工注入法将在下一篇文章中进行介绍。 sqlmap注入6步法​ 首先要进行介绍的就是sql注入到getshell的常见6步法，该方法涵盖了整个过程常见的全部关键步骤。本文主要介绍使用sqlmap工具来进行sql注入的过程。 1.判定是否存在注入点 12345# 对提供的网址进行注入点测试 sqlmap -u http://xxx/id=??? --batch --batch:表示全部需要人机交互的部分采用默认选项进行选择 --cookie: cookie为可选项，如果要使用登录的请求应该先使用brupsuite来进行抓包查看ccokie写入该参数 --r: post方式进行注入，先使用bp抓到完整的包，然后保存为一个文件，这里直接使用-r进行指定 输出结果： 2.数据库名获取 123# 获取数据库名称sqlmap -u "http://xxx/id=???" --current-db --batch --cunrrent-db：进行数据库探测选项 输出结果： 3.获取数据库中的表名 1234# 获取表名sqlmap -u "http://xxx/id=???" --D 数据库名称 --tables --batch -D：指定要探测数据库名称 --tables：进行表名探索选项 输出结果： 4.对选定表的列名进行获取 1234# 获取表中字段名称sqlmap -u "http://xxx/id=???" --D 数据库名称 --T 表名 --columns --batch -D：指定要进行探索的表 -columns：进行字段名称探索选项 输出结果： 5.探测用户名密码 1234# 获取用户名和密码并保存到指定文件sqlmap -u "http://xxx/id=???" --D 数据库名称 --T 表名 --C 用户名列名,密码列名 --dump -C:指定选择的列名 --dump：将内容输出到文件 输出结果： 6.获取shell ​ os-shell只是一个辅助上传大马、小马的辅助shell，可以使用也可以直接利用数据库备份功能人工上传大、小马不进行这一步。 12# 获取os-shellsqlmap -u "http://xxx/id=???" --os-shell ​ 这里使用os-shell需要很高的权限才能成功使用。具体需要的权限包括： 1.网站必须是root权限 2.了解网站的绝对路径 3.GPC为off，php主动转义的功能关闭 4.secure_file_priv= 值为空 ​ 使用sqlmap存在一种缓存机制，如果完成了一个网址的一个注入点的探测，下次再进行探测将直接使用上次探测的结果进行展示，而不是重新开始探测，因此有时候显示的结果并不是我们当下探测进型返回的，面对这种情况就加上选项。 1--purge 清除之前的缓存日志 ​ 本文中提到的是一个标准的简单环境的sql注获取方式，但是在实际环境中，进行sql注入还存在权限不足、不知道绝对路径等关键问题，这些问题将在[sql注入——getshell中的问题]中进行具体讲述。]]></content>
       <tags>
-        <tag>sql注入</tag>
         <tag>Web安全</tag>
+        <tag>sql注入</tag>
         <tag>sqlmap</tag>
       </tags>
   </entry>
@@ -420,8 +425,8 @@
     <url>%2F2019%2F08%2F21%2F%E5%B8%B8%E8%A7%81map-reduce%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE%2F</url>
     <content type="text"><![CDATA[Map reduceMap 阶段 1、先将HDFS中的输入文件file按照一定的标准进行切片 2、调用自己编写的map逻辑，将输入的键值对变成 3、按照一定的规则对输出的键值对进行分区 4、对每个分区中的键值对进行排序。 Reduce 阶段 1、对多个Mapper任务的输出，按照不同的分区，通过网络拷贝到不同的Reducer节点上进行处理，将数据按照分区拷贝到不同的Reducer节点之后，对多个Mapper任务的输出在进行合并，排序。 2、调用自己的reduce逻辑，将键值对变为.在这里注意：每一个键值对都会调用一次reduce函数。 3、将Reducer任务的输出保存到指定的文件中。]]></content>
       <tags>
-        <tag>算法</tag>
         <tag>面试</tag>
+        <tag>算法</tag>
         <tag>大数据</tag>
       </tags>
   </entry>
@@ -594,8 +599,8 @@
     <url>%2F2019%2F05%2F24%2F%E9%9D%A2%E8%AF%95%E2%80%94%E2%80%94RNN%E5%92%8CLSTM%2F</url>
     <content type="text"><![CDATA[为什么RNN会造成梯度消失和梯度爆炸，而LSTM可以防止梯度消失？对于RNN： 而对于LSTM：]]></content>
       <tags>
-        <tag>算法</tag>
         <tag>面试</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -639,8 +644,8 @@
     <content type="text"><![CDATA[参考文章]]></content>
       <tags>
         <tag>机器学习</tag>
-        <tag>算法</tag>
         <tag>面试</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -695,8 +700,8 @@
     <content type="text"><![CDATA[简介​ GBDT 的全称是 Gradient Boosting Decision Tree，梯度提升树，在传统机器学习算法中，GBDT算的上TOP3的算法。想要理解GBDT的真正意义，那就必须理解GBDT中的Gradient Boosting 和Decision Tree分别是什么？ 分类树和回归树1.分类树​ 分类树使用信息增益或增益比率来划分节点；每个节点样本的类别情况投票决定测试样本的类别。 ​ 以C4.5分类树为例，C4.5分类树在每次分枝时，是穷举每一个feature的每一个阈值，找到使得按照feature&lt;=阈值，和feature&gt;阈值分成的两个分枝的熵最大的阈值(熵最大的概念可理解成尽可能每个分枝的男女比例都远离1:1)，按照该标准分枝得到两个新节点，用同样方法继续分枝直到所有人都被分入性别唯一的叶子节点，或达到预设的终止条件，若最终叶子节点中的性别不唯一，则以多数人的性别作为该叶子节点的性别。 2.回归树​ 回归树使用最大均方差划分节点；每个节点样本的均值作为测试样本的回归预测值。 ​ 回归树总体流程也是类似，区别在于，回归树的每个节点（不一定是叶子节点）都会得一个预测值，以年龄为例，该预测值等于属于这个节点的所有人年龄的平均值。分枝时穷举每一个feature的每个阈值找最好的分割点，但衡量最好的标准不再是最大熵，而是最小化均方差即(每个人的年龄-预测年龄)^2 的总和 / N。也就是被预测出错的人数越多，错的越离谱，均方差就越大，通过最小化均方差能够找到最可靠的分枝依据。分枝直到每个叶子节点上人的年龄都唯一或者达到预设的终止条件(如叶子个数上限)，若最终叶子节点上人的年龄不唯一，则以该节点上所有人的平均年龄做为该叶子节点的预测年龄。 Decision Tree：CART回归树​ GBDT使用的决策树都是CART数回归树，无论是处理回归问题还是二分类以及多分类。 为什么不用CART分类树呢？ ​ 因为GBDT每次迭代要拟合的是梯度值，是连续值所以要用回归树。 ​ CART回归树的评价指标：平方误差 为什么CART回归时的评价指标不再使用Gini、熵等不纯度指标？ ​ 对于回归树算法来说最重要的是寻找最佳的划分点，那么回归树中的可划分点包含了所有特征的所有可取的值。在分类树中最佳划分点的判别标准是熵或者基尼系数，都是用纯度来衡量的，但是在回归树中的样本标签是连续数值，所以再使用熵之类的指标不再合适，取而代之的是平方误差，它能很好的评判拟合程度。 Graident Boosting:梯度提升树​ 梯度提升树（Grandient Boosting）是提升树（Boosting Tree）的一种改进算法，所以在讲梯度提升树之前先来说一下提升树 提升树 Boosting Tree​ 提升树就是通过不断建立树来不断拟合前一个问题的残差来不断接近目标。 ​ 先来个通俗理解：假如有个人30岁，我们首先用20岁去拟合，发现损失有10岁，这时我们用6岁去拟合剩下的损失，发现差距还有4岁，第三轮我们用3岁拟合剩下的差距，差距就只有一岁了。如果我们的迭代轮数还没有完，可以继续迭代下面，每一轮迭代，拟合的岁数误差都会减小。最后将每次拟合的岁数加起来便是模型输出的结果。 ​ 当损失函数是平方损失和指数损失函数时，梯度提升树每一步优化是很简单的，但是对于一般损失函数而言，往往每一步优化起来不那么容易，针对这一问题，Friedman提出了梯度提升树算法，这是利用最速下降的近似方法，其关键是利用损失函数的负梯度作为提升树算法中的残差的近似值。 Graident Boosting:梯度提升树​ 核心：利用损失函数的负梯度作为提升树算法中的残差的近似值。 下面我们来看一下负梯度具体的样子，第t轮的第i个样本的损失函数的负梯度为： 那么对于分类问题呢？二分类和多分类的损失函数都是logloss，下面以回归问题为例对GBDT算法进行讲解。 GBDT 常见问题： 1.GBDT和Xgboost的区别？ 1.损失函数上 在GBDT的损失函数上XGboost加入了正则化项 2.优化方法上 GBDT在优化上只使用一阶导数的信息，而XGBoost则对代价函数进行了二阶的展开。 3.基分类器的支持上 GBDT只支持CART数作为基分类器，XGBoost在其基础上加入了线性分类器 4.Xgboost加入了shrinkage策略。在完成一次迭代后会将叶子节点的权值乘以该系数削弱了每棵树的影响，使后面的数拥有更大的学习空间 5.列抽样 借鉴了随机森林的做法，支持列抽样，不仅能防止过拟合还能减少计算 6.缺失值自动处理 对于有缺失值的样本，XGBoost可以自动学习出分裂方向 7.计算特征增益时并行 预先对特征值进行排序，保存成block结构，后面的迭代重复使用这个结构 2.lightgbm和Xgboost的区别在哪里？ ​ lightgbm基本原理和Xgboost一样，在框架上做了一些优化 1.xgboost采用的level-wise的分裂策略，而lightgbm采用的是leaf-wise的策略，区别是xgboost对每一层节点做无差别的分裂，可能有些节点的信息增益非常小，对结果影响不大，但是依然进行分裂；leaf-wise的做法是在当前所有叶子节点中选择分裂收益最大的节点进行分裂。明显leaf-wise更容易过拟合，陷入高度较高的深度中，因此lightgbm更应该注意对深度进行限制 2.lightgbm使用histgram的决策树算法，而xgboost使用exact算法，hostgram算法在内存和计算代价上都有不小的优势 3.lightgbm采用直方图加速计算 4.并行化。 ​ a.特征并行化 ​ 一般的特征并行化都并行化都采用将数据进行垂直切分，然后分割后的数据分散到各个worker，各个worker计算器拥有的数据上计算 best split point，然后汇总得到最优切点。这种方式在数据量很大的时候效率提升有限 ​ lightgbm采用直接将全量数据分散到每个worker，然因此最优的特征分裂结果不需要传输到其他worker中，只需要将最优特征以及分裂点告诉其他worker，worker随后本地自己进行处理。 ​ b.数据并行化 ​ 传统的数据并行算法，首先水平切分数据集，每个worker基于数据集构建局部特征直方图（Histogram），归并所有局部的特征直方图，得到全局直方图，找到最优分裂信息，进行数据分裂。 ​ LightGBM算法使用Reduce Scatter并行算子归并来自不同worker的不同特征子集的直方图，然后在局部归并的直方图中找到最优局部分裂信息，最终同步找到最优的分裂信息。 ​ 除此之外，LightGBM使用直方图减法加快训练速度。我们只需要对其中一个子节点进行数据传输，另一个子节点可以通过histogram subtraction得到。 参考文献：https://blog.csdn.net/zpalyq110/article/details/79527653]]></content>
       <tags>
         <tag>机器学习</tag>
-        <tag>算法</tag>
         <tag>面试</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>

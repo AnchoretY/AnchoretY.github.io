@@ -190,6 +190,116 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/02/27/面试总结-Python和C语言中的一些不同/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/02/27/面试总结-Python和C语言中的一些不同/" class="post-title-link" itemprop="url">面试总结-Python和C语言中的一些不同</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-02-27 21:18:33" itemprop="dateCreated datePublished" datetime="2019-02-27T21:18:33+08:00">2019-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/02/27/面试总结-Python和C语言中的一些不同/" class="post-meta-item leancloud_visitors" data-flag-title="面试总结-Python和C语言中的一些不同" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/02/27/面试总结-Python和C语言中的一些不同/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/02/27/面试总结-Python和C语言中的一些不同/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>278</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-python在除法和C语言中的一点区别"><a href="#1-python在除法和C语言中的一点区别" class="headerlink" title="1.python在除法和C语言中的一点区别"></a>1.python在除法和C语言中的一点区别</h3><p>​    在Python3中，除法有 “/” 以及 “//” 两种，这两个有着明显的区别，具体区别看代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">12</span>//<span class="number">10</span>)</span><br><span class="line">print(<span class="number">12</span>/<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>这两行代码的输出如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">1.2</span></span><br></pre></td></tr></table></figure>
+<p>当被除数是负数的时候，又是另一种情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="number">-12</span>/<span class="number">10</span>)      <span class="comment">#不补整</span></span><br><span class="line">print(int(<span class="number">-12</span>/<span class="number">10</span>)) <span class="comment">#向正方向进行补整</span></span><br><span class="line">print(<span class="number">-13</span>//<span class="number">10</span>)     <span class="comment">#向负方向进行补整</span></span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-1.2</span></span><br><span class="line">    <span class="number">-1</span></span><br><span class="line">    <span class="number">-2</span></span><br></pre></td></tr></table></figure>
+<p>​    因此，综合前面的正负两种情况，我们可以看出<strong>当我们想要达到和C++同样的向上取整，只能使用int(a/b)方式。</strong></p>
+<h3 id="2-python在求余时和C的一点区别"><a href="#2-python在求余时和C的一点区别" class="headerlink" title="2.python在求余时和C的一点区别"></a>2.python在求余时和C的一点区别</h3><p>​    对于正数求余运算，python和C++完全相同，但是对于负数求余运算，python和C++存在着较大的差别，下面我们通过例子来说明二者的差别。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#C++</span></span><br><span class="line">count&gt;&gt;<span class="number">-123</span>%<span class="number">10</span>;</span><br><span class="line">output:</span><br><span class="line">    <span class="number">-3</span></span><br><span class="line"><span class="comment">#python</span></span><br><span class="line">print(<span class="number">-123</span>%<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">    <span class="number">-7</span>    <span class="comment">#这里是向下取10的余数</span></span><br></pre></td></tr></table></figure>
+<p>​    为了实现和C++相同效果的取余运算，我们只能采用如下方式进行取余运算</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> a&gt;=<span class="number">0</span></span><br><span class="line">	print(a%<span class="number">10</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	print(a%<span class="number">-10</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/02/10/机试——排序算法总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1380,116 +1490,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/12/25/hadoop使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/25/hadoop使用/" class="post-title-link" itemprop="url">hadoop使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-25 11:28:18" itemprop="dateCreated datePublished" datetime="2018-12-25T11:28:18+08:00">2018-12-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2018/12/25/hadoop使用/" class="post-meta-item leancloud_visitors" data-flag-title="hadoop使用" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/12/25/hadoop使用/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/12/25/hadoop使用/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>63</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.查看hadoop某个目录下的文件</p>
-<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hadoop  <span class="built_in">fs</span> -ls <span class="built_in">path</span></span><br></pre></td></tr></table></figure>
-<p>2.从hdfs上下拉文件到本地</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo hdfs fs -<span class="keyword">get</span> <span class="built_in">file</span></span><br></pre></td></tr></table></figure>
-<p>3.获取部署在docker中的hadoop的挂载信息等元数据</p>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker inspect hdp-<span class="keyword">server</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1557,7 +1562,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">160</span>
+          <span class="site-state-item-count">161</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
