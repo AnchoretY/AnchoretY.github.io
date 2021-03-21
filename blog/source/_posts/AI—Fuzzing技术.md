@@ -60,11 +60,24 @@ categories:
 
    - **动态污点分析**
 
-   
 
 
 
 
+
+
+
+
+
+### 机器学习技术用于Fuzzing的不同阶段
+
+&emsp;&emsp;到2019为止，AI用于Fuzzing中个各个阶段中的论文数量如下图所示：
+
+![image](https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.x7u8i5ml9y.png)
+
+#### ![image-20210318225859927]1. 种子文件迭代
+
+&emsp;&emsp;传统的种子文件的迭代式通过使用各种各样的变异操作进行的，原始种子的质量对种子的生成产生直接的很大，并且
 
 ##### 参考文献
 
