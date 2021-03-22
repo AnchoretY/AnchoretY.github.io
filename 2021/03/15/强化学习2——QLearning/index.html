@@ -28,7 +28,7 @@
 <meta property="og:description" content="概述：强化学习经典算法QLearning算法从算法过程、伪代码、代码角度进行介绍。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://static.zybuluo.com/WuLiangchao/sxvlcfathlnecnxcu3fwobzy/image_1cd24g4og10s14pd133n3cvunnm.png">
-<meta property="og:updated_time" content="2021-03-22T02:51:52.093Z">
+<meta property="og:updated_time" content="2021-03-22T13:15:22.250Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习2——QLearning">
 <meta name="twitter:description" content="概述：强化学习经典算法QLearning算法从算法过程、伪代码、代码角度进行介绍。">
@@ -226,7 +226,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-22 10:51:52" itemprop="dateModified" datetime="2021-03-22T10:51:52+08:00">2021-03-22</time>
+                <time title="修改时间：2021-03-22 21:15:22" itemprop="dateModified" datetime="2021-03-22T21:15:22+08:00">2021-03-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,7 +265,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -329,7 +329,6 @@ Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))</script
 <blockquote>
 <p>作用：打乱了过往之间经验的相关性，也使得神经网络更新更有效率</p>
 </blockquote>
-<h4 id="Fixed-Q-target"><a href="#Fixed-Q-target" class="headerlink" title="Fixed Q-target"></a>Fixed Q-target</h4><p>&emsp;&emsp;Fixed Q-target也是一种打乱相关性的机理, 如果使用 fixed Q-targets, 我们就会在 DQN 中<strong>使用到两个结构相同但参数不同的神经网络</strong>,分别预测Q估计56m    那个法国官方换个风格很过分很过分个合法规范换个风格和韩国复古护肤更好的方法法规和黑寡妇符合规范广告很过分很过分很过分很尴尬符合规范个横幅广告和非官方还公布v改变v换个风格换成v。    不别别扭扭把别别扭扭那个方法。如果Q现实，预测Q估计的神经网络具备最新的参数，而预测Q现实的神经网络则是一段时间以前的。</p>
 <h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
 <li>xxx</li>
 <li>xxx</li>
@@ -433,7 +432,7 @@ Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))</script
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Learning"><span class="nav-text">Q-Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法过程"><span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪代码"><span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DQN两个关键点"><span class="nav-text">DQN两个关键点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#experience-replay"><span class="nav-text">experience replay</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fixed-Q-target"><span class="nav-text">Fixed Q-target</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Learning"><span class="nav-text">Q-Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法过程"><span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪代码"><span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DQN两个关键点"><span class="nav-text">DQN两个关键点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#experience-replay"><span class="nav-text">experience replay</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -449,7 +448,7 @@ Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))</script
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">164</span>
+          <span class="site-state-item-count">165</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
