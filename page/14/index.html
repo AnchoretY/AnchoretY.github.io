@@ -190,6 +190,402 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/20/pyspark-文本向量化技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/20/pyspark-文本向量化技术/" class="post-title-link" itemprop="url">pyspark-向量化技术</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-20 20:09:24" itemprop="dateCreated datePublished" datetime="2018-11-20T20:09:24+08:00">2018-11-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2018/11/20/pyspark-文本向量化技术/" class="post-meta-item leancloud_visitors" data-flag-title="pyspark-向量化技术" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/11/20/pyspark-文本向量化技术/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/11/20/pyspark-文本向量化技术/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    在pyspark中文本的向量化技术主要在包pyspark.ml.feature中，主要包括以下几种：</p>
+<blockquote>
+<p>1.Ngram</p>
+<p>2.tf-idf</p>
+<p>3.Word2Vec</p>
+</blockquote>
+<h4 id="1-Ngram"><a href="#1-Ngram" class="headerlink" title="1.Ngram"></a>1.Ngram</h4><p>​    </p>
+<h3 id="2-tf-idf"><a href="#2-tf-idf" class="headerlink" title="2.tf-idf"></a>2.tf-idf</h3><p>​    在pyspark中tf和idf是分开的两个步骤</p>
+<p>​    （1）tf</p>
+<p>​    整个tf的过程就是一个将将各个文本进行计算频数统计的过程，使用前要先使用也定的算法来对语句进行分词，然后指定统计特征的数量再进行tf统计</p>
+<p>​    </p>
+<blockquote>
+<p>常用参数：</p>
+<p>​    1.numsFeatures   统计的特征数量，这个值一般通过<code>ParamGridBuilder</code>尝试得出最合适的值</p>
+<p>​    2.inputCol   输入列，输入类列为ArrayType的数据</p>
+<p>​    3.outputCol 输出列 ,输出列为Vector类型的数据</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>],),([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>,<span class="string">"watch"</span>,<span class="string">"or"</span>,<span class="string">"apple"</span>],)], [<span class="string">"words"</span>])</span><br><span class="line"></span><br><span class="line">hashingTF = HashingTF(numFeatures=<span class="number">10</span>, inputCol=<span class="string">"words"</span>, outputCol=<span class="string">"tf"</span>)</span><br><span class="line">hashingTF.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+--------------------------------+</span><br><span class="line">|words                              |tf                              |</span><br><span class="line">+-----------------------------------+--------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>])            |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>],[<span class="number">3.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">+-----------------------------------+--------------------------------+</span><br></pre></td></tr></table></figure>
+<p>​    其中，10代表了特征数，[1,3]代表了this和is对应的哈希值，[2.0,1.0]代表了this和is出现的频数.</p>
+<p>​    (2)idf</p>
+<blockquote>
+<p>常用参数：</p>
+<p>​    1.minDocFreq 最少要出现的频数，如果超过minDocFreq个样本中出现了这个关键词，这个频数将不tf-idf特征，直接为0</p>
+<p>​    2.inputCol     输入列</p>
+<p>​    3.ouputCol    输出列</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">idf = IDF(inputCol=<span class="string">"tf"</span>,outputCol=<span class="string">"tf-idf"</span>)</span><br><span class="line">idf_model = idf.fit(df)</span><br><span class="line"></span><br><span class="line">idf_model.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+--------------------------------+--------------------------------------------------------------+</span><br><span class="line">|words                              |tf                              |tf-idf                                                        |</span><br><span class="line">+-----------------------------------+--------------------------------+--------------------------------------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>])            |(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">0.0</span>,<span class="number">0.0</span>])                                          |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>],[<span class="number">3.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|(<span class="number">10</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>],[<span class="number">0.0</span>,<span class="number">0.4054651081081644</span>,<span class="number">0.0</span>,<span class="number">0.4054651081081644</span>])|</span><br><span class="line">+-----------------------------------+--------------------------------+--------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<h3 id="3-CountVec"><a href="#3-CountVec" class="headerlink" title="3.CountVec"></a>3.CountVec</h3><p>​    CountVec是一种直接进行文本向量，直接词频统计的向量化方式，可以</p>
+<blockquote>
+<p>常用参数包括：</p>
+<p>​    minDF：要保证出现词的代表性。当minDF值大于1时，表示词汇表中出现的词最少要在minDf个文档中出现过，否则去除掉不进入词汇表；当minDF小于1，表示词汇表中出现的词最少要在包分之minDF*100个文档中出现才进入词汇表</p>
+<p>​    minTF：过滤文档中出现的过于罕见的词，因为这类词机乎不在什么文本中出现因此作为特征可区分的样本数量比较少。当minTF大于1时，表示这个词出现的频率必须高于这个才会进入词汇表；小于1时，表示这个大于一个分数时才进入词汇表</p>
+<p>​    binary:  是否只计算0/1,即是否出现该词。默认值为False。</p>
+<p>​    inputCol:输入列名，默认为None</p>
+<p>​    outputCol:输出列名，默认为None</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">df = spark.createDataFrame([([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>],),([<span class="string">"this"</span>, <span class="string">"is"</span>, <span class="string">"apple"</span>,<span class="string">"watch"</span>,<span class="string">"or"</span>,<span class="string">"apple"</span>],)], [<span class="string">"words"</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用Word2Vec进行词向量化</span></span><br><span class="line">countvec = CountVectorizer(inputCol=<span class="string">'words'</span>,outputCol=<span class="string">'countvec'</span>)</span><br><span class="line">countvec_model = countvec.fit(df)</span><br><span class="line">countvec_model.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|words                              |tf                                      |countvec                             |</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">1.0</span>])|(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],[<span class="number">2.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用CountVec的binary模式进行向量化，</span></span><br><span class="line">countvec = CountVectorizer(inputCol=<span class="string">'words'</span>,outputCol=<span class="string">'countvec'</span>,binary=<span class="keyword">True</span>)</span><br><span class="line">countvec_model = countvec.fit(df)</span><br><span class="line">countvec_model.transform(df).show(<span class="number">10</span>,<span class="keyword">False</span>)</span><br><span class="line">output:</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|words                              |tf                                      |countvec                             |</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br><span class="line">|[this, <span class="keyword">is</span>, apple]                  |(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])            |</span><br><span class="line">|[this, <span class="keyword">is</span>, apple, watch, <span class="keyword">or</span>, apple]|(<span class="number">20</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">11</span>,<span class="number">13</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">1.0</span>])|(<span class="number">5</span>,[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],[<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>,<span class="number">1.0</span>])|</span><br><span class="line">+-----------------------------------+----------------------------------------+-------------------------------------+</span><br></pre></td></tr></table></figure>
+<h3 id="4-Word2Vec"><a href="#4-Word2Vec" class="headerlink" title="4.Word2Vec"></a>4.Word2Vec</h3><p>​    Word2Vec 是一种常见的文本向量化方式,使用神经网络讲一个词语和他前后的词语来进行表示这个这个词语，主要分为CBOW和Skip-</p>
+<p>​    特点：Word2Vec主要是结合了前后词生成各个词向量，具有一定的语义信息</p>
+<p><strong>在pyspark.ml.feature中存在Word2Vec和Word2VecModel两个对象，这两个对象之间存在什么区别和联系呢？</strong></p>
+<p>​    Word2Vec是Word2Vec基本参数设置部分，Word2VecModel是训练好以后的Word2Vec，有些函数只有Word2VecModel训练好以后才能使用</p>
+<blockquote>
+<p>常见参数：</p>
+<p>​    1.vectorSize    生成的词向量大小</p>
+<p>​    2.inputCol     输入列</p>
+<p>​    3.ouputCol    输出列</p>
+<p>​    4.windowSize   输出的词向量和该词前后多少个词与有关</p>
+<p>​    5.maxSentenceLength  输入句子的最大长度，超过改长度直接进行进行截断</p>
+<p>​    6.numPartitions 分区数，影响训练速度</p>
+<p>常用函数：</p>
+<p>​    这里的常见函数要对Word2VecModel才能使用</p>
+<p>​    getVectors()         获得词和词向量的对应关系,返回值为dataframe</p>
+<p>​    transform()        传入一个dataframe，将一个词列转换为词向量</p>
+<p>​    save()            保存模型</p>
+</blockquote>
+<p>使用要先使用训练集对其进行训练：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">输入数据：</span><br><span class="line">	已经使用一定的分词方式已经进行分词后的ArrayType数组</span><br><span class="line">输出：</span><br><span class="line">	当前句子各个词进行word2vec编码后的均值，维度为vectorSize</span><br><span class="line"> </span><br><span class="line">word2vec = Word2Vec(vectorSize=<span class="number">100</span>,inputCol=<span class="string">"word"</span>,outputCol=<span class="string">"word_vector"</span>,windowSize=<span class="number">3</span>,numPartitions=<span class="number">300</span>)</span><br><span class="line">word2vec_model = word2vec.fit(data)</span><br><span class="line"></span><br><span class="line"><span class="comment">#features将会在data的基础上多出一列word_vector，为vectorSize维数组</span></span><br><span class="line">features = word2vec.trandform(data)</span><br><span class="line"></span><br><span class="line">word2vec_model.save(<span class="string">"./model/name.word2vec"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>Word2Vec如何查看是否已经训练的很好：</strong></p>
+<blockquote>
+<p>​    1.选择两个在日常生活中已知词义相近的两个词A、B，再选一个与A词义不那么相近但也有一定相似度的词C</p>
+<p>​    2.计算A和B以及A和C的余弦距离</p>
+<p>​    3.比较其大小，当满足AB距离小于AC时，重新选择三个词重复上过程多次都满足，那么认为模型已经训练完毕；若不满足上述过程，那么继续加入样本进行训练</p>
+</blockquote>
+<p><strong>当word2vec中为了表达两个比较相近的词的相似性可以怎么做？比如在当前word2vec下tea、cooffe之间的相似性非常高，接近于1</strong></p>
+<blockquote>
+<p>​    增加word2vec的向量维度。可能是在当前维度中向量维度过小，导致这两个词无法表达充分，因此我们可以增加向量维度，以期待在更高维的向量空间中，可以区分这个名词</p>
+</blockquote>
+<p><strong>过程中可能用的：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得某个词对应的词向量</span></span><br><span class="line">word2vec_model.getVectors().filter(<span class="string">"word=='0eva'"</span>).collect()[<span class="number">0</span>][<span class="string">'vector'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#计算两个词向量之间距离平方</span></span><br><span class="line">a1.squared_distance(a2)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/16/linux——恢复误删除文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/16/linux——恢复误删除文件/" class="post-title-link" itemprop="url">linux——恢复误删除文件</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-16 11:33:41" itemprop="dateCreated datePublished" datetime="2018-11-16T11:33:41+08:00">2018-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2018/11/16/linux——恢复误删除文件/" class="post-meta-item leancloud_visitors" data-flag-title="linux——恢复误删除文件" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/11/16/linux——恢复误删除文件/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/11/16/linux——恢复误删除文件/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>114</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    ububtu默认情况下会存在一个默认回收站，当使用的文件被误删除需要找回时，可以进入到回收站找到该文件，将其恢复出来即可</p>
+<blockquote>
+<p>回收站位置：</p>
+<p>​    ~/.local/share/Trash</p>
+<p>找回方式：</p>
+<p>​    进入该目录，直接将该目录中的文件考出即可</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/07/概率图模型——HMM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/07/概率图模型——HMM/" class="post-title-link" itemprop="url">概率图模型——HMM</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-11-07 12:04:02" itemprop="dateCreated datePublished" datetime="2018-11-07T12:04:02+08:00">2018-11-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2018/11/07/概率图模型——HMM/" class="post-meta-item leancloud_visitors" data-flag-title="概率图模型——HMM" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/11/07/概率图模型——HMM/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/11/07/概率图模型——HMM/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>517</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>马尔科夫模型假设：</p>
+<p>​    1.马尔科夫模型认为每一时刻的表现x有一个状态z与其对应</p>
+<p>​    2.观测独立性假设：每个时刻的输出都只与当前的状态有关</p>
+<p>​    3.贝叶斯公式P(o|λ) = P(λ|o)P(o) / P(λ)</p>
+<h4 id="马尔科夫模型的推导过程"><a href="#马尔科夫模型的推导过程" class="headerlink" title="马尔科夫模型的推导过程"></a>马尔科夫模型的推导过程</h4><p>​    对于马尔科夫模型，求解的最终目的是</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">maxP</span>(<span class="params">o1o2...on|λ1λ2...λn</span>)</span></span><br></pre></td></tr></table></figure>
+<p>​    由于p(o|λ)是个关于2n各变量的条件概率，并且n不固定，因此没办法进行精确计算。因此马尔科夫链模型采用了一种更加巧妙地方式来进行建模。</p>
+<p>​    首先，根据贝叶斯公式可以得：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>) / P(λ)</span><br></pre></td></tr></table></figure>
+<p>​    λ为给定的输入，因此P(λ)为常数，因此可以忽略.因此</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) = P(λ|</span><span class="name">o</span>)P(<span class="name">o</span>)</span><br></pre></td></tr></table></figure>
+<p>​    而根据观测独立性假设，可以得到</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">P(o1o2...<span class="keyword">on</span>|λ<span class="number">1</span>λ<span class="number">2.</span>..λn) = P(o1|λ<span class="number">1</span>)P(o2|λ<span class="number">2</span>)...P(<span class="keyword">on</span>|λn)</span><br><span class="line">	P(o) = P(o1)P(o2|o1)P(o3|o1,o2)...P(<span class="keyword">on</span>|<span class="keyword">on</span><span class="number">-1</span>,<span class="keyword">on</span><span class="number">-2</span>,...,o1)</span><br></pre></td></tr></table></figure>
+<p>​    而由于其次马尔科夫假设，每个输出仅与上一个一个输出有关，那么</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span>) = p(<span class="name">o1</span>)P(<span class="name">o2</span><span class="name">|o1)....P(on|</span><span class="name">on-1</span>)</span><br></pre></td></tr></table></figure>
+<p>​    因此最终可得：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(<span class="name">o</span><span class="name">|λ) ~ p(o1)P(o1|</span><span class="name">o2</span>)P(λ|o2)P(o2|o3)P(λ<span class="number">3</span>|o3)...P(on|on-1)P(λ|on)</span><br></pre></td></tr></table></figure>
+<p>​    其中，P(λk|ok)为发射概率，P(ok|ok-1)为转移概率。</p>
+<h4 id="维特比算法"><a href="#维特比算法" class="headerlink" title="维特比算法"></a>维特比算法</h4><p>​    维特比算法是隐马尔科夫模型最终求解当前表现链最可能对应的状态链使用的一种动态规划算法。主要思想是：</p>
+<p>HMM模型训练后的输出为：初始状态概率矩阵、状态转移矩阵、发射概率矩阵三个结果，用来后续进行预测</p>
+<p>概率图模型大部分都是这样，输出为几个概率矩阵</p>
+<p>而LR模型的输出就为系数矩阵了</p>
+<p>我们可以看出来，LR在使用训练好的模型进行与测试效率较高，而HMM使用训练好的模型进行训练时效率较低</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/05/机器学习和深度学习在实践中的一些经验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1214,430 +1610,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/22/经典机器学习算法——逻辑回归/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/22/经典机器学习算法——逻辑回归/" class="post-title-link" itemprop="url">经典机器学习算法——逻辑回归</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-22 21:44:43" itemprop="dateCreated datePublished" datetime="2018-10-22T21:44:43+08:00">2018-10-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/10/22/经典机器学习算法——逻辑回归/" class="post-meta-item leancloud_visitors" data-flag-title="经典机器学习算法——逻辑回归" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/10/22/经典机器学习算法——逻辑回归/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/22/经典机器学习算法——逻辑回归/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="逻辑回归模型"><a href="#逻辑回归模型" class="headerlink" title="逻辑回归模型"></a>逻辑回归模型</h3><hr>
-<p>​    逻辑回归算法是一种根据现有数据对分类边界线(Decision Boundary)建立回归公式，以此进行分类的模型。逻辑回归首先赋予每个特征相同的回归参数，然后使用<strong>梯度下降算法</strong>来不断优化各个回归参数，最终根据回归参数来对新样本进行进行预测。</p>
-<blockquote>
-<p><strong>注意：虽然名叫逻辑回归，但是实际上是一种分类模型</strong></p>
-</blockquote>
-<p><strong>工作原理</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">每个回归系数初始化为 <span class="number">1</span></span><br><span class="line">重复 R 次:</span><br><span class="line">    计算整个数据集的梯度</span><br><span class="line">    使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span><br><span class="line">返回回归系数</span><br></pre></td></tr></table></figure>
-<p><strong>逻辑回归算法的特点</strong></p>
-<blockquote>
-<p>优点：计算代价低，可解释性强</p>
-<p>缺点：容易欠拟合，分类精度可能不高</p>
-<p>使用数据类型：数值型数据和标称型数据(只存在是和否两种结果的将数据)</p>
-</blockquote>
-<p><strong>sigmod函数</strong></p>
-<p>​    sigmod是一种近似的越阶函数，可以将任意的输入值，然后将其映射为0到1之间的值，其公式和函数图像如下图：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod公式"></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/sigmod%E5%87%BD%E6%95%B0.png?raw=true" alt="sigmod函数"></p>
-<p>​    在逻辑回归中先使用每个特征乘以一个回归系数，将其乘积作为sigmod函数中的z，即</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%AD%E7%9A%84z.png?raw=true" alt="逻辑回归中的z"></p>
-<p>​    然后将其得到的值用sigmod函数映射到0到1，可以理解为被分为1类的概率。</p>
-<p><strong>梯度上升算法</strong></p>
-<p>​    要找到某个函数的最大值，最好的方式就是沿着梯度方向不断地去寻找，如果梯度记做▽ ，则函数 f(x, y) 的梯度由下式表示:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A6%E5%85%AC%E5%BC%8F.png?raw=true" alt="sigmod函数"></p>
-<p>这个梯度意味着要沿 x 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_6.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_6.png" alt="f(x, y)对x求偏导"></a> ，沿 y 的方向移动 <a href="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_7.png" target="_blank" rel="noopener"><img src="https://github.com/apachecn/AiLearning/raw/dev/img/ml/5.Logistic/LR_7.png" alt="f(x, y)对y求偏导"></a> 。其中，函数f(x, y) 必须要在待计算的点上有定义并且可微。下图是一个具体的例子。<img src="https://github.com/apachecn/AiLearning/blob/dev/img/ml/5.Logistic/LR_8.png?raw=true" alt="梯度上升图"></p>
-<p>​    上图展示了整个梯度上升的过程，梯度上升算法在到到每个点后都会从新估计移动的方向，而这个方向就是梯度方向，移动的速度大小由参数α控制。</p>
-<p><strong>训练过程</strong></p>
-<p>​    训练算法：使用梯度上升寻找最佳参数</p>
-<blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> 每个回归系数初始化为 1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 重复 R 次:</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">     计算整个数据集的梯度</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">     使用 步长 x 梯度 更新回归系数的向量(梯度下降)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 返回回归系数</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>​    其中步长为超参数alpha，而梯度的计算如下：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E6%A2%AF%E5%BA%A61.png?raw=true" alt="梯度1"></p>
-<p>即每个点的数据和其输入数据相同。因此权重的更新可以使用：</p>
-<p>​        <strong>w:=w+α error x</strong></p>
-<p>其中α为常数步长，error为在当前参数值下与目标值的误差经过sigmod函数处理后的值，x为当当前样本的输入</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmod</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>/<span class="number">1</span>+np.exp(-x)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradAscend</span><span class="params">(dataSet,labelSet,alpha,maxCycles)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#将输入的数据转为向量格式</span></span><br><span class="line">    dataMat = np.mat(dataSet)</span><br><span class="line">    labelMat = np.mat(labelSet).tramsponse()</span><br><span class="line">    <span class="comment">#获取输入数据的维度</span></span><br><span class="line">    m,n = np.shape(dataMat)</span><br><span class="line">    <span class="comment">#初始化回归系数</span></span><br><span class="line">    weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">    <span class="comment">#对回归系数进行迭代更新</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(maxCycles):</span><br><span class="line">        <span class="comment">#计算使用当前回归系数LR的hx值，结果为(m,1)维向量</span></span><br><span class="line">        h = sigmod(dataMat*weights)</span><br><span class="line">        <span class="comment">#计算误差</span></span><br><span class="line">        error = labelMat-h</span><br><span class="line">        <span class="comment">#根据梯度进行回归系数更新</span></span><br><span class="line">        weights = weights + alpha*dataMat.transponse()*error</span><br><span class="line">    <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
-<p><strong>随机梯度上升算法</strong></p>
-<p>​    随机梯度上升算法起到的作用和一般的梯度上升算法是一样的，只是由于一般的梯度上升算法在每次更新回归系数时需要遍历整个数据集，因此当数据量变动很大时，一般的梯度上升算法的时间消耗将会非常大，因此提出了<strong>每次只使用一个样本来进行参数更新</strong>的方式，<strong>随机梯度上升（下降）</strong>。</p>
-<blockquote>
-<p>随机梯度上升算法的特点：</p>
-<p>​    1.每次参数更新只使用一个样本，速度快</p>
-<p>​    2.可进行在线更新，是一个<strong>在线学习算法</strong>（也是由于每次回归系数更新只使用一个样本）</p>
-</blockquote>
-<p>工作原理：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">所有回归系数初始化为 <span class="number">1</span></span><br><span class="line">对数据集中每个样本</span><br><span class="line">    计算该样本的梯度</span><br><span class="line">    使用 alpha x gradient 更新回归系数值</span><br><span class="line">返回回归系数值</span><br></pre></td></tr></table></figure>
-<p>初步随机梯度下降代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stocgradAscend</span><span class="params">(dataSet,labelSet)</span>:</span></span><br><span class="line">    <span class="comment">#1.这里没有转换成矩阵的过程，整个过程完全都是在Numpy数据完成的</span></span><br><span class="line">    alpha = <span class="number">0.01</span></span><br><span class="line"></span><br><span class="line">    m,n = np.shape(dataSet)</span><br><span class="line"></span><br><span class="line">    weights = np.ones((n,<span class="number">1</span>))</span><br><span class="line">	<span class="comment">#2.回归系数更新过程中的h、error都是单个值，而在一般梯度上升算法中使用的是矩阵操作</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        h = np.sigmod(dataSet[i]*weights)</span><br><span class="line">        error = h - labelSet[i]</span><br><span class="line">        weights = weights + alpha*error*dataSet[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
-<p>但是这种随机梯度上升算法在在实际的使用过程出现了<strong>参数最后难以收敛，最终结果周期性波动</strong>的问题，针对这种问题我们对这个问题将随机梯度下降做了下面<strong>两种优化</strong></p>
-<p>​    1.改进为 alpha 的值，alpha 在每次迭代的时候都会调整。另外，虽然 alpha 会随着迭代次数不断减少，但永远不会减小到 0，因为我们在计算公式中添加了一个常数项。</p>
-<p>​    </p>
-<p>​    2.修改randomIndex的值，<strong>从以前顺序的选择样本</strong>更改为<strong>完全随机的方式来选择用于回归系数的样本</strong>，每次随机从列表中选出一个值，然后从列表中删掉该值（再进行下一次迭代）。</p>
-<p>最终版随机梯度下降：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stocgradAscend</span><span class="params">(dataSet,labelSet,numsIter=<span class="number">150</span>)</span>:</span></span><br><span class="line">	</span><br><span class="line">	m,n = np.shape(dataSet)</span><br><span class="line">	weights = np.ones(n,<span class="number">1</span>)</span><br><span class="line">	alpha = <span class="number">0.01</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(numsIter):</span><br><span class="line">        <span class="comment">#生成数据的索引</span></span><br><span class="line">		dataIndex = range(m)</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="comment">#alpha会随着i和j的增大不断减小</span></span><br><span class="line">			alpha = <span class="number">4</span>/(i+j+<span class="number">1.0</span>)+<span class="number">0.001</span> <span class="comment"># alpha 会随着迭代不断减小，但永远不会减小到0，因为后边还有一个常数项0.0001</span></span><br><span class="line">            <span class="comment">#生成随机选择要进行回归系数更新的数据索引号</span></span><br><span class="line">            randomIndex = np.random.uniform(<span class="number">0</span>,len(dataIndex))</span><br><span class="line">            h = sigmod(np.sum(dataSet[dataIndex[randomIndex]]*weights))</span><br><span class="line">            error = h - dataSet[dataIndex[randomIndex]]*weights</span><br><span class="line">            weights = weights + alpha*error*dataSet[dataIndex[randomIndex]]</span><br><span class="line">            <span class="comment">#在数据索引中删除</span></span><br><span class="line">            <span class="keyword">del</span>(dataIndex[randomIndex])</span><br><span class="line">     <span class="keyword">return</span> weights</span><br></pre></td></tr></table></figure>
-<p><strong>预测过程    </strong>    </p>
-<p>​    LR模型的预测过程很简单，只需要根据训练过程训练出的参数，计算sigmod(w*x),如果这个值大于0.5，则分为1，反之则为0</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyLR</span>:</span>(inX,weights)</span><br><span class="line">    prob = sigmod(np.sum(weights*inX))</span><br><span class="line">    <span class="keyword">if</span> prob&gt;=<span class="number">0.5</span></span><br><span class="line">    	<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：这里的阈值其实是可以自行设定的</p>
-</blockquote>
-<h4 id="一些其他相关问题"><a href="#一些其他相关问题" class="headerlink" title="一些其他相关问题"></a>一些其他相关问题</h4><hr>
-<p><strong>1.LR模型和最大熵模型</strong></p>
-<blockquote>
-<p>​    (1).logistic回归模型和最大熵模型都属于对数线性模型</p>
-<p>​    (2).当最大熵模型进行二分类时，最大熵模型就是逻辑回归模型</p>
-<p>​    (3) 学习他们的模型一般采用极大似估计或正则化的极大似然估计</p>
-<p>​    (4)二者可以形式化为无约束条件下的最优化问题</p>
-</blockquote>
-<p><strong>2.LR模型的多分类</strong></p>
-<p>​    逻辑回归也可以作用于多分类问题，对于多分类问题，处理思路如下：将多分类问题看做多个二分类，然后在各个sigmod得到的分数中区最大的值对应的类作为最终预测标签。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/21/概率图模型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/21/概率图模型/" class="post-title-link" itemprop="url">概率图模型</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-21 11:45:33" itemprop="dateCreated datePublished" datetime="2018-10-21T11:45:33+08:00">2018-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/10/21/概率图模型/" class="post-meta-item leancloud_visitors" data-flag-title="概率图模型" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/10/21/概率图模型/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/21/概率图模型/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>619</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    概率图模型是<strong>用图来表示变量概率依赖关系</strong>的理论，结合概率论与图论的知识，<strong>利用图来表示与模型有关的变量的联合概率分布</strong></p>
-<p>​    基本概率图模型主要包括<strong>贝叶斯网络</strong>、<strong>马尔科夫网络</strong>和<strong>隐马尔科夫</strong>网络三种类型。</p>
-<p>​    基本的Graphical Model 可以大致分为两个类别：贝叶斯网络(Bayesian Network)和马尔可夫随机场(Markov Random Field)。它们的主要区别在于采用不同类型的图来表达变量之间的关系：<strong>贝叶斯网络采用有向无环图</strong>(Directed Acyclic Graph)来表达因果关系，<strong>马尔可夫随机场则采用无向图</strong>(Undirected Graph)来表达变量间的相互作用。这种结构上的区别导致了它们在建模和推断方面的一系列微妙的差异。<strong>一般来说，贝叶斯网络中每一个节点都对应于一个先验概率分布或者条件概率分布，因此整体的联合分布可以直接分解为所有单个节点所对应的分布的乘积</strong>。而<strong>对于马尔可夫场，由于变量之间没有明确的因果关系，它的联合概率分布通常会表达为一系列势函数（potential function）的乘积。通常情况下，这些乘积的积分并不等于1，因此，还要对其进行归一化才能形成一个有效的概率分布</strong>——这一点往往在实际应用中给参数估计造成非常大的困难。</p>
-<h3 id="概率图模型的表示理论"><a href="#概率图模型的表示理论" class="headerlink" title="概率图模型的表示理论"></a>概率图模型的表示理论</h3><p>​    概率图模型的表示由<strong>参数和结构</strong>两部分组成。根据边有无方向性，可分为下面三种：</p>
-<p>​    <strong>a、有向图模型—贝叶斯网络</strong></p>
-<p>​    <strong>b、无向图模型—马尔科夫网络</strong></p>
-<p>​    <strong>c、局部有向模型—条件随机场和链图</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/21/最优化问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/21/最优化问题/" class="post-title-link" itemprop="url">最优化问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-10-21 10:30:09" itemprop="dateCreated datePublished" datetime="2018-10-21T10:30:09+08:00">2018-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/10/21/最优化问题/" class="post-meta-item leancloud_visitors" data-flag-title="最优化问题" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/10/21/最优化问题/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/21/最优化问题/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>605</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>最优化问题主要分为</p>
-<p>​    1.无约束优化问题</p>
-<p>​    2.等式优化问题</p>
-<p>​    3.含不等式优化问题</p>
-<p>​    <strong>对于无约束问题常常使用的方法就是Fermat定理</strong>，即求取f(x)的倒数然后另其为0，可求得候选最优质，如果函数为凸函数则直接为最优值。</p>
-<p>​    在<strong>求取有约束条件的优化问题</strong>时，拉格朗日乘子法（Lagrange Multiplier) 和KKT条件是非常重要的两个求取方法。二者各有其使用范围：</p>
-<p>​    <strong>拉格朗日乘子法：等式约束的最优化问题</strong></p>
-<p>​    <strong>KTT条件：不等式约束下的最优化问题</strong></p>
-<blockquote>
-<p>对于一般的任意问题而言，这两种方法求得的解是使一组解成为最优解的必要条件，<strong>只有当原问题是凸问题的时候，求是求得的解是最优解的充分条件</strong>。</p>
-</blockquote>
-<h3 id="二、有约束最优化问题的求解"><a href="#二、有约束最优化问题的求解" class="headerlink" title="二、有约束最优化问题的求解"></a>二、有约束最优化问题的求解</h3><p>​    <strong>1.拉格朗日乘子法</strong></p>
-<p>​    对于等式约束，我们可以通过一个拉格朗日系数a 把等式约束和目标函数组合成为一个式子L(a, x) = f(x) + a*h(x), 这里把a和h(x)视为向量形式，a是横向量，h(x)为列向量，然后求取最优值，可以通过对L(a,x)对各个参数求导取零，联立等式进行求取。</p>
-<p>​    <strong>2.KTT条件</strong></p>
-<p>​    对于含有不等式的约束条件最优化问题，我们可以把所有的不等式约束、等式约束和目标函数全部写为一个式子L(a, b, x)= f(x) + a<em>g(x)+b</em>h(x)，KKT条件是说最优值必须满足以下条件：</p>
-<ol>
-<li><p>L(a, b, x)对x求导为零；</p>
-</li>
-<li><p>h(x) =0;</p>
-</li>
-<li><p>a*g(x) = 0;（g(x)为不等式约束）</p>
-</li>
-</ol>
-<p>求取这三个等式之后就能得到候选最优值。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1710,14 +1682,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">161</span>
+          <span class="site-state-item-count">164</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

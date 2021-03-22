@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4g824knxv7p.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.gqqrwyqh8i7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jsjxl8xgnor.png">
-<meta property="og:updated_time" content="2021-03-15T06:52:56.690Z">
+<meta property="og:updated_time" content="2021-03-22T02:51:52.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多电脑hexo博客管理">
 <meta name="twitter:description" content="概述：最近新添了一台台式机，准备与mbp同时管理博客，这里记录一下设置过程。">
@@ -229,7 +229,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-15 14:52:56" itemprop="dateModified" datetime="2021-03-15T14:52:56+08:00">2021-03-15</time>
+                <time title="修改时间：2021-03-22 10:51:52" itemprop="dateModified" datetime="2021-03-22T10:51:52+08:00">2021-03-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -309,7 +309,7 @@
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id_rsa				私钥</span><br><span class="line">id_rsa<span class="selector-class">.pub</span>    公钥</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;在github账户设置中导入ssh key</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jsjxl8xgnor.png" alt="image"></p>
-<h3 id="多设备共同编写博客"><a href="#多设备共同编写博客" class="headerlink" title="多设备共同编写博客"></a>多设备共同编写博客</h3><p>&emsp;&emsp;单设备编写博客时，博客编写完成只需要使用<code>hexo d -g</code>即可完成部署，而使用多设备进行共同编辑博客除了需要对博客网站需要的静态文件进行部署以外，还需要将博客相关的源文件同步到hexo分支。</p>
+<h3 id="博客编写"><a href="#博客编写" class="headerlink" title="博客编写"></a>博客编写</h3><p>&emsp;&emsp;单设备编写博客时，博客编写完成只需要使用<code>hexo d -g</code>即可完成部署，而使用多设备进行共同编辑博客除了需要对博客网站需要的静态文件进行部署以外，还需要将博客相关的源文件同步到hexo分支。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从远程hexo分支部署拉取最新的源文件</span></span><br><span class="line">git pull origin hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 书写博客</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署博客（静态文件）</span></span><br><span class="line">hexo d -g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将源文件同步到hexo分支</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
 <h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><h5 id="1-hexo安装完成后，使用hexo-d-g部署博客出现The-quot-mode-quot-argument-must-be-integer-Received-an-instance-of-Object"><a href="#1-hexo安装完成后，使用hexo-d-g部署博客出现The-quot-mode-quot-argument-must-be-integer-Received-an-instance-of-Object" class="headerlink" title="1. hexo安装完成后，使用hexo d -g部署博客出现The &quot;mode&quot; argument must be integer. Received an instance of Object"></a>1. hexo安装完成后，使用<code>hexo d -g</code>部署博客出现<code>The &quot;mode&quot; argument must be integer. Received an instance of Object</code></h5><p>&emsp;&emsp;这个问题主要是由于之前的电脑使用的npm版本与现在的电脑安装的版本不同，而这语法不一致导致的问题，这里使用n进行node版本管理解决该问题。</p>
 <p>&emsp;&emsp;安装n：</p>
@@ -353,8 +353,8 @@
       <i class="fa fa-chevron-left"></i> AI—Fuzzing技术
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/03/15/强化学习——DQN/" rel="next" title="强化学习——DQN">
-      强化学习——DQN <i class="fa fa-chevron-right"></i>
+    <a href="/2021/03/15/强化学习2——QLearning/" rel="next" title="强化学习2——QLearning">
+      强化学习2——QLearning <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -416,7 +416,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#部署过程"><span class="nav-text">部署过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#源主机"><span class="nav-text">源主机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新主机"><span class="nav-text">新主机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多设备共同编写博客"><span class="nav-text">多设备共同编写博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-text">遇到的问题</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#部署过程"><span class="nav-text">部署过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#源主机"><span class="nav-text">源主机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新主机"><span class="nav-text">新主机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#博客编写"><span class="nav-text">博客编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-text">遇到的问题</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -432,14 +432,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">161</span>
+          <span class="site-state-item-count">164</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

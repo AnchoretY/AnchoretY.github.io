@@ -28,7 +28,8 @@
 <meta property="og:description" content="概述：首页描述">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.crw6wwjija.png">
-<meta property="og:updated_time" content="2021-03-18T02:26:50.181Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.x7u8i5ml9y.png">
+<meta property="og:updated_time" content="2021-03-22T02:51:52.128Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AI—Fuzzing技术">
 <meta name="twitter:description" content="概述：首页描述">
@@ -226,7 +227,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-18 10:26:50" itemprop="dateModified" datetime="2021-03-18T10:26:50+08:00">2021-03-18</time>
+                <time title="修改时间：2021-03-22 10:51:52" itemprop="dateModified" datetime="2021-03-22T10:51:52+08:00">2021-03-22</time>
               </span>
 
           
@@ -256,7 +257,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>961</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -308,9 +309,29 @@
 </ul>
 </li>
 </ol>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
 <h4 id="1-种子文件迭代"><a href="#1-种子文件迭代" class="headerlink" title="1. 种子文件迭代"></a>1. 种子文件迭代</h4><p><strong>《Skyfire: Data-Driven Seed Generation for Fuzzing》, 2017, S&amp;P</strong></p>
 <p>&emsp;&emsp;使用数据驱动的种子生成方法，使用PCFG(Probabilistic context-sensitive grammar，其中包含了语义和语法信息)在大量的数据中提取语义信息和语法规则，用于生成种子，这种方法生成的种子文件可以确保可以通过语义解析和语法检查的前提下，执行到目标程序更深层次的路径，从而挖掘更深层次的漏洞。</p>
 <p><strong>《Faster Fuzzing: Reinitialization with Deep Neural Models》, 2017</strong></p>
+<p>=======</p>
+<h3 id="机器学习技术用于Fuzzing的不同阶段"><a href="#机器学习技术用于Fuzzing的不同阶段" class="headerlink" title="机器学习技术用于Fuzzing的不同阶段"></a>机器学习技术用于Fuzzing的不同阶段</h3><p>&emsp;&emsp;到2019为止，AI用于Fuzzing中个各个阶段中的论文数量如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.x7u8i5ml9y.png" alt="image"></p>
+<h4 id="image-20210318225859927-1-种子文件迭代"><a href="#image-20210318225859927-1-种子文件迭代" class="headerlink" title="![image-20210318225859927]1. 种子文件迭代"></a>![image-20210318225859927]1. 种子文件迭代</h4><p>&emsp;&emsp;传统的种子文件的迭代式通过使用各种各样的变异操作进行的，原始种子的质量对种子的生成产生直接的很大，并且</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>71dd04faf9dda41b2963a40036d2bfe9dad46b39</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
 <li>xxx</li>
 <li>xxx</li>
@@ -347,8 +368,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/08/强化学习——概述/" rel="prev" title="强化学习——概述">
-      <i class="fa fa-chevron-left"></i> 强化学习——概述
+    <a href="/2021/03/08/强化学习1——概述/" rel="prev" title="强化学习1——概述">
+      <i class="fa fa-chevron-left"></i> 强化学习1——概述
     </a></div>
       <div class="post-nav-item">
     <a href="/2021/03/14/多电脑hexo博客管理/" rel="next" title="多电脑hexo博客管理">
@@ -414,7 +435,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#传统Fuzzing技术"><span class="nav-text">传统Fuzzing技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fuzzing流程"><span class="nav-text">Fuzzing流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#局限性"><span class="nav-text">局限性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#辅助技术"><span class="nav-text">辅助技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-种子文件迭代"><span class="nav-text">1. 种子文件迭代</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#传统Fuzzing技术"><span class="nav-text">传统Fuzzing技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fuzzing流程"><span class="nav-text">Fuzzing流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#局限性"><span class="nav-text">局限性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#辅助技术"><span class="nav-text">辅助技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-种子文件迭代"><span class="nav-text">1. 种子文件迭代</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器学习技术用于Fuzzing的不同阶段"><span class="nav-text">机器学习技术用于Fuzzing的不同阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#image-20210318225859927-1-种子文件迭代"><span class="nav-text">![image-20210318225859927]1. 种子文件迭代</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -430,14 +451,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">161</span>
+          <span class="site-state-item-count">164</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
