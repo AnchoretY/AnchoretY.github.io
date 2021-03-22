@@ -39,7 +39,7 @@ metadata、render()、close()是与图像显示有关的，我们不涉及这一
 
 ### 实现实例
 
-&emsp;&emsp;这里以
+&emsp;&emsp;
 
 ##### 参考文献
 
