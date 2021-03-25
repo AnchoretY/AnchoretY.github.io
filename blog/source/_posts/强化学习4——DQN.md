@@ -82,7 +82,7 @@ categories:
 
    &emsp;&emsp;整体上DQN模型的整体架构如下图所示：
 
-   <img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.apnr8i1mxgu.png" alt="image" style="zoom:80%;" />
+   <img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.aqqvtugbh0f.png" alt="image" style="zoom:80%;" />
 
    &emsp;&emsp;在图中可以看出，模型需要设置的参数包括：
 
@@ -92,7 +92,7 @@ categories:
    > - epsilon: 贪心算法系数，有epsilon的概率选择最优的action，有1-epsilon的概率随机进行选择，用于learn阶段eval_net参数更新
    > - gamma: 未来收益折现比率，用于learn阶段eval_net参数更新
    > - batch_size: 每次进行从Memory中抽取多少个sample更新eval_net，用于learn阶段eval_net参数更新
-   > - memory_size: 记忆体的容量，用于确定多久更新一次eval_net
+   > - memory_size: 记忆体的容量，用于确定经过多少step以后才开始更新eval_net
    > - target_replace_iter: 多久使用eval_net的参数替换一次target_net网络的参数，用于确定target_net网络更新频率
 
    &emsp;&emsp;具体实现如下：
