@@ -28,7 +28,7 @@
 <meta property="og:description" content="概述：强化学习经典算法QLearning算法从算法过程、伪代码、代码角度进行介绍。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://static.zybuluo.com/WuLiangchao/sxvlcfathlnecnxcu3fwobzy/image_1cd24g4og10s14pd133n3cvunnm.png">
-<meta property="og:updated_time" content="2021-03-22T13:15:22.250Z">
+<meta property="og:updated_time" content="2021-03-29T12:07:12.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习2——QLearning">
 <meta name="twitter:description" content="概述：强化学习经典算法QLearning算法从算法过程、伪代码、代码角度进行介绍。">
@@ -226,7 +226,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-22 21:15:22" itemprop="dateModified" datetime="2021-03-22T21:15:22+08:00">2021-03-22</time>
+                <time title="修改时间：2021-03-29 20:07:12" itemprop="dateModified" datetime="2021-03-29T20:07:12+08:00">2021-03-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,14 +265,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -325,10 +325,6 @@ Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))</script
 <p>&emsp;&emsp;上面的流程中的 Q 现实 就是上面说的 Q′(s,a), Q 估计就是上面说的 Q(s,a)。</p>
 <h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>&emsp;&emsp;下面的 python 代码演示了更新通过 Q-Table 的算法, 参考了这个 <a href="https://github.com/MorvanZhou/Reinforcement-learning-with-tensorflow" target="_blank" rel="noopener">repo</a> 上的代码，初始化主要是设定一些参数，并建立 Q-Table, <code>choose_action</code> 是根据当前的状态 <code>observation</code>，并以 ϵ-greedy 的策略选择当前的动作； <code>learn</code> 则是更新当前的 Q-Table，<code>check_state_exist</code> 则是检查当前的状态是否已经存在 Q-Table 中，若不存在要在 Q-Table 中创建相应的行。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QTable</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, actions, learning_rate=<span class="number">0.01</span>, reward_decay=<span class="number">0.9</span>, e_greedy=<span class="number">0.9</span>)</span>:</span></span><br><span class="line">        self.actions = actions                                                        <span class="comment"># 行为列表</span></span><br><span class="line">        self.lr = learning_rate  																											<span class="comment"># 学习速率,Q显示与Q估计更新差值更新到Q中比例</span></span><br><span class="line">        self.gamma = reward_decay																											<span class="comment"># 折扣因子，未来奖励期望的折扣因子</span></span><br><span class="line">        self.epsilon = e_greedy																												<span class="comment"># 贪婪算法贪婪系数，即按照预估Q值最高进行选择的比例，1-e_greedy的概率进行随机选择</span></span><br><span class="line">        self.q_table = pd.DataFrame(columns=self.actions, dtype=np.float64)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, observation)</span>:</span></span><br><span class="line">    		“”“</span><br><span class="line">    			行为选择函数</span><br><span class="line">    		”“”</span><br><span class="line">        <span class="comment"># 检测观测的状态在Q-Table中是否已经存在</span></span><br><span class="line">        self.check_state_exist(observation)                                           </span><br><span class="line">        <span class="comment"># 行为选择，有epsilon的概率选择Q-Table中当前状态下Q值最大的，1-epsilon的概率进行随机选择</span></span><br><span class="line">        <span class="keyword">if</span> np.random.uniform() &lt; self.epsilon:</span><br><span class="line">            <span class="comment"># choose best action</span></span><br><span class="line">            state_action = self.q_table.ix[observation, :]</span><br><span class="line">            state_action = state_action.reindex(np.random.permutation(state_action.index))     <span class="comment"># some actions have same value</span></span><br><span class="line">            action = state_action.argmax()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># choose random action</span></span><br><span class="line">            action = np.random.choice(self.actions)</span><br><span class="line">        <span class="keyword">return</span> action</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">      	<span class="string">"""</span></span><br><span class="line"><span class="string">      		根据Q现实与Q估计的差值进行学习（Q-Table更新）</span></span><br><span class="line"><span class="string">      	"""</span></span><br><span class="line">        self.check_state_exist(s_)</span><br><span class="line">        <span class="comment"># Q估计的值</span></span><br><span class="line">        q_predict = self.q_table.ix[s, a]</span><br><span class="line">        <span class="comment"># Q现实计算</span></span><br><span class="line">        <span class="keyword">if</span> s_ != <span class="string">'terminal'</span>:</span><br><span class="line">            q_target = r + self.gamma * self.q_table.ix[s_, :].max()  <span class="comment"># next state is not terminal</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            q_target = r  <span class="comment"># next state is terminal</span></span><br><span class="line">        <span class="comment"># Q-Table更新</span></span><br><span class="line">        self.q_table.ix[s, a] += self.lr * (q_target - q_predict)  <span class="comment"># update</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">check_state_exist</span><span class="params">(self, state)</span>:</span></span><br><span class="line">      	”“”</span><br><span class="line">        	检查状态是在Q-Table中，不在则在Q-Table中新加行</span><br><span class="line">        ”“”</span><br><span class="line">        <span class="keyword">if</span> state <span class="keyword">not</span> <span class="keyword">in</span> self.q_table.index:</span><br><span class="line">            <span class="comment"># append new state to q table</span></span><br><span class="line">            self.q_table = self.q_table.append(</span><br><span class="line">                pd.Series(</span><br><span class="line">                    [<span class="number">0</span>]*len(self.actions),</span><br><span class="line">                    index=self.q_table.columns,</span><br><span class="line">                    name=state,</span><br><span class="line">                )</span><br><span class="line">            )</span><br></pre></td></tr></table></figure>
-<h3 id="DQN两个关键点"><a href="#DQN两个关键点" class="headerlink" title="DQN两个关键点"></a>DQN两个关键点</h3><h4 id="experience-replay"><a href="#experience-replay" class="headerlink" title="experience replay"></a>experience replay</h4><p>&emsp;&emsp;DQN每次更新时，都会随机抽取之前的一些经历进行学习</p>
-<blockquote>
-<p>作用：打乱了过往之间经验的相关性，也使得神经网络更新更有效率</p>
-</blockquote>
 <h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
 <li>xxx</li>
 <li>xxx</li>
@@ -432,7 +428,7 @@ Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))</script
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Learning"><span class="nav-text">Q-Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法过程"><span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪代码"><span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DQN两个关键点"><span class="nav-text">DQN两个关键点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#experience-replay"><span class="nav-text">experience replay</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Learning"><span class="nav-text">Q-Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法过程"><span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪代码"><span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -448,7 +444,7 @@ Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))</script
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">165</span>
+          <span class="site-state-item-count">169</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

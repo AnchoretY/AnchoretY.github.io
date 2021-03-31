@@ -190,6 +190,473 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/01/21/深度学习——Attention相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/21/深度学习——Attention相关/" class="post-title-link" itemprop="url">深度学习——Attention相关</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-21 14:54:55" itemprop="dateCreated datePublished" datetime="2019-01-21T14:54:55+08:00">2019-01-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2019/01/21/深度学习——Attention相关/" class="post-meta-item leancloud_visitors" data-flag-title="深度学习——Attention相关" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/01/21/深度学习——Attention相关/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/01/21/深度学习——Attention相关/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="1-为什么要使用Attention机制？"><a href="#1-为什么要使用Attention机制？" class="headerlink" title="1.为什么要使用Attention机制？"></a>1.为什么要使用Attention机制？</h4><p>​    Attention机制最初起源于seq2seq中，经典的encoder-decoder做机器翻译时，通常是是使用两个RNN网络，一个用来将待翻译语句进行编码输出一个vector，另一个RNN对上一个RNN网络的输出进行解码，也就是翻译的过程。但是经典的encoder-decoder模式<strong>最大的缺点</strong>在于：<strong>不管输入多么长的语句，最后输出的也只是最后一个vector，这个向量能否有效的表达该语句非常值得怀疑</strong>，而<strong>Attention机制正是利用了RNN整个过程中的各个输出来综合进行编码</strong></p>
+<blockquote>
+<p>原始序列模型的不足：</p>
+<p>​    1.从编码器到解码器的语境矩阵式大小是固定的，这是个瓶颈问题</p>
+<p>​    2.难以对长的序列编码，并且难以回忆长期依赖</p>
+</blockquote>
+<h4 id="2-Attention原理"><a href="#2-Attention原理" class="headerlink" title="2.Attention原理"></a>2.Attention原理</h4><p><strong>1.首先在RNN的过程中保存每个RNN单元的隐藏状态(h1….hn)</strong></p>
+<p><strong>2.对于decoder的每一个时刻t，因为此时有decoder的输入和上一时刻的输出，所以我们可以的当前步的隐藏状态St</strong></p>
+<p><strong>3.在每个t时刻用St和hi进行点积得到attention score</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention1.png?raw=true" alt></p>
+<p><strong>4.利用softmax函数将attention score转化为概率分布</strong></p>
+<p>​    利用下面的公式进行概率分布的计算：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式1.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/attention2.png?raw=true" alt></p>
+<p><strong>5.利用刚才的计算额Attention值对encoder的hi进行加权求和，得到decoder t时刻的注意力向量（也叫上下文向量）</strong></p>
+<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式2.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention3.png?raw=true" alt></p>
+<p><strong>6.最后将注意力向量和decoder t时刻的隐藏状态st并联起来做后续步骤（例如全连接进行分类）</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention4.png?raw=true" alt></p>
+<h4 id="3-Attention计算方式"><a href="#3-Attention计算方式" class="headerlink" title="3.Attention计算方式"></a>3.Attention计算方式</h4><p>​    前面一节中，我们的概率分布来自于h与s的点积再做softmax，这只是最基本的方式。在实际中，我们可以有不同的方法来产生这个概率分布，每一种方法都代表了一种具体的Attention机制。在各个attention中，attention的计算方式主要有<strong>加法attention</strong>和<strong>乘法attention</strong>两种。</p>
+<h5 id="3-1-加法attention"><a href="#3-1-加法attention" class="headerlink" title="3.1 加法attention"></a>3.1 加法attention</h5><p>​    在加法attention中我们不在使用st和hi的点乘，而是使用如下计算:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/加法attention.png?raw=true" alt></p>
+<p>​    其中,va和Wa都是可以训练的参数。使用这种方式产生的数在送往softmax来进行概率分布计算</p>
+<h5 id="3-2-乘法attention"><a href="#3-2-乘法attention" class="headerlink" title="3.2 乘法attention"></a>3.2 乘法attention</h5><p>​    在乘法attention中使用h和s做点乘运算:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/乘法attention.png?raw=true" alt></p>
+<p>​    显然<strong>乘法attention的参数更少，计算效率更高。</strong></p>
+<h4 id="4-self-attention"><a href="#4-self-attention" class="headerlink" title="4.self-attention"></a>4.self-attention</h4><p>​    思想：在没有任何额外信息情况下，句子使用self-attention机制来处理自己，提取关键信息</p>
+<blockquote>
+<p>在attention机制中经常出现的一种叫法：</p>
+<p>​    query：在一个时刻不停地要被查询的那个向量（前面的decodert时刻的隐藏状态st）。</p>
+<p>​    key: 要去查询query计算个query相似关度的向量（前面的encoder在各个时刻的隐藏状态hi）</p>
+<p>​    value: 和softmax得到的概率分布相乘得到最终attention上下文向量的向量(前面的encoder在各个时刻的隐藏状态hi)</p>
+<p>这里我们可以明显知道，<strong>任意attention中key和value是相同的</strong></p>
+</blockquote>
+<p>​    attention就是key、value、和query都来自同一输入的(也是相同的)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/01/08/python进阶-面向对象编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/08/python进阶-面向对象编程/" class="post-title-link" itemprop="url">python进阶-面向对象编程</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-08 19:24:57" itemprop="dateCreated datePublished" datetime="2019-01-08T19:24:57+08:00">2019-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/01/08/python进阶-面向对象编程/" class="post-meta-item leancloud_visitors" data-flag-title="python进阶-面向对象编程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/01/08/python进阶-面向对象编程/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/01/08/python进阶-面向对象编程/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>331</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.__slots__</p>
+<p>​    用于指定class 实例能够指定的属性</p>
+<blockquote>
+<p>注意：__slots__只对当前类起作用，对其子类无效</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> traceback</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Myclass</span><span class="params">(object)</span>:</span></span><br><span class="line">	__slots__ = [<span class="string">"name"</span>,<span class="string">"set_name]</span></span><br><span class="line"><span class="string">	</span></span><br><span class="line"><span class="string">s = MyClass()</span></span><br><span class="line"><span class="string">s.name = "</span>john<span class="string">" #这里可以进行正常的赋值，因为包含在__slots__中</span></span><br><span class="line"><span class="string">try:</span></span><br><span class="line"><span class="string">	s.age = 2	#这里不能进行正常赋值</span></span><br><span class="line"><span class="string">except AttributeError:</span></span><br><span class="line"><span class="string">	traceback.print_exc()</span></span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/__slots__.png?raw=true" alt></p>
+<p><strong>2.@property属性</strong></p>
+<p>​    @property 可以实现比较方便的属性set、get设置</p>
+<blockquote>
+<p>1.使用@property相当于讲将一个函数变为get某个属性值<br>2.@属性名称.setter可以实现设置一个属性的set条件</p>
+</blockquote>
+<p>​    使用上面的两种修饰符，可以实现</p>
+<p>​        1.对写入属性的限制，只有符合规范的才允许写入</p>
+<p>​        2.设置只读属性，只能够读取，不能写入，只能从其他属性处计算出</p>
+<p>下面的就是对score属性的写操作进行了一些限制，将double_score属性设置为只读属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span><span class="params">(object)</span>:</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score</span><br><span class="line">    </span><br><span class="line"><span class="meta">    @score.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score</span><span class="params">(self,value)</span>:</span></span><br><span class="line">        <span class="comment">#不是int类型时引发异常</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(value,int):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"not int"</span>)    <span class="comment">#raise的作用是显示的引发异常</span></span><br><span class="line">        <span class="comment">#超出范围时引发异常</span></span><br><span class="line">        <span class="keyword">elif</span> (value&lt;<span class="number">0</span>) <span class="keyword">or</span> (value&gt;<span class="number">100</span>):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"score must in 0 to 100"</span>)</span><br><span class="line">        </span><br><span class="line">        self._score = value</span><br><span class="line">        </span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">double_score</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._score*<span class="number">2</span></span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">s = MyClass()</span><br><span class="line">s.score = <span class="number">3</span></span><br><span class="line">print(s.score)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="number">2300</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.score = <span class="string">"dfsd"</span></span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">    traceback.print_exc()</span><br><span class="line">    </span><br><span class="line">print(s.double_score)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s.double_score = <span class="number">2</span></span><br><span class="line"><span class="keyword">except</span> Exception:</span><br><span class="line">    traceback.print_exc()</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/@property_2.png?raw=true" alt></p>
+<p>描述器，主要是用来读写删除类的行为</p>
+<p>  函数可以直接使用__name__属性来获取函数名称</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">now</span><span class="params">()</span>:</span></span><br><span class="line">	print(<span class="string">"2012"</span>)</span><br><span class="line"></span><br><span class="line">print(now.__name__)</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	<span class="string">"now"</span></span><br></pre></td></tr></table></figure>
+<p>​    </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/01/08/python进阶-生成器和迭代器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/08/python进阶-生成器和迭代器/" class="post-title-link" itemprop="url">python进阶-生成器和迭代器</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-08 10:49:00" itemprop="dateCreated datePublished" datetime="2019-01-08T10:49:00+08:00">2019-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/01/08/python进阶-生成器和迭代器/" class="post-meta-item leancloud_visitors" data-flag-title="python进阶-生成器和迭代器" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/01/08/python进阶-生成器和迭代器/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/01/08/python进阶-生成器和迭代器/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/01/07/pythonic程序规范化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/07/pythonic程序规范化/" class="post-title-link" itemprop="url">pythonic程序规范化</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-07 22:32:07" itemprop="dateCreated datePublished" datetime="2019-01-07T22:32:07+08:00">2019-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/01/07/pythonic程序规范化/" class="post-meta-item leancloud_visitors" data-flag-title="pythonic程序规范化" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/01/07/pythonic程序规范化/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/01/07/pythonic程序规范化/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>50</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.常量名称全部大写</p>
+<p>2.代码长度一行不能超过80字符</p>
+<p>3.类名使用驼峰式命名，一般不超过3</p>
+<p>4.函数名称</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/01/07/python2和python3的不同点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -889,486 +1356,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/12/23/刷题心得/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/23/刷题心得/" class="post-title-link" itemprop="url">刷题心得</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-23 17:52:10" itemprop="dateCreated datePublished" datetime="2018-12-23T17:52:10+08:00">2018-12-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2018/12/23/刷题心得/" class="post-meta-item leancloud_visitors" data-flag-title="刷题心得" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/12/23/刷题心得/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/12/23/刷题心得/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>244</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.在只需要考虑是不是存在元素的个数，只可考虑是否存在的情况下，先将list装换成set可以非常有效的提升计算效率</p>
-<h4 id="2-对Int类型数值的范围要保持敏感"><a href="#2-对Int类型数值的范围要保持敏感" class="headerlink" title="2.对Int类型数值的范围要保持敏感"></a>2.对Int类型数值的范围要保持敏感</h4><p>​    Int类型数值范围为</p>
-<p>​        Max 0x7fffffff    2^31-1    2147483647</p>
-<p>​        Min 0x80000000   2^31    -2147483648</p>
-<p>​    <strong>注意：负数的范围会比正数的范围大一，这按需要特别注意</strong></p>
-<h4 id="3-常见数学问题要考虑的情况"><a href="#3-常见数学问题要考虑的情况" class="headerlink" title="3.常见数学问题要考虑的情况"></a>3.常见数学问题要考虑的情况</h4><p>​    1.是否有负数</p>
-<p>​    2.是否有小数</p>
-<p>​    3.是否考虑错误输入？如何进行处理</p>
-<p>​    4.数据范围极端值</p>
-<p>​    5.0或空如何进行处理</p>
-<p>​    .</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/12/22/刷题记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/22/刷题记录/" class="post-title-link" itemprop="url">刷题记录</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-22 11:40:19" itemprop="dateCreated datePublished" datetime="2018-12-22T11:40:19+08:00">2018-12-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机试/" itemprop="url" rel="index"><span itemprop="name">机试</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2018/12/22/刷题记录/" class="post-meta-item leancloud_visitors" data-flag-title="刷题记录" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/12/22/刷题记录/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/12/22/刷题记录/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>745</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h5 id="1-除自身以外的数组乘积"><a href="#1-除自身以外的数组乘积" class="headerlink" title="1.除自身以外的数组乘积"></a>1.除自身以外的数组乘积</h5><p>给定长度为 <em>n</em> 的整数数组 <code>nums</code>，其中 <em>n</em> &gt; 1，返回输出数组 <code>output</code> ，其中 <code>output[i]</code> 等于 <code>nums</code> 中除 <code>nums[i]</code> 之外其余各元素的乘积。</p>
-<p><strong>示例:</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">输出: [<span class="number">24</span>,<span class="number">12</span>,<span class="number">8</span>,<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
-<p><strong>说明：不能使用除法，在O(n)时间复杂度内解决此问题</strong></p>
-<p><strong>解决思路：</strong></p>
-<p>​    可以使用先从左到右进行遍历，记录每个位置左面的元素相乘获得的值，存储在output的对应位置，再从右到左进行遍历，记录每个位置右侧的元素乘积，再和output中已经存储的该位置左侧的元素乘积相乘，就可以得到最终结果，<strong>时间复杂度为O(n)</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">productExceptSelf</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        完美解</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        left = <span class="number">1</span></span><br><span class="line">        right = <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        len_nums = len(nums)</span><br><span class="line">        </span><br><span class="line">        output = [<span class="number">0</span>]*len_nums</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#从左到右进行一次遍历，在output中对应位置记录该值左面的元素乘积</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len_nums):</span><br><span class="line">            output[i] = left</span><br><span class="line">            left = left*nums[i]</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#从右到左进行一次遍历，记录每个值右面元素的乘积，和output中已经进行存储的左面乘积相乘，得到各个位置最终的结果</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(len_nums<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            output[j] *= right</span><br><span class="line">            right *= nums[j]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
-<p><strong>2.缺失数字</strong></p>
-<p>给定一个包含 <code>0, 1, 2, ..., n</code> 中 <em>n</em> 个数的序列，找出 0 .. <em>n</em> 中没有出现在序列中的那个数。</p>
-<p><strong>示例 1:</strong></p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">输入: [3,0,1]</span></span><br><span class="line"><span class="section">输出: 2</span></span><br></pre></td></tr></table></figure>
-<p><strong>示例 2:</strong></p>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [<span class="number">9,6,4,2</span>,<span class="number">3,5,7,0</span>,<span class="number">1</span>]</span><br><span class="line">输出: <span class="number">8</span></span><br></pre></td></tr></table></figure>
-<p><strong>说明:</strong><br>你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现?</p>
-<p><strong>思路一：</strong>最常见的思路应该是先排序，然后顺序遍历，对不上则为缺失位置</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">missingNumber</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">for</span> key,value <span class="keyword">in</span> emumerate(nums):</span><br><span class="line">            <span class="keyword">if</span> key!=value:</span><br><span class="line">                <span class="keyword">return</span> key</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> key+<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p><strong>思路二：</strong>另一种比较巧妙地思路就是直接利用数学的方法来解决这个问题，仔细研究题目，我们可以发现题目中所给的nums数组内所有元素的加和可以看做等差数列的加和减去缺失数，因此我们可以直接计算等差数列的加和(n*(n-1))/2，然后减去nums数组的加和，二者相减即为缺失的数.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">missingNumber</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">   	<span class="keyword">return</span> (int(len(nums)*(len(nums)<span class="number">-1</span>)/<span class="number">2</span>)- sum(nums))</span><br></pre></td></tr></table></figure>
-<h4 id="爬楼梯问题（动态规划）"><a href="#爬楼梯问题（动态规划）" class="headerlink" title="爬楼梯问题（动态规划）"></a>爬楼梯问题（动态规划）</h4><p>假设你正在爬楼梯。需要 <em>n</em> 阶你才能到达楼顶。</p>
-<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
-<p><strong>注意：</strong>给定 <em>n</em> 是一个正整数。</p>
-<p><strong>示例 1：</strong></p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入： <span class="number">2</span></span><br><span class="line">输出： <span class="number">2</span></span><br><span class="line">解释： 有两种方法可以爬到楼顶。</span><br><span class="line"><span class="number">1.</span>  <span class="number">1</span> 阶 + <span class="number">1</span> 阶</span><br><span class="line"><span class="number">2.</span>  <span class="number">2</span> 阶</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入： <span class="number">3</span></span><br><span class="line">输出： <span class="number">3</span></span><br><span class="line">解释： 有三种方法可以爬到楼顶。</span><br><span class="line"><span class="number">1.</span>  <span class="number">1</span> 阶 + <span class="number">1</span> 阶 + <span class="number">1</span> 阶</span><br><span class="line"><span class="number">2.</span>  <span class="number">1</span> 阶 + <span class="number">2</span> 阶</span><br><span class="line"><span class="number">3.</span>  <span class="number">2</span> 阶 + <span class="number">1</span> 阶</span><br></pre></td></tr></table></figure>
-<p>解题思路：首先经过题目分析我们最自然的可以想到，要想问到第n层楼梯的走法，那么一定为到第n-1和第n-2层楼梯走法之和，因此我们可以清楚地可以看出这是一道递归问题。即n(i) = n(i-1)+n(i-2)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(n)</span>:</span></span><br><span class="line">        	<span class="keyword">if</span> n==<span class="number">0</span>|n==<span class="number">1</span>:</span><br><span class="line">        		<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        	<span class="keyword">else</span>:</span><br><span class="line">        		<span class="keyword">return</span> f(n<span class="number">-1</span>)+f(n<span class="number">-2</span>)</span><br><span class="line">        <span class="keyword">if</span> n&gt;=<span class="number">2</span>:</span><br><span class="line">        	<span class="keyword">return</span> f(n)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>转换成非递归问题（<strong>其实本质就是讲递归问题由系统储存的信息改为程序储存，从而改编程序的运行方式，提高程序的运行效率</strong>）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        way = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>,n+<span class="number">1</span>):</span><br><span class="line">        	way.append(way[i<span class="number">-1</span>]+way[i<span class="number">-2</span>])</span><br><span class="line">        <span class="keyword">return</span> way[n]</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/12/07/自动化部署pyspark程序记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/07/自动化部署pyspark程序记录/" class="post-title-link" itemprop="url">自动化部署pyspark程序记录</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-12-07 11:18:20" itemprop="dateCreated datePublished" datetime="2018-12-07T11:18:20+08:00">2018-12-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2018/12/07/自动化部署pyspark程序记录/" class="post-meta-item leancloud_visitors" data-flag-title="自动化部署pyspark程序记录" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/12/07/自动化部署pyspark程序记录/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/12/07/自动化部署pyspark程序记录/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>424</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    项目要求需要在pyspark的集群中将一部分程序做集群的自动化部署，本文记录了程序部署过程中，使用到的一些技术以及遇到的一些问题。</p>
-<h4 id="1-SparkSession创建时设置不生效"><a href="#1-SparkSession创建时设置不生效" class="headerlink" title="1.SparkSession创建时设置不生效"></a>1.SparkSession创建时设置不生效</h4><p>​    首先，要进行程序的自动化部署首先要将程序封装成python文件，在这个过程中<strong>可能会出现sparkSession谁知不能生效的问题，不论对SparkSession进行什么设置，都不会生生效</strong></p>
-<blockquote>
-<p>这种问题是由于SparkSession的创建过程不能写在主程序中，必须要写在所有函数的外层，并且进行的在文件的初始部分穿创建</p>
-</blockquote>
-<h4 id="2-python-文件传入获取参数"><a href="#2-python-文件传入获取参数" class="headerlink" title="2.python 文件传入获取参数"></a>2.python 文件传入获取参数</h4><p>​    python文件也可以和shell脚本一样进行运行时传入参数，这里主要使用的的是python自带的sys和getopt包</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">要接受参数的python文件：</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> getopt</span><br><span class="line"></span><br><span class="line">opts,args = getopt.getopt(sys.argv[<span class="number">1</span>:],<span class="string">"d:"</span>,[<span class="string">"d:"</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> opt,arg <span class="keyword">in</span> opts:</span><br><span class="line">    <span class="keyword">if</span> opt <span class="keyword">in</span> (<span class="string">"-d"</span>,<span class="string">"--d"</span>):</span><br><span class="line">        input_file = arg</span><br><span class="line"><span class="comment">#后续可以直接使用input——file获取的变量名进行操作</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-将python文件执行封装到shell脚本中"><a href="#3-将python文件执行封装到shell脚本中" class="headerlink" title="3.将python文件执行封装到shell脚本中"></a>3.将python文件执行封装到shell脚本中</h4><p>​    这里之所以将python文件进行封装主要是为了方便移植，其实也可以直接设置将python脚本文件执行设置成定时任务，这里是一波瞎操作。主要为了练习和方便移植</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">首先在这个shell重要实现获取当前日期或前n天的日期</span></span><br><span class="line">date = `date -d "1 days ago"+%Y-%m-%d`</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">然后在将date作为参数后台执行这个程序并且生成日志</span></span><br><span class="line">python ***.py -d date &gt; /path/$&#123;date&#125;.log 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">=====================注意==============================</span></span><br><span class="line"><span class="meta">#</span><span class="bash">上面直接使用python执行时可能会出现系统中存在多个python导致部署时使用的python和之前测试使用的python不是一个python环境导致的，那么如何确定测试时使用的python环境呢？</span></span><br><span class="line"><span class="meta">#</span><span class="bash">要解决上述问题可以先从新进入到测试用的python环境，然后进行下面操作</span></span><br><span class="line">import sys</span><br><span class="line">print(sys.execyutable)</span><br><span class="line"><span class="meta">#</span><span class="bash">然后将python目录改为上面的python目录</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/11/26/深度学习训练基本经验/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/26/深度学习训练基本经验/" class="post-title-link" itemprop="url">深度学习训练基本经验</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2018-11-26 10:55:16" itemprop="dateCreated datePublished" datetime="2018-11-26T10:55:16+08:00">2018-11-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2018/11/26/深度学习训练基本经验/" class="post-meta-item leancloud_visitors" data-flag-title="深度学习训练基本经验" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2018/11/26/深度学习训练基本经验/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2018/11/26/深度学习训练基本经验/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>798</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1.<strong>在各个隐藏层和激活函数之间加入Batch Normalization层</strong>可以大大缩短训练时间，而且还存在隐藏效果，比如出现还可以改善效果。</p>
-<blockquote>
-<p>调用：</p>
-<p>​    Normalization(num_features)</p>
-<p> 参数设置：</p>
-<p>​    CNN后接Batch Normalization:  nums_feeatures为CNN感受野个数(即输出深度)</p>
-<p>​    全连接层后接Batch Normalization：num_features为输出的特征个数</p>
-</blockquote>
-<p>2.<strong>Batch Normalization和Dropout层不要一起使用，因为BN以及具备了dropout的效果</strong>，一起使用不但起不到效果，而且会产生副作用</p>
-<blockquote>
-<p>常见副作用:</p>
-<p>​    1.<strong>只能使用特别小的速率进行训练</strong>，使用较大的速率进行训练时，出现梯度消失，无法进行下降</p>
-<p>​    2.最终与训练集拟合程度不高，例如与训练集的拟合程度只能达到90%</p>
-<p>若一定要将dropout和BN一起使用，那么可以采用下面方式：</p>
-<p>​    1.将dropout放在BN后面进行使用</p>
-<p>​    2.修改Dropout公式(如高斯Dropout)，使其对对方差不那么敏感</p>
-<p>总体思路:降低方差偏移</p>
-</blockquote>
-<p><strong>3.深度学习不收敛问题</strong></p>
-<blockquote>
-<p>​    1.最常见的原因可能是由于学习速率设置的过大，这种情况一般先准确率不断上升，然后就开始震荡</p>
-<p>​    2.当训练样本较小，而向量空间较大时，也可能会产生不收敛问题，这种情况一般从一开始就开始震荡，机会没有准确率上升的过程</p>
-<p>​    3.训练网络问题。当面对的问题比较复杂，而使用的网络较浅时，可能会产生无法收敛问题</p>
-<p>​    4.数据没有进行归一化。数据输入模型之前如果没有进行归一化，很有可能会产生收敛慢或者无法进行收敛的问题</p>
-</blockquote>
-<p><strong>注意：收敛与否主要是看损失函数是否还在下降，而不是准确率是否还在上升，存在很多情况损失函数在迭代过程中还是在不断地下降，但是准确率基本上处于停滞状态，这种情况也是一种未完全拟合的表现，经过一段时间损失函数的下降后准确率还可能会迎来较大的提升</strong></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1441,7 +1428,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">165</span>
+          <span class="site-state-item-count">169</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

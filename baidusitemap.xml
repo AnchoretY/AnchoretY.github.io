@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A06%E2%80%94%E2%80%94ActorCritic/</loc>
+    <lastmod>2021-03-29</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A05%E2%80%94%E2%80%94PolicyGradient/</loc>
+    <lastmod>2021-03-29</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A08%E2%80%94%E2%80%94A3C/</loc>
+    <lastmod>2021-03-29</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A07%E2%80%94%E2%80%94DDPG/</loc>
+    <lastmod>2021-03-29</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2021/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A02%E2%80%94%E2%80%94QLearning/</loc>
+    <lastmod>2021-03-29</lastmod>
+  </url>  <url>
     <loc>https://anchorety.github.io/2021/03/22/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A04%E2%80%94%E2%80%94DQN/</loc>
     <lastmod>2021-03-25</lastmod>
   </url>  <url>
@@ -8,9 +23,6 @@
     <lastmod>2021-03-22</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2021/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A01%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0/</loc>
-    <lastmod>2021-03-22</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2021/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A02%E2%80%94%E2%80%94QLearning/</loc>
     <lastmod>2021-03-22</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2021/03/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%A4%A9%E6%8E%88/</loc>

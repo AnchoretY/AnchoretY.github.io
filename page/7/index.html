@@ -190,6 +190,422 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/27/目标检测——ROI池化层/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/27/目标检测——ROI池化层/" class="post-title-link" itemprop="url">目标检测——ROI池化层</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-27 00:17:42" itemprop="dateCreated datePublished" datetime="2019-10-27T00:17:42+08:00">2019-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/10/27/目标检测——ROI池化层/" class="post-meta-item leancloud_visitors" data-flag-title="目标检测——ROI池化层" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/27/目标检测——ROI池化层/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/27/目标检测——ROI池化层/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>655</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    RoI概念来源于SPP Net网络，其主要用于改善在卷积神经网络一般都包含卷积部分和全连接部分两个部分，卷积神经网络部分输入不需要固定尺寸，而全连接层则需要固定输入尺寸，因此在卷积神经网络中由于卷积部分提取到到的特征向量要输入到全连接网络中，因此卷积网络部分的的输入也只能输入固定的尺寸，但是在一些环境中所能提供的输入并不是一定的，因此在SSP Net中提出了RoI结构用来解决这个问题。</p>
+<h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><blockquote>
+<p>​    加<strong>在卷积层后</strong>用来将卷积层输出的不同尺寸的向量固定成一个尺寸，使其可以在<strong>模型原始输入向量大小不同时可将卷及部分输出的向量统一规格输入到后续的全连接部分。</strong></p>
+</blockquote>
+<h4 id="具体结构"><a href="#具体结构" class="headerlink" title="具体结构"></a>具体结构</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/ROI结构图.png?raw=true" alt></p>
+<blockquote>
+<p>假设输入ROI Pooling层的feature map of conv5的shape是(h,w,c)</p>
+<ol>
+<li>首先ROI Pooling层把feature map of conv5划分成4*4的小方块(对应图中蓝色矩形),每个小方块的宽高分别为w/4,h/4,通道数为c,不能整除时需要取整.针对feature map的每个通道,分别在这16个小方块进行最大池化(MaxPooling),也就是取出小方块里的最大值.每一个通道都能取出16个最大值,所以所有通道共有16c个值</li>
+<li>然后ROI Pooling层把feature map of conv5划分成2*2的小方块(对应图中绿色矩形),使用同样的方法得到4c个值</li>
+<li>接着ROI Pooling层把feature map of conv5划分成1*1的小方块(对应图中灰色矩形),得到c个值</li>
+<li>最后将上面三个值串联起来得到长度为16c+4c+c=21c的特征表示</li>
+</ol>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/26/目标检测——基本知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/26/目标检测——基本知识/" class="post-title-link" itemprop="url">目标检测——基本知识</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-26 17:45:19" itemprop="dateCreated datePublished" datetime="2019-10-26T17:45:19+08:00">2019-10-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/10/26/目标检测——基本知识/" class="post-meta-item leancloud_visitors" data-flag-title="目标检测——基本知识" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/26/目标检测——基本知识/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/26/目标检测——基本知识/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>72</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="1-什么是IoU-intersection-over-union-？"><a href="#1-什么是IoU-intersection-over-union-？" class="headerlink" title="1.什么是IoU(intersection-over-union)？"></a>1.什么是IoU(intersection-over-union)？</h4><blockquote>
+<p>IoU简单来讲就是模型产生的目标窗口和原来标记窗口的交叠率。具体计算公式为：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/IoU.png?raw=true" alt></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/26/目标检测——SelectiveSearch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/26/目标检测——SelectiveSearch/" class="post-title-link" itemprop="url">目标检测——SelectiveSearch</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-26 17:40:22" itemprop="dateCreated datePublished" datetime="2019-10-26T17:40:22+08:00">2019-10-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/10/26/目标检测——SelectiveSearch/" class="post-meta-item leancloud_visitors" data-flag-title="目标检测——SelectiveSearch" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/26/目标检测——SelectiveSearch/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/26/目标检测——SelectiveSearch/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>57</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://blog.csdn.net/Tomxiaodai/article/details/81412354" target="_blank" rel="noopener">https://blog.csdn.net/Tomxiaodai/article/details/81412354</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/20/ddos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/20/ddos/" class="post-title-link" itemprop="url">ddos</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-20 22:19:12" itemprop="dateCreated datePublished" datetime="2019-10-20T22:19:12+08:00">2019-10-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/10/20/ddos/" class="post-meta-item leancloud_visitors" data-flag-title="ddos" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/20/ddos/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/20/ddos/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>46</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://www.cnblogs.com/bonelee/p/9204826.html" target="_blank" rel="noopener">https://www.cnblogs.com/bonelee/p/9204826.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/10/17/pandas列表存储被自动转换成字符串问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1143,605 +1559,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/21/常见map-reduce面试题目/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/08/21/常见map-reduce面试题目/" class="post-title-link" itemprop="url">常见map_reduce面试题目</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-08-21 18:26:25" itemprop="dateCreated datePublished" datetime="2019-08-21T18:26:25+08:00">2019-08-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/08/21/常见map-reduce面试题目/" class="post-meta-item leancloud_visitors" data-flag-title="常见map_reduce面试题目" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/08/21/常见map-reduce面试题目/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/21/常见map-reduce面试题目/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>285</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Map-reduce"><a href="#Map-reduce" class="headerlink" title="Map reduce"></a>Map reduce</h3><p><strong>Map 阶段</strong></p>
-<blockquote>
-<p>1、先将HDFS中的输入文件file按照一定的标准进行切片</p>
-<p>2、调用自己编写的map逻辑，将输入的键值对<k1，v1>变成<k2，v2></k2，v2></k1，v1></p>
-<p>3、按照一定的规则对输出的键值对<k2,v2>进行分区</k2,v2></p>
-<p>4、对每个分区中的键值对进行<strong>排序</strong>。</p>
-</blockquote>
-<p><strong>Reduce 阶段</strong></p>
-<blockquote>
-<p>1、对多个Mapper任务的输出，按照不同的分区，通过网络拷贝到不同的Reducer节点上进行处理，将数据按照分区拷贝到不同的Reducer节点之后，对多个Mapper任务的输出在进行合并，排序。</p>
-<p>2、调用自己的reduce逻辑，将键值对<k2,v2s>变为<k3,v3>.在这里注意：每一个键值对<k2,v2s>都会调用一次reduce函数。</k2,v2s></k3,v3></k2,v2s></p>
-<p>3、将Reducer任务的输出保存到指定的文件中。</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/21/python代码效率优化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/08/21/python代码效率优化/" class="post-title-link" itemprop="url">python代码效率优化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-08-21 15:29:53" itemprop="dateCreated datePublished" datetime="2019-08-21T15:29:53+08:00">2019-08-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/08/21/python代码效率优化/" class="post-meta-item leancloud_visitors" data-flag-title="python代码效率优化" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/08/21/python代码效率优化/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/21/python代码效率优化/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>590</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    最近在面试中遇到问python代码效率优化的问题，感觉答的很混乱，所以想来整理下python代码优化的常见手段。</p>
-<h5 id="1-尽量使用python内置函数"><a href="#1-尽量使用python内置函数" class="headerlink" title="1.尽量使用python内置函数"></a>1.尽量使用python内置函数</h5><p>​    Python 的标准库中有很多内置函数，它们的运行效率都很高。因为很多标准库是使用 C 语言编写的。</p>
-<h5 id="2-字符串拼接使用python的标准式"><a href="#2-字符串拼接使用python的标准式" class="headerlink" title="2.字符串拼接使用python的标准式"></a>2.字符串拼接使用python的标准式</h5><p>​    python字符串的连接方式主要有：</p>
-<blockquote>
-<p>1.使用”+”做字符串拼接</p>
-<p>​    在 Python 中，<strong>字符串变量在内存中是不可变的。如果使用 “+” 拼接字符串，内存会先创建一个新字符串，然后将两个旧字符串拼接，再复制到新字符串</strong>。    </p>
-<p>2.使用%运算符连接</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; fir = <span class="string">'hello'</span></span><br><span class="line">&gt; sec = <span class="string">'monkey'</span></span><br><span class="line">&gt; result = <span class="string">'%s, %s'</span> % (fir, sec)</span><br><span class="line">&gt; print(result)</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>&gt;</p>
-<blockquote>
-<p>3.使用format格式化连接</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; fir = <span class="string">'hello'</span></span><br><span class="line">&gt; sec = <span class="string">'monkey'</span></span><br><span class="line">&gt; result = <span class="string">'&#123;&#125;, &#123;&#125;'</span>.format(fir, sec)</span><br><span class="line">&gt; print(result)</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>&gt;</p>
-<blockquote>
-<p>4.使用join的方式</p>
-<p>​    这是一种技巧型方法，一般用于连接列表获元组中的字符串。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; list = [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</span><br><span class="line">&gt; result = <span class="string">'+'</span>.join(list)</span><br><span class="line">&gt; print(result)</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>​    选用后面三种方式替代”+”字符串拼接</p>
-<h5 id="3-需要单次遍历的迭代的数组采用生成器替代"><a href="#3-需要单次遍历的迭代的数组采用生成器替代" class="headerlink" title="3.需要单次遍历的迭代的数组采用生成器替代"></a>3.需要单次遍历的迭代的数组采用生成器替代</h5><p>​    生成器拥有惰性计算的特点，并不不会一次性生成全部的值存储在内存中，而是在运行时生成值，因此可以大大节省内存空间。</p>
-<h5 id="4-使用while-1代替while-True-在python2中"><a href="#4-使用while-1代替while-True-在python2中" class="headerlink" title="4.使用while 1代替while True(在python2中)"></a>4.使用while 1代替while True(在python2中)</h5><p>​    <strong>由于Python2中，True/False不是关键字，因此我们可以对其进行任意的赋值，这就导致程序在每次循环时都需要对True/False的值进行检查</strong>；而对于1，则被程序进行了优化，而后不会再进行检查。</p>
-<h5 id="5-条件语句规范化，使用if-x代替if-x-True"><a href="#5-条件语句规范化，使用if-x代替if-x-True" class="headerlink" title="5.条件语句规范化，使用if x代替if x==True"></a>5.条件语句规范化，使用if x代替if x==True</h5><p>​    x==True会多出一步比较操作</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/20/协议线相关常见面试题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/08/20/协议线相关常见面试题/" class="post-title-link" itemprop="url">协议线相关常见面试题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-08-20 23:07:07" itemprop="dateCreated datePublished" datetime="2019-08-20T23:07:07+08:00">2019-08-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/08/20/协议线相关常见面试题/" class="post-meta-item leancloud_visitors" data-flag-title="协议线相关常见面试题" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/08/20/协议线相关常见面试题/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/20/协议线相关常见面试题/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><h5 id="HTTP协议组成"><a href="#HTTP协议组成" class="headerlink" title="HTTP协议组成"></a>HTTP协议组成</h5><blockquote>
-<p>请求报文包含三部分：</p>
-<ul>
-<li>请求行：包含请求方法、URI、HTTP版本信息</li>
-<li>请求首部字段</li>
-<li>请求内容实体</li>
-</ul>
-</blockquote>
-<h5 id="post和get区别"><a href="#post和get区别" class="headerlink" title="post和get区别"></a>post和get区别</h5><blockquote>
-<p>区别一：</p>
-<ul>
-<li>get重点在从服务器上获取资源。</li>
-<li>post重点在向服务器发送数据。</li>
-</ul>
-<p>区别二：</p>
-<ul>
-<li>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，多个请求数据间用”&amp;”连接，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的。</a></li>
-<li>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的。</li>
-</ul>
-<p>区别三：</p>
-<ul>
-<li>Get传输的数据量小，因为受URL长度限制，但效率较高。</li>
-<li>Post可以传输大量数据，所以上传文件时只能用Post方式。</li>
-</ul>
-<p>区别四：</p>
-<ul>
-<li>get是不安全的，因为URL是可见的，可能会泄露私密信息，如密码等。</li>
-<li>post较get安全性较高。</li>
-</ul>
-<p>区别五：</p>
-<ul>
-<li>get方式只能支持ASCII字符，向服务器传的中文字符可能会乱码。</li>
-<li>post支持标准字符集，可以正确传递中文字符。</li>
-</ul>
-</blockquote>
-<h5 id="为什么说HTTP协议是无状态协议？怎么解决无状态问题"><a href="#为什么说HTTP协议是无状态协议？怎么解决无状态问题" class="headerlink" title="为什么说HTTP协议是无状态协议？怎么解决无状态问题"></a>为什么说HTTP协议是无状态协议？怎么解决无状态问题</h5><blockquote>
-<p>无状态协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息</p>
-<p>解决办法： 1、Cookie 2、通过Session会话保存。</p>
-</blockquote>
-<p><strong>说一下Http协议中302状态</strong>(阿里经常问)</p>
-<blockquote>
-<p>http协议中，返回状态码302表示重定向。</p>
-<p>这种情况下，服务器返回的头部信息中会包含一个 Location 字段，内容是重定向到的url。</p>
-</blockquote>
-<h5 id="在浏览器中输入url后的过程"><a href="#在浏览器中输入url后的过程" class="headerlink" title="在浏览器中输入url后的过程"></a>在浏览器中输入url后的过程</h5><blockquote>
-<p>1.DNS解析：会根据URL逐层查询DNS服务器缓存，直到找到目标IP地址</p>
-<p>2.三次握手，TCP连接</p>
-<p>3.发送HTTP请求报文</p>
-<p>4.返回HTTP响应报文页面</p>
-<p>5.根据HTTP页面内容请求页面中的js、xss等，进行页面渲染</p>
-<p>6.断开TCP连接，四次挥手</p>
-</blockquote>
-<h5 id="SYN攻击："><a href="#SYN攻击：" class="headerlink" title="SYN攻击："></a>SYN攻击：</h5><blockquote>
-<p>​    在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect).此时服务器处于Syn_RECV状态.当收到ACK后，服务器转入ESTABLISHED状态.<br><strong>Syn攻击就是 攻击客户端 在短时间内伪造大量不存在的IP地址，向服务器不断地发送syn包，服务器回复确认包，并等待客户的确认，</strong>由于源地址是不存在的，服务器需要不断的重发直 至超时，这些伪造的SYN包将长时间占用未连接队列，正常的SYN请求被丢弃，目标系统运行缓慢，严重者引起网络堵塞甚至系统瘫痪。</p>
-</blockquote>
-<h5 id="Cookie和Seesion"><a href="#Cookie和Seesion" class="headerlink" title="Cookie和Seesion"></a>Cookie和Seesion</h5><blockquote>
-<p>​    Cookie是服务器发给浏览器的特殊信息，并会以文本形式存在浏览器中，所以我们点击浏览器的清除记录，往往会问我们是否清理Cookie，当清理之后下次再访问网页就会需要我们重新登录。如果浏览器中存在Cookie，那么提交请求就会一起提交过去服务器在接收到后就会解析Cookie生成与客户端相对应的内容，实现自动登录，Cookie带有我们的比较重要信息，所以一般不要给被人获取</p>
-<p>　　Session是在服务器上保存的信息，当服务器需要为客户创建Session的时候，就会解析客户端请求查看请求是否包含session id，如果包含那么就表明此前已经为客户端创建过session，不包含则创建一个对应的session id，而后回发给客户端，使得客户端下次能带有session id。然后按需保存状态</p>
-<p>　　所以最终的区别总结起来就是：<strong>Cookie数据存放在客户浏览器上，Session数据存放在服务器上，Session相对应Cookie安全，而使用Cookie会给服务器减负</strong></p>
-</blockquote>
-<h5 id="什么是HTTPS？和HTTP协议相比优势在哪里？"><a href="#什么是HTTPS？和HTTP协议相比优势在哪里？" class="headerlink" title="什么是HTTPS？和HTTP协议相比优势在哪里？"></a>什么是HTTPS？和HTTP协议相比优势在哪里？</h5><blockquote>
-<p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+完整性保护</p>
-<p>​    1.通信内容不加密，内容可能被窃听</p>
-<p>​    2.不验证通信对方的方式，可能遭到伪装</p>
-<p>​    3.无法验证报文的完整性，可能被篡改</p>
-</blockquote>
-<h5 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h5><blockquote>
-<p>200  OK    客户端请求成功</p>
-<p>   400  Bad Request   由于客户端请求有语法错误，不能被服务器所理解。</p>
-<p>   401  Unauthonzed   请求未经授权。这个状态代码必须和WWW-Authenticate报头域一起使用</p>
-<p>   403   Forbidden   服务器收到请求，但是拒绝提供服务。服务器通常会在响应正文中给出不提供服务的原因</p>
-<p>   404   Not Found   请求的资源不存在，例如，输入了错误的URL。</p>
-<p>   500  Internal Server Error 服务器发生不可预期的错误，导致无法完成客户端的请求。</p>
-<p>  503  Service Unavailable   服务器当前不能够处理客户端的请求，在一段时间之后，服务器可能会恢复正常</p>
-</blockquote>
-<h3 id="DNS协议"><a href="#DNS协议" class="headerlink" title="DNS协议"></a>DNS协议</h3><p><strong>DNS协议功能：完成域名-&gt;IP的映射</strong></p>
-<p><strong>端口：53</strong></p>
-<h5 id="域名解析顺序"><a href="#域名解析顺序" class="headerlink" title="域名解析顺序"></a>域名解析顺序</h5><blockquote>
-<p><strong>1.浏览器内部缓存</strong></p>
-<p>​    浏览器自身的DNS缓存，<strong>缓存时间比较短，大概只有1分钟，且只能容纳1000条缓存</strong></p>
-<p><strong>2.Chrome会搜索操作系统自身的DNS缓存</strong></p>
-<p>​    如果浏览器自身的缓存里面没有找到对应的条目，那么<strong>Chrome会搜索操作系统自身的DNS缓存</strong>,如果找到且没有过期则停止搜索解析到此结束</p>
-<p><strong>3.尝试读取host文件</strong></p>
-<p>​    如果在Windows系统的DNS缓存也没有找到，那么<strong>尝试读取hosts文件，</strong> 看看这里面有没有该域名对应的IP地址，如果有则解析成功。</p>
-<p><strong>4.先访问系统配置的首选DNS服务器</strong></p>
-<p>​    浏览器就会发起一个DNS的系统调用，就会向本地配置的首选DNS服务器（一般是电信运营商提供的，也可以使用像Google提供的DNS服务器）发起域名解析请求</p>
-<p><strong>5.如果首DNS服务器不能解析,则由首选DNS服务器代替向各个DNS</strong>(<strong>迭代式</strong>)<br>    (1)<strong>首先访问根域名服务器(</strong>DNS服务器内一般都会内置13台根域名服务器的地址)，查询完整域名的ip地址（www.baidu.com），但是根域名会回答不知道完整域名的地址，但知道顶级域名(.com)的ip地址</p>
-<p>​    (2)<strong>再去访问对应顶级域名的ip地址</strong>，尝试查询完整域名的ip地址，但是顶级域名服务器告诉运营商的DNS我不知道完整域名（www.baidu.com）这个域名的IP地址，但是我知道baidu.com这个域的DNS地址</p>
-<p>​    (3)这样无限迭代，直到查到完整域名的ip地址</p>
-</blockquote>
-<h5 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h5><blockquote>
-<p>​    DNS劫持就是通过劫持了DNS服务器，通过某些手段取得某域名的解析记录控制权，进而修改此域名的解析结果，导致对该域名的访问由原IP地址转入到修改后的指定IP，其结果就是对特定的网址不能访问或访问的是假网址，从而实现窃取资料或者破坏原有正常服务的目的。DNS劫持通过篡改DNS服务器上的数据返回给用户一个错误的查询结果来实现的。</p>
-<p><strong>解决办法：</strong>换用高可信的DNS服务器，比如GoogleDNS 8.8.8.8</p>
-</blockquote>
-<h5 id="DNS污染"><a href="#DNS污染" class="headerlink" title="DNS污染"></a>DNS污染</h5><blockquote>
-<p>​    DNS污染，指的是用户访问一个地址，国内的服务器(非DNS)监控到用户访问的已经被标记地址时，服务器伪装成DNS服务器向用户发回错误的地址的行为。范例，访问Youtube、Facebook之类网站等出现的状况。</p>
-<p>​    <strong>DNS污染症状</strong>：目前一些被禁止访问的网站很多就是通过DNS污染来实现的，例如YouTube、Facebook等网站。</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/14/面试常见的大数据相关问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/08/14/面试常见的大数据相关问题/" class="post-title-link" itemprop="url">面试常见的大数据相关问题</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-08-14 15:19:28" itemprop="dateCreated datePublished" datetime="2019-08-14T15:19:28+08:00">2019-08-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/08/14/面试常见的大数据相关问题/" class="post-meta-item leancloud_visitors" data-flag-title="面试常见的大数据相关问题" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/08/14/面试常见的大数据相关问题/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/14/面试常见的大数据相关问题/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="经典题目"><a href="#经典题目" class="headerlink" title="经典题目"></a>经典题目</h3><h5 id="1、海量日志数据，提取出某日访问百度次数最多的那个IP。"><a href="#1、海量日志数据，提取出某日访问百度次数最多的那个IP。" class="headerlink" title="1、海量日志数据，提取出某日访问百度次数最多的那个IP。"></a>1、海量日志数据，提取出某日访问百度次数最多的那个IP。</h5><blockquote>
-<p>分析:IP的数目还是有限的，共2^32个，因此可以直接进行hash map</p>
-<p>解决方案:</p>
-<p>​    首先是这一天，并且是访问百度的日志中的IP取出来，逐个写入到一个大文件中。注意到IP是32位的，最多有个2^32个IP。同样可以采用映射的方法，比如模1000，把整个大文件映射为1000个小文件，再找出每个小文中出现频率最大的IP（可以采用hash_map进行频率统计，然后再找出频率最大的几个）及相应的频率。然后再在这1000个最大的IP中，找出那个频率最大的IP，即为所求。</p>
-</blockquote>
-<h5 id="2-有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。"><a href="#2-有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。" class="headerlink" title="2.有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。"></a>2.有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</h5><blockquote>
-</blockquote>
-<h5 id="3-有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。"><a href="#3-有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。" class="headerlink" title="3.有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。"></a>3.有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</h5><blockquote>
-<p>方案：顺序读文件中，对于每个词x，取hash(x)%5000，然后按照该值存到5000个小文件（记为x0,x1,…x4999）中。这样每个文件大概是200k左右。</p>
-<p>　　如果其中的有的文件超过了1M大小，还可以按照类似的方法继续往下分，直到分解得到的小文件的大小都不超过1M。 对每个小文件，统计每个文件中出现的词以及相应的频率（可以采用trie树/hash_map等），并取出出现频率最大的100个词（可以用含100个结点的最小堆），并把100个词及相应的频率存入文件，这样又得到了5000个文件。下一步就是把这5000个文件进行归并（类似与归并排序）的过程了。</p>
-</blockquote>
-<h5 id="4-给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？"><a href="#4-给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？" class="headerlink" title="4.给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？"></a>4.给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</h5><blockquote>
-<p>方案1：</p>
-<p>​    可以估计每个文件的大小为5G×64=320G，远远大于内存限制的4G。所以不可能将其完全加载到内存中处理。考虑采取分而治之的方法。</p>
-<p>　　遍历文件a，<strong>对每个url求取hash(url)%1000</strong>，然后根据所取得的值将url分别存储到1000个小文件（记为a0,a1,…,a999）中。这样每个小文件的大约为300M。</p>
-<p>　　遍历文件b，采取和a相同的方式将url分别存储到1000小文件（记为b0,b1,…,b999）。这样处理后，所有可能相同的url都在对应的小文件（a0vsb0,a1vsb1,…,a999vsb999）中，不对应的小文件不可能有相同的url。然后我们只要求出1000对小文件中相同的url即可。</p>
-<p>　　求每对小文件中相同的url时，可以把其中一个小文件的url存储到hash_set中。然后遍历另一个小文件的每个url，看其是否在刚才构建的hash_set中，如果是，那么就是共同的url，存到文件里面就可以了。</p>
-</blockquote>
-<h5 id="5-在2-5亿个整数中找出不重复的整数，注，内存不足以容纳这2-5亿个整数。"><a href="#5-在2-5亿个整数中找出不重复的整数，注，内存不足以容纳这2-5亿个整数。" class="headerlink" title="5.在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。"></a>5.在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。</h5><blockquote>
-<p>方案1：</p>
-<p>​    采用2-Bitmap（每个数分配2bit，00表示不存在，01表示出现一次，10表示多次，11无意义）进行，共需内存内存，还可以接受。然后扫描这2.5亿个整数，查看Bitmap中相对应位，如果是00变01，01变10，10保持不变。所描完事后，查看bitmap，把对应位是01的整数输出即可。</p>
-</blockquote>
-<p>1.10M内存完成一个100G文件的排序</p>
-<blockquote>
-<p>利用内存和硬盘共同进行排序，每个内存</p>
-</blockquote>
-<p>2.高考满分750，有100w个考生的成绩，求第一百名的成绩（要求最优）。</p>
-<blockquote>
-<p>使用字典，桶排序</p>
-</blockquote>
-<h3 id="海量数据处理题目常用方法"><a href="#海量数据处理题目常用方法" class="headerlink" title="海量数据处理题目常用方法"></a>海量数据处理题目常用方法</h3><h4 id="1-Hashing"><a href="#1-Hashing" class="headerlink" title="1.Hashing"></a>1.Hashing</h4><p>​    适用范围：快速查找，删除的基本数据结构，通常需要总数据量可以放入内存</p>
-<p><strong>问题实例：</strong></p>
-<blockquote>
-<p>（1).海量日志数据，提取出某日访问百度次数最多的那个IP(经典题目一)。</p>
-</blockquote>
-<h4 id="2-bit-map"><a href="#2-bit-map" class="headerlink" title="2.bit-map"></a>2.bit-map</h4><p>​    适用范围：可进行数据的快速查找，判重，删除，一般来说<strong>数据范围是int的10倍以下</strong></p>
-<p>​    基本原理及要点：使用bit数组来表示某些元素是否存在，比如8位电话号码</p>
-<p><strong>问题实例：</strong></p>
-<blockquote>
-<p>1)已知某个文件内包含一些电话号码，每个号码为8位数字，统计不同号码的个数。</p>
-<p>　　8位最多99 999 999，大概需要99m个bit，大概10几m字节的内存即可。</p>
-<p>2)2.5亿个整数中找出不重复的整数的个数，内存空间不足以容纳这2.5亿个整数。</p>
-<p>　　将bit-map扩展一下，用2bit表示一个数即可，0表示未出现，1表示出现一次，2表示出现2次及以上。或者我们不用2bit来进行表示，我们用两个bit-map即可模拟实现这个2bit-map。</p>
-</blockquote>
-<h4 id="3-堆"><a href="#3-堆" class="headerlink" title="3.堆"></a>3.堆</h4><p>​    适用范围：海量数据前n大，并且n比较小，堆可以放入内存</p>
-<p>​    基本原理及要点：最大堆求前n小，最小堆求前n大。方法，比如求前n小，我们比较当前元素与最大堆里的最大元素，如果它小于最大元素，则应该替换那个最大元素。这样最后得到的n个元素就是最小的n个。适合大数据量，求前n小，n的大小比较小的情况，这样可以扫描一遍即可得到所有的前n元素，效率很高。</p>
-<p><strong>问题实例：</strong></p>
-<blockquote>
-<p> 1)100w个数中找最大的前100个数。</p>
-<p>​    用一个100个元素大小的最小堆即可。</p>
-</blockquote>
-<h4 id="4-外排序"><a href="#4-外排序" class="headerlink" title="4.外排序"></a>4.外排序</h4><p>​    适用范围：大数据的排序，去重</p>
-<p>　基本原理及要点：外排序的归并方法，置换选择败者树原理，最优归并树</p>
-<p><strong>问题实例</strong></p>
-<blockquote>
-<p>1) 有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。</p>
-<p>分析:因为是计算频数，因此肯定没有办法用位图法，然后考虑是否能用hashing法，内存限制仅为1M，因此也不行，因此考虑外排序法。</p>
-<p>方案：顺序读文件中，对于每个词x，取hash(x)%5000，然后按照该值存到5000个小文件（记为x0,x1,…x4999）中。这样每个文件大概是200k左右。</p>
-<p>　　如果其中的有的文件超过了1M大小，还可以按照类似的方法继续往下分，直到分解得到的小文件的大小都不超过1M。 对每个小文件，统计每个文件中出现的词以及相应的频率（可以采用trie树/hash_map等），并取出出现频率最大的100个词（可以用含100个结点的最小堆），并把100个词及相应的频率存入文件，这样又得到了5000个文件。下一步就是把这5000个文件进行归并（类似与归并排序）的过程了。</p>
-</blockquote>
-<h4 id="trie树"><a href="#trie树" class="headerlink" title="trie树"></a>trie树</h4><p><strong>问题实例：</strong></p>
-<blockquote>
-<p>　1).有10个文件，每个文件1G，每个文件的每一行都存放的是用户的query，每个文件的query都可能重复。要你按照query的频度排序。</p>
-<p>　2).1000万字符串，其中有些是相同的(重复),需要把重复的全部去掉，保留没有重复的字符串。请问怎么设计和实现？</p>
-<p>　3).寻找热门查询：查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个，每个不超过255字节。　　</p>
-<p>第一步、先对这批海量数据预处理，在O（N）的时间内用Hash表完成排序；然后，第二步、借助堆这个数据结构，找出Top K，时间复杂度为N‘logK。 即，借助堆结构，我们可以在log量级的时间内查找和调整/移动。因此，维护一个K(该题目中是10)大小的小根堆，然后遍历300万的Query，分别和根元素进行对比所以，我们最终的时间复杂度是：O（N） + N’*O（logK），（N为1000万，N’为300万</p>
-</blockquote>
-<p>　</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1814,7 +1631,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">165</span>
+          <span class="site-state-item-count">169</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
