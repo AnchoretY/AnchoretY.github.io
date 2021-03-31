@@ -13,81 +13,23 @@ categories:
 
 <!--more-->
 
-### 标题一
+## Actor Critic
 
-#### 1.Mermaid流程图
+&emsp;&emsp;虽然Poclicy Gradient成功解决了Value-base算法不能解决在连续动作中进行选择的问题，但是由于其只能进行回合制更新，因此具有更新效率低，算法稳定性差等原因，需要进一步完善，因此就发明了一种全新的算法——Actor Critic，这种算法将Value-base算法与Gradient算法进行结合，使Policy Gradient也能在每个step进行更新。
 
-[参考文档](https://mermaidjs.github.io/#/flowchart?id=graph)
+### 原理介绍
 
-~~~mermaid
-graph LR
-A(sql注入)  --> B(普通注入)
-A --> C(圆角长方形)
-C-->D(布尔型盲注)
-C-->E(延时盲注)
-~~~
+&emsp;&emsp;Actor Critic通过建立两个深度神经网络，Policy Gradient神经网络作为Actor，选择行为进行表演，而Value-base的神经网络利用其单步更新的特性作为Critic对Actor的行为进行评价，从而使Actor Critic模型可以实现单步更新，提升学习效率。
 
-#### 2.数学公式
-
-[参考文档](https://khan.github.io/KaTeX/)
-
-&emsp;&emsp;单行数学公式:
-$$
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\
-$$
-&emsp;&emsp;行内数学公式$\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\ $
-					
-				
-			
-
-### 标题二
-
-#### 1.表格
+> Critic: Value-base，对每个action进行评价，指导Actor更新
+>
+> Actor: Policy Gradient，进行行动
 
 
 
-- [ ] 计划任务
-- [x] 完成任务
-
-#### 2. 列表
-
-| 项目 | Value |
-| ---- | ----- |
-| 电脑 | $1600 |
-| 手机 | $12   |
-| 导管 | $1    |
-
-|     Column 1      |               Column 2 |
-| :---------------: | --------------------- |
-| centered 文本居中 | right-aligned 文本居左 |
 
 
 
-#### 3.note标记
-
-{% note  default %}
-Default
-{% endnote %}
-
-{% note  primary %}
-primary
-{% endnote %}
-
-{% note  success %}
-success
-{% endnote %}
-
-{% note  info %}
-info
-{% endnote %}
-
-{% note  warning %}
-warning
-{% endnote %}
-
-{% note  danger %}
-danger
-{% endnote %}
 
 
 

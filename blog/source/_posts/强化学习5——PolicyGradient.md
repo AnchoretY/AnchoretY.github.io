@@ -13,7 +13,7 @@ categories: 强化学习
 
 <!--more-->
 
-##
+## Policy Gradient
 
 &emsp;&emsp;在前面的学习中，我们已经学习了很多种强化学习算法，这些强化学习算法无一例外，都在采用Value-Base的Rl，即每一步都会有一个对应的Q值和V值(观测值)，而我们整个学习过程就是要计算出处于各个V对应的Q值，但是这个Q与V值的计算并不是我们的最终目标啊，那我们可以有什么办法不需要计算Q值吗？
 
@@ -29,21 +29,48 @@ categories: 强化学习
 
 ### 1. 蒙特卡洛算法
 
-&emsp;&emsp;从某个state出发，然后一直走，知道到到最终状态。然后我们从最终状态原路返回，对每个状态评估G值。所以G值能够表示在策略下，智能体选择路径的好坏。
+&emsp;&emsp;从某个state出发，然后一直走，知道到到最终状态。然后我们从最终状态原路返回，对每个状态评估G值。所以**G值能够表示在策略下，智能体选择路径的好坏**。
 
+&emsp;&emsp;在一次episode中，到达结束状态，我们计算蒙特卡洛方法中的所有G值。蒙特卡洛方法中，G值的计算方式为：
 
+> 1. 根据策略不断根据当前状态进行行为选择，并记录每一步选择获取的奖励r,直到完成任务。
+>
+> 2. 完成任务后，从任务完成的状态开始向前回溯，计算每一个状态的G值。计算公式为
+>    $$
+>    G_{t-1} = r_{t-1,t} + gamma* G_t
+>    $$
+>
+> &emsp;&emsp;最后一个状态的获得的总奖励值即为最后一个状态的G值。
 
+<img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cig4kbwhpjr.png" alt="image" style="zoom:67%;" />
 
+&emsp;在下面的实例中，假设我们在一个episode中，经过6个state到达最终状态，G值的计算如下所示。
 
+![image](https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.hwgdx2ki8v4.png)
 
+### 2. Policy Gradient算法直观理解
 
-### 2. 直观理解
+&emsp;&emsp;我们的Policy Gradient正需要一种算法可以做到，**如果智能体选择了正确的决策，就让智能体拥有更多的概率被选择，如果智能体选择的行为是错的，那么智能体在当前转状态西选择这个行为的概率就会减少**，由于蒙特卡洛方法中的G值可以直观衡量在策略表示下，智能体选择当前路径的好坏，因此将蒙特卡洛方法中的G值作为融入梯度更新算法中，如果到达当前节点的G值越大，那么这个节点的更新速率将越快。
+$$
+loss = cross\_entory(G*(target-predict))
+$$
+&emsp;&emsp;例如假设从某个state出发，可以采取三个动作，当前智能体对这一无所知，那么，可能采取平均策略 0 = [33%,33%,33%]。第一步随机选择了动作A，到达最终状态后开始回溯，计算得到第一步的状态对应的 G = 1。
 
+<img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.nuvbgrhy9w.png" alt="image" style="zoom:80%;" />
 
+&emsp;&emsp;我们可以更新策略，因为该路径**选择了A**而产生的，**并获得G = 1**；因此我们要更新策略：让A的概率提升，相对地，BC的概率就会降低。 计算得新策略为： 1 = [50%,25%,25%]
 
+&emsp;&emsp;虽然B概率比较低，但仍然有可能被选中。第二轮刚好选中B。智能体选择了B，到达最终状态后回溯，计算得到 G = -1。
 
+<img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.tuiybmxj02i.png" alt="image" style="zoom:80%;" />
 
+&emsp;&emsp;所以我们对B动作的评价比较低，并且希望以后会少点选择B，因此我们要降低B选择的概率，而相对地，AC的选择将会提高。计算得新策略为： 2 = [55%,15%,30%]
 
+&emsp;&emsp;最后随机到C，回溯计算后，计算得G = 5。
+
+<img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.60sjtcuk53l.png" alt="image" style="zoom:80%;" />
+
+&emsp;&emsp;C比A还要多得多。因此这一次更新，C的概率需要大幅提升，相对地，AB概率降低。 3 = [20%,5%,75%]
 
 ### 3.代码分析
 
@@ -110,24 +137,7 @@ def store_transition(self, s, a, r):
 ```
 #### G值计算
 
-&emsp;&emsp;在一次episode中，到达结束状态，我们计算蒙特卡洛方法中的所有G值。蒙特卡洛方法中，G值的计算方式为：
-
-> 1. 根据策略不断根据当前状态进行行为选择，并记录每一步选择获取的奖励r,直到完成任务。
->
-> 2. 完成任务后，从任务完成的状态开始向前回溯，计算每一个状态的G值。计算公式为
->    $$
->    G_{t-1} = r_{t-1,t} + gamma* G_t
->    $$
->
-> &emsp;&emsp;最后一个状态的获得的总奖励值即为最后一个状态的G值。
-
-![image](https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cig4kbwhpjr.png)
-
-&emsp;&emsp;在下面的实例中，假设我们在一个episode中，经过6个state到达最终状态，G值的计算如下所示。
-
-![image](https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.hwgdx2ki8v4.png)
-
-&emsp;&emsp;代码实现的思路如下：
+&emsp;&emsp;&emsp;代码实现的思路如下：
 
 > 1. 创建全0向量，其大小与存储整个eposode中的reward的列表相同
 > 2. 反向循环计算G的值。
@@ -184,6 +194,25 @@ def learn(self):
 <img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.14q739fpyhx.png" alt="image" style="zoom:50%;" />
 
 &emsp;&emsp;跟我我们对神经网络训练的了解，预测值都会想真实值进行靠拢,而不同的G值决定了不同的靠拢速度，相同预测值与真实的情况下，G为2的学习速率将是G为1的两倍。
+
+### 缺陷
+
+&emsp;&emsp;Policy Gradient的虽然能够进行对action为连续值的情况进行预测，但是其缺点也十分明显：
+
+> 1. 由于采用了蒙塔卡洛方法，因此需要一个episode结束才能能够进行更新，因此效率不高
+> 2. 并且算法效果十分不稳定，很多时候 学习较为困难
+
+
+
+
+
+
+
+
+
+
+
+
 
 #### 完整代码
 
