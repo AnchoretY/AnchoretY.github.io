@@ -190,6 +190,360 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/" class="post-title-link" itemprop="url">阿里2019年最新论文-定位然后检测恶意攻击</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-04 20:55:58" itemprop="dateCreated datePublished" datetime="2019-09-04T20:55:58+08:00">2019-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/" class="post-meta-item leancloud_visitors" data-flag-title="阿里2019年最新论文-定位然后检测恶意攻击" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-based<br>Deep Neural Networks》</p>
+<p>主要针对的攻击类型:sql、xss</p>
+<p>采用的方式:先定位攻击载荷在进行恶意检测</p>
+<p>内容解读：</p>
+<p>​    主要分为两阶段网络</p>
+<blockquote>
+<p>PLN(Payload Locat-ing Network):在整个url、post中定位到关键部分，去掉无用信息</p>
+<p>PCN(Payload Classification Network):利用PLN网络得到的关注度信息进行分类</p>
+</blockquote>
+<h2 id="PLN"><a href="#PLN" class="headerlink" title="PLN"></a>PLN</h2><p>​    <strong>目标</strong>：</p>
+<p>​    <strong>输入</strong>:固定长度的请求输入文本</p>
+<p>​    <strong>输出:</strong>区域位置和可疑置信度</p>
+<p>​    <strong>核心思想</strong>：图像分割的思想</p>
+<blockquote>
+<p>PLN网络要进行单独的训练，然后加到PCN网络之前，固定参数值(我的理解)</p>
+</blockquote>
+<h4 id="request请求编码"><a href="#request请求编码" class="headerlink" title="request请求编码"></a>request请求编码</h4><p>​    首先设置一个最大长度L，然后进行字符级别的embedding，即每个字符都转化成一个对应的k维Embbeding向量，最终输出为：L*K维向量</p>
+<blockquote>
+<p>这里的最大长度法和我们之前的方法类似，直接进行长度限制，忽略了在超长的正常参数尾部追加恶意payload形式的攻击    </p>
+</blockquote>
+<h4 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h4><p>​    模型：Xception</p>
+<blockquote>
+<p>Xception模型</p>
+<p>​    先进行普通卷积操作，再对 1×1 卷积后的每个channel分别进行 3×3 卷积操作，最后将结果 concat</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true" alt></p>
+</blockquote>
+<p>​    加速计算：thin feature maps with small channel(不损失很大精度的前提下显著提升速度)</p>
+<h4 id="模型部分"><a href="#模型部分" class="headerlink" title="模型部分"></a>模型部分</h4><p>​    沿着特征图滑动几个mini-networks来检测可以片段，该网络采样特征图一个n<em>m的窗口，在mini-network层之后经过两个1\</em>m并列的层——区域回归层和区域分类层</p>
+<blockquote>
+<p>为了保证保持嵌入张量中这些向量的语义完整性，我们令m等于字符向量的嵌入大小。</p>
+</blockquote>
+<p>reg层输出坐标：(p,2p)有效载荷的开始位置和结束位置</p>
+<p>cls层：输出每个区域的得分</p>
+<p>对于输入特征图为W<em>H的，将会有H\</em>P个区域</p>
+<p>并不是所有区域都是有效的，</p>
+<h5 id="区域的标注"><a href="#区域的标注" class="headerlink" title="区域的标注"></a>区域的标注</h5><p>区域标注为积极标签的方法为:</p>
+<blockquote>
+<p>1.将用于最大的交集序列（Ios）的区域标为积极</p>
+<p>2.将交集序列的值（Ios）大于0.5的值定位积极</p>
+</blockquote>
+<p>区域标注为消极标签:</p>
+<blockquote>
+<p>将交集序列的值小于0.2的标为消极序列</p>
+</blockquote>
+<p>​    如果既没有标为消极也没有标为积极，那么则忽略该区域。一般情况下消极区域的数量远大于积极区域，如果消极区域和积极区域的比例大于3：1，那么将其归置到3：1。</p>
+<h5 id="PLN层的损失函数："><a href="#PLN层的损失函数：" class="headerlink" title="PLN层的损失函数："></a>PLN层的损失函数：</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true" alt></p>
+<p>​    参数意义：</p>
+<blockquote>
+<p>i：区域的编号</p>
+<p>li:区域的label，积极区域为1，否则为0</p>
+<p>posi、pos∗i :分别代表了区域的开始位置和结束位置</p>
+<p>Lcls：是区域的分类对数损失函数，</p>
+<p>Lreg: 是积极区域的回归损失函数，不关注负样本，该回归损失函数采用：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true" alt> </p>
+<p>​    x表示区域真实标签和预测值之间的差距</p>
+<p>λ：控制损失函数的前后两个部分的重要性，本文中采用的是1.0</p>
+<p>Ncls: 本文中设置为mini-batch 大小</p>
+<p>Nreg:本文设置为区域个数，</p>
+</blockquote>
+<h4 id="数据标注"><a href="#数据标注" class="headerlink" title="数据标注"></a>数据标注</h4><p>​    在整个LTD模型结构中，需要大量的标注数据，本文提出了基于HMM的异常检测系统来辅助序列标注，该系统通过大量的HMM模型来实现，每个host的每个url的参数值都会训练一个hmm模型，检测到的异常参数经过规则检测系统确定为xss或sql会标记起始和结束位置。</p>
+<p>​    <strong>作用:表示有效payload位置</strong></p>
+<p>​    <strong>方法：参数hmm+规则系统</strong></p>
+<blockquote>
+<p>实例：</p>
+<p>​    uri1 = /a.php?id=1&amp;name=1’ and 1=1</p>
+<p>首先提取各个参数的值，得到</p>
+<p>​    {val1 : 1, val2 : 1′ and 1 = 1}</p>
+<p>使用hmm参数异常检测模型确定是否存在异常参数值</p>
+<p>​    val2是异常的参数值</p>
+<p>使用规则模型判别该参数为sql注入，定位位置，标记异常区域</p>
+<p>​     [Start (17), End (27), Label (1)]</p>
+</blockquote>
+<h2 id="PCN"><a href="#PCN" class="headerlink" title="PCN"></a>PCN</h2><p>​    目标:对PLN层定位的可疑区域，在PCN部分进行深入的分析，找到攻击的区域，</p>
+<p>​    输入：PLN中得分最高的三个区域(最可疑)</p>
+<p>​    输出: 是否为攻击以及攻击类型</p>
+<p>​    核心思想：采用CNN进行文本分类</p>
+<h4 id="具体做法"><a href="#具体做法" class="headerlink" title="具体做法"></a>具体做法</h4><blockquote>
+<p>采用5层不同大小的卷积核，并且每个卷积核后都会带一个max-overtime pooling operation ，不同的卷积核大小保证了PCN能够精确地识别具有多种特征的攻击。这些特征被连接起来，在连接在层线性层，最后使用softmax输出是各种攻击的可能性</p>
+</blockquote>
+<h4 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h4><p>​    PCN部分的损失函数就是标准的交叉熵损失函数加上一个L1正则化项：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true" alt></p>
+<p>该层主要是一个文本分类的层，和PCN层共享相同的Embedding向量，输出给定区域是否为恶意以及攻击类型</p>
+<h3 id="数据产生方法"><a href="#数据产生方法" class="headerlink" title="数据产生方法"></a>数据产生方法</h3><blockquote>
+<p>1.首先使用传统的WAF找出正常流量</p>
+<p>2.构造sql、xss的payload参数值随机换到正常流量的参数值部分</p>
+</blockquote>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><h4 id="1-CSCI"><a href="#1-CSCI" class="headerlink" title="1.CSCI"></a>1.CSCI</h4><p>​    CSCI 2010数据集包含针对电子商务Web应用程序生成的流量，该数据集包含25,000多个异常请求和36,000个良性请求，使用其中2,072 SQLi和1,502 XSS样本作为黑样本，其他的正常流量和攻击流量统一标记为白样本。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true" alt></p>
+<p>​    LTD与RWAF相比，在精确率吧和召回率方面均要好。LTD和Libinjection都具有100%的精确率，但是LTD拥有更高的召回率。</p>
+<h4 id="2-真实流量"><a href="#2-真实流量" class="headerlink" title="2.真实流量"></a>2.真实流量</h4><p>数据来源</p>
+<p>​    300w条真实流量数据，其中包括38600个sql注入和xss攻击实例。    </p>
+<h4 id="Part-1-模型优越性的证明"><a href="#Part-1-模型优越性的证明" class="headerlink" title="Part 1  模型优越性的证明"></a>Part 1  模型优越性的证明</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true" alt></p>
+<p>​    其中，</p>
+<p>​    <strong>1.LTD获得了最高的精确率，HMM-Web获得了最高的召回率，但是它的误报率过高</strong>，在在真实的WAF应用中，误报率必须少于0.01%。</p>
+<p>​    <strong>分析：</strong>在该实验中，HMM-Web方式之所以比LTD获得了更加高的准确率，是因为HMM-Web所采用的方式是基于异常检测的方式，只要是之前没有见过的流量都会被判别为恶意。但这种HMM异常检测的缺陷也非常的明显，每当有系统更新时，HMM-web模型都需要重新进行训练，因此HMM-web并不是一个很好的实时web入侵检测方式。</p>
+<blockquote>
+<p>对于对于Web攻击检测，在误报和召回之间存在权衡，而低误报是生产环境中的先决条件。因为高误报会造成用户正常访问的阻塞</p>
+</blockquote>
+<p>​    <strong>2.Libinjection和LTD都获得了100%的精确率，但LTD的召回率达到了99.8%，而Libinjection只有71%。</strong>下面是一些Libinjection误分类而LTD分类正确分类的样本：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true" alt></p>
+<p>​    <strong>分析：</strong>这里的解释有点没太看懂，好像有点和上表对不上，大致意思是说Libinjection过分依赖指纹库，进行微小的改变都很难进行检测，而且由于有些正常流量可能偶尔也会出现指纹库中的部分内容，因此很容易误报</p>
+<p>​    <strong>3.LTD比RWAF方式准确率和召回率都好。</strong></p>
+<h4 id="Part2-PLN部分有效性的证明"><a href="#Part2-PLN部分有效性的证明" class="headerlink" title="Part2 PLN部分有效性的证明"></a>Part2 PLN部分有效性的证明</h4><p>实验组1：LTD</p>
+<p>实验组2 ：VPCN,把url参数部分却分为key-value形式，LTD去掉PLN部分只留下PCN部分进行分类</p>
+<p><em>个人看法：这里我个人觉得对比试验有点问题，因为直接用PCN部分进行分类不一定非要进行参数切分，因此这里使用切与不切分进行对比，证明LTD效率更高个人认为不成立，应该使用直接使用PCN进行对原始embedding后的内容进行分类</em></p>
+<h5 id="1-效率上"><a href="#1-效率上" class="headerlink" title="1.效率上"></a>1.效率上</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true" alt>    </p>
+<p>​    在有GPU的的环境下，带PLN的网络比不带的快6倍，没有GPU的环境下快了8倍。</p>
+<p>​    分析：LTD之所以效率高的多是因为不使用PLN，直接参数个数过多，27.5的Url有13个参数以上，切分参数需要花费大量的时间，在真实流量中，包含参数个数可能更多。另一方面，一些开发者因为某些原因重新模块来隐藏参数，在这种情况下，基于规则的计算需要更加复杂的计算来提取该值。<strong>与传统的方法相比，LTD通过限制检测区域来加快计算效率，另一方面也避免了参数重写造成的切割效率问题</strong></p>
+<h5 id="2-准确率"><a href="#2-准确率" class="headerlink" title="2.准确率"></a>2.准确率</h5><p>​    <strong>对照组</strong>：典型的char级cnn从原始请求进行分类</p>
+<p>​    数据集来源：</p>
+<p>​        训练集：真实流量中320w正常流量，80w攻击样本</p>
+<p>​        测试数据集：10w条不同时间的正常流量数据，在其中选择10000个样本随机将其中一个参数的值替换为SQLi、XSS的攻击载荷，形成恶意样本，其他的为正常样本</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true" alt></p>
+<p>​    经过实验，明显可以看出，<strong>直接的CNN的误报率和漏报率比LTD都要高得多</strong>，而这时因为一般payload的长度都很短，而url请求的长度很长。某些已知攻击的payload长度最短可以为6个字符，而这些很短的payload就可以隐藏在很长的背景字符串之中，导致CNN很难学到恶意payload，而LTD中的PLN模块能通过过滤不相关部分来发现隐藏在很长背景字符串中的短payload，因此，LTD可以更准确地区分实际的攻击有效负载和那些恶意的良性URL片段。</p>
+<h5 id="Part3-PLN输出可疑区域个数选择"><a href="#Part3-PLN输出可疑区域个数选择" class="headerlink" title="Part3 PLN输出可疑区域个数选择"></a>Part3 PLN输出可疑区域个数选择</h5><p>​    分别绘制了xss、sql在1~5个可以区域的ROC、PR曲线，如下：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true" alt></p>
+<p>​    <strong>当区域数为3时，SQLi和XSS均达到了最好或者非常接近最好的准确率</strong>。使用更多的区域数能够获得更好的召回率，但是误报率将大大升高。</p>
+<h3 id="依然存在的问题"><a href="#依然存在的问题" class="headerlink" title="依然存在的问题"></a>依然存在的问题</h3><p>​    1.限定输入长度，对于特长的尾部追加式的攻击依然没有识别能力</p>
+<p>​    2.单纯的在SQLi和XSS上进行实验，未来还需要文件包含和代码执行等其他攻击类型进行检测</p>
+<p>​    3.所谓的提升了可解释性我觉得并没有很好地可以追溯源头</p>
+<p>【1】Hmm-web: A framework for the detection of attacks against web applications</p>
+<p>【2】Xception:Deep learning with depthwise separable convolutions.</p>
+<p>【3】Detection of sql injection attacks using hidden markov model.</p>
+<p> 【4】Character-aware neural language models.</p>
+<p>【5】A method for stochastic optimization</p>
+<p>【6】 Light-head r-cnn: In defense of two-stage object detector.</p>
+<p>【7】Application of the generic feature selection measure in detection of web attacks</p>
+<p>【8】Ef-ficient character-level document classification by combining convolution and recurrent layers</p>
+<p>貌似</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/25/python——浅拷贝和深拷贝/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/25/python——浅拷贝和深拷贝/" class="post-title-link" itemprop="url">python——浅拷贝和深拷贝</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-25 12:47:28" itemprop="dateCreated datePublished" datetime="2019-08-25T12:47:28+08:00">2019-08-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/08/25/python——浅拷贝和深拷贝/" class="post-meta-item leancloud_visitors" data-flag-title="python——浅拷贝和深拷贝" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/25/python——浅拷贝和深拷贝/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/25/python——浅拷贝和深拷贝/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>364</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>​    要了解深拷贝和浅拷贝，首先要明确python中的可变类型和不可变类型。</p>
+<p><strong>不可变数据类型</strong></p>
+<blockquote>
+<ul>
+<li>Number（数字）</li>
+<li>String（字符串）</li>
+<li>Tuple（元组）</li>
+</ul>
+</blockquote>
+<p><strong>可变数据类型</strong></p>
+<blockquote>
+<ul>
+<li>List（列表）</li>
+<li>Dictionary（字典）</li>
+<li>Set（集合）</li>
+</ul>
+</blockquote>
+<h3 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h3><h4 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h4><p>​    浅拷贝直接</p>
+<blockquote>
+<p>1.对于不可变类型 Number String Tuple,浅复制仅仅是地址指向，不会开辟新空间。</p>
+<p>2.对于可变类型 List、Dictionary、Set，浅复制会开辟新的空间地址(仅仅是最顶层开辟了新的空间，里层的元素地址还是一样的)，进行浅拷贝</p>
+<p>3.<strong>浅拷贝后，改变原始对象中为可变类型的元素的值，会同时影响拷贝对象的；改变原始对象中为不可变类型的元素的值，只有原始类型受影响。</strong></p>
+</blockquote>
+<h4 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h4><blockquote>
+<p>1.除了顶层拷贝，还对子元素也进行了拷贝</p>
+<p>2.经过深拷贝后，原始对象和拷贝对象所有的元素地址都没有相同的了</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/23/sql常见面试题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1392,484 +1746,11 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/01/UEBA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/08/01/UEBA/" class="post-title-link" itemprop="url">UEBA</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-08-01 15:59:57" itemprop="dateCreated datePublished" datetime="2019-08-01T15:59:57+08:00">2019-08-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/08/01/UEBA/" class="post-meta-item leancloud_visitors" data-flag-title="UEBA" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/08/01/UEBA/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/01/UEBA/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    本文重点介绍UEBA概念、UEBA在国内外各大厂商的引用情况、机器学习技术在UEBA产品中如何进行应用等方面来对UEBA介绍，作为近段时间UEBA相关工作调研的总结。</p>
-<h3 id="UEBA"><a href="#UEBA" class="headerlink" title="UEBA"></a>UEBA</h3><p>​    UEBA用户实体行为分析，</p>
-<h4 id="UEBA的核心点"><a href="#UEBA的核心点" class="headerlink" title="UEBA的核心点"></a>UEBA的核心点</h4><p><strong>1.跨越SIEM/ROC产品，UEBA产品考虑更多的数据源。</strong> </p>
-<blockquote>
-<p>​    从网络设备、系统、应用、数据库和用户处收集数据,有更多的数据，是其成功的条件之一。</p>
-</blockquote>
-<p><strong>2.数据驱动，但并不是单纯依靠数据驱动。一般都是数据驱动+专家驱动的混合系统。</strong></p>
-<blockquote>
-<p>单纯的数据驱动的问题：</p>
-<p>​    1.在学习之处很难拿到十分完善的数据，每当有新的数据源都需要重新进行学习，对于工程化来说是一场灾难</p>
-<p>​    2.增加features很难做到快速部署</p>
-<p>​    3.机器学习的到的结果是黑盒，不能解释说明，因此用户很难直接根据机器学习的结果直接进行响应和判别</p>
-</blockquote>
-<p><strong>3.并不是单纯的依靠机器学习，而是机器学习和统计学习相结合。</strong></p>
-<blockquote>
-<p>异常主要来源于两个方面：</p>
-<p>​    1.统计特征。例如用户访问文件夹数量异常、是否第一词访问某个较敏感的文件夹等</p>
-<p>​    2.可以输出确信度很高的机器学习结果。如DGA域名机器学习检测结果</p>
-<p>异常并不会直接给用户告警，而是作为下一步机器学习的元数据features，根据这些features再利用及机器学习模型快速确定不同features对应的风险值，风险值大于一定的阈值才会进行告警。</p>
-</blockquote>
-<p><strong>4.必须针对特定的应用场景才能起到很好的效果</strong></p>
-<h3 id="各大厂商应用情况和业内共识"><a href="#各大厂商应用情况和业内共识" class="headerlink" title="各大厂商应用情况和业内共识"></a>各大厂商应用情况和业内共识</h3><h4 id="常用解决的问题"><a href="#常用解决的问题" class="headerlink" title="常用解决的问题"></a>常用解决的问题</h4><blockquote>
-<p>1.账号失陷检测</p>
-<p>2.主机失陷检测</p>
-<p>3.数据泄漏检测</p>
-<p>4.内部用户滥用</p>
-<p>5.提供事件调查的上下文</p>
-</blockquote>
-<h4 id="UEBA建立的关键点"><a href="#UEBA建立的关键点" class="headerlink" title="UEBA建立的关键点"></a>UEBA建立的关键点</h4><blockquote>
-<p>1.定义需要解决的风险<strong>场景</strong></p>
-<p>2.采集高质量多种类的<strong>数据</strong></p>
-<p>3.<strong>专家驱动</strong>和数据驱动相结合</p>
-<p>4.<strong>其他系统平台</strong>进行<strong>集成</strong></p>
-</blockquote>
-<p>内部威胁检测</p>
-<p>1.基于历史登录行为异常检测</p>
-<p>2.基于同组成员分析判别文件拷贝行为违反DLP(数据泄露防护)</p>
-<p>3.是否存在上传敏感行为</p>
-<h4 id="UEBA建立流程："><a href="#UEBA建立流程：" class="headerlink" title="UEBA建立流程："></a>UEBA建立流程：</h4><blockquote>
-<p>1、通过使⽤深度学习和建模技术，⼚商给异常检测模型（即⽆监督式模型）提供训练数据，使模型能够决定哪些变量对分析⽽⾔⾮常重要。这就是所谓的特征抽取过程。 </p>
-<p>2、接着，异常检测模型将识别出排在前列的异常值，发送给安全⼈员进⾏评审和标识，例如，算作“好的”或“坏的”事件。（发送多少异常值给安全⼈员取决于他们评审的能⼒。）</p>
-<p>3、这个标识过程将被填充到监督式学习模块中，构建监督式模型。随着新标识不断增加，此模型也将持续得到优化和验证。 </p>
-<p>4、⼀旦监督式模型经过优化和测试，将会被⽴即部署，⽤来预测输⼊数据。根据⽤户设置的⻛险阈值以及⽤户的评审能⼒，向⽤户发送所预测到的威胁。<br>5、随着数据不断更新，以上2到4步会继续重复。 </p>
-</blockquote>
-<h3 id="业界应用情况"><a href="#业界应用情况" class="headerlink" title="业界应用情况"></a>业界应用情况</h3><h4 id="瀚斯科技"><a href="#瀚斯科技" class="headerlink" title="瀚斯科技"></a>瀚斯科技</h4><p><strong>应用场景</strong>：企业内部</p>
-<p><strong>核心思想</strong>：1.企业内部的管理相对规范，员工行为轨迹有迹可循</p>
-<p>​                2.不应该过分强调算法，为各个应用场景量身定做更重要</p>
-<p>​                3.规则、黑白名单、机器学习协同工作</p>
-<p><strong>部署方式</strong>：与 SIEM/态势感知平台进行结合，将其采集到的行为类数据，应用系统日志、人员/权限数据导入 UEBA 分析引擎中进行实时处理。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/ueba%E5%B1%95%E7%A4%BA%E5%9B%BE2.png?raw=true" alt></p>
-<p><strong>实例</strong></p>
-<blockquote>
-<p><strong>内部员工窃取敏感数据</strong></p>
-<p>​    通过 DLP 日志和流量分析导致账号异常的具体行为，发现内部高权限账号10月22号拷贝自己简历，10月23号凌晨1点大量拷贝这个工作目录下的合作项目材料，涉及财务报表、项目管理月报、资产负载表等累计 540 份。</p>
-<p>异常特征包括：</p>
-<p>​    1.高权限用户是否存在拷贝简历行为(可能存在拷贝简历出卖信息跳槽风险)</p>
-<p>​    2.对高权限用户日常访问工作目录进行记录，日常访问、拷贝、删除财务报表、项目管理月报、资产负载表等文件的个数建立日常行为基线(根据全部同一个群组的用户的最高次数)</p>
-</blockquote>
-<h4 id="启明星辰"><a href="#启明星辰" class="headerlink" title="启明星辰"></a>启明星辰</h4><p>应用场景：</p>
-<p><strong>核心思想</strong>：1.UEBA并不是安全分析的全部，仅仅是交互式安全分析的一个环节</p>
-<p>​                2.行为分析要与规则分析紧密结合，行为分析要充分利用情境(Context)数据，包括情报、地理位置信息、漏洞、身份信息和业务属性等。</p>
-<p><strong>两种异常行为分析的方式</strong></p>
-<p>1.建立异常行为模型</p>
-<p>​    针对特定种类的攻击行为，根据人工经验构建一攻击行为指标，基于行为指标简历机器学习模型，从而识别异常行为。</p>
-<p>​    缺陷：需要对攻击有充分的理解</p>
-<p>2.建立正常行为模型</p>
-<p>​    针对波保护对象进行实体行为进行”画像”，建立一套对实体行为刻画的指标，基于这些指标简历及机器学习模型，通过数据与正常的模式的偏离程度来识别异常。</p>
-<h4 id="思科"><a href="#思科" class="headerlink" title="思科"></a>思科</h4><p>​    有安全分析报告，没法下载，论文不翻墙没找到，下周我先看看能不能找个可用的vps翻个墙出去找找</p>
-<h3 id="机器学习在UEBA中的应用"><a href="#机器学习在UEBA中的应用" class="headerlink" title="机器学习在UEBA中的应用"></a>机器学习在UEBA中的应用</h3><h4 id="1-非监督学习"><a href="#1-非监督学习" class="headerlink" title="1.非监督学习"></a>1.非监督学习</h4><p>​    非监督学习主要应用在异常检测阶段通过聚类发现异常和划分群组。例如将数据使用Kmeans进行聚类，然后根据所属类别元素的大小确定群组风险大小，通过DBSCAN发现异常点等。</p>
-<h4 id="2-监督学习"><a href="#2-监督学习" class="headerlink" title="2.监督学习"></a>2.监督学习</h4><p>​    监督学习主要用于将各个子模型检测的异常进行汇总，然后采用监督学将各个异常结果进行综合，确定是否粗发报警。</p>
-<p>这里各家都没有特别具体的用法，都比较含蓄，下周翻墙去看看论文上有没有这方面的研究</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>1.UEBA中异常主要是通过统计分析、其他安全产品结果、非监督学习等方式来触发异常，而报警可以通过有监督学习和人工设定阈值的方式。</p>
-<p>2.异常常常由各种统计模型、基线模型产生，而由产生的异常则作为特征交给机器学习模型来进行监督学习，从而确定哪些将产生告警。</p>
-<p>3.应用场景常常是在使用UEBA系统产生异常和告警，对告警内容进行可视化展示，安全人员查看先关内容确定是否进行响应。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/ueba%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8%E7%95%8C%E9%9D%A2.png?raw=true" alt></p>
-<p>​    </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/07/26/OWASP-TOP10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/26/OWASP-TOP10/" class="post-title-link" itemprop="url">OWASP_TOP10</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-26 09:05:57" itemprop="dateCreated datePublished" datetime="2019-07-26T09:05:57+08:00">2019-07-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/07/26/OWASP-TOP10/" class="post-meta-item leancloud_visitors" data-flag-title="OWASP_TOP10" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/07/26/OWASP-TOP10/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/07/26/OWASP-TOP10/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    OWASP全称Open Web Application Security Project，即开源应用程序安全项目。OWASP TOP为该项目每年发布的最具权威的就是其”十大安全漏洞列表”。</p>
-<h3 id="1-注入"><a href="#1-注入" class="headerlink" title="1.注入"></a>1.注入</h3><p>​    sql注入等</p>
-<p>​    <strong>危害：</strong>导致数据丢失或数据破坏</p>
-<p><strong>常见混淆方式：</strong></p>
-<blockquote>
-<p>1.使用注释来进行截断</p>
-<p><a href="http://victim.com/news.php?id+un/**/ion+se/**/lect+1,2,3" target="_blank" rel="noopener">http://victim.com/news.php?id+un/*<em>//ion+se/*</em>/lect+1,2,3</a>—</p>
-<p>2.变换大小写</p>
-<p><a href="http://victim.com/news.php?id=1+UnIoN" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UnIoN</a> SeLecT 1,2,3—</p>
-<p>3.替换关键词(将关键词插在关键词中)</p>
-<p><a href="http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--" target="_blank" rel="noopener">http://victim.com/news.php?id=1+UNunionION+SEselectLECT+1,2,3--</a></p>
-</blockquote>
-<p><strong>解决方法</strong>：</p>
-<blockquote>
-<p><strong>1.最佳方法：采用sql语句预编译和绑定变量</strong></p>
-<p>​    采用了PreparedStatement，就会将sql语句：”select id, no from user where id=?” <strong>预先编译好，也就是SQL引擎会预先进行语法分析，产生语法树，生成执行计划，也就是说，后面你输入的参数，无论你输入的是什么，都不会影响该sql语句的 语法结构了</strong>，因为语法分析已经完成了，而语法分析主要是分析sql命令，比如 select ,from ,where ,and, or ,order by 等等。所以即使你后面输入了这些sql命令，也不会被当成sql命令来执行了，因为这些sql命令的执行， 必须先的通过语法分析，生成执行计划，既然语法分析已经完成，已经预编译过了，<strong>那么后面输入的参数，是绝对不可能作为sql命令来执行的，**</strong>只会被当做字符串字面值参数**。所以sql语句预编译可以防御sql注入。</p>
-<p>2.一些特殊情况不能sql语句预编译的，可以<strong>进行严格的输入检查，限制输入数据类型、过滤关键字、使用正则表达式限制等</strong></p>
-</blockquote>
-<p><strong>sql注入方式写入webshell：</strong></p>
-<blockquote>
-<p>用工具对目标站直接写入一句话<strong>条件</strong>:root权限以及绝对路径</p>
-<p>方式：</p>
-<p>​    1.</p>
-<p>​        (1)创建自己的数据库  <a href="http://www.aspx-sqli.com/index.asp?id=1;create database zhong" target="_blank" rel="noopener">http://www.aspx-sqli.com/index.asp?id=1;create%20database%20zhong</a>;</p>
-<p>​        (2)先进行一次完整备份： ?id=1;backup database zhong to disk = ‘E:\wwwroot\asp_sqli’;</p>
-<p>​        (3)创建新表：在数据库名为中的库里面创建一个新的cmd表 create table [dbo].[zhong] ([cmd] [image]);</p>
-<p>​        (4)向cmd表中插入数据 ?id=1;insert into zhong(cmd) values(0x3C25657865637574652872657175657374282276616C7565222929253E);</p>
-<p>​        (5)进行数据库的差异备份  ?id=1;backup database zhong to disk=’E:\wwwroot\asp_sqli\zhongqzi.asp’ WITH DIFFERENTIAL,FORMAT;</p>
-<p>​        (6)菜刀连接</p>
-</blockquote>
-<h3 id="2-跨站脚本攻击"><a href="#2-跨站脚本攻击" class="headerlink" title="2.跨站脚本攻击"></a>2.跨站脚本攻击</h3><p>​    当应用程序在发送给浏览器的页面中包含用户提供的数据，但没有经过适当的验证或转义就会导致快粘脚本漏洞。</p>
-<h5 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h5><blockquote>
-<p><strong>1.反射性xss</strong></p>
-<p>​    又称为非持久性跨站点脚本攻击，它是最常见的类型的XSS。漏洞产生的原因是攻击者注入的数据反映在响应中。一个典型的非持久性XSS包含一个带XSS攻击向量的链接(即每次攻击需要用户的点击)。</p>
-<p>​    例：</p>
-<p>正常发送消息：</p>
-<p>​    <a href="http://www.test.com/message.php?send=Hello,World！" target="_blank" rel="noopener">http://www.test.com/message.php?send=Hello,World！</a></p>
-<p>接收者将会接收信息并显示Hello,Word</p>
-<p>非正常发送消息：</p>
-<p>​    <a href="http://www.test.com/message.php?send=" target="_blank" rel="noopener">http://www.test.com/message.php?send=</a><script>alert(‘foolish!’)</script>！</p>
-<p>接收者接收消息显示的时候将会弹出警告窗口</p>
-<p><strong>2.存储型xss</strong></p>
-<p>​    又称为持久型跨站点脚本，它一般发生在XSS攻击向量(一般指XSS攻击代码)存储在网站数据库，当一个页面被用户打开的时候执行。每当用户打开浏览器,脚本执行。持久的XSS相比非持久性XSS攻击危害性更大,因为每当用户打开页面，查看内容时脚本将自动执行。</p>
-<p>​    例：</p>
-<p>留言板表单中的表单域：<input type="text" name="content" value="这里是用户填写的数据"></p>
-<p>正常操作：</p>
-<p>​    用户是提交相应留言信息；将数据存储到数据库；其他用户访问留言板，应用去数据并显示。</p>
-<p>非正常操作：</p>
-<p>​    攻击者在value填写<script>alert(‘foolish!’)</script>或者html其他标签（破坏样式。。。）、一段攻击型代码】；</p>
-<p>将数据存储到数据库中；</p>
-<p>​    其他用户取出数据显示的时候，将会执行这些攻击性代码</p>
-<p><strong>3.DOM型xss</strong></p>
-<p>​    当用户能够通过交互修改浏览器页面中的DOM(DocumentObjectModel)并显示在浏览器上时，就有可能产生这种漏洞，从效果上来说它也是反射型XSS。</p>
-<p>　　通过修改页面的DOM节点形成的XSS，称之为DOMBasedXSS。</p>
-<p>　　前提是易受攻击的网站有一个HTML页面采用不安全的方式从document.location 或document.URL 或 document.referrer获取数据（或者任何其他攻击者可以修改的对象）。</p>
-<p>例：</p>
-<p>欢迎页面中name是截取URL中get过来的name参数</p>
-<p><strong>正常操作：</strong></p>
-<p><a href="http://www.vulnerable.site/welcome.html?name=Joe" target="_blank" rel="noopener">http://www.vulnerable.site/welcome.html?name=Joe</a></p>
-<p><strong>非正常操作：</strong></p>
-<p><a href="http://www.vulnerable.site/welcome.html?name=" target="_blank" rel="noopener">http://www.vulnerable.site/welcome.html?name=</a><script>alert(document.cookie)</script></p>
-</blockquote>
-<p><strong>危害：攻击者能够在受害者浏览器中执行脚本以及劫持用户会话、迫害网站、插入恶意内容等</strong></p>
-<h5 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.将重要的cookie设置为http only(这样Javascript 中的document.cookie语句就不能获取到cookie了)</p>
-<p>3.过滤或移除特殊的Html标签， 例如: <script>, <iframe> , &lt; for &lt;, &gt; for &gt;</p>
-<p>3.过滤JavaScript 事件的标签。例如 “onclick=”, “onfocus” 等等</p>
-</blockquote>
-<p><strong>xss经常利用的部分分别在哪里进行解码</strong></p>
-<blockquote>
-<p>HTML解释器：html对标记之间的内容   实体字符解码</p>
-<p>js解释器：javascript:标记后面的内容   unicode解码</p>
-<p>url解释器：要填入url的位置，都会交给url解释器进行解释   url解码</p>
-</blockquote>
-<p><strong>常见混淆：</strong></p>
-<blockquote>
-<p><strong>1.在属性值得部分进行字符串编码(标签和属性名不能进行编码)</strong></p>
-<p>​    例如：</p>
-<p><a href="&#x6a;&#x61;&#x76;&#x61;&#x73;&#x63;&#x72;&#x69;&#x70;&#x74;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#49;&#41;"></a></p>
-<p>​    被解释后为<a href="javascript:alert(1)"></a>,可以弹窗。</p>
-<p>​    利用点：当浏览器接受到一份HTML代码后，<strong>HTML解释器</strong>会对标签之间（<p>xxx</p>等，<script>除外)、标签的属性中（<a href='xxxx'>）进行实体字符解码变为相应的字符。</p>
-<p><strong>2.对于需要进行填入url的部分使用url进行编码(标签和属性名不能进行编码)</strong></p>
-<p>例如：</p>
-<p>​    <a href="javascript:%61%6c%65%72%74%28%31%29"></a>(注意这里的javascript:不能被编码)</p>
-<p>​    被url解释器解释完后为<a href="javascript:alert(1)"></a>，url中出现了javascript:，指明了后面的语句要当作js执行，所以再次把解释后的字符交给js解释器解释，可以弹窗。</p>
-<p>​    利用点：利用<strong>url解释器</strong>对提交url的位置进行url解码</p>
-<p>3.当js解释器在标识符名称(例如函数名，属性名等等)中遇到unicode编码会进行解码，并使其标志符照常生效。</p>
-<p>例如：</p>
-<script>\u0061\u006c\u0065\u0072\u0074(1)</script>
-
-</p><p>​    解码后为<script>alert(1)</script>,一样可以弹窗</p>
-<p>利用点:当<strong>js解释器</strong>在标识符名称(例如函数名，属性名等等)中遇到unicode编码会进行解码，并使其标志符照常生效</p>
-</blockquote>
-<p><strong>为什么常常将DOM型xss单独列出？DOM型xss和其他两种有什么区别？</strong></p>
-<blockquote>
-<p>因为DOM型主要是由于浏览器解析机制导致的，不需要服务器进行参与，而剩余两种都是需要服务器响应参与</p>
-</blockquote>
-<p><strong>设置了cookie 为http only，xss还有什么方法可以获取到cookie？</strong></p>
-<blockquote>
-<p>1.php类型的网站可以用phpinfo()</p>
-<p>2.</p>
-</blockquote>
-<h4 id="3-跨站请求伪造-CSRF"><a href="#3-跨站请求伪造-CSRF" class="headerlink" title="3.跨站请求伪造(CSRF)"></a>3.跨站请求伪造(CSRF)</h4><p>​    CSRF，全称为Cross-Site Request Forgery，跨站请求伪造，是一种网络攻击方式，它可以<strong>在用户毫不知情的情况下，以用户的名义伪造请求发送给被攻击站点</strong>，<strong>从而在未授权的情况下进行权限保护内的操作</strong>。具体来讲，可以这样理解CSRF。<strong>攻击者借用用户的名义，向某一服务器发送恶意请求，对服务器来讲，这一请求是完全合法的</strong>，但攻击者确完成了一个恶意操作，比如以用户的名义发送邮件，盗取账号，购买商品等等。</p>
-<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><blockquote>
-<p>Web A为存在CSRF漏洞的网站，Web B为攻击者构建的恶意网站，User C为Web A网站的合法用户。</p>
-<p>​    用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A； 在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A；并且，此后从用户浏览器发送请求给网站A时都会默认带上用户的Cookie信息；<br>　　<br>​    用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B； 网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A； </p>
-<p>​    浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的权限处理该请求，导致来自网站B的恶意代码被执行</p>
-</blockquote>
-<h5 id="CSRF必须步骤"><a href="#CSRF必须步骤" class="headerlink" title="CSRF必须步骤"></a>CSRF必须步骤</h5><blockquote>
-<p>1.用户访问可信任的网站并产生了cookie</p>
-<p>2.用户在访问A站点时没有退出，同时访问了恶意站点B</p>
-</blockquote>
-<h5 id="防范-1"><a href="#防范-1" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.给每一个HTTP添加一个不可预测的令牌，并保证该令牌对每个用户会话来说是唯一的，并且不再URL中进行显示</p>
-<p>2.验证HTTP referer字段</p>
-</blockquote>
-<h5 id="XSS和CSRF的区别"><a href="#XSS和CSRF的区别" class="headerlink" title="XSS和CSRF的区别"></a>XSS和CSRF的区别</h5><blockquote>
-<p>1.能否cookie获取：</p>
-<p>​    CSRF无法获取用户的cookie，只是诱导受害者使用被服务器信任的cookie取执行攻击者构造好的请求</p>
-<p>​    XSS可以获取cookie</p>
-<p>2.漏洞利用前提</p>
-<p>​    CSRF攻击需要用户已经对登陆了目标网站</p>
-<p>​    XSS不需要用户已经登陆了目标网站</p>
-<p>3.原理区别</p>
-<p>​    CSRF是利用网站本身的api去进行攻击</p>
-<p>​    XSS是向网站中获请求中嵌入js代码，通过执行js进行攻击</p>
-</blockquote>
-<h3 id="4-其他安全问题"><a href="#4-其他安全问题" class="headerlink" title="4.其他安全问题"></a>4.其他安全问题</h3><p>waf和ips的绕过区别和一些技巧</p>
-<h4 id="2-失效的身份认证和会话管理"><a href="#2-失效的身份认证和会话管理" class="headerlink" title="2.失效的身份认证和会话管理"></a>2.失效的身份认证和会话管理</h4><p>​    <strong>身份认证</strong>：身份认证最常用于系统登录，形式一般为用户名和密码登录方式，在安全性要求较高的情况下，还有验证码、客户端证书、Ukey等</p>
-<p>​    <strong>会话管理</strong>：<em>HTTP</em>利用会话机制来实现身份认证，<em>HTTP</em>身份认证的结果往往是获得一个令牌并放在<em>cookie</em>中，之后的身份识别只需读授权令牌，而无需再次进行登录认证</p>
-<p><strong>攻击原理</strong></p>
-<blockquote>
-<p>开发者通常会建立自定义的认证和会话管理方案。但与身份认证和回话管理相关的应用程序功能往往得不到正确的实现，要正确实现这些方案却很难，结果<strong>在退出、密码管理、超时、密码找回、帐户更新等方面存在漏洞</strong>，这就导致了攻击者攻击者<strong>破坏密码、密钥、会话令牌或攻击其他的漏洞</strong>去<strong>冒充其他用户</strong>的身份（暂时或永久的）</p>
-</blockquote>
-<h5 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h5><blockquote>
-<p>1.用户的身份认凭证(url中的id、cookie等)没有使用哈希或加密保护</p>
-<p>2.会话ID暴露在URL里</p>
-<p>3.会话ID没有超时限制，或超时限制不合理</p>
-<p>4.认证凭证存在规律，可以直接通过猜测获得</p>
-</blockquote>
-<p><img src="/Users/yhk/Library/Application Support/typora-user-images/image-20190726091123531.png" alt="image-20190726091123531"></p>
-<h5 id="防范-2"><a href="#防范-2" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.cookie和url中的身份凭证进行加密</p>
-<p>2.设置密码和会话的有效期，并强制使用强密码</p>
-<p>3.账号密码以密文形式传输在数据中hash存储</p>
-</blockquote>
-<h4 id="4-不安全对象的直接引用"><a href="#4-不安全对象的直接引用" class="headerlink" title="4.不安全对象的直接引用"></a>4.不安全对象的直接引用</h4><p>​    不安全的直接对象引用，也被称IDOR。IDOR允许攻击者<strong>绕过网站的身份验证机制，并通过修改指向对象链接中的参数值来直接访问目标对象资源</strong>，这类资源可以是属于其他用户的数据库条目以及服务器系统中的隐私文件等等。</p>
-<h5 id="常见攻击形式："><a href="#常见攻击形式：" class="headerlink" title="常见攻击形式："></a>常见攻击形式：</h5><blockquote>
-<p> <strong>目录遍历</strong></p>
-<p>​    假设 Web 应用程序允许为要呈现给用户存储在本地计算机上的文件。如果应用程序不验证应访问哪些文件，攻击者可以请求其他文件系统上的文件和那些也会显示。</p>
-<p>例如，如果攻击者通知 URL:<br>    <a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br>    <a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
-<p>这样 /etc/阴影文件返回并且呈现由 file.jsp 演示页面容易受到目录遍历攻击。</p>
-<p><strong>开方重定向</strong></p>
-<p>​     Web 应用程序有一个参数，允许其他地方的用户重定向到网站。如果此参数不实现正确使用白名单，攻击者可使用这一网络钓鱼攻击引诱到他们选择的站点的潜在受害者。</p>
-</blockquote>
-<p>例：</p>
-<p>例如，如果攻击者通知 URL:<br><a href="https://oneasp.com/file.jsp?file=report.txt" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=report.txt</a></p>
-<p>攻击者可以修改文件参数使用目录遍历攻击。他修改的 URL:<br><a href="https://oneasp.com/file.jsp?file=**../../../etc/shadow**" target="_blank" rel="noopener">https://oneasp.com/file.jsp?file=**../../../etc/shadow**</a></p>
-<h5 id="防范："><a href="#防范：" class="headerlink" title="防范："></a>防范：</h5><blockquote>
-<p>1.验证用户输入的url请求，拒绝包含../和./的请求</p>
-<p>2.锁定服务器上的</p>
-</blockquote>
-<h4 id="5-安全配置错误"><a href="#5-安全配置错误" class="headerlink" title="5.安全配置错误"></a>5.安全配置错误</h4><p>​    良好的安全性需要为应用程序、框架、应用服务器、web服务器、数据库服务器和平台定义和部署安全配置。默认值通常是不安全的。</p>
-<h5 id="攻击案例"><a href="#攻击案例" class="headerlink" title="攻击案例"></a>攻击案例</h5><blockquote>
-<p>案例#1：应用程序服务器管理员控制台自动安装后没有被删除。而默认帐户也没有被改变。攻击者在你的服务器上发现了标准的</p>
-<p>管理员页面，通过默认密码登录，从而接管了你的服务器。<br>案例#2：目录列表在你的服务器上未被禁用。攻击者发现只需列出目录，她就可以找到你服务器上的任意文件。攻击者找到并下载所有已编译的Java类，她通过反编译获得了所有你的自定义代码。然后，她在你的应用程序中找到一个访问控制的严重漏洞。<br>案例三：</p>
-<p>1）打开IISPutScanner.exe应用扫描服务器,输入startIP192.168.1.119和endIP192.168.1.119(也可以对 一个网段进行设置) ,点击Scan</p>
-<p>进行扫描,PUT为YES服务器类型为IIS ,说明可能存在IIS写权限漏洞。</p>
-<p><img src="https://images2015.cnblogs.com/blog/1076111/201701/1076111-20170121133837078-989051273.png" alt="img"></p>
-<p>（2）使用iiswrite.exe应用,使用此软件来利用IIS写权限漏洞上传一句话木马。</p>
-<p>1.以PUT方式上传22.txt文件。检查目标网站是否有test.txt文件显示出错,说明没有 test.txt文件,那么我们可以请求的文件名可以为22.txt。域名为192.168.1.119,点击提交 数据包。重新访问 192.168.1.119/test.txt显示上传内容,说明上传成功。</p>
-<p>2.使用COPY方式复制一份数据,数据的文件名为shell.asp,点击提交数据。使用浏览 器访问<a href="http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。" target="_blank" rel="noopener">http://192.168.1.119/shell.asp发现访问成功,没有出错,说明复制成功。</a></p>
-<p>3.打开中国菜刀,鼠标右键点击添加输入地址<a href="http://192.168.1.119/shell.asp密码为chop" target="_blank" rel="noopener">http://192.168.1.119/shell.asp密码为chop</a> per点击添加。双击打开连接,获取到服务器的目录,看到有上传的shell.asp文件 和 test.txt文件。</p>
-</blockquote>
-<h5 id="防范-3"><a href="#防范-3" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.了解并及时部署每个环境的软件更新和补丁信息</p>
-<p>2.统一出错处理机制，错误处理会向用户显示堆栈跟踪获其他归于丰富的错误消息信息。</p>
-<p>3.使用提供有效分离和安全性强大的应用程序架构</p>
-</blockquote>
-<h4 id="6-敏感信息泄露"><a href="#6-敏感信息泄露" class="headerlink" title="6.敏感信息泄露"></a>6.敏感信息泄露</h4><p>​    常见的漏洞是应该进行加密的数据没有进行加密。使用加密的情况下常见问题是不安全的密钥和使用弱算法加密。</p>
-<h5 id="敏感数据包括哪些？"><a href="#敏感数据包括哪些？" class="headerlink" title="敏感数据包括哪些？"></a>敏感数据包括哪些？</h5><blockquote>
-<p>1.个人信息</p>
-<p>2.网站登录用户名、密码、SSL证书、会话ID、加密使用的秘钥等</p>
-<p>3.Web服务器的系统类型、版本、Web服务器信息、数据库信息等</p>
-</blockquote>
-<h5 id="防范-4"><a href="#防范-4" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.个人信息数据加密存储</p>
-<p>2.敏感数据的传输使用SSL加密传输</p>
-<p>3.应用程序出错的信息不直接显示在页面上，统一错误页面</p>
-</blockquote>
-<h4 id="7-缺少功能级的访问控制"><a href="#7-缺少功能级的访问控制" class="headerlink" title="7.缺少功能级的访问控制"></a>7.缺少功能级的访问控制</h4><p>​    功能级的保护是通过系统配置管理的，当系统配置错误时，开发人员必须做相应的代码检查，否则应用程序不能正确的保护页面请求。攻击者就是利用这种漏洞访问未经授权的功能模块。</p>
-<p>​    很多系统的<strong>权限控制是通过页面灰化或隐藏URL实现的</strong>，<strong>没有在服务器端进行身份确认和权限验证</strong>，导致攻击者通过修改页面样式或获取隐藏URL，进而获取特权页面来对系统进行攻击，或者在匿名状态下对他人的页面进行攻击，从而获取用户数据或提升权限。</p>
-<p>​    此类问题<strong>主要是系统在开发或者设计阶段，没有考虑攻击场景，以为看不到就是安全的</strong>，这种系统说白了是服务端没有进行权限控制和身份校验，才给了攻击者可乘之机。</p>
-<h5 id="防范-5"><a href="#防范-5" class="headerlink" title="防范"></a>防范</h5><blockquote>
-<p>1.设置严格的权限控制系统，尤其是<strong>服务端</strong>必须进行权限和身份验证</p>
-<p>2.默认缺省情况下，应该拒绝所有访问的执行权限</p>
-<p>3.对于每个功能的访问，都要有明确的角色授权，采用过滤器的方式校验每个请求的合法性</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1937,20 +1818,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">170</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-count">44</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
