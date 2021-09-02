@@ -3,8 +3,8 @@ title: 论文精读——《Automating Botnet Detection with Graph Neural Networ
 copyright: true
 mathjax: true
 date: 2021-08-31 10:25:57
-tags: 僵尸网络检测
-categories: 僵尸网络检测
+tags: [僵尸网络,图算法,图神经网络]
+categories: [僵尸网络,图算法,图神经网络]
 ---
 
 概述：提出了一种定制的图神经网络在大规模背景流量通信图中识别出僵尸网络的通信拓扑特征，可以较为准确的对集中式僵尸网络分层架构以及分散式僵尸网络快速混合架构做出识别。
