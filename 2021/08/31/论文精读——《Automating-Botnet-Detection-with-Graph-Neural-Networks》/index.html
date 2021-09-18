@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
   </script>
 
-  <meta name="description" content="概述：提出了一种定制的图神经网络在大规模背景流量通信图中识别出僵尸网络的通信拓扑特征，可以较为准确的对集中式僵尸网络分层架构以及分散式僵尸网络快速混合架构做出识别。">
+  <meta name="description" content="概述：本文使用图神经网络在常网络拓扑角度端到端的进行僵尸网络节点进行识别，首次将图神经网络引入僵尸网络检测并提供了复现代码与数据集。">
 <meta name="keywords" content="僵尸网络,图算法,图神经网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="论文精读——《Automating Botnet Detection with Graph Neural Networks》">
 <meta property="og:url" content="https://anchorety.github.io/2021/08/31/论文精读——《Automating-Botnet-Detection-with-Graph-Neural-Networks》/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="概述：提出了一种定制的图神经网络在大规模背景流量通信图中识别出僵尸网络的通信拓扑特征，可以较为准确的对集中式僵尸网络分层架构以及分散式僵尸网络快速混合架构做出识别。">
+<meta property="og:description" content="概述：本文使用图神经网络在常网络拓扑角度端到端的进行僵尸网络节点进行识别，首次将图神经网络引入僵尸网络检测并提供了复现代码与数据集。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.0tgm7jyh6yx.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.52max38a31c.png">
-<meta property="og:updated_time" content="2021-09-08T03:26:57.524Z">
+<meta property="og:updated_time" content="2021-09-08T04:05:34.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="论文精读——《Automating Botnet Detection with Graph Neural Networks》">
-<meta name="twitter:description" content="概述：提出了一种定制的图神经网络在大规模背景流量通信图中识别出僵尸网络的通信拓扑特征，可以较为准确的对集中式僵尸网络分层架构以及分散式僵尸网络快速混合架构做出识别。">
+<meta name="twitter:description" content="概述：本文使用图神经网络在常网络拓扑角度端到端的进行僵尸网络节点进行识别，首次将图神经网络引入僵尸网络检测并提供了复现代码与数据集。">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.0tgm7jyh6yx.png">
 
 <link rel="canonical" href="https://anchorety.github.io/2021/08/31/论文精读——《Automating-Botnet-Detection-with-Graph-Neural-Networks》/">
@@ -228,7 +228,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-08 11:26:57" itemprop="dateModified" datetime="2021-09-08T11:26:57+08:00">2021-09-08</time>
+                <time title="修改时间：2021-09-08 12:05:34" itemprop="dateModified" datetime="2021-09-08T12:05:34+08:00">2021-09-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,7 +275,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -294,7 +294,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>概述：提出了一种定制的图神经网络在大规模背景流量通信图中识别出僵尸网络的通信拓扑特征，可以较为准确的对集中式僵尸网络分层架构以及分散式僵尸网络快速混合架构做出识别。</p>
+        <p>概述：本文使用图神经网络在常网络拓扑角度端到端的进行僵尸网络节点进行识别，首次将图神经网络引入僵尸网络检测并提供了复现代码与数据集。</p>
 <p><img src alt></p>
 <a id="more"></a>
 <p>题目：《Automating Botnet Detection with Graph Neural Networks》</p>
@@ -316,11 +316,15 @@
 <li><p><strong>《A graph-theoretic framework for isolating botnets in a network》，Security and communication networks，2015</strong></p>
 </li>
 </ul>
-<p><strong>主要贡献</strong>：</p>
+<p>优点：</p>
 <ul>
-<li>提出了一种全自动僵尸网络检测方式，给定一个通信图，能够检测出其中的僵尸网络节点，不要任何先验知识进行特征提取</li>
-<li>提出了一种仅根据拓扑结构基于无属性图的专为僵尸网络设计的检测算法，与之前的方法相比能够在保持误报率不变的前提下提升检出率。</li>
-<li>提出了一个大规模僵尸网络图检测数据集，包含了14w个node，70w个边。</li>
+<li>端到端的检测，无需任何人工干预</li>
+<li>只需给定通信图，无需任何先验知识</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>无权图，未考虑正常节点与僵尸网络也可能存在通信</li>
+<li>仅仅考虑拓扑一方面在实际环境中真的做的很好的检测效果</li>
 </ul>
 <p><strong>原理</strong>：</p>
 <p>无论是集中式僵尸网络还是分散式僵尸网络都会与背景流量表现出不同的拓扑特性。</p>
@@ -375,7 +379,7 @@
 <p>​    检测性能不受节点僵尸网络规模影响：该GNN检测模型虽然是在1k个节点规模的僵尸网络拓扑上进行训练的，但是依然能够对较小规模的（100个节点）僵尸网络中的节点完成较好的检测。</p>
 </li>
 </ol>
-<h3 id="论文分析"><a href="#论文分析" class="headerlink" title="论文分析"></a>论文分析</h3><p>​    本文将僵尸网络检测问题抽象为从网络通信图拓扑角度进行节点二分类的问题，考虑了是否存在通讯在实验环境下来看检测效果还比较理想，但是由于使用的图为无向无权图，仅仅考虑了主机之间是否存在通信，没有考虑实际环境环境中僵尸网络节点也会和正常网络节点存在少量通信，因此可能在实际使用中会与实验环境中差距较大。</p>
+<h3 id="论文分析"><a href="#论文分析" class="headerlink" title="论文分析"></a>论文分析</h3><p>​    一方面，本文将僵尸网络检测问题抽象为从网络通信图拓扑角度进行节点二分类的问题，考虑了是否存在通讯在实验环境下来看检测效果还比较理想，但是由于使用的图为无向无权图，仅仅考虑了主机之间是否存在通信，没有考虑实际环境环境中僵尸网络节点也会和正常网络节点存在少量通信，因此可能在实际使用中会与实验环境中差距较大，完善可以考虑根据通信次数、通信频率等构建有全图来进行提升检测实际环境中的检测效果。另一方面，本文仅仅考虑网络拓扑一个角度很难在实际环境中做很高精度的检测，实际使用中可以考虑增加对节点本身的异常、告警以及威胁情报相关信息作为节点本身的embedding，融合结构与其他角度的信息。</p>
 
     </div>
 
