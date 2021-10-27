@@ -15,30 +15,40 @@ categories: 强化学习
 
 ## Q-Learning
 
-&emsp;&emsp;Q-Learning 是一个强化学习中一个很经典的算法，其出发点很简单，就是用一张表存储在各个状态下执行各种动作能够带来的 reward，如下表表示了有两个状态 s1,s2s1,s2，每个状态下有两个动作 a1,a2a1,a2, 表格里面的值表示 reward
+&emsp;&emsp;Q-Learning 是一个强化学习中一个很经典的算法，其出发点很简单，就是用一张表存储在各个状态下执行各种动作能够带来的 reward，如下表表示了有两个状态 s1,s2，每个状态下有两个动作 a1,,a2, 表格里面的值表示 reward
 
 | -    | a1   | a2   |
 | :--- | :--- | :--- |
 | s1   | -1   | 2    |
 | s2   | -5   | 2    |
 
-&emsp;&emsp;这个表示实际上就叫做 **Q-Table**，里面的每个值定义为 Q(s,a)Q(s,a), 表示在状态 s 下执行动作 a 所获取的reward，那么选择的时候可以采用一个贪婪的做法，即选择价值最大的那个动作去执行。
+&emsp;&emsp;这个表示实际上就叫做 **Q-Table**，里面的每个值定义为 Q(s,a), 表示在状态 s 下执行动作 a 所获取的reward，那么选择的时候可以采用一个贪婪的做法，即选择价值最大的那个动作去执行。
 
 #### 算法过程
 
 &emsp;&emsp;Q-Learning算法的核心问题就是Q-Table的初始化与更新问题，首先就是就是 **Q-Table** 要如何获取？答案是**随机初始化，然后通过不断执行动作获取环境的反馈并通过算法更新 Q-Table**。下面重点讲如何通过算法更新 Q-Table。
 
-&emsp;&emsp;**当我们处于某个状态 ss 时，根据 Q-Table 的值选择的动作 a, 那么从表格获取的 reward 为 Q(s,a)，此时的 reward 并不是我们真正的获取的 reward，而是预期获取的 reward，那么真正的 reward 在哪？我们知道执行了动作 aa 并转移到了下一个状态 s′ 时，能够获取一个即时的 reward（记为r）, 但是除了即时的 reward，还要考虑所转移到的状态 s′ 对未来期望的reward，因此真实的 reward (记为 Q′(s,a)由两部分组成：即时的 reward 和未来期望的 reward，且未来的 reward 往往是不确定的，因此需要加个折扣因子 γ,则真实的 reward 表示如下**
-$$
-Q′(s,a)=r+γmaxa′Q(s′,a′)=r+γmaxa′Q(s′,a′)
-$$
-&emsp;&emsp;γ 的值一般设置为 0 到 1 之间，设为0时表示只关心即时回报，设为 1 时表示未来的期望回报跟即时回报一样重要。
+![image](https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.vnvd3o8smx.png)
 
-&emsp;&emsp;有了真实的 reward 和预期获取的 reward，可以很自然地想到用 supervised learning那一套，求两者的误差然后进行更新，在 Q-learning 中也是这么干的，更新的值则是原来的 Q(s, a)，更新规则如下
+&emsp;&emsp;**当我们处于某个状态 s 时，根据 Q-Table 的值选择的动作 a, 那么从表格获取的 reward 为 Q(s,a)，此时的 reward 并不是我们真正的获取的 reward，而是预期获取的 reward**：
 $$
-Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))Q(s,a)=Q(s,a)+α(Q′(s,a)−Q(s,a))
+Q_{估计} = Q(s,a)
 $$
-&emsp;&emsp;更新规则跟梯度下降非常相似，这里的 α 可理解为学习率。
+&emsp;&emsp;**那么真正的 reward 在哪？**我们知道执行了动作 a 状态从s转移到了 s′ 时，能够获取一个**即时的 reward（记为r）**, 但是除了即时的 reward，还要考虑**所转移到的状态 s′ 对未来期望的reward**，因此**真实的 reward (记为 Q′(s,a)由两部分组成：即时的 reward 和未来期望的 reward**，且**未来的 reward 往往是不确定的，因此需要加个折扣因子 γ**,则真实的 reward 表示如下
+$$
+Q_{真实} = Q'(s,a) = r+γmaxQ(s')
+$$
+&emsp;&emsp;**γ 的值一般设置为 0 到 1 之间，设为0时表示只关心即时回报，设为 1 时表示未来的期望回报跟即时回报一样重要。**
+
+> r：立即奖励，如果没有获得立即reward则为0
+>
+> Q(s')：表示当采取行为a后状态由s转为s'后，能够得到的最大reward值，用来表示将来的期望reward。
+
+&emsp;&emsp;有了真实的 reward 和预期获取的 reward，可以很自然地想到用 supervised learning那一套，求两者的误差然后进行更新，在 Q-learning 中也是这么干的，更新的值则是原来的 Q(s, a)，**更新规则如下**:
+$$
+Q(s,a) = Q(s,a)+α(Q_{现实} - Q_{估计}) = Q(s,a)+α(r+γmaxQ(s')-Q(s,a))
+$$
+&emsp;&emsp;更新规则跟梯度下降非常相似，这里的 **α 可理解为学习率**。
 
 &emsp; Q-Learning 中还存在着探索与利用(Exploration and Exploition)的问题, 大致的意思就是不要每次都遵循着当前看起来是最好的方案，而是会选择一些当前看起来不是最优的策略，这样也许会更快探索出更优的策略。Exploration and Exploition 的做法很多，**Q-Learning 采用了最简单的 ϵ-greedy**, 就是**每次有 ϵ的概率是选择当前 Q-Table 里面值最大的action的，1 - ϵ的概率是随机选择策略的**。
 
