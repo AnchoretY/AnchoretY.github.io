@@ -327,7 +327,7 @@
 <script type="math/tex; mode=display">s_i = （\frac{q_i^t}{d_i}）^\frac{1}{r}</script><p>​    其中，$d_i$为当前节点的度，r为常数。</p>
 <ul>
 <li><p><strong>根据各个节点与其他节点关联状态概率表示$s_i$进行聚类分析，获得多个P2P候选子图</strong></p>
-<p>使用$s_i$作为特征使用<strong>k-means算法</strong>进行聚类，最终获得k个子图的集合$V_G$，$V_G = \{G_1,G2,…,G_k\}$，其中$G_i$为P2P候选子图</p>
+<p>使用$s_i$作为特征使用<strong>k-means算法</strong>进行聚类，最终获得k个子图的集合$V_G$，$V_G = {G_1,G2,…,G_k}$，其中$G_i$为P2P候选子图</p>
 </li>
 </ul>
 <h4 id="step2：Clustering-P2P-Nodes"><a href="#step2：Clustering-P2P-Nodes" class="headerlink" title="step2：Clustering P2P Nodes"></a>step2：Clustering P2P Nodes</h4><p>核心点：通过Prefiltering产生的子图虽然能够包含P2P节点，但是其中也很有可能包含非P2P节点。</p>

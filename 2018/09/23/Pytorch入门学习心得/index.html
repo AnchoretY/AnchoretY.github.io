@@ -401,7 +401,8 @@
 </blockquote>
 <p>因为一个单词的词性不只与其上下文关系有关，还与其单词的字母排列情况有关，因此我们可以上面的基础上增加字符角度的lstm来进行表征其字母排列情况。</p>
 <blockquote>
-<p>完善方案：<br>　　遍历句子The dog ate apple中的每个单词：<br>　　　　将单词中的每个字母进行词向量表示，如apple转化成5 <em> char_dim的词向量<br>　　　　　　char_info = nn.embedding(x)<br>　　　　将其转换为３维：１</em> 5 <em> char_dim<br>　　　　　　char_info = char_info.unsqueeze(0)<br>　　　　将模型输入lstm模型，但这里取记忆状态作为输出,输出状态是h0维度为(1,1,hidden_dim)<br>　　　　　　_,h = char_lstm(char_info)<br>　　　　　　h[0]<br>　　将各个单词的输出组合成一个向量，按照seq进行拼接,形成一个1 </em> 4 <em> hidden_dim的向量<br>　　　　for word in words:<br>　　　　　　char_seq = make_sequeece(word,char_to_idx)<br>　　　　　　char_seq = self.char_lstm(char_seq)<br>　　　　　　word_set.append(char_seq)<br>　　　　char = torch.stack(word_set,1)<br>　根据前面基本方法将单词进行向量化，得到1 </em> 4 word_dim维向量，将其与字符级别的lstm结果从feature维度进行拼接，得到1 <em> 4 </em> char_hidden+word_dim维向量<br>　　　　x = torch.cat((x,char),dim=2)<br>　　最后将两个角度的得到的特征一起输入的最终的lstm模型，在经过全连接层得到最终结果</p>
+<p>完善方案：<br>　　遍历句子The dog ate apple中的每个单词：<br>　　　　将单词中的每个字母进行词向量表示，如apple转化成5 <em> char_dim的词向量<br>　　　　　　char_info = nn.embedding(x)<br>　　　　将其转换为３维：１</em> 5 <em> char<em>dim<br>　　　　　　char_info = char_info.unsqueeze(0)<br>　　　　将模型输入lstm模型，但这里取记忆状态作为输出,输出状态是h0维度为(1,1,hidden_dim)   
+　　　　　　</em>,h = char_lstm(char_info)<br>　　　　　　h[0]<br>　　将各个单词的输出组合成一个向量，按照seq进行拼接,形成一个1 </em> 4 <em> hidden_dim的向量<br>　　　　for word in words:<br>　　　　　　char_seq = make_sequeece(word,char_to_idx)<br>　　　　　　char_seq = self.char_lstm(char_seq)<br>　　　　　　word_set.append(char_seq)<br>　　　　char = torch.stack(word_set,1)<br>　根据前面基本方法将单词进行向量化，得到1 </em> 4 word_dim维向量，将其与字符级别的lstm结果从feature维度进行拼接，得到1 <em> 4 </em> char_hidden+word_dim维向量<br>　　　　x = torch.cat((x,char),dim=2)<br>　　最后将两个角度的得到的特征一起输入的最终的lstm模型，在经过全连接层得到最终结果</p>
 </blockquote>
 
     </div>

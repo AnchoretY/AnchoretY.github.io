@@ -314,7 +314,7 @@
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.s5k9gyqu05.png" alt="image" style="zoom:50%;"></p>
 <p>&emsp;&emsp;上图是图神经网络信息传递的一个实例，上图为节点A使用双层图神经网络进行消息传递时的方式，首先找到A节点的相邻节点，然后再找到相邻接点的相邻接点，A的相邻接点使用Aggregate函数合并全部其相邻节点的信息，更新到相邻接点，然后A节点再使用Aggregate函数合并更新后的节点信息到自身，完成消息传递与节点信息的更新。使用</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.kjsb1q74dsi.png" alt="image" style="zoom:50%;"></p>
-<p>&emsp;&emsp;其中h表示节点的表示向量，$h_{u}^{k}$即表示节点u在第k层的表示向量，N(u)表示v的全部邻域节点，在公式中我们可以看出进行u节点第K+1层向量的更新，需要节点u在第k层的向量表示$h_{u}^{k+1}$之外，还需要与u相邻的前全部邻域节点在第k层上的表示Aggregate后的结果。</p>
+<p>&emsp;&emsp;其中h表示节点的表示向量，$h<em>{u}^{k}$即表示节点u在第k层的表示向量，N(u)表示v的全部邻域节点，在公式中我们可以看出进行u节点第K+1层向量的更新，需要节点u在第k层的向量表示$h</em>{u}^{k+1}$之外，还需要与u相邻的前全部邻域节点在第k层上的表示Aggregate后的结果。</p>
 <p>&emsp;&emsp;不同的GNN之间的不同点主要在于<strong>UPDATE函数不同、聚合函数不同、消息传递不同</strong>。</p>
 <h4 id="Basic-GNN"><a href="#Basic-GNN" class="headerlink" title="Basic GNN"></a>Basic GNN</h4><p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.h3imjtxdzk.png" alt="image" style="zoom:50%;"></p>
 <p>&emsp;&emsp;在Basic GNN中，UPDATE函数使用节点u在k层的神经网络进行线性变换与节点u的邻域信息线性变化相加，再进行sigmod线性变换的方式进行。</p>

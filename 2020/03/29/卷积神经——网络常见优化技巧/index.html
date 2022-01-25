@@ -353,7 +353,7 @@
 <p>&emsp;&emsp;残差块的基本结构如下图所示:</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.p8mg81yfal.png" alt="image" style="zoom:33%;"></p>
 <p>&emsp;&emsp;其中weight表示卷积操作，addition是指单位加操作。</p>
-<p>&emsp;&emsp;在卷积神经网络中经常会出现的问题是$x_l$和$x_{l+1}$的featuremap的维度是不同的，因此如果出现了这种情况就可以采用前面我们提到过的1*1卷积核进行降channel技巧来保持二者维度一致。</p>
+<p>&emsp;&emsp;在卷积神经网络中经常会出现的问题是$x<em>l$和$x</em>{l+1}$的featuremap的维度是不同的，因此如果出现了这种情况就可以采用前面我们提到过的1*1卷积核进行降channel技巧来保持二者维度一致。</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.nyggugs76y.png" alt="image" style="zoom:33%;"></p>
 <p>&emsp;&emsp;经过文章作者的反复试验，证明将relu函数放在残差模块可以提高精度，因此出现了残差单元的另一种实现：</p>
 <p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4s1vmx2ardu.png" alt="image" style="zoom:50%;"></p>
