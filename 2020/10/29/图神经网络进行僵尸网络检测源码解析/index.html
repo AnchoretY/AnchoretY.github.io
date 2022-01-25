@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述：首页描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图神经网络进行僵尸网络检测源码解析">
+<meta property="og:url" content="https://anchorety.github.io/2020/10/29/图神经网络进行僵尸网络检测源码解析/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="概述：首页描述">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.czlizeelbx4.png">
+<meta property="og:updated_time" content="2021-02-19T04:05:32.140Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图神经网络进行僵尸网络检测源码解析">
+<meta name="twitter:description" content="概述：首页描述">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.czlizeelbx4.png">
+
+<link rel="canonical" href="https://anchorety.github.io/2020/10/29/图神经网络进行僵尸网络检测源码解析/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>图神经网络进行僵尸网络检测源码解析 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2020/10/29/图神经网络进行僵尸网络检测源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图神经网络进行僵尸网络检测源码解析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-29 16:34:42" itemprop="dateCreated datePublished" datetime="2020-10-29T16:34:42+08:00">2020-10-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2020/10/29/图神经网络进行僵尸网络检测源码解析/" class="post-meta-item leancloud_visitors" data-flag-title="图神经网络进行僵尸网络检测源码解析" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/29/图神经网络进行僵尸网络检测源码解析/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/29/图神经网络进行僵尸网络检测源码解析/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>202</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>概述：首页描述</p>
+<p><img src alt></p>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scatter_</span><span class="params">(name, src, index, dim_size=None, out=None)</span>:</span></span><br><span class="line">    <span class="string">r"""Aggregates all values from the :attr:`botdet` tensor at the indices</span></span><br><span class="line"><span class="string">    specified in the :attr:`index` tensor along the first dimension.</span></span><br><span class="line"><span class="string">    If multiple indices reference the same location, their contributions</span></span><br><span class="line"><span class="string">    are aggregated according to :attr:`name` (either :obj:`"add"`,</span></span><br><span class="line"><span class="string">    :obj:`"mean"` or :obj:`"max"`).</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        name (string): The aggregation to use (:obj:`"add"`, :obj:`"mean"`,</span></span><br><span class="line"><span class="string">            :obj:`"max"`).</span></span><br><span class="line"><span class="string">        botdet (Tensor): The source tensor.</span></span><br><span class="line"><span class="string">        index (LongTensor): The indices of elements to scatter.</span></span><br><span class="line"><span class="string">        dim_size (int, optional): Automatically create output tensor with size</span></span><br><span class="line"><span class="string">            :attr:`dim_size` in the first dimension. If set to :attr:`None`, a</span></span><br><span class="line"><span class="string">            minimal sized output tensor is returned. (default: :obj:`None`)</span></span><br><span class="line"><span class="string">    :rtype: :class:`Tensor`</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">assert</span> name <span class="keyword">in</span> [<span class="string">'add'</span>, <span class="string">'mean'</span>, <span class="string">'max'</span>]</span><br><span class="line"></span><br><span class="line">    op = getattr(torch_scatter, <span class="string">'scatter_&#123;&#125;'</span>.format(name))</span><br><span class="line">    fill_value = <span class="number">-1e38</span> <span class="keyword">if</span> name == <span class="string">'max'</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">    out = op(src, index, <span class="number">0</span>, out, dim_size)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> isinstance(out, tuple):</span><br><span class="line">        out = out[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> name == <span class="string">'max'</span>:</span><br><span class="line">        out[out == fill_value] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="NodeModelBase"><a href="#NodeModelBase" class="headerlink" title="NodeModelBase"></a>NodeModelBase</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NodeModelBase</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    基于节点和边权重更新节点权重的模型的基础模型。</span></span><br><span class="line"><span class="string">    注意:非线性聚合方式采用add的方式</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        in_channels (int): 输入通道数</span></span><br><span class="line"><span class="string">        out_channels (int): 输出通道数</span></span><br><span class="line"><span class="string">        in_edgedim (int, optional): 输入的边特征维度</span></span><br><span class="line"><span class="string">        deg_norm (str, optional): 节点正则化常亮计算方法</span></span><br><span class="line"><span class="string">            Choose from [None, 'sm', 'rw'].</span></span><br><span class="line"><span class="string">        edge_gate (str, optional): method of applying edge gating mechanism. Choose from [None, 'proj', 'free'].</span></span><br><span class="line"><span class="string">            Note: 当设置free时，应该提分that when set to 'free', should also provide `num_edges` as an argument (but then it can only work</span></span><br><span class="line"><span class="string">            with fixed edge graph).</span></span><br><span class="line"><span class="string">        aggr (str, optional): 信息传递方法. ['add', 'mean', 'max']，默认为'add'.</span></span><br><span class="line"><span class="string">        **kwargs: could include `num_edges`, etc.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Input:</span></span><br><span class="line"><span class="string">        - x (torch.Tensor): 节点特征矩阵 (N, C_in)</span></span><br><span class="line"><span class="string">        - edge_index (torch.LongTensor): COO 格式的边索引，(2, E)</span></span><br><span class="line"><span class="string">        - edge_attr (torch.Tensor, optional): 边特征矩阵 (E, D_in)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Output:</span></span><br><span class="line"><span class="string">        - xo (torch.Tensor):更新的节点特征 (N, C_out)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    where</span></span><br><span class="line"><span class="string">        N: 输入节点数量</span></span><br><span class="line"><span class="string">        E: 边数量</span></span><br><span class="line"><span class="string">        C_in/C_out: 输入/输出节点特征的维度</span></span><br><span class="line"><span class="string">        D_in: 输入的边特征维度</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_channels, out_channels, in_edgedim=None, deg_norm=<span class="string">'none'</span>, edge_gate=<span class="string">'none'</span>, aggr=<span class="string">'add'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> deg_norm <span class="keyword">in</span> [<span class="string">'none'</span>, <span class="string">'sm'</span>, <span class="string">'rw'</span>]</span><br><span class="line">        <span class="keyword">assert</span> edge_gate <span class="keyword">in</span> [<span class="string">'none'</span>, <span class="string">'proj'</span>, <span class="string">'free'</span>]</span><br><span class="line">        <span class="keyword">assert</span> aggr <span class="keyword">in</span> [<span class="string">'add'</span>, <span class="string">'mean'</span>, <span class="string">'max'</span>]</span><br><span class="line"></span><br><span class="line">        super(NodeModelBase, self).__init__()</span><br><span class="line"></span><br><span class="line">        self.in_channels = in_channels</span><br><span class="line">        self.out_channels = out_channels</span><br><span class="line">        self.in_edgedim = in_edgedim</span><br><span class="line">        self.deg_norm = deg_norm</span><br><span class="line">        self.aggr = aggr</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> edge_gate == <span class="string">'proj'</span>:</span><br><span class="line">            self.edge_gate = EdgeGateProj(out_channels, in_edgedim=in_edgedim, bias=<span class="keyword">True</span>)</span><br><span class="line">        <span class="keyword">elif</span> edge_gate == <span class="string">'free'</span>:</span><br><span class="line">            <span class="keyword">assert</span> <span class="string">'num_edges'</span> <span class="keyword">in</span> kwargs  <span class="comment"># note: this will restrict the model to only a fixed number of edges</span></span><br><span class="line">            self.edge_gate = EdgeGateFree(kwargs[<span class="string">'num_edges'</span>])  <span class="comment"># so don't use this unless necessary</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.register_parameter(<span class="string">'edge_gate'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">degnorm_const</span><span class="params">(edge_index=None, num_nodes=None, deg=None, edge_weight=None, method=<span class="string">'sm'</span>, device=None)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        计算归一化常数</span></span><br><span class="line"><span class="string">        Calculating the normalization constants based on out-degrees for a graph.</span></span><br><span class="line"><span class="string">        `_sm` 使用对称归一化，"symmetric". 更适合用于无向图.</span></span><br><span class="line"><span class="string">        `_rw` 使用随即游走归一化(均值),"random walk". 更适合用于有向图.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Procedure:</span></span><br><span class="line"><span class="string">            - 检查edge_weight，如果不为None，那么必须同时提供edge_index和num_nodes，计算全部节点的度</span></span><br><span class="line"><span class="string">            - 如果edge_weighe，如果是None，检查是否已经存在deg(节点的度矩阵):</span></span><br><span class="line"><span class="string">            	- 如果度矩阵存在，那么忽略edge_index和num_nodes</span></span><br><span class="line"><span class="string">            	- 如果度矩阵不存在，则必须提供edge_index和num_nodes，并计算全部节点的度</span></span><br><span class="line"><span class="string">            	</span></span><br><span class="line"><span class="string">        Input:</span></span><br><span class="line"><span class="string">            - edge_index (torch.Tensor): COO格式的图关系, (2, E)，long</span></span><br><span class="line"><span class="string">            - num_nodes (int): 节点数量</span></span><br><span class="line"><span class="string">            - deg (torch.Tensor): 节点的度,(N,),float</span></span><br><span class="line"><span class="string">            - edge_weight (torch.Tensor): 边权重,(E,),float</span></span><br><span class="line"><span class="string">            - method (str): 度标准化方法, choose from ['sm', 'rw']</span></span><br><span class="line"><span class="string">            - device (str or torch.device): 驱动器编号</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Output:</span></span><br><span class="line"><span class="string">            - norm (torch.Tensor): 基于节点度和边权重的标准化常数.</span></span><br><span class="line"><span class="string">                If `method` == 'sm', size (E,);</span></span><br><span class="line"><span class="string">                if `method` == 'rw' and `edge_weight` != None, size (E,);</span></span><br><span class="line"><span class="string">                if `method` == 'rw' and `edge_weight` == None, size (N,).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        where</span></span><br><span class="line"><span class="string">            N: 节点数量</span></span><br><span class="line"><span class="string">            E: 边数量</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">assert</span> method <span class="keyword">in</span> [<span class="string">'sm'</span>, <span class="string">'rw'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> device <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">and</span> edge_index <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            device = edge_index.device</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> edge_weight <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">assert</span> edge_index <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>, <span class="string">'edge_index must be provided when edge_weight is not None'</span></span><br><span class="line">            <span class="keyword">assert</span> num_nodes <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>, <span class="string">'num_nodes must be provided when edge_weight is not None'</span></span><br><span class="line"></span><br><span class="line">            edge_weight = edge_weight.view(<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">assert</span> edge_weight.size(<span class="number">0</span>) == edge_index.size(<span class="number">1</span>)</span><br><span class="line">						</span><br><span class="line">            calculate_deg = <span class="keyword">True</span>    <span class="comment"># 时候需要计算节点度</span></span><br><span class="line">            edge_weight_equal = <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> deg <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                <span class="keyword">assert</span> edge_index <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>, <span class="string">'edge_index must be provided when edge_weight is None '</span> \</span><br><span class="line">                                               <span class="string">'but deg not provided'</span></span><br><span class="line">                <span class="keyword">assert</span> num_nodes <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>, <span class="string">'num_nodes must be provided when edge_weight is None '</span> \</span><br><span class="line">                                              <span class="string">'but deg not provided'</span></span><br><span class="line">                edge_weight = torch.ones((edge_index.size(<span class="number">1</span>),), device=device)</span><br><span class="line">                calculate_deg = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># node degrees are provided</span></span><br><span class="line">                calculate_deg = <span class="keyword">False</span></span><br><span class="line">            edge_weight_equal = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">        row, col = edge_index</span><br><span class="line">        <span class="comment"># 计算节点度</span></span><br><span class="line">        <span class="keyword">if</span> calculate_deg:</span><br><span class="line">            deg = scatter_add(edge_weight, row, dim=<span class="number">0</span>, dim_size=num_nodes)</span><br><span class="line">				<span class="comment"># 节点度标准化</span></span><br><span class="line">        <span class="keyword">if</span> method == <span class="string">'sm'</span>:</span><br><span class="line">            deg_inv_sqrt = deg.pow(<span class="number">-0.5</span>)</span><br><span class="line">        <span class="keyword">elif</span> method == <span class="string">'rw'</span>:</span><br><span class="line">            deg_inv_sqrt = deg.pow(<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError</span><br><span class="line"></span><br><span class="line">        deg_inv_sqrt[deg_inv_sqrt == float(<span class="string">'inf'</span>)] = <span class="number">0</span></span><br><span class="line">				</span><br><span class="line">        <span class="keyword">if</span> method == <span class="string">'sm'</span>:</span><br><span class="line">          	<span class="comment"># 采用对称标准化的方式，得到的结果向量为(E,)</span></span><br><span class="line">            norm = (deg_inv_sqrt[row] * edge_weight * deg_inv_sqrt[col] <span class="keyword">if</span> <span class="keyword">not</span> edge_weight_equal <span class="comment"># 注意，这里没有直接使用deg_inv_sqrt是因为要乘以权重</span></span><br><span class="line">                    <span class="keyword">else</span> deg_inv_sqrt[row] * deg_inv_sqrt[col])  <span class="comment"># size (E,)</span></span><br><span class="line">        <span class="keyword">elif</span> method == <span class="string">'rw'</span>:</span><br><span class="line">          <span class="comment"># 采用随即游走标准化，如果没有边权重矩阵，那么直接输出签名开方的结果，为（N,），否则与上面类似输出为(E,)</span></span><br><span class="line">            norm = (deg_inv_sqrt[row] * edge_weight <span class="keyword">if</span> <span class="keyword">not</span> edge_weight_equal  <span class="comment"># size (E,)</span></span><br><span class="line">                    <span class="keyword">else</span> deg_inv_sqrt)  <span class="comment"># size (N,)</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> norm</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x, edge_index, edge_attr=None, deg=None, edge_weight=None, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">num_parameters</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(self, <span class="string">'num_para'</span>):</span><br><span class="line">            self.num_para = sum([p.nelement() <span class="keyword">for</span> p <span class="keyword">in</span> self.parameters()])</span><br><span class="line">        <span class="keyword">return</span> self.num_para</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;&#125; (in_channels: &#123;&#125;, out_channels: &#123;&#125;, in_edgedim: &#123;&#125;, deg_norm: &#123;&#125;, edge_gate: &#123;&#125;,'</span> \</span><br><span class="line">               <span class="string">'aggr: &#123;&#125; | number of parameters: &#123;&#125;)'</span>.format(</span><br><span class="line">            self.__class__.__name__, self.in_channels, self.out_channels, self.in_edgedim,</span><br><span class="line">            self.deg_norm, self.edge_gate.__class__.__name__, self.aggr, self.num_parameters())</span><br></pre></td></tr></table></figure>
+<h3 id="NodeModelAdditive"><a href="#NodeModelAdditive" class="headerlink" title="NodeModelAdditive"></a>NodeModelAdditive</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NodeModelAdditive</span><span class="params">(NodeModelBase)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	通过邻域节点的节点和边特征更新节点特征，节点特征表示选用节点的出度</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_channels, out_channels, in_edgedim=None, deg_norm=<span class="string">'sm'</span>, edge_gate=<span class="string">'none'</span>, aggr=<span class="string">'sum'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 bias=True,</span></span></span><br><span class="line"><span class="function"><span class="params">                 **kwargs)</span>:</span></span><br><span class="line">        super(NodeModelAdditive, self).__init__(in_channels, out_channels, in_edgedim, deg_norm, edge_gate, aggr,</span><br><span class="line">                                                **kwargs)</span><br><span class="line">				<span class="comment"># 节点权重矩阵</span></span><br><span class="line">        self.weight_node = Parameter(torch.Tensor(in_channels, out_channels))</span><br><span class="line">				<span class="comment"># 边权重矩阵</span></span><br><span class="line">        <span class="keyword">if</span> in_edgedim <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            self.weight_edge = Parameter(torch.Tensor(in_edgedim, out_channels))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> bias:</span><br><span class="line">            self.bias = Parameter(torch.Tensor(out_channels))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.register_parameter(<span class="string">'bias'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">        self.reset_parameters()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reset_parameters</span><span class="params">(self)</span>:</span></span><br><span class="line">        glorot(self.weight_node)</span><br><span class="line">        <span class="keyword">if</span> self.in_edgedim <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            glorot(self.weight_edge)</span><br><span class="line">        <span class="keyword">if</span> self.bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            zeros(self.bias)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x, edge_index, edge_attr=None, deg=None, edge_weight=None, **kwargs)</span>:</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 将节点特征转化为向量表达， (Node_nums, C_out)        </span></span><br><span class="line">        x = torch.matmul(x, self.weight_node)</span><br><span class="line">      </span><br><span class="line">        <span class="comment"># 构建边特征向量(如果存在的话)</span></span><br><span class="line">        <span class="keyword">if</span> edge_attr <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">assert</span> self.in_edgedim <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span></span><br><span class="line">            x_je = torch.matmul(edge_attr, self.weight_edge)  <span class="comment"># size (E, C_out)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 为信息传递准备节点特征, 包括信息normalization和合并边缘两部分</span></span><br><span class="line">        <span class="keyword">if</span> self.deg_norm == <span class="string">'none'</span>:</span><br><span class="line">            <span class="comment"># 直接使用起始节点特征形成(E, C_out)的起始节点向量矩阵          </span></span><br><span class="line">            x_j = torch.index_select(x, <span class="number">0</span>, edge_index[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 使用节点的度和边权重计算节点的正则化量，（E,）或（N,）</span></span><br><span class="line">            norm = self.degnorm_const(edge_index, num_nodes=x.size(<span class="number">0</span>), deg=deg,</span><br><span class="line">                                      edge_weight=edge_weight, method=self.deg_norm, device=x.device)</span><br><span class="line">            <span class="keyword">if</span> self.deg_norm == <span class="string">'rw'</span> <span class="keyword">and</span> edge_weight <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">                x_j = x * norm.view(<span class="number">-1</span>, <span class="number">1</span>)  <span class="comment"># this saves much memory when N &lt;&lt; E</span></span><br><span class="line">                <span class="comment"># lift the features to source nodes, resulting size (E, C_out)</span></span><br><span class="line">                x_j = torch.index_select(x_j, <span class="number">0</span>, edge_index[<span class="number">0</span>])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># lift the features to source nodes, resulting size (E, C_out)</span></span><br><span class="line">                x_j = torch.index_select(x, <span class="number">0</span>, edge_index[<span class="number">0</span>])</span><br><span class="line">                x_j = x_j * norm.view(<span class="number">-1</span>, <span class="number">1</span>)  <span class="comment"># norm.view(-1, 1) second dim set to 1 for broadcasting</span></span><br><span class="line">				<span class="comment">#----------------- 聚合节点+边特征，得到最终新的节点特征--------------</span></span><br><span class="line">        <span class="comment"># 获得最终要进行聚合的特征向量，是否包含边特征两种</span></span><br><span class="line">        x_j = x_j + x_je <span class="keyword">if</span> edge_attr <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">else</span> x_j</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 使用edge gates</span></span><br><span class="line">        <span class="keyword">if</span> self.edge_gate <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            eg = self.edge_gate(x, edge_index, edge_attr=edge_attr, edge_weight=edge_weight)</span><br><span class="line">            x_j = eg * x_j</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 整合特征信息到节点中,这里需要重点理解 得到(N, C_out)</span></span><br><span class="line">        x = scatter_(self.aggr, x_j, edge_index[<span class="number">1</span>], dim_size=x.size(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 添加bias</span></span><br><span class="line">        <span class="keyword">if</span> self.bias <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            x = x + self.bias</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<h3 id="GCNLayer"><a href="#GCNLayer" class="headerlink" title="GCNLayer"></a>GCNLayer</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GCNLayer</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    图卷积层. 各种节点更新模型的封装，例如基本加法模型、MLP、attention模型。也可以拓展为边更新模型和extra read out operations.</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        in_channels (int): input channels</span></span><br><span class="line"><span class="string">        out_channels (int): output channels</span></span><br><span class="line"><span class="string">        in_edgedim (int, optional): 输入边维度</span></span><br><span class="line"><span class="string">        deg_norm (str, optional): 出度正则化方法.['none', 'sm', 'rw']. 默认为'sm'.</span></span><br><span class="line"><span class="string">            'sm': symmetric, 更适合无向图. 'rw': random walk, 更适合有向图.</span></span><br><span class="line"><span class="string">            注意：当sm用于有向图时，如果有的节点没有出度，将会报错</span></span><br><span class="line"><span class="string">        edge_gate (str, optional): method of apply edge gating mechanism.  ['none', 'proj', 'free'].</span></span><br><span class="line"><span class="string">            Note that when set to 'free', should also provide `num_edges` as an argument (but then it can only work with</span></span><br><span class="line"><span class="string">            fixed edge graph).</span></span><br><span class="line"><span class="string">        aggr (str, optional): 整合邻居特征的方法. ['add', 'mean', 'max'].默认为'add'.</span></span><br><span class="line"><span class="string">        bias (bool, optional): 是否使用bias. 默认为True.</span></span><br><span class="line"><span class="string">        nodemodel (str, optional): 要进行封装的节点模型名称.['additive','mlp','attention']</span></span><br><span class="line"><span class="string">        non_linear (str, optional): 非线性激活函数名称.</span></span><br><span class="line"><span class="string">        **kwargs: could include `num_edges`, etc.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    nodemodel_dict = &#123;<span class="string">'additive'</span>: NodeModelAdditive,</span><br><span class="line">                      <span class="string">'mlp'</span>: NodeModelMLP,</span><br><span class="line">                      <span class="string">'attention'</span>: NodeModelAttention&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_channels, out_channels, in_edgedim=None, deg_norm=<span class="string">'sm'</span>, edge_gate=<span class="string">'none'</span>, aggr=<span class="string">'add'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 bias=True, nodemodel=<span class="string">'additive'</span>, non_linear=<span class="string">'relu'</span>, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> nodemodel <span class="keyword">in</span> [<span class="string">'additive'</span>, <span class="string">'mlp'</span>, <span class="string">'attention'</span>]</span><br><span class="line">        super().__init__()</span><br><span class="line">        self.gcn = self.nodemodel_dict[nodemodel](in_channels,</span><br><span class="line">                                                  out_channels,</span><br><span class="line">                                                  in_edgedim,</span><br><span class="line">                                                  deg_norm=deg_norm,</span><br><span class="line">                                                  edge_gate=edge_gate,</span><br><span class="line">                                                  aggr=aggr,</span><br><span class="line">                                                  bias=bias,</span><br><span class="line">                                                  **kwargs)</span><br><span class="line"></span><br><span class="line">        self.non_linear = activation(non_linear)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x, edge_index, edge_attr=None, deg=None, edge_weight=None, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">"start gcn forward"</span>)</span><br><span class="line">        xo = self.gcn(x, edge_index, edge_attr, deg, edge_weight, **kwargs)</span><br><span class="line">        xo = self.non_linear(xo)</span><br><span class="line">        <span class="keyword">return</span> xo</span><br></pre></td></tr></table></figure>
+<h3 id="GCNModel"><a href="#GCNModel" class="headerlink" title="GCNModel"></a>GCNModel</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GCNModel</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    图神经网络模型，包含GCN Layer，残差连接、最终输出层几部分。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        in_channels (int): 输入通道数</span></span><br><span class="line"><span class="string">        enc_sizes (List[int]): 每层输出通道数, e.g. [32, 64, 64, 32]</span></span><br><span class="line"><span class="string">        num_classes (int): 最终预测的类别数</span></span><br><span class="line"><span class="string">        non_linear (str): 非线性激活函数</span></span><br><span class="line"><span class="string">        non_linear_layer_wise (str): 非线性激活函数在每层的残差之前，默认为none，一般不更改 </span></span><br><span class="line"><span class="string">        residual_hop (int): 每隔几层建立一个残差连接. 如果维度是相同的，输出将来自之前层层输出的直接加和，否则先使用一个无bias的线性转换层进行转换再加.</span></span><br><span class="line"><span class="string">        dropout (float): 应用在隐藏层节点的dropout系数 (不包括初始的输入特征).</span></span><br><span class="line"><span class="string">        final_layer_config (dict):最后一层的配置参数,</span></span><br><span class="line"><span class="string">        if it is different from previous layers.This is useful when the last layer is the direct output layer, and you want to change some setup, such as</span></span><br><span class="line"><span class="string">            the attention heads, etc.</span></span><br><span class="line"><span class="string">        final_type (str): final layer type for the predicted scores. Default: 'none'.</span></span><br><span class="line"><span class="string">        pred_on (str): whether the prediction task is on nodes or on the whole graph. Default: 'node'.</span></span><br><span class="line"><span class="string">        **kwargs: could include other configuration arguments for each layer, such as for graph attention layers.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Input:</span></span><br><span class="line"><span class="string">        - x (torch.Tensor): node features of size (B * N, C_in)</span></span><br><span class="line"><span class="string">        - edge_index (torch.LongTensor): COO format edge index of size (2, E)</span></span><br><span class="line"><span class="string">        - edge_attr (torch.Tensor, optional): edge attributes/features of size (E, D_in)</span></span><br><span class="line"><span class="string">        - deg (torch.Tensor, optional): node degrees of size (B * N,); this could save computation and memory for</span></span><br><span class="line"><span class="string">            computing the node degrees every forward pass when message normalization is dependent on degrees.</span></span><br><span class="line"><span class="string">        - edge_weight (torch.Tensor, optional): currently not used in most cases.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Output:</span></span><br><span class="line"><span class="string">        - x (torch.Tensor): updated node features of size (B * N, num_classes) for node prediction, or (B, num_classes)</span></span><br><span class="line"><span class="string">            for graph level prediction</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    where</span></span><br><span class="line"><span class="string">        B: number of graphs in a batch (batch size)</span></span><br><span class="line"><span class="string">        N: number of nodes</span></span><br><span class="line"><span class="string">        E: number of edges</span></span><br><span class="line"><span class="string">        C_in: dimension of input node features</span></span><br><span class="line"><span class="string">        num_classes: number of classes to predict</span></span><br><span class="line"><span class="string">        D_in: dimension of input edge features</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, in_channels, enc_sizes, num_classes, non_linear=<span class="string">'relu'</span>, non_linear_layer_wise=<span class="string">'none'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 residual_hop=None, dropout=<span class="number">0.0</span>, final_layer_config=None, final_type=<span class="string">'none'</span>, pred_on=<span class="string">'node'</span>, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> final_type <span class="keyword">in</span> [<span class="string">'none'</span>, <span class="string">'proj'</span>]</span><br><span class="line">        <span class="keyword">assert</span> pred_on <span class="keyword">in</span> [<span class="string">'node'</span>, <span class="string">'graph'</span>]</span><br><span class="line">        super().__init__()</span><br><span class="line"></span><br><span class="line">        self.in_channels = in_channels</span><br><span class="line">        self.enc_sizes = [in_channels, *enc_sizes]</span><br><span class="line">        self.num_layers = len(self.enc_sizes) - <span class="number">1</span></span><br><span class="line">        self.num_classes = num_classes</span><br><span class="line">        self.residual_hop = residual_hop</span><br><span class="line">        self.non_linear_layer_wise = non_linear_layer_wise</span><br><span class="line">        self.final_type = final_type</span><br><span class="line">        self.pred_on = pred_on</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 允许不同的层具有不用的attention头，尤其最后一个attention层的结果将直接用于输出层，int、list两种各层attention头声明方式</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'nheads'</span> <span class="keyword">in</span> kwargs:</span><br><span class="line">            <span class="keyword">if</span> isinstance(kwargs[<span class="string">'nheads'</span>], int):</span><br><span class="line">                self.nheads = [kwargs[<span class="string">'nheads'</span>]] * self.num_layers</span><br><span class="line">            <span class="keyword">elif</span> isinstance(kwargs[<span class="string">'nheads'</span>], list):</span><br><span class="line">                self.nheads = kwargs[<span class="string">'nheads'</span>]</span><br><span class="line">                <span class="keyword">assert</span> len(self.nheads) == self.num_layers</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">raise</span> ValueError</span><br><span class="line">            <span class="keyword">del</span> kwargs[<span class="string">'nheads'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># otherwise just a placeholder for 'nheads'</span></span><br><span class="line">            self.nheads = [<span class="number">1</span>] * self.num_layers</span><br><span class="line">            </span><br><span class="line">				<span class="comment"># 如果进行最后的输出层配置，那么直接采用多个GCNLayer堆叠的方式来进行</span></span><br><span class="line">        <span class="keyword">if</span> final_layer_config <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            self.gcn_net = nn.ModuleList(</span><br><span class="line">              [GCNLayer(in_c, out_c, nheads=nh, non_linear=non_linear_layer_wise, **kwargs) <span class="keyword">for</span> in_c, out_c, nh <span class="keyword">in</span> zip(self.enc_sizes, self.enc_sizes[<span class="number">1</span>:], self.nheads)])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">assert</span> isinstance(final_layer_config, dict)</span><br><span class="line">            self.gcn_net = nn.ModuleList(</span><br><span class="line">              [</span><br><span class="line">                GCNLayer(in_c, out_c, nheads=nh, non_linear=non_linear_layer_wise, **kwargs) <span class="keyword">for</span> in_c, out_c, nh <span class="keyword">in</span> zip(self.enc_sizes[:<span class="number">-2</span>],self.enc_sizes[<span class="number">1</span>:<span class="number">-1</span>],self.nheads[:<span class="number">-1</span>])])    </span><br><span class="line">            kwargs.update(final_layer_config)    <span class="comment"># this will update with the new values in final_layer_config</span></span><br><span class="line">            self.gcn_net.append(</span><br><span class="line">              GCNLayer(</span><br><span class="line">                self.enc_sizes[<span class="number">-2</span>],</span><br><span class="line">                self.enc_sizes[<span class="number">-1</span>], </span><br><span class="line">              	nheads=self.nheads[<span class="number">-1</span>],</span><br><span class="line">              	non_linear=non_linear_layer_wise, </span><br><span class="line">              **kwargs))</span><br><span class="line"></span><br><span class="line">        self.dropout = nn.Dropout(dropout)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> residual_hop <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> residual_hop &gt; <span class="number">0</span>:</span><br><span class="line">            self.residuals = nn.ModuleList([nn.Linear(self.enc_sizes[i], self.enc_sizes[j], bias=<span class="keyword">False</span>)</span><br><span class="line">                                            <span class="keyword">if</span> self.enc_sizes[i] != self.enc_sizes[j]</span><br><span class="line">                                            <span class="keyword">else</span></span><br><span class="line">                                            nn.Identity()</span><br><span class="line">                                            <span class="keyword">for</span> i, j <span class="keyword">in</span> zip(range(<span class="number">0</span>, len(self.enc_sizes), residual_hop),</span><br><span class="line">                                                            range(residual_hop, len(self.enc_sizes), residual_hop))])</span><br><span class="line">            self.num_residuals = len(self.residuals)</span><br><span class="line"></span><br><span class="line">        self.non_linear = activation(non_linear)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.final_type == <span class="string">'none'</span>:</span><br><span class="line">            self.final = nn.Identity()</span><br><span class="line">        <span class="keyword">elif</span> self.final_type == <span class="string">'proj'</span>:</span><br><span class="line">            self.final = nn.Linear(self.enc_sizes[<span class="number">-1</span>], num_classes)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reset_parameters</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> net <span class="keyword">in</span> self.gcn_net:</span><br><span class="line">            net.reset_parameters()</span><br><span class="line">        <span class="keyword">if</span> self.residual_hop <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">for</span> net <span class="keyword">in</span> self.residuals:</span><br><span class="line">                net.reset_parameters()</span><br><span class="line">        <span class="keyword">if</span> self.final_type != <span class="string">'none'</span>:</span><br><span class="line">            self.final.reset_parameters()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x, edge_index, edge_attr=None, deg=None, edge_weight=None, **kwargs)</span>:</span></span><br><span class="line">        xr = <span class="keyword">None</span></span><br><span class="line">        add_xr_at = <span class="number">-1</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> n, net <span class="keyword">in</span> enumerate(self.gcn_net):</span><br><span class="line">            <span class="comment"># pass to a GCN layer with non-linear activation</span></span><br><span class="line">            xo = net(x, edge_index, edge_attr, deg, edge_weight, **kwargs)</span><br><span class="line">            xo = self.dropout(xo)</span><br><span class="line">            <span class="comment"># deal with residual connections</span></span><br><span class="line">            <span class="keyword">if</span> self.residual_hop <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> self.residual_hop &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> n % self.residual_hop == <span class="number">0</span> <span class="keyword">and</span> (n // self.residual_hop) &lt; self.num_residuals:</span><br><span class="line">                    xr = self.residuals[n // self.residual_hop](x)</span><br><span class="line">                    add_xr_at = n + self.residual_hop - <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> n == add_xr_at:</span><br><span class="line">                    <span class="keyword">if</span> n &lt; self.num_layers - <span class="number">1</span>:  <span class="comment"># before the last layer</span></span><br><span class="line">                        <span class="comment"># non_linear is applied both after each layer (by default: 'none') and after residual sum</span></span><br><span class="line">                        xo = self.non_linear(xo + xr)</span><br><span class="line">                    <span class="keyword">else</span>:  <span class="comment"># the last layer (potentially the output layer)</span></span><br><span class="line">                        <span class="keyword">if</span> self.final_type == <span class="string">'none'</span>:</span><br><span class="line">                            <span class="comment"># no non_linear is important for binary classification since this is to be passed to sigmoid</span></span><br><span class="line">                            <span class="comment"># function to calculate loss, and ReLU will directly kill all the negative parts</span></span><br><span class="line">                            xo = xo + xr</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            xo = self.non_linear(xo + xr)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> n &lt; self.num_layers - <span class="number">1</span>:  <span class="comment"># before the last layer</span></span><br><span class="line">                    xo = self.non_linear(xo)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">if</span> self.final_type == <span class="string">'none'</span>:</span><br><span class="line">                        <span class="keyword">pass</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        xo = self.non_linear(xo)</span><br><span class="line"></span><br><span class="line">            x = xo</span><br><span class="line">        <span class="comment"># size of x: (B * N, self.enc_sizes[-1]) -&gt; (B * N, num_classes)</span></span><br><span class="line">        x = self.final(x)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># graph level pooling for graph classification</span></span><br><span class="line">        <span class="comment"># use mean pooling here</span></span><br><span class="line">        <span class="keyword">if</span> self.pred_on == <span class="string">'graph'</span>:</span><br><span class="line">            <span class="keyword">assert</span> <span class="string">'batch_slices_x'</span> <span class="keyword">in</span> kwargs</span><br><span class="line">            batch_slices_x = kwargs[<span class="string">'batch_slices_x'</span>]</span><br><span class="line">            <span class="keyword">if</span> len(batch_slices_x) == <span class="number">2</span>:</span><br><span class="line">                <span class="comment"># only one graph in the batch</span></span><br><span class="line">                x = x.mean(dim=<span class="number">0</span>, keepdim=<span class="keyword">True</span>)  <span class="comment"># size (1, num_classes)</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># more than one graphs in the batch</span></span><br><span class="line">                x_batch, lengths = zip(*[(x[i:j], j - i) <span class="keyword">for</span> (i, j) <span class="keyword">in</span> zip(batch_slices_x, batch_slices_x[<span class="number">1</span>:])])</span><br><span class="line">                x_batch = pad_sequence(x_batch, batch_first=<span class="keyword">True</span>,</span><br><span class="line">                                       padding_value=<span class="number">0</span>)  <span class="comment"># size (batch_size, max_num_nodes, num_classes)</span></span><br><span class="line">                x = x_batch.sum(dim=<span class="number">1</span>) / x_batch.new_tensor(lengths)  <span class="comment"># size (batch_size, num_classes)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<h5 id="Scatter-add"><a href="#Scatter-add" class="headerlink" title="Scatter_add"></a>Scatter_add</h5><p>&emsp;scatter_add函数实现的功能为索引上相同的值src矩阵中对应的位置的元素进行加和。函数的参数包括：</p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> src: torch.Tensor</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> index: torch.Tensor</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> dim: int = -1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> out: Optional[torch.Tensor] = None,</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> dim_size: Optional[int] = None) -&gt; torch.Tensor</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<div class="note warning">
+            <p>注意在新版本的scatter_add中不在具有fill_value参数</p>
+          </div>
+<p>&emsp;&emsp;scatter_add的工作原理如下图所示。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.czlizeelbx4.png" alt="image" style="zoom:30%;"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; index  = torch.tensor([[<span class="number">2</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">0</span>],[<span class="number">3</span>,<span class="number">1</span>],[<span class="number">3</span>,<span class="number">2</span>]])</span><br><span class="line">tensor([[<span class="number">2</span>, <span class="number">1</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">0</span>, <span class="number">2</span>],</span><br><span class="line">        [<span class="number">3</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">3</span>, <span class="number">1</span>],</span><br><span class="line">        [<span class="number">3</span>, <span class="number">2</span>]])</span><br><span class="line">&gt;&gt; src = torch.tensor([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>],[<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>],[<span class="number">9</span>,<span class="number">10</span>],[<span class="number">11</span>,<span class="number">12</span>]]).float()</span><br><span class="line">tensor([[ <span class="number">1.</span>,  <span class="number">2.</span>],</span><br><span class="line">        [ <span class="number">3.</span>,  <span class="number">4.</span>],</span><br><span class="line">        [ <span class="number">5.</span>,  <span class="number">6.</span>],</span><br><span class="line">        [ <span class="number">7.</span>,  <span class="number">8.</span>],</span><br><span class="line">        [ <span class="number">9.</span>, <span class="number">10.</span>],</span><br><span class="line">        [<span class="number">11.</span>, <span class="number">12.</span>]])</span><br><span class="line">&gt;&gt; output = torch.zeros((<span class="number">4</span>,<span class="number">4</span>))</span><br><span class="line">tensor([[<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">        [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">        [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">        [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>, <span class="number">0.</span>]])</span><br><span class="line">&gt;&gt; torch_scatter.scatter_add(src,index,<span class="number">0</span>)</span><br><span class="line">tensor([[ <span class="number">5.</span>,  <span class="number">8.</span>],</span><br><span class="line">        [ <span class="number">3.</span>, <span class="number">12.</span>],</span><br><span class="line">        [ <span class="number">1.</span>, <span class="number">18.</span>],</span><br><span class="line">        [<span class="number">27.</span>,  <span class="number">4.</span>]])</span><br><span class="line">&gt;&gt; torch_scatter.scatter_add(src,index,<span class="number">0</span>,out=output)</span><br><span class="line">tensor([[ <span class="number">5.</span>,  <span class="number">8.</span>,  <span class="number">0.</span>,  <span class="number">0.</span>],</span><br><span class="line">        [ <span class="number">3.</span>, <span class="number">12.</span>,  <span class="number">0.</span>,  <span class="number">0.</span>],</span><br><span class="line">        [ <span class="number">1.</span>, <span class="number">18.</span>,  <span class="number">0.</span>,  <span class="number">0.</span>],</span><br><span class="line">        [<span class="number">27.</span>,  <span class="number">4.</span>,  <span class="number">0.</span>,  <span class="number">0.</span>]])</span><br></pre></td></tr></table></figure>
+<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
+<li>xxx</li>
+<li>xxx</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2020/10/29/图神经网络进行僵尸网络检测源码解析/" title="图神经网络进行僵尸网络检测源码解析">https://anchorety.github.io/2020/10/29/图神经网络进行僵尸网络检测源码解析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/28/图神经网络基础/" rel="prev" title="图神经网络基础">
+      <i class="fa fa-chevron-left"></i> 图神经网络基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/02/pytorch训练过程中动态调整学习速率/" rel="next" title="pytorch训练过程中动态调整学习速率">
+      pytorch训练过程中动态调整学习速率 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NodeModelBase"><span class="nav-text">NodeModelBase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NodeModelAdditive"><span class="nav-text">NodeModelAdditive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GCNLayer"><span class="nav-text">GCNLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GCNModel"><span class="nav-text">GCNModel</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

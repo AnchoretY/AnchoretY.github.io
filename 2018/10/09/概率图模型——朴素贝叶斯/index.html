@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。 朴素贝叶斯概率图     贝叶斯定理 12345678p(AB)=P(A/B)P(">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率图模型——朴素贝叶斯">
+<meta property="og:url" content="https://anchorety.github.io/2018/10/09/概率图模型——朴素贝叶斯/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。 朴素贝叶斯概率图     贝叶斯定理 12345678p(AB)=P(A/B)P(">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-02-19T04:05:32.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="概率图模型——朴素贝叶斯">
+<meta name="twitter:description" content="​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过 朴素贝叶斯思想 ​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于贝叶斯定理和条件独立假设来进行建模预测的模型。 朴素贝叶斯概率图     贝叶斯定理 12345678p(AB)=P(A/B)P(">
+
+<link rel="canonical" href="https://anchorety.github.io/2018/10/09/概率图模型——朴素贝叶斯/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>概率图模型——朴素贝叶斯 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/10/09/概率图模型——朴素贝叶斯/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          概率图模型——朴素贝叶斯
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-10-09 20:25:55" itemprop="dateCreated datePublished" datetime="2018-10-09T20:25:55+08:00">2018-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/10/09/概率图模型——朴素贝叶斯/" class="post-meta-item leancloud_visitors" data-flag-title="概率图模型——朴素贝叶斯" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/10/09/概率图模型——朴素贝叶斯/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/10/09/概率图模型——朴素贝叶斯/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>971</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>​    逻辑回归通过拟合曲线实现分类，决策树通过寻找最佳划分特征进而学习样本路径实现分类，支持向量机通过寻找分类超平面进而最大化类间间隔实现分类，而朴素贝叶斯通过</p>
+<h4 id="朴素贝叶斯思想"><a href="#朴素贝叶斯思想" class="headerlink" title="朴素贝叶斯思想"></a>朴素贝叶斯思想</h4><hr>
+<p>​    朴素贝叶斯是一种最简单的概率图模型，通过根据训练样本统计出样本的概率分布，基于<strong>贝叶斯定理</strong>和<strong>条件独立假设</strong>来进行建模预测的模型。</p>
+<p><strong>朴素贝叶斯概率图</strong>    </p>
+<p><strong>贝叶斯定理</strong></p>
+<figure class="highlight tp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">p(AB)=<span class="keyword">P</span>(A/B)<span class="keyword">P</span>(B)</span><br><span class="line">    =<span class="keyword">P</span>(B/A)<span class="keyword">P</span>(A)</span><br><span class="line"></span><br><span class="line">在贝叶斯模型中用到的是下面的形式：</span><br><span class="line">    <span class="keyword">P</span>(Ci/<span class="keyword">W</span>) = <span class="keyword">P</span>(<span class="keyword">W</span>|Ci)*<span class="keyword">P</span>(Ci)/<span class="keyword">P</span>(<span class="keyword">W</span>)</span><br><span class="line">其中，<span class="keyword">W</span>为向量，有的多个值组成，Ci为标签，也就是上式可以写成下面的形式</span><br><span class="line">    <span class="keyword">P</span>(Ci/w<span class="number">0</span>,w<span class="number">1</span>,..,w) = <span class="keyword">P</span>(w<span class="number">0</span>,w<span class="number">1</span>,...,wn/Ci)*<span class="keyword">P</span>(Ci)/<span class="keyword">P</span>(<span class="keyword">W</span>)</span><br><span class="line">里面的<span class="keyword">P</span>(Ci/w<span class="number">0</span>,w<span class="number">1</span>,..,w)就是机器学习建模最终的目标，在一定条件下是某一类的概率</span><br></pre></td></tr></table></figure>
+<p><strong>条件独立假设</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	条件独立假设认为：每个事件的发生都相互独立，互相之间没有影响。由于这个假设，上面的式子可以改为：</span><br><span class="line">    </span><br><span class="line">    P(Ci/w0,w1,..,w) = P(w0,w1,...,wn/Ci)/P(Ci) = P(w0/Ci)P(w1/Ci)...P(wn/Ci)*P(Ci)/p(W)</span><br><span class="line">    </span><br><span class="line">到这里，我们可以知道，要求的最终的结果，只需要在训练集中求得P(Ci)以及在P(w0/Ci)...P(wn/Ci)即可</span><br></pre></td></tr></table></figure>
+<p><strong>模型训练</strong></p>
+<p>因此在NB算法训练时，只需要在训练集样本中到下面三个概率分布：</p>
+<p>​    1.P(Ci)，在训练集中标签1出现的概率(二分类只需要统计一个，n分类就需要n-1个)</p>
+<p>​    2.P(wj/Ci),在训练集中属于各个标签的条件下第n个特征是i的概率</p>
+<blockquote>
+<p><strong>注意：</strong>这里不需要统计P(W)的概率，因为最终属于各个类型的概率都需要除以相同的P(W)，因此约掉</p>
+</blockquote>
+<p>训练代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainNB</span><span class="params">(dataSetList,labels)</span>:</span></span><br><span class="line">	dataSetVec = np.array(dataSetList)</span><br><span class="line">	</span><br><span class="line">	<span class="comment">#计算Pc</span></span><br><span class="line">    sampleNums = len(dataSetVec)</span><br><span class="line">    pc = np.sum(datasetVec)/sampleNums</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#计算p(wj/Ci),这里是二分类</span></span><br><span class="line">    p0Nums = <span class="number">0</span></span><br><span class="line">    p1Nums = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#这里涉及到初始化问题</span></span><br><span class="line">    p0Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    p1Vecs = np.ones(len(dataSetVec[<span class="number">0</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(labels)):</span><br><span class="line">        <span class="keyword">if</span> labels[i]==<span class="number">0</span>:</span><br><span class="line">            p0Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p0Nums += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p1Vecs += dataSetVec[<span class="number">0</span>]</span><br><span class="line">            p1Nums += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    p0Vecs = p0Vecs/p0Nums</span><br><span class="line">    p1Vecs = p1Vecs/p1Nums</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pc,p0Vecs,p1Vecs</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>初始化问题</strong>：</p>
+<p>​    再利用贝叶斯分类器进行分类时，要计算多个概率等乘积以计算文档属于某个分类的概率，即计算：</p>
+<p>​    P(w0|c=1)P(w1|c=1)….P(wn|c=1)</p>
+<p>​    如果其中任意一项为0，那么最终的成绩也将等于0。为了降低这种情况造成的影响，可以将所有词初始化为1.</p>
+</blockquote>
+<p><strong>预测过程</strong></p>
+<p>​    NB模型的预测过程就是使用上面统计<strong>得到的概率分布与输入数据进行关联后</strong>，计算出新的样本属于各个类型的概率，然后选择其中概率最大的类型作为模型预测类型的过程。预测过程中需要关注的一个关键问题需要重点关注，那就是python的<strong>下溢出问题</strong>。</p>
+<blockquote>
+<p>​    <strong>下溢出问题</strong>：在python中当多个很小的数相乘时会产生下溢出问题(最后四舍五入得到0)</p>
+<p>​    <strong>解决办法：取自然对数。</strong>因为自然对数和原来的数怎增减性相同，极值点也相同</p>
+<p>​    使用自然对数后，上面的式可以转换成：</p>
+<p>​    P(Ci/w0,w1,..,w) = P(w0/Ci)P(w1/Ci)…P(wn/Ci)/P(Ci) —&gt;P(Ci/w0,w1,..,w) =  log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci)</p>
+</blockquote>
+<p><strong>预测代码</strong>：</p>
+<p>​    预测过程中将已知的概率分布与输入数据进行关联的方式：</p>
+<p>​        log(P(w0/Ci))+…+log(P(wn/Ci))+P(Ci) ——&gt;log(P(w0/Ci))<em>x0+…+log(P(wn/Ci))</em>xn+log(P(Ci)</p>
+<p>​    这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classfyNB</span><span class="params">(input_data,pc,p0Vecs,p1Vecs)</span>:</span></span><br><span class="line">    <span class="comment">#这里的input_data*np.log(p0Vecs)代表将每个出现的词和其出现在该类中出现该词的概率关联起来</span></span><br><span class="line">    <span class="comment">#这里之所以没有除以pw，是因为对每个类型的pw是一致的，就没有必要所有都除了</span></span><br><span class="line">    p0 = sum(input_data*np.log(p0Vecs))+math.log(pc)</span><br><span class="line">    p1 = sum(input_data*np.log(p1Vecs))+math.log(<span class="number">1</span>-pc)</span><br><span class="line">  	<span class="keyword">if</span> p0&gt;p1:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>​        </p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2018/10/09/概率图模型——朴素贝叶斯/" title="概率图模型——朴素贝叶斯">https://anchorety.github.io/2018/10/09/概率图模型——朴素贝叶斯/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/10/03/github基本使用/" rel="prev" title="github基本使用">
+      <i class="fa fa-chevron-left"></i> github基本使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/10/10/常用正则表达式/" rel="next" title="常用正则表达式">
+      常用正则表达式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#朴素贝叶斯思想"><span class="nav-text">朴素贝叶斯思想</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
