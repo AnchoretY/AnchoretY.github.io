@@ -17,4 +17,710 @@
         <tag>算法总结</tag>
       </tags>
   </entry>
+  <entry>
+    <title>安全——ddos</title>
+    <url>/2020/04/24/%E5%AE%89%E5%85%A8%E2%80%94%E2%80%94ddos/</url>
+    <content><![CDATA[<p>概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其<strong>主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务</strong>。大部分的Ddos攻击都会利用<strong>服务器的各种漏洞</strong>以及<strong>基础设施漏洞</strong>的对僵尸网络的<strong>流量进行放大</strong>，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.voe30khfd1.png" alt="image"></p>
+<a id="more"></a>
+<h3 id="1-SYN-Flood"><a href="#1-SYN-Flood" class="headerlink" title="1.SYN Flood"></a>1.SYN Flood</h3><p>&emsp;&emsp;SYN Flood是互联网上最经典的DDoS攻击方式之一，最早出现于1999年左右，雅虎是当时最著名的受害者。SYN Flood攻击利用了TCP三次握手的缺陷，能够以较小代价使目标服务器无法响应，且难以追查。</p>
+<p><strong>标准的TCP三次握手过程如下</strong>：</p>
+<blockquote>
+<p>&emsp;&emsp;客户端发送一个包含SYN标志的TCP报文，SYN即同步(Synchronize)，同步报文会指明客户端使用的端口以及TCP连接的初始序号;</p>
+<p>&emsp;&emsp;服务器在收到客户端的SYN报文后，将返回一个SYN+ACK(即确认Acknowledgement)的报文，表示客户端的请求被接受，同时TCP初始序号自动加1;</p>
+<p>&emsp;&emsp;客户端也返回一个确认报文ACK给服务器端，同样TCP序列号被加1。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qeimqwdakph.png" alt="image"></p>
+</blockquote>
+<p>&emsp;&emsp;经过这三步，TCP连接就建立完成。TCP协议为了实现可靠传输，在三次握手的过程中设置了一些异常处理机制。<strong>第三步中如果服务器没有收到客户端的最终ACK确认报文，会一直处于SYN_RECV状态，将客户端IP加入等待列表，并重发第二步的SYN+ACK报文。重发一般进行3-5次，大约间隔30秒左右轮询一次等待列表重试所有客户端。另一方面，服务器在自己发出了SYN+ACK报文后，会预分配资源为即将建立的TCP连接储存信息做准备，这个资源在等待重试期间一直保留。</strong>更为重要的是，服务器资源有限，可以维护的SYN_RECV状态超过极限后就不再接受新的SYN报文，也就是拒绝新的TCP连接建立。</p>
+<p>&emsp;&emsp;SYN Flood正是利用了上文中TCP协议的设定，达到攻击的目的。<strong>攻击者伪装大量的IP地址给服务器发送SYN报文，由于伪造的IP地址几乎不可能存在，也就几乎没有设备会给服务器返回任何应答了</strong>。因此，服务器将会维持一个庞大的等待列表，不停地重试发送SYN+ACK报文，同时占用着大量的资源无法释放。更为关键的是，<strong>被攻击服务器的SYN_RECV队列被恶意的数据包占满，不再接受新的SYN请求，合法用户无法完成三次握手建立起TCP连接</strong>。也就是说，这个服务器被SYN Flood拒绝服务了。</p>
+<h3 id="2-DNS-Query-Flood"><a href="#2-DNS-Query-Flood" class="headerlink" title="2.DNS Query Flood"></a>2.DNS Query Flood</h3><p>&emsp;&emsp;作为互联网最基础、最核心的服务，DNS自然也是DDoS攻击的重要目标之一。打垮DNS服务能够间接打垮一家公司的全部业务，或者打垮一个地区的网络服务。前些时候风头正盛的黑客组织anonymous也曾经宣布要攻击全球互联网的13台根DNS服务器，不过最终没有得手。</p>
+<div class="note info">
+            <p>DNS Query Flood的攻击目标为DNS基础设施</p>
+          </div>
+<p>&emsp;&emsp;UDP攻击是最容易发起海量流量的攻击手段，而且源IP随机伪造难以追查。但过滤比较容易，因为大多数IP并不提供UDP服务，直接丢弃UDP流量即可。所以现在纯粹的UDP流量攻击比较少见了，取而代之的是UDP协议承载的DNS Query Flood攻击。简单地说，越上层协议上发动的DDoS攻击越难以防御，因为协议越上层，与业务关联越大，防御系统面临的情况越复杂。</p>
+<p>　　<strong>DNS Query Flood就是攻击者操纵大量傀儡机器，对目标发起海量的域名查询请求。为了防止基于ACL的过滤，必须提高数据包的随机性。常用的做法是UDP层随机伪造源IP地址、随机伪造源端口等参数。在DNS协议层，随机伪造查询ID以及待解析域名。随机伪造待解析域名除了防止过滤外，还可以降低命中DNS缓存的可能性，尽可能多地消耗DNS服务器的CPU资源。</strong>            </p>
+<h3 id="3-DNS-反射攻击"><a href="#3-DNS-反射攻击" class="headerlink" title="3.DNS 反射攻击"></a>3.DNS 反射攻击</h3><p>&emsp;&emsp;使用DNS反射攻击，攻击者会构造一份请求，<strong>将该请求的发件方填写成为自己想要攻击的目标</strong>，然后将该请求发送给DNS解析服务器，DNS解析服务器受到该请求后会给出相当详尽的响应信息，并通过<strong>庞大的数据包</strong>，将其发送给攻击者想要攻击的地址，从达到攻击者使用较小的带宽来消耗目标服务器较大的带宽。</p>
+<div class="note info">
+            <p>发送的 DNS 查询请求数据包大小一般为 60 字节左右，而查询返回结果的数据包大小通常为 3000 字节以上，因此，使用该方式进行放大攻击能够达到 50 倍以上的放大效果。</p>
+          </div>
+<blockquote>
+<p>正常DNS查询：<br>&emsp;&emsp;源IP地址 —–DNS查询—-&gt; DNS服务器 —–DNS回复包—-&gt; 源IP地址</p>
+<p>DNS反射攻击：<br>&emsp;&emsp;伪造IP地址 —–DNS查询—-&gt; DNS服务器 —–DNS回复包—-&gt; 伪造的IP地址（攻击目标）</p>
+</blockquote>
+<p>防御方法：</p>
+<p>&emsp;&emsp;1.如果内部有DNS服务器，将DNS服务器设置为只对内部DNS解析请求相应。</p>
+<p>&emsp;&emsp;2.限制DNS响应包大小，超过限制大小的数据包直接丢弃。</p>
+<h3 id="4-HTTP-Flood（CC攻击）"><a href="#4-HTTP-Flood（CC攻击）" class="headerlink" title="4.HTTP Flood（CC攻击）"></a>4.HTTP Flood（CC攻击）</h3><p>&emsp;&emsp;攻击者通过代理或僵尸主机向目标服务器发起大量的HTTP报文，请求涉及数据库操作的URI（Universal Resource Identifier）或其它消耗系统资源的URI，造成服务器资源耗尽，无法响应正常请求。例如门户网站经常受到的HTTP Flood攻击，攻击的最大特征就是选择消耗服务器CPU或内存资源的URI，如具有数据库操作的URI。</p>
+<p><strong>CC攻击的特性：</strong></p>
+<blockquote>
+<p>1.<strong>攻击对象</strong>：一般Ddos都是针对IP进行的拒绝服务，而CC攻击是针对页面进行的拒绝服务。</p>
+<p>2.<strong>攻击发起者</strong>：CC攻击绝大多数都需要使用僵尸网络进行攻击，使用IP也都是真实的肉鸡IP地址。</p>
+<p>2.<strong>请求有效性</strong>：CC攻击的请求都是正常的请求，IP地址也都是正常的IP。</p>
+<p>3.<strong>受到攻击后的表现</strong>:服务器可以正常ping通，但是网页无法访问。</p>
+</blockquote>
+<h3 id="5-慢速攻击"><a href="#5-慢速攻击" class="headerlink" title="5. 慢速攻击"></a>5. 慢速攻击</h3><p>&emsp;&emsp;慢速攻击是CC攻击的一种变体，和CC攻击一样，只要Web服务器开放了Web服务，那么它就可以是一个靶子，HTTP协议在接收到request之前是不对请求内容作校验的，所以即使你的Web应用没有可用的form表单，这个攻击一样有效。</p>
+<p><strong>基本原理：</strong></p>
+<p>&emsp;&emsp;对任何一个开放了HTTP访问的服务器HTTP服务器，先<strong>建立了一个连接，指定一个比较大的content-length，然后以非常低的速度发包，比如1-10s发一个字节，然后维持住这个连接不断开</strong>。如果客户端持续建立这样的连接，那么服务器上可用的连接将一点一点被占满，从而导致拒绝服务。</p>
+<p>&emsp;&emsp;<strong>在客户端以单线程方式建立较大数量的无用连接，并保持持续发包的代价非常的低廉</strong>。实际试验中一台普通PC可以建立的连接在3000个以上。这对一台普通的Web server，将是致命的打击。更不用说结合肉鸡群做分布式DoS了。鉴于此<strong>攻击简单的利用程度、拒绝服务的后果、带有逃逸特性</strong>的攻击方式，这类攻击一炮而红，成为众多攻击者的研究和利用对象。</p>
+<p><strong>细分实例：</strong></p>
+<p>&emsp;&emsp;慢速攻击发展到今天，其种类可以分为下面几个种类：</p>
+<p><strong>1.low headers</strong></p>
+<p>&emsp;&emsp;<strong>Web应用在处理HTTP请求之前都要先接收完所有的HTTP头部，因为HTTP头部中包含了一些Web应用可能用到的重要的信息</strong>。攻击者利用这点，发起一个HTTP请求，一直不停的发送HTTP头部，消耗服务器的连接和内存资源。抓包数据可见，<strong>攻击客户端与服务器建立TCP连接后，每30秒才向服务器发送一个HTTP头部，而Web服务器再没接收到2个连续的\r\n时，会认为客户端没有发送完头部，而持续的等等客户端发送数据。</strong></p>
+<h5 id="2-Slow-body"><a href="#2-Slow-body" class="headerlink" title="2.Slow body"></a>2.Slow body</h5><p>&emsp;&emsp;<strong>攻击者发送一个HTTP POST请求，该请求的Content-Length头部值很大，使得Web服务器或代理认为客户端要发送很大的数据。服务器会保持连接准备接收数据，但攻击客户端每次只发送很少量的数据，使该连接一直保持存活，消耗服务器的连接和内存资源</strong>。抓包数据可见，攻击客户端与服务器建立TCP连接后，发送了完整的HTTP头部，POST方法带有较大的Content-Length，然后每10s发送一次随机的参数。服务器因为没有接收到相应Content-Length的body，而持续的等待客户端发送数据。</p>
+<h5 id="3-Slow-read"><a href="#3-Slow-read" class="headerlink" title="3.Slow read"></a>3.Slow read</h5><p>&emsp;<strong>&emsp;客户端与服务器建立连接并发送了一个HTTP请求，客户端发送完整的请求给服务器端，然后一直保持这个连接，以很低的速度读取Response</strong>，比如很长一段时间客户端不读取任何数据，通过发送Zero Window到服务器，让服务器误以为客户端很忙，直到连接快超时前才读取一个字节，以消耗服务器的连接和内存资源。抓包数据可见，客户端把数据发给服务器后，服务器发送响应时，收到了客户端的ZeroWindow提示（表示自己没有缓冲区用于接收数据），服务器不得不持续的向客户端发出ZeroWindowProbe包，询问客户端是否可以接收数据。</p>
+<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
+<li><p><a href="https://www.jianshu.com/p/dff5a0d537d8" target="_blank" rel="noopener">https://www.jianshu.com/p/dff5a0d537d8</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/bonelee/p/9204826.html" target="_blank" rel="noopener">https://www.cnblogs.com/bonelee/p/9204826.html</a></p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>大数据——spark调优</title>
+    <url>/2019/05/20/%E5%A4%A7%E6%95%B0%E6%8D%AE%E2%80%94%E2%80%94spark%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[<h3 id="Spark调优核心参数设置"><a href="#Spark调优核心参数设置" class="headerlink" title="Spark调优核心参数设置"></a>Spark调优核心参数设置</h3><blockquote>
+<p><strong>num-executors</strong> 该参数一定被设置， 为当前Application生产指定个数的Executors 实际生产环境分配<strong>80个左右</strong>的Executors<br><strong>executor-memory</strong> 与<strong>JVM OOM(内存溢出)</strong>紧密相关，很多时候甚至决定了spark运行的性能 实际生产环境下建议<strong>8GB左右</strong> 若运行在yarn上，内存占用量不超过yarn的内存资源的50%<br><strong>excutor-cores</strong> 决定了在Executor中能够<strong>并行执行的Task的个数</strong> 实际生产环境建议<strong>2~3个</strong> </p>
+<p><strong>driver-memory</strong> 作为驱动，默认是1GB 生产环境一般设置4GB</p>
+<p><strong>spark.default.parallelism</strong> 建议至少设置100个，<strong>官方推荐是num-executors*excutor-cores的2~3倍</strong><br><strong>spark.storage.memoryFraction</strong> 用于存储的比例默认占用60%，如果计算比较依赖于历史数据，则可以适当调高该参数，如果计算严重依赖于shuffle，则需要降低该比例<br><strong>spark.shuffle.memoryFraction</strong> 用于shuffle的内存比例，默认占用20% 如果计算严重依赖于shuffle,则需要提高该比例</p>
+</blockquote>
+<h3 id="spark生态的主要组件："><a href="#spark生态的主要组件：" class="headerlink" title="spark生态的主要组件："></a>spark生态的主要组件：</h3><blockquote>
+<p>spark core，任务调度，内存管理，错误恢复<br>spark sql，结构化数据处理<br>spark streaming，流式计算<br>spark MLlib，机器学习库<br>GraphX,图计算</p>
+</blockquote>
+<h3 id="spark运行模式："><a href="#spark运行模式：" class="headerlink" title="spark运行模式："></a>spark运行模式：</h3><blockquote>
+<ol>
+<li>local模式</li>
+<li>standalone模式，构建master+slave集群</li>
+<li>Spark on Yarn模式</li>
+<li>Spark on Mesos模式</li>
+</ol>
+</blockquote>
+<h3 id="宽窄依赖"><a href="#宽窄依赖" class="headerlink" title="宽窄依赖"></a>宽窄依赖</h3><blockquote>
+<p>1.窄依赖是1对1或1对多，宽依赖是多对1</p>
+<p>2.窄依赖前一步map没有完全完成也可以进行下一步，在一个线程里完成不划分stage;宽依赖下一步需要依赖前一步的结果，划分stage</p>
+<p>4.在传输上，窄依赖之间在一个stage内只需要做pipline，每个父RDD的分区只会传入到一个子RDD分区中，通常可以在一个节点内完成转换；宽依赖在stage做shuffle，需要在运行过程中将同一个父RDD的分区传入到不同的子RDD分区中，中间可能涉及多个节点之间的数据传输</p>
+<p>3.容错上，窄依赖只需要重新计算子分区对应的负分区的RDD即可；宽依赖，在极端情况下所有负分区的RDD都要被计算</p>
+</blockquote>
+<h4 id="map­reduce中数据倾斜的原因-应该如何处理"><a href="#map­reduce中数据倾斜的原因-应该如何处理" class="headerlink" title="map­reduce中数据倾斜的原因?应该如何处理?"></a>map­reduce中数据倾斜的原因?应该如何处理?</h4><p>如何处理spark中的数据倾斜?</p>
+<blockquote>
+<p><strong>原因</strong>：在物理执行期间，RDD会被分为一系列的分区，每个分区都是整个数据集的子集。当spark调度并运行任务的时候，Spark会为每一个分区中的数据创建一个任务。大部分的任务处理的数据量差不多，但是有少部分的任务处理的数据量很大，因而Spark作业会看起来运行的十分的慢，从而产生<strong>数据倾斜</strong></p>
+<p><strong>处理方式：</strong></p>
+<p>  1.使用需要进行shuffle人工指定参数并行度</p>
+<p>  2.进行数据的清洗,把发生倾斜的刨除,用单独的程序去算倾斜的key</p>
+<p>  3.join的时候使用小数据join大数据时，换用map join</p>
+<ol>
+<li>尽量减少shuffle的次数</li>
+</ol>
+</blockquote>
+<h3 id="Spark分区数设置"><a href="#Spark分区数设置" class="headerlink" title="Spark分区数设置"></a>Spark分区数设置</h3><blockquote>
+<p><strong>1、分区数越多越好吗？</strong></p>
+<p>不是的，分区数太多意味着任务数太多（一个partion对应一个任务），每次调度任务也是很耗时的，所以分区数太多会导致总体耗时增多。</p>
+<p><strong>2、分区数太少会有什么影响？</strong></p>
+<p>分区数太少的话，会导致一些结点没有分配到任务；另一方面，分区数少则每个分区要处理的数据量就会增大，从而对每个结点的内存要求就会提高；还有分区数不合理，会导致数据倾斜问题。</p>
+<p><strong>3、合理的分区数是多少？如何设置？</strong></p>
+<p>总核数=executor-cores * num-executor </p>
+<p>一般合理的分区数设置为总核数的2~3倍</p>
+</blockquote>
+<h3 id="Worker、Master、Executor、Driver-4大组件"><a href="#Worker、Master、Executor、Driver-4大组件" class="headerlink" title="Worker、Master、Executor、Driver 4大组件"></a>Worker、Master、Executor、Driver 4大组件</h3><blockquote>
+<p><strong>1.master和worker节点</strong></p>
+<p>搭建spark集群的时候我们就已经设置好了master节点和worker节点，一个集群有一个master节点和多个worker节点。</p>
+<p><strong>master节点常驻master守护进程，负责管理worker节点，我们从master节点提交应用。</strong></p>
+<p><strong>worker节点常驻worker守护进程，与master节点通信，并且管理executor进程。</strong></p>
+<p><strong>2.driver和executor进程</strong></p>
+<p>driver进程就是应用的main()函数并且构建sparkContext对象，<strong>当我们提交了应用之后，便会启动一个对应的driver进程，driver本身会根据我们设置的参数占有一定的资源</strong>（主要指cpu core和memory）。下面说一说driver和executor会做哪些事。</p>
+<p>driver可以运行在master上，也可以运行worker上（根据部署模式的不同）。<strong>driver首先会向集群管理者（standalone、yarn，mesos）申请spark应用所需的资源，也就是executor，然后集群管理者会根据spark应用所设置的参数在各个worker上分配一定数量的executor，每个executor都占用一定数量的cpu和memory</strong>。<strong>在申请到应用所需的资源以后，driver就开始调度和执行我们编写的应用代码了。driver进程会将我们编写的spark应用代码拆分成多个stage，每个stage执行一部分代码片段，并为每个stage创建一批tasks，然后将这些tasks分配到各个executor中执行。</strong></p>
+<p>executor进程宿主在worker节点上，一个worker可以有多个executor。每个executor持有一个线程池，每个线程可以执行一个task，<strong>executor执行完task以后将结果返回给driver</strong>，每个executor执行的task都属于同一个应用。<strong>此外executor还有一个功能就是为应用程序中要求缓存的 RDD 提供内存式存储，RDD 是直接缓存在executor进程内的，因此任务可以在运行时充分利用缓存数据加速运算。</strong></p>
+<p>driver进程会将我们编写的spark应用代码拆分成多个stage，每个stage执行一部分代码片段，并为每个stage创建一批tasks，然后将这些tasks分配到各个executor中执行。</p>
+</blockquote>
+<h3 id="Spark是如何进行资源管理的？"><a href="#Spark是如何进行资源管理的？" class="headerlink" title="Spark是如何进行资源管理的？"></a>Spark是如何进行资源管理的？</h3><blockquote>
+<p><strong>1）资源的管理和分配</strong> </p>
+<p>资源的管理和分配，<strong>由Master和Worker来完成</strong>。</p>
+<p><strong>Master给Worker分配资源， Master时刻知道Worker的资源状况。</strong> </p>
+<p><strong>客户端向服务器提交作业，实际是提交给Master。</strong></p>
+<p><strong>2）资源的使用</strong> </p>
+<p>资源的使用，由Driver和Executor。程序运行时候，向Master请求资源。</p>
+</blockquote>
+<h3 id="Spark和mapreduce点的区别"><a href="#Spark和mapreduce点的区别" class="headerlink" title="Spark和mapreduce点的区别"></a>Spark和mapreduce点的区别</h3><blockquote>
+<p>优点：</p>
+<p>1.最大的区别在于.spark把用到的中间数据放入内存，而mapreduce需要通过HDFS从磁盘中取数据。</p>
+<p>2.spark算子多，mapreduce只有map和reduce两种操作</p>
+<p>缺点：</p>
+<p>​    spark过度依赖内存计算，如果参数设置不当，内存不够时就会因频繁GC导致线程等待</p>
+</blockquote>
+<h3 id="什么是RDD"><a href="#什么是RDD" class="headerlink" title="什么是RDD"></a>什么是RDD</h3><blockquote>
+<p><strong>RDD是一个只读的分布式弹性数据集</strong>，是spark的基本抽象</p>
+<p><strong>主要特性：</strong></p>
+<p>​    1.分布式。由多个partition组成，可能分布于多台机器，可<strong>并行计算</strong></p>
+<p>​    2.高效的容错（弹性）。通过RDD之间的依赖关系重新计算丢失的分区</p>
+<p>​    3.只读。不可变</p>
+</blockquote>
+<h3 id="RDD在spark中的运行流程？"><a href="#RDD在spark中的运行流程？" class="headerlink" title="RDD在spark中的运行流程？"></a>RDD在spark中的运行流程？</h3><blockquote>
+<ol>
+<li>创建RDD对象</li>
+<li>sparkContext负责计算RDD之间的依赖关系，构建DAG</li>
+<li>DAGScheduler负责把DAG分解成多个stage(shuffle stage和final stage)，每个stage中包含多个task，每个task会被TAskScheduler分发给WORKER上的Executor执行</li>
+</ol>
+</blockquote>
+<h3 id="spark任务执行流程："><a href="#spark任务执行流程：" class="headerlink" title="spark任务执行流程："></a>spark任务执行流程：</h3><blockquote>
+<ol>
+<li>Driver端提交任务，向Master申请资源</li>
+<li>Master与Worker进行RPC通信，让Work启动Executor</li>
+<li>Executor启动反向注册Driver，通过Driver—Master—Worker—Executor得到Driver在哪里</li>
+<li>Driver产生Task，提交给Executor中启动Task去真正的做计算</li>
+</ol>
+</blockquote>
+<h3 id="spark是如何容错的？"><a href="#spark是如何容错的？" class="headerlink" title="spark是如何容错的？"></a>spark是如何容错的？</h3><blockquote>
+<p><strong>主要采用Lineage(血统)机制来进行容错，但在某些情况下也需要使用RDD的checkpoint</strong></p>
+<ol>
+<li><p>对于窄依赖，只计算父RDD相关数据即可，窄依赖开销较小</p>
+</li>
+<li><p>对于宽依赖，需计算所有依赖的父RDD相关数据，会产生冗余计算，宽依赖开销较大。</p>
+</li>
+</ol>
+<p>   在两种情况下，RDD需要加checkpoint</p>
+<p>   1.DAG中的Lineage过长，如果重算，开销太大</p>
+<p>   2.在宽依赖上Cheakpoint的收益更大</p>
+</blockquote>
+<h3 id="一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？"><a href="#一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？" class="headerlink" title="一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？"></a>一个RDD的task数量是又什么决定？一个job能并行多少个任务是由什么决定的？</h3><blockquote>
+<p>task由分区决定，读取时候其实调用的是hadoop的split函数，根据HDFS的block来决定<br>每个job的并行度由core决定</p>
+</blockquote>
+<h3 id="cache与checkpoint的区别"><a href="#cache与checkpoint的区别" class="headerlink" title="cache与checkpoint的区别"></a>cache与checkpoint的区别</h3><blockquote>
+<p>cache 和 checkpoint 之间有一个重大的区别，<strong>cache 将 RDD 以及 RDD 的血统(记录了这个RDD如何产生)缓存到内存中</strong>，当缓存的 RDD 失效的时候(如内存损坏)，<br>它们可以通过血统重新计算来进行恢复。但是 <strong>checkpoint 将 RDD 缓存到了 HDFS 中，同时忽略了它的血统(也就是RDD之前的那些依赖)</strong>。为什么要丢掉依赖？因为可以<strong>利用 HDFS 多副本特性保证容错</strong>！</p>
+</blockquote>
+<h3 id="reduceByKey和groupByKey的区别"><a href="#reduceByKey和groupByKey的区别" class="headerlink" title="reduceByKey和groupByKey的区别?"></a>reduceByKey和groupByKey的区别?</h3><blockquote>
+<p><strong>如果能用reduceByKey,那就用reduceByKey</strong>.因为它<strong>会在map端,先进行本地combine,可以大大减少要传输到reduce端的数据量,减小网络传输的开销</strong>。</p>
+<p>groupByKey的性能,相对来说要差很多,因为它<strong>不会在本地进行聚合</strong>,而<strong>是原封不动,把ShuffleMapTask的输出,拉取到ResultTask的内存中</strong>,所以这样的话,就会导致,所有的数据,都要进行网络传输从而导致网络传输性能开销非常大!</p>
+</blockquote>
+<h3 id="map和mapPartition的区别？"><a href="#map和mapPartition的区别？" class="headerlink" title="map和mapPartition的区别？"></a>map和mapPartition的区别？</h3><blockquote>
+<p><strong>1.map是对rdd中的每一个元素进行操作；mapPartitions则是对rdd中的每个分区的迭代器进行操作</strong><br>如果是普通的map，比如一个partition中有1万条数据。ok，那么你的function要执行和计算1万次。使用MapPartitions操作之后，一个task仅仅会执行一次function，function一次接收所有的partition数据。只要执行一次就可以了，性能比较高。</p>
+<p>2<strong>.如果在map过程中需要频繁创建额外的对象</strong>(例如将rdd中的数据通过jdbc写入数据库,map需要为每个元素<br>创建一个链接而mapPartition为每个partition创建一个链接),<strong>则mapPartitions效率比map高的多</strong>。</p>
+<p>3.S<strong>parkSql或DataFrame默认会对程序进行mapPartition的优化。</strong></p>
+<p>mapPartition<strong>缺点</strong>：<br>    <strong>一次性读入整个分区全部内容，分区数据太大会导致内存OOM</strong></p>
+</blockquote>
+<h3 id="详细说明一下GC对spark性能的影响-优化"><a href="#详细说明一下GC对spark性能的影响-优化" class="headerlink" title="详细说明一下GC对spark性能的影响?优化"></a>详细说明一下GC对spark性能的影响?优化</h3><blockquote>
+<p><strong>GC会导致spark的性能降低</strong>。因为<strong>spark中的task运行时是工作线程,GC是守护线程</strong>,<strong>守护线程运行时,会让工作线程停止,所以GC运行的时候,会让Task停下来,这样会影响spark</strong></p>
+<p>程序的运行速度,降低性能。<br>    默认情况下,<strong>Executor的内存空间分60%给RDD用来缓存,只分配40%给Task运行期间动态创建对象,这个内存有点小,很可能会发生full gc,</strong>因为内存小就会导致创建的对象很快把内存填满,然后就会GC了,就是<strong>JVM尝试找到不再被使用的对象进行回收,清除出内存空间</strong>。所以如果Task分配的内存空间小,就会频繁的发生GC,从而导致频繁的Task工作线程的停止,从而降低Spark应用程序的性能。</p>
+<p><strong>优化方式</strong>：</p>
+<p>​    1<strong>.增加executor内存</strong></p>
+<p>​    2<strong>.可以用通过调整executor比例</strong>,比如将RDD缓存空间占比调整为40%,分配给Task的空间变为了60%,这样的话可以降低GC发生的频率   spark.storage.memoryFraction</p>
+<p>​    2.<strong>使用Kryo序列化类库进行序列化</strong></p>
+</blockquote>
+<h3 id="为什么要使用广播变量？"><a href="#为什么要使用广播变量？" class="headerlink" title="为什么要使用广播变量？"></a>为什么要使用广播变量？</h3><blockquote>
+<p><strong>当RDD的操作要使用driver中定义的变量时,每次都要把变量发送给worker节点一次,如果这个变量的数据很大的话,会产生很高的负载,导致执行效率低</strong>;<br><strong>使用广播变量可以高效的使一个很大的只读数据发送给多个worker节点,而且对每个worker节点只需要传输一次,每次操作时executor可以直接获取本地保存的数据副本,不需要多次传输</strong></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>大数据</tag>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对AI安全技术实际应用的一些看法</title>
+    <url>/2020/02/21/%E5%AF%B9AI%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</url>
+    <content><![CDATA[<p>&emsp;&emsp;本文主要是根据目前本人了解，AI技术在安全领域中的一些可能应用点做一些总结，目前本人刚刚毕业，希望在AI安全上也能贡献出自己的一份力量，再过两年来回顾这篇文章不知道会有什么新的看法。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cx6hud52wcf.png" alt="image"></p>
+<a id="more"></a>
+<h3 id="1-入侵检测"><a href="#1-入侵检测" class="headerlink" title="1.入侵检测"></a>1.入侵检测</h3><p>​    这里比较火的主要有几个小类：</p>
+<ol>
+<li><p>Webshell检测</p>
+<p>AI与Webshell检测的结合是许多公司在AI+入侵检测领域一般最先想要去进行研究的部分，因为Webshell危险等级很高，并且使用传统的方式只能够防御一些已有的Webshell攻击，而对新发生的Webshell攻击很难直接使用已有的规则方式进行预防，因此只能将希望寄托在AI上，这里也是我重点在研究的方向，目前针对该问题主要存在的一些解决方案如下：</p>
+<ol>
+<li>完全使用深度学习的方式进行检测</li>
+<li>使用先验知识进行特征提取然后使用机器学习建模进行检测</li>
+</ol>
+</li>
+<li><p>参数异常检测</p>
+<p>​    参数异常检测目前主流的方式是使用HMM进行检测，在实际使用过程检测的效果还是非常不错·，模型能够有效的发现未知的攻击，但是唯一存在的问题就是<strong>模型运行效率问题</strong>，由于该模型对每一个要访问的页面都要构建一个模型，由于模型量巨大因此很难应用在大范围的主干网络对不同的站点进行检测，单<strong>对于公司内部网页站点数比较少的情况还是非常值得进行尝试的。</strong></p>
+<p><img src alt></p>
+</li>
+</ol>
+<h3 id="2-垃圾邮件识别"><a href="#2-垃圾邮件识别" class="headerlink" title="2.垃圾邮件识别"></a>2.垃圾邮件识别</h3><p>​    垃圾邮件识别应该是最早使用AI去进行解决的安全问题，也是目前取得的效果最好，在实际环境中更多别采用的一种。垃圾邮件的识别从本质上来说就是一些半结构化的数据从文本的角度金慈宁</p>
+<h3 id="3-DGA域名检测"><a href="#3-DGA域名检测" class="headerlink" title="3.DGA域名检测"></a>3.DGA域名检测</h3><p>​    对于DGA域名的检测，各个公司研究的也算比较多的</p>
+<p>​    在几年以前DGA域名的识别在机器学习开始兴起后逐渐流行起了使用先验知识进行最长连续字母长度、最长连续数字长度等域名随机读衡量的统计特征人工提取，然后再使用各种各样的机器学习进行建模的过程，虽然在各种paper中效果良好，但是在我的实际使用过程中效果差强人意。而近年来人们渐渐意识到，由于DGA域名的展现形式与正常流量展现形式的差异表现很难直接使用人工的方式进行描述，因此将主要精力放在了使用深度学习技术进行DGA域名检测研究中来，通过大量的实验研究也证明了深度学习技术更加适合解决该问题。</p>
+<h3 id="4-僵尸网络检测"><a href="#4-僵尸网络检测" class="headerlink" title="4.僵尸网络检测"></a>4.僵尸网络检测</h3><p>​    使用AI技术进行僵尸网络的检测目前也是一个非常热的问题，但大多处于发papar灌水阶段，目前没有通说有公司使用。本人研究的不多，这里不做展开。</p>
+<h3 id="未来的展望"><a href="#未来的展望" class="headerlink" title="未来的展望"></a>未来的展望</h3><p>​    1.对于Webshell检测的研究目前大多只停留在使用单条流量进行Webshell进行检测上，但实际环境中要想真正使用AI技术进行Webshell检测并直接进行响应，还用使用多条流量，</p>
+]]></content>
+      <tags>
+        <tag>AI安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>58同城AILab面经</title>
+    <url>/2019/06/05/58%E5%90%8C%E5%9F%8EAILab%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<p>​    这些都是一个星期面的，感觉头皮发麻。。。</p>
+<p><strong>叭咔科技</strong></p>
+<p>​    先写在这里，因为是交叉在里面的</p>
+<p>​    一次性面了两面+hr面，整体上技术面比较水，但是有一道题目挺有意思的，记录一下。让你通过什么方法去近似求一下圆形的面积，当时我一脸蒙b，后来面试官提示说可以从概率的角度，用随机数什么的，才想出了用变长为2r的正方形去处理</p>
+<p>​    这里涉及到一个列表和链表在增删时处理冲突的问题，列表可能会出现寻址问题</p>
+<p>​    其中还有一个尴尬的问题是<strong>python中random.random生成的随机数是</strong>均匀分布还是正态分布？答案是<strong>均匀分布</strong></p>
+<hr>
+<p><strong>58同城</strong></p>
+<p>一面</p>
+<p>​    这一面面试官人很nice而且感觉专业水平很强，从我说项目开始一直问的模型问题都很深，问题面也边角广，而且注重细节，还会问一些具体模型实现上的事情，比如说transformer中的muti-self attention在编码上是如何实现的？word2vec输入一个词时是只更新一个词还是会更新全部的词？整体上感觉答的还可以就进了二面。然后让写了一道算法题，再两个无序数组中找出全部和为定值的组合，这个题我直接和他说了暴力枚举，他说你这个时间是多少？还能不能再优化一下？我说是O(n2)，他说能不能优化到O(n)？我说那就可以将第一数组先转成字典，这样可以降到O(n)</p>
+<p>二面</p>
+<p>​    二面整体来说比一面要简单一些，主要就是问项目上事情，特征、数据处理、模型效果等等，涉及到模型具体实现细节上的东西没有深问，本来以为一定会深问transformer的，然而并没有提。。。</p>
+<p>三面</p>
+<p>​    刚面完，热乎的三面，主要问的问题还是比较简单了，没有一面的难，感觉也是个技术人员，但是没有问的很深，遇到了一个和一面一样的问题，pytorch和tensorflow的区别在哪里，其他的基本上和一面一样了，讲项目、word2vec的原理、优化，正则化原理、公式，auc、roc含义是怎么来的，有一个问题没有答出来，kmeans是否一定会收敛，为什么？</p>
+<p>good luck！</p>
+<p>顺利通过，在端午回家的前一天顺利上岸，happy！</p>
+<hr>
+<p><strong>微软亚洲研究院</strong></p>
+<p>一面</p>
+<p>​    项目介绍+算法题，去除数组中重复元素去重，写完了又加了一条，删除数组中有重复元素的数</p>
+<p>一面面完已经过了4、5天了，还没约面试时间，一面感觉还不错，不知道为什么就凉了。。。</p>
+<hr>
+<p><strong>深信服</strong></p>
+<p>HR说面试时间已经约了，他说下周，但是下周已经过了三天，还会没消息   希望过完端午回去可以有机会</p>
+]]></content>
+      <tags>
+        <tag>面经</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对抗样本生成——DCGAN</title>
+    <url>/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/</url>
+    <content><![CDATA[<p>​    本文为对抗样本生成系列文章的第三篇文章，主要对DCGAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/GAN%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>。</p>
+<a id="more"></a>
+<p>该系列包含的文章还包括：</p>
+<ul>
+<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/">对抗样本生成—VAE</a></li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——GAN/">对抗样本生成—GAN</a>)</li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——DCGAN/">对抗样本生成—DCGAN</a>)</li>
+<li><a href>对抗样本生成—文本生成</a></li>
+</ul>
+<p>​    DCGAN时CNN与GAN相结合的一种实现方式，源自于论文《Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks》，该模型主要讨论了如何将CNN引入GAN网络，将CNN引入GAN网络并非直接将Generator和Discriminator的全连接网络直接替换成CNN即可，而是要对CNN网络进行特定的设计才能使CNN网络有效的快速收敛。本文将对DCGAN中一些核心观点进行详细论述并对其中核心部分的代码实现进行解析，完整的代码实现可以关注我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/DCGAN%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>.</p>
+<p>​    DCGAN中一些核心关键点如下：</p>
+<blockquote>
+<p><strong>1.激活函数</strong>：</p>
+<p>​    <strong>生成器除最后一层的输出使用Tanh激活函数外统一使用relu</strong>作为激活函数，</p>
+<p>​    <strong>判别器所有层都是用LeakyRelu激活函数</strong>(这里很关键，还是使用relu的话很可能造成模型很难进行有优化，最终模型输出的图像一致和目标图像相差很远)</p>
+<p>2<strong>.生成器和判别器的模型结构复杂度不要差距太大</strong></p>
+<p>​    复杂度差距过大会导致模型训练后期一个部分的效果非常好，能够不断提升，但是另一个部分的由于模型过于简单无法再优化导致该部分效果不断变差。</p>
+<p>3.<strong>判别器最后的全连接层使用卷积层代替。</strong></p>
+<p>​    全部的操作均使用卷积操作进行。</p>
+<p>4.<strong>Batch Normalization区别应用：</strong></p>
+<p>​    不能将BN层应用到生成网络和判别网络的全部部分，<strong>在生成网络的输出层和判别网络的输入层不能使用BN层</strong>，否则可能造成模型的不稳定。</p>
+</blockquote>
+<h3 id="原始对抗训练细节实现"><a href="#原始对抗训练细节实现" class="headerlink" title="原始对抗训练细节实现"></a>原始对抗训练细节实现</h3><blockquote>
+<p>预处理：将输入图像的各个像素点标准化到tanh的值域范围[-1,1]之内</p>
+<p>权重初始化:均值为0方差为0.02的正态分布</p>
+<p>Relu激活函数斜率：0.2</p>
+<p>优化器：Adam  0.01或0.0002</p>
+</blockquote>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><p>​    生成器主要反卷积层、BN层、激活函数层三部分堆叠而成，其结构如下所示：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/DCGAN生成器结构.png?raw=true" alt></p>
+<blockquote>
+<p>在DCGAN中一个最为核心的结构就是反卷积层，那么什么是反卷积层呢？</p>
+<p>​    <strong>反卷积是图像领域中常见的一种上采样操作</strong>，反卷积<strong>并不是正常卷积的逆过程，而是一种特殊的正向卷积</strong>，先按照一定的比例通过补 0来扩大输入图像的尺寸，接着旋转卷积核，再进行正向卷积，这种特殊的卷积操作<strong>只能能够复原矩阵的原始尺寸，不能对原矩阵的各个元素的内容进行复原。</strong></p>
+</blockquote>
+<p>生成器实现中核心点包括：</p>
+<blockquote>
+<p>1.使用反卷积进行一步一步的图片生成</p>
+<p>2.最后的输出层中不使用BN</p>
+<p>3.除输出层使用tanh激活函数外，其它层都使用relu激活函数</p>
+</blockquote>
+<p>​    代码实现如下(该代码为手写数字图片生成项目中的实现，真实维度为28*28)：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Generator</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Generator,self).__init__()</span><br><span class="line">        self.layer1 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(latent_size,<span class="number">128</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">0</span>,bias=<span class="keyword">False</span>),  <span class="comment">#使用反卷积进行还原(b,512,4,4)</span></span><br><span class="line">            nn.BatchNorm2d(<span class="number">128</span>),</span><br><span class="line">            nn.ReLU(<span class="keyword">True</span>)    <span class="comment">#生成器中除输出层外均使用relu激活函数</span></span><br><span class="line">        )</span><br><span class="line">        self.layer2 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(<span class="number">128</span>,<span class="number">64</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">1</span>,bias=<span class="keyword">False</span>),  <span class="comment">##使用反卷积进行还原(b,64,8,8)</span></span><br><span class="line">            nn.BatchNorm2d(<span class="number">64</span>),</span><br><span class="line">            nn.ReLU(<span class="keyword">True</span>),   <span class="comment">#生成器中除输出层外均使用relu激活函数</span></span><br><span class="line">        )</span><br><span class="line">        self.layer3 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(<span class="number">64</span>,<span class="number">32</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">1</span>,bias=<span class="keyword">False</span>),  <span class="comment">##使用反卷积进行还原(b,8,16,16)</span></span><br><span class="line">            nn.BatchNorm2d(<span class="number">32</span>),</span><br><span class="line">            nn.ReLU(<span class="keyword">True</span>)   <span class="comment">#生成器中除输出层外均使用relu激活函数</span></span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># 生成器的输出层不使用BN</span></span><br><span class="line">        self.layer4 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(<span class="number">32</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">3</span>,bias=<span class="keyword">False</span>),  <span class="comment">##使用反卷积进行还原(b,1,28,28)</span></span><br><span class="line">            nn.Tanh(),         </span><br><span class="line">        ) </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,input_data)</span>:</span></span><br><span class="line">        x = self.layer1(input_data)</span><br><span class="line">        x = self.layer2(x)</span><br><span class="line">        x = self.layer3(x)</span><br><span class="line">        x = self.layer4(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<h3 id="Discriminator"><a href="#Discriminator" class="headerlink" title="Discriminator"></a>Discriminator</h3><p>​    判别器主要为实现对图片是否为生成图片。在DCGAN中主要使用CNN、BN和LeakyRelu网络来进行，其实现的核心点包括：</p>
+<blockquote>
+<p>1.判别网络全部使用卷积操作来搭建，整个过程中不包含全连接层和池化层。</p>
+<p>2.判别器激活函数除最后一层使用Sigmod激活函数外，全部使用LeakyRelu激活函数</p>
+<p>3.判别器的输入层中不能使用BN层</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Discriminator</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Discriminator, self).__init__()</span><br><span class="line">        self.cnn1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">1</span>,<span class="number">16</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">3</span>),     <span class="comment">#(b,13,16,16)</span></span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>,<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        self.cnn2 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">16</span>,<span class="number">32</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">1</span>),    <span class="comment">#(b,32,8,8)</span></span><br><span class="line">            nn.BatchNorm2d(<span class="number">32</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>,<span class="keyword">True</span>),</span><br><span class="line">        )</span><br><span class="line">        self.cnn3 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">32</span>,<span class="number">64</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">1</span>),    <span class="comment">#(b,64,4,4)</span></span><br><span class="line">            nn.BatchNorm2d(<span class="number">64</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>,<span class="keyword">True</span>)</span><br><span class="line">        )</span><br><span class="line">        self.cnn4 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">64</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">0</span>),   <span class="comment">#(b,1,1,1)</span></span><br><span class="line">            nn.Sigmoid()</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self,input_data)</span>:</span></span><br><span class="line">        x = self.cnn1(input_data)</span><br><span class="line">        x = self.cnn2(x)</span><br><span class="line">        x = self.cnn3(x)</span><br><span class="line">        x = self.cnn4(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<p>参考文献：</p>
+<p>DCGAN pytorch教程：<a href="https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html" target="_blank" rel="noopener">https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html</a></p>
+]]></content>
+      <tags>
+        <tag>对抗样本生成</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对抗样本生成——GAN</title>
+    <url>/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/</url>
+    <content><![CDATA[<p>​    本文为对抗样本生成系列文章的第二篇文章，主要对GAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/GAN%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>。</p>
+<a id="more"></a>
+<p>该系列包含的文章还包括：</p>
+<ul>
+<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/">对抗样本生成—VAE</a></li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——GAN/">对抗样本生成—GAN</a>)</li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——DCGAN/">对抗样本生成—DCGAN</a>)</li>
+<li><a href>对抗样本生成—文本生成</a></li>
+</ul>
+<h3 id="GAN-Generative-Adversarial-Network"><a href="#GAN-Generative-Adversarial-Network" class="headerlink" title="GAN(Generative Adversarial Network)"></a>GAN(Generative Adversarial Network)</h3><p>​    GAN中文名称生成对抗网络，是一种利用模型对抗技术来生成指定类型样本的技术，与VAE一起是目前主要的两种文本生成技术之一。GAN主要包含generater(生成器)和discriminator(判别器)两部分，generator负责生成假的样本来骗过discriminator，discriminator负责对样本进行打分，判断是否为生成网络生成的样本。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GAN结构示意图.png?raw=true" alt></p>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><blockquote>
+<p>输入：noise sample（一个随机生成的指定纬度向量）</p>
+<p>输出：目标样本（fake image等）</p>
+</blockquote>
+<p>​    Generator在GAN中负责接收随机的噪声输入，进行目标文本、图像的生成,其<strong>目标就是尽可能的生成更加真实的图片、文字去欺骗discriminator</strong>。具体的实现可以使用任何在其他领域证明有效的神经网络，本文使用最简单的全连接网络作为Generator进行实验。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### 生成器结构</span></span><br><span class="line">G = nn.Sequential(</span><br><span class="line">        nn.Linear(latent_size, hidden_size), </span><br><span class="line">        nn.ReLU(),</span><br><span class="line">        nn.Linear(hidden_size, hidden_size),</span><br><span class="line">        nn.ReLU(),</span><br><span class="line">        nn.Linear(hidden_size, image_size),</span><br><span class="line">        nn.Tanh())</span><br></pre></td></tr></table></figure>
+<h3 id="Discriminator"><a href="#Discriminator" class="headerlink" title="Discriminator"></a>Discriminator</h3><blockquote>
+<p>输入：样本（包含生成的样本和真实样本两部分）</p>
+<p>输出：score（一个是否为真实样本的分数，分数越高是真实样本的置信的越高，越低越可能时生成样本）</p>
+</blockquote>
+<p>​    Discriminator在GAN网络中负责将对输入的图像、文本进行判别，对其进行打分，打分越高越接近真实的图片，打分越低越可能是Generator生成的图像、文本，其<strong>目标是尽可能准确的对真实样本与生成样本进行准确的区分</strong>。与Generator一样Discriminator也可以使用任何网络实现，下面是pytorch中最简单的一种实现。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">### 判别器结构</span></span><br><span class="line">D = nn.Sequential(</span><br><span class="line">        nn.Linear(image_size, hidden_size), <span class="comment"># 判别的输入时图像数据</span></span><br><span class="line">        nn.LeakyReLU(<span class="number">0.2</span>),</span><br><span class="line">        nn.Linear(hidden_size, hidden_size),</span><br><span class="line">        nn.LeakyReLU(<span class="number">0.2</span>),</span><br><span class="line">        nn.Linear(hidden_size, <span class="number">1</span>),</span><br><span class="line">        nn.Sigmoid())</span><br></pre></td></tr></table></figure>
+<h3 id="Model-train"><a href="#Model-train" class="headerlink" title="Model train"></a>Model train</h3><p>​    GAN中由于两部分需要进行对抗，因此两部分并不是与一般神经网络一样整个网络同时进行跟新训练的，而是两部分分别进行训练。训练的基本思路如下所示：</p>
+<blockquote>
+<p>Epoch:</p>
+<pre><code> 1. 生成器使用初始化的参数随机输入向量生成图片。
+
+2. 生成器进行判别，使用判别器结果对判器参数进行更新。
+ 3. 固定判别器参数，对生成器使用更新好的判别器进行
+</code></pre></blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(num_epochs):</span><br><span class="line">    <span class="keyword">for</span> i, (images, _) <span class="keyword">in</span> enumerate(data_loader):</span><br><span class="line">        images = images.reshape(batch_size, <span class="number">-1</span>) </span><br><span class="line">        <span class="comment"># 创建标签，随后会用于损失函数BCE loss的计算</span></span><br><span class="line">        real_labels = torch.ones(batch_size, <span class="number">1</span>)  <span class="comment"># true_label设为1，表示True</span></span><br><span class="line">        fake_labels = torch.zeros(batch_size, <span class="number">1</span>) <span class="comment"># fake_label设为0，表示False</span></span><br><span class="line">        <span class="comment"># ================================================================== #</span></span><br><span class="line">        <span class="comment">#                      训练判别模型                      </span></span><br><span class="line">        <span class="comment"># ================================================================== #</span></span><br><span class="line">        <span class="comment"># 计算真实样本的损失</span></span><br><span class="line">        outputs = D(images)</span><br><span class="line">        d_loss_real = criterion(outputs, real_labels)</span><br><span class="line">        real_score = outputs</span><br><span class="line">        <span class="comment"># 计算生成样本的损失</span></span><br><span class="line">        <span class="comment"># 生成模型根据随机输入生成fake_images</span></span><br><span class="line">        z = torch.randn(batch_size, latent_size)</span><br><span class="line">        fake_images = G(z) </span><br><span class="line">        outputs = D(fake_images)</span><br><span class="line">        d_loss_fake = criterion(outputs, fake_labels)</span><br><span class="line">        fake_score = outputs</span><br><span class="line">        <span class="comment"># 计算判别网络部分的总损失</span></span><br><span class="line">        d_loss = d_loss_real + d_loss_fake</span><br><span class="line">        <span class="comment"># 对判别模型损失进行反向传播和参数优化</span></span><br><span class="line">        d_optimizer.zero_grad()</span><br><span class="line">    		g_optimizer.zero_grad()</span><br><span class="line">        d_loss.backward()</span><br><span class="line">        d_optimizer.step()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># ================================================================== #</span></span><br><span class="line">        <span class="comment">#                       训练生成模型                       </span></span><br><span class="line">        <span class="comment"># ================================================================== #</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 生成模型根据随机输入生成fake_images,然后判别模型进行判别</span></span><br><span class="line">        z = torch.randn(batch_size, latent_size)</span><br><span class="line">        fake_images = G(z)</span><br><span class="line">        outputs = D(fake_images)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 大致含义就是在训练初期，生成模型G还很菜，判别模型会拒绝高置信度的样本，因为这些样本与训练数据不同。</span></span><br><span class="line">        <span class="comment"># 这样log(1-D(G(z)))就近乎饱和，梯度计算得到的值很小，不利于反向传播和训练。</span></span><br><span class="line">        <span class="comment"># 换一种思路，通过计算最大化log(D(G(z))，就能够在训练初期提供较大的梯度值，利于快速收敛</span></span><br><span class="line">        g_loss = criterion(outputs, real_labels)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 反向传播和优化</span></span><br><span class="line">        reset_grad()</span><br><span class="line">        g_loss.backward()</span><br><span class="line">        g_optimizer.step()</span><br></pre></td></tr></table></figure>
+<p>​    从上面的实现过程我们可以发现一个问题：在进行判别模型训练损失函数的计算由两部分组成，而生成模型进行训练时只由一部分组成，并且该部分的交叉熵还是一种反常的使用方式，这是为什么呢？</p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>​    整体的损失函数表现形式：</p>
+<p>​                                            <script type="math/tex">\min\limits_{G}\max\limits_{D}E_{x\in\ P_{data}}\ [logD(x)]+E_{x\in\ P_{G}}\ [log(1-G(D(x)))]</script></p>
+<h4 id="Generator-Loss"><a href="#Generator-Loss" class="headerlink" title="Generator Loss"></a>Generator Loss</h4><p>​    对于判别器进行训练时，其目标为：</p>
+<p>​                                                <script type="math/tex">\max\limits_{D}E_{x\in\ P_{data}}\ [logD(x)]+E_{x\in\ P_{G}}\ [log(G(1-D(x)))]</script></p>
+<p>​    而对比交叉熵损失函数的计算公式：</p>
+<p>​                                                <script type="math/tex">L = -[ylogp+(1-y)log(i-p)]</script></p>
+<p>​    二者其实在表现形式形式上是完全一致的，这是因为判别器就是区分样本是否为真实的样本，是一个简单的0/1分类问题，所以形式与交叉熵一致。在另一个角度我们可以观察，当输入样本为真实的样本时，$E<em>{x\in\ P</em>{G}}\ [log(1-G(D(x)))]$为0，只剩下$E<em>{x\in\ P</em>{data}}\ [logD(x)]$，为了使其最大只能优化网络时D(x)尽可能大，即真实样本判别器给出的得分更高。当输入为生成样本时，$E<em>{x\in\ P</em>{data}}\ [logD(x)]$为0，只剩下$E<em>{x\in\ P</em>{G}}\ [log(1-G(D(x)))]$，为使其最大只能使D(x)尽可能小，即使生成样本判别器给出的分数尽可能低，使用交叉熵损失函数正好与目标相符。</p>
+<p>​    因此，判别器训练相关的代码如下，其中可以看到损失函数<strong>直接使用了二进制交叉熵</strong>进行。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">criterion = nn.BCELoss()</span><br><span class="line">d_optimizer = torch.optim.Adam(D.parameters(), lr=<span class="number">0.0002</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 真实样本的损失</span></span><br><span class="line">outputs = D(images)</span><br><span class="line">d_loss_real = criterion(outputs, real_labels)</span><br><span class="line">real_score = outputs</span><br><span class="line"><span class="comment"># 生成样本的损失</span></span><br><span class="line">z = torch.randn(batch_size, latent_size)  <span class="comment"># 生成模型根据随机输入生成fake_images</span></span><br><span class="line">fake_images = G(z) </span><br><span class="line">outputs = D(fake_images)</span><br><span class="line">d_loss_fake = criterion(outputs, fake_labels)</span><br><span class="line">fake_score = outputs</span><br><span class="line"><span class="comment"># 计算判别网络部分的总损失</span></span><br><span class="line">d_loss = d_loss_real + d_loss_fake</span><br><span class="line"><span class="comment"># 对判别模型损失进行反向传播和参数优化</span></span><br><span class="line">d_optimizer.zero_grad()</span><br><span class="line">g_optimizer.zero_grad()</span><br><span class="line">d_loss.backward()</span><br><span class="line">d_optimizer.step()</span><br></pre></td></tr></table></figure>
+<h4 id="Discriminator-Loss"><a href="#Discriminator-Loss" class="headerlink" title="Discriminator Loss"></a>Discriminator Loss</h4><p>​    对于生成器其训练的目标为：</p>
+<p>​                                            <script type="math/tex">\min\limits_{G}\max\limits_{D}E_{x\in\ P_{data}}\ [logD(x)]+E_{x\in\ P_{G}}\ [log(1-G(D(x)))]（其中D固定）</script></p>
+<p>​    对于生成器，在D固定的情况下，$E<em>{x\in\ P</em>{data}}\ [logD(x)]$为固定值，因此可以不做考虑，表达式转为：</p>
+<p>​                                                <script type="math/tex">\min\limits_{G}\max\limits_{D}E_{x\in\ P_{G}}\ [log(1-G(D(x)))]（其中D固定）</script></p>
+<p>​    使用该表达式作为目标函数进行参数更新存在的问题就是在训练的起始阶段，由于开始时生成样本的质量很低，因此判别器很容易给一个很低的分数，即D(x)非常小，而log(1-x)的函数在值接近0时斜率也很小，因此使用该函数作为损失函数在开始时很难进行参数更新。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/GAN生成器损失函数对比.png?raw=true =100*100" style="zoom:50%;"></p>
+<p>​    因此生成器采用了一种与log（1-x）的更新方向一致并且在起始时斜率更大的函数。</p>
+<p>​                                            <script type="math/tex">E_{x\in P_{G}}[-logG(D(x))]</script></p>
+<p>​    该损失函数在代码实现中一般还是<strong>使用反标签的二进制交叉熵损失函数来进行实现</strong>，所谓反标签即为将生成的样本标注为1进行训练（正常生成样本标签为0），涉及到该部分的代码为：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">criterion = nn.BCELoss()</span><br><span class="line">g_optimizer = torch.optim.Adam(D.parameters(), lr=<span class="number">0.0002</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">real_label = torch.ones(batch_size, <span class="number">1</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成模型根据随机输入生成fake_images,然后判别模型进行判别</span></span><br><span class="line">z = torch.randn(batch_size, latent_size)</span><br><span class="line">fake_images = G(z)</span><br><span class="line">outputs = D(fake_images)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练生成模型，使用反标签的二进制交叉熵损失函数</span></span><br><span class="line">g_loss = criterion(outputs, real_labels)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 反向传播和优化</span></span><br><span class="line">reset_grad()</span><br><span class="line">g_loss.backward()</span><br><span class="line">g_optimizer.step()</span><br></pre></td></tr></table></figure>
+<h3 id="GAN与VAE对比"><a href="#GAN与VAE对比" class="headerlink" title="GAN与VAE对比"></a>GAN与VAE对比</h3><p>​    GAN和VAE都是样本生成领域非常常用的两个模型流派，那这两种模型有什么不同点呢？</p>
+<blockquote>
+<ol>
+<li><p>VAE进行对抗样本生成时，VAE的Encoder和GAN的Generator输入同样都为图片等真实样本，但<strong>VAE的Encoder输出的中间结果为隐藏向量值</strong>，而<strong>GAN的Generator输出的中间结果为生成的图片等生成样本</strong>。</p>
+</li>
+<li><p><strong>最终用来生成样本的部分不同</strong>。VAE最终使用Decoder部分来进行样本生成，GAN使用Generator进行样本生成。</p>
+</li>
+</ol>
+</blockquote>
+<p>​    在实际的使用过程中还存在这下面的区别使GAN比VAE更被广泛使用：</p>
+<blockquote>
+<ol>
+<li><p>VAE生成样本点的连续性不好。VAE进行生成采用的方式是每个像素点进行生成的，很难考虑像素点之间的联系，因此经常出现一些不连续的坏点。</p>
+</li>
+<li><p>要生成同样品质的样本，VAE需要更大的神经网络。</p>
+</li>
+</ol>
+</blockquote>
+<p>【参考文献】</p>
+<p>李宏毅在线课程:<a href="https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=DQNNMiAP5lw&amp;list=PLJV_el3uVTsMq6JEFPW35BCiOQTsoqwNw</a>  </p>
+<p>GAN损失函数详解:<a href="https://www.cnblogs.com/walter-xh/p/10051634.html" target="_blank" rel="noopener">https://www.cnblogs.com/walter-xh/p/10051634.html</a></p>
+]]></content>
+      <tags>
+        <tag>对抗样本生成</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对抗样本生成——VAE</title>
+    <url>/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/</url>
+    <content><![CDATA[<p>​    最近由于进行一些类文本生成的任务，因此对文本生成的相关的一些经典的可用于样本生成的网络进行了研究，本系列文章主要用于对这些模型及原理与应用做总结，不涉及复杂的公式推导。</p>
+<a id="more"></a>
+<p>相关文章：</p>
+<ul>
+<li><a href="https://anchorety.github.io/2020/02/12/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94VAE/">对抗样本生成—VAE</a></li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94GAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——GAN/">对抗样本生成—GAN</a>)</li>
+<li><a href="[https://anchorety.github.io/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/](https://anchorety.github.io/2020/02/13/对抗样本生成——DCGAN/">对抗样本生成—DCGAN</a>)</li>
+<li><a href>对抗样本生成—文本生成</a></li>
+</ul>
+<h3 id="AE-Auto-Encoder"><a href="#AE-Auto-Encoder" class="headerlink" title="AE(Auto Encoder)"></a>AE(Auto Encoder)</h3><p>​    Auto Encoder中文名自动编码机，最开始用于数据压缩任务，例如：Google曾尝试使用该技术将图片再网络上只传输使用AE压缩过的编码值，而在本地进行还原来节约流量。后来也用于样本生成任务，但是用于样本生成存在着一些不可避免的问题，因此很快被VAE所取代。Auto Encoder结构如下所示：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/AE结构图.png?raw=true" alt></p>
+<p>​    主要<strong>由Encoder和Decoder两部分组成</strong>，<strong>Encoder</strong>负责将原始的图片、文本等输入<strong>压缩</strong>成更低纬度的向量进行表示，<strong>Decoder</strong>负责将该向量表示进行<strong>复原</strong>，然后通过最小化Encoder输入与Decoder输出来进行两部分模型参数的优化。</p>
+<p>​    训练完成后<strong>，训练好的Encoder部分可以输入图片等数据进行数据压缩</strong>；</p>
+<p><strong>AE进行数据压缩的特点：</strong></p>
+<blockquote>
+<p>1.只能压缩与数据高相关度的数据</p>
+<p>2.有损压缩</p>
+</blockquote>
+<p>​    <strong>训练好的decoder可以输入随机的向量值生成样本</strong>，下图为样本生成示意图。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/AE生成样本.png?raw=true" alt></p>
+<p><strong>AE在进行样本生成时存在的问题：</strong></p>
+<blockquote>
+<p>1.当输入随机向量进行样本生成时，decoder部分输入的是一个随机的向量值，而AE只能保证训练集中有的数据具有比较好的效果，但是无法保证与训练集中的数据很接近的值依旧能够准确的进行判断（不能保证不存在跳变）。</p>
+<p>2.没有随心所欲的去构造向量。因为输入的向量必须由原始的样本区进行构造隐藏编码，才能进行样本生成。</p>
+</blockquote>
+<h3 id="VAE-Varaient-Auto-Encoder"><a href="#VAE-Varaient-Auto-Encoder" class="headerlink" title="VAE(Varaient Auto Encoder)"></a>VAE(Varaient Auto Encoder)</h3><p>​    Variational Autoencoder中文名称变分自动编码器，是Auto Encoder的进化版，主要用于解决AE中存在的无法随心所欲的去生成样本，模型存在跳变等问题。<strong>核心思想为在生成隐藏向量的过程中加入一定的限制，使模型生成的样本近似的遵从标准正态分布，这样要进行样本生成我们就可以直接向模型输入一个标准正态分布的隐向量即可。</strong>有需要完整版代码的同学可以参见我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/VAE%20image%20generate.ipynb" target="_blank" rel="noopener">github</a></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/VAE结构图.png?raw=true =100*100" style="zoom:20%;"></p>
+<p>​        VAE结构如上图所示。与AE一样，VAE的主要结构依然是分为Encoder和Decoder两个主要组成部分，这两部分可以使用任意的网络结构进行实现，而其中的<strong>不同点主要在于隐向量的方式不同和因此导致生成样本所需的原料不同。</strong></p>
+<p>​    VAE的使用过程中，需要在模型生成样本的准确率与生成隐向量符合正态分布的成都之间做一个权衡，因此在VAE中<strong>loss中包含两部分：均方误差、KL散度</strong>。均方误差用来衡量原始图片与生成图片之间的误差，KL散度用于表示隐含向量与标准正态分布之间的差距，其计算公式如下所示：</p>
+<p>​                                                                    <script type="math/tex">DKL(P||Q) = \int_{-\infty}^{\infty} P(x)log\frac{p(x)}{q(x)}dx</script></p>
+<p>​    KL散度很难进行计算，因此在VAE中使用了一种”重新参数化“技巧来解决。即VAE的encoder不再直接输出一个隐含向量，而是生成两个向量，一个代表均值，一个代表方差，然后通过这两个向量与一个标准正态分布向量去合成出一个符合标准整体分布的隐含向量。其合成计算公式为：</p>
+<p>​                                                                    <script type="math/tex">z = \mu+\sigma \cdot \epsilon</script></p>
+<p>​    其中，u为均值向量，$\sigma$为方差向量，$\epsilon$为标准的正态分布向量。</p>
+<p>​    而VAE的代码实现也非常的简单，其核心的代码实现如下所示：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VAE</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, image_size=<span class="number">784</span>, h_dim=<span class="number">400</span>, z_dim=<span class="number">20</span>)</span>:</span></span><br><span class="line">        super(VAE, self).__init__()</span><br><span class="line">        self.fc1 = nn.Linear(image_size, h_dim)</span><br><span class="line">        self.fc2 = nn.Linear(h_dim, z_dim) <span class="comment"># 均值 向量</span></span><br><span class="line">        self.fc3 = nn.Linear(h_dim, z_dim) <span class="comment"># 保准方差 向量</span></span><br><span class="line">        self.fc4 = nn.Linear(z_dim, h_dim)</span><br><span class="line">        self.fc5 = nn.Linear(h_dim, image_size)</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 编码过程</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">encode</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        h = F.relu(self.fc1(x))</span><br><span class="line">        <span class="keyword">return</span> self.fc2(h), self.fc3(h)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 随机生成隐含向量</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reparameterize</span><span class="params">(self, mu, log_var)</span>:</span></span><br><span class="line">        std = torch.exp(log_var/<span class="number">2</span>)</span><br><span class="line">        eps = torch.randn_like(std)</span><br><span class="line">        <span class="keyword">return</span> mu + eps * std</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 解码过程</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decode</span><span class="params">(self, z)</span>:</span></span><br><span class="line">        h = F.relu(self.fc4(z))</span><br><span class="line">        <span class="keyword">return</span> F.sigmoid(self.fc5(h))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 整个前向传播过程：编码-》解码</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        mu, log_var = self.encode(x)</span><br><span class="line">        z = self.reparameterize(mu, log_var)</span><br><span class="line">        x_reconst = self.decode(z)</span><br><span class="line">        <span class="keyword">return</span> x_reconst, mu, log_var</span><br></pre></td></tr></table></figure>
+<p>​    在我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/VAE%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>上还有完整的将VAE应用到手写数字生成的代码，需要的同学可以关注一下。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​    VAE与AE的对比：</p>
+<blockquote>
+<p><strong>1.隐藏向量的生成方式不同。</strong></p>
+<p>​    AE的Encoder直接生成隐藏向量，而VAE的Encoder是生成均值向量和方差向量再加上随机生成的正态分布向量来进行合成隐藏向量。</p>
+<p><strong>2.样本生成能力不同。</strong>这也是AE在对抗样本生成领域中很少被使用的主要原因</p>
+<p>​    AE要进行样本生成只能使用已有样本生成的隐含向量作为输入输入到Decoder中，由于已有样本有限，因此能够生成的对抗样本数量有限。</p>
+<p>​    VAE可以直接使用符合正态分布的任意向量直接输入到Decoder中进行样本生成，能够任意进行样本生成。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>对抗样本生成</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用正则表达式</title>
+    <url>/2018/10/10/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<p><strong>1.匹配一个指定字符串，指定字符串前后不能有任何字母和数字内容</strong></p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="meta">#以c99关键字为例</span></span><br><span class="line">[<span class="meta"></span>]</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见map_reduce面试题目</title>
+    <url>/2019/08/21/%E5%B8%B8%E8%A7%81map-reduce%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<h3 id="Map-reduce"><a href="#Map-reduce" class="headerlink" title="Map reduce"></a>Map reduce</h3><p><strong>Map 阶段</strong></p>
+<blockquote>
+<p>1、先将HDFS中的输入文件file按照一定的标准进行切片</p>
+<p>2、调用自己编写的map逻辑，将输入的键值对<k1，v1>变成<k2，v2></k2，v2></k1，v1></p>
+<p>3、按照一定的规则对输出的键值对<k2,v2>进行分区</k2,v2></p>
+<p>4、对每个分区中的键值对进行<strong>排序</strong>。</p>
+</blockquote>
+<p><strong>Reduce 阶段</strong></p>
+<blockquote>
+<p>1、对多个Mapper任务的输出，按照不同的分区，通过网络拷贝到不同的Reducer节点上进行处理，将数据按照分区拷贝到不同的Reducer节点之后，对多个Mapper任务的输出在进行合并，排序。</p>
+<p>2、调用自己的reduce逻辑，将键值对<k2,v2s>变为<k3,v3>.在这里注意：每一个键值对<k2,v2s>都会调用一次reduce函数。</k2,v2s></k3,v3></k2,v2s></p>
+<p>3、将Reducer任务的输出保存到指定的文件中。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>大数据</tag>
+        <tag>面试</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见文件解压命令</title>
+    <url>/2019/07/25/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h3 id="Rar文件解压"><a href="#Rar文件解压" class="headerlink" title="Rar文件解压"></a>Rar文件解压</h3><h5 id="1-查看不解压"><a href="#1-查看不解压" class="headerlink" title="1.查看不解压"></a>1.查看不解压</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar l filename.rar</span><br></pre></td></tr></table></figure>
+<h5 id="2-带路径解压"><a href="#2-带路径解压" class="headerlink" title="2.带路径解压"></a>2.带路径解压</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar x filename.rar</span><br></pre></td></tr></table></figure>
+<h5 id="3-不带路径解压-全部在文件夹内的内容全部解压到当前目录"><a href="#3-不带路径解压-全部在文件夹内的内容全部解压到当前目录" class="headerlink" title="3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)"></a>3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar e filename.rar</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2018/09/23/%E5%B8%B8%E8%A7%81%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="常见机器学习机基本问题"><a href="#常见机器学习机基本问题" class="headerlink" title="常见机器学习机基本问题"></a>常见机器学习机基本问题</h1><p><strong>1.参数模型和非参数模型的区别？</strong>  </p>
+<p><strong>参数模型</strong>：在进行训练之前首先对目标函数的进行假设，然后从训练数据中学的相关函数的系数  </p>
+<blockquote>
+<p>典型的参数模型：LR、LDA(线性判别分析)、感知机、朴素贝叶斯、简单神经网络  </p>
+<p>参数模型的优点：</p>
+<ol>
+<li>简单：容易理解和解释结果</li>
+<li>快速：训练速度快</li>
+<li>数据需求量少</li>
+</ol>
+<p>参数模型的局限性：</p>
+<ol>
+<li>模型的目标函数形式假设大大限制了模型</li>
+<li>由于参数模型复杂度一般不高，因此更适合简单问题</li>
+</ol>
+</blockquote>
+<p><strong>非参数模型</strong>：不对目标函数的形式做出任何强烈的假设的算法，可以在训练集中自由的学习任何函数形式  </p>
+<blockquote>
+<p>典型的非参数模型:KNN、决策树、SVM  </p>
+<p>非参数学习模型的优点：</p>
+<ol>
+<li>灵活性强，可拟合各种不同形式的样本</li>
+<li>性能：模型效果一般较好</li>
+</ol>
+<p>非参数学习模型的局限性</p>
+<ol>
+<li>训练数据需求量大</li>
+<li>训练速度慢，因为一般非参数模型要训练更多的参数</li>
+<li>可解释性差</li>
+<li>更容易出过拟合</li>
+</ol>
+</blockquote>
+<p><strong>2.生成模型和判别模型</strong>  </p>
+<p>由生成方法生成的模型成为生成模型，由判别方法产生的模型成为生成模型。下面重点介绍两种方法。  </p>
+<p><strong>生成方法</strong>:由数据学联合概率分布P(X,Y)，然后求出条件概率P(Y|X)作为预测模型,即生成模型。（之所以称为生成方法是因为模型表示了给定输入X产生出Y的生成关系）</p>
+<blockquote>
+<p>典型的生成模型:朴素贝叶斯、隐马尔科夫链</p>
+<p>生成方法特点:</p>
+<ol>
+<li>可还原联合概率分布</li>
+<li>收敛速度更快</li>
+<li>生成方法可处理隐变量，但判别方法不能</li>
+</ol>
+</blockquote>
+<p><strong>判别方法</strong>：由数据直接学习决策函数f(x)或者条件概率分布f(Y|X)作为预测模型，即判别模型。</p>
+<blockquote>
+<p>典型的判别模型:KNN、感知机、决策树、LR</p>
+<p>判别模型的特点：</p>
+<ol>
+<li>直接学习决策函数或条件概率，直接面对预测，准确率更高</li>
+<li>由于直接学习决策函数或条件概率，可以对数据进行各种程度上的抽象、定义特征并使用特征，简化学习问题</li>
+</ol>
+</blockquote>
+<p><strong>3.常见损失函数以及应用？</strong></p>
+<p><strong>逻辑斯特损失函数：</strong></p>
+<p><strong>对数似然损失</strong></p>
+<p><strong>合页损失</strong></p>
+<p><strong>指数损失</strong></p>
+<p><strong>4.朴素贝叶斯“朴素”表现在哪里？</strong><br>“朴素”主要表现在它假设<strong>所有特征在数据集中的作用是同样且独立的</strong>，而在真实世界中这种假设是不成立的，因此称之为朴素贝叶斯。</p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阿里2019年最新论文-定位然后检测恶意攻击</title>
+    <url>/2019/09/04/%E9%98%BF%E9%87%8C2019%E5%B9%B4%E6%9C%80%E6%96%B0%E8%AE%BA%E6%96%87-%E5%AE%9A%E4%BD%8D%E7%84%B6%E5%90%8E%E6%A3%80%E6%B5%8B%E6%81%B6%E6%84%8F%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<p>论文名称:《Locate-Then-Detect: Real-time Web Attack Detection via Attention-based<br>Deep Neural Networks》</p>
+<p>主要针对的攻击类型:sql、xss</p>
+<p>采用的方式:先定位攻击载荷在进行恶意检测</p>
+<p>内容解读：</p>
+<p>​    主要分为两阶段网络</p>
+<blockquote>
+<p>PLN(Payload Locat-ing Network):在整个url、post中定位到关键部分，去掉无用信息</p>
+<p>PCN(Payload Classification Network):利用PLN网络得到的关注度信息进行分类</p>
+</blockquote>
+<h2 id="PLN"><a href="#PLN" class="headerlink" title="PLN"></a>PLN</h2><p>​    <strong>目标</strong>：</p>
+<p>​    <strong>输入</strong>:固定长度的请求输入文本</p>
+<p>​    <strong>输出:</strong>区域位置和可疑置信度</p>
+<p>​    <strong>核心思想</strong>：图像分割的思想</p>
+<blockquote>
+<p>PLN网络要进行单独的训练，然后加到PCN网络之前，固定参数值(我的理解)</p>
+</blockquote>
+<h4 id="request请求编码"><a href="#request请求编码" class="headerlink" title="request请求编码"></a>request请求编码</h4><p>​    首先设置一个最大长度L，然后进行字符级别的embedding，即每个字符都转化成一个对应的k维Embbeding向量，最终输出为：L*K维向量</p>
+<blockquote>
+<p>这里的最大长度法和我们之前的方法类似，直接进行长度限制，忽略了在超长的正常参数尾部追加恶意payload形式的攻击    </p>
+</blockquote>
+<h4 id="特征提取"><a href="#特征提取" class="headerlink" title="特征提取"></a>特征提取</h4><p>​    模型：Xception</p>
+<blockquote>
+<p>Xception模型</p>
+<p>​    先进行普通卷积操作，再对 1×1 卷积后的每个channel分别进行 3×3 卷积操作，最后将结果 concat</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Xception模型.png?raw=true" alt></p>
+</blockquote>
+<p>​    加速计算：thin feature maps with small channel(不损失很大精度的前提下显著提升速度)</p>
+<h4 id="模型部分"><a href="#模型部分" class="headerlink" title="模型部分"></a>模型部分</h4><p>​    沿着特征图滑动几个mini-networks来检测可以片段，该网络采样特征图一个n<em>m的窗口，在mini-network层之后经过两个1\</em>m并列的层——区域回归层和区域分类层</p>
+<blockquote>
+<p>为了保证保持嵌入张量中这些向量的语义完整性，我们令m等于字符向量的嵌入大小。</p>
+</blockquote>
+<p>reg层输出坐标：(p,2p)有效载荷的开始位置和结束位置</p>
+<p>cls层：输出每个区域的得分</p>
+<p>对于输入特征图为W<em>H的，将会有H\</em>P个区域</p>
+<p>并不是所有区域都是有效的，</p>
+<h5 id="区域的标注"><a href="#区域的标注" class="headerlink" title="区域的标注"></a>区域的标注</h5><p>区域标注为积极标签的方法为:</p>
+<blockquote>
+<p>1.将用于最大的交集序列（Ios）的区域标为积极</p>
+<p>2.将交集序列的值（Ios）大于0.5的值定位积极</p>
+</blockquote>
+<p>区域标注为消极标签:</p>
+<blockquote>
+<p>将交集序列的值小于0.2的标为消极序列</p>
+</blockquote>
+<p>​    如果既没有标为消极也没有标为积极，那么则忽略该区域。一般情况下消极区域的数量远大于积极区域，如果消极区域和积极区域的比例大于3：1，那么将其归置到3：1。</p>
+<h5 id="PLN层的损失函数："><a href="#PLN层的损失函数：" class="headerlink" title="PLN层的损失函数："></a>PLN层的损失函数：</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN损失函数.png?raw=true" alt></p>
+<p>​    参数意义：</p>
+<blockquote>
+<p>i：区域的编号</p>
+<p>li:区域的label，积极区域为1，否则为0</p>
+<p>posi、pos∗i :分别代表了区域的开始位置和结束位置</p>
+<p>Lcls：是区域的分类对数损失函数，</p>
+<p>Lreg: 是积极区域的回归损失函数，不关注负样本，该回归损失函数采用：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/smooth-L1损失函数.png?raw=true" alt> </p>
+<p>​    x表示区域真实标签和预测值之间的差距</p>
+<p>λ：控制损失函数的前后两个部分的重要性，本文中采用的是1.0</p>
+<p>Ncls: 本文中设置为mini-batch 大小</p>
+<p>Nreg:本文设置为区域个数，</p>
+</blockquote>
+<h4 id="数据标注"><a href="#数据标注" class="headerlink" title="数据标注"></a>数据标注</h4><p>​    在整个LTD模型结构中，需要大量的标注数据，本文提出了基于HMM的异常检测系统来辅助序列标注，该系统通过大量的HMM模型来实现，每个host的每个url的参数值都会训练一个hmm模型，检测到的异常参数经过规则检测系统确定为xss或sql会标记起始和结束位置。</p>
+<p>​    <strong>作用:表示有效payload位置</strong></p>
+<p>​    <strong>方法：参数hmm+规则系统</strong></p>
+<blockquote>
+<p>实例：</p>
+<p>​    uri1 = /a.php?id=1&amp;name=1’ and 1=1</p>
+<p>首先提取各个参数的值，得到</p>
+<p>​    {val1 : 1, val2 : 1′ and 1 = 1}</p>
+<p>使用hmm参数异常检测模型确定是否存在异常参数值</p>
+<p>​    val2是异常的参数值</p>
+<p>使用规则模型判别该参数为sql注入，定位位置，标记异常区域</p>
+<p>​     [Start (17), End (27), Label (1)]</p>
+</blockquote>
+<h2 id="PCN"><a href="#PCN" class="headerlink" title="PCN"></a>PCN</h2><p>​    目标:对PLN层定位的可疑区域，在PCN部分进行深入的分析，找到攻击的区域，</p>
+<p>​    输入：PLN中得分最高的三个区域(最可疑)</p>
+<p>​    输出: 是否为攻击以及攻击类型</p>
+<p>​    核心思想：采用CNN进行文本分类</p>
+<h4 id="具体做法"><a href="#具体做法" class="headerlink" title="具体做法"></a>具体做法</h4><blockquote>
+<p>采用5层不同大小的卷积核，并且每个卷积核后都会带一个max-overtime pooling operation ，不同的卷积核大小保证了PCN能够精确地识别具有多种特征的攻击。这些特征被连接起来，在连接在层线性层，最后使用softmax输出是各种攻击的可能性</p>
+</blockquote>
+<h4 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h4><p>​    PCN部分的损失函数就是标准的交叉熵损失函数加上一个L1正则化项：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PCN.png?raw=true" alt></p>
+<p>该层主要是一个文本分类的层，和PCN层共享相同的Embedding向量，输出给定区域是否为恶意以及攻击类型</p>
+<h3 id="数据产生方法"><a href="#数据产生方法" class="headerlink" title="数据产生方法"></a>数据产生方法</h3><blockquote>
+<p>1.首先使用传统的WAF找出正常流量</p>
+<p>2.构造sql、xss的payload参数值随机换到正常流量的参数值部分</p>
+</blockquote>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><h4 id="1-CSCI"><a href="#1-CSCI" class="headerlink" title="1.CSCI"></a>1.CSCI</h4><p>​    CSCI 2010数据集包含针对电子商务Web应用程序生成的流量，该数据集包含25,000多个异常请求和36,000个良性请求，使用其中2,072 SQLi和1,502 XSS样本作为黑样本，其他的正常流量和攻击流量统一标记为白样本。</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CSCI数据集实验对比.png?raw=true" alt></p>
+<p>​    LTD与RWAF相比，在精确率吧和召回率方面均要好。LTD和Libinjection都具有100%的精确率，但是LTD拥有更高的召回率。</p>
+<h4 id="2-真实流量"><a href="#2-真实流量" class="headerlink" title="2.真实流量"></a>2.真实流量</h4><p>数据来源</p>
+<p>​    300w条真实流量数据，其中包括38600个sql注入和xss攻击实例。    </p>
+<h4 id="Part-1-模型优越性的证明"><a href="#Part-1-模型优越性的证明" class="headerlink" title="Part 1  模型优越性的证明"></a>Part 1  模型优越性的证明</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/真实流量实验结果对比.png?raw=true" alt></p>
+<p>​    其中，</p>
+<p>​    <strong>1.LTD获得了最高的精确率，HMM-Web获得了最高的召回率，但是它的误报率过高</strong>，在在真实的WAF应用中，误报率必须少于0.01%。</p>
+<p>​    <strong>分析：</strong>在该实验中，HMM-Web方式之所以比LTD获得了更加高的准确率，是因为HMM-Web所采用的方式是基于异常检测的方式，只要是之前没有见过的流量都会被判别为恶意。但这种HMM异常检测的缺陷也非常的明显，每当有系统更新时，HMM-web模型都需要重新进行训练，因此HMM-web并不是一个很好的实时web入侵检测方式。</p>
+<blockquote>
+<p>对于对于Web攻击检测，在误报和召回之间存在权衡，而低误报是生产环境中的先决条件。因为高误报会造成用户正常访问的阻塞</p>
+</blockquote>
+<p>​    <strong>2.Libinjection和LTD都获得了100%的精确率，但LTD的召回率达到了99.8%，而Libinjection只有71%。</strong>下面是一些Libinjection误分类而LTD分类正确分类的样本：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Libinjection和LTD评判结果比较.png?raw=true" alt></p>
+<p>​    <strong>分析：</strong>这里的解释有点没太看懂，好像有点和上表对不上，大致意思是说Libinjection过分依赖指纹库，进行微小的改变都很难进行检测，而且由于有些正常流量可能偶尔也会出现指纹库中的部分内容，因此很容易误报</p>
+<p>​    <strong>3.LTD比RWAF方式准确率和召回率都好。</strong></p>
+<h4 id="Part2-PLN部分有效性的证明"><a href="#Part2-PLN部分有效性的证明" class="headerlink" title="Part2 PLN部分有效性的证明"></a>Part2 PLN部分有效性的证明</h4><p>实验组1：LTD</p>
+<p>实验组2 ：VPCN,把url参数部分却分为key-value形式，LTD去掉PLN部分只留下PCN部分进行分类</p>
+<p><em>个人看法：这里我个人觉得对比试验有点问题，因为直接用PCN部分进行分类不一定非要进行参数切分，因此这里使用切与不切分进行对比，证明LTD效率更高个人认为不成立，应该使用直接使用PCN进行对原始embedding后的内容进行分类</em></p>
+<h5 id="1-效率上"><a href="#1-效率上" class="headerlink" title="1.效率上"></a>1.效率上</h5><p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN效率增强实验.png?raw=true" alt>    </p>
+<p>​    在有GPU的的环境下，带PLN的网络比不带的快6倍，没有GPU的环境下快了8倍。</p>
+<p>​    分析：LTD之所以效率高的多是因为不使用PLN，直接参数个数过多，27.5的Url有13个参数以上，切分参数需要花费大量的时间，在真实流量中，包含参数个数可能更多。另一方面，一些开发者因为某些原因重新模块来隐藏参数，在这种情况下，基于规则的计算需要更加复杂的计算来提取该值。<strong>与传统的方法相比，LTD通过限制检测区域来加快计算效率，另一方面也避免了参数重写造成的切割效率问题</strong></p>
+<h5 id="2-准确率"><a href="#2-准确率" class="headerlink" title="2.准确率"></a>2.准确率</h5><p>​    <strong>对照组</strong>：典型的char级cnn从原始请求进行分类</p>
+<p>​    数据集来源：</p>
+<p>​        训练集：真实流量中320w正常流量，80w攻击样本</p>
+<p>​        测试数据集：10w条不同时间的正常流量数据，在其中选择10000个样本随机将其中一个参数的值替换为SQLi、XSS的攻击载荷，形成恶意样本，其他的为正常样本</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/LTD和charcnn对比.png?raw=true" alt></p>
+<p>​    经过实验，明显可以看出，<strong>直接的CNN的误报率和漏报率比LTD都要高得多</strong>，而这时因为一般payload的长度都很短，而url请求的长度很长。某些已知攻击的payload长度最短可以为6个字符，而这些很短的payload就可以隐藏在很长的背景字符串之中，导致CNN很难学到恶意payload，而LTD中的PLN模块能通过过滤不相关部分来发现隐藏在很长背景字符串中的短payload，因此，LTD可以更准确地区分实际的攻击有效负载和那些恶意的良性URL片段。</p>
+<h5 id="Part3-PLN输出可疑区域个数选择"><a href="#Part3-PLN输出可疑区域个数选择" class="headerlink" title="Part3 PLN输出可疑区域个数选择"></a>Part3 PLN输出可疑区域个数选择</h5><p>​    分别绘制了xss、sql在1~5个可以区域的ROC、PR曲线，如下：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/PLN可疑区域个数选择.png?raw=true" alt></p>
+<p>​    <strong>当区域数为3时，SQLi和XSS均达到了最好或者非常接近最好的准确率</strong>。使用更多的区域数能够获得更好的召回率，但是误报率将大大升高。</p>
+<h3 id="依然存在的问题"><a href="#依然存在的问题" class="headerlink" title="依然存在的问题"></a>依然存在的问题</h3><p>​    1.限定输入长度，对于特长的尾部追加式的攻击依然没有识别能力</p>
+<p>​    2.单纯的在SQLi和XSS上进行实验，未来还需要文件包含和代码执行等其他攻击类型进行检测</p>
+<p>​    3.所谓的提升了可解释性我觉得并没有很好地可以追溯源头</p>
+<p>【1】Hmm-web: A framework for the detection of attacks against web applications</p>
+<p>【2】Xception:Deep learning with depthwise separable convolutions.</p>
+<p>【3】Detection of sql injection attacks using hidden markov model.</p>
+<p> 【4】Character-aware neural language models.</p>
+<p>【5】A method for stochastic optimization</p>
+<p>【6】 Light-head r-cnn: In defense of two-stage object detector.</p>
+<p>【7】Application of the generic feature selection measure in detection of web attacks</p>
+<p>【8】Ef-ficient character-level document classification by combining convolution and recurrent layers</p>
+<p>貌似</p>
+]]></content>
+      <tags>
+        <tag>安全</tag>
+        <tag>论文阅读</tag>
+      </tags>
+  </entry>
 </search>
