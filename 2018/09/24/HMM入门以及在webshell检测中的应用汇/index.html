@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="HMM一、HMM五元素    ​       ​    其中： ​        N：隐藏状态数 hidden states         ​        M：观测状态数 observed states ​            A： 状态转移矩阵 transition matrix  ​            B：发射矩阵  emission matrix  ​            pi：">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HMM入门以及在webshell检测中的应用汇">
+<meta property="og:url" content="https://anchorety.github.io/2018/09/24/HMM入门以及在webshell检测中的应用汇/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="HMM一、HMM五元素    ​       ​    其中： ​        N：隐藏状态数 hidden states         ​        M：观测状态数 observed states ​            A： 状态转移矩阵 transition matrix  ​            B：发射矩阵  emission matrix  ​            pi：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/hmm_0.png?raw=true">
+<meta property="og:image" content="http://zhihu.com/equation?tex=P2%28D6%29%3DP%28D4%29%2AP%28D4%5Crightarrow+1%29%2AP%28D4%5Crightarrow+D6%29%2AP%28D6%5Crightarrow+6%29">
+<meta property="og:image" content="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B6%7D">
+<meta property="og:image" content="http://zhihu.com/equation?tex=P3%28D4%29%3DP2%28D6%29%2AP%28D6%5Crightarrow+D4%29%2AP%28D4%5Crightarrow+3%29">
+<meta property="og:image" content="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B216%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/hmm_2.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/hmm_3.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/hmm_5.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/hmm表示图.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/MEMM表示图.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/CRF表示图.png?raw=true">
+<meta property="og:updated_time" content="2021-02-19T04:05:32.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HMM入门以及在webshell检测中的应用汇">
+<meta name="twitter:description" content="HMM一、HMM五元素    ​       ​    其中： ​        N：隐藏状态数 hidden states         ​        M：观测状态数 observed states ​            A： 状态转移矩阵 transition matrix  ​            B：发射矩阵  emission matrix  ​            pi：">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/hmm_0.png?raw=true">
+
+<link rel="canonical" href="https://anchorety.github.io/2018/09/24/HMM入门以及在webshell检测中的应用汇/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>HMM入门以及在webshell检测中的应用汇 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2018/09/24/HMM入门以及在webshell检测中的应用汇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HMM入门以及在webshell检测中的应用汇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-24 12:26:32" itemprop="dateCreated datePublished" datetime="2018-09-24T12:26:32+08:00">2018-09-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index"><span itemprop="name">面试</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/NLP/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/09/24/HMM入门以及在webshell检测中的应用汇/" class="post-meta-item leancloud_visitors" data-flag-title="HMM入门以及在webshell检测中的应用汇" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/09/24/HMM入门以及在webshell检测中的应用汇/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/09/24/HMM入门以及在webshell检测中的应用汇/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h2><p>一、HMM五元素   </p>
+<p>​      <img src="https://github.com/AnchoretY/images/blob/master/blog/hmm_0.png?raw=true" alt></p>
+<p>​    其中：</p>
+<p>​        N：隐藏状态数 hidden states        </p>
+<p>​        M：观测状态数 observed states</p>
+<p>​            A： 状态转移矩阵 transition matrix </p>
+<p>​            B：发射矩阵  emission matrix </p>
+<p>​            pi：初始隐状态向量 initial state vector</p>
+<p>HMM全称隐马尔科夫链，常用与异常检测，在大量正常的模式中找出异常的模式。</p>
+<p>​    隐马尔科夫链模型相关的问题主要分为三类：</p>
+<blockquote>
+<p>1.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链</p>
+<p>2.已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求得出这个可见状态链的概率</p>
+<p>3.已知隐含状态数量、可以观察到多个可见状态链，求因此状态的转移矩阵和发射概率</p>
+</blockquote>
+<h4 id="1-求隐藏状态链问题"><a href="#1-求隐藏状态链问题" class="headerlink" title="1.求隐藏状态链问题"></a>1.求隐藏状态链问题</h4><p>​    该问题是在：已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链，求出隐藏的状态链(<strong>也就是最大概率的转移序列</strong>)</p>
+<p>​    <strong>应用场景</strong>：语音识别解码问题</p>
+<p>​        <strong>方法</strong>：<strong>Viterbi algorithm</strong></p>
+<p>​    <strong>时间复杂度：O（m*n^2）</strong></p>
+<blockquote>
+<p>m为时间序列的长度，n为每个时间点可能对应的状态数</p>
+</blockquote>
+<p>​    举例来说，我知道我有三个骰子，六面骰，四面骰，八面骰。我也知道我掷了十次的结果（1 6 3 5 2 7 3 5 2 4），我不知道每次用了那种骰子，我想知道最有可能的骰子序列。</p>
+<p>​      首先，如果我们只掷一次骰子：看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8. </p>
+<p>​      把这个情况拓展，我们掷两次骰子：结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是<br><img src="http://zhihu.com/equation?tex=P2%28D6%29%3DP%28D4%29%2AP%28D4%5Crightarrow+1%29%2AP%28D4%5Crightarrow+D6%29%2AP%28D6%5Crightarrow+6%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B6%7D" alt="img"> </p>
+<p>​      同样的，我们可以计算第二个骰子是D4或D8时的最大概率。我们发现，第二个骰子取到D6的概率最大。而使这个概率最大时，第一个骰子为D4。所以最大概率骰子序列就是D4 D6。<br>​    继续拓展，我们掷三次骰子：同样，我们计算第三个骰子分别是D6，D4，D8的最大概率。我们再次发现，要取到最大概率，第二个骰子必须为D6。这时，第三个骰子取到D4的最大概率是<img src="http://zhihu.com/equation?tex=P3%28D4%29%3DP2%28D6%29%2AP%28D6%5Crightarrow+D4%29%2AP%28D4%5Crightarrow+3%29" alt="img"><br><img src="http://zhihu.com/equation?tex=%3D%5Cfrac%7B1%7D%7B216%7D+%2A%5Cfrac%7B1%7D%7B3%7D+%2A%5Cfrac%7B1%7D%7B4%7D" alt="img"><br>​      同上，我们可以计算第三个骰子是D6或D8时的最大概率。我们发现，第三个骰子取到D4的概率最大。而使这个概率最大时，第二个骰子为D6，第一个骰子为D4。所以最大概率骰子序列就是D4 D6 D4。</p>
+<p>写到这里，大家应该看出点规律了。既然掷骰子一二三次可以算，掷多少次都可以以此类推。</p>
+<p>​    </p>
+<p>​    我们发现，我们要求最大概率骰子序列时要做这么几件事情。<strong>首先，不管序列多长，要从序列长度为1算起，算序列长度为1时取到每个骰子的最大概率。然后，逐渐增加长度，每增加一次长度，重新算一遍在这个长度下最后一个位置取到每个骰子的最大概率。因为上一个长度下的取到每个骰子的最大概率都算过了，重新计算的话其实不难。当我们算到最后一位时，就知道最后一位是哪个骰子的概率最大了。然后，我们要把对应这个最大概率的序列从后往前推出来,这就是Viterbi算法。</strong> </p>
+<h4 id="2-求得出某个可见状态链的概率"><a href="#2-求得出某个可见状态链的概率" class="headerlink" title="2.求得出某个可见状态链的概率"></a>2.求得出某个可见状态链的概率</h4><p>​    该问题是在：<strong>已知隐含状态数量、隐含状态的转换矩阵、根据可见的状态链</strong>，求得出这个可见状态链的概率</p>
+<p>​    <strong>应用场景</strong>：检测观察到的结果与我们已知的模型是否吻合，即<strong>异常检测</strong></p>
+<p>​    <strong>方法</strong>:<strong>前向算法（forward algorithm）</strong></p>
+<p>​    <strong>要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算（即在当前的HMM下可能出啊先找个状态链的概率）</strong>。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。<br>​      我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做<strong>前向算法（forward algorithm）</strong>。<br>​    首先，如果我们只掷一次骰子，看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm_2.png?raw=true" alt></p>
+<p>​    把这个情况拓展，我们掷两次骰子，看到结果为1，6，总概率为0.05：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm_3.png?raw=true" alt></p>
+<p>​    继续拓展，我们掷三次骰子，看到结果为1，6，3，计算总概率为0.03：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm_5.png?raw=true" alt></p>
+<p>​    同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。</p>
+<h4 id="3-求状态转移矩阵和发射概率（训练过程）"><a href="#3-求状态转移矩阵和发射概率（训练过程）" class="headerlink" title="3.    求状态转移矩阵和发射概率（训练过程）"></a>3.    求状态转移矩阵和发射概率（训练过程）</h4><p>​    该问题是在：    <strong>已知隐含状态数量、可以观察到多个可见状态链</strong></p>
+<p>​    <strong>应用场景</strong>：有大量该问题的已知观测序列，想<strong>训练</strong>一个HMM模型</p>
+<p>​    <strong>方法：Baum-Welch算法</strong></p>
+<h3 id="面试常见问题"><a href="#面试常见问题" class="headerlink" title="面试常见问题"></a>面试常见问题</h3><p>1<strong>.HMM的两个不合理假设</strong></p>
+<blockquote>
+<p>1.当前时刻的状态只与上一时刻的状态有关</p>
+<p>2.当前表现只与当前状态有关</p>
+</blockquote>
+<p>2.MEMM（最大熵马尔科夫模型）对HMM做了哪些改进还存在哪些问题？</p>
+<blockquote>
+<p>虽然MEMM解决了HMM输出独立性假设的问题，但是只解决了观察值独立的问题，状态之间的假设则是标注偏置问题产生的根源，CRF则解决了标注偏置问题，是HMM模型的进一步优化。</p>
+<p>缺陷：标注偏置问题</p>
+</blockquote>
+<p>HMM：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/hmm表示图.png?raw=true" alt></p>
+<p>MEMM</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/MEMM表示图.png?raw=true" alt></p>
+<p><strong>2.CRF和HMM和MEMM的不同点</strong></p>
+<blockquote>
+<p>整体来说就是解决了MEMM的标注偏置的问题、去除了HMM中两个不合理的假设</p>
+<p><strong>1.HMM是生成式模型，CRF是一种判别式模型</strong>。HMM对状态矩阵和发射矩阵进行直接建模，统计共同出现的概率，因此是一种生成式模型；</p>
+<p><strong>2.HMM是有向图模型，CRF是无向图模型。</strong></p>
+<p><strong>3.CRF是全局最优解，结局了MEMM的标注偏置问题。</strong>MEMM是对转移概率和表现概率建立联合概率，统计时统计的是条件概率，由于其只在局部做归一化，所以容易陷入局部最优。</p>
+<p>​    CRF是在全局范围内统计归一化的概率，而不像是MEMM在局部统计归一化概率。是全局最优的解。解决了MEMM中标注偏置的问题。</p>
+<p> 4.但是CRF的训练代价大，是复杂度高</p>
+</blockquote>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/CRF表示图.png?raw=true" alt></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2018/09/24/HMM入门以及在webshell检测中的应用汇/" title="HMM入门以及在webshell检测中的应用汇">https://anchorety.github.io/2018/09/24/HMM入门以及在webshell检测中的应用汇/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/23/Docker操作/" rel="prev" title="Docker操作">
+      <i class="fa fa-chevron-left"></i> Docker操作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/26/pyspark-dataframe操作进阶/" rel="next" title="pyspark dataframe操作进阶">
+      pyspark dataframe操作进阶 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HMM"><span class="nav-text">HMM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-求隐藏状态链问题"><span class="nav-text">1.求隐藏状态链问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-求得出某个可见状态链的概率"><span class="nav-text">2.求得出某个可见状态链的概率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-求状态转移矩阵和发射概率（训练过程）"><span class="nav-text">3.    求状态转移矩阵和发射概率（训练过程）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面试常见问题"><span class="nav-text">面试常见问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
