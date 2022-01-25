@@ -8837,38 +8837,6 @@ core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对�
       </tags>
   </entry>
   <entry>
-    <title>数据可视化之箱型图</title>
-    <url>/2019/09/17/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E4%B9%8B%E7%AE%B1%E5%9E%8B%E5%9B%BE/</url>
-    <content><![CDATA[<h4 id="箱型图"><a href="#箱型图" class="headerlink" title="箱型图"></a>箱型图</h4><p>​    箱线图（Boxplot）也称箱须图（Box-whisker Plot），它是<strong>用一组数据中的最小值、第一四分位数、中位数、第三四分位数和最大值来反映数据分布的中心位置和散布范围，可以粗略地看出数据是否具有对称性</strong>。通过<strong>将多组数据的箱线图画在同一坐标上，则可以清晰地显示各组数据的分布差异</strong>，为发现问题、改进流程提供线索。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/标准箱型图.png?raw=true" alt></p>
-<h4 id="箱型图有哪些作用呢？"><a href="#箱型图有哪些作用呢？" class="headerlink" title="箱型图有哪些作用呢？"></a>箱型图有哪些作用呢？</h4><p><strong>1.为了反映原始数据的分布情况，比如数据的聚散情况和偏态</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不同分布的箱型图.png?raw=true" alt></p>
-<p>​    从图中我们可以直观地看出，<strong>箱形图的中位数和上四分位数的间距比较窄的话，对应曲线图，这个间距内的数据比较集中</strong>，还有就是<strong>箱形图的上（下）边缘比较长的话，对应曲线图，尾巴就比较长</strong>。</p>
-<p>2.异常值检测，在上下边缘之外的一般认为是异常值(这个和正太分布有关)</p>
-<p>3.可以直观的比较多组数据</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/多组数据比较箱型图实例.png?raw=true" alt></p>
-<p>从这图我们可以很直观地看出以下信息：<br>1.各科成绩中，英语和西方经济学的<strong>平均成绩比较高</strong>，而统计学和基础会计学的平均成绩比较低。（用中位数来衡量整体情况比较稳定）</p>
-<p>2.英语、市场营销学、西方经济学、计算机应用基础和财务管理成绩<strong>分布比较集中，因为箱子比较短</strong>。而经济数学、基础会计学和统计学成绩比较分散，我们可以对照考试成绩数据看看也可以证实。</p>
-<p>3.从各个箱形图的中位数和上下四位数的间距也可以看出，<strong>英语和市场营销学的成绩分布是非常的对称，而统计学呢？非常的不平衡，大部分数据都分布在70到85(中位数到上四分位数)分以上。</strong>同样，也可以从成绩单里的数据证实</p>
-<p>4<strong>.在计算机应用基础对应的箱形图出现了个异常点</strong>，我们回去看看成绩单，计算机那一栏，出现了个计算机大牛（真希望是我），考了95分，比第二名多了10分。而其他同学的成绩整体在80分左右。</p>
-<p>5。其实我们也可以从中得知，<strong>用平均值去衡量整体的情况有时很不合理，用中位数比较稳定，因为中位数不太会收到极值的影响，而平均值则受极值的影响很大。</strong></p>
-<h4 id="如何做箱型图"><a href="#如何做箱型图" class="headerlink" title="如何做箱型图"></a>如何做箱型图</h4><p>​    <strong>用到的主要模块：matplotlib,pandas,numpy</strong></p>
-<p>​    <strong>输入数据格式：单个数值列表</strong>，例如[1,3,1,5,4]</p>
-<p>​    <strong>核心参数:</strong></p>
-<blockquote>
-<p>x:输入数据一列数据或者一个列的数组</p>
-<p>labels:各个箱型子图的标签</p>
-<p>whis:上下边缘强制定义，决定了哪部分部署被定义为异常数据，默认值为1.5。上边缘：第一和第三个四分位数。也就是说，IQR是四分位范围(‘ Q3-Q1 ‘)，上边缘须将延伸至最后一个数据小于’ Q3 + whis<em>IQR ‘)。例如上四分位数为70，下四分位数为10，那么上边缘值为70+1.5\</em>(70-10)=160</p>
-</blockquote>
-<h5 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">plt.boxplot(x=[df[[<span class="string">'parameters_max_len'</span>]].values,df[df[<span class="string">'label'</span>]==<span class="number">0</span>][<span class="string">'parameters_max_len'</span>].values,df[df[<span class="string">'label'</span>]==<span class="number">1</span>][<span class="string">'parameters_max_len'</span>].values],labels=[<span class="string">'all sample'</span>,<span class="string">'normal sample'</span>,<span class="string">'black sample'</span>],whis=<span class="number">2</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/箱型图实例.png?raw=true" alt></p>
-]]></content>
-      <tags>
-        <tag>数据分析</tag>
-        <tag>可视化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>about</title>
     <url>/about/index.html</url>
     <content><![CDATA[<p><strong>关于我</strong></p>

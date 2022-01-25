@@ -369,128 +369,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/09/17/数据可视化之箱型图/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/09/17/数据可视化之箱型图/" class="post-title-link" itemprop="url">数据可视化之箱型图</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-09-17 10:43:59" itemprop="dateCreated datePublished" datetime="2019-09-17T10:43:59+08:00">2019-09-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/09/17/数据可视化之箱型图/" class="post-meta-item leancloud_visitors" data-flag-title="数据可视化之箱型图" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/09/17/数据可视化之箱型图/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/09/17/数据可视化之箱型图/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="箱型图"><a href="#箱型图" class="headerlink" title="箱型图"></a>箱型图</h4><p>​    箱线图（Boxplot）也称箱须图（Box-whisker Plot），它是<strong>用一组数据中的最小值、第一四分位数、中位数、第三四分位数和最大值来反映数据分布的中心位置和散布范围，可以粗略地看出数据是否具有对称性</strong>。通过<strong>将多组数据的箱线图画在同一坐标上，则可以清晰地显示各组数据的分布差异</strong>，为发现问题、改进流程提供线索。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/标准箱型图.png?raw=true" alt></p>
-<h4 id="箱型图有哪些作用呢？"><a href="#箱型图有哪些作用呢？" class="headerlink" title="箱型图有哪些作用呢？"></a>箱型图有哪些作用呢？</h4><p><strong>1.为了反映原始数据的分布情况，比如数据的聚散情况和偏态</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/不同分布的箱型图.png?raw=true" alt></p>
-<p>​    从图中我们可以直观地看出，<strong>箱形图的中位数和上四分位数的间距比较窄的话，对应曲线图，这个间距内的数据比较集中</strong>，还有就是<strong>箱形图的上（下）边缘比较长的话，对应曲线图，尾巴就比较长</strong>。</p>
-<p>2.异常值检测，在上下边缘之外的一般认为是异常值(这个和正太分布有关)</p>
-<p>3.可以直观的比较多组数据</p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/多组数据比较箱型图实例.png?raw=true" alt></p>
-<p>从这图我们可以很直观地看出以下信息：<br>1.各科成绩中，英语和西方经济学的<strong>平均成绩比较高</strong>，而统计学和基础会计学的平均成绩比较低。（用中位数来衡量整体情况比较稳定）</p>
-<p>2.英语、市场营销学、西方经济学、计算机应用基础和财务管理成绩<strong>分布比较集中，因为箱子比较短</strong>。而经济数学、基础会计学和统计学成绩比较分散，我们可以对照考试成绩数据看看也可以证实。</p>
-<p>3.从各个箱形图的中位数和上下四位数的间距也可以看出，<strong>英语和市场营销学的成绩分布是非常的对称，而统计学呢？非常的不平衡，大部分数据都分布在70到85(中位数到上四分位数)分以上。</strong>同样，也可以从成绩单里的数据证实</p>
-<p>4<strong>.在计算机应用基础对应的箱形图出现了个异常点</strong>，我们回去看看成绩单，计算机那一栏，出现了个计算机大牛（真希望是我），考了95分，比第二名多了10分。而其他同学的成绩整体在80分左右。</p>
-<p>5。其实我们也可以从中得知，<strong>用平均值去衡量整体的情况有时很不合理，用中位数比较稳定，因为中位数不太会收到极值的影响，而平均值则受极值的影响很大。</strong></p>
-<h4 id="如何做箱型图"><a href="#如何做箱型图" class="headerlink" title="如何做箱型图"></a>如何做箱型图</h4><p>​    <strong>用到的主要模块：matplotlib,pandas,numpy</strong></p>
-<p>​    <strong>输入数据格式：单个数值列表</strong>，例如[1,3,1,5,4]</p>
-<p>​    <strong>核心参数:</strong></p>
-<blockquote>
-<p>x:输入数据一列数据或者一个列的数组</p>
-<p>labels:各个箱型子图的标签</p>
-<p>whis:上下边缘强制定义，决定了哪部分部署被定义为异常数据，默认值为1.5。上边缘：第一和第三个四分位数。也就是说，IQR是四分位范围(‘ Q3-Q1 ‘)，上边缘须将延伸至最后一个数据小于’ Q3 + whis<em>IQR ‘)。例如上四分位数为70，下四分位数为10，那么上边缘值为70+1.5\</em>(70-10)=160</p>
-</blockquote>
-<h5 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.boxplot(x=[df[[<span class="string">'parameters_max_len'</span>]].values,df[df[<span class="string">'label'</span>]==<span class="number">0</span>][<span class="string">'parameters_max_len'</span>].values,df[df[<span class="string">'label'</span>]==<span class="number">1</span>][<span class="string">'parameters_max_len'</span>].values],labels=[<span class="string">'all sample'</span>,<span class="string">'normal sample'</span>,<span class="string">'black sample'</span>],whis=<span class="number">2</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/箱型图实例.png?raw=true" alt></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/09/04/阿里2019年最新论文-定位然后检测恶意攻击/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1749,6 +1627,188 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/08/04/面试前必复习题目/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/08/04/面试前必复习题目/" class="post-title-link" itemprop="url">面试前必复习题目</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-08-04 16:29:38" itemprop="dateCreated datePublished" datetime="2019-08-04T16:29:38+08:00">2019-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/08/04/面试前必复习题目/" class="post-meta-item leancloud_visitors" data-flag-title="面试前必复习题目" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/04/面试前必复习题目/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/04/面试前必复习题目/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.二叉树前、中、后、层次非递归写法</p>
+<p>2.排序算法(尤其是快排)</p>
+<p>3.100000个数中找出最大的k个数</p>
+<p>算法：</p>
+<h4 id="1-模型的评价指标计算公式"><a href="#1-模型的评价指标计算公式" class="headerlink" title="1.模型的评价指标计算公式"></a>1.模型的评价指标计算公式</h4><blockquote>
+<p>​    精确率：判黑真正为黑的占判黑总数的比例</p>
+<p>​    召回率：正确判黑的占黑样本总数的比例</p>
+<p>​    ROC曲线：在各个阈值下模型以FPR为横坐标、TPR为纵坐标，画的曲线</p>
+<p>​    AUC：ROC曲线线下面积</p>
+</blockquote>
+<h4 id="2-AUC指标详解"><a href="#2-AUC指标详解" class="headerlink" title="2.AUC指标详解"></a>2.AUC指标详解</h4><blockquote>
+<p>计算公式：ROC曲线的线下面积</p>
+<p>概率解释：在正负样本中随机取一对正负样本，其中正样本得分大于负样本得分的概率</p>
+<p>AUC是否受正负样本比例的影响？</p>
+<p>​    AUC不受正负样本比例的影响，用正负采样过后的测试集和用不进行采样的测试集AUC基本不变</p>
+<p>AUC和其他评价指标相比的优势在哪里？为什么？</p>
+<p>​    改评价指标不受测试集正负样本比例的影响，相比于其他评估指标，例如准确率、召回率和F1值，负样本下采样相当于只将一部分真实的负例排除掉了，然而模型并不能准确地识别出这些负例，所以用下采样后的样本来评估会高估准确率；因为采样只对负样本采样，正样本都在，所以采样对召回率并没什么影响。这两者结合起来，最终导致高估F1值！</p>
+</blockquote>
+<h4 id="3-word2vec介绍，如何进行训练？有那两种区别是什么？大数据情况下那种更适合？"><a href="#3-word2vec介绍，如何进行训练？有那两种区别是什么？大数据情况下那种更适合？" class="headerlink" title="3.word2vec介绍，如何进行训练？有那两种区别是什么？大数据情况下那种更适合？"></a>3.<strong>word2vec</strong>介绍，如何进行训练？有那两种区别是什么？大数据情况下那种更适合？</h4><blockquote>
+<p>a.介绍</p>
+<p>​    一种词向量的表达，能使词的表达具有一定的上下文信息，原始的word2vec是一个浅层神经网络，首先把全部词进行one-hot，那么每个词将对应着一个特征向量，</p>
+<p>​        （1）.首先是一个线性的Embedding层。在word2vec进行训练的时候，将输入2k个词的词向量，通过一个<strong>共享的D*V（V是词典大小，D是Embebdding的向量维度）的矩阵C</strong>，映射为2k个分布式的词向量。<strong>C矩阵例存储了要学习的word2cev向量</strong></p>
+<p>​        （2）.忽略上下文的序列信息：输入所有的词向量都汇总到一个Embedding layer(加和取平均)</p>
+<p>​        （3）.用softmax进行映射，得到这个词是各个词的概率</p>
+<p>​        （4）.然后根据这个词本身的情况来进行更新</p>
+<p>​    c.有那几种？区别是什么？</p>
+<p>​            Cbow：每次用前后k个词词来预测中间的1个词    词向量更新n词，时间复杂度较低   </p>
+<p>​            Skip-gram：用1个词预测前后k个词     词向量更新kn词，时间复杂度较高   更适合数据较少的情况</p>
+<p>​    d.大数据情况下更适合哪种？为什么？</p>
+<p>​        更适合适用Cbow，因为效率较高</p>
+<p>​    e.有哪几种优化方式？具体讲一下哈弗曼树方式如何进行训练和预测</p>
+<p>​        分层softmax：</p>
+<p>​        负采样：</p>
+<p>​    f.局限性</p>
+<p>​        （1）.只能考虑局部的词之间的关联性</p>
+<p>​        （2）.没有考虑词之间的内在联系</p>
+<p>​    g.实质</p>
+<p>​            计算输入向量和输出向量的余弦相似度</p>
+</blockquote>
+<h4 id="4-SVM"><a href="#4-SVM" class="headerlink" title="4.SVM"></a>4.SVM</h4><blockquote>
+<p><strong>1.公式推导</strong></p>
+<p><strong>2.损失函数</strong></p>
+<p>​    hinge(折页损失函数)+正则</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/SVM损失函数.png?raw=True" alt></p>
+<p><strong>3.映射到的核函数空间有什么要求(核函数要求)？</strong></p>
+<p>​        过某非线性变换 φ( x) ，将输入空间映射到高维特征空间，在低维输入空间存在某个函数 K(x, x′) ，恰好等于在高维空间中这个内积，即K( x, x′) =&lt;φ( x) ⋅φ( x′) &gt; (这样的函数K被称作核函数)</p>
+<p><strong>4.点到向量距离公式推导</strong></p>
+</blockquote>
+<h4 id="5-生成模型和判别模型"><a href="#5-生成模型和判别模型" class="headerlink" title="5..生成模型和判别模型"></a>5..生成模型和判别模型</h4><blockquote>
+<p>1.定义</p>
+<p>​    生成模型：学习得到数据的联合分布P(x,y)，然后求联合分布。能够学习到数据的生成机制。</p>
+<p>​    判别模型：学习的到概率的条件分布P(y|x)</p>
+<p>2.区别</p>
+<p>​    数据量和准确率：生成模型的数据量需求比较大，在数据量足够多的时一般生成模型效果较好，因为联合分布能够提供更多的有效信息；而判别模型需要的数据量较小，引起直接面向预测在小数据条件下一般效果比生成模型效果好</p>
+<p>​    速度：生成模型收敛速度较快</p>
+<p>​    隐变量情况：生成模型能够应付(高斯混合模型就是生成模型的隐变量形式)</p>
+<p>3.常见的生成模型和判别模型</p>
+<p>​    生成模型：隐马尔科夫链、朴素贝叶斯</p>
+<p>​    判别模型：csrf</p>
+</blockquote>
+<h4 id="6-xgboost"><a href="#6-xgboost" class="headerlink" title="6.xgboost"></a>6.xgboost</h4><blockquote>
+<p>XGBoost的损失函数是什么，节点划分准则是什么？</p>
+<p>​    损失函数：</p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/xgboost损失函数.png?raw=True" alt></p>
+<p>​    节点划分准则：</p>
+<p>​        分类树：信息增益获信息增益比</p>
+<p>​        回归树：最大均方误差</p>
+<p><strong>整体流程：</strong></p>
+<p><strong>Xgboost和GBDT算法时间复杂度是多少？</strong></p>
+<p>​    针对每个特征，把属于该节点的训练样本根据该特征值升序排列，通过线性扫描的方式来决定该特征的最佳分裂点，并记录该特征的最大收益（采用最佳分裂点时的收益）</p>
+<p>​    时间复杂度:<strong>O(nlogn <em> d </em> m)</strong>(n是样本个数，d是特征个数,m是树的深度)</p>
+<p><strong>xgboost是如何进行剪枝的？</strong></p>
+<p>​    xgboost采用<strong>后剪枝</strong>的方式进行剪枝，即 从顶到底建立所有可以建立的子树，再从底到顶反向进行剪枝，这样不容易陷入局部最优解。</p>
+<p><strong>xgboost和gbdt的区别：</strong></p>
+<p>​        1.xgboost是gbdt的工程化实现</p>
+<p>​        2.xgboost加入了正则化信息</p>
+<p>​        3.xgboost允许使用自定义的损失函数</p>
+<p>​        4.xgboost损失函数加入了二阶导数信息，下降的更快更准</p>
+<p>​        5.xgboost支持和随机森林一样的列抽样</p>
+<p>​        6.xgboost支持并行化，但是并不是树与树之间的并行化，而是在最费时的特征排序截断进行并行化，将排序结果进行分桶保存，各个树生成时复用</p>
+<p>​        7.xgboost基模型除了支持gbdt支持的CART树外还支持其他的基模型</p>
+</blockquote>
+<h4 id="7-样本不平衡问题处理办法"><a href="#7-样本不平衡问题处理办法" class="headerlink" title="7.样本不平衡问题处理办法"></a>7.样本不平衡问题处理办法</h4><h4 id="8-L1正则化和L2正则化"><a href="#8-L1正则化和L2正则化" class="headerlink" title="8.L1正则化和L2正则化"></a>8.L1正则化和L2正则化</h4><p>极大似然和最大熵</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -1821,7 +1881,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-count">173</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
