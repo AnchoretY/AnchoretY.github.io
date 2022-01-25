@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>度小满编程记——火车站台问题</title>
-    <url>/2019/04/30/%E5%BA%A6%E5%B0%8F%E6%BB%A1%E7%BC%96%E7%A8%8B%E8%AE%B0%E2%80%94%E2%80%94%E7%81%AB%E8%BD%A6%E7%AB%99%E5%8F%B0%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/火车站台问题.png?raw=true" alt></p>
-<p>​    思路：这道题讲道理如果起点终点没有那么大就很简单了，直接使用字典进行存储，然后选择value最大的那个值即可。而这道题目中明显直接使用上面的思路是行不通了，因此这题使用了一种比较巧的方式，</p>
-<p>​    先将各个列车的起点终点分别编码为(站点,编号)，起点编号为-1，终点编号为0，然后从小到大对元组进行排序，然后便利元组列表，如果是终点，那么将维护数+1，如果是起点，那么代表到这里已经有一辆车不再需要维护了，同时记录最大的维护值，便利完全部列表最大的维护值即为结果</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = int(input())</span><br><span class="line">train = []</span><br><span class="line">t = <span class="number">0</span></span><br><span class="line">ans = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">	l = list(map(int,input().split()))</span><br><span class="line">  train.append((l[<span class="number">0</span>],<span class="number">1</span>))</span><br><span class="line">  train.append((l[<span class="number">1</span>],<span class="number">-1</span>))</span><br><span class="line"></span><br><span class="line">train.sort()   <span class="comment">#这里是关键点，sort函数将对元组进行排序</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> train:</span><br><span class="line">  <span class="keyword">if</span> i[<span class="number">1</span>]==<span class="number">0</span>:</span><br><span class="line">    t+=<span class="number">1</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    t-=<span class="number">1</span></span><br><span class="line">    ans = max(ans,t)</span><br><span class="line">pritn(ans)</span><br></pre></td></tr></table></figure>
-<p>上式中的sort函数对元素为元祖的列表来进行排序，默认规则是先使用元组的第一个元素进行排序，当第一个元素值相同时再使用第二个元素进行排序，下面是一个例子：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">l = [[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">-1</span>],[<span class="number">1</span>,<span class="number">-1</span>]]</span><br><span class="line">l.sort()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	[[<span class="number">1</span>, <span class="number">-1</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">-1</span>], [<span class="number">2</span>, <span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
-<p>在这个问题中使用sort进行排序后，表示由于同一个车站的负值被排在前面，每次先减去1，也就是前一个车一这里为起点，不需要再使用维护。</p>
-<p>之前还遇到过好多类似的问题，其实都可以采用这种类似的思路来减少内存占用，比如之前360笔试中遇到过的找</p>
+    <title>58同城AILab面经</title>
+    <url>/2019/06/05/58%E5%90%8C%E5%9F%8EAILab%E9%9D%A2%E7%BB%8F/</url>
+    <content><![CDATA[<p>​    这些都是一个星期面的，感觉头皮发麻。。。</p>
+<p><strong>叭咔科技</strong></p>
+<p>​    先写在这里，因为是交叉在里面的</p>
+<p>​    一次性面了两面+hr面，整体上技术面比较水，但是有一道题目挺有意思的，记录一下。让你通过什么方法去近似求一下圆形的面积，当时我一脸蒙b，后来面试官提示说可以从概率的角度，用随机数什么的，才想出了用变长为2r的正方形去处理</p>
+<p>​    这里涉及到一个列表和链表在增删时处理冲突的问题，列表可能会出现寻址问题</p>
+<p>​    其中还有一个尴尬的问题是<strong>python中random.random生成的随机数是</strong>均匀分布还是正态分布？答案是<strong>均匀分布</strong></p>
+<hr>
+<p><strong>58同城</strong></p>
+<p>一面</p>
+<p>​    这一面面试官人很nice而且感觉专业水平很强，从我说项目开始一直问的模型问题都很深，问题面也边角广，而且注重细节，还会问一些具体模型实现上的事情，比如说transformer中的muti-self attention在编码上是如何实现的？word2vec输入一个词时是只更新一个词还是会更新全部的词？整体上感觉答的还可以就进了二面。然后让写了一道算法题，再两个无序数组中找出全部和为定值的组合，这个题我直接和他说了暴力枚举，他说你这个时间是多少？还能不能再优化一下？我说是O(n2)，他说能不能优化到O(n)？我说那就可以将第一数组先转成字典，这样可以降到O(n)</p>
+<p>二面</p>
+<p>​    二面整体来说比一面要简单一些，主要就是问项目上事情，特征、数据处理、模型效果等等，涉及到模型具体实现细节上的东西没有深问，本来以为一定会深问transformer的，然而并没有提。。。</p>
+<p>三面</p>
+<p>​    刚面完，热乎的三面，主要问的问题还是比较简单了，没有一面的难，感觉也是个技术人员，但是没有问的很深，遇到了一个和一面一样的问题，pytorch和tensorflow的区别在哪里，其他的基本上和一面一样了，讲项目、word2vec的原理、优化，正则化原理、公式，auc、roc含义是怎么来的，有一个问题没有答出来，kmeans是否一定会收敛，为什么？</p>
+<p>good luck！</p>
+<p>顺利通过，在端午回家的前一天顺利上岸，happy！</p>
+<hr>
+<p><strong>微软亚洲研究院</strong></p>
+<p>一面</p>
+<p>​    项目介绍+算法题，去除数组中重复元素去重，写完了又加了一条，删除数组中有重复元素的数</p>
+<p>一面面完已经过了4、5天了，还没约面试时间，一面感觉还不错，不知道为什么就凉了。。。</p>
+<hr>
+<p><strong>深信服</strong></p>
+<p>HR说面试时间已经约了，他说下周，但是下周已经过了三天，还会没消息   希望过完端午回去可以有机会</p>
 ]]></content>
       <tags>
-        <tag>机试</tag>
-        <tag>算法总结</tag>
+        <tag>面经</tag>
       </tags>
   </entry>
   <entry>
@@ -215,68 +230,6 @@
       </tags>
   </entry>
   <entry>
-    <title>对AI安全技术实际应用的一些看法</title>
-    <url>/2020/02/21/%E5%AF%B9AI%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</url>
-    <content><![CDATA[<p>&emsp;&emsp;本文主要是根据目前本人了解，AI技术在安全领域中的一些可能应用点做一些总结，目前本人刚刚毕业，希望在AI安全上也能贡献出自己的一份力量，再过两年来回顾这篇文章不知道会有什么新的看法。</p>
-<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cx6hud52wcf.png" alt="image"></p>
-<a id="more"></a>
-<h3 id="1-入侵检测"><a href="#1-入侵检测" class="headerlink" title="1.入侵检测"></a>1.入侵检测</h3><p>​    这里比较火的主要有几个小类：</p>
-<ol>
-<li><p>Webshell检测</p>
-<p>AI与Webshell检测的结合是许多公司在AI+入侵检测领域一般最先想要去进行研究的部分，因为Webshell危险等级很高，并且使用传统的方式只能够防御一些已有的Webshell攻击，而对新发生的Webshell攻击很难直接使用已有的规则方式进行预防，因此只能将希望寄托在AI上，这里也是我重点在研究的方向，目前针对该问题主要存在的一些解决方案如下：</p>
-<ol>
-<li>完全使用深度学习的方式进行检测</li>
-<li>使用先验知识进行特征提取然后使用机器学习建模进行检测</li>
-</ol>
-</li>
-<li><p>参数异常检测</p>
-<p>​    参数异常检测目前主流的方式是使用HMM进行检测，在实际使用过程检测的效果还是非常不错·，模型能够有效的发现未知的攻击，但是唯一存在的问题就是<strong>模型运行效率问题</strong>，由于该模型对每一个要访问的页面都要构建一个模型，由于模型量巨大因此很难应用在大范围的主干网络对不同的站点进行检测，单<strong>对于公司内部网页站点数比较少的情况还是非常值得进行尝试的。</strong></p>
-<p><img src alt></p>
-</li>
-</ol>
-<h3 id="2-垃圾邮件识别"><a href="#2-垃圾邮件识别" class="headerlink" title="2.垃圾邮件识别"></a>2.垃圾邮件识别</h3><p>​    垃圾邮件识别应该是最早使用AI去进行解决的安全问题，也是目前取得的效果最好，在实际环境中更多别采用的一种。垃圾邮件的识别从本质上来说就是一些半结构化的数据从文本的角度金慈宁</p>
-<h3 id="3-DGA域名检测"><a href="#3-DGA域名检测" class="headerlink" title="3.DGA域名检测"></a>3.DGA域名检测</h3><p>​    对于DGA域名的检测，各个公司研究的也算比较多的</p>
-<p>​    在几年以前DGA域名的识别在机器学习开始兴起后逐渐流行起了使用先验知识进行最长连续字母长度、最长连续数字长度等域名随机读衡量的统计特征人工提取，然后再使用各种各样的机器学习进行建模的过程，虽然在各种paper中效果良好，但是在我的实际使用过程中效果差强人意。而近年来人们渐渐意识到，由于DGA域名的展现形式与正常流量展现形式的差异表现很难直接使用人工的方式进行描述，因此将主要精力放在了使用深度学习技术进行DGA域名检测研究中来，通过大量的实验研究也证明了深度学习技术更加适合解决该问题。</p>
-<h3 id="4-僵尸网络检测"><a href="#4-僵尸网络检测" class="headerlink" title="4.僵尸网络检测"></a>4.僵尸网络检测</h3><p>​    使用AI技术进行僵尸网络的检测目前也是一个非常热的问题，但大多处于发papar灌水阶段，目前没有通说有公司使用。本人研究的不多，这里不做展开。</p>
-<h3 id="未来的展望"><a href="#未来的展望" class="headerlink" title="未来的展望"></a>未来的展望</h3><p>​    1.对于Webshell检测的研究目前大多只停留在使用单条流量进行Webshell进行检测上，但实际环境中要想真正使用AI技术进行Webshell检测并直接进行响应，还用使用多条流量，</p>
-]]></content>
-      <tags>
-        <tag>AI安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>58同城AILab面经</title>
-    <url>/2019/06/05/58%E5%90%8C%E5%9F%8EAILab%E9%9D%A2%E7%BB%8F/</url>
-    <content><![CDATA[<p>​    这些都是一个星期面的，感觉头皮发麻。。。</p>
-<p><strong>叭咔科技</strong></p>
-<p>​    先写在这里，因为是交叉在里面的</p>
-<p>​    一次性面了两面+hr面，整体上技术面比较水，但是有一道题目挺有意思的，记录一下。让你通过什么方法去近似求一下圆形的面积，当时我一脸蒙b，后来面试官提示说可以从概率的角度，用随机数什么的，才想出了用变长为2r的正方形去处理</p>
-<p>​    这里涉及到一个列表和链表在增删时处理冲突的问题，列表可能会出现寻址问题</p>
-<p>​    其中还有一个尴尬的问题是<strong>python中random.random生成的随机数是</strong>均匀分布还是正态分布？答案是<strong>均匀分布</strong></p>
-<hr>
-<p><strong>58同城</strong></p>
-<p>一面</p>
-<p>​    这一面面试官人很nice而且感觉专业水平很强，从我说项目开始一直问的模型问题都很深，问题面也边角广，而且注重细节，还会问一些具体模型实现上的事情，比如说transformer中的muti-self attention在编码上是如何实现的？word2vec输入一个词时是只更新一个词还是会更新全部的词？整体上感觉答的还可以就进了二面。然后让写了一道算法题，再两个无序数组中找出全部和为定值的组合，这个题我直接和他说了暴力枚举，他说你这个时间是多少？还能不能再优化一下？我说是O(n2)，他说能不能优化到O(n)？我说那就可以将第一数组先转成字典，这样可以降到O(n)</p>
-<p>二面</p>
-<p>​    二面整体来说比一面要简单一些，主要就是问项目上事情，特征、数据处理、模型效果等等，涉及到模型具体实现细节上的东西没有深问，本来以为一定会深问transformer的，然而并没有提。。。</p>
-<p>三面</p>
-<p>​    刚面完，热乎的三面，主要问的问题还是比较简单了，没有一面的难，感觉也是个技术人员，但是没有问的很深，遇到了一个和一面一样的问题，pytorch和tensorflow的区别在哪里，其他的基本上和一面一样了，讲项目、word2vec的原理、优化，正则化原理、公式，auc、roc含义是怎么来的，有一个问题没有答出来，kmeans是否一定会收敛，为什么？</p>
-<p>good luck！</p>
-<p>顺利通过，在端午回家的前一天顺利上岸，happy！</p>
-<hr>
-<p><strong>微软亚洲研究院</strong></p>
-<p>一面</p>
-<p>​    项目介绍+算法题，去除数组中重复元素去重，写完了又加了一条，删除数组中有重复元素的数</p>
-<p>一面面完已经过了4、5天了，还没约面试时间，一面感觉还不错，不知道为什么就凉了。。。</p>
-<hr>
-<p><strong>深信服</strong></p>
-<p>HR说面试时间已经约了，他说下周，但是下周已经过了三天，还会没消息   希望过完端午回去可以有机会</p>
-]]></content>
-      <tags>
-        <tag>面经</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>对抗样本生成——DCGAN</title>
     <url>/2020/02/13/%E5%AF%B9%E6%8A%97%E6%A0%B7%E6%9C%AC%E7%94%9F%E6%88%90%E2%80%94%E2%80%94DCGAN/</url>
     <content><![CDATA[<p>​    本文为对抗样本生成系列文章的第三篇文章，主要对DCGAN的原理进行介绍，并对其中关键部分的使用pytorch代码进行介绍，另外如果有需要完整代码的同学可以关注我的<a href="https://github.com/AnchoretY/Webshell_Sample_Generate/blob/master/GAN%20image%20generate.ipynb" target="_blank" rel="noopener">github</a>。</p>
@@ -333,6 +286,36 @@
 ]]></content>
       <tags>
         <tag>对抗样本生成</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对AI安全技术实际应用的一些看法</title>
+    <url>/2020/02/21/%E5%AF%B9AI%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9C%8B%E6%B3%95/</url>
+    <content><![CDATA[<p>&emsp;&emsp;本文主要是根据目前本人了解，AI技术在安全领域中的一些可能应用点做一些总结，目前本人刚刚毕业，希望在AI安全上也能贡献出自己的一份力量，再过两年来回顾这篇文章不知道会有什么新的看法。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.cx6hud52wcf.png" alt="image"></p>
+<a id="more"></a>
+<h3 id="1-入侵检测"><a href="#1-入侵检测" class="headerlink" title="1.入侵检测"></a>1.入侵检测</h3><p>​    这里比较火的主要有几个小类：</p>
+<ol>
+<li><p>Webshell检测</p>
+<p>AI与Webshell检测的结合是许多公司在AI+入侵检测领域一般最先想要去进行研究的部分，因为Webshell危险等级很高，并且使用传统的方式只能够防御一些已有的Webshell攻击，而对新发生的Webshell攻击很难直接使用已有的规则方式进行预防，因此只能将希望寄托在AI上，这里也是我重点在研究的方向，目前针对该问题主要存在的一些解决方案如下：</p>
+<ol>
+<li>完全使用深度学习的方式进行检测</li>
+<li>使用先验知识进行特征提取然后使用机器学习建模进行检测</li>
+</ol>
+</li>
+<li><p>参数异常检测</p>
+<p>​    参数异常检测目前主流的方式是使用HMM进行检测，在实际使用过程检测的效果还是非常不错·，模型能够有效的发现未知的攻击，但是唯一存在的问题就是<strong>模型运行效率问题</strong>，由于该模型对每一个要访问的页面都要构建一个模型，由于模型量巨大因此很难应用在大范围的主干网络对不同的站点进行检测，单<strong>对于公司内部网页站点数比较少的情况还是非常值得进行尝试的。</strong></p>
+<p><img src alt></p>
+</li>
+</ol>
+<h3 id="2-垃圾邮件识别"><a href="#2-垃圾邮件识别" class="headerlink" title="2.垃圾邮件识别"></a>2.垃圾邮件识别</h3><p>​    垃圾邮件识别应该是最早使用AI去进行解决的安全问题，也是目前取得的效果最好，在实际环境中更多别采用的一种。垃圾邮件的识别从本质上来说就是一些半结构化的数据从文本的角度金慈宁</p>
+<h3 id="3-DGA域名检测"><a href="#3-DGA域名检测" class="headerlink" title="3.DGA域名检测"></a>3.DGA域名检测</h3><p>​    对于DGA域名的检测，各个公司研究的也算比较多的</p>
+<p>​    在几年以前DGA域名的识别在机器学习开始兴起后逐渐流行起了使用先验知识进行最长连续字母长度、最长连续数字长度等域名随机读衡量的统计特征人工提取，然后再使用各种各样的机器学习进行建模的过程，虽然在各种paper中效果良好，但是在我的实际使用过程中效果差强人意。而近年来人们渐渐意识到，由于DGA域名的展现形式与正常流量展现形式的差异表现很难直接使用人工的方式进行描述，因此将主要精力放在了使用深度学习技术进行DGA域名检测研究中来，通过大量的实验研究也证明了深度学习技术更加适合解决该问题。</p>
+<h3 id="4-僵尸网络检测"><a href="#4-僵尸网络检测" class="headerlink" title="4.僵尸网络检测"></a>4.僵尸网络检测</h3><p>​    使用AI技术进行僵尸网络的检测目前也是一个非常热的问题，但大多处于发papar灌水阶段，目前没有通说有公司使用。本人研究的不多，这里不做展开。</p>
+<h3 id="未来的展望"><a href="#未来的展望" class="headerlink" title="未来的展望"></a>未来的展望</h3><p>​    1.对于Webshell检测的研究目前大多只停留在使用单条流量进行Webshell进行检测上，但实际环境中要想真正使用AI技术进行Webshell检测并直接进行响应，还用使用多条流量，</p>
+]]></content>
+      <tags>
+        <tag>AI安全</tag>
       </tags>
   </entry>
   <entry>
@@ -482,40 +465,6 @@
       </tags>
   </entry>
   <entry>
-    <title>常见map_reduce面试题目</title>
-    <url>/2019/08/21/%E5%B8%B8%E8%A7%81map-reduce%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
-    <content><![CDATA[<h3 id="Map-reduce"><a href="#Map-reduce" class="headerlink" title="Map reduce"></a>Map reduce</h3><p><strong>Map 阶段</strong></p>
-<blockquote>
-<p>1、先将HDFS中的输入文件file按照一定的标准进行切片</p>
-<p>2、调用自己编写的map逻辑，将输入的键值对<k1，v1>变成<k2，v2></k2，v2></k1，v1></p>
-<p>3、按照一定的规则对输出的键值对<k2,v2>进行分区</k2,v2></p>
-<p>4、对每个分区中的键值对进行<strong>排序</strong>。</p>
-</blockquote>
-<p><strong>Reduce 阶段</strong></p>
-<blockquote>
-<p>1、对多个Mapper任务的输出，按照不同的分区，通过网络拷贝到不同的Reducer节点上进行处理，将数据按照分区拷贝到不同的Reducer节点之后，对多个Mapper任务的输出在进行合并，排序。</p>
-<p>2、调用自己的reduce逻辑，将键值对<k2,v2s>变为<k3,v3>.在这里注意：每一个键值对<k2,v2s>都会调用一次reduce函数。</k2,v2s></k3,v3></k2,v2s></p>
-<p>3、将Reducer任务的输出保存到指定的文件中。</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>大数据</tag>
-        <tag>面试</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常见文件解压命令</title>
-    <url>/2019/07/25/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h3 id="Rar文件解压"><a href="#Rar文件解压" class="headerlink" title="Rar文件解压"></a>Rar文件解压</h3><h5 id="1-查看不解压"><a href="#1-查看不解压" class="headerlink" title="1.查看不解压"></a>1.查看不解压</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar l filename.rar</span><br></pre></td></tr></table></figure>
-<h5 id="2-带路径解压"><a href="#2-带路径解压" class="headerlink" title="2.带路径解压"></a>2.带路径解压</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar x filename.rar</span><br></pre></td></tr></table></figure>
-<h5 id="3-不带路径解压-全部在文件夹内的内容全部解压到当前目录"><a href="#3-不带路径解压-全部在文件夹内的内容全部解压到当前目录" class="headerlink" title="3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)"></a>3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar e filename.rar</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title></title>
     <url>/2018/09/23/%E5%B8%B8%E8%A7%81%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="常见机器学习机基本问题"><a href="#常见机器学习机基本问题" class="headerlink" title="常见机器学习机基本问题"></a>常见机器学习机基本问题</h1><p><strong>1.参数模型和非参数模型的区别？</strong>  </p>
@@ -583,6 +532,34 @@
       </categories>
       <tags>
         <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>度小满编程记——火车站台问题</title>
+    <url>/2019/04/30/%E5%BA%A6%E5%B0%8F%E6%BB%A1%E7%BC%96%E7%A8%8B%E8%AE%B0%E2%80%94%E2%80%94%E7%81%AB%E8%BD%A6%E7%AB%99%E5%8F%B0%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/火车站台问题.png?raw=true" alt></p>
+<p>​    思路：这道题讲道理如果起点终点没有那么大就很简单了，直接使用字典进行存储，然后选择value最大的那个值即可。而这道题目中明显直接使用上面的思路是行不通了，因此这题使用了一种比较巧的方式，</p>
+<p>​    先将各个列车的起点终点分别编码为(站点,编号)，起点编号为-1，终点编号为0，然后从小到大对元组进行排序，然后便利元组列表，如果是终点，那么将维护数+1，如果是起点，那么代表到这里已经有一辆车不再需要维护了，同时记录最大的维护值，便利完全部列表最大的维护值即为结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = int(input())</span><br><span class="line">train = []</span><br><span class="line">t = <span class="number">0</span></span><br><span class="line">ans = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">	l = list(map(int,input().split()))</span><br><span class="line">  train.append((l[<span class="number">0</span>],<span class="number">1</span>))</span><br><span class="line">  train.append((l[<span class="number">1</span>],<span class="number">-1</span>))</span><br><span class="line"></span><br><span class="line">train.sort()   <span class="comment">#这里是关键点，sort函数将对元组进行排序</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> train:</span><br><span class="line">  <span class="keyword">if</span> i[<span class="number">1</span>]==<span class="number">0</span>:</span><br><span class="line">    t+=<span class="number">1</span></span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    t-=<span class="number">1</span></span><br><span class="line">    ans = max(ans,t)</span><br><span class="line">pritn(ans)</span><br></pre></td></tr></table></figure>
+<p>上式中的sort函数对元素为元祖的列表来进行排序，默认规则是先使用元组的第一个元素进行排序，当第一个元素值相同时再使用第二个元素进行排序，下面是一个例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">l = [[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">-1</span>],[<span class="number">1</span>,<span class="number">-1</span>]]</span><br><span class="line">l.sort()</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">	[[<span class="number">1</span>, <span class="number">-1</span>], [<span class="number">1</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">-1</span>], [<span class="number">2</span>, <span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
+<p>在这个问题中使用sort进行排序后，表示由于同一个车站的负值被排在前面，每次先减去1，也就是前一个车一这里为起点，不需要再使用维护。</p>
+<p>之前还遇到过好多类似的问题，其实都可以采用这种类似的思路来减少内存占用，比如之前360笔试中遇到过的找</p>
+]]></content>
+      <tags>
+        <tag>机试</tag>
+        <tag>算法总结</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见文件解压命令</title>
+    <url>/2019/07/25/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8E%8B%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h3 id="Rar文件解压"><a href="#Rar文件解压" class="headerlink" title="Rar文件解压"></a>Rar文件解压</h3><h5 id="1-查看不解压"><a href="#1-查看不解压" class="headerlink" title="1.查看不解压"></a>1.查看不解压</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar l filename.rar</span><br></pre></td></tr></table></figure>
+<h5 id="2-带路径解压"><a href="#2-带路径解压" class="headerlink" title="2.带路径解压"></a>2.带路径解压</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar x filename.rar</span><br></pre></td></tr></table></figure>
+<h5 id="3-不带路径解压-全部在文件夹内的内容全部解压到当前目录"><a href="#3-不带路径解压-全部在文件夹内的内容全部解压到当前目录" class="headerlink" title="3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)"></a>3.不带路径解压(全部在文件夹内的内容全部解压到当前目录)</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">unrar e filename.rar</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -721,6 +698,29 @@
       <tags>
         <tag>安全</tag>
         <tag>论文阅读</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见map_reduce面试题目</title>
+    <url>/2019/08/21/%E5%B8%B8%E8%A7%81map-reduce%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<h3 id="Map-reduce"><a href="#Map-reduce" class="headerlink" title="Map reduce"></a>Map reduce</h3><p><strong>Map 阶段</strong></p>
+<blockquote>
+<p>1、先将HDFS中的输入文件file按照一定的标准进行切片</p>
+<p>2、调用自己编写的map逻辑，将输入的键值对<k1，v1>变成<k2，v2></k2，v2></k1，v1></p>
+<p>3、按照一定的规则对输出的键值对<k2,v2>进行分区</k2,v2></p>
+<p>4、对每个分区中的键值对进行<strong>排序</strong>。</p>
+</blockquote>
+<p><strong>Reduce 阶段</strong></p>
+<blockquote>
+<p>1、对多个Mapper任务的输出，按照不同的分区，通过网络拷贝到不同的Reducer节点上进行处理，将数据按照分区拷贝到不同的Reducer节点之后，对多个Mapper任务的输出在进行合并，排序。</p>
+<p>2、调用自己的reduce逻辑，将键值对<k2,v2s>变为<k3,v3>.在这里注意：每一个键值对<k2,v2s>都会调用一次reduce函数。</k2,v2s></k3,v3></k2,v2s></p>
+<p>3、将Reducer任务的输出保存到指定的文件中。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>大数据</tag>
+        <tag>面试</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
 </search>
