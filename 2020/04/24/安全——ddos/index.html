@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务。大部分的Ddos攻击都会利用服务器的各种漏洞以及基础设施漏洞的对僵尸网络的流量进行放大，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安全——ddos">
+<meta property="og:url" content="https://anchorety.github.io/2020/04/24/安全——ddos/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务。大部分的Ddos攻击都会利用服务器的各种漏洞以及基础设施漏洞的对僵尸网络的流量进行放大，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.voe30khfd1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qeimqwdakph.png">
+<meta property="og:updated_time" content="2021-02-19T04:05:32.123Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安全——ddos">
+<meta name="twitter:description" content="概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务。大部分的Ddos攻击都会利用服务器的各种漏洞以及基础设施漏洞的对僵尸网络的流量进行放大，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.voe30khfd1.png">
+
+<link rel="canonical" href="https://anchorety.github.io/2020/04/24/安全——ddos/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>安全——ddos | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2020/04/24/安全——ddos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安全——ddos
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-24 21:37:55" itemprop="dateCreated datePublished" datetime="2020-04-24T21:37:55+08:00">2020-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2020/04/24/安全——ddos/" class="post-meta-item leancloud_visitors" data-flag-title="安全——ddos" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/24/安全——ddos/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/24/安全——ddos/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>概述：Ddos攻击是目前在互联网中非常常见而且难以解决的网络攻击之一，其<strong>主要方式就是使用控制的僵尸网络来消耗服务器的资源，使服务器不再能够为正常用户提供服务</strong>。大部分的Ddos攻击都会利用<strong>服务器的各种漏洞</strong>以及<strong>基础设施漏洞</strong>的对僵尸网络的<strong>流量进行放大</strong>，从而做到以小搏大的效果，提升攻击的效率。本文对SYN Flood、DNS Query Flood、HTTP Flood等常见的Ddos攻击原理做详解，以及作者的一些理解。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.voe30khfd1.png" alt="image"></p>
+<a id="more"></a>
+<h3 id="1-SYN-Flood"><a href="#1-SYN-Flood" class="headerlink" title="1.SYN Flood"></a>1.SYN Flood</h3><p>&emsp;&emsp;SYN Flood是互联网上最经典的DDoS攻击方式之一，最早出现于1999年左右，雅虎是当时最著名的受害者。SYN Flood攻击利用了TCP三次握手的缺陷，能够以较小代价使目标服务器无法响应，且难以追查。</p>
+<p><strong>标准的TCP三次握手过程如下</strong>：</p>
+<blockquote>
+<p>&emsp;&emsp;客户端发送一个包含SYN标志的TCP报文，SYN即同步(Synchronize)，同步报文会指明客户端使用的端口以及TCP连接的初始序号;</p>
+<p>&emsp;&emsp;服务器在收到客户端的SYN报文后，将返回一个SYN+ACK(即确认Acknowledgement)的报文，表示客户端的请求被接受，同时TCP初始序号自动加1;</p>
+<p>&emsp;&emsp;客户端也返回一个确认报文ACK给服务器端，同样TCP序列号被加1。</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.qeimqwdakph.png" alt="image"></p>
+</blockquote>
+<p>&emsp;&emsp;经过这三步，TCP连接就建立完成。TCP协议为了实现可靠传输，在三次握手的过程中设置了一些异常处理机制。<strong>第三步中如果服务器没有收到客户端的最终ACK确认报文，会一直处于SYN_RECV状态，将客户端IP加入等待列表，并重发第二步的SYN+ACK报文。重发一般进行3-5次，大约间隔30秒左右轮询一次等待列表重试所有客户端。另一方面，服务器在自己发出了SYN+ACK报文后，会预分配资源为即将建立的TCP连接储存信息做准备，这个资源在等待重试期间一直保留。</strong>更为重要的是，服务器资源有限，可以维护的SYN_RECV状态超过极限后就不再接受新的SYN报文，也就是拒绝新的TCP连接建立。</p>
+<p>&emsp;&emsp;SYN Flood正是利用了上文中TCP协议的设定，达到攻击的目的。<strong>攻击者伪装大量的IP地址给服务器发送SYN报文，由于伪造的IP地址几乎不可能存在，也就几乎没有设备会给服务器返回任何应答了</strong>。因此，服务器将会维持一个庞大的等待列表，不停地重试发送SYN+ACK报文，同时占用着大量的资源无法释放。更为关键的是，<strong>被攻击服务器的SYN_RECV队列被恶意的数据包占满，不再接受新的SYN请求，合法用户无法完成三次握手建立起TCP连接</strong>。也就是说，这个服务器被SYN Flood拒绝服务了。</p>
+<h3 id="2-DNS-Query-Flood"><a href="#2-DNS-Query-Flood" class="headerlink" title="2.DNS Query Flood"></a>2.DNS Query Flood</h3><p>&emsp;&emsp;作为互联网最基础、最核心的服务，DNS自然也是DDoS攻击的重要目标之一。打垮DNS服务能够间接打垮一家公司的全部业务，或者打垮一个地区的网络服务。前些时候风头正盛的黑客组织anonymous也曾经宣布要攻击全球互联网的13台根DNS服务器，不过最终没有得手。</p>
+<div class="note info">
+            <p>DNS Query Flood的攻击目标为DNS基础设施</p>
+          </div>
+<p>&emsp;&emsp;UDP攻击是最容易发起海量流量的攻击手段，而且源IP随机伪造难以追查。但过滤比较容易，因为大多数IP并不提供UDP服务，直接丢弃UDP流量即可。所以现在纯粹的UDP流量攻击比较少见了，取而代之的是UDP协议承载的DNS Query Flood攻击。简单地说，越上层协议上发动的DDoS攻击越难以防御，因为协议越上层，与业务关联越大，防御系统面临的情况越复杂。</p>
+<p>　　<strong>DNS Query Flood就是攻击者操纵大量傀儡机器，对目标发起海量的域名查询请求。为了防止基于ACL的过滤，必须提高数据包的随机性。常用的做法是UDP层随机伪造源IP地址、随机伪造源端口等参数。在DNS协议层，随机伪造查询ID以及待解析域名。随机伪造待解析域名除了防止过滤外，还可以降低命中DNS缓存的可能性，尽可能多地消耗DNS服务器的CPU资源。</strong>            </p>
+<h3 id="3-DNS-反射攻击"><a href="#3-DNS-反射攻击" class="headerlink" title="3.DNS 反射攻击"></a>3.DNS 反射攻击</h3><p>&emsp;&emsp;使用DNS反射攻击，攻击者会构造一份请求，<strong>将该请求的发件方填写成为自己想要攻击的目标</strong>，然后将该请求发送给DNS解析服务器，DNS解析服务器受到该请求后会给出相当详尽的响应信息，并通过<strong>庞大的数据包</strong>，将其发送给攻击者想要攻击的地址，从达到攻击者使用较小的带宽来消耗目标服务器较大的带宽。</p>
+<div class="note info">
+            <p>发送的 DNS 查询请求数据包大小一般为 60 字节左右，而查询返回结果的数据包大小通常为 3000 字节以上，因此，使用该方式进行放大攻击能够达到 50 倍以上的放大效果。</p>
+          </div>
+<blockquote>
+<p>正常DNS查询：<br>&emsp;&emsp;源IP地址 —–DNS查询—-&gt; DNS服务器 —–DNS回复包—-&gt; 源IP地址</p>
+<p>DNS反射攻击：<br>&emsp;&emsp;伪造IP地址 —–DNS查询—-&gt; DNS服务器 —–DNS回复包—-&gt; 伪造的IP地址（攻击目标）</p>
+</blockquote>
+<p>防御方法：</p>
+<p>&emsp;&emsp;1.如果内部有DNS服务器，将DNS服务器设置为只对内部DNS解析请求相应。</p>
+<p>&emsp;&emsp;2.限制DNS响应包大小，超过限制大小的数据包直接丢弃。</p>
+<h3 id="4-HTTP-Flood（CC攻击）"><a href="#4-HTTP-Flood（CC攻击）" class="headerlink" title="4.HTTP Flood（CC攻击）"></a>4.HTTP Flood（CC攻击）</h3><p>&emsp;&emsp;攻击者通过代理或僵尸主机向目标服务器发起大量的HTTP报文，请求涉及数据库操作的URI（Universal Resource Identifier）或其它消耗系统资源的URI，造成服务器资源耗尽，无法响应正常请求。例如门户网站经常受到的HTTP Flood攻击，攻击的最大特征就是选择消耗服务器CPU或内存资源的URI，如具有数据库操作的URI。</p>
+<p><strong>CC攻击的特性：</strong></p>
+<blockquote>
+<p>1.<strong>攻击对象</strong>：一般Ddos都是针对IP进行的拒绝服务，而CC攻击是针对页面进行的拒绝服务。</p>
+<p>2.<strong>攻击发起者</strong>：CC攻击绝大多数都需要使用僵尸网络进行攻击，使用IP也都是真实的肉鸡IP地址。</p>
+<p>2.<strong>请求有效性</strong>：CC攻击的请求都是正常的请求，IP地址也都是正常的IP。</p>
+<p>3.<strong>受到攻击后的表现</strong>:服务器可以正常ping通，但是网页无法访问。</p>
+</blockquote>
+<h3 id="5-慢速攻击"><a href="#5-慢速攻击" class="headerlink" title="5. 慢速攻击"></a>5. 慢速攻击</h3><p>&emsp;&emsp;慢速攻击是CC攻击的一种变体，和CC攻击一样，只要Web服务器开放了Web服务，那么它就可以是一个靶子，HTTP协议在接收到request之前是不对请求内容作校验的，所以即使你的Web应用没有可用的form表单，这个攻击一样有效。</p>
+<p><strong>基本原理：</strong></p>
+<p>&emsp;&emsp;对任何一个开放了HTTP访问的服务器HTTP服务器，先<strong>建立了一个连接，指定一个比较大的content-length，然后以非常低的速度发包，比如1-10s发一个字节，然后维持住这个连接不断开</strong>。如果客户端持续建立这样的连接，那么服务器上可用的连接将一点一点被占满，从而导致拒绝服务。</p>
+<p>&emsp;&emsp;<strong>在客户端以单线程方式建立较大数量的无用连接，并保持持续发包的代价非常的低廉</strong>。实际试验中一台普通PC可以建立的连接在3000个以上。这对一台普通的Web server，将是致命的打击。更不用说结合肉鸡群做分布式DoS了。鉴于此<strong>攻击简单的利用程度、拒绝服务的后果、带有逃逸特性</strong>的攻击方式，这类攻击一炮而红，成为众多攻击者的研究和利用对象。</p>
+<p><strong>细分实例：</strong></p>
+<p>&emsp;&emsp;慢速攻击发展到今天，其种类可以分为下面几个种类：</p>
+<p><strong>1.low headers</strong></p>
+<p>&emsp;&emsp;<strong>Web应用在处理HTTP请求之前都要先接收完所有的HTTP头部，因为HTTP头部中包含了一些Web应用可能用到的重要的信息</strong>。攻击者利用这点，发起一个HTTP请求，一直不停的发送HTTP头部，消耗服务器的连接和内存资源。抓包数据可见，<strong>攻击客户端与服务器建立TCP连接后，每30秒才向服务器发送一个HTTP头部，而Web服务器再没接收到2个连续的\r\n时，会认为客户端没有发送完头部，而持续的等等客户端发送数据。</strong></p>
+<h5 id="2-Slow-body"><a href="#2-Slow-body" class="headerlink" title="2.Slow body"></a>2.Slow body</h5><p>&emsp;&emsp;<strong>攻击者发送一个HTTP POST请求，该请求的Content-Length头部值很大，使得Web服务器或代理认为客户端要发送很大的数据。服务器会保持连接准备接收数据，但攻击客户端每次只发送很少量的数据，使该连接一直保持存活，消耗服务器的连接和内存资源</strong>。抓包数据可见，攻击客户端与服务器建立TCP连接后，发送了完整的HTTP头部，POST方法带有较大的Content-Length，然后每10s发送一次随机的参数。服务器因为没有接收到相应Content-Length的body，而持续的等待客户端发送数据。</p>
+<h5 id="3-Slow-read"><a href="#3-Slow-read" class="headerlink" title="3.Slow read"></a>3.Slow read</h5><p>&emsp;<strong>&emsp;客户端与服务器建立连接并发送了一个HTTP请求，客户端发送完整的请求给服务器端，然后一直保持这个连接，以很低的速度读取Response</strong>，比如很长一段时间客户端不读取任何数据，通过发送Zero Window到服务器，让服务器误以为客户端很忙，直到连接快超时前才读取一个字节，以消耗服务器的连接和内存资源。抓包数据可见，客户端把数据发给服务器后，服务器发送响应时，收到了客户端的ZeroWindow提示（表示自己没有缓冲区用于接收数据），服务器不得不持续的向客户端发出ZeroWindowProbe包，询问客户端是否可以接收数据。</p>
+<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
+<li><p><a href="https://www.jianshu.com/p/dff5a0d537d8" target="_blank" rel="noopener">https://www.jianshu.com/p/dff5a0d537d8</a></p>
+</li>
+<li><p><a href="https://www.cnblogs.com/bonelee/p/9204826.html" target="_blank" rel="noopener">https://www.cnblogs.com/bonelee/p/9204826.html</a></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2020/04/24/安全——ddos/" title="安全——ddos">https://anchorety.github.io/2020/04/24/安全——ddos/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/29/卷积神经——网络常见优化技巧/" rel="prev" title="卷积神经网络——常见优化技巧">
+      <i class="fa fa-chevron-left"></i> 卷积神经网络——常见优化技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/03/目标检测——FasterRCNN/" rel="next" title="目标检测——FasterRCNN">
+      目标检测——FasterRCNN <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SYN-Flood"><span class="nav-text">1.SYN Flood</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-DNS-Query-Flood"><span class="nav-text">2.DNS Query Flood</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-DNS-反射攻击"><span class="nav-text">3.DNS 反射攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-HTTP-Flood（CC攻击）"><span class="nav-text">4.HTTP Flood（CC攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-慢速攻击"><span class="nav-text">5. 慢速攻击</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

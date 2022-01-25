@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值  Word2Vec对原始语言模型的改进： 1.对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。 比如输入的是三">
+<meta name="keywords" content="面试,NLP,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习——词向量表示之word2vec">
+<meta property="og:url" content="https://anchorety.github.io/2019/04/12/深度学习——词向量表示之word2vec/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值  Word2Vec对原始语言模型的改进： 1.对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。 比如输入的是三">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true">
+<meta property="og:image" content="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true">
+<meta property="og:updated_time" content="2021-02-19T04:05:32.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习——词向量表示之word2vec">
+<meta name="twitter:description" content="原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值  Word2Vec对原始语言模型的改进： 1.对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。 比如输入的是三">
+<meta name="twitter:image" content="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true">
+
+<link rel="canonical" href="https://anchorety.github.io/2019/04/12/深度学习——词向量表示之word2vec/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>深度学习——词向量表示之word2vec | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/12/深度学习——词向量表示之word2vec/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深度学习——词向量表示之word2vec
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-12 09:39:34" itemprop="dateCreated datePublished" datetime="2019-04-12T09:39:34+08:00">2019-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/04/12/深度学习——词向量表示之word2vec/" class="post-meta-item leancloud_visitors" data-flag-title="深度学习——词向量表示之word2vec" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/12/深度学习——词向量表示之word2vec/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/12/深度学习——词向量表示之word2vec/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），<strong>里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt></p>
+<h4 id="Word2Vec对原始语言模型的改进："><a href="#Word2Vec对原始语言模型的改进：" class="headerlink" title="Word2Vec对原始语言模型的改进："></a>Word2Vec对原始语言模型的改进：</h4><blockquote>
+<p>1.<strong>对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。</strong></p>
+<p>比如输入的是三个4维词向量：(1,2,3,4),(9,6,11,8),(5,10,7,12)(1,2,3,4),(9,6,11,8),(5,10,7,12),那么我们word2vec映射后的词向量就是(5,6,7,8)(5,6,7,8)。由于这里是从多个词向量变成了一个词向量。</p>
+<p><strong>2.word2vec采样了霍夫曼树来代替从隐藏层到输出softmax层的映射（Hierarchical Softmax）。这样隐藏层到输出层的softmax不是一步完成的，而是沿着哈弗曼树一步一步完成的。</strong></p>
+</blockquote>
+<h3 id="Hierarchical-Softmax"><a href="#Hierarchical-Softmax" class="headerlink" title="Hierarchical Softmax"></a>Hierarchical Softmax</h3><p>​     和之前的神经网络语言模型相比，我们的霍夫曼树的<strong>所有内部节点就类似之前神经网络隐藏层的神经元</strong>,其中，<strong>根节点的词向量对应我们的投影后的词向量</strong>，而所有<strong>叶子节点就类似于之前神经网络softmax输出层的神经元</strong>，<strong>叶子节点的个数就是词汇表的大小</strong>。</p>
+<h4 id="使用Hierarchical-Softmax的好处"><a href="#使用Hierarchical-Softmax的好处" class="headerlink" title="使用Hierarchical Softmax的好处"></a>使用Hierarchical Softmax的好处</h4><blockquote>
+<p>1.由于是二叉树，之前计算量为V,现在变成了log2V</p>
+<p>2.由于使用霍夫曼树是高频的词靠近树根，这样高频词需要更少的时间会被找到。</p>
+</blockquote>
+<h4 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h4><p><strong>STEP 1：扫描语料库，统计每个词出现的频数，保存在一个hash表中</strong></p>
+<p><strong>STEP2：根据个词的词频建立哈弗曼树</strong></p>
+<ul>
+<li><p>最终每个词汇都是哈弗曼树的叶子节点，词频就是相应的权值</p>
+</li>
+<li><p>根节点对应的词向量就是我们投影后的词向量</p>
+</li>
+<li>而所有叶子节点就类似神经网络softmax输出层的神经元，叶子节点个数就是词汇表大小</li>
+<li>非叶子节点代表某一类词</li>
+<li>哈弗曼树建立好后每个词都会有一个二进制的哈弗曼编码</li>
+</ul>
+<p><strong>STEP3：初始化词向量和哈弗曼树非叶子节点的向量</strong></p>
+<p>​    向量维度是我们给定的参数K。</p>
+<p><strong>STEP4：训练，也就是通过梯度下降算法不断优化词向量</strong></p>
+<p>​    在初始化后的词向量，回到语料库，逐句读取一系列的词，然后用梯度下降算法算法算出梯度，更新词向量的值、非叶子检点的值。(哈弗曼树就相当于一个优化后的神经网络)</p>
+<h4 id="参数更新过程"><a href="#参数更新过程" class="headerlink" title="参数更新过程"></a>参数更新过程</h4><h3 id="基于Negative-Sampling的Word2vec"><a href="#基于Negative-Sampling的Word2vec" class="headerlink" title="基于Negative Sampling的Word2vec"></a>基于Negative Sampling的Word2vec</h3><p><strong>Hierarchical Softmax的的缺点</strong>：</p>
+<p>​    对于生僻词需要在哈弗曼树中向下走很久。</p>
+<h4 id="Negative-Sampling算法"><a href="#Negative-Sampling算法" class="headerlink" title="Negative Sampling算法"></a>Negative Sampling算法</h4><p>​    Negative Sampling不再使用(复杂的Huffman树），而是<strong>利用相对简单的随机负采样</strong>，能大幅度提升性能，因此，将其作为Hierarchical softmax的替代方案</p>
+<p>​    <strong>核心思想</strong>：<strong>通过负采样将问题转化为求解一个正例和neg个负例进行二元回归问题</strong>。每次只是通过采样neg个不同的中心词做负例，就可以训练模型</p>
+<p>​    <strong>方法：</strong>我们有一个训练样本，中心词是w,它周围上下文共有2c个词，记为context(w)。由于这个中心词w,的确和context(w)相关存在，因此它是一个真实的正例。<strong>通过Negative Sampling采样，我们得到neg个</strong>和w不同的中心词wi,i=1,2,..neg，这样context(w)和wi就组成了neg个<strong>并不真实存在的负例</strong>。<strong>利用这一个正例和neg个负例，我们进行二元逻辑回归，得到负采样对应每个词wi对应的模型参数θi，和每个词的词向量</strong>。</p>
+<p>​    <strong>本质上是对训练集进行了采样，从而减小了训练集的大小。</strong></p>
+<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true" alt></p>
+<p><strong>3、 word2vec负采样有什么作用？</strong></p>
+<p>1<strong>.加速了模型计算</strong>，模型每次只需要更新采样的词的权重，不用更新所有的权重</p>
+<p>2.<strong>保证了模型训练的效果</strong>，中心词其实只跟它周围的词有关系，位置离着很远的词没有关系</p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p><strong>1.skip gram和cbow各自的优缺点</strong></p>
+<blockquote>
+<p>​    <strong>(1) cbow的速度更快，时间复杂度为O(V)，skip-gram速度慢,时间复杂度为O(nV)</strong></p>
+<p>​    在cbow方法中，是用周围词预测中心词，从而利用中心词的预测结果情况，使用GradientDesent方法，不断的去调整周围词的向量。cbow预测行为的次数跟整个文本的词数几乎是相等的（每次预测行为才会进行一次backpropgation, 而往往这也是最耗时的部分），复杂度大概是O(V);</p>
+<p>​    而skip-gram是用中心词来预测周围的词。在skip-gram中，会利用周围的词的预测结果情况，使用GradientDecent来不断的调整中心词的词向量，最终所有的文本遍历完毕之后，也就得到了文本所有词的词向量。可以看出，skip-gram进行预测的次数是要多于cbow的：因为<strong>每个词在作为中心词时，都要使用周围每个词进行预测一次</strong>。<strong>这样相当于比cbow的方法多进行了K次（假设K为窗口大小）</strong>，因此时间的复杂度为O(KV)，训练时间要比cbow要长。</p>
+<p>​    <strong>(2)当数据较少或生僻词较多时，skip-gram会更加准确；</strong></p>
+<p>​    在<strong>skip-gram当中，每个词都要收到周围的词的影响</strong>，每个词在作为中心词的时候，都要进行K次的预测、调整。因此， 当数据量较少，或者词为生僻词出现次数较少时， 这种多次的调整会使得词向量相对的更加准确。因为<strong>尽管cbow从另外一个角度来说，某个词也是会受到多次周围词的影响（多次将其包含在内的窗口移动），进行词向量的跳帧，但是他的调整是跟周围的词一起调整的，grad的值会平均分到该词上， 相当于该生僻词没有收到专门的训练，它只是沾了周围词的光而已</strong>。</p>
+</blockquote>
+<p><strong>2.Negative Sampling和Hierarchical softmax各自的优缺点</strong></p>
+<blockquote>
+<p><strong>Hierarchical softmax</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.由于是二叉树，之前计算量为V,现在变成了log2V，<strong>效率更高</strong></p>
+<p>​    2.由于使用霍夫曼树是高频的词靠近树根，这样<strong>高频词需要更少的时间会被找到</strong>。</p>
+<p><strong>缺点:</strong></p>
+<p>​    对于<strong>生僻词在hierarchical softmax中依旧需要向下走很久</strong></p>
+<p><strong>Negative Sampling</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.对于低频词的计算效率依然很高</p>
+</blockquote>
+<p>​        </p>
+<p><strong>3.word2vec的缺点</strong></p>
+<blockquote>
+<p>1.使用的只是局部的上下文信息，对上下文的利用有限</p>
+<p>2.和glove相比比较难并行化</p>
+</blockquote>
+<p>​    </p>
+<p><strong>4、word2vec和fastText对比有什么区别？（word2vec vs fastText）</strong></p>
+<blockquote>
+<p>1）都可以无监督学习词向量， <strong>fastText训练词向量时会考虑subword</strong>；</p>
+<p>2）fastText还可以进行有监督学习进行文本分类，其主要特点：</p>
+<ul>
+<li>结构与CBOW类似，但学习目标是人工标注的分类结果；</li>
+<li>采用hierarchical softmax对输出的分类标签建立哈夫曼树，样本中标签多的类别被分配短的搜寻路径；</li>
+<li>引入N-gram，考虑词序特征；</li>
+<li>引入subword来处理长词，处理未登陆词问题；</li>
+</ul>
+</blockquote>
+<p>参考文献：<a href="https://www.cnblogs.com/pinard/p/7249903.html" target="_blank" rel="noopener">基于Negative Sampling的模型</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/7243513.html" target="_blank" rel="noopener"> 基于Hierarchical Softmax的模型</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2019/04/12/深度学习——词向量表示之word2vec/" title="深度学习——词向量表示之word2vec">https://anchorety.github.io/2019/04/12/深度学习——词向量表示之word2vec/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/面试/" rel="tag"># 面试</a>
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+              <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/04/机器学习——高斯混合模型GMM/" rel="prev" title="机器学习——高斯混合模型GMM">
+      <i class="fa fa-chevron-left"></i> 机器学习——高斯混合模型GMM
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/13/机试——动态规划和回溯法/" rel="next" title="机试——动态规划和回溯法">
+      机试——动态规划和回溯法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Word2Vec对原始语言模型的改进："><span class="nav-text">Word2Vec对原始语言模型的改进：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchical-Softmax"><span class="nav-text">Hierarchical Softmax</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Hierarchical-Softmax的好处"><span class="nav-text">使用Hierarchical Softmax的好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法过程"><span class="nav-text">算法过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数更新过程"><span class="nav-text">参数更新过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于Negative-Sampling的Word2vec"><span class="nav-text">基于Negative Sampling的Word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Negative-Sampling算法"><span class="nav-text">Negative Sampling算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Negative-Sampling负采样方法"><span class="nav-text">Negative Sampling负采样方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题"><span class="nav-text">常见问题</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

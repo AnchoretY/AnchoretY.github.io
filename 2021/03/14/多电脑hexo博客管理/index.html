@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述：最近新添了一台台式机，准备与mbp同时管理博客，这里记录一下设置过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多电脑hexo博客管理">
+<meta property="og:url" content="https://anchorety.github.io/2021/03/14/多电脑hexo博客管理/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="概述：最近新添了一台台式机，准备与mbp同时管理博客，这里记录一下设置过程。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.630of8n3imr.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4g824knxv7p.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.gqqrwyqh8i7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jsjxl8xgnor.png">
+<meta property="og:updated_time" content="2021-03-22T02:51:52.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多电脑hexo博客管理">
+<meta name="twitter:description" content="概述：最近新添了一台台式机，准备与mbp同时管理博客，这里记录一下设置过程。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.630of8n3imr.png">
+
+<link rel="canonical" href="https://anchorety.github.io/2021/03/14/多电脑hexo博客管理/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>多电脑hexo博客管理 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2021/03/14/多电脑hexo博客管理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          多电脑hexo博客管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-14 17:30:13" itemprop="dateCreated datePublished" datetime="2021-03-14T17:30:13+08:00">2021-03-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-22 10:51:52" itemprop="dateModified" datetime="2021-03-22T10:51:52+08:00">2021-03-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/博客/" itemprop="url" rel="index"><span itemprop="name">博客</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/03/14/多电脑hexo博客管理/" class="post-meta-item leancloud_visitors" data-flag-title="多电脑hexo博客管理" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/14/多电脑hexo博客管理/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/14/多电脑hexo博客管理/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>概述：最近新添了一台台式机，准备与mbp同时管理博客，这里记录一下设置过程。</p>
+<p><img src alt></p>
+<a id="more"></a>
+<h3 id="部署过程"><a href="#部署过程" class="headerlink" title="部署过程"></a>部署过程</h3><h4 id="源主机"><a href="#源主机" class="headerlink" title="源主机"></a>源主机</h4><h5 id="1-创建新分支"><a href="#1-创建新分支" class="headerlink" title="1. 创建新分支"></a>1. 创建新分支</h5><p>&emsp;&emsp;在正常写博客并进行部署时，只会将博客相关的静态文件同步到github的master分支，master分支上的静态文件如下图所示，以供网站展示使用，而不会将生成这些文件的源文件传输到github上。而我们要在两台电脑上共同进行博客管理，就需要创建而外分支，将源文件传输到新的分支进行同步管理。</p>
+<p>&emsp;&emsp;在github上<strong>创建新的hexo分支</strong></p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.630of8n3imr.png" alt="image"></p>
+<p>&emsp;&emsp;将仓库的hexo分支设置为默认分支</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.4g824knxv7p.png" alt="image"></p>
+<h5 id="2-源文件上传到hexo分支"><a href="#2-源文件上传到hexo分支" class="headerlink" title="2.源文件上传到hexo分支"></a>2.源文件上传到hexo分支</h5><p>&emsp;&emsp;首先将新建的hexo分支克隆克隆到本地,然后进入该目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone 地址</span><br><span class="line">cd username.github.io</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;确认当前分支为hexo</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br><span class="line">output:</span><br><span class="line">	*hexo</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上传源文件，将本地博客部署的源文件全部拷贝进<code>username.github.io</code>文件目录中（源文件文件夹为质保函下图中结构的文件夹，我的博客中为blog文件夹）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /blog/blog username.github.io/</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.gqqrwyqh8i7.png" alt="image"></p>
+<h4 id="新主机"><a href="#新主机" class="headerlink" title="新主机"></a>新主机</h4><p>&emsp;&emsp;将旧电脑中<code>username.github.io</code>全部文件复制进新主机，然后执行下面操作：</p>
+<h5 id="1-安装npm和node"><a href="#1-安装npm和node" class="headerlink" title="1. 安装npm和node"></a>1. 安装npm和node</h5><h5 id="2-安装hexo"><a href="#2-安装hexo" class="headerlink" title="2. 安装hexo"></a>2. 安装hexo</h5><h5 id="3-安装git"><a href="#3-安装git" class="headerlink" title="3. 安装git"></a>3. 安装git</h5><h5 id="3-在新机器生成ssh-key添加到github中"><a href="#3-在新机器生成ssh-key添加到github中" class="headerlink" title="3. 在新机器生成ssh key添加到github中"></a>3. 在新机器生成ssh key添加到github中</h5><p>&emsp;&emsp;在新的机器生成ssh秘钥</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">ssh</span><span class="literal">-</span><span class="comment">keygen</span> <span class="literal">-</span><span class="comment">t</span> <span class="comment">rsa</span> <span class="literal">-</span><span class="comment">C</span> <span class="comment">“your</span> <span class="comment">email”</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;连按三个回车，最终得到了生成的ssh公钥和私钥</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id_rsa				私钥</span><br><span class="line">id_rsa<span class="selector-class">.pub</span>    公钥</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在github账户设置中导入ssh key</p>
+<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.jsjxl8xgnor.png" alt="image"></p>
+<h3 id="博客编写"><a href="#博客编写" class="headerlink" title="博客编写"></a>博客编写</h3><p>&emsp;&emsp;单设备编写博客时，博客编写完成只需要使用<code>hexo d -g</code>即可完成部署，而使用多设备进行共同编辑博客除了需要对博客网站需要的静态文件进行部署以外，还需要将博客相关的源文件同步到hexo分支。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从远程hexo分支部署拉取最新的源文件</span></span><br><span class="line">git pull origin hexo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 书写博客</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署博客（静态文件）</span></span><br><span class="line">hexo d -g</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将源文件同步到hexo分支</span></span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><h5 id="1-hexo安装完成后，使用hexo-d-g部署博客出现The-quot-mode-quot-argument-must-be-integer-Received-an-instance-of-Object"><a href="#1-hexo安装完成后，使用hexo-d-g部署博客出现The-quot-mode-quot-argument-must-be-integer-Received-an-instance-of-Object" class="headerlink" title="1. hexo安装完成后，使用hexo d -g部署博客出现The &quot;mode&quot; argument must be integer. Received an instance of Object"></a>1. hexo安装完成后，使用<code>hexo d -g</code>部署博客出现<code>The &quot;mode&quot; argument must be integer. Received an instance of Object</code></h5><p>&emsp;&emsp;这个问题主要是由于之前的电脑使用的npm版本与现在的电脑安装的版本不同，而这语法不一致导致的问题，这里使用n进行node版本管理解决该问题。</p>
+<p>&emsp;&emsp;安装n：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> -g n</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;然后下载与原电脑版本相同的node版本（我这里是12.14.0，下载后会进行自动切换）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">n</span> 12<span class="selector-class">.14</span><span class="selector-class">.0</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;使用单独的<code>n</code>查看已有node版本和当前选择的node版本。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2021/03/14/多电脑hexo博客管理/" title="多电脑hexo博客管理">https://anchorety.github.io/2021/03/14/多电脑hexo博客管理/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/09/AI—Fuzzing技术/" rel="prev" title="AI—Fuzzing技术">
+      <i class="fa fa-chevron-left"></i> AI—Fuzzing技术
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/15/强化学习2——QLearning/" rel="next" title="强化学习2——QLearning">
+      强化学习2——QLearning <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#部署过程"><span class="nav-text">部署过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#源主机"><span class="nav-text">源主机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新主机"><span class="nav-text">新主机</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#博客编写"><span class="nav-text">博客编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-text">遇到的问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">173</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
