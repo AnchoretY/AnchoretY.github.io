@@ -8868,4 +8868,22 @@ core_samples_mask[dbscan.core_sample_indices_] = True    #将核心对象点对�
         <tag>面试</tag>
       </tags>
   </entry>
+  <entry>
+    <title>about</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[<p><strong>关于我</strong></p>
+<p>大数据安全算法民工</p>
+<p>email: 752083104@qq.com</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>categories</title>
+    <url>/categories/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
 </search>
