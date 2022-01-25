@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://anchorety.github.io/2022/01/25/test/</loc>
+    
+    <lastmod>2022-01-25T07:45:04.659Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://anchorety.github.io/2021/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A02%E2%80%94%E2%80%94QLearning/</loc>
     
     <lastmod>2021-10-27T10:05:11.164Z</lastmod>
@@ -58,14 +65,14 @@
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A07%E2%80%94%E2%80%94DDPG/</loc>
+    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A08%E2%80%94%E2%80%94A3C/</loc>
     
     <lastmod>2021-03-29T12:07:12.781Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A08%E2%80%94%E2%80%94A3C/</loc>
+    <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A07%E2%80%94%E2%80%94DDPG/</loc>
     
     <lastmod>2021-03-29T12:07:12.781Z</lastmod>
     
@@ -163,14 +170,14 @@
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/about/index.html</loc>
+    <loc>https://anchorety.github.io/tags/index.html</loc>
     
     <lastmod>2021-02-19T04:05:32.202Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/tags/index.html</loc>
+    <loc>https://anchorety.github.io/about/index.html</loc>
     
     <lastmod>2021-02-19T04:05:32.202Z</lastmod>
     
@@ -233,14 +240,14 @@
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2019/06/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94XLNet/</loc>
+    <loc>https://anchorety.github.io/2019/05/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94BERT/</loc>
     
     <lastmod>2021-02-19T04:05:32.195Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2019/05/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94BERT/</loc>
+    <loc>https://anchorety.github.io/2019/06/25/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94XLNet/</loc>
     
     <lastmod>2021-02-19T04:05:32.195Z</lastmod>
     
@@ -555,14 +562,14 @@
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2018/09/23/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E4%B9%8B%E6%95%A3%E7%82%B9%E5%9B%BE%E5%92%8C%E6%8A%98%E7%BA%BF%E5%9B%BE/</loc>
+    <loc>https://anchorety.github.io/2019/10/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</loc>
     
     <lastmod>2021-02-19T04:05:32.160Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2019/10/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</loc>
+    <loc>https://anchorety.github.io/2018/09/23/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%E4%B9%8B%E6%95%A3%E7%82%B9%E5%9B%BE%E5%92%8C%E6%8A%98%E7%BA%BF%E5%9B%BE/</loc>
     
     <lastmod>2021-02-19T04:05:32.160Z</lastmod>
     
@@ -1129,14 +1136,14 @@
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2019/08/21/python%E4%BB%A3%E7%A0%81%E6%95%88%E7%8E%87%E4%BC%98%E5%8C%96/</loc>
+    <loc>https://anchorety.github.io/2019/01/08/python%E8%BF%9B%E9%98%B6-%E7%94%9F%E6%88%90%E5%99%A8%E5%92%8C%E8%BF%AD%E4%BB%A3%E5%99%A8/</loc>
     
     <lastmod>2021-02-19T04:05:32.096Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://anchorety.github.io/2019/01/08/python%E8%BF%9B%E9%98%B6-%E7%94%9F%E6%88%90%E5%99%A8%E5%92%8C%E8%BF%AD%E4%BB%A3%E5%99%A8/</loc>
+    <loc>https://anchorety.github.io/2019/08/21/python%E4%BB%A3%E7%A0%81%E6%95%88%E7%8E%87%E4%BC%98%E5%8C%96/</loc>
     
     <lastmod>2021-02-19T04:05:32.096Z</lastmod>
     
