@@ -1,4 +1,4 @@
-# Hexo Configuration
+#Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
@@ -87,7 +87,7 @@ search:
     path: ./public/search.xml
     field: post
     format: html
-    limit: 1000
+    limit: 10000
 
 # mermaid chart
 #mermaid: ## mermaid url https://github.com/knsv/mermaid
