@@ -3,7 +3,7 @@ title: 强化学习5——PolicyGradient
 copyright: true
 mathjax: true
 date: 2021-03-27 11:19:19
-tags:
+tags: 强化学习
 categories: 强化学习
 ---
 
@@ -27,9 +27,21 @@ categories: 强化学习
 
 > DQN为单步制
 
+核心思想：
+
+
+
+**特点**：
+
+- 直接输出action，不计算value，在连续区间内进行动作的选择
+- **回合制更新**
+- **以神经网络预测概率值进行action随机选择**：不再使用$\epsilon$-greedy算法进行行为选择，而是直接使用神经网络预测各个行为选择的预测值，然后根据这个概率进行行为随机选择
+- **transition序列有序存储**
+- 
+
 ### 1. 蒙特卡洛算法
 
-&emsp;&emsp;从某个state出发，然后一直走，知道到到最终状态。然后我们从最终状态原路返回，对每个状态评估G值。所以**G值能够表示在策略下，智能体选择路径的好坏**。
+&emsp;&emsp;从某个state出发，然后一直走，直到最终状态。然后我们从最终状态原路返回，对每个状态评估G值。所以**G值能够表示在策略下，智能体选择路径的好坏**。
 
 &emsp;&emsp;在一次episode中，到达结束状态，我们计算蒙特卡洛方法中的所有G值。蒙特卡洛方法中，G值的计算方式为：
 
@@ -147,9 +159,8 @@ def store_transition(self, s, a, r):
 
 ~~~Python
 def _discount_and_norm_rewards(self):
-		discounted_ep_rs = np.zeros_like(self.ep_rs)    #1
-    
-		running_add = 0                                 #2
+  discounted_ep_rs = np.zeros_like(self.ep_rs)    #1
+  running_add = 0                                 #2
     for t in reversed (range(0, len(self.ep_rs))):
         running_add = running_add * GAMMA + self.ep_rs[t]
         discounted_ep_rs[t] = running_add

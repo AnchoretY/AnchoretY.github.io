@@ -77,9 +77,9 @@ class QTable:
         self.q_table = pd.DataFrame(columns=self.actions, dtype=np.float64)
 
     def choose_action(self, observation):
-    		“”“
+      “”“
     			行为选择函数
-    		”“”
+    	”“”
         # 检测观测的状态在Q-Table中是否已经存在
         self.check_state_exist(observation)                                           
         # 行为选择，有epsilon的概率选择Q-Table中当前状态下Q值最大的，1-epsilon的概率进行随机选择

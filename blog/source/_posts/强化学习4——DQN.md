@@ -4,7 +4,7 @@ copyright: true
 mathjax: true
 date: 2021-03-22 20:17:46
 tags:
-categories:
+categories: 强化学习
 ---
 
 概述：首页描述
@@ -15,7 +15,7 @@ categories:
 
 ## DQN
 
-&emsp;&emsp;DQN全程Deep Q-Learning Network，这种强化学习方式被提出是为了解决当Q-table中状态过多，导致整个Q-Table无法装入内存的问题，在DQN中采用了一个深度神经网络来对Q-Table进行拟合，具体来说就是：向神经网络中输入当前状态，输出为各种操作对应的概率值。
+&emsp;&emsp;DQN全称Deep Q-Learning Network，这种强化学习方式被提出是为了解决当Q-table中状态过多，导致整个Q-Table无法装入内存的问题，在DQN中采用了一个深度神经网络来对Q-Table进行拟合，具体来说就是：向神经网络中输入当前状态，输出为各种操作对应的概率值。
 
 **原论文： [Playing atari with deep reinforcement learning](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf)**
 

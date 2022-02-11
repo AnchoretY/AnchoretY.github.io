@@ -4,7 +4,7 @@ copyright: true
 mathjax: true
 date: 2021-03-21 21:57:55
 tags:
-categories:
+categories: 强化学习
 ---
 
 概述：强化学习经典算法Sarsa算法从算法过程、伪代码、代码角度进行介绍。
