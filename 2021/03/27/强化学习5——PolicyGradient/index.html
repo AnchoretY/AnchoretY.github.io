@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.60sjtcuk53l.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.8iig5y3zdx2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.14q739fpyhx.png">
-<meta property="og:updated_time" content="2022-02-11T07:35:37.743Z">
+<meta property="og:updated_time" content="2022-02-11T09:19:04.421Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习5——PolicyGradient">
 <meta name="twitter:description" content="概述：强化学习中除了前面讲解的Qlearning、DQN等Value-Base算法以外，还存在着一种Policy Gradient，本文将对其原理与实现过程进行讲解。">
@@ -233,7 +233,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-11 15:35:37" itemprop="dateModified" datetime="2022-02-11T15:35:37+08:00">2022-02-11</time>
+                <time title="修改时间：2022-02-11 17:19:04" itemprop="dateModified" datetime="2022-02-11T17:19:04+08:00">2022-02-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,7 +272,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.8k</span>
+              <span>3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -304,7 +304,14 @@
 <blockquote>
 <p>DQN为单步制</p>
 </blockquote>
-<h3 id="1-蒙特卡洛算法"><a href="#1-蒙特卡洛算法" class="headerlink" title="1. 蒙特卡洛算法"></a>1. 蒙特卡洛算法</h3><p>&emsp;&emsp;从某个state出发，然后一直走，知道到到最终状态。然后我们从最终状态原路返回，对每个状态评估G值。所以<strong>G值能够表示在策略下，智能体选择路径的好坏</strong>。</p>
+<p>特点：</p>
+<ul>
+<li><strong>回合制更新</strong></li>
+<li><strong>以神经网络预测概率值进行action随机选择</strong>：不再使用$\epsilon$-greedy算法进行行为选择，而是直接使用神经网络预测各个行为选择的预测值，然后根据这个概率进行行为随机选择</li>
+<li><strong>transition序列有序存储</strong></li>
+<li></li>
+</ul>
+<h3 id="1-蒙特卡洛算法"><a href="#1-蒙特卡洛算法" class="headerlink" title="1. 蒙特卡洛算法"></a>1. 蒙特卡洛算法</h3><p>&emsp;&emsp;从某个state出发，然后一直走，直到最终状态。然后我们从最终状态原路返回，对每个状态评估G值。所以<strong>G值能够表示在策略下，智能体选择路径的好坏</strong>。</p>
 <p>&emsp;&emsp;在一次episode中，到达结束状态，我们计算蒙特卡洛方法中的所有G值。蒙特卡洛方法中，G值的计算方式为：</p>
 <blockquote>
 <ol>
@@ -369,7 +376,7 @@ loss = cross\_entory(G*(target-predict))</script><p>&emsp;&emsp;例如假设从�
 </ol>
 </blockquote>
 <p>&emsp;&emsp;具体代码实现如下所示,其中：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_discount_and_norm_rewards</span><span class="params">(self)</span>:</span></span><br><span class="line">		discounted_ep_rs = np.zeros_like(self.ep_rs)    <span class="comment">#1</span></span><br><span class="line">    </span><br><span class="line">		running_add = <span class="number">0</span>                                 <span class="comment">#2</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> reversed (range(<span class="number">0</span>, len(self.ep_rs))):</span><br><span class="line">        running_add = running_add * GAMMA + self.ep_rs[t]</span><br><span class="line">        discounted_ep_rs[t] = running_add</span><br><span class="line">       </span><br><span class="line">    discounted_ep_rs -= np.mean(discounted_ep_rs)   <span class="comment">#3</span></span><br><span class="line">    discounted_ep_rs /= np.std(discounted_ep_rs)  </span><br><span class="line">    <span class="keyword">return</span> discounted_ep_rs</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_discount_and_norm_rewards</span><span class="params">(self)</span>:</span></span><br><span class="line">  discounted_ep_rs = np.zeros_like(self.ep_rs)    <span class="comment">#1</span></span><br><span class="line">  running_add = <span class="number">0</span>                                 <span class="comment">#2</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> reversed (range(<span class="number">0</span>, len(self.ep_rs))):</span><br><span class="line">        running_add = running_add * GAMMA + self.ep_rs[t]</span><br><span class="line">        discounted_ep_rs[t] = running_add</span><br><span class="line">       </span><br><span class="line">    discounted_ep_rs -= np.mean(discounted_ep_rs)   <span class="comment">#3</span></span><br><span class="line">    discounted_ep_rs /= np.std(discounted_ep_rs)  </span><br><span class="line">    <span class="keyword">return</span> discounted_ep_rs</span><br></pre></td></tr></table></figure>
 <h4 id="带权重的梯度下降"><a href="#带权重的梯度下降" class="headerlink" title="带权重的梯度下降"></a>带权重的梯度下降</h4><p>&emsp;&emsp;在Policy Gradient中的梯度下降与其他模型的梯度下降相比略有不同，因为他的损失函数是在交叉熵损失函数的基础上又加入了各个状态的G值作为权重系数，然后加权计算loss。</p>
 <blockquote>
 <ol>
