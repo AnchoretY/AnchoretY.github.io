@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://anchorety.github.io/2021/03/22/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A04%E2%80%94%E2%80%94DQN/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
     <loc>https://anchorety.github.io/2021/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A01%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0/</loc>
+    <lastmod>2022-02-11</lastmod>
+  </url>  <url>
+    <loc>https://anchorety.github.io/2021/03/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A03%E2%80%94%E2%80%94Sarsa/</loc>
     <lastmod>2022-02-11</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2021/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A02%E2%80%94%E2%80%94QLearning/</loc>
@@ -40,14 +46,8 @@
     <loc>https://anchorety.github.io/2021/03/27/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A08%E2%80%94%E2%80%94A3C/</loc>
     <lastmod>2021-03-29</lastmod>
   </url>  <url>
-    <loc>https://anchorety.github.io/2021/03/22/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A04%E2%80%94%E2%80%94DQN/</loc>
-    <lastmod>2021-03-25</lastmod>
-  </url>  <url>
     <loc>https://anchorety.github.io/2021/03/22/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E2%80%94%E2%80%94%E3%80%8AEnhancing-Machine-Learning-Based-Malware-Detection-Model-by-Reinforcement-Learning%E3%80%8B/</loc>
     <lastmod>2021-03-25</lastmod>
-  </url>  <url>
-    <loc>https://anchorety.github.io/2021/03/21/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A03%E2%80%94%E2%80%94Sarsa/</loc>
-    <lastmod>2021-03-22</lastmod>
   </url>  <url>
     <loc>https://anchorety.github.io/2021/03/18/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E5%A4%A9%E6%8E%88/</loc>
     <lastmod>2021-03-22</lastmod>
