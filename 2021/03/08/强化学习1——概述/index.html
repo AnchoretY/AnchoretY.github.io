@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="概述：强化学习一些相关知识的介绍。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-22T14:07:39.255Z">
+<meta property="og:updated_time" content="2022-02-11T03:15:51.733Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习1——概述">
 <meta name="twitter:description" content="概述：强化学习一些相关知识的介绍。">
@@ -224,7 +224,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-22 22:07:39" itemprop="dateModified" datetime="2021-03-22T22:07:39+08:00">2021-03-22</time>
+                <time title="修改时间：2022-02-11 11:15:51" itemprop="dateModified" datetime="2022-02-11T11:15:51+08:00">2022-02-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,7 +263,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>959</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -286,29 +286,31 @@
 <p><img src alt></p>
 <a id="more"></a>
 <h4 id="强化学习与监督学习的区别"><a href="#强化学习与监督学习的区别" class="headerlink" title="强化学习与监督学习的区别"></a>强化学习与监督学习的区别</h4><ol>
-<li><p>监督学习的训练数据之间一般是独立的，每一条数据都会有反馈，强化学习则是每一步与时间顺序前后关系紧密，多步执行之后才会有反馈。</p>
+<li><p><strong>数据间关系差异</strong>：监督学习的训练数据之间一般是独立的，每一条数据都会有反馈，强化学习则是每一步与时间顺序前后关系紧密，多步执行之后才会有反馈。</p>
 </li>
-<li><p>目标不同：强化学习是的目标是看重行为序列的长期受益，监督学习则是关注输入数据的输出与标签间的误差。</p>
+<li><p><strong>目标不同</strong>：强化学习是的目标是看重行为序列的长期受益，监督学习则是关注输入数据的输出与标签间的误差。</p>
 </li>
-<li><p>强化学习的奖惩概念是没有正确和错误之分的，而监督学习的输出的标签是存在正确与错误的区别的。</p>
+<li><p><strong>评价指标不同</strong>：强化学习的奖惩概念是没有正确和错误之分的，而监督学习的输出的标签是存在正确与错误的区别的。</p>
 </li>
-<li><p>强化学习是一个学习+决策的过程，具有和环境的持续交互能力（交互的结果以奖惩的方式返回），而监督学习则不具备这种与环境进行交互的能力。</p>
+<li><p><strong>环境交互能力不同</strong>：强化学习是一个学习+决策的过程，具有和环境的持续交互能力（交互的结果以奖惩的方式返回），而监督学习则不具备这种与环境进行交互的能力。</p>
 </li>
 </ol>
 <h3 id="强化学习要素"><a href="#强化学习要素" class="headerlink" title="强化学习要素"></a>强化学习要素</h3><ul>
-<li>行为：研究对象要有有限中行为可以进行选</li>
-<li>状态：随着对象采取不同的行为，对象的状态表示发生变化</li>
-<li>奖惩函数：设计好函数，当研究对象在某种情况给与奖励，某些情况下给与惩罚</li>
+<li><p><strong>行为</strong>：研究对象要有有限中行为可以进行选</p>
+</li>
+<li><p><strong>状态</strong>：随着对象采取不同的行为，对象的状态表示发生变化</p>
+</li>
+<li><p><strong>奖惩函数</strong>：设计好函数，当研究对象在某种情况给与奖励，某些情况下给与惩罚</p>
+</li>
 </ul>
-<h3 id="经典算法"><a href="#经典算法" class="headerlink" title="经典算法"></a>经典算法</h3><ol>
-<li>QLearning</li>
-</ol>
-<ol>
-<li>Saras</li>
-</ol>
-<ol>
-<li>DQN（Deep Q Learning）</li>
-</ol>
+<h3 id="经典算法"><a href="#经典算法" class="headerlink" title="经典算法"></a>经典算法</h3><ul>
+<li><p>QLearning</p>
+</li>
+<li><p>Saras</p>
+</li>
+<li><p>DQN（Deep Q Learning）</p>
+</li>
+</ul>
 <h3 id="强化学习基本框架"><a href="#强化学习基本框架" class="headerlink" title="强化学习基本框架"></a>强化学习基本框架</h3><h4 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h4><p>&emsp;&emsp;强化学习与一般地机器学习算法的基本框架略有不同，再强化学习中不再需要实现forward() 函数进行前向传播，而是需要实现choose_action()行为选择策略的设定、实现learn()函数实现参数更新策略的设定。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DQN</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span>  </span><br><span class="line">         <span class="keyword">pass</span>   </span><br><span class="line">      </span><br><span class="line">    <span class="comment"># 根据当前状态状态进行行为选择</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, obs)</span>:</span></span><br><span class="line">      	...</span><br><span class="line">        <span class="keyword">return</span> action  </span><br><span class="line">  </span><br><span class="line">    <span class="comment"># 根据Q估计与Q现实之间的差值进行参数网络参数更新                                        </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span>    </span><br><span class="line">	      <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;强化学习模型的基本参数包括：</p>
@@ -320,15 +322,23 @@
 </ul>
 </blockquote>
 <h4 id="模型使用策略"><a href="#模型使用策略" class="headerlink" title="模型使用策略"></a>模型使用策略</h4><p>&emsp;&emsp;强化学习算法是通过不断的尝试去使agent学习到如何能够获取到更高的分数，但是最终要评价强化学习模型的效果，一般要从训练好的强化学习模型能够通过有限次尝试就能达到预期效果，与传统的机器学习的评价方式不太一样。</p>
-<p>这里需要明确的几个单词在强化学习中的含义：</p>
+<h4 id="模型使用场景"><a href="#模型使用场景" class="headerlink" title="模型使用场景"></a>模型使用场景</h4><p>&emsp;&emsp;强化学习适用的场景需要满足以下几个条件：</p>
+<ul>
+<li>具有有限个可定义的Action</li>
+<li>状态空间可定义，并且<strong>Action的选择会引起状态的变化</strong></li>
+<li>Reward可以较为贴合的定义</li>
+</ul>
 <blockquote>
-<p>Epoch： 这在强化学习中一般指做几次重复独立实验，而不是传统的机器学习中的整个训练集遍历过一次</p>
-<p>episode：一个episode就是在数据集中抽取一次样本，进行后续的action</p>
-<p>max_step: episode终止条件之一，在一个episode中可以执行action的次数,超出次数则认为这次强化学习失败，终止当前epidode</p>
+<p>这里最容易出现的问题是构建的模型中action的选择执行并不会因起状态的变化，强行套用RL框架来构建“伪强化学习”，这里要特别注意</p>
 </blockquote>
-<h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
-<li>xxx</li>
-<li>xxx</li>
+<p>这里需要明确的几个单词在强化学习中的含义：</p>
+<ul>
+<li><p>epoch： 这在强化学习中一般指做几次重复独立实验，而不是传统的机器学习中的整个训练集遍历过一次</p>
+</li>
+<li><p>episode：一个episode就是在数据集中抽取一次样本，进行后续的action</p>
+</li>
+<li><p>max_step: episode终止条件之一，在一个episode中可以执行action的次数,超出次数则认为这次强化学习失败，终止当前epidode</p>
+</li>
 </ul>
 
     </div>
@@ -429,7 +439,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#强化学习与监督学习的区别"><span class="nav-text">强化学习与监督学习的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强化学习要素"><span class="nav-text">强化学习要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典算法"><span class="nav-text">经典算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强化学习基本框架"><span class="nav-text">强化学习基本框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模型"><span class="nav-text">模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型使用策略"><span class="nav-text">模型使用策略</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#强化学习与监督学习的区别"><span class="nav-text">强化学习与监督学习的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强化学习要素"><span class="nav-text">强化学习要素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典算法"><span class="nav-text">经典算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强化学习基本框架"><span class="nav-text">强化学习基本框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模型"><span class="nav-text">模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型使用策略"><span class="nav-text">模型使用策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模型使用场景"><span class="nav-text">模型使用场景</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

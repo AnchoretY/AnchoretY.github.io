@@ -20,22 +20,19 @@
     var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
   </script>
 
-  <meta name="description" content="概述：本文提出了一种混合了flow和graph两个角度的网络行为进行自动化僵尸网络检测的模型BotMark，该模型中提取了15种基于flow的流量特征和3种基于graph的特征，通过计算与历史上的僵尸网络的相似度分数、结构稳定度分数、异常分数进行僵尸网络的检测，最终达到99.94%的准确率。">
+  <meta name="description" content="概述：首页描述">
 <meta property="og:type" content="article">
-<meta property="og:title" content="论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》">
-<meta property="og:url" content="https://anchorety.github.io/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/index.html">
+<meta property="og:title" content="经典算法——遗传算法">
+<meta property="og:url" content="https://anchorety.github.io/2022/02/09/经典算法——遗传算法/index.html">
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
-<meta property="og:description" content="概述：本文提出了一种混合了flow和graph两个角度的网络行为进行自动化僵尸网络检测的模型BotMark，该模型中提取了15种基于flow的流量特征和3种基于graph的特征，通过计算与历史上的僵尸网络的相似度分数、结构稳定度分数、异常分数进行僵尸网络的检测，最终达到99.94%的准确率。">
+<meta property="og:description" content="概述：首页描述">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2wrhzmc5w7a.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2wrhzmc5w7a.png">
-<meta property="og:updated_time" content="2021-09-06T08:37:17.397Z">
+<meta property="og:updated_time" content="2022-02-09T08:06:56.383Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》">
-<meta name="twitter:description" content="概述：本文提出了一种混合了flow和graph两个角度的网络行为进行自动化僵尸网络检测的模型BotMark，该模型中提取了15种基于flow的流量特征和3种基于graph的特征，通过计算与历史上的僵尸网络的相似度分数、结构稳定度分数、异常分数进行僵尸网络的检测，最终达到99.94%的准确率。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2wrhzmc5w7a.png">
+<meta name="twitter:title" content="经典算法——遗传算法">
+<meta name="twitter:description" content="概述：首页描述">
 
-<link rel="canonical" href="https://anchorety.github.io/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/">
+<link rel="canonical" href="https://anchorety.github.io/2022/02/09/经典算法——遗传算法/">
 
 
 <script id="page-configurations">
@@ -47,7 +44,7 @@
   };
 </script>
 
-  <title>论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》 | AnchoretY's blog</title>
+  <title>经典算法——遗传算法 | AnchoretY's blog</title>
   
 
 
@@ -197,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2022/02/09/经典算法——遗传算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -210,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》
+          经典算法——遗传算法
         </h1>
 
         <div class="post-meta">
@@ -221,11 +218,11 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-09-06 15:34:44 / 修改时间：16:37:17" itemprop="dateCreated datePublished" datetime="2021-09-06T15:34:44+08:00">2021-09-06</time>
+              <time title="创建时间：2022-02-09 16:03:45 / 修改时间：16:06:56" itemprop="dateCreated datePublished" datetime="2022-02-09T16:03:45+08:00">2022-02-09</time>
             </span>
 
           
-            <span id="/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/" class="post-meta-item leancloud_visitors" data-flag-title="论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》" title="阅读次数">
+            <span id="/2022/02/09/经典算法——遗传算法/" class="post-meta-item leancloud_visitors" data-flag-title="经典算法——遗传算法" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -240,8 +237,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/02/09/经典算法——遗传算法/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/09/经典算法——遗传算法/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -251,7 +248,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>741</span>
+              <span>32</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -270,44 +267,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>概述：本文提出了一种混合了flow和graph两个角度的网络行为进行自动化僵尸网络检测的模型BotMark，该模型中提取了15种基于flow的流量特征和3种基于graph的特征，通过计算与历史上的僵尸网络的相似度分数、结构稳定度分数、异常分数进行僵尸网络的检测，最终达到99.94%的准确率。</p>
-<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2wrhzmc5w7a.png" alt="image"></p>
+        <p>概述：首页描述</p>
+<p><img src alt></p>
 <a id="more"></a>
-<p>题目：《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》</p>
-<p>作者：Wei Wang, Yaoyao Shang Yongzhong He, Yidong Li,Jiqiang Liu</p>
-<p>出处： Information Sciences</p>
-<p>年份：2019</p>
-<h3 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h3><p><strong>主要贡献</strong></p>
-<ul>
-<li>更加全面的检测：从flow与graph两个角度进行检测，不需要任何先验知识。</li>
-<li>收集了一个由Mirai、Black energy、Zeus、Athena、Ares 5中真实环境中较新的僵尸网络构建的数据集，并已公开。</li>
-<li>效果比flow或graph更好，最终准确度可达99.94%。</li>
+<h3 id="标题一"><a href="#标题一" class="headerlink" title="标题一"></a>标题一</h3><h4 id="1-Mermaid流程图"><a href="#1-Mermaid流程图" class="headerlink" title="1.Mermaid流程图"></a>1.Mermaid流程图</h4><h5 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h5><ul>
+<li>xxx</li>
+<li>xxx</li>
 </ul>
-<p><strong>方法：</strong></p>
-<ul>
-<li><p>数据收集</p>
-</li>
-<li><p>过滤无关流量，减小需要建模的数据量</p>
-</li>
-<li><p>特征提取：15种flow特征、3中graph特征</p>
-</li>
-<li><p>基于flow与graph的综合分析，输出botnet检测结果</p>
-</li>
-<li><p>验证有效性</p>
-<p><img src="https://raw.githubusercontent.com/AnchoretY/images/master/blog/image.2wrhzmc5w7a.png" alt="image"></p>
-</li>
-</ul>
-<h3 id="论文详解"><a href="#论文详解" class="headerlink" title="论文详解"></a>论文详解</h3><h4 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h4><p>​    数据预处理主要包括流量过滤与cflow整合两部分。首先为了提高建模效率，进行无关流量过滤,过滤包括:</p>
-<ul>
-<li><p>过滤未建立完整连接的flow，这种flow大部分都是扫描行为。</p>
-</li>
-<li><p>过滤不是内部到外部的flow。</p>
-</li>
-<li><p>过滤目的域名为明显合法域名的flow，以alexa top1k为合法域名。</p>
-<p>随后将同一个时期内具有相同的传输层协议、源IP、源端口、目的IP、目的端口的flow整合为cflow。</p>
-</li>
-</ul>
-<h4 id><a href="#" class="headerlink" title=" "></a> </h4>
+
     </div>
 
     
@@ -322,7 +289,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://anchorety.github.io/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/" title="论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》">https://anchorety.github.io/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/</a>
+    <a href="https://anchorety.github.io/2022/02/09/经典算法——遗传算法/" title="经典算法——遗传算法">https://anchorety.github.io/2022/02/09/经典算法——遗传算法/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -339,13 +306,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/09/02/论文精读——《BotGrep-Finding-P2P-Bots-with-Structured-Graph-Analysis》/" rel="prev" title="论文精读——《BotGrep: Finding P2P Bots with Structured Graph Analysis》">
-      <i class="fa fa-chevron-left"></i> 论文精读——《BotGrep: Finding P2P Bots with Structured Graph Analysis》
+    <a href="/2021/09/06/论文精读——《BotMark-Automated-botnet-detection-with-hybrid-analysis-of-flow-based-and-graph-based-traffic-behaviors》/" rel="prev" title="论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》">
+      <i class="fa fa-chevron-left"></i> 论文精读——《BotMark: Automated botnet detection with hybrid analysis of flow-based and graph-based traffic behaviors》
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/02/09/经典算法——遗传算法/" rel="next" title="经典算法——遗传算法">
-      经典算法——遗传算法 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -406,7 +370,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#综述"><span class="nav-text">综述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#论文详解"><span class="nav-text">论文详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据预处理"><span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-text"> </span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#标题一"><span class="nav-text">标题一</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mermaid流程图"><span class="nav-text">1.Mermaid流程图</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
