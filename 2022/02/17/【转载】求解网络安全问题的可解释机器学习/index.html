@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"anchorety.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="概述：首页描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转载】求解网络安全问题的可解释机器学习">
+<meta property="og:url" content="https://anchorety.github.io/2022/02/17/【转载】求解网络安全问题的可解释机器学习/index.html">
+<meta property="og:site_name" content="AnchoretY&#39;s blog">
+<meta property="og:description" content="概述：首页描述">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://toooold.com/images/shap-fig1.png">
+<meta property="og:image" content="https://toooold.com/images/shap-fig2.png">
+<meta property="og:updated_time" content="2022-02-17T08:10:08.295Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【转载】求解网络安全问题的可解释机器学习">
+<meta name="twitter:description" content="概述：首页描述">
+<meta name="twitter:image" content="https://toooold.com/images/shap-fig1.png">
+
+<link rel="canonical" href="https://anchorety.github.io/2022/02/17/【转载】求解网络安全问题的可解释机器学习/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>【转载】求解网络安全问题的可解释机器学习 | AnchoretY's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AnchoretY's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2022/02/17/【转载】求解网络安全问题的可解释机器学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【转载】求解网络安全问题的可解释机器学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-02-17 16:05:28 / 修改时间：16:10:08" itemprop="dateCreated datePublished" datetime="2022-02-17T16:05:28+08:00">2022-02-17</time>
+            </span>
+
+          
+            <span id="/2022/02/17/【转载】求解网络安全问题的可解释机器学习/" class="post-meta-item leancloud_visitors" data-flag-title="【转载】求解网络安全问题的可解释机器学习" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/02/17/【转载】求解网络安全问题的可解释机器学习/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/17/【转载】求解网络安全问题的可解释机器学习/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>概述：首页描述</p>
+<p><img src alt></p>
+<a id="more"></a>
+<h1 id="求解网络安全问题的可解释机器学习"><a href="#求解网络安全问题的可解释机器学习" class="headerlink" title="求解网络安全问题的可解释机器学习"></a>求解网络安全问题的可解释机器学习</h1><p>小朋友，你是否有很多问号，为什么过年回来发现模型预测性能下降？为什么总有几个样本拉低模型性能？为什么收集了运营同事反馈的坏样本也找不到模型错在哪？如是这些问题在提醒我们可能需要可解释机器学习模型，它在一定程度上提供了人类可以理解的方式理解在某个样本上模型到底做了什么事。</p>
+<p>在网络安全领域里，模型预测结果的可解释性与运营紧密相关，例如防火墙类产品需要预测结果有足够的置信度从而阻断威胁，云上 SIEM 和 SOAR 系统也需要引入预测结果的具体原因和上下文关联等辅助运营判断。从模型本身的可解释性出发，我们可以为预测结果提供部分的可解释性以支持运营。</p>
+<p>学界对可解释人工智能（XAI）及其子方向可解释机器学习进行了多个角度的研究，本文从网络安全中最让人头疼的流量检测的例子出发，简单介绍黑盒可解释模型及其在工业界的一些方法和应用，包括其设计思路、使用方法和局限性等等，各位小伙伴们可以此对这一研究课题展开进一步探索。</p>
+<h2 id="以加密流量分类为例，感受“可解释”机器学习"><a href="#以加密流量分类为例，感受“可解释”机器学习" class="headerlink" title="以加密流量分类为例，感受“可解释”机器学习"></a>以加密流量分类为例，感受“可解释”机器学习</h2><p>网络安全业界有很多基于统计特征作流量检测和分类的机器学习模型，例如之前一篇<a href="https://toooold.com/2021/07/04/doh_detection.html" target="_blank" rel="noopener">检测加密 DNS 的文章</a>中的介绍的基于流量包特征的检测模型。这类由固定数据集得到的频率统计特征难以泛化到一般情况，这些稠密的特征在例如 xgboost 等较强的学习器下被精细切分以判别结果，但是基于 boosting 的切分方式难以控制，切分的越精细其对未知数据的泛化危险越高。相比于其在固定数据集得到的纸面上优异的结果，它们部署在生产环境后的长期表现也让人头疼，模型性能的下降以及数据特征的不稳定要求构建模型的数据科学团队不断的投入精力维护，甚至让数据团队逃避解决流量检测类的问题。这里网络安全里让人头疼的问题恰好可以用可解释机器学习有效的解决。</p>
+<blockquote>
+<p>补充一点，业界对此类问题有多种处理办法，例如 He et al <code>*</code>“Practical Lessons from Predicting Clicks on Ads at Facebook” 的文章利用决策树将稠密的特征分成稀疏的向量并用简单线性模型求解，它在一定程度上控制了统计特征的切分；也有跳出统计特征，直接将原始流量数据输入给深度神经网络以提取特征，然而神经网络不能保证合理的抽取特征并足够泛化，同时，这些网络中常见的用于判别的全连接层的设计往往只是照搬其他图形类的方案，其表现多数情况下不如决策树分类器。</p>
+</blockquote>
+<p>我们使用 SHAP (SHapley Additive exPlanations)算法<code>*</code>切入这一问题。SHAP 算法从博弈论的角度出发试图解决这样一个合作竞争的经济学问题：假设 A B C 三人合作得到的 1000 元奖金，如何合理衡量各自贡献并分配奖金？在这里“合理衡量”需要考虑到三人的独立贡献、俩俩合作（包含前后顺序）、三人合作、俩俩合作与三人合作的关系等。SHAP 算法将模型的输入特征类比于合作的个体，其可解释的贡献值脱胎于 Shapley value <code>*</code> 这一获得2012年诺贝尔奖经济学奖的研究方向，实际计算中需要考虑到贡献人（特征向量）的各种组合，所以其精确解的计算复杂度是 NP hard，SHAP 算法通过线性约束的办法在有效的时间内逼近了较好的结果，各位如果有兴趣的话可以认真读一下参考文献中这篇有意思的论文。</p>
+<p>在实际应用中，SHAP 的开源实现根据不同类型的预测模型做了特定优化，比如决策树类模型可以使用 Tree SHAP 的优化版本。例如检测加密 DNS 的 xgboost 模型即可通过简单添加这几行代码即可使用 SHAP 解释其预测结果：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import shap</span><br><span class="line">explainer = shap.Explainer(clf.best_estimator_)</span><br><span class="line">shap_values = explainer(train[features])</span><br><span class="line"></span><br><span class="line"><span class="comment"># visualize the first prediction's explanation</span></span><br><span class="line">shap.plots.waterfall(shap_values[0])</span><br></pre></td></tr></table></figure>
+<p><img src="https://toooold.com/images/shap-fig1.png" alt="Figure 1"></p>
+<p>从以上 SHAP 值的瀑布图（Waterfall）中可以看到数据集中所有样本的期望为 -0.725 而模型对 0 号样本预测值为 -0.835，它是因为 <code>var_pkt_size_out</code> <code>time</code> 等特征将其从所有样本的期望 -0.725 推向 -0.835，而 <code>median_out</code> 将预测结果拉回所有样本的期望，随着拉扯的力量不同，模型对 0 号样本最终得到 -0.835 的预测结果，并成功预测其为负样本（非加密 DNS）。</p>
+<p>对于第 33 号正样本（加密 DNS ），<code>median_out</code> 和 <code>median_in</code> 对于其偏离所有样本的期望作出了重大贡献，一举将其预测值拉到 -0.187 并成功预测其为正样本。</p>
+<p><img src="https://toooold.com/images/shap-fig2.png" alt="Figure 2"></p>
+<p><code>median_out</code> 和 <code>median_in</code> 这两个特征在该数据集里多数正样本的判别里也起到决定性作用，同样，<code>var_pkt_size_out</code> 是多数负样本判别的决定性特征。这一解释为使用该模型的方法提供决策依据：部署模型时需要严格监控针对这三个特征的对抗，例如</p>
+<ul>
+<li>是否存在某种加密 DNS 服务通过混淆的形式扰乱 <code>median_out</code> 和 <code>median_in</code> 这两个统计特征以逃逸检测</li>
+<li>在设计数据采集场景中是否包含了对 <code>var_pkt_size_out</code> 等特征的选择偏向</li>
+<li>这些起决定性作用的特征在不同时间段采集的数据中是否保持一致的统计分布</li>
+</ul>
+<p>其中“起决定作用的特征的统计分布的改变”是导致模型部署和上线后性能下降的主要原因之一，它属于数据漂移（data drift）的一种，找到这些特征并监控其分布可以有效发现并及时处理。各位小伙伴可以继续探索使用 SHAP 的 <code>force_plot</code> 等其他功能进一步了解模型的判别依据。当然，大家可以自行参考原文附带的 Jupyter Notebook 查看各个样本的 SHAP 瀑布图，也可以调整预测模型的参数观察新参数下 SHAP 瀑布图的变化。</p>
+<p>以上 SHAP 的例子展示了黑盒可解释机器学习模型的一般使用办法，它们基本遵循如下特性：</p>
+<ul>
+<li>模型流程需要先有预测模型，再拿一个模型去解释它，称之为”事后解释“（post hoc）</li>
+<li>该解释模型总是提供解释，但并不关心预测方法以及结果是否正确</li>
+<li>该解释模型针对每个样本产生 SHAP 值的瀑布图，而非对数据集的整体解释</li>
+</ul>
+<p>类似于 SHAP 这样事后黑盒解释判别模型的方法还有 LIME <code>*</code> 等，有兴趣的小伙伴可以参考 “Interpretable Machine Learning” 这本书进一步学习。</p>
+<h2 id="都有了特征权重，还需要可解释模型么？"><a href="#都有了特征权重，还需要可解释模型么？" class="headerlink" title="都有了特征权重，还需要可解释模型么？"></a>都有了特征权重，还需要可解释模型么？</h2><p>各位小伙伴们可能会问，SHAP 值与特征权重（permutation feature importance）有什么区别呢？<strong>每个特征的 SHAP 值与每个样本相关，它描述了特征组合在判别该样本上的边际效应，正样本负样本的特征组合与其边际效应都可能不同，而特征权重描述的是模型对整个数据集的整体认识，它描述的是模型对该数据集的判别表现，与具体样本无关</strong>。我们可以利用 SHAP 值在不同样本上的分布作特征选择以提高模型特性，也可以通过理解 SHAP 值的分布优化调整 Kaggle 比赛的模型<code>*</code>，请各位小伙伴自行参考 SHAP Summary Plot 和 Dependence Plot 等。</p>
+<p>当然，SHAP 并非是可解释机器学习的唯一办法，在通向可解释性机器学习和 XAI 的道路上，我们有很多选择。</p>
+<p>部分模型天生具有可解释性，比如基于符号的人工智能模型<code>*</code>例如逻辑推理等，其结果即可自我解释，这也是<a href="https://toooold.com/2021/11/28/why_ml_fails_security_ml_is_not_everything_cn.html" target="_blank" rel="noopener">之前博客中</a>提到本文作者团队去年发表的工作 “Honeypot + graph learning + reasoning = scale up your emerging threat analysis” 利用了逻辑推理的模型解释另一个分布式嵌入模型的结果；又比如 Logistic regression 和线性回归的结果也是由单一权重矩阵表示，它本身也自带可解释性；kNN 模型的结果也是可以自我解释。</p>
+<p>用于解释别的模型的可解释模型也分成类似 SHAP 和 LIME 等的通用模型，以及一些特殊场景模型，例如注意力（attention）机制对 BERT/GPT 等 transformer 家族的模型结果可以提供一定的解释，最近 Deepmind 的 AlphaCode 在其 demo 中<code>*</code>利用注意力机制解释其生成的竞赛代码结果的依据；一些对抗生成模型（GAN）以扰乱模型判别而产生的对抗样本也在一定程度上揭示了判别模型内在的缺陷或隐含假设等潜在问题。</p>
+<p>在参考文献中列出的Explainable AI Cheat Sheet <code>*</code> 为现有的可解释人工智能模型提供了很好的综述，请各位小伙伴自行阅读探索。</p>
+<h2 id="请保持冷静：都有了可解释模型，还需要其他么？"><a href="#请保持冷静：都有了可解释模型，还需要其他么？" class="headerlink" title="请保持冷静：都有了可解释模型，还需要其他么？"></a>请保持冷静：都有了可解释模型，还需要其他么？</h2><p>可解释模型有着天然的局限性：它的视野局限于解决眼前的问题，它不能跳出定义的问题和数据集之外。在网络安全的场景里，由于数据采集和检测场景的局限，外加攻击方会使用千奇百怪的方式试图隐藏其行为，寻找外部因素和内部因素同样重要。可解释模型不会告诉我们出现 C&amp;C 行为的原因来自于一个未知的 0day 漏洞，或者是一个没有日志记录而悄悄创建的管理员账号。同样，SHAP 等可解释模型不等于可解释结果，对不同场景解释预测结果可能需要针对结果的可解释模型，以及模型之外的第三方知识或者日志等。</p>
+<p><strong>可解释模型只是“解释”而不是“因果”，我们仍然需要因果推断</strong>。更重要的是，可解释模型仅停留在“解释”而非逻辑论证：<strong>它不保证模型结果正确，它也不保证其解释符合逻辑，它仅仅是尽其所能解释 A 模型在 X 样本上为什么这么判断</strong>。一个常见的例子是肿瘤样本与尺子的笑话 <code>*</code>，当模型把只存在于正样本图片里的尺子当作肿瘤的重要特征，其解释模型也仅能指出“它认出了这把尺子”而不能表达“尺子并非合理的判断依据”。数据科学团队仍然需要自行发现问题、逻辑论证并改进模型。</p>
+<p>在工业界里，我们也必须提到的可解释模型的成本。事后解释模型提供的可解释性伴随着额外的开发部署等工程成本，它同时也有使用场景的局限性，很多情况并不需要可解释机器学习也可以做得很好。请各位小伙伴考虑到运营成本与可解释模型成本的平衡，自行斟酌是否需要可解释模型。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可解释机器学习在一定程度上有助于解决网络安全在动态环境下带来的若干问题，不仅可以提供解释结果辅助运营，同时也可以帮助数据科学团队有效的长期维护模型的稳定表现。本文从工程案例的角度介绍可解释机器学习的使用方法，因为篇幅所限而特意忽略了具体的理论知识，这并不代表这些理论基础不重要。</p>
+<p>转自：<a href="https://toooold.com/2022/02/13/explainable_w_shap_cn.html" target="_blank" rel="noopener">https://toooold.com/2022/02/13/explainable_w_shap_cn.html</a></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li>He et al, Practical Lessons from Predicting Clicks on Ads at Facebook <a href="https://quinonero.net/Publications/predicting-clicks-facebook.pdf" target="_blank" rel="noopener">https://quinonero.net/Publications/predicting-clicks-facebook.pdf</a></li>
+<li>SHAP paper, Lundberg and Lee “A Unified Approach to Interpreting Model Predictions” <a href="https://proceedings.neurips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html" target="_blank" rel="noopener">https://proceedings.neurips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html</a></li>
+<li>Shapley value <a href="https://en.wikipedia.org/wiki/Shapley_value" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Shapley_value</a></li>
+<li>SHAP in “Interpretable Machine Learning” <a href="https://christophm.github.io/interpretable-ml-book/shap.html" target="_blank" rel="noopener">https://christophm.github.io/interpretable-ml-book/shap.html</a></li>
+<li>SHAP github <a href="https://github.com/slundberg/shap" target="_blank" rel="noopener">https://github.com/slundberg/shap</a></li>
+<li>LIME <a href="https://github.com/marcotcr/lime" target="_blank" rel="noopener">https://github.com/marcotcr/lime</a></li>
+<li>Kaggle post “Advanced Uses of SHAP Values” <a href="https://www.kaggle.com/dansbecker/advanced-uses-of-shap-values" target="_blank" rel="noopener">https://www.kaggle.com/dansbecker/advanced-uses-of-shap-values</a></li>
+<li>Symbolic artificial intelligence <a href="https://en.wikipedia.org/wiki/Symbolic_artificial_intelligence" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Symbolic_artificial_intelligence</a></li>
+<li>AlphaCode demo <a href="https://alphacode.deepmind.com/" target="_blank" rel="noopener">https://alphacode.deepmind.com/</a></li>
+<li>Explainable AI Cheat Sheet <a href="https://ex.pegg.io/" target="_blank" rel="noopener">https://ex.pegg.io/</a></li>
+<li>Please Stop Doing “Explainable” ML - Cynthia Rudin <a href="https://www.youtube.com/watch?v=I0yrJz8uc5Q" target="_blank" rel="noopener">https://www.youtube.com/watch?v=I0yrJz8uc5Q</a></li>
+<li>When AI flags the ruler, not the tumor <a href="https://venturebeat.com/2021/03/25/when-ai-flags-the-ruler-not-the-tumor-and-other-arguments-for-abolishing-the-black-box-vb-live/" target="_blank" rel="noopener">https://venturebeat.com/2021/03/25/when-ai-flags-the-ruler-not-the-tumor-and-other-arguments-for-abolishing-the-black-box-vb-live/</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>AnchoretY
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://anchorety.github.io/2022/02/17/【转载】求解网络安全问题的可解释机器学习/" title="【转载】求解网络安全问题的可解释机器学习">https://anchorety.github.io/2022/02/17/【转载】求解网络安全问题的可解释机器学习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/02/09/经典算法——遗传算法/" rel="prev" title="经典算法——遗传算法">
+      <i class="fa fa-chevron-left"></i> 经典算法——遗传算法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/02/17/机器学习解决网络安全问题的挑战/" rel="next" title="机器学习解决网络安全问题的挑战">
+      机器学习解决网络安全问题的挑战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#求解网络安全问题的可解释机器学习"><span class="nav-text">求解网络安全问题的可解释机器学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#以加密流量分类为例，感受“可解释”机器学习"><span class="nav-text">以加密流量分类为例，感受“可解释”机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#都有了特征权重，还需要可解释模型么？"><span class="nav-text">都有了特征权重，还需要可解释模型么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请保持冷静：都有了可解释模型，还需要其他么？"><span class="nav-text">请保持冷静：都有了可解释模型，还需要其他么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="AnchoretY"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">AnchoretY</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">178</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/anchorety" title="GitHub → https://github.com/anchorety" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/yhk7520831104@gmail.com" title="E-Mail → yhk7520831104@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AnchoretY</span>
+</div>
+
+
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='1' zIndex='-1' count='150' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'S7MlHMmpqsSeCmfOcq43iVAD-gzGzoHsz',
+      appKey     : 'zItfNM4ps7umY5pL3gKAJiYX',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
