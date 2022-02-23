@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="AnchoretY&#39;s blog">
 <meta property="og:description" content="概述：首页描述">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-02-18T06:53:33.160Z">
+<meta property="og:updated_time" content="2022-02-23T09:53:36.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模型解释——SHAP">
 <meta name="twitter:description" content="概述：首页描述">
@@ -216,10 +216,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-02-18 11:43:54 / 修改时间：14:53:33" itemprop="dateCreated datePublished" datetime="2022-02-18T11:43:54+08:00">2022-02-18</time>
+              <time title="创建时间：2022-02-18 11:43:54" itemprop="dateCreated datePublished" datetime="2022-02-18T11:43:54+08:00">2022-02-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-23 17:53:36" itemprop="dateModified" datetime="2022-02-23T17:53:36+08:00">2022-02-23</time>
+              </span>
 
           
             <span id="/2022/02/18/模型解释——SHAP/" class="post-meta-item leancloud_visitors" data-flag-title="模型解释——SHAP" title="阅读次数">
@@ -248,7 +254,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>567</span>
+              <span>310</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -273,10 +279,7 @@
 <p>&emsp;&emsp;在使用SHAP进行模型解释之前，通常使用<code>feature importance</code>或<code>partial dependence  plot</code>来对一些不可解释的模型进行解释。</p>
 <p>Feature importance可以直观的反映出特征的重要性，看出哪些特征对最终的模型影响较大。但是无法判断各个特征与对每个样本最终预测结果的最终关系。</p>
 <h3 id="SHAP-value"><a href="#SHAP-value" class="headerlink" title="SHAP value"></a>SHAP value</h3><p><strong>优势：能够反应除各个特征对每一个样本的影响</strong></p>
-<p><strong>使用场景：训练好的模型，要查看模型对某个样本的特征作用。</strong></p>
-<p>&emsp;&emsp;假设第i个样本为$x<em>i$，第i个样本的第j个特征为$x</em>{i,j}$，模型对第i个样本的预测值为$y<em>i$，整个模型的基线（通常是所有样本的目标变量的均值）为$y</em>{base}$，那么SHAP value服从以下等式:</p>
-<p>​                                                        <script type="math/tex">y_i=y_{base}+f(x_i,1)+f(x_i,2)+⋯+f(x_i,k)</script></p>
-<p>&emsp;&emsp;其中f(xi,1)为$x_{i,j}$的SHAP值,从表达式中可以看出当$f(x_i,1)$&gt;0,说明该特征提升了预测值，起正向作用；反之，说明该特征使预测值降低，有反向作用。</p>
+<p><strong>使用场景：训练好$j_n$的模型，要查看模型对某个样本的特征作用。</strong></p>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>Python中SHAP值的计算由<code>shap</code>这个package实现，可以通过<code>pip install shap</code>安装。</p>
 <h4 id="1-基本信息获取"><a href="#1-基本信息获取" class="headerlink" title="1. 基本信息获取"></a>1. 基本信息获取</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> shap</span><br><span class="line"></span><br><span class="line">explainer = shap.TreeEcplaniner(model)</span><br><span class="line"><span class="comment"># 获取训练集中各个样本各个特征的shap值</span></span><br><span class="line">shape_values = explainer.shap_values(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得y_base值</span></span><br><span class="line">y_base = explainer。expected_value</span><br></pre></td></tr></table></figure>
 <h4 id="2-单个样本SHAP值分析"><a href="#2-单个样本SHAP值分析" class="headerlink" title="2. 单个样本SHAP值分析"></a>2. 单个样本SHAP值分析</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取指定样本shap值</span></span><br><span class="line">j = <span class="number">30</span></span><br><span class="line">player_explainer = pd.DataFrame()</span><br><span class="line">player_explainer[<span class="string">"feature_value"</span>] = data.iloc[j].vlaues</span><br><span class="line">palyer_explainer[<span class="string">"shap_value"</span>] = shape_vlaues[j]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定样本shap值可视化</span></span><br><span class="line">shap.initjs()</span><br><span class="line">shap.force_plot(explainer.expected_value,shape_values[j],data.iloc[j])</span><br></pre></td></tr></table></figure>
