@@ -190,6 +190,285 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/12/深度学习——词向量表示之word2vec/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/12/深度学习——词向量表示之word2vec/" class="post-title-link" itemprop="url">深度学习——词向量表示之word2vec</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-12 09:39:34" itemprop="dateCreated datePublished" datetime="2019-04-12T09:39:34+08:00">2019-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/04/12/深度学习——词向量表示之word2vec/" class="post-meta-item leancloud_visitors" data-flag-title="深度学习——词向量表示之word2vec" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/12/深度学习——词向量表示之word2vec/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/12/深度学习——词向量表示之word2vec/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>原始的神经网络语言模型：里面一般有三层，输入层（词向量），隐藏层和输出层（softmax层），<strong>里面最大的问题在于从隐藏层到输出的softmax层的计算量很大，因为要计算所有词的softmax概率，再去找概率最大的值</strong></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/word2vec架构图.png?raw=true" alt></p>
+<h4 id="Word2Vec对原始语言模型的改进："><a href="#Word2Vec对原始语言模型的改进：" class="headerlink" title="Word2Vec对原始语言模型的改进："></a>Word2Vec对原始语言模型的改进：</h4><blockquote>
+<p>1.<strong>对于从输入层到隐藏层的映射，没有采取神经网络的线性变换加激活函数的方法，而是采用简单的对所有输入词向量求和并取平均的方法。</strong></p>
+<p>比如输入的是三个4维词向量：(1,2,3,4),(9,6,11,8),(5,10,7,12)(1,2,3,4),(9,6,11,8),(5,10,7,12),那么我们word2vec映射后的词向量就是(5,6,7,8)(5,6,7,8)。由于这里是从多个词向量变成了一个词向量。</p>
+<p><strong>2.word2vec采样了霍夫曼树来代替从隐藏层到输出softmax层的映射（Hierarchical Softmax）。这样隐藏层到输出层的softmax不是一步完成的，而是沿着哈弗曼树一步一步完成的。</strong></p>
+</blockquote>
+<h3 id="Hierarchical-Softmax"><a href="#Hierarchical-Softmax" class="headerlink" title="Hierarchical Softmax"></a>Hierarchical Softmax</h3><p>​     和之前的神经网络语言模型相比，我们的霍夫曼树的<strong>所有内部节点就类似之前神经网络隐藏层的神经元</strong>,其中，<strong>根节点的词向量对应我们的投影后的词向量</strong>，而所有<strong>叶子节点就类似于之前神经网络softmax输出层的神经元</strong>，<strong>叶子节点的个数就是词汇表的大小</strong>。</p>
+<h4 id="使用Hierarchical-Softmax的好处"><a href="#使用Hierarchical-Softmax的好处" class="headerlink" title="使用Hierarchical Softmax的好处"></a>使用Hierarchical Softmax的好处</h4><blockquote>
+<p>1.由于是二叉树，之前计算量为V,现在变成了log2V</p>
+<p>2.由于使用霍夫曼树是高频的词靠近树根，这样高频词需要更少的时间会被找到。</p>
+</blockquote>
+<h4 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h4><p><strong>STEP 1：扫描语料库，统计每个词出现的频数，保存在一个hash表中</strong></p>
+<p><strong>STEP2：根据个词的词频建立哈弗曼树</strong></p>
+<ul>
+<li><p>最终每个词汇都是哈弗曼树的叶子节点，词频就是相应的权值</p>
+</li>
+<li><p>根节点对应的词向量就是我们投影后的词向量</p>
+</li>
+<li>而所有叶子节点就类似神经网络softmax输出层的神经元，叶子节点个数就是词汇表大小</li>
+<li>非叶子节点代表某一类词</li>
+<li>哈弗曼树建立好后每个词都会有一个二进制的哈弗曼编码</li>
+</ul>
+<p><strong>STEP3：初始化词向量和哈弗曼树非叶子节点的向量</strong></p>
+<p>​    向量维度是我们给定的参数K。</p>
+<p><strong>STEP4：训练，也就是通过梯度下降算法不断优化词向量</strong></p>
+<p>​    在初始化后的词向量，回到语料库，逐句读取一系列的词，然后用梯度下降算法算法算出梯度，更新词向量的值、非叶子检点的值。(哈弗曼树就相当于一个优化后的神经网络)</p>
+<h4 id="参数更新过程"><a href="#参数更新过程" class="headerlink" title="参数更新过程"></a>参数更新过程</h4><h3 id="基于Negative-Sampling的Word2vec"><a href="#基于Negative-Sampling的Word2vec" class="headerlink" title="基于Negative Sampling的Word2vec"></a>基于Negative Sampling的Word2vec</h3><p><strong>Hierarchical Softmax的的缺点</strong>：</p>
+<p>​    对于生僻词需要在哈弗曼树中向下走很久。</p>
+<h4 id="Negative-Sampling算法"><a href="#Negative-Sampling算法" class="headerlink" title="Negative Sampling算法"></a>Negative Sampling算法</h4><p>​    Negative Sampling不再使用(复杂的Huffman树），而是<strong>利用相对简单的随机负采样</strong>，能大幅度提升性能，因此，将其作为Hierarchical softmax的替代方案</p>
+<p>​    <strong>核心思想</strong>：<strong>通过负采样将问题转化为求解一个正例和neg个负例进行二元回归问题</strong>。每次只是通过采样neg个不同的中心词做负例，就可以训练模型</p>
+<p>​    <strong>方法：</strong>我们有一个训练样本，中心词是w,它周围上下文共有2c个词，记为context(w)。由于这个中心词w,的确和context(w)相关存在，因此它是一个真实的正例。<strong>通过Negative Sampling采样，我们得到neg个</strong>和w不同的中心词wi,i=1,2,..neg，这样context(w)和wi就组成了neg个<strong>并不真实存在的负例</strong>。<strong>利用这一个正例和neg个负例，我们进行二元逻辑回归，得到负采样对应每个词wi对应的模型参数θi，和每个词的词向量</strong>。</p>
+<p>​    <strong>本质上是对训练集进行了采样，从而减小了训练集的大小。</strong></p>
+<h4 id="Negative-Sampling负采样方法"><a href="#Negative-Sampling负采样方法" class="headerlink" title="Negative Sampling负采样方法"></a>Negative Sampling负采样方法</h4><p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/负采样算法2.png?raw=true" alt></p>
+<p><strong>3、 word2vec负采样有什么作用？</strong></p>
+<p>1<strong>.加速了模型计算</strong>，模型每次只需要更新采样的词的权重，不用更新所有的权重</p>
+<p>2.<strong>保证了模型训练的效果</strong>，中心词其实只跟它周围的词有关系，位置离着很远的词没有关系</p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p><strong>1.skip gram和cbow各自的优缺点</strong></p>
+<blockquote>
+<p>​    <strong>(1) cbow的速度更快，时间复杂度为O(V)，skip-gram速度慢,时间复杂度为O(nV)</strong></p>
+<p>​    在cbow方法中，是用周围词预测中心词，从而利用中心词的预测结果情况，使用GradientDesent方法，不断的去调整周围词的向量。cbow预测行为的次数跟整个文本的词数几乎是相等的（每次预测行为才会进行一次backpropgation, 而往往这也是最耗时的部分），复杂度大概是O(V);</p>
+<p>​    而skip-gram是用中心词来预测周围的词。在skip-gram中，会利用周围的词的预测结果情况，使用GradientDecent来不断的调整中心词的词向量，最终所有的文本遍历完毕之后，也就得到了文本所有词的词向量。可以看出，skip-gram进行预测的次数是要多于cbow的：因为<strong>每个词在作为中心词时，都要使用周围每个词进行预测一次</strong>。<strong>这样相当于比cbow的方法多进行了K次（假设K为窗口大小）</strong>，因此时间的复杂度为O(KV)，训练时间要比cbow要长。</p>
+<p>​    <strong>(2)当数据较少或生僻词较多时，skip-gram会更加准确；</strong></p>
+<p>​    在<strong>skip-gram当中，每个词都要收到周围的词的影响</strong>，每个词在作为中心词的时候，都要进行K次的预测、调整。因此， 当数据量较少，或者词为生僻词出现次数较少时， 这种多次的调整会使得词向量相对的更加准确。因为<strong>尽管cbow从另外一个角度来说，某个词也是会受到多次周围词的影响（多次将其包含在内的窗口移动），进行词向量的跳帧，但是他的调整是跟周围的词一起调整的，grad的值会平均分到该词上， 相当于该生僻词没有收到专门的训练，它只是沾了周围词的光而已</strong>。</p>
+</blockquote>
+<p><strong>2.Negative Sampling和Hierarchical softmax各自的优缺点</strong></p>
+<blockquote>
+<p><strong>Hierarchical softmax</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.由于是二叉树，之前计算量为V,现在变成了log2V，<strong>效率更高</strong></p>
+<p>​    2.由于使用霍夫曼树是高频的词靠近树根，这样<strong>高频词需要更少的时间会被找到</strong>。</p>
+<p><strong>缺点:</strong></p>
+<p>​    对于<strong>生僻词在hierarchical softmax中依旧需要向下走很久</strong></p>
+<p><strong>Negative Sampling</strong></p>
+<p><strong>优点：</strong></p>
+<p>​    1.对于低频词的计算效率依然很高</p>
+</blockquote>
+<p>​        </p>
+<p><strong>3.word2vec的缺点</strong></p>
+<blockquote>
+<p>1.使用的只是局部的上下文信息，对上下文的利用有限</p>
+<p>2.和glove相比比较难并行化</p>
+</blockquote>
+<p>​    </p>
+<p><strong>4、word2vec和fastText对比有什么区别？（word2vec vs fastText）</strong></p>
+<blockquote>
+<p>1）都可以无监督学习词向量， <strong>fastText训练词向量时会考虑subword</strong>；</p>
+<p>2）fastText还可以进行有监督学习进行文本分类，其主要特点：</p>
+<ul>
+<li>结构与CBOW类似，但学习目标是人工标注的分类结果；</li>
+<li>采用hierarchical softmax对输出的分类标签建立哈夫曼树，样本中标签多的类别被分配短的搜寻路径；</li>
+<li>引入N-gram，考虑词序特征；</li>
+<li>引入subword来处理长词，处理未登陆词问题；</li>
+</ul>
+</blockquote>
+<p>参考文献：<a href="https://www.cnblogs.com/pinard/p/7249903.html" target="_blank" rel="noopener">基于Negative Sampling的模型</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/7243513.html" target="_blank" rel="noopener"> 基于Hierarchical Softmax的模型</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/04/机器学习——高斯混合模型GMM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="AnchoretY">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AnchoretY's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/04/机器学习——高斯混合模型GMM/" class="post-title-link" itemprop="url">机器学习——高斯混合模型GMM</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-04 12:12:58" itemprop="dateCreated datePublished" datetime="2019-04-04T12:12:58+08:00">2019-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+              </span>
+
+          
+            <span id="/2019/04/04/机器学习——高斯混合模型GMM/" class="post-meta-item leancloud_visitors" data-flag-title="机器学习——高斯混合模型GMM" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/04/机器学习——高斯混合模型GMM/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/04/机器学习——高斯混合模型GMM/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>179</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>GMM 是学习出一些概率密度函数</p>
+<p>k-means 的结果是每个数据点被 assign 到其中某一个 cluster 了，而 GMM 则给出这些数据点被 assign 到每个 cluster 的概率，又称作 soft assignment。</p>
+<p>假设数据服从 Mixture Gaussian Distribution ，换句话说，数据可以看作是从数个 Gaussian Distribution 中生成出来的</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/04/04/机器学习——EM算法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1353,378 +1632,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/02/10/机试——排序算法总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/02/10/机试——排序算法总结/" class="post-title-link" itemprop="url">机试——排序算法总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-02-10 09:16:10" itemprop="dateCreated datePublished" datetime="2019-02-10T09:16:10+08:00">2019-02-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-
-          
-            <span id="/2019/02/10/机试——排序算法总结/" class="post-meta-item leancloud_visitors" data-flag-title="机试——排序算法总结" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/02/10/机试——排序算法总结/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/02/10/机试——排序算法总结/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​    机试中，排序算法是主要面临的一类算法，很久都没有接触机试的题了，解决的时候感觉有点思路不是很清楚了，因此写了这一片博客，来整理下常见的排序算法以及各种常见算法的效率稳定性等特点。</p>
-<blockquote>
-<p>在机试中常用的排序算法主要包含下面几种：</p>
-<p>​    1.插入排序</p>
-<p>​    2.选择排序</p>
-<p>​    3.快速排序(最常用的排序)</p>
-<p>​    4.冒泡排序</p>
-<p>​    5.归并排序</p>
-<p>​    6.桶排序</p>
-</blockquote>
-<p>下面我将具体介绍各种排序算法的一些特点：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>排序算法</th>
-<th>平均时间复杂度</th>
-<th>最坏时间复杂度</th>
-<th>空间复杂度</th>
-<th>是否稳定</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>冒泡排序</td>
-<td>O（n2）</td>
-<td>O（n2）</td>
-<td>O（1）</td>
-<td>稳定</td>
-</tr>
-<tr>
-<td>选择排序</td>
-<td>O（n2）</td>
-<td>O（n2）</td>
-<td>O（1）</td>
-<td>不稳定</td>
-</tr>
-<tr>
-<td>直接插入排序</td>
-<td>O（n2）</td>
-<td>O（n2）</td>
-<td>O（1）</td>
-<td>稳定</td>
-</tr>
-<tr>
-<td>希尔排序</td>
-<td>O（n2）</td>
-<td>O(O3/2)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>归并排序</td>
-<td>O(nlogn)</td>
-<td>O(nlogn)</td>
-<td>O（n）</td>
-<td>稳定</td>
-</tr>
-<tr>
-<td>快速排序</td>
-<td>O(nlogn)</td>
-<td>O(n2)</td>
-<td>O（logn）</td>
-<td>不稳定</td>
-</tr>
-<tr>
-<td>堆排序</td>
-<td>O(nlogn)</td>
-<td>O(nlogn)</td>
-<td>O(1)</td>
-<td>不稳定</td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<p>时间复杂度辅助记忆：</p>
-<ul>
-<li>冒泡、选择、直接 排序需要两个for循环，每次只关注一个元素，平均时间复杂度为O（n2）（一遍找元素O(n)，一遍找位置O(n)）</li>
-<li>快速、归并、希尔、堆基于二分思想，log以2为底，平均时间复杂度为O(nlogn)（一遍找元素O(n)，一遍找位置O(logn)）</li>
-</ul>
-</blockquote>
-<h4 id="1-插入排序"><a href="#1-插入排序" class="headerlink" title="1.插入排序"></a>1.插入排序</h4><p>​    每次从头到尾选择一个元素，并且将这个元素和整个数组中的所有已经排序的元素进行比较，然后插入到合适的位置。</p>
-<p>​    注意：插入排序的核心点就是两两比较时从后向前进行比较，如果比插入值大，那么将其向后移动，直到找到比插入值小的。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertion_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,length):     <span class="comment">#从第一个元素开始依次进行排序</span></span><br><span class="line">        tmp = arr[i]</span><br><span class="line">        j = i</span><br><span class="line">        <span class="keyword">while</span> arr[j<span class="number">-1</span>]&gt;tmp <span class="keyword">and</span> j&gt;<span class="number">0</span>:  <span class="comment">#从当前元素从后向前向前开始遍历，寻找第一个比当前元素更小的元素</span></span><br><span class="line">            arr[j] = arr[j<span class="number">-1</span>]		<span class="comment">#再找比当前小的元素位置的同时，只要扫描到的位置比当前元素大，那么将该元素后移一维</span></span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line">        arr[j] = tmp</span><br><span class="line">   <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<blockquote>
-<p>为什么插入排序是稳定的排序算法？</p>
-<p>​    当前从头到尾选择元素进行排序时，当选择到第i个元素时，前i-1个元素已经排好了续，取出第i个元素，从i-1开始向前开始比较，如果小于，则将该位置元素向后移动，继续先前的比较，如果不小于，那么将第i个元素放在当前比较的元素之后。</p>
-</blockquote>
-<h4 id="2-选择排序"><a href="#2-选择排序" class="headerlink" title="2.选择排序"></a>2.选择排序</h4><p>​    选择排序主要采用了从头到尾依次确定各个位置的方式来进行排序，首先遍历一次整个数组，如果遇到比第一个元素小的元素那么交换位置，一次遍历完成那么第一个位置就已经是整个数组中最小的元素了，经过n次遍历，确定全部位置的元素。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selection_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(length):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i,length):</span><br><span class="line">            <span class="keyword">if</span> arr[i]&gt;arr[j]:</span><br><span class="line">                tmp = arr[i]</span><br><span class="line">                arr[i] = arr[j]</span><br><span class="line">                arr[j] = tmp</span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：不稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<h4 id="3-冒泡排序"><a href="#3-冒泡排序" class="headerlink" title="3.冒泡排序"></a>3.冒泡排序</h4><p>​    冒泡排序额是实现是不停地进行两两比较，将较大的元素换到右侧，然后继续进行两两比较，直到比较完全全部元素，<strong>每进行完一轮两两比较，确定一个元素的位置</strong>。例如：第一轮两两比较确定最大的值，第二轮比较确定次大元素。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble_sort</span><span class="params">(arr)</span>:</span></span><br><span class="line">    length = len(arr)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,length):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,length-i):</span><br><span class="line">            <span class="keyword">if</span> arr[j]&lt;arr[j<span class="number">-1</span>]:</span><br><span class="line">                tmp = arr[j]</span><br><span class="line">                arr[j] = arr[j<span class="number">-1</span>]</span><br><span class="line">                arr[j<span class="number">-1</span>] = tmp</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：稳定</strong></p>
-<p><strong>时间复杂度：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(1)</strong></p>
-<blockquote>
-<p>冒泡排序在原始冒泡排序算法的基础上还能做哪些优化？</p>
-<p>​    1.设置是否已经排好序的flag。如果在某一轮的便利中没有出现任何的交换发生，这说明已经都排好序,那么直接将flag置True，每轮结束时检测flag，如果为True则直接返回</p>
-<p>​    2.某一轮的结束为止为j，但这一轮最后一次交换发生在lastSwap位置，那么说明lastSwap到j之间已经排好序，下次遍历的结束点就不需要再到j—而是直接到lastSwap即可。</p>
-</blockquote>
-<h4 id="4-希尔排序"><a href="#4-希尔排序" class="headerlink" title="4.希尔排序"></a>4.希尔排序</h4><p>​    希尔排序是一种插入排序的改良算法，简单的插入排序不管元素怎么样，都从头到尾一步一步的进行元素比较，如果遇到逆序序列如：[5,4,3,2,1,0]数组末端的0要回到原始位置需要n-1次的比较和移动。而希尔排序使用跳跃式分组的策略，通过某个增量将数组元素划分为若干组，然后在各个组内进行插入排序，随后逐步缩小增量，继续按照组进行排序，直至增量为1。</p>
-<p>​    希尔排序通过这种策略使的整个数组在初始阶段宏观上基本有序，小的基本在前，大的基本在后，然后缩小增量相当于进行微调，不会过多的设计元素移动。</p>
-<blockquote>
-<p>基本思想：把记录按照下标的一定增量进行分组，对每组使用直接插入排序算法进行排序；随着增量逐渐减少，魅族包含的元素个数越来越多，当增量减至1时，整个文件被分成一组，算法终止。</p>
-</blockquote>
-<p><strong>稳定性：不稳定</strong></p>
-<p><strong>平均时间复杂度：O(<script type="math/tex">n^2</script>)</strong> </p>
-<p><strong>最坏时间复杂度 :  O(<script type="math/tex">n^\frac{3}{2}</script>)</strong></p>
-<p><strong>空间复杂度:O( <script type="math/tex">n^2</script> )</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/希尔排序实例.png?raw=true" alt></p>
-<h4 id="5-快速排序"><a href="#5-快速排序" class="headerlink" title="5.快速排序"></a>5.快速排序</h4><p>​    快速排序的的主要思想是先找到一个任意一个元素作为基准元素pivot（一般都采用第一个元素作为基准），然后从右向左搜索，如果发现比pivot小，那么和pivot交换,然后从右向左进行搜索，如果发现比pviot大，那么进行交换，遍历一轮后pivot左边的元素都比它小，右边的元素都比他大，<strong>此时pivot的位置就是排好序后他也应该在的位置。</strong>然后继续用递归算法分别处理pivot左边的元素和右边的元素。</p>
-<h5 id="对于大的乱序数据快速排序被认为是最快速的排序方式"><a href="#对于大的乱序数据快速排序被认为是最快速的排序方式" class="headerlink" title="对于大的乱序数据快速排序被认为是最快速的排序方式"></a>对于大的乱序数据快速排序被认为是最快速的排序方式</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式一：递归</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(l&lt;r):</span><br><span class="line">        q = mpartition(arr,l,r)</span><br><span class="line">        quick_sort(arr,l,q<span class="number">-1</span>)    <span class="comment">#前面经过一次mpartion后q位置已经排好序，因此递归时两部分跳过q位置</span></span><br><span class="line">        quick_sort(arr,q+<span class="number">1</span>,r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mpartition</span><span class="params">(arr,l,r)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    	递归子函数，povit放到指定位置</span></span><br><span class="line"><span class="string">    	return l:最终标志元素被放置的位置，本轮确定了的元素位置</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    poviot = arr[l]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> l&lt;r:</span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[r]&gt;=poviot:</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[l] = arr[r]</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> l&lt;r <span class="keyword">and</span> arr[l]&lt;poviot:</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> l&lt;r:</span><br><span class="line">            arr[r] = arr[l]</span><br><span class="line">            r -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    arr[l]  = poviot</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方式二：非递归，利用栈</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(nums,low,high)</span>:</span></span><br><span class="line">    <span class="comment">#确定nums数组中指定部分low元素的位置，左边都比它小，右边都比他大</span></span><br><span class="line">    </span><br><span class="line">    pivot = nums[low]</span><br><span class="line">    high_flag = <span class="keyword">True</span>   <span class="comment">#这里之所以设置这两个flag是为了确保交叉进行，否则可能会出现最大索引值处没有值或者最大索引值处一直付给各个low</span></span><br><span class="line">    low_flag = <span class="keyword">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> low&lt;high <span class="keyword">and</span> low&lt;len(nums) <span class="keyword">and</span> high&lt;len(nums):</span><br><span class="line">        <span class="keyword">if</span> high_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[high]&lt;pivot:</span><br><span class="line">                nums[low]=nums[high]</span><br><span class="line">                high_flag = <span class="keyword">False</span></span><br><span class="line">                low_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                high -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> low_flag:</span><br><span class="line">            <span class="keyword">if</span> nums[low]&gt;pivot:</span><br><span class="line">                nums[high] = nums[low]</span><br><span class="line">                low_flag = <span class="keyword">False</span></span><br><span class="line">                high_flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                low += <span class="number">1</span></span><br><span class="line">    nums[low] = pivot     </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> low</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quick_sort</span><span class="params">(nums)</span>:</span></span><br><span class="line">    low = <span class="number">0</span></span><br><span class="line">    high = len(nums)<span class="number">-1</span></span><br><span class="line">    stack = []    <span class="comment">#存储每次遍历起始索引和结束索引</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> low&lt;high:</span><br><span class="line">        <span class="comment">#先手动将找到第一个节点的最终位置，将原数组分为左右两个数组，分别左右索引入栈</span></span><br><span class="line">        mid = partition(nums,low,high)</span><br><span class="line">        <span class="keyword">if</span> low&lt;mid<span class="number">-1</span>:</span><br><span class="line">            stack.append(low)</span><br><span class="line">            stack.append(mid<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">if</span> high&gt;mid+<span class="number">1</span>:</span><br><span class="line">            stack.append(mid+<span class="number">1</span>)</span><br><span class="line">            stack.append(high)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#取出之前入栈的一个数组，来进行确定最终位置，分为左右两个子数组，分别左右索引入栈的操作，重复直到所有元素都已经排好序</span></span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            <span class="comment">#这里写的是属于右半部都排好后左半部</span></span><br><span class="line">            r = stack.pop()</span><br><span class="line">            l = stack.pop()</span><br><span class="line">            mid = partition(nums,l,r)</span><br><span class="line">            <span class="keyword">if</span> l&lt;mid<span class="number">-1</span>:</span><br><span class="line">                stack.append(l)</span><br><span class="line">                stack.append(mid<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">if</span> r&gt;mid+<span class="number">1</span>:</span><br><span class="line">                stack.append(mid+<span class="number">1</span>)</span><br><span class="line">                stack.append(r)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
-<p><strong>稳定性：不稳定</strong>（排序过程中不停地交换元素位置造成了排序算法不稳定）</p>
-<p><strong>时间复杂度：</strong></p>
-<p>​    <strong>平均时间O(nlogn)</strong></p>
-<p>​    <strong>最坏情况：O(n^2)</strong></p>
-<p><strong>空间复杂度：O(nlogn)</strong></p>
-<h4 id="6-归并排序"><a href="#6-归并排序" class="headerlink" title="6.归并排序"></a>6.归并排序</h4><p>​    该算法采用经典的<strong>分治</strong>（divide-and-conquer）策略（分治法将问题<strong>分</strong>(divide)成一些小的问题然后递归求解，而<strong>治(conquer)</strong>的阶段则将分的阶段得到的各答案”修补”在一起，即分而治之)。</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E8%BF%87%E7%A8%8B%E5%9B%BE.png?raw=true" alt></p>
-<p>​    每次合并操作的平均时间复杂度为O(n)，而完全二叉树的深度为|log2n|。总的平均时间复杂度为O(nlogn)。而且，<strong>归并排序的最好，最坏，平均时间复杂度均为O(nlogn)。</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MergeSort</span><span class="params">(lists)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(lists) &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> lists</span><br><span class="line">    num = int(len(lists) / <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    left = MergeSort(lists[:num])</span><br><span class="line">    right = MergeSort(lists[num:])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Merge(left, right)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Merge</span><span class="params">(left, right)</span>:</span></span><br><span class="line">    r, l = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">while</span> l &lt; len(left) <span class="keyword">and</span> r &lt; len(right):</span><br><span class="line">        <span class="keyword">if</span> left[l] &lt;= right[r]:</span><br><span class="line">            result.append(left[l])</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result.append(right[r])</span><br><span class="line">            r += <span class="number">1</span></span><br><span class="line">    result += list(left[l:])</span><br><span class="line">    result += list(right[r:])</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-<h4 id="7-堆排序"><a href="#7-堆排序" class="headerlink" title="7.堆排序"></a>7.堆排序</h4><p>​        见<a href="https://anchorety.github.io/2019/04/17/机试——堆相关的问题/">堆排序</a></p>
-<h4 id="7-桶排序"><a href="#7-桶排序" class="headerlink" title="7.桶排序"></a>7.桶排序</h4>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anchorety.github.io/2019/01/21/深度学习——Attention相关/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="AnchoretY">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="AnchoretY's blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/01/21/深度学习——Attention相关/" class="post-title-link" itemprop="url">深度学习——Attention相关</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-01-21 14:54:55" itemprop="dateCreated datePublished" datetime="2019-01-21T14:54:55+08:00">2019-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2019/01/21/深度学习——Attention相关/" class="post-meta-item leancloud_visitors" data-flag-title="深度学习——Attention相关" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/01/21/深度学习——Attention相关/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/01/21/深度学习——Attention相关/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-为什么要使用Attention机制？"><a href="#1-为什么要使用Attention机制？" class="headerlink" title="1.为什么要使用Attention机制？"></a>1.为什么要使用Attention机制？</h4><p>​    Attention机制最初起源于seq2seq中，经典的encoder-decoder做机器翻译时，通常是是使用两个RNN网络，一个用来将待翻译语句进行编码输出一个vector，另一个RNN对上一个RNN网络的输出进行解码，也就是翻译的过程。但是经典的encoder-decoder模式<strong>最大的缺点</strong>在于：<strong>不管输入多么长的语句，最后输出的也只是最后一个vector，这个向量能否有效的表达该语句非常值得怀疑</strong>，而<strong>Attention机制正是利用了RNN整个过程中的各个输出来综合进行编码</strong></p>
-<blockquote>
-<p>原始序列模型的不足：</p>
-<p>​    1.从编码器到解码器的语境矩阵式大小是固定的，这是个瓶颈问题</p>
-<p>​    2.难以对长的序列编码，并且难以回忆长期依赖</p>
-</blockquote>
-<h4 id="2-Attention原理"><a href="#2-Attention原理" class="headerlink" title="2.Attention原理"></a>2.Attention原理</h4><p><strong>1.首先在RNN的过程中保存每个RNN单元的隐藏状态(h1….hn)</strong></p>
-<p><strong>2.对于decoder的每一个时刻t，因为此时有decoder的输入和上一时刻的输出，所以我们可以的当前步的隐藏状态St</strong></p>
-<p><strong>3.在每个t时刻用St和hi进行点积得到attention score</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention1.png?raw=true" alt></p>
-<p><strong>4.利用softmax函数将attention score转化为概率分布</strong></p>
-<p>​    利用下面的公式进行概率分布的计算：</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式1.png?raw=true" alt></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/attention2.png?raw=true" alt></p>
-<p><strong>5.利用刚才的计算额Attention值对encoder的hi进行加权求和，得到decoder t时刻的注意力向量（也叫上下文向量）</strong></p>
-<p>​    <img src="https://github.com/AnchoretY/images/blob/master/blog/Attention公式2.png?raw=true" alt></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention3.png?raw=true" alt></p>
-<p><strong>6.最后将注意力向量和decoder t时刻的隐藏状态st并联起来做后续步骤（例如全连接进行分类）</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/Attention4.png?raw=true" alt></p>
-<h4 id="3-Attention计算方式"><a href="#3-Attention计算方式" class="headerlink" title="3.Attention计算方式"></a>3.Attention计算方式</h4><p>​    前面一节中，我们的概率分布来自于h与s的点积再做softmax，这只是最基本的方式。在实际中，我们可以有不同的方法来产生这个概率分布，每一种方法都代表了一种具体的Attention机制。在各个attention中，attention的计算方式主要有<strong>加法attention</strong>和<strong>乘法attention</strong>两种。</p>
-<h5 id="3-1-加法attention"><a href="#3-1-加法attention" class="headerlink" title="3.1 加法attention"></a>3.1 加法attention</h5><p>​    在加法attention中我们不在使用st和hi的点乘，而是使用如下计算:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/加法attention.png?raw=true" alt></p>
-<p>​    其中,va和Wa都是可以训练的参数。使用这种方式产生的数在送往softmax来进行概率分布计算</p>
-<h5 id="3-2-乘法attention"><a href="#3-2-乘法attention" class="headerlink" title="3.2 乘法attention"></a>3.2 乘法attention</h5><p>​    在乘法attention中使用h和s做点乘运算:</p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/乘法attention.png?raw=true" alt></p>
-<p>​    显然<strong>乘法attention的参数更少，计算效率更高。</strong></p>
-<h4 id="4-self-attention"><a href="#4-self-attention" class="headerlink" title="4.self-attention"></a>4.self-attention</h4><p>​    思想：在没有任何额外信息情况下，句子使用self-attention机制来处理自己，提取关键信息</p>
-<blockquote>
-<p>在attention机制中经常出现的一种叫法：</p>
-<p>​    query：在一个时刻不停地要被查询的那个向量（前面的decodert时刻的隐藏状态st）。</p>
-<p>​    key: 要去查询query计算个query相似关度的向量（前面的encoder在各个时刻的隐藏状态hi）</p>
-<p>​    value: 和softmax得到的概率分布相乘得到最终attention上下文向量的向量(前面的encoder在各个时刻的隐藏状态hi)</p>
-<p>这里我们可以明显知道，<strong>任意attention中key和value是相同的</strong></p>
-</blockquote>
-<p>​    attention就是key、value、和query都来自同一输入的(也是相同的)</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1797,7 +1704,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">178</span>
+          <span class="site-state-item-count">180</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
