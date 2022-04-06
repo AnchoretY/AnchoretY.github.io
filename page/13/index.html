@@ -358,7 +358,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-23 14:42:06" itemprop="dateModified" datetime="2022-03-23T14:42:06+08:00">2022-03-23</time>
+                <time title="修改时间：2022-03-23 14:47:29" itemprop="dateModified" datetime="2022-03-23T14:47:29+08:00">2022-03-23</time>
               </span>
 
           
@@ -484,7 +484,6 @@
 </ul>
 </blockquote>
 <p>参考文献：<a href="https://www.cnblogs.com/pinard/p/7249903.html" target="_blank" rel="noopener">基于Negative Sampling的模型</a></p>
-<p><a href="https://www.cnblogs.com/pinard/p/7243513.html" target="_blank" rel="noopener"> 基于Hierarchical Softmax的模型</a></p>
 
       
     </div>
@@ -1496,7 +1495,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-19 12:05:32" itemprop="dateModified" datetime="2021-02-19T12:05:32+08:00">2021-02-19</time>
+                <time title="修改时间：2022-04-06 17:07:27" itemprop="dateModified" datetime="2022-04-06T17:07:27+08:00">2022-04-06</time>
               </span>
 
           
@@ -1547,15 +1546,6 @@
       
           <p>​    transformer模型来自于Google的经典论文<strong>Attention is all you need</strong>，在这篇论文中作者采用Attention来取代了全部的RNN、CNN，实现效果效率的双丰收。</p>
 <p>​    现在transformer在NLP领域已经可以达到全方位吊打CNN、RNN系列的网络，网络处理时间效率高，结果稳定性可靠性都比传统的CNN、RNN以及二者的联合网络更好，因此现在已经呈现出了transformer逐步取代二者的大趋势。</p>
-<p>​    下面是三者在下面四个方面的对比试验结果</p>
-<p>​        <strong>1.远距离特征提取能力</strong></p>
-<p>​        <strong>2.语义特征提取能力</strong></p>
-<p>​        <strong>3.综合特征提取能力</strong></p>
-<p>​        <strong>4.特征提取效率</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81transformer%E9%95%BF%E8%B7%9D%E7%A6%BB%E7%89%B9%E5%BE%81%E6%8D%95%E8%8E%B7%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81transformer%E8%AF%AD%E4%B9%89%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E7%BB%BC%E5%90%88%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E8%83%BD%E5%8A%9B%E5%AF%B9%E6%AF%94.png?raw=true" alt></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/RNN%E3%80%81CNN%E3%80%81Transformer%E4%B8%89%E8%80%85%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87%E5%AF%B9%E6%AF%94.png?raw=true" alt></p>
 <p>下面是从一系列的论文中获取到的RNN、CNN、Transformer三者的对比结论：    </p>
 <p>​    <strong>1.从任务综合效果方面来说，Transformer明显优于CNN，CNN略微优于RNN。</strong></p>
 <p>​    <strong>2.速度方面Transformer和CNN明显占优，RNN在这方面劣势非常明显。(主流经验上transformer和CNN速度差别不大，RNN比前两者慢3倍到几十倍)</strong></p>
@@ -1564,7 +1554,7 @@
 <p>​        <strong>2.Position-wise前馈网络</strong></p>
 <p>​        <strong>3.多头self-attention</strong></p>
 <p>​        <strong>4.位置编码</strong></p>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/transformer%E6%A8%A1%E5%9E%8B%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true=20*50" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/transformer%E6%A8%A1%E5%9E%8B%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84.png?raw=true=20*50" style="zoom:30%;"></p>
 <p>​    1.采用全连接层进行Embedding （Batch_size,src_vocab_size,model_dim）</p>
 <p>​    2.在进行位置编码，位置编码和Embedding的结果进行累加</p>
 <p>​    3.进入Encoder_layer进行编码处理(相当于特征提取)</p>
@@ -1575,19 +1565,19 @@
 <p><strong>在偶数位置，使用正弦编码;在奇数位置使用余弦进行编码。</strong></p>
 <blockquote>
 <p>为什么要使用三角函数来进行为之编码？</p>
-<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为dmodel维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000<em>2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<em>*绝对位置</em></em>。</p>
+<p>​    首先在上面的公式中可以看出，给定词语的pos可以很简单其表示为$d_{model}$维的向量，也就是说位置编码的每一个位置每一个维度对应了一个波长从2π到10000<em>2π的等比数列的正弦曲线，也就是说可以表示各个各个位置的<em>*绝对位置</em></em>。</p>
 <p>​    在另一方面，词语间的相对位置也是非常重要的，这也是选用正余弦函数做位置编码的最主要原因。因为</p>
-<p>​    sin(α+β) = sinαcosβ+cosαsinβ</p>
-<p>​    cos(α+β) = cosαcosβ+sinαsinβ</p>
-<p>​    因此对于词汇间位置偏移k，PE(pos+k)可以表示为PE(pos)和PE(k)组合的形式，也就是<strong>具有相对位置表达能力</strong></p>
+<script type="math/tex; mode=display">
+    sin(α+β) = sinαcosβ+cosαsinβ</script><script type="math/tex; mode=display">
+cos(α+β) = cosαcosβ+sinαsinβ</script><p>​    因此对于词汇间位置偏移k，PE(pos+k)可以表示为PE(pos)和PE(k)组合的形式，也就是<strong>具有相对位置表达能力</strong></p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PositionalEncoding</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    </span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        位置编码层</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, d_model, max_seq_len)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        初始化</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            d_model: 一个标量。模型的维度，论文默认是512</span></span><br><span class="line"><span class="string">            max_seq_len: 一个标量。文本序列的最大长度</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        super(PositionalEncoding, self).__init__()</span><br><span class="line">       </span><br><span class="line">        <span class="comment"># 根据论文给的公式，构造出PE矩阵</span></span><br><span class="line">        position_encoding = np.array([</span><br><span class="line">          [pos / np.power(<span class="number">10000</span>, <span class="number">2.0</span> * (j // <span class="number">2</span>) / d_model) <span class="keyword">for</span> j <span class="keyword">in</span> range(d_model)]</span><br><span class="line">          <span class="keyword">for</span> pos <span class="keyword">in</span> range(max_seq_len)])</span><br><span class="line">        <span class="comment"># 偶数列使用sin，奇数列使用cos</span></span><br><span class="line">        position_encoding[:, <span class="number">0</span>::<span class="number">2</span>] = np.sin(position_encoding[:, <span class="number">0</span>::<span class="number">2</span>])</span><br><span class="line">        position_encoding[:, <span class="number">1</span>::<span class="number">2</span>] = np.cos(position_encoding[:, <span class="number">1</span>::<span class="number">2</span>])</span><br><span class="line">        position_encoding = torch.Tensor(position_encoding)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 在PE矩阵的第一行，加上一行全是0的向量，代表这`PAD`的positional encoding</span></span><br><span class="line">        <span class="comment"># 在word embedding中也经常会加上`UNK`，代表位置单词的word embedding，两者十分类似</span></span><br><span class="line">        <span class="comment"># 那么为什么需要这个额外的PAD的编码呢？很简单，因为文本序列的长度不一，我们需要对齐，</span></span><br><span class="line">        <span class="comment"># 短的序列我们使用0在结尾补全，我们也需要这些补全位置的编码，也就是`PAD`对应的位置编码</span></span><br><span class="line">        pad_row = torch.zeros([<span class="number">1</span>, d_model])</span><br><span class="line">        position_encoding = torch.cat((pad_row, position_encoding))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 嵌入操作，+1是因为增加了`PAD`这个补全位置的编码，</span></span><br><span class="line">        <span class="comment"># Word embedding中如果词典增加`UNK`，我们也需要+1。看吧，两者十分相似</span></span><br><span class="line">        self.position_encoding = nn.Embedding(max_seq_len + <span class="number">1</span>, d_model)</span><br><span class="line">        self.position_encoding.weight = nn.Parameter(position_encoding,</span><br><span class="line">                                                     requires_grad=<span class="keyword">False</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, input_len,max_len)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">            神经网络的前向传播。</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">          input_len: 一个张量，形状为[BATCH_SIZE, 1]。每一个张量的值代表这一批文本序列中对应的长度。</span></span><br><span class="line"><span class="string">          param max_len:数值，表示当前的词的长度</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">          返回这一批序列的位置编码，进行了对齐。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 找出这一批序列的最大长度</span></span><br><span class="line">        tensor = torch.cuda.LongTensor <span class="keyword">if</span> input_len.is_cuda <span class="keyword">else</span> torch.LongTensor</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 对每一个序列的位置进行对齐，在原序列位置的后面补上0</span></span><br><span class="line">        <span class="comment"># 这里range从1开始也是因为要避开PAD(0)的位置</span></span><br><span class="line">        input_pos = tensor(</span><br><span class="line">          [list(range(<span class="number">1</span>, len + <span class="number">1</span>)) + [<span class="number">0</span>] * (max_len - len) <span class="keyword">for</span> len <span class="keyword">in</span> input_len.tolist()])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> self.position_encoding(input_pos)</span><br></pre></td></tr></table></figure>
-<h4 id="2-scaled-Dot-Product-Attention"><a href="#2-scaled-Dot-Product-Attention" class="headerlink" title="2.scaled Dot-Product Attention"></a>2.scaled Dot-Product Attention</h4><p>​    <strong>scaled</strong>代表着在原来的dot-product Attention的基础上加入了缩放因子1/sqrt(dk)，dk表示Key的维度，默认用64.</p>
+<h4 id="2-scaled-Dot-Product-Attention"><a href="#2-scaled-Dot-Product-Attention" class="headerlink" title="2.scaled Dot-Product Attention"></a>2.scaled Dot-Product Attention</h4><p>​    <strong>scaled</strong>代表着在原来的dot-product Attention的基础上加入了缩放因子$1/sqrt(d_k)$，$d_k$表示Key的维度，默认用64.</p>
 <blockquote>
 <p>为什么要加入缩放因子？</p>
-<p>​    在dk(key的维度)很大时，点积得到的结果维度很大，使的结果处于softmax函数梯度很小的区域，这是后乘以一个缩放因子，可以缓解这种情况的发生。</p>
+<p>​    在$d_k$(key的维度)很大时，点积得到的结果维度很大，使的结果处于softmax函数梯度很小的区域，这是后乘以一个缩放因子，可以缓解这种情况的发生。</p>
 </blockquote>
-<p>​    <strong>Dot-Produc</strong>代表乘性attention，attention计算主要分为加性attention和乘性attention两种。加性 Attention 对于输入的隐状态 ht 和输出的隐状态 st直接做 concat 操作，得到 [ht:st] ，乘性 Attention 则是对输入和输出做 dot 操作。</p>
+<p>​    <strong>Dot-Produc</strong>代表乘性attention，attention计算主要分为加性attention和乘性attention两种。加性 Attention 对于输入的隐状态 $h_t$ 和输出的隐状态 $s_t$直接做 concat 操作，得到 [$h_t:s_t$] ，乘性 Attention 则是对输入和输出做 dot 操作。</p>
 <p>​    <strong>Attention</strong>又是什么呢？通俗的解释Attention机制就是通过query和key的相似度确定value的权重。论文中具体的Attention计算公式为：</p>
 <p><img src="https://github.com/AnchoretY/images/blob/master/blog/atttion%E8%AE%A1%E7%AE%97%E8%A1%A8%E8%BE%BE%E5%BC%8F.png?raw=true" alt></p>
 <p>​    在这里采用的scaled Dot-Product Attention是self-attention的一种，self-attention是指Q(Query), K(Key), V(Value)三个矩阵均来自同一输入。就是下面来具体说一下K、Q、V具体含义：</p>
@@ -1598,7 +1588,7 @@
 <li>在transformer的encoder中的Key、Query、Value都来自encoder上一层的输入，对于第一层encoder layer，他们就是word embedding的输出和positial encoder的加和。</li>
 </ol>
 </blockquote>
-<p><img src="https://github.com/AnchoretY/images/blob/master/blog/scaled%20dot-product%20attention.png?raw=true" alt></p>
+<p><img src="https://github.com/AnchoretY/images/blob/master/blog/scaled%20dot-product%20attention.png?raw=true" style="zoom:33%;"></p>
 <blockquote>
 <p>query、key、value来源：</p>
 <p>​    他们三个是由原始的词向量X乘以三个权值不同的嵌入向量Wq、Wk、Wv得到的，三个矩阵尺寸相同</p>
